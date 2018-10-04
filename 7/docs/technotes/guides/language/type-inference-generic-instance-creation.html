@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Type Inference for Generic Instance Creation</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Type Inference for Generic Instance Creation</h1></div>
+
+<p>You can replace the type arguments required to invoke the constructor of a generic class with an empty set of type parameters (<code>&lt;></code>) as long as the compiler can infer the type arguments from the context. This pair of angle brackets is informally called the <em>diamond</em>.</p>
+
+<p>For example, consider the following variable declaration:</p>
+
+<pre>Map&lt;String, List&lt;String>> myMap = new HashMap&lt;String, List&lt;String>>();</pre>
+
+<p>In Java SE 7, you can substitute the parameterized type of the constructor with an empty set of type parameters (<code>&lt;></code>):
+
+<pre>Map&lt;String, List&lt;String>> myMap = new HashMap&lt;>();</pre>
+
+
+<p>Note that to take advantage of automatic type inference during generic class instantiation, you must specify the diamond. In the following example, the compiler generates an unchecked conversion warning because the <code>HashMap()</code> constructor refers to the <code>HashMap</code> raw type, not the <code>Map&lt;String, List&lt;String>></code> type:
+
+<pre>Map&lt;String, List&lt;String>> myMap = new HashMap(); // unchecked conversion warning</pre>
+
+<p>Java SE 7 supports limited type inference for generic instance creation; you can only use type inference if the parameterized type of the constructor is obvious from the context. For example, the following example does not compile:</p>
+
+<pre>List&lt;String> list = new ArrayList&lt;>();
+list.add("A");
+
+  // The following statement should fail since addAll expects
+  // Collection&lt;? extends String>
+
+list.addAll(new ArrayList&lt;>());</pre>
+
+<p>Note that the diamond often works in method calls; however, it is suggested that you use the diamond primarily for variable declarations.</p>
+
+<p>In comparison, the following example compiles:</p>
+
+<pre>// The following statements compile:
+
+List&lt;? extends String> list2 = new ArrayList&lt;>();
+list.addAll(list2);</pre>
+
+<!-- ************************************************* -->
+
+<h2><a name="type-inference-constructors">Type Inference and Generic Constructors of Generic and Non-Generic Classes</a></h2>
+
+<p>Note that constructors can be generic (in other words, declare their own formal type parameters) in both generic and non-generic classes. Consider the following example:</p>
+
+<pre>class MyClass&lt;X&gt; {
+  &lt;T&gt; MyClass(T t) {
+    // ...
+  }
+}</pre>
+
+<p>Consider the following instantiation of the class <code>MyClass</code>, which is valid in Java SE 7 and prior releases:</p>
+
+<pre>new MyClass&lt;Integer&gt;("")</pre>
+
+<p>This statement creates an instance of the parameterized type <code>MyClass&lt;Integer&gt;</code>; the statement explicitly specifies the type <code>Integer</code> for the formal type parameter, <code>X</code>, of the generic class <code>MyClass&lt;X&gt;</code>. Note that the constructor for this  generic class contains a formal type parameter, <code>T</code>. The compiler infers the type <code>String</code> for the formal type parameter, <code>T</code>, of the constructor of this generic class (because the actual parameter of this constructor is a <code>String</code> object).</p>
+
+<p>Compilers from releases prior to Java SE 7 are able to infer the actual type parameters of generic constructors, similar to generic methods. However, the compiler in Java SE 7 can infer the actual type parameters <em>of the generic class being instantiated</em> if you use the diamond (<code>&lt;&gt;</code>). Consider the following example, which is valid for Java SE 7 and later:</p>
+
+<pre>MyClass&lt;Integer&gt; myObject = new MyClass&lt;&gt;("");</pre>
+
+<p>In this example, the compiler infers the type <code>Integer</code> for the formal type parameter, <code>X</code>, of the generic class <code>MyClass&lt;X&gt;</code>. It infers the type <code>String</code> for the formal type parameter, <code>T</code>, of the constructor of this generic class.</p></li>
+
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

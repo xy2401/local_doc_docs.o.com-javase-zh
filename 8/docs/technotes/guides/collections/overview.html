@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Collections Framework Overview</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../webdesign/pubs8/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs8/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://docs.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Collections Framework Overview</h1></div>
+<!-- Body text begins here -->
+<h2>Introduction</h2>
+The Java platform includes a <i>collections framework</i>. A
+<i>collection</i> is an object that represents a group of objects
+(such as the classic <a href=
+"../../../api/java/util/Vector.html">Vector</a> class). A
+collections framework is a unified architecture for representing
+and manipulating collections, enabling collections to be
+manipulated independently of implementation details.
+<p>The primary advantages of a collections framework are that
+it:</p>
+<ul>
+<li><strong>Reduces programming effort</strong> by providing data
+structures and algorithms so you don't have to write them
+yourself.</li>
+<li><strong>Increases performance</strong> by providing
+high-performance implementations of data structures and algorithms.
+Because the various implementations of each interface are
+interchangeable, programs can be tuned by switching
+implementations.</li>
+<li><strong>Provides interoperability between unrelated
+APIs</strong> by establishing a common language to pass collections
+back and forth.</li>
+<li><strong>Reduces the effort required to learn APIs</strong> by
+requiring you to learn multiple ad hoc collection APIs.</li>
+<li><strong>Reduces the effort required to design and implement
+APIs</strong> by not requiring you to produce ad hoc collections
+APIs.</li>
+<li><strong>Fosters software reuse</strong> by providing a standard
+interface for collections and algorithms with which to manipulate
+them.</li>
+</ul>
+<p>The collections framework consists of:</p>
+<ul>
+<li><strong>Collection interfaces</strong>. Represent different
+types of collections, such as sets, lists, and maps. These
+interfaces form the basis of the framework.</li>
+<li><strong>General-purpose implementations</strong>. Primary
+implementations of the collection interfaces.</li>
+<li><strong>Legacy implementations</strong>. The collection classes
+from earlier releases, <tt>Vector</tt> and <tt>Hashtable</tt>, were
+retrofitted to implement the collection interfaces.</li>
+<li><strong>Special-purpose implementations</strong>.
+Implementations designed for use in special situations. These
+implementations display nonstandard performance characteristics,
+usage restrictions, or behavior.</li>
+<li><strong>Concurrent implementations</strong>. Implementations
+designed for highly concurrent use.</li>
+<li><strong>Wrapper implementations</strong>. Add functionality,
+such as synchronization, to other implementations.</li>
+<li><strong>Convenience implementations</strong>. High-performance
+"mini-implementations" of the collection interfaces.</li>
+<li><strong>Abstract implementations</strong>. Partial
+implementations of the collection interfaces to facilitate custom
+implementations.</li>
+<li><strong>Algorithms</strong>. Static methods that perform useful
+functions on collections, such as sorting a list.</li>
+<li><strong>Infrastructure</strong>. Interfaces that provide
+essential support for the collection interfaces.</li>
+<li><strong>Array Utilities</strong>. Utility functions for arrays
+of primitive types and reference objects. Not, strictly speaking, a
+part of the collections framework, this feature was added to the
+Java platform at the same time as the collections framework and
+relies on some of the same infrastructure.</li>
+</ul>
+<hr />
+<h2>Collection Interfaces</h2>
+<p>The <i>collection interfaces</i> are divided into two groups.
+The most basic interface, <tt><a href=
+"../../../api/java/util/Collection.html">java.util.Collection</a></tt>,
+has the following descendants:</p>
+<ul>
+<li><tt><a href=
+"../../../api/java/util/Set.html">java.util.Set</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/SortedSet.html">java.util.SortedSet</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/NavigableSet.html">java.util.NavigableSet</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/Queue.html">java.util.Queue</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/concurrent/BlockingQueue.html">java.util.concurrent.BlockingQueue</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/concurrent/TransferQueue.html">java.util.concurrent.TransferQueue</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/Deque.html">java.util.Deque</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/concurrent/BlockingDeque.html">java.util.concurrent.BlockingDeque</a></tt></li>
+</ul>
+<p>The other collection interfaces are based on <tt><a href=
+"../../../api/java/util/Map.html">java.util.Map</a></tt> and are
+not true collections. However, these interfaces contain
+<i>collection-view</i> operations, which enable them to be
+manipulated as collections. <tt>Map</tt> has the following
+offspring:</p>
+<ul>
+<li><tt><a href=
+"../../../api/java/util/SortedMap.html">java.util.SortedMap</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/NavigableMap.html">java.util.NavigableMap</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/concurrent/ConcurrentMap.html">java.util.concurrent.ConcurrentMap</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/concurrent/ConcurrentNavigableMap.html">java.util.concurrent.ConcurrentNavigableMap</a></tt></li>
+</ul>
+<p>Many of the modification methods in the collection interfaces
+are labeled <i>optional</i>. Implementations are permitted to not
+perform one or more of these operations, throwing a runtime
+exception (<tt>UnsupportedOperationException</tt>) if they are
+attempted. The documentation for each implementation must specify
+which optional operations are supported. Several terms are
+introduced to aid in this specification:</p>
+<ul>
+<li>Collections that do not support modification operations (such
+as <tt>add</tt>, <tt>remove</tt> and <tt>clear</tt>) are referred
+to as <i>unmodifiable</i>. Collections that are not unmodifiable
+are <i>modifiable.</i></li>
+<li>Collections that additionally guarantee that no change in the
+<tt>Collection</tt> object will be visible are referred to as
+<i>immutable</i>. Collections that are not immutable are
+<i>mutable</i>.</li>
+<li>Lists that guarantee that their size remains constant even
+though the elements can change are referred to as
+<i>fixed-size</i>. Lists that are not fixed-size are referred to as
+<i>variable-size</i>.</li>
+<li>Lists that support fast (generally constant time) indexed
+element access are known as <i>random access</i> lists. Lists that
+do not support fast indexed element access are known as
+<i>sequential access</i> lists. The <tt><a href=
+"../../../api/java/util/RandomAccess.html">RandomAccess</a></tt>
+marker interface enables lists to advertise the fact that they
+support random access. This enables generic algorithms to change
+their behavior to provide good performance when applied to either
+random or sequential access lists.</li>
+</ul>
+<p>Some implementations restrict what elements (or in the case of
+<tt>Maps</tt>, keys and values) can be stored. Possible
+restrictions include requiring elements to:</p>
+<ul>
+<li>Be of a particular type.</li>
+<li>Be not null.</li>
+<li>Obey some arbitrary predicate.</li>
+</ul>
+<p>Attempting to add an element that violates an implementation's
+restrictions results in a runtime exception, typically a
+<tt>ClassCastException</tt>, an <tt>IllegalArgumentException</tt>,
+or a <tt>NullPointerException</tt>. Attempting to remove or test
+for the presence of an element that violates an implementation's
+restrictions can result in an exception. Some restricted
+collections permit this usage.</p>
+<hr />
+<h2>Collection Implementations</h2>
+<p>Classes that implement the collection interfaces typically have
+names in the form of
+&lt;<em>Implementation-style</em>&gt;&lt;<em>Interface</em>&gt;.
+The general purpose implementations are summarized in the following
+table:</p>
+<table border="2" summary=
+"general purpose implementations and interfaces" align="center">
+<thead>
+<tr>
+<th id="interfaces">Interface</th>
+<th id="hashtable">Hash Table</th>
+<th id="resizablearray">Resizable Array</th>
+<th id="balancedtree">Balanced Tree</th>
+<th id="linkedlist">Linked List</th>
+<th id="hashtableandlinkedlist">Hash Table + Linked List</th>
+</tr>
+<tr>
+<td headers="interfaces"><code>Set</code></td>
+<td headers="hashtable"><a href=
+"../../../api/java/util/HashSet.html"><tt>HashSet</tt></a></td>
+<td headers="resizablearray">&nbsp;</td>
+<td headers="balancedtree"><a href=
+"../../../api/java/util/TreeSet.html"><tt>TreeSet</tt></a></td>
+<td headers="linkedlist">&nbsp;</td>
+<td headers="hashtableandlinkedlist"><a href=
+"../../../api/java/util/LinkedHashSet.html"><tt>LinkedHashSet</tt></a></td>
+</tr>
+<tr>
+<td headers="interfaces"><code>List</code></td>
+<td headers="hashtable">&nbsp;</td>
+<td headers="resizablearray"><a href=
+"../../../api/java/util/ArrayList.html"><tt>ArrayList</tt></a></td>
+<td headers="balancedtree">&nbsp;</td>
+<td headers="linkedlist"><a href=
+"../../../api/java/util/LinkedList.html"><tt>LinkedList</tt></a></td>
+<td headers="hashtableandlinkedlist">&nbsp;</td>
+</tr>
+<tr>
+<td headers="interfaces"><code>Deque</code></td>
+<td headers="hashtable">&nbsp;</td>
+<td headers="resizablearray"><a href=
+"../../../api/java/util/ArrayDeque.html"><tt>ArrayDeque</tt></a></td>
+<td headers="balancedtree">&nbsp;</td>
+<td headers="linkedlist"><a href=
+"../../../api/java/util/LinkedList.html"><tt>LinkedList</tt></a></td>
+<td headers="hashtableandlinkedlist">&nbsp;</td>
+</tr>
+<tr>
+<td headers="interfaces"><code>Map</code></td>
+<td headers="hashtable"><a href=
+"../../../api/java/util/HashMap.html"><tt>HashMap</tt></a></td>
+<td headers="resizablearray">&nbsp;</td>
+<td headers="balancedtree"><a href=
+"../../../api/java/util/TreeMap.html"><tt>TreeMap</tt></a></td>
+<td headers="linkedlist">&nbsp;</td>
+<td headers="hashtableandlinkedlist"><a href=
+"../../../api/java/util/LinkedHashMap.html"><tt>LinkedHashMap</tt></a></td>
+</tr>
+</thead>
+</table>
+<p>The general-purpose implementations support all of the
+<i>optional operations</i> in the collection interfaces and have no
+restrictions on the elements they may contain. They are
+unsynchronized, but the <tt>Collections</tt> class contains static
+factories called <a href=
+"../../../api/java/util/Collections.html#synchronizedCollection-java.util.Collection-">
+<em>synchronization wrappers</em></a> that can be used to add
+synchronization to many unsynchronized collections. All of the new
+implementations have <i>fail-fast iterators</i>, which detect
+invalid concurrent modification, and fail quickly and cleanly
+(rather than behaving erratically).</p>
+<p>The <tt>AbstractCollection</tt>, <tt>AbstractSet</tt>,
+<tt>AbstractList</tt>, <tt>AbstractSequentialList</tt> and
+<tt>AbstractMap</tt> classes provide basic implementations of the
+core collection interfaces, to minimize the effort required to
+implement them. The API documentation for these classes describes
+precisely how each method is implemented so the implementer knows
+which methods must be overridden, given the performance of the
+basic operations of a specific implementation.</p>
+<hr />
+<h2>Concurrent Collections</h2>
+<p>Applications that use collections from more than one thread must
+be carefully programmed. In general, this is known as <i>concurrent
+programming</i>. The Java platform includes extensive support for
+concurrent programming. See <a href=
+"../../guides/concurrency/index.html">Java Concurrency
+Utilities</a> for details.</p>
+<p>Collections are so frequently used that various concurrent
+friendly interfaces and implementations of collections are included
+in the APIs. These types go beyond the synchronization wrappers
+discussed previously to provide features that are frequently needed
+in concurrent programming.</p>
+<p>These concurrent-aware interfaces are available:</p>
+<ul>
+<li><tt><a href=
+"../../../api/java/util/concurrent/BlockingQueue.html">BlockingQueue</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/concurrent/TransferQueue.html">TransferQueue</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/concurrent/BlockingDeque.html">BlockingDeque</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/concurrent/ConcurrentMap.html">ConcurrentMap</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/concurrent/ConcurrentNavigableMap.html">ConcurrentNavigableMap</a></tt></li>
+</ul>
+<p>The following concurrent-aware implementation classes are
+available. See the API documentation for the correct usage of these
+implementations.</p>
+<ul>
+<li><tt><a href=
+"../../../api/java/util/concurrent/LinkedBlockingQueue.html">LinkedBlockingQueue</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/concurrent/ArrayBlockingQueue.html">ArrayBlockingQueue</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/concurrent/PriorityBlockingQueue.html">PriorityBlockingQueue</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/concurrent/DelayQueue.html">DelayQueue</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/concurrent/SynchronousQueue.html">SynchronousQueue</a></tt></li>
+<li><a href=
+"../../../api/java/util/concurrent/LinkedBlockingDeque.html"><tt>LinkedBlockingDeque</tt></a></li>
+<li><a href=
+"../../../api/java/util/concurrent/LinkedTransferQueue.html"><tt>LinkedTransferQueue</tt></a></li>
+<li><tt><a href=
+"../../../api/java/util/concurrent/CopyOnWriteArrayList.html">CopyOnWriteArrayList</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/concurrent/CopyOnWriteArraySet.html">CopyOnWriteArraySet</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/concurrent/ConcurrentSkipListSet.html">ConcurrentSkipListSet</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/concurrent/ConcurrentHashMap.html">ConcurrentHashMap</a></tt></li>
+<li><tt><a href=
+"../../../api/java/util/concurrent/ConcurrentSkipListMap.html">ConcurrentSkipListMap</a></tt></li>
+</ul>
+<hr />
+<h2>Design Goals</h2>
+<p>The main design goal was to produce an API that was small in
+size and, more importantly, in &quot;conceptual weight.&quot; It
+was critical that the new functionality not seem too different to
+current Java programmers; it had to augment current facilities,
+rather than replace them. At the same time, the new API had to be
+powerful enough to provide all the advantages described
+previously.</p>
+<p>To keep the number of core interfaces small, the interfaces do
+not attempt to capture such subtle distinctions as mutability,
+modifiability, and resizability. Instead, certain calls in the core
+interfaces are <i>optional</i>, enabling implementations to throw
+an <tt>UnsupportedOperationException</tt> to indicate that they do
+not support a specified optional operation. Collection implementers
+must clearly document which optional operations are supported by an
+implementation.</p>
+<p>To keep the number of methods in each core interface small, an
+interface contains a method only if either:</p>
+<ul>
+<li>It is a truly <i>fundamental operation</i>: a basic operations
+in terms of which others could be reasonably defined,</li>
+<li>There is a compelling performance reason why an important
+implementation would want to override it.</li>
+</ul>
+<p>It was critical that all reasonable representations of
+collections interoperate well. This included arrays, which cannot
+be made to implement the <tt>Collection</tt> interface directly
+without changing the language. Thus, the framework includes methods
+to enable collections to be moved into arrays, arrays to be viewed
+as collections, and maps to be viewed as collections.</p>
+<p><!-- Body text ends here --></p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

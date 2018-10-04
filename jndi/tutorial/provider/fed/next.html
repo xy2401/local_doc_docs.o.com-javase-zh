@@ -1,0 +1,134 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>The Next Naming System</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="current.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="resolver.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Adding Federation Support</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    The Next Naming System
+</h2>
+<p>
+<blockquote>
+
+Once you have done the processing
+for the current naming system, as described in 
+<a href=current.html>the previous section</a>,
+very little work is left to be done to complete the operation.
+<p>
+Here is <a href=src/tut/FedCtx.java>a sample implementation</a> of
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><tt>bind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   from the previous section.
+<blockquote><pre>
+public void bind(Name name, Object bindObj) throws NamingException {
+    try {
+	Name[] nm = parseComponents(name);
+	Name mine = nm[0];
+	Name rest = nm[1];
+
+	if (rest == null || rest.isEmpty()) {
+	    // Terminal; just use head
+	    bind_internal(mine, bindObj);
+	} else if (rest.get(0).equals("") &amp;&amp; rest.size() == 1) {
+	    // Terminal nns
+	    bind_nns(mine, bindObj);
+	} else if (mine.isEmpty() || isAllEmpty(rest)) {
+	    // Intermediate; resolve current components as intermediate
+	    Object obj = lookup_nns(mine);
+
+	    // Skip the leading forward slash
+	    throw fillInCPE(obj, mine, rest.getSuffix(1));
+	} else {
+	    // Intermediate; resolve current components as intermediate
+	    Object obj = resolveIntermediate_nns(mine, rest);
+
+	    throw fillInCPE(obj, mine, rest);
+	}
+    } catch (CannotProceedException e) {
+	Context cctx = NamingManager.getContinuationContext(e);
+	cctx.bind(e.getRemainingName(), bindObj);
+    }
+}
+</blockquote></pre>
+Evaluating the code with the <tt>try</tt> clause
+can result in any of three outcomes.
+<ul>
+<li>The operation completes successfully.
+<li>
+The operation results in an error and throws a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html"><tt>NamingException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<li>The operation needs to be continued in the nns and
+throws a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CannotProceedException.html"><tt>CannotProceedException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CannotProceedException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></ul>
+You handle the last outcome by attempting to find a continuation context,
+by using
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/NamingManager.html#getContinuationContext(javax.naming.CannotProceedException)"><tt>NamingManager.getContinuationContext()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/NamingManager.html#getContinuationContext(javax.naming.CannotProceedException)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   or
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getContinuationDirContext(javax.naming.CannotProceedException)"><tt>DirectoryManager.getContinuationDirContext()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getContinuationDirContext(javax.naming.CannotProceedException)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, based on information in the <tt>CannotProceedException</tt>.
+You then proceed to invoke the same method on the continuation context 
+by using the remaining name.
+<p>
+The approach described here is based heavily on throwing and
+catching a <tt>CannotProceedException</tt>.
+However, 
+it is not the only approach. You could achieve the same results
+by using an iterative approach.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="current.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="resolver.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Adding Federation Support</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

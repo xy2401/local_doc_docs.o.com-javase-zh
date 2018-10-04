@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN">
+<html lang="en_US">
+<head>
+<title>JRE Installer Options</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>JRE Installer Options</h1></div>
+<p>See <a href="../index.html">JDK 7 and JRE 7 Installation Guide</a> for general information about installing JDK 7 and JRE 7.</p>
+
+<p>This information discusses options for installation of the Java SE Runtime Environment (JRE) on Windows 32-bit platform. It is intended for:</p>
+
+<ul>
+<li>System administrators deploying the JRE with Java Plug-in and Java Web Start technologies on multiple PCs in their Intranet without user interaction.</li>
+<li>Vendors having products requiring the JRE. The JRE can be silently (non-interactively) installed with their product.</li>
+</ul>
+
+<p>JRE installations are built using Microsoft Window Installer (MSI) 2.0 technology. MSI contains built-in support for silent installations. This section explains how to manually install the JRE using the <code>.exe</code> file that runs the MSI.</p>
+
+
+<p>The following topics are covered:</p>
+<ul>
+<li><a href="#running">Command-Line Installation</a>
+</li>
+<li><a href="#jre-configuration">Java Runtime Environment Configuration</a>
+<ul>
+  <li><a href="#patchInPlace">Patch-in-Place Configuration</a></li>
+  <li><a href="#static">Static Configuration</a></li>
+</ul>
+</li>
+<li><a href="#installation-configurations">Examples of Installation Configurations</a></li> 
+<li><a href="#creating">Log File Creation</a></li>
+</ul>
+
+<!-- ******************************************************* -->
+
+<h2><a id="running" name="running">Command-Line Installation</a></h2>
+
+<p>The Java SE 7 Windows Offline Installer command has the following syntax:</p>
+
+<p><code><em>&lt;jre&gt;</em>.exe [/s] [INSTALLDIR=<em>&lt;drive&gt;</em>:\<em>&lt;JRE_install_path&gt;</em>] [STATIC=1] [WEB_JAVA=0/1] [WEB_JAVA_SECURITY_LEVEL=VH/H/M] [SPONSORS=0]</code></p>
+
+<!--
+<p><code><em>&lt;jre&gt;</em>.exe [/s] [INSTALLDIR=<em>&lt;drive&gt;</em>:\<em>&lt;JRE_install_path&gt;</em>]
+[INSTALLDIRFXRT =<em>&lt;drive&gt;</em>:\<em>&lt;JavaFX_runtime_install_path&gt;</em>]
+[STATIC=1]</code></p>
+-->
+
+<p><strong>Note</strong>:</p>
+
+<ul>
+<li><em><code>&lt;jre&gt;.exe</code></em> is the single executable installer for the JRE.</li>
+
+<li><code>/s</code>, if used, indicates a silent installation.</li>
+
+<li><code>INSTALLDIR</code>, if used, specifies the drive and path of the JRE. If <code>INSTALLDIR</code> is not specified, the installation will go into <code>C:\Program Files\java\jre</code> (default location).</li>
+
+<!-- 
+<li><code>INSTALLDIRFXRT</code>, if used, specifies the drive and path of the JavaFX runtime. If <code>INSTALLDIRFXRT</code> is not specified, the JavaFX runtime will be installed in <code>C:\Program Files\Oracle\JavaFX 2.0 Runtime</code> (default location).</li>
+-->
+
+<li><code>STATIC=1</code>, if used, specifies a static installation. For more information about static installations, see <a href="patch-in-place-and-static-jre-installation.html#static">Static Installation</a> in <a href="patch-in-place-and-static-jre-installation.html">Patch-in-Place and Static JRE Installation</a>.</li>
+
+<li><code>WEB_JAVA=0</code>, if used, disables <em>any</em> Java application from running in the browser. <code>WEB_JAVA=1</code>, the default, enables Java applications in the browser. This field is available as of the 7u10 release. For more information, see <a href="../../../technotes/guides/jweb/client-security.html#install">Setting the Security Level of the Java Client</a>.</li>
+
+<li><code>WEB_JAVA_SECURITY_LEVEL</code>, if used, sets the security level of unsigned Java apps running in a browser. The possible values for this field are VH (very high), H (high, the default), or M (medium). This field is available as of the 7u10 release. For more information, see <a href="../../../technotes/guides/jweb/client-security.html#install">Setting the Security Level of the Java Client</a>.</li>
+
+<li><code>SPONSORS=0</code>, if used, entirely bypasses sponsor offers such as browser add-ons. This field is available as of the 7u55 release. Note that sponsor offers, and therefore this functionality, is only applicable to online 32 bit JRE installers and Auto Update mechanisms.</li>
+</ul>
+
+
+<p>Command-line installation does not provide the option to restore security prompts that were previously hidden for applets and Java Web Start applications. Security prompts that were hidden remain hidden. The <a href="../../../technotes/guides/jweb/jcp.html#restore_prompts">Restore Security Prompts</a> button on the Security tab of the Java Control Panel can be used to restore prompts after the JRE is installed. </p>
+<!-- ******************************************************* -->
+
+<h2><a name="jre-configuration">Java Runtime Environment Configuration</a></h2>
+
+<p>This section covers the following topics:</p>
+
+<ul>
+  <li><a href="#patchInPlace">Patch-in-Place Configuration</a></li>
+  <li><a href="#static">Static Configuration</a></li>
+</ul>
+
+<p>In the past, when a user installed different versions of a Java Runtime Environment (JRE), the user would be left with multiple installation directories and several entries in the Add/Remove Programs dialog in the Control Panel. This resulted in unnecessary proliferation of unused JREs.</p>
+
+<p>The JRE can now be installed in two configurations: patch-in-place and static. JRE updates may be configured to patch a pre-existing installation or do a brand new installation.</p>
+
+<p>The JRE may be installed in silent (unattended) or non-silent modes. For more information on silent install and uninstalling a silent installation, see the section <a href="#running">Command-Line Install</a>.</p>
+
+<h3><a id="patchInPlace" name="patchInPlace">Patch-in-Place Configuration</a></h3>
+
+<p>The patch-in-place mode implies that when a version of the JRE exists on a machine, any updates belonging to the same JRE family will be done in place, meaning, the existing JRE will be patched with changes. A JRE is <em>installed in patch-in-place mode by default</em>. The default installation directory is <code>c:/Program Files/Java/jre<em>&lt;n&gt;</em></code> where <code><em>&lt;n&gt;</em></code> is the Java SE minor version number (for example, <code><em>&lt;n&gt;</em></code> = 7 for version 1.7.0_10).</p>
+
+<p>For example, if a user has previously installed JRE 7u10 in the <code>c:/Program Files/Java/jre7</code> directory, and now attempts to install JRE 7u14, the version 7u14 installer does not create a new directory. Instead, it updates the pre-existing <code>c:/Program Files/Java/jre7</code> directory with the new 7u14 content. The user is left with the 7u14 JRE only. The 7u10 JRE no longer exists.</p>
+
+
+<h3><a id="static" name="static">Static Configuration</a></h3>
+
+<p>When a JRE is installed in the static mode, it will not be updated in place by newer versions. A later version of the same JRE family will be installed in a separate directory. This mode ensures that vendors, who require a specific version of the JRE for their product, can be certain that the JRE will not be overwritten by a newer version.</p>
+
+<p>Some of the characteristics of a static JRE installation are as follows:</p>
+
+<ul>
+
+  <li>A static JRE installation (example: 7u15) will ignore a previous patch-in-place installation of another JRE (example: 7u10)</li>
+  <li>A static JRE installation is <em>never</em> overwritten by another JRE version</li>
+  <li>When a newer JRE version is present (example: 7u15), older JRE versions ( example: 7u12) are installed in static mode only</li>
+  <li>A patch-in-place JRE can be overwritten by a static JRE installation of the same version. The user will be left with one static JRE installation.</li>
+
+</ul>
+
+<p>The default installation directory of a static JRE is of the form c:/Program Files/Java/jre&lt;version&gt;. For example, by default, a static JRE for Java SE 7u10 will be installed in the directory c:/Program Files/Java/jre1.7.0_10.</p>
+
+<p>See <a href="jre-update-scenarios.html">Java Runtime Environment Update Scenarios</a> to see examples of how the installer behaves.</p>
+
+<!-- ******************************************************* -->
+
+<h2><a id="creating" name="creating"></a>Creating a Log File</h2>
+
+<p>Use a log file to verify if an installation succeeded. To create a log file describing the installation, append <code>/L C:\&lt;path&gt;setup.log</code> to the install command and scroll to the end of the log file to verify.</p>
+
+<p>The following is an example of creating a log file:</p>
+
+<pre>jre-7-windows-i586.exe /s /L C:\&lt;path&gt;setup.log</pre>
+
+<p>The prior command causes the log to be written to the <code>setup.log</code> file.</p>
+
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2014, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body></html>

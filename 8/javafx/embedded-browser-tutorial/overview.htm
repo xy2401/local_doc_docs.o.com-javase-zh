@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>2 Overview of the JavaFX WebView Component (Release 8)</title>
+<meta name="description" content="This chapter introduces the JavaFX embedded browser, a user interface component that provides a web viewer and full browsing functionality through its API.">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXWV.pdf">PDF</a> | <a href="../JFXWV.epub">ePub</a> | <a href="../JFXWV.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Adding HTML Content to JavaFX Applications</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="whatsnew.htm">Previous Page</a><a class="button" title="Next Page" href="html-five.htm">Next Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="CJAHEDHB" name="CJAHEDHB" class="anchor"></a><a id="JFXWV135" name="JFXWV135" class="anchor"></a>
+<h1 class="chapter"><span class="secnum">2</span> Overview of the JavaFX WebView Component</h1>
+<a id="JFXWV136" name="JFXWV136" class="anchor"></a>
+<p>This chapter introduces the JavaFX embedded browser, a user interface component that provides a web viewer and full browsing functionality through its API.</p>
+<p>The embedded browser component is based on <a target="_blank" href="http://www.webkit.org/">WebKit</a>, an open source web browser engine. It supports Cascading Style Sheets (CSS), JavaScript, Document Object Model (DOM), and HTML5.</p>
+<p>The embedded browser enables you to perform the following tasks in your JavaFX applications:</p>
+<ul>
+<li>
+<p>Render HTML content from local and remote URLs</p>
+</li>
+<li>
+<p>Obtain Web history</p>
+</li>
+<li>
+<p>Execute JavaScript commands</p>
+</li>
+<li>
+<p>Perform upcalls from JavaScript to JavaFX</p>
+</li>
+<li>
+<p>Manage web pop-up windows</p>
+</li>
+<li>
+<p>Apply effects to the embedded browser</p>
+</li>
+</ul>
+<p>The embedded browser inherits all fields and methods from the <code>Node</code> class, and therefore, it has all its features.</p>
+<p>The classes that constitute the embedded browser reside in the <code>javafx.scene.web</code> package. <a href="#CEGGJDAC">Figure 2-1</a> shows the architecture of the embedded browser and how it relates to other JavaFX classes.</p>
+<div class="figure"><a id="CEGGJDAC" name="CEGGJDAC" class="anchor"></a><a id="JFXWV105" name="JFXWV105" class="anchor"></a>
+<p class="titleinfigure">Figure 2-1 Architecture of the Embedded Browser</p>
+<img width="383" height="275" src="img/webview-structure.png" alt="Architecture of the WebView component" title="Architecture of the WebView component" longdesc="img_text/webview-structure.htm" /><br />
+<a id="sthref10" name="sthref10" href="img_text/webview-structure.htm">Description of "Figure 2-1 Architecture of the Embedded Browser"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<a id="JFXWV106" name="JFXWV106" class="anchor"></a>
+<div class="sect1"><a id="sthref11" name="sthref11" class="anchor"></a>
+<h2 class="sect1">WebEngine Class</h2>
+<p>The <code>WebEngine</code> class provides basic web page functionality. It supports user interaction such as navigating links and submitting HTML forms, although it does not interact with users directly. The <code>WebEngine</code> class handles one web page at a time. It supports the basic browsing features of loading HTML content and accessing the DOM as well as executing JavaScript commands.</p>
+<p>Two constructors enable you to create a <code>WebEngine</code> object: an empty constructor and a constructor with the specified URL. If you instantiate an empty constructor, the URL can be passed to a <code>WebEngine</code> object through the <code>load</code> method.</p>
+<p>Starting JavaFX SDK 2.2, developers can enable and disable JavaScript calls for a particular web engine and apply custom style sheets. User style sheets replace the default styles on the pages rendered in this <code>WebEngine</code> instance with user-defined ones.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXWV107" name="JFXWV107" class="anchor"></a>
+<div class="sect1"><a id="sthref12" name="sthref12" class="anchor"></a>
+<h2 class="sect1">WebView Class</h2>
+<p>The <code>WebView</code> class is an extension of the <code>Node</code> class. It encapsulates a <code>WebEngine</code> object, incorporates HTML content into an application's scene, and provides properties and methods to apply effects and transformations. The <code>getEngine()</code> method called on a <code>WebView</code> object returns a web engine associated with it.</p>
+<p><a href="#CEGHBDHF">Example 2-1</a> shows the typical way to create <code>WebView</code> and <code>WebEngine</code> objects in your application.</p>
+<div class="example"><a id="CEGHBDHF" name="CEGHBDHF" class="anchor"></a><a id="JFXWV108" name="JFXWV108" class="anchor"></a>
+<p class="titleinexample">Example 2-1 Creating WebView and WebEngine Objects</p>
+<pre xml:space="preserve" class="oac_no_warn">WebView browser = new WebView();
+WebEngine webEngine = browser.getEngine();
+webEngine.load("http://mySite.com");
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect1" -->
+<a id="JFXWV109" name="JFXWV109" class="anchor"></a>
+<div class="sect1"><a id="sthref13" name="sthref13" class="anchor"></a>
+<h2 class="sect1">PopupFeatures Class</h2>
+<p>The <code>PopupFeatures</code> class describes the features of a web pop-up window as defined by the JavaScript specification. When you need to open a new browser window in your application, the instances of this class are passed into pop-up handlers registered on a <code>WebEngine</code> object by using the <code>setCreatePopupHandler</code> method as shown in <a href="#CEGCFHCB">Example 2-2</a>.</p>
+<div class="example"><a id="CEGCFHCB" name="CEGCFHCB" class="anchor"></a><a id="JFXWV110" name="JFXWV110" class="anchor"></a>
+<p class="titleinexample">Example 2-2 Creating a Pop-Up Handler</p>
+<pre xml:space="preserve" class="oac_no_warn">webEngine.setCreatePopupHandler(new Callback&lt;PopupFeatures, WebEngine&gt;() {
+    @Override public WebEngine call(PopupFeatures config) {                
+        // do something
+        // return a web engine for the new browser window
+    }
+});
+</pre></div>
+<!-- class="example" -->
+<p>If the method returns the web engine of the same <code>WebView</code> object, the target document is opened in the same browser window. To open the target document in another window, specify the <code>WebEngine</code> object of another web view. When you need to block the pop-up windows, return the <code>null</code> value.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXWV181" name="JFXWV181" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref14" name="sthref14" class="anchor"></a>
+<h2 class="sect1">Other Features</h2>
+<p>When working with the <code>WebView</code> component, you should remember that it has the default in-memory cache. It means that any cached content is lost once the application containing the <code>WebView</code> component is closed. However, developers can implement cache at the application level by means of the <code>java.net.ResponseCache</code> class. From WebKit perspectives, the persistent cache is a property of the network layer similar to connection and cookie handlers. Once some of those are installed, the <code>WebView</code> component uses them in transparent manner.</p>
+</div>
+<!-- class="sect1" -->
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Adding HTML Content to JavaFX Applications</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">About This Tutorial</a></li>
+        <li><a href="preface.htm#sthref4">Audience</a></li>
+        <li><a href="preface.htm#sthref5">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref7">Related Documents</a></li>
+        <li><a href="preface.htm#sthref8">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a href="whatsnew.htm#JFXWV101">1 What Is New</a></li>
+    <li><a class="selected" href="overview.htm#JFXWV135">2 Overview of the JavaFX WebView Component</a>
+      <ul>
+        <li><a href="overview.htm#sthref11">WebEngine Class</a></li>
+        <li><a href="overview.htm#sthref12">WebView Class</a></li>
+        <li><a href="overview.htm#sthref13">PopupFeatures Class</a></li>
+        <li><a href="overview.htm#sthref14">Other Features</a></li>
+      </ul>
+    </li>
+    <li><a href="html-five.htm#JFXWV137">3 Supported Features of HTML5</a>
+      <ul>
+        <li><a href="html-five.htm#sthref15">Canvas and SVG</a></li>
+        <li><a href="html-five.htm#sthref17">Media Playback</a></li>
+        <li><a href="html-five.htm#sthref18">Form Controls</a></li>
+        <li><a href="html-five.htm#sthref20">History Maintenance</a></li>
+        <li><a href="html-five.htm#sthref21">Support for Interactive Element Tags</a></li>
+        <li><a href="html-five.htm#sthref23">Document Object Model</a></li>
+        <li><a href="html-five.htm#sthref24">Web Sockets</a></li>
+        <li><a href="html-five.htm#sthref25">Web Workers</a></li>
+        <li><a href="html-five.htm#sthref26">Web Font Support</a></li>
+      </ul>
+    </li>
+    <li><a href="add-browser.htm#JFXWV139">4 Adding a WebView Component to the Application Scene</a>
+      <ul>
+        <li><a href="add-browser.htm#sthref28">Creating an Embedded Browser</a></li>
+        <li><a href="add-browser.htm#sthref30">Creating an Application Toolbar</a></li>
+      </ul>
+    </li>
+    <li><a href="js-commands.htm#JFXWV141">5 Processing JavaScript Commands</a>
+      <ul>
+        <li><a href="js-commands.htm#sthref32">Understanding the executeScript method</a></li>
+        <li><a href="js-commands.htm#sthref33">Calling JavaScript Commands from JavaFX Code</a></li>
+      </ul>
+    </li>
+    <li><a href="js-javafx.htm#JFXWV143">6 Making Upcalls from JavaScript to JavaFX</a>
+      <ul>
+        <li><a href="js-javafx.htm#sthref37">Using a JavaScript Command to Exit JavaFX Application</a></li>
+      </ul>
+    </li>
+    <li><a href="pop-up.htm#JFXWV145">7 Managing Web Pop-Up Windows</a>
+      <ul>
+        <li><a href="pop-up.htm#sthref39">Using Pop-Up Windows to Set</a></li>
+      </ul>
+    </li>
+    <li><a href="history.htm#JFXWV147">8 Managing Web History</a>
+      <ul>
+        <li><a href="history.htm#sthref42">Obtaining the List of Visited Pages</a></li>
+      </ul>
+    </li>
+    <li><a href="printing.htm#JFXWV161">9 Printing HTML Content</a>
+      <ul>
+        <li><a href="printing.htm#sthref44">Using the Printing API</a></li>
+        <li><a href="printing.htm#sthref45">Adding a Context Menu to Enable Printing</a></li>
+        <li><a href="printing.htm#sthref47">Processing a Print Job</a></li>
+      </ul>
+    </li>
+    <li><a href="samples.htm#JFXWV189">A Web View Sample</a>
+      <ul>
+        <li><a href="samples.htm#JFXWV191">WebViewSample.java</a></li>
+        <li><a href="samples.htm#JFXWV192">BrowserToolbar.css</a></li>
+        <li><a href="samples.htm#JFXWV193">help.html</a></li>
+        <li><a href="samples.htm#JFXWV194">Image Resources</a></li>
+      </ul>
+    </li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="whatsnew.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a><a class="button" title="Next Page" href="html-five.htm">Next Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2011, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

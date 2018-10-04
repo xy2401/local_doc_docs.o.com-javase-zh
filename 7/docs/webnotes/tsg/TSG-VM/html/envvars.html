@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<!-- GenHTML revision 23965-->
+<meta http-equiv="Content-type" content=
+"text/html; charset=utf-8" />
+<title>Environment Variables and System Properties -
+Troubleshooting Guide for HotSpot VM</title>
+<meta http-equiv="content-language" content="en-US" />
+<meta name="robots" content="index,follow" />
+<meta name="language" content="en" />
+<meta name="collection" content="reference" />
+<meta name="keywords" content="" />
+<meta name="description" content=
+"This document is a guide to help troubleshoot problems that might arise with applications that are developed using the release of Java Platform, Standard Edition Development Kit 7 (JDK 7). In particular, this guide addresses possible problems between the applications and the Java HotSpot virtual machine. The document provides a description of the tools, command line options, and other help in analyzing a problem. The document also provides guidance on how to approach some general issues such as a crash, hang, or memory resource issues. Finally, the document provides direction for data collection and bug report preparation." />
+<meta name="date" content="2008-11-01" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/default.css" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/pagelayout.css" />
+<link rel="alternate stylesheet" type="text/css" title="print"
+href="css/print.css" />
+<script type="text/javascript">
+//<![CDATA[
+function setActiveStyleSheet(title) {
+  var i, a, main;
+  for (i=0; (a = document.getElementsByTagName("link")[i]); i++) {
+         if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+                a.disabled = true;
+                if(a.getAttribute("title") == title) a.disabled = false;
+         }
+  }
+}
+
+function ClearDefault(Element) {
+   if (Element.defaultValue == Element.value) {
+        Element.value = ""
+        Element.style.cssText = "font-weight: bold; color: #00000"
+   }
+}
+
+//]]>
+</script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<div class="MastheadPane">
+<table class="MastheadTable" width="100%">
+<tr class="closeprintview">
+<td align="right"><a href="#" onclick=
+"setActiveStyleSheet('screen')">Exit Print View</a></td>
+</tr>
+<tr class="titlebar">
+<td>
+<h4 class="contentpage-doctitle"><a href="toc.html">Troubleshooting
+Guide for HotSpot VM</a></h4>
+</td>
+<td class="smallLogo"><a href="http://www.oracle.com"><img src=
+"graphics/smallOracleLogo.gif" /></a></td>
+</tr>
+</table>
+</div>
+<div class="ButtonPane">
+<table class="pagecontrol">
+<tr>
+<td class="pagebuttons"><a href="#" onclick=
+"setActiveStyleSheet('print')"><img height="46" width="40" border=
+"0" src="graphics/print.gif" alt="Print View" title=
+"Print View" /></a></td>
+<td class="pagebreadcrumb"></td>
+<td class="pagenavlinks"><a href="bugreports.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="clopts.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+<div class="TOCPane">
+<p class="toc level1"><a href="docinfo.html">Document
+Information</a></p>
+<p class="toc level1 tocsp"><a href="preface.html">Preface</a></p>
+<p class="toc level1 tocsp"><a href=
+"tools.html">1.&#160;&#160;Diagnostic Tools and Options</a></p>
+<p class="toc level1 tocsp"><a href=
+"tooldescr.html">2.&#160;&#160;Detailed Tool Descriptions</a></p>
+<p class="toc level1 tocsp"><a href=
+"memleaks.html">3.&#160;&#160;Troubleshooting Memory Leaks</a></p>
+<p class="toc level1 tocsp"><a href=
+"crashes.html">4.&#160;&#160;Troubleshooting System Crashes</a></p>
+<p class="toc level1 tocsp"><a href=
+"hangloop.html">5.&#160;&#160;Troubleshooting Hanging or Looping
+Processes</a></p>
+<p class="toc level1 tocsp"><a href=
+"signals.html">6.&#160;&#160;Integrating Signal and Exception
+Handling</a></p>
+<p class="toc level1 tocsp"><a href=
+"bugreports.html">7.&#160;&#160;Submitting Bug Reports</a></p>
+<div id="scrolltoc" class="onpage">
+<p class="toc level1 tocsp"><a href="">A.&#160;&#160;Environment
+Variables and System Properties</a></p>
+<p class="toc level2"><a href="#gcbjw">A.1 <tt>JAVA_HOME</tt>
+Environment Variable</a></p>
+<p class="toc level2"><a href="#gbmsy">A.2
+<tt>JAVA_TOOL_OPTIONS</tt> Environment Variable</a></p>
+<p class="toc level2"><a href="#gbmuf">A.3
+<tt>java.security.debug</tt> System Property</a></p>
+</div>
+<p class="toc level1 tocsp"><a href=
+"clopts.html">B.&#160;&#160;Command-Line Options</a></p>
+<p class="toc level1 tocsp"><a href=
+"felog.html">C.&#160;&#160;Fatal Error Log</a></p>
+<p class="toc level1 tocsp"><a href=
+"tools-by-rel.html">D.&#160;&#160;Summary of Tools in This
+Release</a></p>
+</div>
+<div class="ContentPane"><a name="envvars" id=
+"envvars"></a>Appendix&#160;A
+<h2>Environment Variables and System Properties</h2>
+<p>This section describes environment variables and system
+properties that can be useful in troubleshooting situations.</p>
+<ul>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gcbjw">A.1 <tt>JAVA_HOME</tt> Environment Variable</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbmsy">A.2 <tt>JAVA_TOOL_OPTIONS</tt> Environment
+Variable</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbmuf">A.3 <tt>java.security.debug</tt> System Property</a></p>
+</li>
+</ul>
+<p>See also <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="bugreports.html#gbkwl">7.3.5
+Environment Variables</a> in <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="bugreports.html#gbkxq">7.3
+Collecting Data for a Bug Report</a>.</p>
+<a name="gcbjw" id="gcbjw"></a>
+<h3>A.1 <tt>JAVA_HOME</tt> Environment Variable</h3>
+<p>The <tt>JAVA_HOME</tt> environment variable indicates the
+directory where the JDK software is installed.</p>
+<a name="gbmsy" id="gbmsy"></a>
+<h3>A.2 <tt>JAVA_TOOL_OPTIONS</tt> Environment Variable</h3>
+<p>In many environments the command line to start the application
+is not readily accessible. This often arises with applications that
+use embedded VMs (meaning they use the JNI Invocation API to start
+the VM), or where the startup is deeply nested in scripts. In these
+environments the <tt>JAVA_TOOL_OPTIONS</tt> environment variable
+can be useful to augment a command line.</p>
+<p>When this environment variable is set, the
+<tt>JNI_CreateJavaVM</tt> function (in the JNI Invocation API)
+prepends the value of the environment variable to the options
+supplied in its <tt>JavaVMInitArgs</tt> argument. In some cases
+this option is disabled for security reasons, for example, on
+Solaris OS the option is disabled when the effective user or group
+ID differs from the real ID.</p>
+<p>This environment variable allows you to specify the
+initialization of tools, specifically the launching of native or
+Java programming language agents using the <tt>-agentlib</tt> or
+<tt>-javaagent</tt> options. In the following example the
+environment variable is set so that the HPROF profiler is launched
+when the application is started.</p>
+<pre>
+$ <b>export JAVA_TOOL_OPTIONS="-agentlib:hprof"</b>
+</pre>
+<p>This variable can also be used to augment the command line with
+other options for diagnostic purposes. For example, you can supply
+the <tt>-XX:OnError</tt> option to specify a script or command to
+be executed when a fatal error occurs.</p>
+<p>Since this environment variable is examined at the time that
+<tt>JNI_CreateJavaVM</tt> is called, it cannot be used to augment
+the command line with options that would normally be handled by the
+launcher, for example, VM selection using the <tt>-client</tt> or
+the <tt>-server</tt> option.</p>
+<p>The <tt>JAVA_TOOL_OPTIONS</tt> environment variable is fully
+described in the <a href=
+"http://download.oracle.com/javase/7/docs/platform/jvmti/jvmti.html#tooloptions">
+JAVA_TOOL_OPTIONS section of the JVM Tool Interface
+documentation</a>.</p>
+<a name="gbmuf" id="gbmuf"></a>
+<h3>A.3 <tt>java.security.debug</tt> System Property</h3>
+<p>The <tt>java.security.debug</tt> system property controls
+whether the security system of the JRE prints trace messages during
+execution. This option can be useful when diagnosing an issue
+involving a security manager when a <tt>SecurityException</tt> is
+thrown.</p>
+<p>The property can have the following values:</p>
+<ul>
+<li>
+<p><tt>access</tt> - print all <tt>checkPermission</tt> results</p>
+</li>
+<li>
+<p><tt>jar</tt> - print jar verification information</p>
+</li>
+<li>
+<p><tt>policy</tt> - print policy information</p>
+</li>
+<li>
+<p><tt>scl</tt> - print permissions that <tt>SecureClassLoader</tt>
+assigns</p>
+</li>
+</ul>
+<p>The following sub-options can be used with the <tt>access</tt>
+option:</p>
+<ul>
+<li>
+<p><tt>stack</tt> - include stack trace</p>
+</li>
+<li>
+<p><tt>domain</tt> - dump all domains in context</p>
+</li>
+<li>
+<p><tt>failure</tt> - before throwing exception, dump the stack and
+domain that did not have permission</p>
+</li>
+</ul>
+<p>For example, to print all <tt>checkPermission</tt> results and
+trace all domains in context, set the <tt>java.security.debug</tt>
+property to <tt>access,stack</tt>. To trace access failures, set
+the property to <tt>access,failure</tt>.</p>
+<p>The following example shows the output of a
+<tt>checkPermission</tt> failure.</p>
+<pre>
+<b>$ java -Djava.security.debug="access,failure" Application</b>
+access denied (java.net.SocketPermission server.foobar.com resolve
+)
+java.lang.Exception: Stack trace
+    at java.lang.Thread.dumpStack(Thread.java:1158)
+    at java.security.AccessControlContext.checkPermission
+                          (AccessControlContext.java:253)
+    at java.security.AccessController.checkPermission(AccessController.java:427)
+    at java.lang.SecurityManager.checkPermission(SecurityManager.java:532)
+    at java.lang.SecurityManager.checkConnect(SecurityManager.java:1031)
+    at java.net.InetAddress.getAllByName0(InetAddress.java:1117)
+    at java.net.InetAddress.getAllByName0(InetAddress.java:1098)
+    at java.net.InetAddress.getAllByName(InetAddress.java:1061)
+    at java.net.InetAddress.getByName(InetAddress.java:958)
+    at java.net.InetSocketAddress.&#60;init&gt;(InetSocketAddress.java:124)
+    at java.net.Socket.&#60;init&gt;(Socket.java:178)
+    at Test.main(Test.java:7)
+</pre>
+<p>For more information on the <tt>java.security.debug</tt> system
+property, refer to the <a href=
+"http://java.sun.com/developer/onlineTraining/Security/Fundamentals/Security.html">
+Security Tutorial</a>.</p>
+</div>
+<div class="BottomPageControlPane">
+<table class="pagecontrol">
+<tr>
+<td>
+<div class="pagefooterlinks">Copyright &#169;1995, 2011, Oracle
+and/or its affiliates. All rights reserved. <a href=
+"docinfo.html">Legal Notices</a></div>
+</td>
+<td class="pagenavlinks"><a href="bugreports.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="clopts.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+</body>
+</html>

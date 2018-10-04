@@ -1,0 +1,295 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Listener Registration</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="listeners.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="event.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=bottom border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Event Notification</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Listener Registration
+</h2>
+<p>
+<blockquote>
+
+To receive event notifications, a listener registers with an event source.
+In the JNDI, the event sources implement either the
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html><tt>EventContext</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>	or
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventDirContext.html><tt>EventDirContext</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventDirContext.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>  interface.
+To get an event source, you must look it up using the naming/directory service.
+That is, you perform a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(java.lang.String)"><tt>lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    on an object and then cast the result to an <tt>EventContext</tt> or
+<tt>EventDirContext</tt>. 
+Whether a context supports
+either of these interfaces is optional. A context
+that supports neither does not support event notification.
+<p>
+Here is an example that looks up a name from the initial context
+and casts it to an <tt>EventDirContext</tt>.
+<blockquote><pre>
+// Get the EventDirContext for registering the listener
+EventDirContext ctx = (EventDirContext)
+    (new InitialDirContext(env).lookup("ou=People"));
+</pre></blockquote>
+To get an event source for the initial context itself,
+use the empty string as the name argument to <tt>lookup()</tt>.
+Here is an example.
+<blockquote><pre>
+// Get the EventDirContext for registering the listener
+EventDirContext ctx = (EventDirContext)
+    (new InitialDirContext(env).lookup(""));
+</pre></blockquote>
+
+<p>
+
+<tt>EventContext</tt> is intended for applications that can
+<em>name</em> the object of interest.
+You register a listener to receive notifications by using
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html#addNamingListener(java.lang.String, int, javax.naming.event.NamingListener)"><tt>EventContext.addNamingListener()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html#addNamingListener(java.lang.String, int, javax.naming.event.NamingListener)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+
+<p>
+Here is <a href=src/RegNSChanges.java>an example</a> that registers a 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/NamespaceChangeListener.html><tt>NamespaceChangeListener</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/NamespaceChangeListener.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    with a context.
+<blockquote><pre>
+// Get the EventContext for registering the listener
+EventContext ctx = (EventContext)
+    (new InitialContext(env).lookup("ou=People"));
+
+// Create the listener
+NamingListener listener = new SampleNCListener("nc1");
+
+// Register the listener for namespace change events
+ctx.addNamingListener("ou=Objects,cn=Rosanna Lee", 
+    EventContext.ONELEVEL_SCOPE, listener);
+</blockquote></pre>
+This example, when run, will wait for one minute so that the 
+main program (the listener) can receive notifications about the changes 
+that a worker thread has made.
+
+<h4>Target and Scope</h4>
+The object named by 
+the name parameter to <tt>addNamingListener()</tt> is called the <em>target</em>.
+The second parameter specifies the <em>scope</em>.
+The scope identifies
+whether the listener is to receive notifications on one
+of the following:
+<ul>
+<li>Only the target (
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html#OBJECT_SCOPE><tt>OBJECT_SCOPE</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html#OBJECT_SCOPE><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>)
+<li>The immediate children of the target (which must be a context) (
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html#ONELEVEL_SCOPE><tt>ONELEVEL_SCOPE</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html#ONELEVEL_SCOPE><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>)
+<li>The target and all of its descendants (
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html#SUBTREE_SCOPE><tt>SUBTREE_SCOPE</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html#SUBTREE_SCOPE><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>)
+</ul>
+Here is <a href=src/Scope.java>an example</a> that adds listeners by using
+the same target but three different scopes.
+<blockquote><pre>
+// Get the EventContext for registering the listener
+EventContext ctx = (EventContext)
+    (new InitialContext(env).lookup("ou=People"));
+
+String target = ...;
+
+// Create the listeners
+NamingListener oneListener = new SampleListener("ONELEVEL");
+NamingListener objListener = new SampleListener("OBJECT");
+NamingListener subListener = new SampleListener("SUBTREE");
+
+// Register the listeners by using different scopes
+ctx.addNamingListener(target, EventContext.ONELEVEL_SCOPE, oneListener);
+ctx.addNamingListener(target, EventContext.OBJECT_SCOPE, objListener);
+ctx.addNamingListener(target, EventContext.SUBTREE_SCOPE, subListener);
+</pre></blockquote>
+After registering the listeners, this program
+creates a thread that makes namespace changes to the LDAP server.
+It makes changes to the target, the children of the target,
+and the grandchildren of the target.
+The listener registered for object scope will receive 
+the two notifications for changes applied to the target.
+The listener registered for one-level scope won't receives notifications for these
+two changes but will receive notifications for the changes
+applied to the children.
+The listener registered for subtree scope will get notifications
+for all of the changes.
+
+<h4>Registration Errors</h4>
+
+<tt>addNamingListener()</tt> can throw a 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html><tt>NamingException</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a> when it encounters an error while registering the listener.
+However, there is no guarantee that the data supplied will
+be verified immediately at registration time. For example,
+some verification might require possibly open-ended server interaction.
+When an error occurs in this case, the service provider will
+invoke the listener's
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/NamingListener.html#namingExceptionThrown(javax.naming.event.NamingExceptionEvent)"><tt>namingExceptionThrown()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/NamingListener.html#namingExceptionThrown(javax.naming.event.NamingExceptionEvent)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   method to notify it of the problem.
+Therefore the application must be prepared to handle the error
+regardless of whether it occurs at registration time or asynchronously
+in the listener's code.
+
+<a name=NONEXIST><h4>Nonexistent Targets</h4></a>
+<p>
+Some service providers/services might allow registration for nonexistent targets.
+That is, in the previous example, the entry named by <tt>target</tt> might not need
+to exist at the time that <tt>addNamingListener()</tt> is called.
+To check whether this feature is supported, you use
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html#targetMustExist()"><tt>targetMustExist()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html#targetMustExist()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+Here is <a href=src/CheckTarget.java>an example</a>.
+<blockquote><pre>
+// Get the event context for registering the listener
+EventContext ctx = (EventContext)new InitialContext(env).lookup("");
+
+// Create the listener
+NamingListener listener = new MyListener();
+String target = ...;
+
+// Check whether the object exists so that you don't wait
+// forever for nonexistent object
+if (!ctx.targetMustExist()) {
+    // Check that the object exists before continuing
+    // If lookup fails, exception will be thrown and 
+    // you would skip registration
+    ctx.lookup(target);
+}
+
+// Register the listener
+ctx.addNamingListener(target, EventContext.ONELEVEL_SCOPE, listener);
+</pre></blockquote>
+This example does not want to register an <tt>ObjectChangeListener</tt>
+for a nonexistent object, so it first checks whether the context
+requires the object to exist. If the context does not, then
+the program performs a <tt>lookup()</tt>.
+The example also uses a listener that implements <tt>NamespaceChangeListener</tt>
+so that it can detect when the object has disappeared, at which
+point the listener notifies the user and deregisters itself.
+<blockquote><pre>
+public void objectRemoved(NamingEvent evt) {
+    System.out.println("&gt;&gt;&gt; removed: " + evt.getOldBinding().getName());
+    deregisterSelf(evt.getEventContext());
+}
+private void deregisterSelf(EventContext ctx) {
+    System.out.println("Deregistering listener...");
+    synchronized (ctx) {
+	try {
+	    ctx.removeNamingListener(this);
+	} catch (NamingException e) {
+	    System.out.println("Listener removal problem: " + e);
+	}
+    }
+}
+</pre></blockquote>
+
+
+<h4>Using Search Filters</h4>
+
+If you want to be more selective about the objects for which you register
+interest, then you can use a 
+<a href=../../getStarted/concepts/glossary.html#FILTER>search filter</a>.
+The <tt>EventDirContext</tt> interface contains <tt>addNamingListener()</tt>
+overloads that accept a search filter, in the same way that some of the
+search methods in the
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html><tt>DirContext</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   interface do.
+<p>
+Here is <a href=src/UseFilter.java>an example</a> that registers
+interest only in objects that have the object class 
+<tt>"javaobject"</tt>.
+<blockquote><pre>
+// Get the EventDirContext for registering the listener
+EventDirContext ctx = (EventDirContext)
+    (new InitialDirContext(env).lookup("ou=People"));
+
+// Create the listener
+NamingListener listener = new SampleNCListener("nc1");
+
+// Set up the search constraints
+SearchControls constraints = new SearchControls();
+constraints.setSearchScope(SearchControls.SUBTREE_SCOPE);
+	    
+// Register the listener for namespace change events for
+// entries identified using a search filter.
+// In this example, register interest in namespace changes to
+// objects that have the object class "javaobject".
+ctx.addNamingListener("cn=Rosanna Lee", "(objectclass=javaobject)", 
+    constraints, listener);
+</pre></blockquote>
+
+The filter applies to existing objects and to those that
+come into existence after the registration.
+
+<h4>Deregistration</h4>
+
+
+A registered listener becomes unregistered in any of three ways.
+<ul>
+<li>When 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#close()"><tt>Context.close()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#close()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   is invoked on the event source, any registered listeners are automatically
+deregistered. 
+<li>
+When a listener receives an error notification via
+<tt>namingExceptionThrown()</tt>, it is automatically deregistered.
+<li>
+When a listener is explicitly removed via a call to
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html#removeNamingListener(javax.naming.event.NamingListener)"><tt>EventContext.removeNamingListener()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html#removeNamingListener(javax.naming.event.NamingListener)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, it is deregistered.
+</ul>
+<a href=src/CheckTarget.java>An example</a> 
+of explicit deregistration is shown in the 
+<a href=#NONEXIST>Nonexistent Targets section</a>.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="listeners.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="event.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=top border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Event Notification</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

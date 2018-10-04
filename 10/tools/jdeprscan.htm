@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>jdeprscan</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="You use the jdeprscan tool as a static analysis tool that scans a jar file (or some other aggregation of class files) for uses of deprecated API elements." />
+<meta name="dcterms.created" content="2018-03-13T12:23:13Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Tools Reference" />
+<meta name="dcterms.identifier" content="E91146-01" />
+<meta name="dcterms.isVersionOf" content="JSWOR" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="jdeps.htm" title="Previous" type="text/html" />
+<link rel="Next" href="language-shell.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSWOR.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-2B7588B0-92DB-4A88-88D4-24D183660A62"></a> <span id="PAGE" style="display:none;">15/63</span> <!-- End Header -->
+<h1 id="JSWOR-GUID-2B7588B0-92DB-4A88-88D4-24D183660A62" class="sect1">jdeprscan</h1>
+<div>
+<p><span>You use the <code class="codeph">jdeprscan</code> tool as a static analysis tool that scans a jar file (or some other aggregation of class files) for uses of deprecated API elements.</span></p>
+<div class="section">
+<p class="subhead1">Synopsis</p>
+<pre dir="ltr">
+jdeprscan [ <span class="variable">options</span> ]{<span class="variable">dir</span>|<span class="variable">jar</span>|<span class="variable">class</span>}
+</pre>
+<dl>
+<dt class="dlterm"><a id="GUID-2B7588B0-92DB-4A88-88D4-24D183660A62__GUID-4AAE1B86-4FE9-40F0-B833-A3FA150E5C71"><!-- --></a><code class="codeph"><span class="variable">options</span></code></dt>
+<dd>
+<p>See <a href="jdeprscan.htm#GUID-2B7588B0-92DB-4A88-88D4-24D183660A62__OPTIONSFORTHEJDEPRSCANCOMMAND-6556526B">Options for the jdeprscan Command</a></p>
+</dd>
+<dt class="dlterm"><a id="GUID-2B7588B0-92DB-4A88-88D4-24D183660A62__GUID-F36ABE73-BF06-46BD-90C5-82706D4FF00A"><!-- --></a><code class="codeph"><span class="variable">dir</span>|<span class="variable">jar</span>|<span class="variable">class</span></code></dt>
+<dd>
+<p><code class="codeph">jdeprscan</code> command scans each argument for usages of deprecated APIs. The arguments can be a:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph"><span class="variable">dir</span></code>: Directory</p>
+</li>
+<li>
+<p><code class="codeph"><span class="variable">jar</span></code>: JAR file</p>
+</li>
+<li>
+<p><code class="codeph"><span class="variable">class</span></code>: Class name or class file</p>
+</li>
+</ul>
+<p>The class name should use a dot (<code class="codeph">.</code>) as a separator. For example:</p>
+<p><code class="codeph">java.lang.Thread</code></p>
+<p>For nested classes, the dollar sign <code class="codeph">$</code> separator character should be used. For example:</p>
+<p><code class="codeph">java.lang.Thread$State</code></p>
+<p>A class file can also be named. For example:</p>
+<p><code class="codeph">build/classes/java/lang/Thread$State.class</code></p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Description</p>
+<p>The <code class="codeph">jdeprscan</code> tool is a static analysis tool provided by the JDK that scans a JAR file or some other aggregation of class files for uses of deprecated API elements. The deprecated APIs identified by the <code class="codeph">jdeprscan</code> tool are only those that are defined by Java SE. Deprecated APIs defined by third-party libraries aren&rsquo;t reported.</p>
+<p>To scan a JAR file or a set of class files, you must first ensure that all of the classes that the scanned classes depend upon are present in the class path. Set the class path using the <code class="codeph">--class-path</code> option described in <a href="jdeprscan.htm#GUID-2B7588B0-92DB-4A88-88D4-24D183660A62__OPTIONSFORTHEJDEPRSCANCOMMAND-6556526B">Options for the jdeprscan Command</a>. Typically, you would use the same class path as the one that you use when invoking your application.</p>
+<p>If the <code class="codeph">jdeprscan</code> can&rsquo;t find all the dependent classes, it will generate an error message for each class that's missing. These error messages are typically of the form:</p>
+<pre dir="ltr">
+error: cannot find class ...  
+</pre>
+<p>If these errors occur, then you must adjust the class path so that it includes all dependent classes.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-2B7588B0-92DB-4A88-88D4-24D183660A62__OPTIONSFORTHEJDEPRSCANCOMMAND-6556526B">
+<p class="subhead1">Options for the jdeprscan Command</p>
+<p>The following options are available:</p>
+<dl>
+<dt class="dlterm"><a id="GUID-2B7588B0-92DB-4A88-88D4-24D183660A62__GUID-88A5368B-453E-43A7-92D8-8251F0525823"><!-- --></a><code class="codeph">--class-path <span class="variable">PATH</span></code></dt>
+<dd>
+<p>Provides a search path for resolution of dependent classes.</p>
+<p><code class="codeph"><span class="variable">PATH</span></code> can be a search path that consists of one or more directories separated by the system-specific path separator. For example:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold"><span>Oracle Solaris, Linux, and OS X</span>:</span></p>
+<pre dir="ltr">
+--class-path /some/directory:/another/different/dir 
+</pre></li>
+</ul>
+<div class="infobox-note" id="GUID-2B7588B0-92DB-4A88-88D4-24D183660A62__GUID-274FB200-CC7C-41A0-A318-7A7574730C04">
+<p class="notep1">Note:</p>
+<p>On Windows, use a semicolon (<code class="codeph">;</code>) as the separator instead of a colon (<code class="codeph">:</code>).</p>
+</div>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold">Windows:</span></p>
+<pre dir="ltr">
+--class-path \some\directory;\another\different\dir 
+</pre></li>
+</ul>
+</dd>
+<dt class="dlterm"><a id="GUID-2B7588B0-92DB-4A88-88D4-24D183660A62__GUID-998AAB6B-79A8-4ECE-8F62-39E16F0CDF66"><!-- --></a><code class="codeph">--for-removal</code></dt>
+<dd>
+<p>Limits scanning or listing to APIs that are deprecated for removal. Can&rsquo;t be used with a release value of 6, 7, or 8.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-2B7588B0-92DB-4A88-88D4-24D183660A62__GUID-EC78ABD0-F97F-43D5-B58F-CC194C10B2C4"><!-- --></a><code class="codeph">--full-version</code></dt>
+<dd>
+<p>Prints out the full version string of the tool.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-2B7588B0-92DB-4A88-88D4-24D183660A62__GUID-7C397927-DEC5-4D88-8C3B-88E8296C258D"><!-- --></a><code class="codeph">--help</code> or <code class="codeph">&mdash;h</code></dt>
+<dd>
+<p>Prints out a full help message.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-2B7588B0-92DB-4A88-88D4-24D183660A62__GUID-23649027-0E4E-455E-A50A-F9D1E1EA64FA"><!-- --></a><code class="codeph">--list</code> or <code class="codeph">&mdash;l</code></dt>
+<dd>
+<p>Prints the set of deprecated APIs. No scanning is done, so no directory, jar, or class arguments should be provided.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-2B7588B0-92DB-4A88-88D4-24D183660A62__GUID-D91569DE-886C-4405-A546-3645DB16B331"><!-- --></a><code class="codeph">--release <span class="variable">6|7|8|9</span></code></dt>
+<dd>
+<p>Specifies the Java SE release that provides the set of deprecated APIs for scanning.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-2B7588B0-92DB-4A88-88D4-24D183660A62__GUID-FFC834A2-01BB-472C-BC43-8C6702E1F5E5"><!-- --></a><code class="codeph">--verbose</code> or <code class="codeph">&mdash;v</code></dt>
+<dd>
+<p>Enables additional message output during processing.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-2B7588B0-92DB-4A88-88D4-24D183660A62__GUID-1F1D05D1-8E31-4B25-81DD-6A4EE075270C"><!-- --></a><code class="codeph">--version</code></dt>
+<dd>
+<p>Prints out the abbreviated version string of the tool.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Example of jdeprscan Output</p>
+<p>The JAR file for this library will be named something similar to <code class="codeph">commons-math3-3.6.1.jar</code>. To scan this JAR file for the use of deprecated APIs, run the following command:</p>
+<pre dir="ltr">
+jdeprscan commons-math3-3.6.1.jar 
+</pre>
+<p>This command produces several lines of output. For example, one line of output might be:</p>
+<pre dir="ltr">
+class org/apache/commons/math3/util/MathUtils uses deprecated method java/lang/Double::&lt;init&gt;(D)V
+</pre>
+<div class="infobox-note" id="GUID-2B7588B0-92DB-4A88-88D4-24D183660A62__GUID-F98C8535-AE1B-4DD4-9102-E6108049C252">
+<p class="notep1">Note:</p>
+<p>The class name is specified using the slash-separated binary name as described in JVMS 4.2.1. This is the form used internally in class files.</p>
+</div>
+<p>The deprecated API it uses is a method on the <code class="codeph">java.lang.Double</code> class.</p>
+<p>The name of the deprecated method is <code class="codeph">&lt;init&gt;</code>, which is a special name that means that the method is actually a constructor. Another special name is <code class="codeph">&lt;clinit&gt;</code>, which indicates a class static initializer.</p>
+<p>Other methods are listed just by their method name. Following the method name is the argument list and return type:</p>
+<pre dir="ltr">
+(D)V
+</pre>
+<p>This indicates that it takes just one double value (a primitive) and returns void. The argument and return types can become cryptic. For example, another line of output might be:</p>
+<pre dir="ltr">
+class org/apache/commons/math3/util/Precision uses deprecated method java/math/BigDecimal::setScale(II)Ljava/math/BigDecimal;   
+</pre>
+<p>In this line of output, the deprecated method is on class <code class="codeph">java.math.BigDecimal</code>, and the method is <code class="codeph">setScale()</code>. In this case, the <code class="codeph">(II)</code> means that it takes two <code class="codeph">int</code> arguments . The <code class="codeph">Ljava/math/BigDecimal;</code> after the parentheses means that it returns a reference to <code class="codeph">java.math.BigDecimal</code>.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">jdeprscan Analysis Can Be Version-Specific</p>
+<p>You can use <code class="codeph">jdeprscan</code> relative to the previous three JDK releases. For example, if you are running JDK 9, then you can check against JDK 8, 7, and 6.</p>
+<div class="p">As an example, look at this code snippet:
+<pre dir="ltr">
+public class Deprecations {  
+   SecurityManager sm = new RMISecurityManager();    // deprecated in 8 
+   Boolean b2 = new Boolean(true);          // deprecated in 9          
+}
+</pre>
+The complete class compiles without warnings in JDK 7.</div>
+<p>If you run <code class="codeph">jdeprscan</code> on a system with JDK 9, then you see:</p>
+<pre dir="ltr">
+$ <span class="bold">jdeprscan --class-path classes --release 7 example.Deprecations</span>  
+(no output)     
+</pre>
+<div class="p">Run <code class="codeph">jdeprscan</code> with a release value of 8:
+<pre dir="ltr">
+$ <span class="bold">jdeprscan --class-path classes --release 8 example.Deprecations</span>
+class example/Deprecations uses type java/rmi/RMISecurityManager deprecated     
+class example/Deprecations uses method in type java/rmi/RMISecurityManager deprecated
+</pre></div>
+<div class="p">Run <code class="codeph">jdeprscan</code> on JDK 9:
+<pre dir="ltr">
+$ <span class="bold">jdeprscan --class-path classes example.Deprecations</span>
+class example/Deprecations uses type java/rmi/RMISecurityManager deprecated     
+class example/Deprecations uses method in type java/rmi/RMISecurityManager deprecated
+class example/Deprecations uses method java/lang/Boolean &lt;init&gt; (Z)V deprecated
+</pre></div>
+</div>
+<!-- class="section" --></div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment186">
+<tr>
+<td class="cellalignment198">
+<table class="cellalignment191">
+<tr>
+<td class="cellalignment190"><a href="jdeps.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment190"><a href="language-shell.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment200">
+<table class="cellalignment189">
+<tr>
+<td class="cellalignment190"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment190"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment190"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

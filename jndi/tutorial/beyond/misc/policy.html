@@ -1,0 +1,237 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Naming Policies</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="link.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="sync.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=bottom border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Naming Policies
+</h2>
+<p>
+<blockquote>
+
+As mentioned earlier in this lesson,
+the JNDI is defined independent of any specific naming and directory
+service implementation. This allows a variety of naming and directory
+systems to be accessed in a common way. However, for it
+to offer true
+independence, common policies are required that specify
+<em>how</em> the naming and directory should be used.  Without these
+policies, you might be able to use the same API to access the data,
+but how you find and use that data would still be
+directory-dependent.  The lack of policy is a problem not only for
+multiple naming and directory systems, but also for single
+naming/directory systems such as the LDAP.
+Without general agreement on how the data in the directory
+is to be organized and used,
+a single system can easily deteriorate into an unmanageable mess.
+For example, suppose that two applications need to associated data with a
+user in an enterprise. If each application chooses its own
+policy of how to name and represent a user in the directory, then
+the directory will contain two representations of the same user.
+Furthermore, users of each application will have to learn each
+representation and how to name it.
+
+<h4>Types of Policies</h4>
+
+There are two categories of policies:
+<ul>
+<li>Naming policies that specify how objects are named relative to each
+other and the common names to use.
+<li>Directory policies, called 
+<a href=../../getStarted/concepts/glossary.html#SCHEMA><em>schema</em></a>,
+that specify the attributes
+that objects in the directory
+should have and the names and syntaxes of those attributes.
+</ul>
+
+The LDAP defines attribute syntaxes
+(<a href="http://www.ietf.org/rfc/rfc2252.txt">RFC 2252</a>) and
+user-related schema
+(<a href="http://www.ietf.org/rfc/rfc2256.txt">RFC 2256</a>).
+Many other proposals for specifying other domain-specific schema
+are available, such as for mail and security. 
+In addition, efforts are underway to standardize
+the schema across different directory systems
+(see <a href="http://www.ietf.org/rfc/rfc2307.txt">RFC 2307</a>).
+Further, several proprietary schemas have emerged in the LDAP space
+from  vendors such as <a href="http://www.sun.com/">Sun Microsystems</a>
+and <a href="http://www.microsoft.com/">Microsoft</a>.
+Some applications that are based on servers from those vendors have
+dependencies on the proprietary schemas.
+<p>
+In the naming policy area, naming policies have been defined
+in the X.500. Most LDAP systems follow a common naming convention
+at the higher levels of the naming tree (for example, how to 
+name countries, organizations, and departments).
+Less agreement exists on lower levels.
+However, some servers, such as the Active Directory from Microsoft,
+have defined their own naming policies.
+<p>
+The DNS has defined naming policies at the higher levels of
+the naming tree.
+It is used primarily to name machines and domains on
+the Internet and Intranet 
+so naming policies for other entities are less relevant.
+<p>
+In terms of a composite naming policy, the HTTP and FTP URLs
+have set the de facto standard. Namely, the first component of the URL
+names the host/domain using the DNS.
+After the first component, there is a
+proprietary namespace underneath.
+
+<h4>The Java 2 Platform Enterprise Edition Naming Policies</h4>
+
+The JNDI does not define any naming policy on its own.
+However, one important platform that does define a limited
+set of naming policies for using the JNDI is the
+<A HREF="http://java.sun.com/j2ee/">Java 2 Platform, Enterprise Edition</A> (J2EE<sup><font size=-1>TM</font></sup>).
+It defines a logical namespace that application components (such as 
+<a href="http://java.sun.com/products/ejb">Enterprise JavaBeans</a>,
+<a href="http://java.sun.com/products/servlets">servlets</a>, and 
+<a href="http://java.sun.com/products/jsp">JavaServer Pages</a> (JSP)) can use
+to name resources, components, and other data.
+The namespace is provided to a component by its <em>container</em>, the
+entity that executes the component.
+Typically, a component has a <em>deployment descriptor</em> that contains,
+among other data, information about the logical names and types of
+resources and components that the component needs or references.
+An administrator, using information from the deployment descriptor,
+maps the logical namespace to bindings in
+the namespace of the actual environment into which the component 
+is being deployed. 
+The container uses this mapping to present the logical namespace
+to the component. See the J2EE specification for details.
+<p>
+The enterprise namespace is rooted in a URL context for the
+<tt>java</tt> URL scheme. For example, you might use a name such as
+<tt>"java:comp/env/jdbc/Salary"</tt> from the initial context
+to name the Salary database.
+Details about URL contexts are discussed in the
+<a target="_top" href="../url/initctx.html">URLs</a> <a target="_top" href="../url/initctx.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson.
+By using a URL context,
+the policy avoids any conflicts with names in the initial context
+configured by the
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#INITIAL_CONTEXT_FACTORY><tt>Context.INITIAL_CONTEXT_FACTORY</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#INITIAL_CONTEXT_FACTORY><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    environment property.
+
+<p>
+At the root context of the namespace is a binding with the name <tt>"comp"</tt>,
+which is bound to a subtree reserved for component-related bindings.
+The name <tt>"comp"</tt> is short for component.
+There are no other bindings at the root context.
+However, the root context is reserved for the future expansion
+of the policy, 
+specifically for naming resources that are tied not to the component itself
+but to other types of entities such as users or departments.
+For example, future policies might allow you to name users
+and organizations/departments by using names such as
+<tt>"java:user/alice"</tt> and <tt>"java:org/engineering"</tt>.
+<p>
+In the <tt>"comp"</tt> context, there are two bindings: <tt>"env"</tt> and
+<tt>"UserTransaction"</tt>.
+The name <tt>"env"</tt> is bound to a subtree that is reserved for the component's 
+environment-related bindings, as defined by its deployment descriptor.
+<tt>"env"</tt> is short for environment.
+The J2EE recommends (but does not require) the following structure
+for the <tt>"env"</tt> namespace.
+<ul>
+<li>Enterprise JavaBeans<sup><font size=-1>TM</font></sup> are placed under the <tt>"ejb"</tt> subtree.
+For example, a Payroll EJB might be named 
+<tt>"java:comp/env/ejb/Payroll"</tt>.
+<li>Resource factory references 
+are placed in subtrees differentiated by their resource manager type.
+Here are some examples:
+<ul>
+<li><tt>"jdbc"</tt> for JDBC<sup><font size=-1>TM</font></sup> DataSource references
+<li><tt>"jms"</tt> for JMS connection factories
+<li><tt>"mail"</tt> for JavaMail connection factories
+<li><tt>"url"</tt> for URL connection factories
+</ul>
+For example, a JDBC Salary database might have the name
+<tt>"java:comp/env/jdbc/Salary"</tt>.
+</ul>
+The <tt>"env"</tt> context might also contain bindings for other
+types of configuration data (such as strings and 
+wrappers around primitive data types)
+that the component needs, 
+as defined in the component's deployment descriptor.
+No policy is recommended or required for these bindings;
+they can be placed at the root of the <tt>"env"</tt> context or
+be partitioned by subtrees based on their logical relationships
+or types. For example, you might have bindings for a string and a numeric
+parameter that are named using 
+<tt>"java:comp/env/CompanyName"</tt> and <tt>"java:comp/env/PrimeRate"</tt>,
+respectively.
+<p>
+The name
+<tt>"UserTransaction"</tt> is bound to a
+<tt>javax.transaction.UserTransaction</tt> object. The component that looks up this
+object from the namespace (by using the name <tt>"java:comp/UserTransaction"</tt>)
+can use it to start, commit, or abort transactions. 
+
+
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="link.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="sync.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=top border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>
+
+<p>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Security</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Security</h1></div>
+<p style="background-color: rgb(247, 248, 249); border-width: 1px; padding: 10px; font-style: italic; border-style: solid; border-color: rgb(64, 74, 91);">These documentation pages are no longer current. They remain available for archival purposes. Please visit <a href="https://docs.oracle.com/javase"><code>https://docs.oracle.com/javase</code></a> for the most up-to-date documentation.</p>
+
+<p><a href="../index.html">Java Rich Internet Applications Guide</a> &gt; Security</p>
+
+
+<p>The following topics are covered:</p>
+<ul>
+<li><a href="#policy">Policy Files and Permissions</a></li>
+<li><a href="#property">Property Files and Certificates</a></li>
+<li><a href="#dialogs">Security Dialogs</a> </li>
+<li><a href="#more">More Information</a></li>
+</ul>
+<h2><a name="policy" id="policy"></a>Policy Files and
+Permissions</h2>
+<p>Java applications and applets deployed using Java Web Start and
+Java Plug-in are by default run in a secure sandbox that defines
+the set of permissions that code in an untrusted application is
+granted.</p>
+<p>The standard java policy files can be used to enhance the
+permissions granted to untrusted applications. In addition to
+<code>$JRE_HOME/lib/security/java.policy</code> (used by all java programs),
+applications and applets loaded by Java Web Start and Java Plug-in
+load an additional policy file, whose location can be configured
+by the deployment configuration property: <code>deployment.system.security.policy</code>.</p>
+<p>The default sandbox, combined with the permissions granted by
+these policy files, if they exist, determine the permissions
+granted to untrusted code.</p>
+<p>One other policy file, whose location is determined by the
+deployment configuration property
+<code>deployment.security.trusted.policy</code>, can be used to
+restrict the permissions granted to trusted code. With this
+property unset (default), trusted code will be granted the
+<code>AllPermission</code> permission. With this property set,
+trusted code will be granted only the permissions granted to
+untrusted code, plus any other permissions granted by the policy
+file pointed to by this property.</p>
+<h2><a name="property" id="property"></a>Property Files and
+Certificates</h2>
+<p>The deployment configuration also has several properties that
+determine how and if code can be trusted. Normally, any signed JAR
+file in Java Plug-in, and any set of signed JAR files in Java Web
+Start that are listed in a JNLP file requesting the
+<code>AllPermission</code> permission, will be granted trust by the
+user after the certificate chains have been verified and shown to
+the user in a security dialog.</p>
+<p>The deployment configuration property
+<code>deployment.user.security.trusted.certs</code> points to a
+certificate store that contains the certificates already accepted
+by the user.</p>
+<p>The deployment configuration property
+<code>deployment.system.security.trusted.certs</code> can be
+configured to point to a certificate store of certificates
+pre-accepted by the system administrator.</p>
+<p>If a JAR file (in Java Plug-in) or set of JAR files in a JNLP
+file requesting the <code>AllPermission</code> permission (in Java
+Web Start) is signed by a certificate that is in one of these
+stores, it will be trusted.</p>
+<p>The deployment configuration property
+<code>deployment.security.askgrantdialog.show</code> can control if
+the user is permitted to grant trust to new code signed with new
+certificates, and the deployment configuration property
+<code>deployment.security.askgrantdialog.notinca</code> can further
+be used to control if the user is permitted to grant trust to code
+signed by certificates whose root certificate is not in one of the
+Root Certificate Authority certificate stores (see below).</p>
+<h2><a name="dialogs" id="dialogs"></a>Security Dialogs</h2>
+<p>If the above two properties allow it, and the code is signed
+with certificate chains that can be properly validated, the users are then prompted to grant trust
+to the code. See <a href="securityDialogs.html">Security Dialogs</a> for information on the prompts shown. </p>
+<p>The Root Certificate Authority certificate stores are the union of the certificate stores in the files pointed
+to by the properties: <code>deployment.user.security.cacerts</code>
+and <code>deployment.system.security.cacerts</code>. By default
+<code>deployment.system.security.cacerts</code> points to the
+<code>cacerts</code> file in the <code>jre/lib/security</code>
+directory. <code>deployment.user.security.cacerts</code> points to
+a file that contains any additional <code>cacerts</code> imported
+into it using the Certificates dialog in the Security tab of the
+Java Control Panel.</p>
+<p>One final setting can be used to customize the user experience
+in Java Web Start. By default the sandbox does not include the
+<code>AWTPermission</code>
+<code>showWindowWithoutWarningBanner</code>. Without this
+permission, all top-level windows will contain the awt banner
+&quot;Java Application Window&quot; or &quot;Java Applet
+Window&quot;. The deployment configuration property
+<code>deployment.security.sandbox.awtwarningwindow</code> can be
+used to add this permission to untrusted code.</p>
+<h2><a name="more" id="more"></a>More Information</h2>
+<ul>
+    <li><a href="deployment_flow.html">Rich Internet Application Deployment Process</a></li>
+    <li><a href="keystores.html">Browser Keystores</a></li>
+     <li><a href="mixed_code.html">Mixing Signed and Unsigned Code Ensuring Application and Applet Security</a></li>
+     <li><a href="signedJNLP.html">Signing JAR Files with a JNLP Template</a></li>
+     <li><a href="rsa_how.html">Verification of RSA Signed Applets in Java Plug-in</a></li>
+     <li><a href="rsa_signing.html">Signing Applets Using RSA Certificates</a></li>
+     <li><a href="rsa_deploying.html">Deploying RSA-Signed Applets in Java Plug-in</a></li>
+     <li><a href="no_redeploy.html">Preventing RIAs from Being Repurposed </a></li>
+     <li><a href="securityDialogs.html">Security Dialogs</a></li>
+     <li><a href="deployment_rules.html">Deployment Rule Set</a></li>
+<li>For a detailed discussion of properties, see <a href=
+"../jcp/properties.html">Deployment Configuration File and
+Properties</a></li>
+<li>For details about security in the Java Control Panel, see the
+<a href="../jcp/jcp.html#security">Security</a> section in the <a href=
+"../jcp/jcp.html">Java Control Panel</a></li>
+</ul>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Pack200 and Version Download</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Pack200 and Version Download</h1></div>
+<p style="background-color: rgb(247, 248, 249); border-width: 1px; padding: 10px; font-style: italic; border-style: solid; border-color: rgb(64, 74, 91);">These documentation pages are no longer current. They remain available for archival purposes. Please visit <a href="https://docs.oracle.com/javase"><code>https://docs.oracle.com/javase</code></a> for the most up-to-date documentation.</p>
+<p><a name="PageTop" id="PageTop"></a></p>
+
+<p><a href="../index.html">Java Rich Internet Applications Guidet</a> &gt; <a href="../index.html#otherFeatures">Enhancements and Other Features</a> &gt; Pack200 and Version
+Download</p>
+<p><b>Contents</b></p>
+<ul>
+<li><a href="#intro">Introduction</a></li>
+<li><a href="#pack200">Pack200</a>
+<ul>
+<li><a href="#pack200JNLP">Usage in a JNLP
+File</a></li>
+<li><a href="#pack200AppletTag">Usage in Applet
+Tag</a></li>
+</ul>
+</li>
+<li><a href="#versionDownload">Version Download</a>
+<ul>
+<li><a href="#versionDownloadWebStart">Usage in a JNLP
+file</a></li>
+</ul>
+</li>
+</ul>
+<p><b>Related Links</b></p>
+<ul>
+<li><span><a href=
+"../../../tools/index.html#deployment">Pack200
+Tools</a></span></li>
+</ul>
+<hr />
+
+<h2><a name="intro" id="intro"></a>Introduction</h2>
+<p>Prior to Java SE 6 update 10
+release, engineers had to deploy the JNLPDownloadServlet on the web
+servers in order to use Pack200 or download specific versions of
+their application JARs. While this solution works, it limits the
+flexibility of deploying versioned or Pack200 compressed JARs:
+Engineers might not have access to deploy JNLPDownloadServlet on
+web servers.</p>
+<p>The Java SE 6 update 10 release introduces two new Java system
+properties to enable Pack200 and version download: <code>jnlp.packEnabled</code> and <code>jnlp.versionEnabled</code>.</p>
+
+<h2><a name="pack200" id="pack200"></a>Pack200</h2>
+<p>When the Java system property <code>jnlp.packEnabled</code> is
+set to "true" in a jnlp file or an applet tag, the Java Plug-in or
+Java Web Start software will download the .pack.gz version of JARs.
+If the .pack.gz version is not available, the unzipped JAR will be
+searched for.</p>
+<p><strong>Note</strong>: the compressed version of foo.jar should
+be named foo.jar.pack.gz.</p>
+<h3><a name="pack200JNLP" id="pack200JNLP"></a>Usage in a JNLP
+File</h3>
+<p>Use the property tag to specify "jnlp.packEnabled" to "true"
+within the resources tags, i.e.:</p>
+<pre>
+&lt;jnlp ...&gt;
+   ...
+   &lt;resources&gt;
+      &lt;property name="jnlp.packEnabled" value="true"/&gt;
+         &lt;java version="1.5+" href="http://javadl.sun.com/webapps/jawsautodl/AutoDL/j2se"/&gt;
+         &lt;jar href="foo.jar" main="true" download="eager"/&gt;        
+   &lt;/resources&gt;
+   ...
+&lt;/jnlp&gt;
+</pre>
+<p>In the above case, Java Web Start and the new Java Plug-in will
+first look for foo.jar.pack.gz. If the file is not found, they will
+fall back and look for the original, foo.jar.</p>
+<h3><a name="pack200AppletTag" id="pack200AppletTag"></a>Usage in
+Applet Tag</h3>
+<p>Pass the "-Djnlp.packEnabled" VM argument by using
+"java_arguments", i.e.:</p>
+<pre>
+&lt;HTML&gt;
+   ...
+   &lt;APPLET CODE="HelloWorld.class" WIDTH=150 HEIGHT=25&gt;
+      &lt;PARAM NAME  = "cache_archive" VALUE = "HelloWorld.jar"/&gt;
+      &lt;PARAM NAME="java_arguments" VALUE="-Djnlp.packEnabled=true"/&gt;
+   &lt;/APPLET&gt;
+   ...
+&lt;/HTML&gt;
+</pre>
+<p>This feature is only available to <a href=
+"../applet/applet_dev_guide.html">New Java Plug-in</a> since
+it requires passing the VM argument to Java VM. The New Java
+Plug-in will look for HelloWorld.jar.pack.gz, if this file is not
+available, it will fall back and look for HelloWorld.jar.</p>
+<h2><a name="versionDownload" id="versionDownload"></a>Version
+Download</h2>
+<p>Version download is the ability to request that specific
+versions of certain jar files be used by applets and Java Web Start
+applications. The <code>jnlp.versionEnabled</code> applies to Java
+Web Start applications and applets deployed using JNLP.</p>
+<h3><a name="versionDownloadWebStart" id=
+"versionDownloadWebStart"></a>Usage in a JNLP file</h3>
+<p>When the Java system property <code>jnlp.versionEnabled</code>
+is set to "true" in the jnlp file, if the JAR version is specified,
+the server is checked for the versioned JAR file using the naming
+convention:</p>
+<pre>
+  &lt;file&gt; ::= &lt;name&gt; "__" &lt;options&gt; ".jar"
+  &lt;options&gt; ::= "V" &lt;version-id&gt;
+</pre>
+<p><strong>Note</strong>: version 1.0 of foo.jar should be named
+foo__V1.0.jar.</p>
+<p>The original jar will be used if the versioned jar file is not
+found.</p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

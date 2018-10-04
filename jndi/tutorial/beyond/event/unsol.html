@@ -1,0 +1,159 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>LDAP Unsolicited Notifications</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="event.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="../url/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=bottom border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Event Notification</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    LDAP Unsolicited Notifications
+</h2>
+<p>
+<blockquote>
+
+The LDAP v3 
+(<A HREF="http://www.ietf.org/rfc/rfc2251.txt">RFC 2251</A>) 
+defines an <em>unsolicited notification</em>, a message
+that is sent by an LDAP server to the client without any provocation
+from the client. 
+An unsolicited notification is represented in the JNDI by the
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/UnsolicitedNotification.html><tt>UnsolicitedNotification</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/UnsolicitedNotification.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interface.
+<p>
+Because unsolicited notifications are sent asynchronously by the server,
+you can use the same event model used for receiving notifications about
+namespace changes and object content changes.
+You register interest in receiving unsolicited notifications by registering an
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/UnsolicitedNotificationListener.html><tt>UnsolicitedNotificationListener</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/UnsolicitedNotificationListener.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   with an 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html><tt>EventContext</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    or
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventDirContext.html><tt>EventDirContext</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventDirContext.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<p>
+Here is <a href=src/RegUnsol.java>an example</a> of an 
+<tt>UnsolicitedNotificationListener</tt>.
+<blockquote><pre>
+public class UnsolListener implements UnsolicitedNotificationListener {
+    public void notificationReceived(UnsolicitedNotificationEvent evt) {
+        System.out.println("received: " + evt);
+    }
+
+    public void namingExceptionThrown(NamingExceptionEvent evt) {
+        System.out.println("&gt;&gt;&gt; UnsolListener got an exception");
+	    evt.getException().printStackTrace();
+    }
+}
+</pre></blockquote>
+<p>
+Following is <a src=src/RegUnsol.java>an example</a>
+that registers an implementation of
+<tt>UnsolicitedNotificationListener</tt> with an event source.
+Note that only the listener argument to
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html#addNamingListener(javax.naming.Name, int, javax.naming.event.NamingListener)"><tt>EventContext.addNamingListener()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html#addNamingListener(javax.naming.Name, int, javax.naming.event.NamingListener)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   is relevant. The name and scope parameters are not relevant
+to unsolicited notifications.
+<p>
+<blockquote><pre>
+// Get the event context for registering the listener
+EventContext ctx = (EventContext)
+    (new InitialContext(env).lookup("ou=People"));
+
+// Create the listener
+NamingListener listener = new UnsolListener();
+
+// Register the listener with the context (all targets equivalent)
+ctx.addNamingListener("", EventContext.ONELEVEL_SCOPE, listener);
+</pre></blockquote>
+
+When running this program, you need to point it at an LDAP server
+that can generate unsolicited notifications and prod the server
+to emit the notification. Otherwise, after one minute
+the program will exit silently.
+<p>
+A listener that implements
+<tt>UnsolicitedNotificationListener</tt> can also implement other
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/NamingListener.html><tt>NamingListener</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/NamingListener.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   interfaces, such as
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/NamespaceChangeListener.html><tt>NamespaceChangeListener</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/NamespaceChangeListener.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/ObjectChangeListener.html><tt>ObjectChangeListener</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/ObjectChangeListener.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<p>
+
+
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+<strong>Event Notification: End of Lesson</strong>
+<p>
+What's next? 
+Now you can:
+<ul>
+<li> <a href=../url/index.html>Continue</a> on in this trail
+to learn about URLs.
+
+<li> Go to the 
+<a target="_top" href="../fed/index.html">Federation</a> <a target="_top" href="../fed/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>     lesson to learn about federation.
+
+<li> Go to the 
+<a target="_top" href="../misc/index.html">Miscellaneous</a> <a target="_top" href="../misc/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>     lesson to read up on miscellaneous topics such as class loading and
+link references.
+
+</ul>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="event.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="../url/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=top border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Event Notification</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

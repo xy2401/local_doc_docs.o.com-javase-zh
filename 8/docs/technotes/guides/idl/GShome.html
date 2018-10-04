@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Getting Started with Java IDL</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../webdesign/pubs8/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs8/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://docs.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Getting Started with Java IDL</h1></div>
+Java IDL is a technology for distributed objects &ndash;
+that is, objects interacting on different platforms across a
+network. Java IDL enables objects to interact regardless of whether
+they're written in the Java programming language or another
+language such as C, C++, COBOL, or others.
+<p>This is possible because Java IDL is based on the Common Object
+Request Brokerage Architecture (CORBA), an industry-standard
+distributed object model. A key feature of CORBA is IDL, a
+language-neutral Interface Definition Language. Each language that
+supports CORBA has its own IDL mapping--and as its name implies,
+Java IDL supports the mapping for Java. To learn more about the
+IDL-to-Java language mapping, see <a href=
+"mapping/jidlMapping.html">IDL-to-Java Language Mapping</a>.</p>
+<p>To support interaction between objects in separate programs,
+Java IDL provides an Object Request Broker, or ORB. The ORB is a
+class library that enables low-level communication between Java IDL
+applications and other CORBA-compliant applications.</p>
+<p>This tutorial teaches the basic tasks needed to build a CORBA
+distributed application using Java IDL. You will build the classic
+"Hello World" program as a distributed application. The Hello World
+program has a single operation that returns a string to be
+printed.</p>
+<p>Any relationship between distributed objects has two sides: the
+client and the server. The server provides a remote interface, and
+the client calls a remote interface. These relationships are common
+to most distributed object standards, including Java Remote Method
+Invocation (<a href="../rmi/index.html">RMI</a>, <a href=
+"../rmi-iiop/index.html">RMI-IIOP</a>) and <a href=
+"http://www.omg.org/corba/">CORBA</a>. Note that in this context,
+the terms client and server define object-level rather than
+application-level interaction--any application could be a server
+for some objects and a client of others. In fact, a single object
+could be the client of an interface provided by a remote object and
+at the same time implement an interface to be called remotely by
+other objects.</p>
+<p>This figure shows how a one-method distributed object is shared
+between a CORBA client and server to implement the classic
+&quot;Hello World&quot; application.</p>
+<img src="images/IDL-1.gif" width="241" height="114" align=
+"bottom" alt="" />
+<em>A one-method distributed object shared
+between a CORBA client and server.</em>
+<p>On the client side, the application includes a reference for the
+remote object. The object reference has a stub method, which is a
+stand-in for the method being called remotely. The stub is actually
+wired into the ORB, so that calling it invokes the ORB's connection
+capabilities, which forwards the invocation to the server.</p>
+<p>On the server side, the ORB uses skeleton code to translate the
+remote invocation into a method call on the local object. The
+skeleton translates the call and any parameters to their
+implementation-specific format and calls the method being invoked.
+When the method returns, the skeleton code transforms results or
+errors, and sends them back to the client via the ORBs.</p>
+<p>Between the ORBs, communication proceeds by means of a shared
+protocol, IIOP--the Internet Inter-ORB Protocol. IIOP, which is
+based on the standard TCP/IP internet protocol, defines how
+CORBA-compliant ORBs pass information back and forth. Like CORBA
+and IDL, the IIOP standard is defined by OMG, the Object Management
+Group.</p>
+<h2>The Java IDL Development Process and the Hello World
+Tutorial</h2>
+This tutorial teaches the basic tasks in building a CORBA
+distributed application using Java IDL. You will build the classic
+"Hello World" program as a distributed application. The "Hello
+World" program has a single operation that returns a string to be
+printed.
+<p>Despite its simple design, the Hello World program lets you
+learn and experiment with all the tasks required to develop almost
+any CORBA program that uses static invocation. The following steps
+provide a general guide to designing and developing a distributed
+object application with Java IDL. Links to the relevant steps of
+the tutorial will guide you through creating this sample
+application.</p>
+<ol>
+<li>Define the remote interface
+<p>You define the interface for the remote object using the OMG's
+Interface Definition Langauge (IDL). You use IDL instead of the
+Java language because the <code class="Code">idlj</code> compiler
+automatically maps from IDL, generating all Java language stub and
+skeleton source files, along with the infrastructure code for
+connecting to the ORB. Also, by using IDL, you make it possible for
+developers to implement clients and servers in any other
+CORBA-compliant language.</p>
+<p>Note that if you're implementing a client for an existing CORBA
+service, or a server for an existing client, you would get the IDL
+interfaces from the implementer--such as a service provider or
+vendor. You would then run the <code class="Code">idlj</code>
+compiler over those interfaces and follow these steps.</p>
+<p><b><a href="tutorial/GSIDL.html">Writing the IDL file</a></b> in
+this tutorial walks you through defining the remote interface for
+the simple "Hello World" example.</p>
+</li>
+<li>Compile the remote interface
+<p>When you run the <code class="Code">idlj</code> compiler over
+your interface definition file, it generates the Java version of
+the interface, as well as the class code files for the stubs and
+skeletons that enable your applications to hook into the ORB.</p>
+<p><b><a href="tutorial/GSIDL.html#compiling">Mapping Hello.idl to
+Java</a></b> in this tutorial walks you through these steps for the
+simple "Hello World" example.</p>
+</li>
+<li>Implement the server
+<p>Once you run the <code>idlj</code> compiler, you can use the
+skeletons it generates to put together your server application. In
+addition to implementing the methods of the remote interface, your
+server code includes a mechanism to start the ORB and wait for
+invocation from a remote client.</p>
+<p><b><a href="tutorial/GSserver.html">Developing the Hello World
+Server</a></b> walks you through writing a simple server for the
+"Hello World" application.</p>
+</li>
+<li>Implement the client
+<p>Similarly, you use the stubs generated by the <code class=
+"Code">idlj</code> compiler as the basis of your client
+application. The client code builds on the stubs to start its ORB,
+look up the server using the name service provided with Java IDL,
+obtain a reference for the remote object, and call its method.</p>
+<p><b><a href="tutorial/GSapp.html">Developing a Client
+Application</a></b> walks you through writing a simple client
+application.</p>
+</li>
+<li>Start the applications
+<p>Once you implement a server and a client, you can start the name
+service, then start the server, then run the client.</p>
+<p><b><a href="tutorial/GScompile.html">Running the Hello World
+Application</a></b> walks you through running the server and client
+program that together make up the "Hello World" application, and
+the name service that enables them to find one another.</p>
+</li>
+</ol>
+<p><b><a href="tutorial/GSstring.html">Using Stringified Object
+References</a></b> walks you through making an object reference
+when there is no naming service.</p>
+<p><strong><a href="tutorial/jidl2machines.html">Running the Hello
+World Application on Two Machines</a></strong> describes one way of
+distributing the simple application across two machines - a client
+and a server. <a name="FYI" id="FYI"></a></p>
+<h2>For More Information</h2>
+<p>Although concepts are explained as they are introduced in the
+tutorial, you will find more information in the <a href=
+"fund.html">Concepts</a> section. New terms are linked to their
+definitions throughout the tutorial.</p>
+<p>The Object Management Group no longer maintains this site, but
+the <a href="http://www.omg.org/gettingstarted/"><i>CORBA for
+Beginnners</i></a> page contains links to web pages that provide
+introductory CORBA information.</p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

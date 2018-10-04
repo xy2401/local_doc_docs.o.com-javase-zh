@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>jlink</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="You can use the jlink tool to assemble and optimize a set of modules and their dependencies into a custom runtime image." />
+<meta name="dcterms.created" content="2018-03-13T12:23:13Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Tools Reference" />
+<meta name="dcterms.identifier" content="E91146-01" />
+<meta name="dcterms.isVersionOf" content="JSWOR" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="jar.htm" title="Previous" type="text/html" />
+<link rel="Next" href="jmod.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSWOR.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9"></a> <span id="PAGE" style="display:none;">12/63</span> <!-- End Header -->
+<h1 id="JSWOR-GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9" class="sect1">jlink</h1>
+<div>
+<p><span>You can use the <code class="codeph">jlink</code> tool to assemble and optimize a set of modules and their dependencies into a custom runtime image.</span></p>
+<div class="section">
+<p class="subhead1">Synopsis</p>
+<pre dir="ltr">
+jlink [<span class="variable">options</span>] --module-path <span class="variable">modulepath</span> --add-modules <span class="variable">module</span> [,<span class="variable">module</span>...]
+</pre>
+<dl class="1.00* 3.00*">
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-059E2BD9-881B-421D-9170-6AA051434E10"><!-- --></a><code class="codeph"><span class="variable">options</span></code></dt>
+<dd>
+<p>Command-line options separated by spaces. See <a href="jlink.htm#GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__JDK9JLINKSTANDARDOPTIONS">jlink Options</a>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-F01F6A46-F2B5-4F6E-9680-21E3EF310453"><!-- --></a><code class="codeph"><span class="variable">modulepath</span></code></dt>
+<dd>
+<p>The path where the <code class="codeph">jlink</code> tool discovers observable modules. These modules can be modular JAR files, JMOD files, or exploded modules.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-308F58A7-B518-4D13-9634-CD1A8126F0B7"><!-- --></a><code class="codeph"><span class="variable">module</span></code></dt>
+<dd>
+<p>The names of the modules to add to the runtime image. The <code class="codeph">jlink</code> tool adds these modules and their transitive dependencies.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Description</p>
+<p>The <code class="codeph">jlink</code> tool links a set of modules, along with their transitive dependences, to create a custom runtime image.</p>
+<div class="infobox-note" id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-7F34C7D3-E6CD-4658-B4A7-FDA4EC4394BC">
+<p class="notep1">Note:</p>
+<p>Developers are responsible for updating their custom runtime images.</p>
+<p>Unlike custom runtime images, web-deployed Java applications automatically download application updates from the web as soon as they&rsquo;re available. The Java Auto Update mechanism takes care of updating the JRE to the latest secure version several times every year. Custom runtime images don&rsquo;t have built-in support for automatic updates.</p>
+</div>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__JDK9JLINKSTANDARDOPTIONS">
+<p class="subhead1">jlink Options</p>
+<dl>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-E3E7D982-EB89-4582-9CAD-C665B6E956F0"><!-- --></a><code class="codeph">--add-modules <span class="variable">mod</span> [,<span class="variable">mod</span>...]</code></dt>
+<dd>
+<p>Adds the named modules, <code class="codeph"><span class="variable">mod</span></code>, to the default set of root modules. The default set of root modules is empty.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-9F66FE5A-25C1-42AA-91CF-D903C8EC63A4"><!-- --></a><code class="codeph">--bind-services</code></dt>
+<dd>
+<p>Link service provider modules and their dependencies.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-DF03D0FC-9390-4C17-BEEA-ECC2EA9B94F2"><!-- --></a><code class="codeph">-c ={0|1|2}</code> or <code class="codeph">--compress={0|1|2}</code></dt>
+<dd>
+<p>Enable compression of resources:</p>
+<ul style="list-style-type: disc;">
+<li><code class="codeph">0</code>: No compression</li>
+<li><code class="codeph">1</code>: Constant string sharing</li>
+<li><code class="codeph">2</code>: ZIP</li>
+</ul>
+</dd>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-BB79ECC9-DA4F-4D9F-8827-AE61D089E2C4"><!-- --></a><code class="codeph">--disable-plugin <span class="variable">pluginname</span></code></dt>
+<dd>
+<p>Disables the specified plug-in. See <a href="jlink.htm#GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__JDK9JLINKPLUGINS">jlink Plug-ins</a> for the list of supported plug-ins.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-B5D01061-161E-4A1B-97E1-CBC32A771F44"><!-- --></a><code class="codeph">--endian {little|big}</code></dt>
+<dd>
+<p>Specifies the byte order of the generated image. The default value is the format of your system's architecture.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-B59FDFC8-498A-492F-836F-8B1B1FEF027D"><!-- --></a><code class="codeph">-h</code> or <code class="codeph">--help</code></dt>
+<dd>
+<p>Prints the help message.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-78F278FB-53A8-4D27-A8ED-20BA630B2D69"><!-- --></a><code class="codeph">--ignore-signing-information</code></dt>
+<dd>
+<p>Suppresses a fatal error when signed modular JARs are linked in the runtime image. The signature-related files of the signed modular JARs aren&rsquo;t copied to the runtime image.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-CB8D5588-2601-4AEB-A15C-D52E568DAE78"><!-- --></a><code class="codeph">--launcher <span class="variable">command</span>=<span class="variable">module</span></code> or <code class="codeph">--launcher <span class="variable">command</span>=<span class="variable">module</span>/<span class="variable">main</span></code></dt>
+<dd>
+<p>Specifies the launcher command name for the module or the command name for the module and main class (the module and the main class names are separated by a slash (<code class="codeph">/</code>)).</p>
+</dd>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-37DE51D5-4B5C-4348-BB23-F039273ABAA4"><!-- --></a><code class="codeph">--limit-modules <span class="variable">mod</span> [,<span class="variable">mod</span>...]</code></dt>
+<dd>
+<p>Limits the universe of observable modules to those in the transitive closure of the named modules, <code class="codeph"><span class="variable">mod</span></code>, plus the main module, if any, plus any further modules specified in the <code class="codeph">--add-modules</code> option.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-985A5BDE-6111-49BC-8CD9-7A1EE971EDA1"><!-- --></a><code class="codeph">--list-plugins</code></dt>
+<dd>
+<p>Lists available plug-ins, which you can access through command-line options; see <a href="jlink.htm#GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__JDK9JLINKPLUGINS">jlink Plug-ins</a>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-08030F35-8F4F-427D-B10A-2D92F0D5E2F1"><!-- --></a><code class="codeph">-p</code> or <code class="codeph">--module-path <span class="variable">modulepath</span></code></dt>
+<dd>
+<p>Specifies the module path.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-BA2404EC-37CA-4F46-BE74-9FA15B2D75C5"><!-- --></a><code class="codeph">--no-header-files</code></dt>
+<dd>
+<p>Excludes header files.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-D9D01DD7-B159-4F2D-B1FE-31C4F5126FC2"><!-- --></a><code class="codeph">--no-man-pages</code></dt>
+<dd>
+<p>Excludes man pages.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-927F22FD-BE6F-4FDF-9C2F-FB44C0F6983C"><!-- --></a><code class="codeph">--output <span class="variable">path</span></code></dt>
+<dd>
+<p>Specifies the location of the generated runtime image.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-F6A19E5C-0E9C-4376-BA5C-11571082F509"><!-- --></a><code class="codeph">--save-opts <span class="variable">filename</span></code></dt>
+<dd>
+<p>Saves <code class="codeph">jlink</code> options in the specified file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-73C481DF-C9A5-4BFE-90A7-F07E48BA4861"><!-- --></a><code class="codeph">--suggest-providers [<span class="variable">name</span>, ...]</code></dt>
+<dd>
+<p>Suggest providers that implement the given service types from the module path.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-8CAE5D46-28F3-49B8-AAF5-EE79DC092E5D"><!-- --></a><code class="codeph">--version</code></dt>
+<dd>
+<p>Prints version information.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-D152AEF8-E151-422E-9389-2F2D5BBD85B2"><!-- --></a><code class="codeph">@<span class="variable">filename</span></code></dt>
+<dd>
+<p>Reads options from the specified file.</p>
+<p>An options file is a text file that contains the options and values that you would typically enter in a command prompt. Options may appear on one line or on several lines. You may not specify environment variables for path names. You may comment out lines by prefixing a hash symbol (<code class="codeph">#</code>) to the beginning of the line.</p>
+<p>The following is an example of an options file for the <code class="codeph">jlink</code> command:</p>
+<pre dir="ltr">
+#Wed Dec 07 00:40:19 EST 2016
+--module-path C:/Java/jdk9/jmods;mlib
+--add-modules com.greetings
+--output greetingsapp
+</pre></dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__JDK9JLINKPLUGINS">
+<p class="subhead1">jlink Plug-ins</p>
+<div class="infobox-note" id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-408B997C-CA2F-4A36-8AF0-5D8301F55D0A">
+<p class="notep1">Note:</p>
+<p>Plug-ins not listed in this section aren&rsquo;t supported and are subject to change.</p>
+</div>
+<p>For plug-in options that require a <code class="codeph"><span class="variable">pattern-list</span></code>, the value is a comma-separated list of elements, with each element using one the following forms:</p>
+<ul style="list-style-type: disc;">
+<li><code class="codeph"><span class="variable">glob-pattern</span></code></li>
+<li><code class="codeph">glob:<span class="variable">glob-pattern</span></code></li>
+<li><code class="codeph">regex:<span class="variable">regex-pattern</span></code></li>
+<li><code class="codeph">@<span class="variable">filename</span></code>
+<ul style="list-style-type: disc;">
+<li><code class="codeph"><span class="variable">filename</span></code> is the name of a file that contains patterns to be used, one pattern per line.</li>
+</ul>
+</li>
+</ul>
+<p>For a complete list of all available plug-ins, run the command <code class="codeph">jlink --list-plugins</code>.</p>
+<div class="tblformal" id="GUID-CECAC52B-CFEE-46CB-8166-F17A8E9280E9__GUID-E179FC3F-5362-41FD-AAA3-F7FA437AB8A1">
+<p class="titleintable">Table 2-4 List of Available jlink plugins</p>
+<table class="cellalignment209" title="List of Available jlink plugins" summary="Table of jlink plugins, their options, and their descriptions">
+<thead>
+<tr class="cellalignment187">
+<th class="cellalignment204" id="d28058e369">Plugin Name</th>
+<th class="cellalignment204" id="d28058e371">Option</th>
+<th class="cellalignment204" id="d28058e373">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment187">
+<td class="cellalignment187" id="d28058e377" headers="d28058e369">
+<p><code class="codeph">class-for-name</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e377 d28058e371">
+<p><code class="codeph">--class-for-name</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e377 d28058e373">
+<p>Class optimization, converts <code class="codeph">Class.forName</code> calls to constant loads.</p>
+</td>
+</tr>
+<tr class="cellalignment187">
+<td class="cellalignment187" id="d28058e392" headers="d28058e369">
+<p><code class="codeph">compress</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e392 d28058e371">
+<p><code class="codeph">--compress={0|1|2}[:filter=<span class="variable">pattern-list</span>]</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e392 d28058e373">
+<p>Compresses all resources in the output image.</p>
+<ul style="list-style-type: disc;">
+<li>Level 0: No compression</li>
+<li>Level 1: Constant string sharing</li>
+<li>Level 2: ZIP</li>
+</ul>
+<p>An optional <code class="codeph"><span class="variable">pattern-list</span></code> filter can be specified to list the pattern of files to include.</p>
+</td>
+</tr>
+<tr class="cellalignment187">
+<td class="cellalignment187" id="d28058e420" headers="d28058e369">
+<p><code class="codeph">dedup-legal-notices</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e420 d28058e371">
+<p><code class="codeph">--dedup-legal-notices=[error-if-not-same-content]</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e420 d28058e373">
+<p>De-duplicates all legal notices. If <code class="codeph">error-if-not-same-content</code> is specified then it will be an error if two files of the same filename are different.</p>
+</td>
+</tr>
+<tr class="cellalignment187">
+<td class="cellalignment187" id="d28058e435" headers="d28058e369">
+<p><code class="codeph">exclude-files</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e435 d28058e371">
+<p><code class="codeph">--exclude-files=<span class="variable">pattern-list</span></code></p>
+</td>
+<td class="cellalignment187" headers="d28058e435 d28058e373">
+<p>Specifies files to exclude. such as:</p>
+<pre dir="ltr">
+--exclude-files=**.java,glob:/java.base/lib/client/** 
+</pre></td>
+</tr>
+<tr class="cellalignment187">
+<td class="cellalignment187" id="d28058e451" headers="d28058e369">
+<p><code class="codeph">exclude-jmod-section</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e451 d28058e371">
+<p><code class="codeph">--exclude-jmod-section=<span class="variable">section-name</span></code></p>
+</td>
+<td class="cellalignment187" headers="d28058e451 d28058e373">
+<p>Specifies a JMOD section to exclude where <code class="codeph"><span class="variable">section-name</span></code> is <code class="codeph">man</code> or <code class="codeph">headers</code>.</p>
+</td>
+</tr>
+<tr class="cellalignment187">
+<td class="cellalignment187" id="d28058e475" headers="d28058e369">
+<p><code class="codeph">exclude-resources</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e475 d28058e371">
+<p><code class="codeph">--exclude-resources=<span class="variable">pattern-list</span></code></p>
+</td>
+<td class="cellalignment187" headers="d28058e475 d28058e373">
+<p>Specify resources to exclude. such as:</p>
+<pre dir="ltr">
+--exclude-resources=**.jcov,glob:**/META-INF/**
+</pre></td>
+</tr>
+<tr class="cellalignment187">
+<td class="cellalignment187" id="d28058e491" headers="d28058e369">
+<p><code class="codeph">generate-jli-classes</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e491 d28058e371">
+<p><code class="codeph">--generate-jli-classes=@<span class="variable">filename</span>[:ignore-version=&lt;true|false&gt;]</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e491 d28058e373">
+<p>Specify a file listing the <code class="codeph">java.lang.invoke</code> classes to pre-generate. By default, this plugin may use a built-in list of classes to pre-generate. If this plugin runs on a different runtime version than the image being created, then code generation will be disabled by default to guarantee correctness. Add <code class="codeph">ignore-version=true</code> to override this behavior.</p>
+</td>
+</tr>
+<tr class="cellalignment187">
+<td class="cellalignment187" id="d28058e512" headers="d28058e369">
+<p><code class="codeph">include-locales</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e512 d28058e371">
+<p><code class="codeph">--include-locales=<span class="variable">langtag</span>[,<span class="variable">langtag</span>]*</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e512 d28058e373">
+<p>Includes the list of locales where <code class="codeph"><span class="variable">langtag</span></code> is a BCP 47 language tag. This option supports locale matching as defined in RFC 4647. Ensure that you add the module <span class="apiname">jdk.localedata</span> when using this option.</p>
+<p>Example:</p>
+<pre dir="ltr">
+--add-modules jdk.localedata --include-locales=en,ja,*-IN
+</pre></td>
+</tr>
+<tr class="cellalignment187">
+<td class="cellalignment187" id="d28058e542" headers="d28058e369">
+<p><code class="codeph">order-resources</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e542 d28058e371">
+<p><code class="codeph">--order-resources=<span class="variable">pattern-list</span></code></p>
+</td>
+<td class="cellalignment187" headers="d28058e542 d28058e373">
+<p>Orders the specified paths in priority order. If <code class="codeph">@<span class="variable">filename</span></code> is specified, then each line in <code class="codeph"><span class="variable">pattern-list</span></code> must be an exact match for the paths to be ordered.</p>
+<p>Example:</p>
+<pre dir="ltr">
+--order-resources=**/module-info.class,@classlist,/java.base/java/lang/**
+</pre></td>
+</tr>
+<tr class="cellalignment187">
+<td class="cellalignment187" id="d28058e569" headers="d28058e369">
+<p><code class="codeph">release-info</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e569 d28058e371">
+<p><code class="codeph">--release-info={<span class="variable">file</span>|add:<span class="variable">key1</span>=<span class="variable">value1</span>:<span class="variable">key2</span>=<span class="variable">value2</span>:...|del:<span class="variable">key-list</span>}</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e569 d28058e373">
+<p>Loads, adds, or deletes release properties where:</p>
+<ul style="list-style-type: disc;">
+<li><code class="codeph"><span class="variable">file</span></code>: Loads release properties from the specified file.</li>
+<li><code class="codeph">add</code>: Adds specified properties to the release file. You can specify any number of <code class="codeph"><span class="variable">key</span>=<span class="variable">value</span></code> pairs.</li>
+<li><code class="codeph">del</code>: Deletes the list of keys in the release file <code class="codeph"><span class="variable">key-list</span></code>.</li>
+</ul>
+</td>
+</tr>
+<tr class="cellalignment187">
+<td class="cellalignment187" id="d28058e625" headers="d28058e369">
+<p><code class="codeph">strip-debug</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e625 d28058e371">
+<p><code class="codeph">--strip-debug</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e625 d28058e373">
+<p>Strips debug information from the output image</p>
+</td>
+</tr>
+<tr class="cellalignment187">
+<td class="cellalignment187" id="d28058e638" headers="d28058e369">
+<p><code class="codeph">strip-native-commands</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e638 d28058e371">
+<p><code class="codeph">--strip-native-commands</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e638 d28058e373">
+<p>Excludes native commands (such as <code class="codeph">java/java.exe</code>) from the image</p>
+</td>
+</tr>
+<tr class="cellalignment187">
+<td class="cellalignment187" id="d28058e653" headers="d28058e369">
+<p><code class="codeph">system-modules</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e653 d28058e371">
+<p><code class="codeph">--system-modules=retainModuleTarget</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e653 d28058e373">
+<p>Fast loads module descriptors (always enabled)</p>
+</td>
+</tr>
+<tr class="cellalignment187">
+<td class="cellalignment187" id="d28058e665" headers="d28058e369">
+<p><code class="codeph">vm</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e665 d28058e371">
+<p><code class="codeph">--vm={client|server|minimal|all}</code></p>
+</td>
+<td class="cellalignment187" headers="d28058e665 d28058e373">
+<p>Selects the HotSpot VM in the output image. Default is <code class="codeph">all</code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">jlink Examples</p>
+<p>The following command creates a runtime image in the directory <code>greetingsapp</code>. This command links the module <span class="apiname">com.greetings</span>, whose module definition is contained in the directory <code>mlib</code>. The directory <code>$JAVA_HOME/jmods</code> contains <span class="apiname">java.base.jmod</span> and the other standard and JDK modules.</p>
+<pre dir="ltr">
+jlink --module-path $JAVA_HOME/jmods:mlib --add-modules com.greetings --output greetingsapp
+</pre>
+<p>The following command lists the modules in the runtime image <code>greetingsapp</code>:</p>
+<pre dir="ltr">
+greetingsapp/bin/java --list-modules
+<span class="bold">com.greetings
+java.base@9
+java.logging@9
+org.astro@1.0</span>
+</pre>
+<p>The following command creates a runtime image in the directory <code>compressedrt</code> that&rsquo;s stripped of debug symbols, uses compression to reduce space, and includes French language locale information:</p>
+<p><code class="codeph">jlink --module-path $JAVA_HOME/jmods --add-modules jdk.localedata --strip-debug --compress=2 --include-locales=fr --output compressedrt</code></p>
+<p>The following example compares the size of the runtime image <code class="codeph">compressedrt</code> with <code class="codeph">fr_rt</code>, which isn&rsquo;t stripped of debug symbols and doesn&rsquo;t use compression:</p>
+<pre dir="ltr">
+jlink --module-path $JAVA_HOME/jmods --add-modules jdk.localedata --include-locales=fr --output fr_rt
+
+du -sh ./compressedrt ./fr_rt
+<span class="bold">23M     ./compressedrt</span>
+<span class="bold">36M     ./fr_rt</span>
+</pre>
+<p>The following example lists the providers that implement <span class="apiname">java.security.Provider</span>:</p>
+<pre dir="ltr">
+jlink --module-path $JAVA-HOME/jmods --suggest-providers java.security.Provider
+
+<span class="bold">Suggested providers:
+   java.naming provides java.security.Provider used by java.base
+   java.security.jgss provides java.security.Provider used by java.base
+   java.security.sasl provides java.security.Provider used by java.base
+   java.smartcardio provides java.security.Provider used by java.base
+   java.xml.crypto provides java.security.Provider used by java.base
+   jdk.crypto.cryptoki provides java.security.Provider used by java.base
+   jdk.crypto.ec provides java.security.Provider used by java.base
+   jdk.crypto.mscapi provides java.security.Provider used by java.base
+   jdk.deploy provides java.security.Provider used by java.base
+   jdk.security.jgss provides java.security.Provider used by java.base</span>
+</pre>
+<p>The following example creates a custom runtime image named <code class="codeph">mybuild</code> that includes only <span class="apiname">java.naming</span> and <span class="apiname">jdk.crypto.cryptoki</span> and their dependencies but no other providers. Note that these dependencies must exist in the module path:</p>
+<pre dir="ltr">
+jlink --module-path $JAVA_HOME/jmods --add-modules java.naming,jdk.crypto.cryptoki --output mybuild
+</pre>
+<p>The following command is similar to the one that creates a runtime image named <code class="codeph">greetingsapp</code>, except that it will link the modules resolved from root modules with service binding; see the <a href="https://docs.oracle.com/javase/10/docs/api/java/lang/module/Configuration.html#resolveAndBind-java.lang.module.ModuleFinder-java.util.List-java.lang.module.ModuleFinder-java.util.Collection-" target="_blank"><span class="apiname">Configuration.resolveAndBind</span></a> method.</p>
+<pre dir="ltr">
+jlink --module-path $JAVA_HOME/jmods:mlib --add-modules com.greetings --output greetingsapp --bind-services
+</pre>
+<p>The following command lists the modules in the runtime image <code>greetingsapp</code> created by this command:</p>
+<pre dir="ltr">
+greetingsapp/bin/java --list-modules
+<span class="bold">com.greetings
+java.base@9
+java.compiler@9
+java.datatransfer@9
+java.desktop@9
+java.logging@9
+java.management@9
+java.management.rmi@9
+java.naming@9
+java.prefs@9
+java.rmi@9
+java.scripting@9
+java.security.jgss@9
+java.security.sasl@9
+java.smartcardio@9
+java.xml@9
+java.xml.crypto@9
+jdk.accessibility@9
+jdk.charsets@9
+jdk.compiler@9
+jdk.crypto.cryptoki@9
+jdk.crypto.ec@9
+jdk.crypto.mscapi@9
+jdk.deploy@9
+jdk.dynalink@9
+jdk.internal.opt@9
+jdk.jartool@9
+jdk.javadoc@9
+jdk.jdeps@9
+jdk.jlink@9
+jdk.localedata@9
+jdk.management@9
+jdk.naming.dns@9
+jdk.naming.rmi@9
+jdk.scripting.nashorn@9
+jdk.security.auth@9
+jdk.security.jgss@9
+jdk.unsupported@9
+jdk.zipfs@9
+org.astro@1.0</span>
+</pre></div>
+<!-- class="section" --></div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment186">
+<tr>
+<td class="cellalignment198">
+<table class="cellalignment191">
+<tr>
+<td class="cellalignment190"><a href="jar.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment190"><a href="jmod.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment200">
+<table class="cellalignment189">
+<tr>
+<td class="cellalignment190"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment190"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment190"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

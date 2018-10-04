@@ -1,0 +1,203 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Updating A Context's Environment</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="context.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="provider.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=bottom border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Environment Properties</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Updating A Context's Environment
+</h2>
+<p>
+<blockquote>
+
+You can change
+a context's environment by using
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#addToEnvironment(java.lang.String, java.lang.Object)"><tt>addToEnvironment()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#addToEnvironment(java.lang.String, java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#removeFromEnvironment(java.lang.String)"><tt>removeFromEnvironment()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#removeFromEnvironment(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<p>
+Following is <a href=src/UpdateEnv.java>an example</a> that creates an initial
+context and then gets a context derived from that initial context 
+(via 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(java.lang.String)"><tt>lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>). It then updates the environments of the initial context and the derived context.
+<blockquote><pre>
+// Initial environment with various properties
+Hashtable env = new Hashtable();
+env.put(Context.INITIAL_CONTEXT_FACTORY, 
+    "com.sun.jndi.fscontext.FSContextFactory");
+env.put(Context.PROVIDER_URL, "file:/");
+env.put(Context.OBJECT_FACTORIES, "foo.bar.ObjFactory");
+env.put("foo", "bar");
+
+// Call the constructor
+Context ctx = new InitialContext(env);
+
+// Get the child context
+Context child = (Context)ctx.lookup("tmp");
+
+// See what properties the initial context has
+System.out.println(ctx.getEnvironment());
+
+// Replace foo in the parent
+ctx.addToEnvironment("foo", "baz");
+	  
+// Add a new property to the parent
+ctx.addToEnvironment("com.wiz.jndi.wizProp", "wizards");
+
+// Remove an attribute from the parent
+ctx.removeFromEnvironment(Context.OBJECT_FACTORIES);
+
+// Remote property from the child
+child.removeFromEnvironment(Context.PROVIDER_URL);
+
+// See what environment properties you have after updates
+System.out.println("&gt;&gt;&gt;&gt;&gt; Parent context: ");
+System.out.println(ctx.getEnvironment());
+
+// See what environment properties the child has after updates
+System.out.println("&gt;&gt;&gt;&gt;&gt; Child context: ");
+System.out.println(child.getEnvironment());
+</pre></blockquote>
+
+Following is the output from running the example.
+Notice that these updates affect only the <tt>Context</tt> instance on
+which they are performed.
+<blockquote><pre>
+{
+com.sun.jndi.ldap.netscape.schemaBugs=true, 
+java.naming.factory.object=foo.bar.ObjFactory:com.sun.jndi.ldap.AttrsToCorba:com.wiz.from.Person, 
+java.naming.factory.initial=com.sun.jndi.fscontext.FSContextFactory, 
+foo=bar, 
+java.naming.provider.url=file:/, 
+java.naming.factory.state=com.sun.jndi.ldap.CorbaToAttrs:com.wiz.from.Person, 
+java.naming.factory.control=com.sun.jndi.ldap.ResponseControlFactory
+}
+
+&gt;&gt;&gt;&gt;&gt; Parent context: 
+{
+com.sun.jndi.ldap.netscape.schemaBugs=true, 
+com.wiz.jndi.wizProp=wizards, 
+java.naming.factory.initial=com.sun.jndi.fscontext.FSContextFactory, 
+foo=baz, 
+java.naming.provider.url=file:/, 
+java.naming.factory.state=com.sun.jndi.ldap.CorbaToAttrs:com.wiz.from.Person, 
+java.naming.factory.control=com.sun.jndi.ldap.ResponseControlFactory
+}
+
+&gt;&gt;&gt;&gt;&gt; Child context: 
+{
+com.sun.jndi.ldap.netscape.schemaBugs=true, 
+java.naming.factory.object=foo.bar.ObjFactory:com.sun.jndi.ldap.AttrsToCorba:com.wiz.from.Person, 
+java.naming.factory.initial=com.sun.jndi.fscontext.FSContextFactory, 
+foo=bar, 
+java.naming.factory.state=com.sun.jndi.ldap.CorbaToAttrs:com.wiz.from.Person, 
+java.naming.factory.control=com.sun.jndi.ldap.ResponseControlFactory
+}
+</pre></blockquote>
+
+<h4>Scope of Changes</h4>
+
+As the previous example has showed, changing the environment
+properties of one context does not affect any of its derived contexts.
+However, contexts that are derived in the future from this context
+will inherit the updated environment.
+
+<h4>Defaults</h4>
+Some environment properties have defaults. For example,
+an implementation might by default ignore referrals
+unless the <tt>"java.naming.referral"</tt> environment property
+has been set to <tt>"throw"</tt> or <tt>"follow"</tt>.
+When such a property is removed by using <tt>removeFromEnvironment()</tt>,
+the default value effectively becomes the property's value, even though
+the actual default value might not necessarily show up when you examine
+the context's properties by using 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#getEnvironment()"><tt>getEnvironment()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#getEnvironment()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+
+<h4>Verifying the Update</h4>
+
+After updating a context's environment, you can verify the
+update immediately by using <tt>getEnvironment()</tt>. 
+However, often an environment property represents a behavioral
+aspect of the context, for example the credentials to use
+when logging on to the server. 
+In such cases, there is no guarantee
+that just because the property has been updated, the context
+has verified the correctness and applicability of the property.
+This is because doing that might require server interaction. 
+The next time that
+the context needs to use the property, the verification will
+occur. A failure might be indicated at that time. 
+<p>
+
+For example, suppose that you used <tt>addToEnvironment()</tt> three times
+to update the client's identity, credentials, and authentication
+type. Suppose also that you supplied the wrong credentials.  
+Then the next
+time you that invoke a method that requires authentication on the context,
+the underlying service provider will attempt to authenticate by using the
+updated properties.
+However, the authentication will fail because of the
+wrong credentials and you will get an
+<tt>AuthenticationException</tt>.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="context.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="provider.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=top border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Environment Properties</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>34 Bubble Chart (Release 8)</title>
+<meta name="description" content="This chapter describes the bubble chart, a two-axis chart that plots bubbles for the data points in a series.">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXUI.pdf">PDF</a> | <a href="../JFXUI.epub">ePub</a> | <a href="../JFXUI.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Working with JavaFX UI Components</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="area-chart.htm">Previous Page</a><a class="button" title="Next Page" href="scatter-chart.htm">Next Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="CIHJHEAF" name="CIHJHEAF" class="anchor"></a><a id="JFXUI106" name="JFXUI106" class="anchor"></a> <a id="CHDHAFHB" name="CHDHAFHB" class="anchor"></a>
+<h1 class="chapter"><span class="secnum">34</span> Bubble Chart</h1>
+<a id="JFXUI624" name="JFXUI624" class="anchor"></a>
+<p>This chapter describes the bubble chart, a two-axis chart that plots bubbles for the data points in a series.</p>
+<p>Each data item can be defined by two or three parameters. <a href="#CHDBIHGJ">Figure 34-1</a> shows a typical bubble chart, where each data item is presented by the three following parameters: X value, Y value, and the radius of the bubble.</p>
+<div class="figure"><a id="CHDBIHGJ" name="CHDBIHGJ" class="anchor"></a><a id="JFXUI625" name="JFXUI625" class="anchor"></a>
+<p class="titleinfigure">Figure 34-1 Typical Bubble Chart</p>
+<img width="486" height="392" src="img/bubble-sample.png" alt="Description of Figure 34-1 follows" title="Description of Figure 34-1 follows" longdesc="img_text/bubble-sample.htm" /><br />
+<a id="sthref347" name="sthref347" href="img_text/bubble-sample.htm">Description of "Figure 34-1 Typical Bubble Chart"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<a id="JFXUI107" name="JFXUI107" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref348" name="sthref348" class="anchor"></a>
+<h2 class="sect1">Creating a Bubble Chart</h2>
+<p>To create a bubble chart in your JavaFX application, at minimum, you must instantiate the <code>BubbleChart</code> class, define horizontal and vertical axes, and specify one or more series of data by using constructors of the <code>XYChart.Data</code> class with two or three parameters. <a href="#CHDDGGHG">Example 34-1</a> creates a bubble chart with two series of data. Each data item is represented by X and Y values: a number of a week and an amount of product budget.</p>
+<div class="example"><a id="CHDDGGHG" name="CHDDGGHG" class="anchor"></a><a id="JFXUI626" name="JFXUI626" class="anchor"></a>
+<p class="titleinexample">Example 34-1 Creating a Bubble Chart with Two Data Parameters</p>
+<pre xml:space="preserve" class="oac_no_warn">import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.chart.BubbleChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.stage.Stage;
+ 
+ 
+public class BubbleChartSample extends Application {
+ 
+    @Override public void start(Stage stage) {
+        stage.setTitle("Bubble Chart Sample");
+        final NumberAxis xAxis = new NumberAxis(1, 53, 4);
+        final NumberAxis yAxis = new NumberAxis(0, 80, 10);
+        final BubbleChart&lt;Number,Number&gt; blc = new
+            BubbleChart&lt;&gt;(xAxis,yAxis);
+        xAxis.setLabel("Week");
+        yAxis.setLabel("Product Budget");
+        blc.setTitle("Budget Monitoring");
+       
+        XYChart.Series series1 = new XYChart.Series();
+        series1.setName("Product 1");
+        series1.getData().add(new XYChart.Data(3, 35));
+        series1.getData().add(new XYChart.Data(12, 60));
+        series1.getData().add(new XYChart.Data(15, 15));
+        series1.getData().add(new XYChart.Data(22, 30));
+        series1.getData().add(new XYChart.Data(28, 20));
+        series1.getData().add(new XYChart.Data(35, 41));
+        series1.getData().add(new XYChart.Data(42, 17));
+        series1.getData().add(new XYChart.Data(49, 30));
+                
+        XYChart.Series series2 = new XYChart.Series();
+        series2.setName("Product 2");
+        series2.getData().add(new XYChart.Data(8, 15));
+        series2.getData().add(new XYChart.Data(13, 23));
+        series2.getData().add(new XYChart.Data(15, 45));
+        series2.getData().add(new XYChart.Data(24, 30));
+        series2.getData().add(new XYChart.Data(38, 78));
+        series2.getData().add(new XYChart.Data(40, 41));
+        series2.getData().add(new XYChart.Data(45, 57));
+        series2.getData().add(new XYChart.Data(47, 23));
+                       
+        Scene scene  = new Scene(blc);
+        blc.getData().addAll(series1, series2);           
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
+</pre></div>
+<!-- class="example" -->
+<p>The result of compiling and running this application is shown in <a href="#CHDFFCBI">Figure 34-2</a>.</p>
+<div class="figure"><a id="CHDFFCBI" name="CHDFFCBI" class="anchor"></a><a id="JFXUI627" name="JFXUI627" class="anchor"></a>
+<p class="titleinfigure">Figure 34-2 Bubble Chart with Two Data Parameters</p>
+<img width="477" height="390" src="img/bubble-two-parameters.png" alt="Description of Figure 34-2 follows" title="Description of Figure 34-2 follows" longdesc="img_text/bubble-two-parameters.htm" /><br />
+<a id="sthref349" name="sthref349" href="img_text/bubble-two-parameters.htm">Description of "Figure 34-2 Bubble Chart with Two Data Parameters"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>This application defines lower and upper boundaries of the data ranges and the tick units within the constructors of the <code>NumberAxis</code> class. Additionally, the minor tick count is set to 4, so that each minor tick corresponds to a particular week.</p>
+<p>To indicate that the vertical axis renders the amount of money in US dollars, use a tick label formatter as shown in <a href="#CHDJECGA">Example 34-2</a>.</p>
+<div class="example"><a id="CHDJECGA" name="CHDJECGA" class="anchor"></a><a id="JFXUI628" name="JFXUI628" class="anchor"></a>
+<p class="titleinexample">Example 34-2 Formatting Tick Labels</p>
+<pre xml:space="preserve" class="oac_no_warn">yAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(yAxis,"$ ",null));
+</pre></div>
+<!-- class="example" -->
+<p>The <code>NumberAxis.DefaultFormatter</code> class adds prefixes and suffixes to the tick labels of the specified axis. In <a href="#CHDJECGA">Example 34-2</a>, the formatter defines a dollar sign ($) prefix for each tick label of the vertical axis. The <code>null</code> value for the suffix parameter indicates that no suffixes are added. <a href="#CHDFIFCC">Figure 34-3</a> shows the bubble chart after the formatting has been applied.</p>
+<div class="figure"><a id="CHDFIFCC" name="CHDFIFCC" class="anchor"></a><a id="JFXUI629" name="JFXUI629" class="anchor"></a>
+<p class="titleinfigure">Figure 34-3 Specifying Prefixes for Tick Labels</p>
+<img width="480" height="383" src="img/bubble-format.png" alt="Description of Figure 34-3 follows" title="Description of Figure 34-3 follows" longdesc="img_text/bubble-format.htm" /><br />
+<a id="sthref350" name="sthref350" href="img_text/bubble-format.htm">Description of "Figure 34-3 Specifying Prefixes for Tick Labels"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXUI630" name="JFXUI630" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref351" name="sthref351" class="anchor"></a>
+<h2 class="sect1">Using the Extra Value Property</h2>
+<p>The bubble chart shown in <a href="#CHDBIHGJ">Figure 34-1</a> provides information about budgets of two products for the period of a year. However, you can enhance this application and benefit from the additional capabilities of the <code>BubbleChart</code> class. Use the <code>extraValue</code> property and define three parameters in <code>XYChart.Data</code> objects when specifying the series of data for your bubble chart.</p>
+<p>The code fragment shown in <a href="#CHDBBBIE">Example 34-3</a> demonstrates how to modify data series for the Budget Monitoring application, so that each bubble shows the percentage of consumed budget for a particular product. The third parameter in the <code>XYChart.Data</code> object defines the radius of each bubble: the bigger the radius, the higher the percentage of the budget consumed. Thus, a radius of 7.5 corresponds to consuming 75% of the budget, 5.5 to 55%, and so on.</p>
+<div class="example"><a id="CHDBBBIE" name="CHDBBBIE" class="anchor"></a><a id="JFXUI631" name="JFXUI631" class="anchor"></a>
+<p class="titleinexample">Example 34-3 Adding Extra Value</p>
+<pre xml:space="preserve" class="oac_no_warn">XYChart.Series series1 = new XYChart.Series();
+series1.setName("Product 1");
+series1.getData().add(new XYChart.Data(3, 35, <span class="bold">2</span>));
+series1.getData().add(new XYChart.Data(12, 60, <span class="bold">1.8</span>));
+series1.getData().add(new XYChart.Data(15, 15, <span class="bold">7</span>));
+series1.getData().add(new XYChart.Data(22, 30, <span class="bold">2.5</span>));
+series1.getData().add(new XYChart.Data(28, 20, <span class="bold">1</span>));
+series1.getData().add(new XYChart.Data(35, 41, <span class="bold">5.5</span>));
+series1.getData().add(new XYChart.Data(42, 17, <span class="bold">9</span>));
+series1.getData().add(new XYChart.Data(49, 30, <span class="bold">1.8</span>));
+                
+XYChart.Series series2 = new XYChart.Series();
+series2.setName("Product 2");
+series2.getData().add(new XYChart.Data(8, 15, <span class="bold">2</span>));
+series2.getData().add(new XYChart.Data(13, 23, <span class="bold">1</span>));
+series2.getData().add(new XYChart.Data(15, 45, <span class="bold">3</span>));
+series2.getData().add(new XYChart.Data(24, 30, <span class="bold">4.5</span>));
+series2.getData().add(new XYChart.Data(38, 78, <span class="bold">1</span>));
+series2.getData().add(new XYChart.Data(40, 41, <span class="bold">7.5</span>));
+series2.getData().add(new XYChart.Data(45, 57, <span class="bold">2</span>));
+series2.getData().add(new XYChart.Data(47, 23, <span class="bold">3.8</span>));
+</pre></div>
+<!-- class="example" -->
+<p>The result of adding the modified code fragment to the Budget Monitoring application and then compiling and running it is shown in <a href="#CHDGBCAE">Figure 34-4</a>.</p>
+<div class="figure"><a id="CHDGBCAE" name="CHDGBCAE" class="anchor"></a><a id="JFXUI632" name="JFXUI632" class="anchor"></a>
+<p class="titleinfigure">Figure 34-4 Demonstrating Percentage of Consumed Budget</p>
+<img width="483" height="389" src="img/bubble-three-parameters.png" alt="Description of Figure 34-4 follows" title="Description of Figure 34-4 follows" longdesc="img_text/bubble-three-parameters.htm" /><br />
+<a id="sthref352" name="sthref352" href="img_text/bubble-three-parameters.htm">Description of "Figure 34-4 Demonstrating Percentage of Consumed Budget"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXUI633" name="JFXUI633" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref353" name="sthref353" class="anchor"></a>
+<h2 class="sect1">Changing the Appearance Visual Setting of the Plot and Tick Marks</h2>
+<p>You can alter the appearance of the chart plot and axes. Examine some methods and properties available in the JavaFX SDK API to modify the look of the Budget Monitoring application.</p>
+<p>The <code>verticalGridLinesVisible</code> and <code>horizontalGridLinesVisible</code> properties enable and disable showing the grid lines.</p>
+<p>In addition to the plot properties, you can modify the properties of the axis to attain the required appearance. Code lines in <a href="#CHDBJFAJ">Example 34-4</a> specify the <code>CHOCOLATE</code> color for the tick labels.</p>
+<div class="example"><a id="CHDBJFAJ" name="CHDBJFAJ" class="anchor"></a><a id="JFXUI636" name="JFXUI636" class="anchor"></a>
+<p class="titleinexample">Example 34-4 Defining a Fill Color for the Tick Labels</p>
+<pre xml:space="preserve" class="oac_no_warn">xAxis.setTickLabelFill(Color.CHOCOLATE);
+yAxis.setTickLabelFill(Color.CHOCOLATE);
+</pre></div>
+<!-- class="example" -->
+<p>Finally, you can adjust the position of the tick labels relative to the tick marks. Use the <code>setTickLabelGap</code> method to specify the gap between tick labels and the tick mark lines on the vertical axis: <code>yAxis.setTickLabelGap(10)</code>.</p>
+<p><a href="#CHDHJFGD">Figure 34-5</a> shows the output of the Budget Monitoring application after all the modifications are incorporated in the code.</p>
+<div class="figure"><a id="CHDHJFGD" name="CHDHJFGD" class="anchor"></a><a id="JFXUI637" name="JFXUI637" class="anchor"></a>
+<p class="titleinfigure">Figure 34-5 Changes in the Appearance of the Bubble Chart</p>
+<img width="480" height="391" src="img/bubble-style.png" alt="Description of Figure 34-5 follows" title="Description of Figure 34-5 follows" longdesc="img_text/bubble-style.htm" /><br />
+<a id="sthref354" name="sthref354" href="img_text/bubble-style.htm">Description of "Figure 34-5 Changes in the Appearance of the Bubble Chart"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p class="itemizedlisttitle">Related API Documentation&nbsp;</p>
+<ul>
+<li>
+<p><a href="../api/javafx/scene/chart/BubbleChart.html"><code>BubbleChart</code></a></p>
+</li>
+<li>
+<p><a href="../api/javafx/scene/chart/Chart.html"><code>Chart</code></a></p>
+</li>
+<li>
+<p><a href="../api/javafx/scene/chart/XYChart.html"><code>XYChart</code></a></p>
+</li>
+<li>
+<p><a href="../api/javafx/scene/chart/XYChart.Data.html"><code>XYChart.Data</code></a></p>
+</li>
+<li>
+<p><a href="../api/javafx/scene/chart/XYChart.Series.html"><code>XYChart.Series</code></a></p>
+</li>
+<li>
+<p><a href="../api/javafx/scene/chart/NumberAxis.html"><code>NumberAxis</code></a></p>
+</li>
+<li>
+<p><a href="../api/javafx/scene/chart/NumberAxis.DefaultFormatter.html"><code>NumberAxis.DefaultFormatter</code></a></p>
+</li>
+</ul>
+</div>
+<!-- class="sect1" -->
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Working with JavaFX UI Components</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">Audience</a></li>
+        <li><a href="preface.htm#sthref4">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref6">Related Documents</a></li>
+        <li><a href="preface.htm#sthref7">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a href="ui_components.htm#JFXUI101">Part I About This Tutorial</a>
+    <ul>
+    <li><a href="whatsnew.htm#JFXUI781">1 What Is New</a></li>
+</ul>
+</li>
+    <li><a href="ui_controls.htm#JFXUI336">Part II Using JavaFX UI Controls</a>
+    <ul>
+    <li><a href="label.htm#CIHHFIBJ">2 Label</a>
+      <ul>
+        <li><a href="label.htm#sthref10">Creating a Label</a></li>
+        <li><a href="label.htm#sthref12">Setting a Font</a></li>
+        <li><a href="label.htm#sthref13">Wrapping Text</a></li>
+        <li><a href="label.htm#sthref15">Applying Effects</a></li>
+      </ul>
+    </li>
+    <li><a href="button.htm#CJHEEACB">3 Button</a>
+      <ul>
+        <li><a href="button.htm#sthref19">Creating a Button</a></li>
+        <li><a href="button.htm#sthref22">Assigning an Action</a></li>
+        <li><a href="button.htm#sthref23">Applying Effects</a></li>
+        <li><a href="button.htm#sthref25">Styling a Button</a></li>
+      </ul>
+    </li>
+    <li><a href="radio-button.htm#BABBJBDA">4 Radio Button</a>
+      <ul>
+        <li><a href="radio-button.htm#sthref29">Creating a Radio Button</a></li>
+        <li><a href="radio-button.htm#sthref30">Adding Radio Buttons to Groups</a></li>
+        <li><a href="radio-button.htm#sthref32">Processing Events for Radio Buttons</a></li>
+        <li><a href="radio-button.htm#sthref33">Requesting Focus for a Radio Button</a></li>
+      </ul>
+    </li>
+    <li><a href="toggle-button.htm#CACJDICF">5 Toggle Button</a>
+      <ul>
+        <li><a href="toggle-button.htm#sthref38">Creating a Toggle Button</a></li>
+        <li><a href="toggle-button.htm#sthref39">Adding Toggle Buttons to a Group</a></li>
+        <li><a href="toggle-button.htm#sthref41">Setting the Behavior</a></li>
+        <li><a href="toggle-button.htm#sthref43">Styling Toggle Buttons</a></li>
+      </ul>
+    </li>
+    <li><a href="checkbox.htm#CHDFEJCD">6 Checkbox</a>
+      <ul>
+        <li><a href="checkbox.htm#sthref47">Creating Checkboxes</a></li>
+        <li><a href="checkbox.htm#sthref48">Defining a State</a></li>
+        <li><a href="checkbox.htm#sthref50">Setting the Behavior</a></li>
+      </ul>
+    </li>
+    <li><a href="choice-box.htm#BCEDJAEH">7 Choice Box</a>
+      <ul>
+        <li><a href="choice-box.htm#sthref54">Creating a Choice Box</a></li>
+        <li><a href="choice-box.htm#sthref56">Setting the Behavior for a Choice Box</a></li>
+        <li><a href="choice-box.htm#sthref59">Applying a Tooltip</a></li>
+      </ul>
+    </li>
+    <li><a href="text-field.htm#BABBCEIG">8 Text Field</a>
+      <ul>
+        <li><a href="text-field.htm#sthref63">Creating a Text Field</a></li>
+        <li><a href="text-field.htm#sthref64">Building the UI with Text Fields</a></li>
+        <li><a href="text-field.htm#sthref67">Processing Text Field Data</a></li>
+      </ul>
+    </li>
+    <li><a href="password-field.htm#BABIDAGF">9 Password Field</a>
+      <ul>
+        <li><a href="password-field.htm#sthref71">Creating a Password Field</a></li>
+        <li><a href="password-field.htm#sthref73">Evaluating the Password</a></li>
+      </ul>
+    </li>
+    <li><a href="scrollbar.htm#BGBEGJDE">10 Scroll Bar</a>
+      <ul>
+        <li><a href="scrollbar.htm#sthref78">Creating a Scroll Bar</a></li>
+        <li><a href="scrollbar.htm#sthref79">Using a Scroll Bar in Your Application</a></li>
+      </ul>
+    </li>
+    <li><a href="scrollpane.htm#CBBFFBCH">11 Scroll Pane</a>
+      <ul>
+        <li><a href="scrollpane.htm#sthref83">Creating a Scroll Pane</a></li>
+        <li><a href="scrollpane.htm#sthref84">Setting the Scroll Bar Policy for a Scroll Pane</a></li>
+        <li><a href="scrollpane.htm#sthref86">Resizing Components in the Scroll Pane</a></li>
+        <li><a href="scrollpane.htm#sthref89">Sample Application with a Scroll Pane</a></li>
+      </ul>
+    </li>
+    <li><a href="list-view.htm#CEGGEDBF">12 List View</a>
+      <ul>
+        <li><a href="list-view.htm#sthref93">Creating a List View</a></li>
+        <li><a href="list-view.htm#sthref96">Populating a List View with Data</a></li>
+        <li><a href="list-view.htm#sthref98">Customizing the Content of a List View</a></li>
+        <li><a href="list-view.htm#sthref100">Processing the List Item Selection</a></li>
+      </ul>
+    </li>
+    <li><a href="table-view.htm#CJABIEED">13 Table View</a>
+      <ul>
+        <li><a href="table-view.htm#sthref104">Creating a Table</a></li>
+        <li><a href="table-view.htm#sthref107">Defining the Data Model</a></li>
+        <li><a href="table-view.htm#sthref109">Adding New Rows</a></li>
+        <li><a href="table-view.htm#sthref112">Sorting Data in Columns</a></li>
+        <li><a href="table-view.htm#sthref114">Editing Data in the Table</a></li>
+        <li><a href="table-view.htm#sthref117">Adding Maps of Data to the Table</a></li>
+      </ul>
+    </li>
+    <li><a href="tree-view.htm#JFXUI377">14 Tree View</a>
+      <ul>
+        <li><a href="tree-view.htm#sthref121">Creating Tree Views</a></li>
+        <li><a href="tree-view.htm#sthref123">Implementing Cell Factories</a></li>
+        <li><a href="tree-view.htm#sthref126">Adding New Tree Items on Demand</a></li>
+        <li><a href="tree-view.htm#sthref129">Using Tree Cell Editors</a></li>
+      </ul>
+    </li>
+    <li><a href="tree-table-view.htm#JFXUI833">15 Tree Table View</a>
+      <ul>
+        <li><a href="tree-table-view.htm#sthref135">Creating a TreeTableView control</a></li>
+        <li><a href="tree-table-view.htm#sthref137">Adding Several Columns</a></li>
+        <li><a href="tree-table-view.htm#sthref139">Altering Visual Appearance</a></li>
+        <li><a href="tree-table-view.htm#sthref142">Managing Selection Mode</a></li>
+      </ul>
+    </li>
+    <li><a href="combo-box.htm#BABEFEJC">16 Combo Box</a>
+      <ul>
+        <li><a href="combo-box.htm#sthref147">Creating Combo Boxes</a></li>
+        <li><a href="combo-box.htm#sthref151">Editable Combo Boxes</a></li>
+        <li><a href="combo-box.htm#sthref154">Applying Cell Factories to Combo Boxes</a></li>
+      </ul>
+    </li>
+    <li><a href="separator.htm#BGBCFDFI">17 Separator</a>
+      <ul>
+        <li><a href="separator.htm#sthref157">Creating a Separator</a></li>
+        <li><a href="separator.htm#sthref159">Adding Separators to the UI of Your Application</a></li>
+        <li><a href="separator.htm#sthref161">Styling Separators</a></li>
+      </ul>
+    </li>
+    <li><a href="slider.htm#CCHFBJCH">18 Slider</a>
+      <ul>
+        <li><a href="slider.htm#sthref165">Creating a Slider</a></li>
+        <li><a href="slider.htm#sthref166">Using Sliders in Graphical Applications</a></li>
+      </ul>
+    </li>
+    <li><a href="progress.htm#CHDDJAJE">19 Progress Bar and Progress Indicator</a>
+      <ul>
+        <li><a href="progress.htm#sthref170">Creating Progress Controls</a></li>
+        <li><a href="progress.htm#sthref172">Indicating Progress in Your User Interface</a></li>
+      </ul>
+    </li>
+    <li><a href="hyperlink.htm#CIHGADBG">20 Hyperlink</a>
+      <ul>
+        <li><a href="hyperlink.htm#sthref176">Creating a Hyperlink</a></li>
+        <li><a href="hyperlink.htm#sthref177">Linking the Local Content</a></li>
+        <li><a href="hyperlink.htm#sthref180">Linking the Remote Content</a></li>
+      </ul>
+    </li>
+    <li><a href="editor.htm#JFXUI346">21 HTML Editor</a>
+      <ul>
+        <li><a href="editor.htm#sthref184">Adding an HTML Editor</a></li>
+        <li><a href="editor.htm#sthref187">Using an HTML Editor to Build the User Interface</a></li>
+        <li><a href="editor.htm#sthref189">Obtaining HTML Content</a></li>
+      </ul>
+    </li>
+    <li><a href="tooltip.htm#BABBIJBJ">22 Tooltip</a>
+      <ul>
+        <li><a href="tooltip.htm#sthref194">Creating a Tooltip</a></li>
+        <li><a href="tooltip.htm#sthref196">Presenting Application Data in Tooltips</a></li>
+      </ul>
+    </li>
+    <li><a href="accordion-titledpane.htm#JFXUI356">23 Titled Pane and Accordion</a>
+      <ul>
+        <li><a href="accordion-titledpane.htm#sthref200">Creating Titled Panes</a></li>
+        <li><a href="accordion-titledpane.htm#sthref203">Adding Titled Panes to an Accordion</a></li>
+        <li><a href="accordion-titledpane.htm#sthref205">Processing Events for an Accordion with Titled Panes</a></li>
+      </ul>
+    </li>
+    <li><a href="menu_controls.htm#JFXUI409">24 Menu</a>
+      <ul>
+        <li><a href="menu_controls.htm#sthref210">Building Menus in JavaFX Applications</a></li>
+        <li><a href="menu_controls.htm#sthref211">Creating a Menu Bar</a></li>
+        <li><a href="menu_controls.htm#sthref213">Adding Menu Items</a></li>
+        <li><a href="menu_controls.htm#sthref216">Creating Submenus</a></li>
+        <li><a href="menu_controls.htm#sthref220">Adding Context Menus</a></li>
+      </ul>
+    </li>
+    <li><a href="color-picker.htm#JFXUI433">25 Color Picker</a>
+      <ul>
+        <li><a href="color-picker.htm#sthref223">Design Overview</a>
+          <ul>
+          <li><a href="color-picker.htm#sthref225">Color Chooser</a></li>
+          <li><a href="color-picker.htm#sthref227">Color Palette</a></li>
+          <li><a href="color-picker.htm#sthref230">Custom Color Dialog Window</a></li>
+          </ul>
+        </li>
+        <li><a href="color-picker.htm#JFXUI445">Using a Color Picker</a></li>
+        <li><a href="color-picker.htm#JFXUI452">Changing the Appearance of a Color Picker</a></li>
+      </ul>
+    </li>
+    <li><a href="date-picker.htm#JFXUI808">26 Date Picker</a>
+      <ul>
+        <li><a href="date-picker.htm#sthref238">Working with Time Data and Date Formats</a></li>
+        <li><a href="date-picker.htm#sthref239">Date Picker Design Overview</a></li>
+        <li><a href="date-picker.htm#sthref241">Adding a Date Picker to an Application UI</a></li>
+        <li><a href="date-picker.htm#sthref244">Customizing the Date Picker</a></li>
+        <li><a href="date-picker.htm#sthref250">Altering the Calendar System</a></li>
+      </ul>
+    </li>
+    <li><a href="pagination.htm#JFXUI459">27 Pagination Control</a>
+      <ul>
+        <li><a href="pagination.htm#sthref254">Creating a Pagination Control</a></li>
+        <li><a href="pagination.htm#sthref257">Implementing Page Factories</a></li>
+        <li><a href="pagination.htm#sthref262">Styling a Pagination Control</a></li>
+      </ul>
+    </li>
+    <li><a href="file-chooser.htm#CCHICECF">28 File Chooser</a>
+      <ul>
+        <li><a href="file-chooser.htm#sthref266">Opening Files</a></li>
+        <li><a href="file-chooser.htm#sthref272">Configuring a File Chooser</a></li>
+        <li><a href="file-chooser.htm#sthref274">Setting Extension Filters</a></li>
+        <li><a href="file-chooser.htm#sthref276">Saving Files</a></li>
+      </ul>
+    </li>
+    <li><a href="custom.htm#JFXUI493">29 Customization of UI Controls</a>
+      <ul>
+        <li><a href="custom.htm#sthref280">Applying CSS</a></li>
+        <li><a href="custom.htm#sthref285">Altering Default Behavior</a></li>
+        <li><a href="custom.htm#sthref288">Implementing Cell Factories</a></li>
+      </ul>
+    </li>
+    <li><a href="embed.htm#JFXUI785">30 UI Controls on the Embedded Platforms</a>
+      <ul>
+        <li><a href="embed.htm#sthref292">Embedded Runtime Features</a>
+          <ul>
+          <li><a href="embed.htm#sthref293">Support for Touch-Enabled Devices</a></li>
+          <li><a href="embed.htm#sthref294">Virtual Keyboard</a></li>
+          </ul>
+        </li>
+        <li><a href="embed.htm#sthref301">Appearance of UI Controls on Embedded Platforms</a>
+          <ul>
+          <li><a href="embed.htm#sthref302">Scrolling Controls</a></li>
+          <li><a href="embed.htm#sthref304">Text Input Controls</a></li>
+          <li><a href="embed.htm#sthref306">Context Menus</a></li>
+          </ul>
+        </li>
+        <li><a href="embed.htm#sthref309">UI Controls Features Available on the Embedded Platforms</a></li>
+        <li><a href="embed.htm#sthref311">UI Controls Features That Are Not Available on Embedded Touch Platforms</a></li>
+        <li><a href="embed.htm#sthref312">Other Features That Are Not Available on Embedded Touch Platforms</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="charts.htm#JFXUI577">Part III Working with JavaFX Charts</a>
+    <ul>
+    <li><a href="pie-chart.htm#CIHFDADD">31 Pie Chart</a>
+      <ul>
+        <li><a href="pie-chart.htm#sthref314">Creating a Pie Chart</a></li>
+        <li><a href="pie-chart.htm#sthref316">Setting a Pie Chart and a Legend</a></li>
+        <li><a href="pie-chart.htm#sthref319">Processing Events for a Pie Chart</a></li>
+      </ul>
+    </li>
+    <li><a href="line-chart.htm#CIHGBCFI">32 Line Chart</a>
+      <ul>
+        <li><a href="line-chart.htm#sthref323">Chart Settings</a></li>
+        <li><a href="line-chart.htm#sthref324">Chart Data</a></li>
+        <li><a href="line-chart.htm#sthref325">Creating a Line Chart</a></li>
+        <li><a href="line-chart.htm#sthref327">Creating Categories for a Line Chart</a></li>
+        <li><a href="line-chart.htm#sthref329">Adding Series to the Line Chart</a></li>
+      </ul>
+    </li>
+    <li><a href="area-chart.htm#CIHCFGBA">33 Area Chart</a>
+      <ul>
+        <li><a href="area-chart.htm#sthref334">Creating an Area Chart</a></li>
+        <li><a href="area-chart.htm#sthref336">Creating a Stacked Area Chart</a></li>
+        <li><a href="area-chart.htm#sthref338">Setting Axis and Tick Properties</a></li>
+        <li><a href="area-chart.htm#sthref342">Adding Negative Values</a></li>
+        <li><a href="area-chart.htm#sthref344">Styling Area Charts</a></li>
+      </ul>
+    </li>
+    <li><a class="selected" href="bubble-chart.htm#CHDHAFHB">34 Bubble Chart</a>
+      <ul>
+        <li><a href="bubble-chart.htm#sthref348">Creating a Bubble Chart</a></li>
+        <li><a href="bubble-chart.htm#sthref351">Using the Extra Value Property</a></li>
+        <li><a href="bubble-chart.htm#sthref353">Changing the Appearance Visual Setting of the Plot and Tick Marks</a></li>
+      </ul>
+    </li>
+    <li><a href="scatter-chart.htm#CIHDEACI">35 Scatter Chart</a>
+      <ul>
+        <li><a href="scatter-chart.htm#sthref357">Creating a Scatter Chart</a></li>
+        <li><a href="scatter-chart.htm#sthref359">Managing Chart Data</a></li>
+        <li><a href="scatter-chart.htm#sthref361">Adding Effects to Charts</a></li>
+        <li><a href="scatter-chart.htm#sthref363">Changing the Chart Symbol</a></li>
+      </ul>
+    </li>
+    <li><a href="bar-chart.htm#CIHJFHDE">36 Bar Chart</a>
+      <ul>
+        <li><a href="bar-chart.htm#sthref367">Creating a Bar Chart</a></li>
+        <li><a href="bar-chart.htm#sthref369">Horizontal Bar Chart</a></li>
+        <li><a href="bar-chart.htm#sthref371">Creating a Stacked Bar Chart</a></li>
+        <li><a href="bar-chart.htm#sthref374">Animating Data in Charts</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="css_tutorial.htm#JFXUI733">Part IV Skinning JavaFX Applications with CSS</a>
+    <ul>
+    <li><a href="apply-css.htm#JFXUI714">37 Styling UI Controls with CSS</a>
+      <ul>
+        <li><a href="apply-css.htm#sthref378">Default Style Sheet</a></li>
+        <li><a href="apply-css.htm#sthref380">Creating Style Sheets</a></li>
+        <li><a href="apply-css.htm#sthref381">Defining Styles</a>
+          <ul>
+          <li><a href="apply-css.htm#sthref382">Selectors</a></li>
+          <li><a href="apply-css.htm#sthref383">Rules and Properties</a></li>
+          </ul>
+        </li>
+        <li><a href="apply-css.htm#sthref384">Skinning the Scene</a></li>
+        <li><a href="apply-css.htm#sthref385">Skinning Controls</a>
+          <ul>
+          <li><a href="apply-css.htm#sthref386">Overriding Default Styles</a></li>
+          <li><a href="apply-css.htm#sthref388">Creating Class Styles</a></li>
+          <li><a href="apply-css.htm#sthref390">Creating ID Styles</a></li>
+          <li><a href="apply-css.htm#sthref392">Setting Styles in the Code</a></li>
+          </ul>
+        </li>
+        <li><a href="apply-css.htm#sthref394">Additional Resources</a></li>
+      </ul>
+    </li>
+    <li><a href="css-styles.htm#JFXUI672">38 Styling Charts with CSS</a>
+      <ul>
+        <li><a href="css-styles.htm#sthref395">Modifying Basic Chart Elements</a></li>
+        <li><a href="css-styles.htm#sthref401">Altering Colors of the Chart Plot</a></li>
+        <li><a href="css-styles.htm#sthref404">Setting the Axes</a></li>
+        <li><a href="css-styles.htm#sthref407">Setting Chart Colors</a></li>
+        <li><a href="css-styles.htm#sthref413">Changing Chart Symbols</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="text.htm#JFXUI734">Part V Working with Text in JavaFX Applications</a>
+    <ul>
+    <li><a href="text-settings.htm#JFXUI735">39 Using Text in JavaFX</a>
+      <ul>
+        <li><a href="text-settings.htm#sthref417">Introduction</a></li>
+        <li><a href="text-settings.htm#sthref418">Adding Text</a>
+          <ul>
+          <li><a href="text-settings.htm#sthref420">Setting Text Font and Color</a></li>
+          <li><a href="text-settings.htm#sthref422">Making Text Bold or Italic</a></li>
+          <li><a href="text-settings.htm#sthref423">Using Custom Fonts</a></li>
+          <li><a href="text-settings.htm#sthref425">Setting LCD Text Support</a></li>
+          <li><a href="text-settings.htm#sthref426">Rich Text and Bidirectional Support</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="text-effects.htm#JFXUI773">40 Applying Effects to Text</a>
+      <ul>
+        <li><a href="text-effects.htm#sthref429">Perspective Effect</a></li>
+        <li><a href="text-effects.htm#sthref431">Blur Effect</a></li>
+        <li><a href="text-effects.htm#sthref433">Drop Shadow Effect</a></li>
+        <li><a href="text-effects.htm#sthref435">Inner Shadow Effect</a></li>
+        <li><a href="text-effects.htm#sthref437">Reflection</a></li>
+        <li><a href="text-effects.htm#sthref439">Combining Several Effects</a></li>
+        <li><a href="text-effects.htm#sthref441">Application Files</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="samples.htm#sthref444">Part VI Source Code for the UI Components Tutorials</a>
+    <ul>
+    <li><a href="ui_controls_samples.htm#sthref445">A UI Control Samples</a>
+      <ul>
+        <li><a href="ui_controls_samples.htm#JFXUI870">LabelSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI871">ButtonSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI872">RadioButtonSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI873">ToggleButtonSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI874">CheckboxSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI875">ChoiceBoxSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI876">TextFieldSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI877">PasswordField.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI878">ScrollBarSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI879">ScrollPaneSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI880">ListViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI881">TableViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI882">TreeViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI883">TreeTableViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI884">ComboBoxSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI885">SeparatorSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI886">SliderSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI887">ProgressSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI888">HyperlinkSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI889">HyperlinkWebViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI890">HTMLEditorSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI891">TooltipSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI892">TitledPaneSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI893">MenuSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI894">ColorPickerSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI895">DatePickerSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI896">PaginationSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI897">FileChooserSample.java</a></li>
+      </ul>
+    </li>
+    <li><a href="chart_samples.htm#JFXUI898">B Chart Samples</a>
+      <ul>
+        <li><a href="chart_samples.htm#JFXUI900">PieChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI901">LineChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI902">AreaChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI903">BubbleChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI904">ScatterChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI905">BarChartSample.java</a></li>
+      </ul>
+    </li>
+    <li><a href="css_samples.htm#sthref446">C CSS Samples</a>
+      <ul>
+        <li><a href="css_samples.htm#JFXUI908">DownloadButton.java</a></li>
+        <li><a href="css_samples.htm#JFXUI909">DownloadButtonStyle1.css</a></li>
+        <li><a href="css_samples.htm#JFXUI910">DownloadButtonStyle2.css</a></li>
+        <li><a href="css_samples.htm#JFXUI911">StyleStage.java</a></li>
+        <li><a href="css_samples.htm#JFXUI912">UIControlCSS.java</a></li>
+        <li><a href="css_samples.htm#JFXUI913">controlStyle1.css</a></li>
+        <li><a href="css_samples.htm#JFXUI914">controlStyle2.css</a></li>
+      </ul>
+    </li>
+    <li><a href="text_samples.htm#sthref447">D Text Samples</a>
+      <ul>
+        <li><a href="text_samples.htm#JFXUI917">TextEffects.java</a></li>
+        <li><a href="text_samples.htm#JFXUI920">NeonSign.java</a></li>
+      </ul>
+    </li>
+</ul>
+
+</li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="area-chart.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a><a class="button" title="Next Page" href="scatter-chart.htm">Next Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2011, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

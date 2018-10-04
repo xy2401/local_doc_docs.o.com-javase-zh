@@ -1,0 +1,240 @@
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Naming Example</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="directory.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/getStartedHeader.gif" width=26 height=26 align=bottom border=0 alt="Getting Started | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Examples</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Naming Example
+</h2>
+<p>
+<blockquote>
+
+<a href=src/Lookup.java>This example</a> shows you how to write a 
+program that looks up an object whose name is passed in as a command-line argument.
+It uses a
+<a href=../concepts/glossary.html#PROVIDER>service provider</a>
+for the file system. 
+Therefore the name that you supply to the program must be a filename.
+You do not need to understand details
+about the service provider at this point.
+
+<h4>Importing the JNDI Classes</h4>
+Using your favorite text editor, create a file named <tt>Lookup.java</tt>.
+You can import either the entire package or only individual classes
+and interfaces. The following code imports each class that is
+used from the 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/package-summary.html><tt>javax.naming</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/package-summary.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     package.
+
+<blockquote>
+<pre>
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+</pre>
+</blockquote>
+
+<h4>Creating an Initial Context</h4>
+
+In the <tt>main()</tt> method of the program, create 
+an initial context. 
+Indicate that you're using the file system service provider
+by setting the 
+<a href=../concepts/glossary.html#ENV><em>environment properties</em></a> parameter 
+(represented by a <tt>Hashtable</tt> class) to the 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html><tt>InitialContext</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     constructor, as follows.
+<blockquote>
+<pre>
+Hashtable env = new Hashtable();
+env.put(Context.INITIAL_CONTEXT_FACTORY, 
+    "com.sun.jndi.fscontext.RefFSContextFactory");
+
+Context ctx = new InitialContext(env);
+</pre>
+</blockquote>
+
+<p>
+How to set up the parameters for this constructor is explained in more detail in
+<a target="_top" href="../../basics/index.html">The Basics</a> <a href="../../basics/index.html"><img src="../../jndiimages/basicsIcon.gif" width=20 height=20 border=0 alt="(in the Basics trail)"></a>     trail.
+
+
+<h4>Looking Up an Object</h4>
+
+Next, use 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><tt>Context.lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     to look up an object.
+The following code looks up the object bound to the name supplied
+in the command line.
+
+<blockquote>
+<pre>
+Object obj = ctx.lookup(name);
+</pre>
+</blockquote>
+
+<h4>Catching NamingException</h4>
+
+The creation of the initial context and the <tt>lookup()</tt>
+method can throw a 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html"><tt>NamingException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. For this reason, you need to enclose these calls inside a 
+<tt>try/catch</tt> clause. Here's the code fragment repeated
+with the <tt>try/catch</tt> clause.
+
+<blockquote>
+<pre>
+try {
+    // Create the initial context
+    Context ctx = new InitialContext(env);
+
+    // Look up an object
+    Object obj = ctx.lookup(name);
+
+    // Print it
+    System.out.println(name + " is bound to: " + obj);
+	    
+} catch (NamingException e) {
+    System.err.println("Problem looking up " + name + ": " + e);
+}
+</pre>
+</blockquote>
+
+
+<h4>Compiling the Program</h4>
+Next, you compile the source file using the Java compiler.
+To compile to program, you must have access to the JNDI classes.
+If you are using the
+<a href=http://java.sun.com/j2se/1.3>Java 2 SDK, v1.3</a>,
+then the JNDI classes are already included.
+Otherwise, you can include the classes either by setting the <tt>CLASSPATH</tt>
+variable to include the <tt>jndi.jar</tt> that you downloaded
+from the JNDI Web site or by installing <tt>jndi.jar</tt> as an installed
+extension. See the 
+
+<a target="_top" href="../../basics/prepare/index.html">Preparations</a> <a href="../../basics/prepare/index.html"><img src="../../jndiimages/basicsIcon.gif" width=20 height=20 border=0 alt="(in the Basics trail)"></a>     lesson for details on how to install the JNDI classes and service providers.
+
+
+<p>
+If the compilation succeeds,
+then the compiler will create a file named <code>Lookup.class</code>
+in the same directory (folder) as the Java source 
+file (<code>Lookup.java</code>). 
+If the compilation fails,
+then make sure that you typed in and named the program
+exactly as shown here, using the capitalization shown.  If you are
+still having problems, then see the
+<a target="_top" href="../faq/compile.html">Common Problems</a> <a target="_top" href="../faq/compile.html"><img src="../../jndiimages/getStartedIcon.gif" width=20 height=20 border=0 alt="(in the Getting Started trail)"></a>     lesson for help.
+<p>
+
+<h4>
+Running the Program
+</h4>
+
+To run the program, 
+you need access to the JNDI classes, the file system service
+provider, and your example class (<tt>Lookup.class</tt>).
+See the compilation step for instructions on including access to the JNDI classes.
+To include the file system service provider classes
+(<tt>fscontext.jar</tt> and <tt>providerutil.jar</tt>),
+either include them in your <tt>CLASSPATH</tt> variable
+or install them as extensions.
+Note that these archive files are <em>not</em> included with the
+<a href=http://java.sun.com/j2se/1.3>Java 2 SDK, v1.3</a>.
+See the 
+
+<a target="_top" href="../../basics/prepare/index.html">Preparations</a> <a href="../../basics/prepare/index.html"><img src="../../jndiimages/basicsIcon.gif" width=20 height=20 border=0 alt="(in the Basics trail)"></a>     lesson for details on how to install the JNDI classes and service providers.
+Finally, include the directory that contains your 
+<tt>Lookup.class</tt> file in your the <tt>CLASSPATH</tt> variable.
+
+<p>
+To run the program, supply the name of a file in your file system, as follows:
+<blockquote>
+<pre>
+# java Lookup /tmp
+</pre>
+</blockquote>
+Or as follows:
+<blockquote>
+<pre>
+# java Lookup \autoexec.bat
+</pre>
+</blockquote>
+
+If you supply a file directory, then you will see something like the following.
+<blockquote>
+<pre>
+# java Lookup /tmp
+/tmp is bound to: com.sun.jndi.fscontext.RefFSContext@1dae083f
+</pre>
+</blockquote>
+
+If the name that you supplied is a file,
+then you will see something like this:
+
+<blockquote>
+<pre>
+/tmp/f is bound to: //tmp/f
+</pre>
+</blockquote>
+
+If you have any trouble running this example, then see
+<a target="_top" href="../faq/runtime.html">Common Problems</a> <a target="_top" href="../faq/runtime.html"><img src="../../jndiimages/getStartedIcon.gif" width=20 height=20 border=0 alt="(in the Getting Started trail)"></a>.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="directory.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/getStartedHeader.gif" width=26 height=26 align=top border=0 alt="Getting Started | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Examples</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

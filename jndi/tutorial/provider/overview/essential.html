@@ -1,0 +1,122 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Essential Components</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="optional.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Big Picture</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Essential Components
+</h2>
+<p>
+<blockquote>
+
+
+A basic service provider has the following necessary components.
+<ul>
+<li><b>Context implementation.</b> A class that implements the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><tt>Context</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interface or one of its subinterfaces.
+This implementation is the guts of the provider. It is responsible
+for handling almost all of the requests submitted by the user application.
+<li><b>Initial context factory.</b> A class that implements the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/InitialContextFactory.html"><tt>InitialContextFactory</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/InitialContextFactory.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interface.
+This factory creates the root
+context that will satisfy method invocations on the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html"><tt>InitialContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>  or its subclasses.
+The root context that is created by the initial context factory
+is typically an instance of the context implementation.
+<!--Actually, this root context is only responsible for
+method invocations that do not involve a URL string as the name argument.
+See <a href=optional.html>the discussion later</tt> for details
+on components that process URl strings.-->
+<li><b>Name parser.</b> A class that implements the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameParser.html"><tt>NameParser</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameParser.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interface.
+The context implementation uses this parser to parse
+names that belong to its namespace.
+</ul>
+The following picture illustrates
+how these three components interact.
+The arrows indicate instantiation paths.
+<p>
+<img src=../../jndiimages/basicspi.gif alt="Basic SPI Pieces" align=center>
+<p>
+
+<h4>Adding Extensibility</h4>
+
+To make a context implementation extensible, you should use
+methods provided by the JNDI SPI framework.
+These methods are described in detail in the
+<a target="_top" href="../basics/index.html">The Essential Pieces</a> <a target="_top" href="../basics/index.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>    lesson.
+They use the 
+<a href=../../getStarted/concepts/glossary.html#OF>object</a>,
+<a href=../../getStarted/concepts/glossary.html#SF>state</a>, and
+<a href=../../getStarted/concepts/glossary.html#CF>response control factories</a>
+accessible to the application.
+These factories might be packaged with the service provider or
+be supplied by the application.
+The following picture depicts how a basic service provider interacts
+with these factories.
+<p>
+<img src=../../jndiimages/customspi.gif alt="Customization" align=center>
+<p>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="optional.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Big Picture</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

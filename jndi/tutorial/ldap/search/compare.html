@@ -1,0 +1,125 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>The LDAP "Compare" Operation</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="other.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="result.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Searches</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    The LDAP "Compare" Operation
+</h2>
+<p>
+<blockquote>
+
+The LDAP "compare" operation allows a client to ask the server
+whether the named entry has an attribute/value pair.
+This allows the server to keep certain attribute/value pairs secret
+(i.e., not exposed for general "search" access) while still allowing
+the client limited use of them.
+Some servers might use this feature for passwords, for example, although
+it is insecure for the client to pass clear-text passwords in
+the "compare" operation itself.
+<p>
+To accomplish this in the JNDI, use suitably constrained
+arguments for the following methods:
+<ul>
+<li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.directory.SearchControls)"><tt>search(Name name, String filter, SearchControls ctls)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.directory.SearchControls)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, java.lang.Object[], javax.naming.directory.SearchControls)"><tt>search(Name name, String filterExpr, Object[]filterArgs, SearchControls ctls)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, java.lang.Object[], javax.naming.directory.SearchControls)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></ul>
+<p>
+First,
+the filter must be of the form "(<em>name</em>=<em>value</em>)".
+You cannot use wildcards.
+Second, the search scope must be 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/SearchControls.html#OBJECT_SCOPE><tt>SearchControls.OBJECT_SCOPE</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/SearchControls.html#OBJECT_SCOPE><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+
+Finally, you must request that no attributes be returned.  If these
+criteria are not met, then these methods will use an LDAP "search"
+operation instead of an LDAP "compare" operation. See the 
+<a href=../search/search.html#FILTER>Context Search Methods</a>
+section for information on how to avoid a common error when
+constructing and using string filters.
+
+<p>
+Here's <a href=src/Compare.java>an example</a> that causes an LDAP "compare"
+operation to be used.
+<blockquote><pre>
+// Value of the attribute
+byte[] key = {(byte)0x61, (byte)0x62, (byte)0x63, (byte)0x64, 
+    (byte)0x65, (byte)0x66, (byte)0x67};
+
+// Set up the search controls
+SearchControls ctls = new SearchControls();
+ctls.setReturningAttributes(new String[0]);       // Return no attrs
+ctls.setSearchScope(SearchControls.OBJECT_SCOPE); // Search object only
+
+// Invoke search method that will use the LDAP "compare" operation
+NamingEnumeration answer = ctx.search("cn=S. User, ou=NewHires", 
+    "(mySpecialKey={0})", new Object[]{key}, ctls);
+</pre></blockquote>
+If the compare is successful, the resulting enumeration will contain
+a single item whose name is the empty name and which contains no attributes.
+
+<p>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="other.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="result.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Searches</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

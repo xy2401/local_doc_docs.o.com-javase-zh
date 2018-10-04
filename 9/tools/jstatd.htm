@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>jstatd</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="You use the jstatd command to monitor the creation and termination of instrumented Java HotSpot VMs. This command is experimental and unsupported." />
+<meta name="dcterms.created" content="2017-10-12T08:04:07Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Tools Reference" />
+<meta name="dcterms.identifier" content="E61612-05" />
+<meta name="dcterms.isVersionOf" content="JSWOR" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="jstat.htm" title="Previous" type="text/html" />
+<link rel="Next" href="jmc.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSWOR.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSWOR.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSWOR.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-FA737806-75CD-4EE7-A087-1CC4A5441870"></a> <span id="PAGE" style="display:none;">46/65</span> <!-- End Header -->
+<a id="JSWOR735"></a>
+<h1 id="JSWOR-GUID-FA737806-75CD-4EE7-A087-1CC4A5441870" class="sect1">jstatd</h1>
+<div>
+<p><span>You use the <code class="codeph">jstatd</code> command to monitor the creation and termination of instrumented Java HotSpot VMs. This command is experimental and unsupported.</span></p>
+<div class="section">
+<p class="subhead1">Synopsis</p>
+<pre dir="ltr">
+jstatd [<span class="variable">options</span> ]
+</pre>
+<dl>
+<dt class="dlterm"><a id="GUID-FA737806-75CD-4EE7-A087-1CC4A5441870__GUID-5FE67FA7-7926-4934-9579-1E5FF4E6034A"><!-- --></a><code class="codeph"><span class="variable">options</span></code></dt>
+<dd>
+<p>This represents the <code class="codeph">jstatd</code> command-line options. See <a href="jstatd.htm#GUID-FA737806-75CD-4EE7-A087-1CC4A5441870__BABGDCJC">Options for the jstatd Command</a>.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Description</p>
+<p>The <code class="codeph">jstatd</code> command is an RMI server application that monitors for the creation and termination of instrumented Java HotSpot VMs and provides an interface to enable remote monitoring tools to attach to JVMs that are running on the local host.</p>
+<p>The <code class="codeph">jstatd</code> server requires an RMI registry on the local host. The <code class="codeph">jstatd</code> server attempts to attach to the RMI registry on the default port, or on the port you specify with the <code class="codeph">-p</code> <code class="codeph">port</code> option. If an RMI registry is not found, then one is created within the <code class="codeph">jstatd</code> application that&rsquo;s bound to the port that&rsquo;s indicated by the <code class="codeph">-p</code> <code class="codeph">port</code> option or to the default RMI registry port when the <code class="codeph">-p</code> <code class="codeph">port</code> option is omitted. You can stop the creation of an internal RMI registry by specifying the <code class="codeph">-nr</code> option.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-FA737806-75CD-4EE7-A087-1CC4A5441870__BABGDCJC">
+<p class="subhead1">Options for the jstatd Command</p>
+<dl>
+<dt class="dlterm"><a id="GUID-FA737806-75CD-4EE7-A087-1CC4A5441870__GUID-0AAFD5F7-D523-447B-BA9C-9E7ABE1D7BFD"><!-- --></a><code class="codeph">-nr</code></dt>
+<dd>
+<p>This option does not attempt to create an internal RMI registry within the <code class="codeph">jstatd</code> process when an existing RMI registry isn&rsquo;t found.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-FA737806-75CD-4EE7-A087-1CC4A5441870__GUID-A64ED3F2-98B6-4432-81E5-118A857312DB"><!-- --></a><code class="codeph">-p <span class="variable">port</span></code></dt>
+<dd>
+<p>This option sets the port number where the RMI registry is expected to be found, or when not found, created if the <code class="codeph">-nr</code> option isn&rsquo;t specified.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-FA737806-75CD-4EE7-A087-1CC4A5441870__GUID-4EA93017-0758-4BA5-9874-BB6A15BD80ED"><!-- --></a><code class="codeph">-n <span class="variable">rminame</span></code></dt>
+<dd>
+<p>This option sets the name to which the remote RMI object is bound in the RMI registry. The default name is <code class="codeph">JStatRemoteHost</code>. If multiple <code class="codeph">jstatd</code> servers are started on the same host, then the name of the exported RMI object for each server can be made unique by specifying this option. However, doing so requires that the unique server name be included in the monitoring client's <code class="codeph">hostid</code> and <code class="codeph">vmid</code> strings.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-FA737806-75CD-4EE7-A087-1CC4A5441870__GUID-2BDF105B-2499-4EBF-99C8-200CCAD96762"><!-- --></a><code class="codeph">-J<span class="variable">option</span></code></dt>
+<dd>
+<p>This option passes a Java <code class="codeph">option</code> to the JVM, where the option is one of those described on the reference page for the Java application launcher. For example, <code class="codeph">-J-Xms48m</code> sets the startup memory to 48 MB. See <a href="java.htm#GUID-3B1CE181-CD30-4178-9602-230B800D4FAE" title="You can use the java command to launch a Java application.">java</a>.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Security</p>
+<p>The <code class="codeph">jstatd</code> server can monitor only JVMs for which it has the appropriate native access permissions. Therefore, the <code class="codeph">jstatd</code> process must be running with the same user credentials as the target JVMs. Some user credentials, such as the root user in <span>Oracle Solaris, Linux, and OS X</span> operating systems, have permission to access the instrumentation exported by any JVM on the system. A <code class="codeph">jstatd</code> process running with such credentials can monitor any JVM on the system, but introduces additional security concerns.</p>
+<p>The <code class="codeph">jstatd</code> server doesn&rsquo;t provide any authentication of remote clients. Therefore, running a <code class="codeph">jstatd</code> server process exposes the instrumentation export by all JVMs for which the <code class="codeph">jstatd</code> process has access permissions to any user on the network. This exposure might be undesirable in your environment, and therefore, local security policies should be considered before you start the <code class="codeph">jstatd</code> process, particularly in production environments or on networks that aren&rsquo;t secure.</p>
+<p>The <code class="codeph">jstatd</code> server installs an instance of <code class="codeph">RMISecurityPolicy</code> when no other security manager is installed, and therefore, requires a security policy file to be specified. The policy file must conform to Default Policy Implementation and Policy File Syntax.</p>
+<p>If your security concerns can&rsquo;t be addressed with a customized policy file, then the safest action is to not run the <code class="codeph">jstatd</code> server and use the <code class="codeph">jstat</code> and <code class="codeph">jps</code> tools locally.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Remote Interface</p>
+<p>The interface exported by the <code class="codeph">jstatd</code> process is proprietary and guaranteed to change. Users and developers are discouraged from writing to this interface.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Examples</p>
+<p>The following are examples of the <code class="codeph">jstatd</code> command. The <code class="codeph">jstatd</code> scripts automatically start the server in the background.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Internal RMI Registry</p>
+<p>This example shows how to start a <code class="codeph">jstatd</code> session with an internal RMI registry. This example assumes that no other server is bound to the default RMI registry port (port <code class="codeph">1099</code>).</p>
+<pre dir="ltr">
+jstatd -J-Djava.security.policy=all.policy
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">External RMI Registry</p>
+<p>This example starts a <code class="codeph">jstatd</code> session with an external RMI registry.</p>
+<pre dir="ltr">
+rmiregistry&amp;
+jstatd -J-Djava.security.policy=all.policy
+</pre>
+<p>This example starts a <code class="codeph">jstatd</code> session with an external RMI registry server on port <code class="codeph">2020</code>.</p>
+<pre dir="ltr">
+jrmiregistry 2020&amp;
+jstatd -J-Djava.security.policy=all.policy -p 2020
+</pre>
+<p>This example starts a <code class="codeph">jstatd</code> session with an external RMI registry on port 2020 that&rsquo;s bound to <code class="codeph">AlternateJstatdServerName</code>.</p>
+<pre dir="ltr">
+rmiregistry 2020&amp;
+jstatd -J-Djava.security.policy=all.policy -p 2020
+    -n AlternateJstatdServerName
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Stop the Creation of an In-Process RMI Registry</p>
+<p>This example starts a <code class="codeph">jstatd</code> session that doesn&rsquo;t create an RMI registry when one isn&rsquo;t found. This example assumes an RMI registry is already running. If an RMI registry isn&rsquo;t running, then an error message is displayed.</p>
+<pre dir="ltr">
+jstatd -J-Djava.security.policy=all.policy -nr
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Enable RMI Logging</p>
+<p>This example starts a <code class="codeph">jstatd</code> session with RMI logging capabilities enabled. This technique is useful as a troubleshooting aid or for monitoring server activities.</p>
+<pre dir="ltr">
+jstatd -J-Djava.security.policy=all.policy
+    -J-Djava.rmi.server.logCalls=true
+</pre></div>
+<!-- class="section" --></div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment179">
+<tr>
+<td class="cellalignment191">
+<table class="cellalignment184">
+<tr>
+<td class="cellalignment183"><a href="jstat.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment183"><a href="jmc.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment193">
+<table class="cellalignment182">
+<tr>
+<td class="cellalignment183"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment183"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment183"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

@@ -1,0 +1,233 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Manually Following Referrals</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="follow.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="update.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Referrals</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Manually Following Referrals
+</h2>
+<p>
+<blockquote>
+
+If you set the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#REFERRAL"><tt>Context.REFERRAL</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#REFERRAL"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    environment property to <tt>"throw"</tt>, then each referral encountered
+results in a 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html"><tt>ReferralException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+A <tt>ReferralException</tt> contains 
+<em>referral information</em>--information that describes the
+referral (such as a list of URLs)--and a <em>referral 
+context</em>--the context to which the referral refers.
+<p>
+Here are the steps that a program usually follows when manually handling referrals.
+<ol>
+<li>Catch the exception.
+<li>Examine the referral information by using
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html#getReferralInfo()"><tt>ReferralException.getReferralInfo()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html#getReferralInfo()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. For example, ask the user whether the referral should be followed.
+<li>If the referral is to be followed, then get the referral context by using
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html#getReferralContext()"><tt>ReferralException.getReferralContext()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html#getReferralContext()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and reinvoke the original context method using the same
+arguments supplied to the original invocation.
+<li>If the referral is not to be followed, then invoke
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html#skipReferral()"><tt>ReferralException.skipReferral()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html#skipReferral()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. If this method returns <tt>true</tt> (which means that there are
+more referrals to be followed), then invoke 
+<tt>ReferralException.getReferralContext()</tt> to continue.
+When you invoke a context method on the result, it will again throw a
+<tt>ReferralException</tt> for the next referral to be processed.
+Return to Step 1 to process it.
+If the method returns <tt>false</tt>, then there are no more referrals and
+this procedure can be terminated.
+</ol>
+
+<p>
+Here's <a href=src/Throw.java>an example</a>.
+<blockquote><pre>
+// Set the referral property to throw ReferralException
+env.put(Context.REFERRAL, "throw");
+
+// Create the initial context
+DirContext ctx = new InitialDirContext(env);
+
+// Set the controls for performing a subtree search
+SearchControls ctls = new SearchControls();
+ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+
+// Do this in a loop because you don't know how
+// many referrals there will be
+for (boolean moreReferrals = true; moreReferrals;) {
+    try {
+        // Perform the search
+        NamingEnumeration answer = ctx.search("", "(objectclass=*)", ctls);
+
+        // Print the answer
+        while (answer.hasMore()) {
+  	    System.out.println("&gt;&gt;&gt;" + ((SearchResult)answer.next()).getName());
+        }
+        // The search completes with no more referrals
+	moreReferrals = false;
+
+    } catch (ReferralException e) {
+
+        if (! followReferral(e.getReferralInfo())) {
+	    moreReferrals = e.skipReferral();
+        }
+
+        // Point to the new context
+	if (moreReferrals) {
+            ctx = (DirContext) e.getReferralContext();
+	}
+    }
+}
+</pre></blockquote>
+For methods that return an enumeration, such as
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><tt>Context.list()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.directory.SearchControls)"><tt>DirContext.search()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.directory.SearchControls)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, you must place the <tt>try</tt>/<tt>catch</tt> 
+for the <tt>ReferralException</tt> around both
+the initial invocation and the <tt>while</tt> loop that iterates
+through the results.
+When the <tt>ReferralException</tt> is thrown, the existing enumeration
+becomes invalid and you must reinvoke the original context method
+to get a new enumeration.
+Notice also that the outer loop encloses both the method
+invocation on the context and the iteration of the results.
+
+
+<h4>Authenticating to a Referral Context</h4>
+
+By default, when you invoke <tt>ReferralException.getReferralContext()</tt>,
+the method uses the original context's environment properties,
+including its security-related properties, to create a connection
+to the referred server.
+Sometimes, upon examining the referral information, you might want to
+follow the referral by using different authentication information.
+<p>
+You can do this by using 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html#getReferralContext(java.util.Hashtable)"><tt>ReferralException.getReferralContext(env)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html#getReferralContext(java.util.Hashtable)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>:
+<blockquote><pre>
+...
+} catch (ReferralException e) {
+...
+    env.put(Context.SECURITY_PRINCIPAL, "newuser");
+    env.put(Context.SECURITY_CREDENTIALS, "newpasswd");
+    ctx = e.getReferralContext(env);
+}
+</pre></blockquote>
+If the authentication fails, that is, <tt>getReferralContext(env)</tt>
+throws an exception, then you can reauthenticate by first calling
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html#retryReferral()"><tt>ReferralException.retryReferral()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html#retryReferral()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>and then repeating the <tt>getReferralContext(env)</tt> call with
+updated environment properties.
+If you do not want to retry, then invoke <tt>ReferralException.skipReferral()</tt>
+before calling <tt>getReferralContext(env)</tt>.
+<p>
+Here is <a href=src/Retry.java>an example</a>.
+<blockquote><pre>
+...
+} catch (ReferralException e) {
+    if (!ask("Follow referral " + e.getReferralInfo())) {
+	moreReferrals = e.skipReferral();
+    } else {
+	// Get credentials for the referral being followed
+	getCreds(env);
+    }
+
+    // Do this in a loop in case getReferralContext()
+    // fails with bad authentication info.
+    while (moreReferrals) {
+	try {
+	    ctx = (DirContext)e.getReferralContext(env);
+	    break;	// Success: got context
+	} catch (AuthenticationException ne) {
+	    if (ask("Authentication failed. Retry")) {
+		getCreds(env);
+		e.retryReferral();
+	    } else {
+		// Give up and go on to the next referral
+		moreReferrals = e.skipReferral(); 
+	    }
+	} catch (NamingException ne) {
+	    System.out.println("Referral failed: " + ne);
+	    // Give up and go on to the next referral
+	    moreReferrals = e.skipReferral(); 
+	}
+    }
+}
+</pre></blockquote>
+In this example, the <tt>e.getReferralContext(env)</tt> call
+is placed inside of a loop so that if the call fails, it can
+be retried by using different credentials.
+The example defines a local method, <tt>getCreds()</tt>, for
+getting the principal name and credentials from Standard Input
+to update the environment properties, <tt>env</tt>,
+that are being used to get the referral context.
+When <tt>e.getReferralContext(env)</tt> fails, the user of
+the application can either choose to retry by using
+different credentials or skip the bad referral.
+
+<h4>Passing Request Controls to a Referral Context</h4>
+
+See the
+<a target="_top" href="../ext/connect.html#REF">Controls and Extensions</a> <a href="../ext/connect.html#REF"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson for details on how to set and change request controls
+of a referral context.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="follow.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="update.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Referrals</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>
+

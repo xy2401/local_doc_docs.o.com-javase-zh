@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="generator" content="HTML Tidy, see www.w3.org" />
+
+<title>Multithreaded Custom Class Loaders in Java SE 7</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Multithreaded Custom Class Loaders in Java SE 7</h1></div>
+<p>The Java SE 7 release contains an important enhancement for
+multithreaded custom class loaders. In previous releases, certain
+types of custom class loaders were prone to deadlock. The Java SE 7
+release modifies the locking mechanism to avoid deadlock.</p>
+<h2>Background</h2>
+<p>The function of a <code>java.lang.ClassLoader</code> is to
+locate the bytecode for a particular class, then transform that
+bytecode into a usable class in the runtime system. The runtime
+system provides class loaders that can locate bootstrap classes,
+extension classes, and user classes. The <code>CLASSPATH</code>
+environment variable is one way to indicate to the runtime system
+where the bytecode is located.</p>
+<p>Knowing about the <code>CLASSPATH</code> environment variable is
+all you may need to know about class loading. In some specific
+situations, however, customizing the behavior of a class loader by
+creating your own subclass may be necessary.</p>
+<p>Custom class loaders will not run into deadlocks if they adhere
+to an acyclic class loader delegation model. Acyclic delegation is
+what the architects of <code>ClassLoader</code> envisioned. In this
+model, every class loader has a parent (delegate). When a class is
+requested, the class loader first checks if the class was loaded
+previously. If the class is not found, the class loader asks its
+parent to locate the class. If the parent cannot find the class,
+the class loader attempts to locate the class itself.</p>
+<h2>Deadlock Scenario</h2>
+<p>In earlier releases of the Java platform, multithreaded custom
+class loaders could deadlock when they did not have an acyclic
+delegation model. Here is one example:</p>
+<pre>
+Class Hierarchy:
+  class A extends B
+  class C extends D
+
+ClassLoader Delegation Hierarchy:
+
+Custom Classloader CL1:
+  directly loads class A 
+  delegates to custom ClassLoader CL2 for class B
+
+Custom Classloader CL2:
+  directly loads class C
+  delegates to custom ClassLoader CL1 for class D
+
+Thread 1:
+  Use CL1 to load class A (locks CL1)
+    defineClass A triggers
+      loadClass B (try to lock CL2)
+
+Thread 2:
+  Use CL2 to load class C (locks CL2)
+    defineClass C triggers
+      loadClass D (try to lock CL1)
+</pre>
+<p>Synchronization in the <code>ClassLoader</code> class was
+previously heavy-handed, or in technical terms, <i>not sufficiently
+granular</i>. A request to load a class synchronized on the entire
+<code>ClassLoader</code> object, which made it prone to
+deadlock.</p>
+<h2>Class Loader Synchronization in the Java SE 7 Release</h2>
+<p>The Java SE 7 release includes the concept of a <i>parallel
+capable</i> class loader. Loading a class by a parallel capable
+class loader now synchronizes on the pair consisting of the class
+loader and the class name.</p>
+<p>In the previous scenario, using the Java SE 7 release, the threads
+are no longer deadlocked, and all classes are loaded
+successfully:</p>
+<pre>
+Thread 1:
+  Use CL1 to load class A (locks CL1+A)
+    defineClass A triggers
+      loadClass B (locks CL2+B)
+
+Thread 2:
+  Use CL2 to load class C (locks CL2+C)
+    defineClass C triggers
+      loadClass D (locks CL1+D)
+</pre>
+<h2>Recommendations for Multithreaded Custom Class Loaders</h2>
+<p>Custom class loaders that do not have a history of deadlocks do
+not require any changes. In particular, you do not need to change
+custom class loaders that follow the recommended acyclic
+hierarchical delegation model, that is, delegating first to their
+parent class. For backward compatibility, the Java SE 7 release
+continues to lock a class loader object unless it registers as
+parallel capable.</p>
+<p>To create new custom class loaders, the process is similar in
+the Java SE 7 release as in previous releases. Create a subclass of
+<code>ClassLoader</code>, then override the
+<code>findClass()</code> method and possibly
+<code>loadClass()</code>. Overriding <code>loadClass()</code> makes
+your life more difficult, but it is the only way to use a different
+delegation model.</p>
+<p>If you have a custom class loader with a risk of deadlocking,
+with the Java SE 7 release, you can avoid deadlocks by following these
+rules:</p>
+<ol>
+<li>Ensure that your custom class loader is multithread safe for
+concurrent class loading.
+<ol type="a">
+<li>Decide upon an internal locking scheme. For example,
+<code>java.lang.ClassLoader</code> uses a locking scheme based on
+the requested class name.</li>
+<li>Remove all synchronization on the class loader object lock
+alone.</li>
+<li>Ensure that critical sections are safe for multiple threads
+loading different classes.</li>
+</ol>
+</li>
+<li>In your custom class loader's static initializer, invoke
+<code>java.lang.ClassLoader</code>'s static method
+<code>registerAsParallelCapable()</code>. This registration
+indicates that all instances of your custom class loader are
+multithread safe.</li>
+<li>Check that all class loader classes that this custom class
+loader extends also invoke the
+<code>registerAsParallelCapable()</code> method in their class
+initializers. Ensure that they are multithread safe for concurrent
+class loading.</li>
+</ol>
+<p>If your custom class loader overrides only
+<code>findClass(String)</code>, you do not need further changes.
+This is the recommended mechanism to create a custom class
+loader.</p>
+<p>If your custom class loader overrides either the <code>protected
+loadClass(String, boolean)</code> method or the <code>public
+loadClass(String)</code> method, you must also ensure that the
+protected <code>defineClass()</code> method is called only once for
+each class loader and class name pair.</p>
+<h2>Troubleshooting</h2>
+<p>If your product ships and appears to have problems due to
+incomplete handling of critical sections, you can use a new VM flag
+<code>-XX:+AlwaysLockClassLoader</code>. This flag reverts to
+locking the class loader lock before invoking your custom class
+loader's <code>findClass()</code> or <code>loadClass()</code>
+method, even for class loaders that register as parallel
+capable.</p>
+<h2>References</h2>
+<p><a href=
+"http://openjdk.java.net/groups/core-libs/ClassLoaderProposal.html">
+Class Loader API Modifications for Deadlock Fix</a> at OpenJDK</p>
+<p><a href=
+"http://bugs.sun.com/view_bug.do?bug_id=4670071">
+Bug Database Bug 4670071 Detail</a></p>
+<p><a href=
+"http://onjava.com/pub/a/onjava/2005/01/26/classloading.html">
+Internals of Java Class Loading</a>, Binildas Christudas, O'Reilly Media onJava.com</p>
+<p><a href=
+"http://www.ibm.com/developerworks/java/library/j-dclp4/index.html">
+Demystifying class loading problems, Part 4: Deadlocks and constraints</a>,
+Simon Burns and Lakshmi Shankar, IBM developerWorks</p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

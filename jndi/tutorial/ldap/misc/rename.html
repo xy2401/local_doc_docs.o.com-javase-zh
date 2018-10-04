@@ -1,0 +1,159 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Renaming Objects</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="aliases.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="ref.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Renaming Objects
+</h2>
+<p>
+<blockquote>
+
+You use
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#rename(javax.naming.Name, javax.naming.Name)"><tt>Context.rename()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#rename(javax.naming.Name, javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     to rename an object in the directory.
+In the 
+<A HREF="http://www.ietf.org/rfc/rfc1777.txt">LDAP v2</A>,
+this corresponds to the "modify RDN" operation that renames an entry
+within the same context (that is, renaming a sibling).
+In the 
+<A HREF="http://www.ietf.org/rfc/rfc2251.txt">LDAP v3</A>,
+this corresponds to the "modify DN" operation, which is like "modify RDN,"
+except that the old and new entries need not be in the same context.
+You can use <tt>Context.rename()</tt> to rename a leaf entry or an interior node.
+The following <a href=src/RenameInterior.java>code</a>
+renames an interior node from <tt>"ou=NewHires"</tt> to <tt>"ou=OldHires"</tt>:
+<blockquote><pre>
+ctx.rename("ou=NewHires", "ou=OldHires");
+</pre></blockquote>
+<p>
+<blockquote>
+<hr>
+<strong>Note:</strong>
+The <a href="http://www.sun.com/">SunONE Directory Server v5.1</a>
+does not support renaming interior nodes. If you run this example,
+then you will get a 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ContextNotEmptyException.html"><tt>ContextNotEmptyException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ContextNotEmptyException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<hr>
+</blockquote>
+
+<h4>Renaming to a Different Part of the DIT</h4>
+With the LDAP v3, you can rename an entry to a different part of the DIT.
+To do this by using <tt>Context.rename()</tt>, you must use a context
+that is the common ancestor for both the new and the old entries.
+For example, to rename
+<tt>"cn=C. User, ou=NewHires, o=JNDITutorial"</tt> to
+<tt>"cn=C. User, ou=People, o=JNDITutorial"</tt>,
+you must use the context named by <tt>"o=JNDITutorial"</tt>.
+Following is <a href=src/RenameDiffParent.java>an example</a> that demonstrates
+this. If you try to run this example against an LDAP v2 server,
+then you will get an 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InvalidNameException.html"><tt>InvalidNameException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InvalidNameException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     because version 2 does not support this feature.
+<p>
+<blockquote><pre>
+ctx.rename("cn=C. User, ou=NewHires", "cn=C. User, ou=People");
+</pre></blockquote>
+
+<blockquote>
+<hr>
+<strong>Note:</strong>
+The <a href="http://www.sun.com/">SunONE Directory Server v5.1</a>
+does not support renaming with different parent nodes. 
+If you run this example by using that server,
+then you will get a 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CommunicationException.html"><tt>CommunicationException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CommunicationException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     (indicating a "protocol error").
+<hr>
+</blockquote>
+
+<h4>Keeping the Old Name Attributes</h4>
+
+In the LDAP, when you rename an entry, you have the option of keeping
+the entry's old RDN as an attribute
+of the updated entry. For example, 
+if you rename the entry <tt>"cn=C. User"</tt> to 
+<tt>"cn=Claude User"</tt>,
+you can specify whether you want the old RDN 
+<tt>"cn=C. User"</tt> to be kept
+as an attribute.
+<p>
+To specify whether you want to keep the old name attribute
+when you use <tt>Context.rename()</tt>,
+use the <tt>"java.naming.ldap.deleteRDN"</tt> environment property.
+If this property's value is <tt>"true"</tt> (the default), the old RDN is removed.
+If its value is <tt>"false"</tt>, then
+the old RDN is kept as an attribute of the updated entry.
+<p>
+<blockquote><pre>
+// Set the property to keep RDN
+env.put("java.naming.ldap.deleteRDN", "false");
+
+// Create the initial context
+DirContext ctx = new InitialDirContext(env);
+
+// Perform the rename
+ctx.rename("cn=C. User, ou=NewHires", "cn=Claude User,ou=NewHires");
+</pre></blockquote>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="aliases.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="ref.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>
+
+

@@ -1,0 +1,162 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>X.500 Overview</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="v2.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Comparison of the LDAP and JNDI Models</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    X.500 Overview
+</h2>
+<p>
+<blockquote>
+
+The X.500 directory service is a global directory service.  Its
+components cooperate to manage information about objects such as
+countries, organizations, people, machines, and so on in a
+worldwide scope.  It provides the capability to look up
+information by name (a <em>white-pages</em> service) and to browse
+and search for information (a <em>yellow-pages</em> service).
+<p>
+
+The information is held in a <em>directory information base</em>
+(DIB).  Entries in the DIB are arranged in a tree structure called
+the <em>directory information tree</em> (DIT).  Each entry is a named
+object and consists of a set of attributes.  Each attribute has a
+defined attribute type and one or more values.  The directory schema
+defines the mandatory and optional attributes for each class of object
+(called the <em>object class</em>).  Each named object may have 
+one or more object classes associated with it.
+<p>
+
+The X.500 namespace is hierarchical. An entry is unambiguously
+identified by a <em>distinguished name</em> (DN).  A distinguished
+name is the concatenation of selected attributes from each entry,
+called the <em>relative distinguished name</em> (RDN), in the tree
+along a path leading from the root down to the named entry.
+<p>
+
+Users of the X.500 directory may (subject to access control)
+interrogate and modify the entries and attributes in the DIB.
+<p>
+
+For more information on the X.500, refer to the CCITT X.500
+(1988/1993)/ISO Directory.
+
+<h4>Naming Convention</h4>
+
+Although the concepts of distinguished names and relative
+distinguished names are core to the X.500 model, the X.500 standard
+itself does not define any string representation for names.  What is
+communicated between the X.500 components is the structural form of
+names.  The reasoning behind this is that the standard is sufficient
+to allow different implementations to interoperate.
+String names are
+never communicated between different implementations.  Instead, 
+they are necessary only for interaction with end-users. For that
+purpose, the standard allows any representation, not necessarily only
+string representations.
+
+<p>
+Systems that are based on the X.500, such as the LDAP, the DCE
+Directory, Novell's <a href="http://www.novell.com/nds/">NDS</a>, and
+Microsoft's Active Directory, each define its own string
+representation.  For example, in the LDAP, a DN's RDNs are arranged
+right to left, separated by the comma character (",").  Here's an example
+of a name that starts with <tt>"c=us"</tt> at the top and leads to
+<tt>"cn=Rosanna Lee"</tt> at the leaf.
+
+<blockquote><pre>
+cn=Rosanna Lee, ou=People, o=Sun, c=us
+</pre></blockquote>
+
+<p>
+Here's an example of the same name using the string representation of
+the DCE Directory and Microsoft's Active Directory.
+
+<blockquote><pre>
+/c=us/o=Sun/ou=People/cn=Rosanna Lee
+</pre></blockquote>
+
+The convention for these systems is that RDNs are ordered left to right
+and separated by the forward slash character ("/").
+
+<h4>Protocols</h4>
+
+The X.500 standard defines a protocol (among others) for a
+client application to access the X.500 directory.  Called the
+<em>Directory Access Protocol</em> (DAP), it is layered on top of the Open
+Systems Interconnection (OSI) protocol stack.
+
+<h4>Application Programming Interfaces</h4>
+
+The X.500 standard itself does not define an API for accessing the
+directory. Again, the X.500 standard is mainly concerned with
+interoperability between directory clients and directory servers
+and between different directory servers.
+<p>
+One standard API that has been defined for the X.500 is
+the X/Open Specifications API to Directory Services (XDS),
+a C language-based API that client programs use
+for accessing X.500 directories.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="v2.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Comparison of the LDAP and JNDI Models</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

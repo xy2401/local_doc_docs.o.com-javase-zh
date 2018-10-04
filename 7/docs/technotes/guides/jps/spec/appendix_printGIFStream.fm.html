@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US">
+<head>
+<title>Java Print Service API User Guide: - Example: PrintGIFtoStream.java</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<a href="JPSTOC.fm.html">CONTENTS</a> | <a href="appendix_printPS.fm.html">PREV</a> | <a href="appendix_2DPrinterJob.fm.html">NEXT</a>
+<br />
+<a name="7081"><!-- --></a>
+<div class="smallpagetitle"><h1><u>APPENDIX B</u></h1></div>
+<a name="7083"><!-- --></a>
+<div class="smallpagetitle"><h1>Example: PrintGIFtoStream.java</h1></div>
+<pre class="codeblock">
+/*
+* Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+*
+* This software is the proprietary information of Oracle.
+* Use is subject to license terms.
+*
+*/
+
+import java.io.*;
+import javax.print.*;
+import javax.print.attribute.*;
+import javax.print.attribute.standard.*;
+
+/*
+* Use the Java(TM) Print Service API to locate a service which can export
+* a GIF-encoded image to a stream as Postscript. This may be spooled to a
+* Postscript printer, or used in a postscript viewer.
+*/
+public class PrintGIFtoStream {
+
+        public static void main(String args[]) {
+
+                /* Use the pre-defined flavor for a GIF from an InputStream */
+                DocFlavor flavor = DocFlavor.INPUT_STREAM.GIF;
+
+                /* Specify the type of the output stream */
+                String psMimeType = DocFlavor.BYTE_ARRAY.POSTSCRIPT.getMimeType();
+
+                /* Locate factory which can export a GIF image stream as Postscript */
+                StreamPrintServiceFactory[] factories =
+                        StreamPrintServiceFactory.lookupStreamPrintServiceFactories(
+                                        flavor, psMimeType);
+                if (factories.length == 0) {
+                        System.err.println("No suitable factories");
+                        System.exit(0);
+                }
+
+                try {
+                        /* Load the file */
+                        FileInputStream fis = new FileInputStream("java2dlogo.gif");
+                        /* Create a file for the exported postscript */
+                        String filename = "newfile.ps";
+                        FileOutputStream fos = new FileOutputStream(filename);
+
+                        /* Create a Stream printer for Postscript */
+                        StreamPrintService sps = factories[0].getPrintService(fos);
+
+                        /* Create and call a Print Job for the GIF image */
+                        DocPrintJob pj = sps.createPrintJob();
+                        PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+                        aset.add(new Copies(2));
+                        aset.add(MediaSizeName.ISO_A4);
+                        aset.add(Sides.TWO_SIDED_LONG_EDGE);
+                        aset.add(Finishings.STAPLE);
+
+                        Doc doc = new SimpleDoc(fis, flavor, null);
+
+                        pj.print(doc, aset);
+                        fos.close();
+
+                } catch (PrintException pe) { 
+                        System.err.println(pe);
+                } catch (IOException ie) { 
+                        System.err.println(ie);
+                }
+        }
+}
+</pre>
+<br />
+<hr />
+<a href="JPSTOC.fm.html">CONTENTS</a> | <a href="appendix_printPS.fm.html">PREV</a> | <a href="appendix_2DPrinterJob.fm.html">NEXT</a>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

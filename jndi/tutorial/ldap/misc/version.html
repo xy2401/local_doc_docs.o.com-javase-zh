@@ -1,0 +1,134 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Protocol Versions</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="attrs.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Protocol Versions
+</h2>
+<p>
+<blockquote>
+
+The LDAP is available as
+<A HREF="http://www.ietf.org/rfc/rfc1777.txt">version 2</A>
+and <A HREF="http://www.ietf.org/rfc/rfc2251.txt">version 3</A>.
+As discussed in the
+<a target="_top" href="../models/index.html">Comparison of the LDAP and JNDI Models</a> <a href="../models/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>     lesson, the two versions differ
+and many features (such as referrals and pluggable authentication mechanisms)
+that are part of version 3 are not available in version 2.
+But for the most part, when you use the JNDI to access the LDAP service,
+you will see no difference between the two versions.
+<p>
+Sun's LDAP service provider supports both versions,
+The selection of which protocol to use depends primarily on which version
+the LDAP <em>server</em> supports.
+By default, 
+the LDAP provider first uses version 3 to communicate with the specified LDAP
+server. If the server does not support that version,
+then the LDAP provider attempts to communicate by using version 2.
+The LDAP provider handles the selection automatically, so
+seldom does the client need to explicitly request
+that a particular version be used.
+<p>
+Only in a few circumstances would you want to explicitly
+specify the protocol version.
+One is if the LDAP server with which you want to communicate
+fails to indicate that it does not support version 3.
+Some public servers exhibit this behavior, and an attempt to communicate
+with them by using version 3 results either in a hung client
+(because the server does not respond to the version) or a protocol error
+(because the server responds with an incorrect error code).
+Or, you might want to specify the version explicitly
+if you want your program to use only that version
+and to fail if the contacted server does not support the version.
+For example, your program might need to make updates to the server's 
+published schema; this makes sense only for version 3.
+<p>
+To specify the protocol version,
+you use the <tt>"java.naming.ldap.version"</tt> environment property.
+Here is <a href=src/Version2.java>
+an example</a> that asks for version 2 of the protocol.
+<blockquote><pre>
+// Set up the environment for creating the initial context
+Hashtable env = new Hashtable(11);
+env.put(Context.INITIAL_CONTEXT_FACTORY, 
+    "com.sun.jndi.ldap.LdapCtxFactory");
+env.put(Context.PROVIDER_URL, "ldap://localhost:389/o=JNDITutorial");
+
+env.put("java.naming.ldap.version", "2");
+
+// Create the initial context
+DirContext ctx = new InitialDirContext(env);
+
+// ... do something useful with ctx
+</pre></blockquote>
+<p>
+To ask for <a href=src/Version3.java>version 3</a>, 
+simply replace the 2 with a 3, as follows:
+<blockquote><pre>
+env.put("java.naming.ldap.version", "3");
+</pre></blockquote>
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="attrs.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Java Plugin on Oracle Solaris</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+
+                    <script>var w=window;if(w.performance||w.mozPerformance||w.msPerformance||w.webkitPerformance){var d=document;AKSB=w.AKSB||{},AKSB.q=AKSB.q||[],AKSB.mark=AKSB.mark||function(e,_){AKSB.q.push(["mark",e,_||(new Date).getTime()])},AKSB.measure=AKSB.measure||function(e,_,t){AKSB.q.push(["measure",e,_,t||(new Date).getTime()])},AKSB.done=AKSB.done||function(e){AKSB.q.push(["done",e])},AKSB.mark("firstbyte",(new Date).getTime()),AKSB.prof={custid:"322179",ustr:"",originlat:"0",clientrtt:"1",ghostip:"23.212.3.15",ipv6:false,pct:"10",clientip:"45.78.37.67",requestid:"2ad5af77",region:"32996",protocol:"",blver:14,akM:"dsca",akN:"ae",akTT:"O",akTX:"1",akTI:"2ad5af77",ai:"206465",ra:"false",pmgn:"",pmgi:"",pmp:"",qc:""},function(e){var _=d.createElement("script");_.async="async",_.src=e;var t=d.getElementsByTagName("script"),t=t[t.length-1];t.parentNode.insertBefore(_,t)}(("https:"===d.location.protocol?"https:":"http:")+"//ds-aksb-a.akamaihd.net/aksb.min.js")}</script>
+                    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Manual Installation and Registration of Java Plugin for
+Oracle Solaris</h1></div>
+<p>See <a href="../index.html">JDK 7 and JRE 7 Installation
+Guide</a> for general information about installing JDK 7 and JRE 7.</p>
+<hr />
+<p>When you install the Java platform, the Java plugin file is
+included as part of that install. If you want to use Java within
+Firefox, you need to manually create a symbolic link from the
+plugin file in the release to one of the locations that Firefox
+expects. To make the plugin available to all users, create the link
+inside of the Firefox application's directory, in the
+<code>plugins</code> subdirectory. Alternatively, you can create
+the symbolic link in your home directory, in
+<code>~/.mozilla/plugins</code>. In the remainder of this document,
+the text, &quot;<em>Firefox <code>plugins</code> directory</em>&quot;,
+implies either of these locations.</p>
+<p><strong>Note:</strong> For Firefox version 21 and higher, you must create the symbolic link in the <code>~/.mozilla/plugins</code> directory. Beginning with Firefox version 21, creating the symbolic  link in the <code>plugins</code> subdirectory of the Firefox application's directory is not supported.</p>
+<p>This release provides the Next-Generation Java plugin. If you
+have been using the classic plugin, see the <a href=
+"#notes">Notes</a> for further information.</p>
+<p>The location of the plugin file for Oracle Solaris varies according
+to the processor of the underlying platform.</p>
+<table border="1" summary="location of libnpjp2.so file">
+<tr>
+<th>Processor</th>
+<th>Location of File</th>
+</tr>
+<tr>
+<td>SPARC</td>
+<td><code>/usr/jdk/instances/jdk1.7.0_<em>&lt;version&gt;</em>/jre/lib/sparc/libnpjp2.so</code></td>
+</tr>
+<tr>
+<td>x64/EM64T</td>
+<td><code>/usr/jdk/instances/<code>jdk1.7.0_<em>&lt;version&gt;</em>/jre/lib/i386/libnpjp2.so</code></td>
+</tr>
+</table>
+<p>If you are using a 32-bit Firefox, you should use the 32-bit
+Java Plugin (from the <code>lib/sparc</code> or the
+<code>lib/i386</code> directory). To determine which version of
+Firefox you are running, launch the application, and select the
+menu item <strong>Help -&gt; About Mozilla Firefox</strong>.</p>
+<p>To install the Java Plugin follow these steps:</p>
+<p><strong>1. Exit Firefox.</strong></p>
+<p><strong>2. Uninstall any previous installations of Java
+Plugin.</strong></p>
+<p>Only one Java Plugin can be used at a time. When you want to use
+a different plugin, or version of a plugin, remove the symbolic
+links to any other versions and create a fresh symbolic link to the
+new one.</p>
+<p>Remove the symbolic links (or move them to another directory) to
+<code>libjavaplugin-oji.so</code> and <code>libnpjp2.so</code> from
+the Firefox <code>plugins</code> directory.</p>
+<p><strong>3. Create a symbolic link to the Java Plugin in the
+Firefox <code>plugins</code> directory.</strong></p>
+<p>Create a symbolic link to the Java Plugin
+<code>libnpjp2.so</code> file in the Firefox <code>plugins</code>
+directory. Substitute the appropriate <code>libnpjp2.so</code> file
+according to the previous table. For example, for a 32-bit JRE on
+an x64/EM64T processor:</p>
+<pre>
+    cd <em>&lt;Firefox&gt;</em>/plugins
+    ln -s <em>&lt;JRE&gt;</em>/lib/i386/libnpjp2.so .
+</pre>
+<p><strong>4. Start the Firefox browser.</strong></p>
+<p>Type <code>about:plugins</code> in the browser's Location bar to
+confirm that the Java Plugin is loaded.</p>
+<p><strong><a name="notes" id="notes">Notes</a></strong></p>
+<ul>
+<li>The classic plugin file was located here:
+<pre>
+    <em>&lt;JRE&gt;</em>/plugin/sparc/javaplugin-oji.so   (SPARC)
+    <em>&lt;JRE&gt;</em>/plugin/i386/javaplugin-oji.so    (x64/EM64T)
+</pre>
+This file should no longer be used and all symbolic links to it
+should be removed.</li>
+<li>See the <a href=
+"http://www.oracle.com/technetwork/java/javase/config-417990.html#browsers">
+Oracle JDK 7 and JRE Certified Systems Configurations</a> for a
+list of supported browsers.</li>
+<li>The next-generation plugin (<code>libnpjp2.so</code>) requires
+Firefox 3 or above. Firefox 2.x (or older) requires the classic
+plugin (<code>libjavaplugin-oji.so</code>). The classic plugin is
+no longer supported. You can get Firefox 3 through <a target=
+"_blank" href=
+"http://www.sunfreeware.com/mozilla.html">sunfreeware.com</a>. They
+have a full list of <a target="_blank" href=
+"ftp://ftp.sunfreeware.com/pub/freeware/mozilla/">Firefox
+packages</a> available.</li>
+</ul>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2014, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

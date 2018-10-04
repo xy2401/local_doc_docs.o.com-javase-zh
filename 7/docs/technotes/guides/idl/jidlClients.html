@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Java IDL: Developing Clients</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Developing Clients</h1></div>
+<p><i>This document was not updated for this release.</i></p>
+<hr />
+<p><i>When updated, topics in this section will include:</i></p>
+<ul>
+<li><i><a href="#orbsandinvocations">ORBs and
+Invocations</a></i></li>
+<li><i><a href="#staticinvoke">Static Invocation</a></i></li>
+<li><i><a href="#DynamicInvocation">Dynamic Invocation</a> 
+<!--<LI><A href="#torque">Using Portable Stubs</A>
+<LI><A href="#otherorbs">Initializing Applets</A>--></i></li>
+</ul>
+<!--*******ORBS AND INVOCATIONS********-->
+<i><a name="orbsandinvocations" id="orbsandinvocations"></a></i>
+<h2><i>ORBs and Invocations</i></h2>
+<p><i>For a client to invoke a CORBA object operation, both the
+client and the server (the object implementation) must use a CORBA
+software component called an ORB (object request broker). ORBs are
+the common denominators that bridge the differences in location,
+platform, and programming language that can separate a client and a
+server. ORBs can contact each other across the network, can create
+and interpret object references (CORBA object handles), and can
+marshal parameters into and out of the format used by IIOP. In
+addition to enabling client/server communication, ORBs provide
+other services, but they are not described here.</i></p>
+<p><i>The two ways to invoke an operation on a CORBA object
+are:</i></p>
+<ul>
+<li><i><a href="#staticinvoke">Static invocation</a>, which is used
+most often and most resembles conventional Java programming, is
+type-checked by the compiler. But it can only be used for objects
+whose interface definitions exist when the invoking client is
+compiled.</i></li>
+<li><i><a href="#DynamicInvocation">Dynamic invocation</a></i> is
+more flexible because clients can invoke objects they discover at
+runtime. However, compile-time type-checking is impossible with
+dynamic invocation. Although it's possible to type-check parameters
+at runtime, doing so requires a CORBA Interface Repository, which
+the current release of Java&nbsp;IDL does not provide.</li>
+</ul>
+<!--*******STATIC INVOCATION********-->
+<h2><a name="staticinvoke" id="staticinvoke">Static
+Invocation</a></h2>
+<p>To make a static invocation on a CORBA object, a Java client
+needs an object reference to the servant that performs the
+operation. The object reference has two important functions:</p>
+<ul>
+<li>It uniquely identifies the servant, wherever it is
+located.</li>
+<li>It implements the client stub interface, making the reference a
+local proxy for the servant object.</li>
+</ul>
+Clients don't create object references but obtain them, typically
+from other objects such as factories or <a href=
+"jidlNaming.html">naming</a> contexts.
+<p>OMG IDL is the language in which CORBA object interfaces are
+defined. For each OMG IDL module, the <tt>idlj</tt> compiler
+generates a Java package. For each interface <code>Foo</code>
+defined in an OMG IDL module, the generated package contains the
+following items of interest to the client programmer:</p>
+<ul>
+<li>A Java <em>signature</em> interface <code>Foo</code>, which
+extends <tt>org.omg.portable.IDLEntity</tt>,
+<tt>org.omg.CORBA.Object</tt>, and the operations interface. The
+signature interface is used as the signature type in method
+declarations when interfaces of the specified type are used in
+other interfaces. From the client's point of view, an object
+reference for a CORBA <code>Foo</code> object implements this
+interface.
+<p>Note: The Stub implements the <code>Foo</code> interface, where
+it generates code for each method to marshall the arguments, invoke
+the method, and then unmarshall the arguments.</p>
+</li>
+<li>A Java <em>operations</em> interface
+<code>FooOperations</code>, which is used in the server-side
+mapping and as a mechanism for providing optimized calls for
+co-located clients and server. The server developer provides
+implementation for the methods indicated by the operations
+interface.
+<p>Note: The server writer usually extends <code>FooPOA</code> and
+provides implementation for the methods provided by the operations
+interface.</p>
+</li>
+<li>A Java class <code>FooHelper</code>, that defines auxiliary
+methods, notably <code>narrow()</code>, which is the CORBA
+counterpart of Java casting.</li>
+<li>A Java class called <tt>FooHolder</tt>, that holds a public
+<tt>Foo</tt> member. Holders are required for CORBA operations that
+take <tt>out</tt> or <tt>inout</tt> arguments, which, unlike CORBA
+<tt>in</tt> arguments, don't map directly to Java's pass-by-value
+semantics.</li>
+</ul>
+<!--*******DYNAMIC INVOCATION********-->
+<h2><a name="DynamicInvocation" id="DynamicInvocation">Dynamic
+Invocation</a></h2>
+<p>CORBA dynamic invocation uses an object called a <i>request</i>
+to hold everything pertinent to an invocation: the object
+reference, the name of the operation, its parameters, and space for
+the result. The client builds a request object describing an
+operation, then calls the request's <code>invoke</code> method,
+which dispatches the request just as a stub would. When the invoke
+method returns, the result is available in the request object.</p>
+<p>The key to dynamic invocation is the ability of requests to hold
+self-describing data. This facility enables a request object to
+represent any invocation of any operation, regardless of its
+parameters. Each self-describing data element has a special type
+known in OMG IDL as <code>Any</code>. An <code>Any</code> consists
+of a typecode (whose values are defined by OMG IDL) and a value;
+the typecode specifies the type of the value.</p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

@@ -1,0 +1,571 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<!-- GenHTML revision 23965-->
+<meta http-equiv="Content-type" content=
+"text/html; charset=utf-8" />
+<title>Command-Line Options - Troubleshooting Guide for
+HotSpot VM</title>
+<meta http-equiv="content-language" content="en-US" />
+<meta name="robots" content="index,follow" />
+<meta name="language" content="en" />
+<meta name="collection" content="reference" />
+<meta name="keywords" content="" />
+<meta name="description" content=
+"This document is a guide to help troubleshoot problems that might arise with applications that are developed using the release of Java Platform, Standard Edition Development Kit 7 (JDK 7). In particular, this guide addresses possible problems between the applications and the Java HotSpot virtual machine. The document provides a description of the tools, command line options, and other help in analyzing a problem. The document also provides guidance on how to approach some general issues such as a crash, hang, or memory resource issues. Finally, the document provides direction for data collection and bug report preparation." />
+<meta name="date" content="2008-11-01" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/default.css" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/pagelayout.css" />
+<link rel="alternate stylesheet" type="text/css" title="print"
+href="css/print.css" />
+<script type="text/javascript">
+//<![CDATA[
+function setActiveStyleSheet(title) {
+  var i, a, main;
+  for (i=0; (a = document.getElementsByTagName("link")[i]); i++) {
+         if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+                a.disabled = true;
+                if(a.getAttribute("title") == title) a.disabled = false;
+         }
+  }
+}
+
+function ClearDefault(Element) {
+   if (Element.defaultValue == Element.value) {
+        Element.value = ""
+        Element.style.cssText = "font-weight: bold; color: #00000"
+   }
+}
+
+//]]>
+</script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<div class="MastheadPane">
+<table class="MastheadTable" width="100%">
+<tr class="closeprintview">
+<td align="right"><a href="#" onclick=
+"setActiveStyleSheet('screen')">Exit Print View</a></td>
+</tr>
+<tr class="titlebar">
+<td>
+<h4 class="contentpage-doctitle"><a href="toc.html">Troubleshooting
+Guide for HotSpot VM</a></h4>
+</td>
+<td class="smallLogo"><a href="http://www.oracle.com"><img src=
+"graphics/smallOracleLogo.gif" /></a></td>
+</tr>
+</table>
+</div>
+<div class="ButtonPane">
+<table class="pagecontrol">
+<tr>
+<td class="pagebuttons"><a href="#" onclick=
+"setActiveStyleSheet('print')"><img height="46" width="40" border=
+"0" src="graphics/print.gif" alt="Print View" title=
+"Print View" /></a></td>
+<td class="pagebreadcrumb"></td>
+<td class="pagenavlinks"><a href="envvars.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="felog.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+<div class="TOCPane">
+<p class="toc level1"><a href="docinfo.html">Document
+Information</a></p>
+<p class="toc level1 tocsp"><a href="preface.html">Preface</a></p>
+<p class="toc level1 tocsp"><a href=
+"tools.html">1.&#160;&#160;Diagnostic Tools and Options</a></p>
+<p class="toc level1 tocsp"><a href=
+"tooldescr.html">2.&#160;&#160;Detailed Tool Descriptions</a></p>
+<p class="toc level1 tocsp"><a href=
+"memleaks.html">3.&#160;&#160;Troubleshooting Memory Leaks</a></p>
+<p class="toc level1 tocsp"><a href=
+"crashes.html">4.&#160;&#160;Troubleshooting System Crashes</a></p>
+<p class="toc level1 tocsp"><a href=
+"hangloop.html">5.&#160;&#160;Troubleshooting Hanging or Looping
+Processes</a></p>
+<p class="toc level1 tocsp"><a href=
+"signals.html">6.&#160;&#160;Integrating Signal and Exception
+Handling</a></p>
+<p class="toc level1 tocsp"><a href=
+"bugreports.html">7.&#160;&#160;Submitting Bug Reports</a></p>
+<p class="toc level1 tocsp"><a href=
+"envvars.html">A.&#160;&#160;Environment Variables and System
+Properties</a></p>
+<div id="scrolltoc" class="onpage">
+<p class="toc level1 tocsp"><a href="">B.&#160;&#160;Command-Line
+Options</a></p>
+<p class="toc level2"><a href="#gdaog">B.1 HotSpot VM Command-Line
+Options</a></p>
+<p class="toc level3"><a href="#gdaxd">B.1.1 Dynamic Changing of
+Flag Values</a></p>
+<p class="toc level3"><a href="#gbzrr">B.1.2
+<tt>-XX:+HeapDumpOnOutOfMemoryError</tt> Option</a></p>
+<p class="toc level3"><a href="#gbmum">B.1.3 <tt>-XX:OnError=</tt>
+Option</a></p>
+<p class="toc level3"><a href="#gbmui">B.1.4
+<tt>-XX:+ShowMessageBoxOnError</tt> Option</a></p>
+<p class="toc level3"><a href="#gbzza">B.1.5 Other <tt>-XX</tt>
+Options</a></p>
+<p class="toc level2 tocsp"><a href="#gdano">B.2 Other Command-Line
+Options</a></p>
+<p class="toc level3"><a href="#gbmtq">B.2.1 <tt>-Xcheck:jni</tt>
+Option</a></p>
+<p class="toc level3"><a href="#gbmtm">B.2.2
+<tt>-verbose:class</tt> Option</a></p>
+<p class="toc level3"><a href="#gbmpt">B.2.3 <tt>-verbose:gc</tt>
+Option</a></p>
+<p class="toc level3"><a href="#gbmtv">B.2.4 <tt>-verbose:jni</tt>
+Option</a></p>
+</div>
+<p class="toc level1 tocsp"><a href=
+"felog.html">C.&#160;&#160;Fatal Error Log</a></p>
+<p class="toc level1 tocsp"><a href=
+"tools-by-rel.html">D.&#160;&#160;Summary of Tools in This
+Release</a></p>
+</div>
+<div class="ContentPane"><a name="clopts" id=
+"clopts"></a>Appendix&#160;B
+<h2>Command-Line Options</h2>
+<p>This section describes some command line options that can be
+useful in diagnosing problems.</p>
+<a name="gdaog" id="gdaog"></a>
+<h3>B.1 HotSpot VM Command-Line Options</h3>
+<p>Command-line options that are prefixed with <tt>-XX</tt> are
+specific to the Java HotSpot Virtual Machine. Many of these options
+are important for performance tuning and diagnostic purposes, and
+are therefore described in this appendix. All the <tt>-XX</tt>
+options are described at <a href=
+"http://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html">
+http://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html</a>.</p>
+<a name="gdaxd" id="gdaxd"></a>
+<h4>B.1.1 Dynamic Changing of Flag Values</h4>
+<p>With the <tt>jinfo -flag</tt> command (<img class="linkicon"
+src="graphics/linkicon.gif" /><a href="tooldescr.html#gbdio">2.6
+<tt>jinfo</tt> Utility</a>) and with the JConsole utility
+(<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gblfi">2.3 JConsole Utility</a>), you can
+dynamically set, unset, or change the value of certain Java VM
+flags for a specified Java process.</p>
+<p>For the complete list of these flags, use the MBeans tab of the
+JConsole utility. See the list of values for the
+<tt>DiagnosticOptions</tt> attribute of the
+<tt>HotSpotDiagnostic</tt> MBean, which is in the
+<tt>com.sun.management</tt> domain. These flags are the
+following:</p>
+<ul>
+<li>
+<p><tt>HeapDumpOnOutOfMemoryError</tt></p>
+</li>
+<li>
+<p><tt>HeapDumpPath</tt></p>
+</li>
+<li>
+<p><tt>PrintGC</tt></p>
+</li>
+<li>
+<p><tt>PrintGCDetails</tt></p>
+</li>
+<li>
+<p><tt>PrintGCTimeStamps</tt></p>
+</li>
+<li>
+<p><tt>PrintClassHistogram</tt></p>
+</li>
+<li>
+<p><tt>PrintConcurrentLocks</tt></p>
+</li>
+</ul>
+<a name="gbzrr" id="gbzrr"></a>
+<h4>B.1.2 <tt>-XX:+HeapDumpOnOutOfMemoryError</tt> Option</h4>
+<p>The <tt>-XX:+HeapDumpOnOutOfMemoryError</tt> command-line option
+tells the HotSpot VM to generate a heap dump when an allocation
+from the Java heap or the permanent generation cannot be satisfied.
+There is no overhead in running with this option, and so it can be
+useful for production systems where <tt>OutOfMemoryError</tt> takes
+a long time to surface.</p>
+<p>You can also specify this option at runtime with the MBeans tab
+in the <tt>jconsole</tt> utility.</p>
+<p>The heap dump is in HPROF binary format, and so it can be
+analyzed using any tools that can import this format. For example,
+the <tt>jhat</tt> tool can be used to do rudimentary analysis of
+the dump. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gblfj">2.5
+<tt>jhat</tt> Utility</a>.</p>
+<p>The following example shows the result of running out of memory
+with this flag set.</p>
+<pre>
+$ <b>java -XX:+HeapDumpOnOutOfMemoryError -mn256m -mx512m ConsumeHeap</b>
+java.lang.OutOfMemoryError: Java heap space
+Dumping heap to java_pid2262.hprof ...
+Heap dump file created [531535128 bytes in 14.691 secs]
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+        at ConsumeHeap$BigObject.(ConsumeHeap.java:22)
+        at ConsumeHeap.main(ConsumeHeap.java:32)
+</pre>
+<p>The <tt>ConsumeHeap</tt> fills up the Java heap and runs out of
+memory. When <tt>java.lang.OutOfMemoryError</tt> is thrown, a heap
+dump file is created. In this case the file is 507MB and is created
+as <tt>java_pid2262.hprof</tt> in the current directory.</p>
+<p>By default the heap dump is created in a file called
+<tt>java_pid</tt><var>pid</var><tt>.hprof</tt> in the working
+directory of the VM, as in the example above. You can specify an
+alternative file name or directory with the
+<tt>-XX:HeapDumpPath=</tt> option. For example
+<tt>-XX:HeapDumpPath=/disk2/dumps</tt> will cause the heap dump to
+be generated in the <tt>/disk2/dumps</tt> directory.</p>
+<a name="gbmum" id="gbmum"></a>
+<h4>B.1.3 <tt>-XX:OnError=</tt> Option</h4>
+<p>When a fatal error occurs, the HotSpot Virtual Machine can
+optionally execute a user-supplied script or command. The script or
+command is specified using the
+<tt>-XX:OnError=</tt><var>string</var> command line option, where
+<var>string</var> is a single command, or a list of commands
+separated by a semicolon. Within <var>string</var>, all occurrences
+of <tt>%p</tt> are replaced with the current process ID (pid), and
+all occurrences of <tt>%%</tt> are replaced by a single <tt>%</tt>.
+The following examples demonstrate how this option can be used.</p>
+<p>On Solaris OS the <tt>pmap</tt> command displays information
+about the address space of a process. In the following example, if
+a fatal error occurs, the <tt>pmap</tt> command is executed to
+display the address space of the process.</p>
+<pre>
+<b>java -XX:OnError="pmap %p" MyApplication</b>
+</pre>
+<p>The following example shows how the fatal error report can be
+mailed to a support alias when a fatal error is encountered</p>
+<pre>
+<b>java -XX:OnError="cat hs_err_pid%p.log|mail support@acme.com" \ MyApplication</b>
+</pre>
+<p>On Solaris OS the <tt>gcore</tt> command creates a core image of
+the specified process, and the <tt>dbx</tt> command launches the
+debugger. In the following example, the <tt>gcore</tt> command is
+executed to create the core image, and the debugger is started to
+attach to the process.</p>
+<pre>
+<b>java -XX:OnError="gcore %p;dbx - %p" MyApplication</b>
+</pre>
+<p>In the following Linux example, the <tt>gdb</tt> debugger is
+launched when an unexpected error is encountered. Once launched,
+<tt>gdb</tt> will attach to the VM process</p>
+<pre>
+<b>java -XX:OnError="gdb - %p" MyApplication</b>
+</pre>
+<p>On Windows the Dr. Watson debugger can be configured as the
+post-mortem debugger so that a crash dump is created when an
+unexpected error is encountered. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="bugreports.html#gbkzq">7.4.4
+Collecting Crash Dumps on Windows</a> for other details.</p>
+<p>An alternate approach to obtaining a crash dump on Windows it to
+use the <tt>-XX:OnError</tt> option to execute the
+<tt>userdump.exe</tt> utility, as follows.</p>
+<pre>
+<b>java -XX:OnError="userdump.exe %p" MyApplication</b>
+</pre>
+<p>The <tt>userdump</tt> utility is part of the Microsoft OEM
+Support Tools package, which can be downloaded from the Microsoft
+site. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="bugreports.html#gbkzq">7.4.4
+Collecting Crash Dumps on Windows</a> for further details.</p>
+<p>The above example assumes that the path to the
+<tt>userdump.exe</tt> utility is defined in the <tt>PATH</tt>
+variable.</p>
+<a name="gbmui" id="gbmui"></a>
+<h4>B.1.4 <tt>-XX:+ShowMessageBoxOnError</tt> Option</h4>
+<p>When the option <tt>-XX:+ShowMessageBoxOnError</tt> is set and a
+fatal error is encountered, the HotSpot VM will display information
+about the fatal error and prompt the user to specify whether the
+native debugger is to be launched. In the case of Solaris OS and
+Linux, the output and prompt are sent to the application console
+(standard input and standard output). In the case of Windows, a
+Windows message box pops up.</p>
+<p>Below is an example from a fatal error encountered on a Linux
+system.</p>
+<pre>
+==============================================================================
+Unexpected Error
+------------------------------------------------------------------------------
+SIGSEGV (0xb) at pc=0x2000000001164db1, pid=10791, tid=1026
+
+Do you want to debug the problem?
+
+To debug, run 'gdb /proc/10791/exe 10791'; then switch to thread 1026
+Enter 'yes' to launch gdb automatically (PATH must include gdb)
+Otherwise, press RETURN to abort...
+==============================================================================
+</pre>
+<p>In this case a <tt>SIGSEGV</tt> error has occurred and the user
+is prompted to specify whether the <tt>gdb</tt> debugger is to be
+launched to attach to the process. If the user enters <tt>y</tt> or
+<tt>yes</tt>, <tt>gdb</tt> will be launched (assuming it is on the
+<tt>PATH</tt> variable).</p>
+<p>On Solaris OS the message is similar to the above except that
+the user is prompted to start the <tt>dbx</tt> debugger. On Windows
+a message box is displayed. If the user presses the YES button, the
+VM will attempt to start the default debugger. This debugger is
+configured by a registry setting; see <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="bugreports.html#gbkzq">7.4.4
+Collecting Crash Dumps on Windows</a> for further details. If
+Microsoft Visual Studio is installed, the default debugger is
+typically configured to be <tt>msdev.exe</tt>.</p>
+<p>In the above example the output includes the process ID (10791
+in this case) and also the thread ID (1026 in this case). If the
+debugger is launched, one of the initial steps in the debugger
+might be to select the thread and obtain its stack trace.</p>
+<p>As the process is waiting for a response it is possible to use
+other tools to obtain a crash dump or query the state of the
+process. On Solaris OS, for example, a core dump can be obtained
+using the <tt>gcore</tt> utility.</p>
+<p>On Windows a Dr. Watson crash dump can be obtained using the
+<tt>userdump</tt> or <tt>windbg</tt> programs. The <tt>windbg</tt>
+program is included in Microsoft's Debugging Tools for Windows. See
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"bugreports.html#gbkzq">7.4.4 Collecting Crash Dumps on Windows</a>
+for further information on <tt>windbg</tt> and the link to the
+download location. In <tt>windbg</tt> select the Attach to a
+Process menu option, which displays the list of processes and
+prompts for the process ID. The HotSpot VM displays a message box,
+which includes the process ID. Once selected the <tt>.dump /f</tt>
+command can be used to force a crash dump. In the following example
+a crash dump is created in file <tt>crash.dump</tt>.</p>
+<a name="gbvhd" id="gbvhd"></a>
+<h6 class="figuretitle">Creating Crash Dump with
+<tt>windbg</tt></h6>
+<img src="figures/crash-dump-windbg.gif" alt=
+"Sample output of crash dump from windbg" title=
+"Sample output of crash dump from windbg" width="780" height=
+"563" />
+<p>In general the <tt>-XX:+ShowMessageBoxOnError</tt> option is
+more useful in a development environment where debugger tools are
+available. The <tt>-XX:OnError</tt> option is more suitable for
+production environments where a fixed sequence of commands or
+scripts are executed when a fatal error is encountered.</p>
+<a name="gbzza" id="gbzza"></a>
+<h4>B.1.5 Other <tt>-XX</tt> Options</h4>
+<p>Several other <tt>-XX</tt> command-line options can be useful in
+troubleshooting.</p>
+<ul>
+<li>
+<p><tt>-XX:OnOutOfMemoryError=</tt><var>string</var> is used to
+specify a command or script to execute when an
+<tt>OutOfMemoryError</tt> is first thrown.</p>
+</li>
+<li>
+<p><tt>-XX:ErrorFile=</tt><var>filename</var> is used to specify a
+location for the fatal error log file. See <img class="linkicon"
+src="graphics/linkicon.gif" /><a href="felog.html#gbwcy">C.1
+Location of Fatal Error Log</a>.</p>
+</li>
+<li>
+<p><tt>-XX:HeapDumpPath=</tt><var>path</var> is used to specify a
+location for a heap dump. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="#gbzrr">B.1.2
+<tt>-XX:+HeapDumpOnOutOfMemoryError</tt> Option</a>.</p>
+</li>
+<li>
+<p><tt>-XX:MaxPermSize=</tt><var>size</var> is used to specify the
+size of the permanent generation memory. See <img class="linkicon"
+src="graphics/linkicon.gif" /><a href="memleaks.html#gbyuu">3.1.2
+Detail Message: <tt>PermGen space</tt></a>.</p>
+</li>
+<li>
+<p><tt>-XX:+PrintCommandLineFlags</tt> is used to print all the VM
+command-line flags. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="bugreports.html#gbkxq">7.3
+Collecting Data for a Bug Report</a>.</p>
+</li>
+<li>
+<p><tt>-XX:+PrintConcurrentLocks</tt> will cause the Ctrl-Break
+handler to print a list of concurrent locks owned by each
+thread.</p>
+</li>
+<li>
+<p><tt>-XX:+PrintClassHistogram</tt> will cause the Ctrl-Break
+handler to print a heap histogram.</p>
+</li>
+<li>
+<p><tt>-XX:+PrintGCDetails</tt> and <tt>-XX:+PrintGCTimeStamps</tt>
+are used to print detailed information about garbage collection.
+See <img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbmpt">B.2.3 <tt>-verbose:gc</tt> Option</a>.</p>
+</li>
+<li>
+<p><tt>-XX:+UseAltSigs</tt> is used (on Solaris 8 and 9 OS) to
+instruct the HotSpot VM to use alternate signals to
+<tt>SIGUSR1</tt> and <tt>SIGUSR2</tt>. See <img class="linkicon"
+src="graphics/linkicon.gif" /><a href="signals.html#gbzbl">6.1
+Signal Handling on Solaris OS and Linux</a>.</p>
+</li>
+<li>
+<p><tt>-XX:+UseConcMarkSweepGC</tt>, <tt>-XX:+UseSerialGC</tt>, and
+<tt>-XX:+UseParallelGC</tt> specify the garbage collection policy
+to be used. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="crashes.html#gbyzq">4.2.2 Crash
+During Garbage Collection</a>.</p>
+</li>
+</ul>
+<a name="gdano" id="gdano"></a>
+<h3>B.2 Other Command-Line Options</h3>
+<p>In addition to the <tt>-XX</tt> options, many other command-line
+options can provide troubleshooting information. This section
+describes a few of these options.</p>
+<a name="gbmtq" id="gbmtq"></a>
+<h4>B.2.1 <tt>-Xcheck:jni</tt> Option</h4>
+<p>The <tt>-Xcheck:jni</tt> option is useful in diagnosing problems
+with applications that use the Java Native Interface (JNI).
+Sometimes bugs in the native code can cause the HotSpot VM to crash
+or behave incorrectly.</p>
+<p>The <tt>-Xcheck:jni</tt> option is added to the command line
+that starts the application, as in the following example.</p>
+<pre>
+<b>java -Xcheck:jni MyApplication</b>
+</pre>
+<p>The <tt>-Xcheck:jni</tt> option causes the VM to do additional
+validation on the arguments passed to JNI functions. Note that the
+option is not guaranteed to find all invalid arguments or diagnose
+logic bugs in the application code, but it can help diagnose a
+large number of such problems.</p>
+<p>When an invalid argument is detected, the VM prints a message to
+the application console or to standard output, prints the stack
+trace of the offending thread, and aborts the VM.</p>
+<p>In the following example, a NULL value was incorrectly passed to
+a JNI function that does not allow a NULL value.</p>
+<pre>
+FATAL ERROR in native method: Null object passed to JNI
+    at java.net.PlainSocketImpl.socketAccept(Native Method)
+    at java.net.PlainSocketImpl.accept(PlainSocketImpl.java:343)
+    - locked &#60;0x450b9f70&gt; (a java.net.PlainSocketImpl)
+    at java.net.ServerSocket.implAccept(ServerSocket.java:439)
+    at java.net.ServerSocket.accept(ServerSocket.java:410)
+    at org.apache.tomcat.service.PoolTcpEndpoint.acceptSocket
+                        (PoolTcpEndpoint.java:286)
+    at org.apache.tomcat.service.TcpWorkerThread.runIt
+                        (PoolTcpEndpoint.java:402)
+    at org.apache.tomcat.util.ThreadPool$ControlRunnable.run
+                        (ThreadPool.java:498)
+    at java.lang.Thread.run(Thread.java:536)
+</pre>
+<p>In the following example, an incorrect argument was provided to
+a JNI function that expects a <tt>jfieldID</tt> argument.</p>
+<pre>
+FATAL ERROR in native method: Instance field not found in JNI get/set 
+                        field operations
+        at java.net.PlainSocketImpl.socketBind(Native Method)
+        at java.net.PlainSocketImpl.bind(PlainSocketImpl.java:359)
+        - locked &#60;0xf082f290&gt; (a java.net.PlainSocketImpl)
+        at java.net.ServerSocket.bind(ServerSocket.java:318)
+        at java.net.ServerSocket.&#60;init&gt;(ServerSocket.java:185)
+        at jvm003a.&#60;init&gt;(jvm003.java:190)
+        at jvm003a.&#60;init&gt;(jvm003.java:151)
+        at jvm003.run(jvm003.java:51)
+        at jvm003.main(jvm003.java:30)
+</pre>
+<p>The following list presents examples of other problems that the
+<tt>-Xcheck:jni</tt> option can help diagnose.</p>
+<ul>
+<li>
+<p>Cases where the JNI environment for the wrong thread is used</p>
+</li>
+<li>
+<p>Cases where an invalid JNI reference is used</p>
+</li>
+<li>
+<p>Cases where a reference to a non-array type is provided to a
+function that requires an array type</p>
+</li>
+<li>
+<p>Cases where a non-static field ID is provided to a function that
+expects a static field ID</p>
+</li>
+<li>
+<p>Cases where a JNI call is made with an exception pending</p>
+</li>
+</ul>
+<p>In general, all errors detected by the <tt>-Xcheck:jni</tt>
+option are fatal errors, that is, the error is printed and the VM
+is aborted. There is one exception to this behavior. When a JNI
+call is made within a JNI critical region, the following non-fatal
+warning message is printed.</p>
+<pre>
+Warning: Calling other JNI functions in the scope of 
+Get/ReleasePrimitiveArrayCritical or Get/ReleaseStringCritical
+</pre>
+<p>A JNI critical region is created when native code uses the JNI
+functions <tt>GetPrimitiveArrayCritical</tt> or
+<tt>GetStringCritical</tt> to obtain a reference to an array or
+string in the Java heap. The reference is held until the native
+code calls the corresponding release function. The code between the
+get and release is called a JNI critical section and during that
+time the HotSpot VM cannot bring the VM to a state that allows
+garbage collection to occur. The general recommendation is not to
+use other JNI functions within a JNI critical section, and in
+particular any JNI function that could potentially cause a
+deadlock. The warning printed above by the <tt>-Xcheck:jni</tt>
+option is thus an indication of a potential issue; it does not
+always indicate an application bug.</p>
+<p>For more information on JNI, refer to the <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/jni/index.html">
+Java Native Interface documentation web site</a>.</p>
+<a name="gbmtm" id="gbmtm"></a>
+<h4>B.2.2 <tt>-verbose:class</tt> Option</h4>
+<p>The <tt>-verbose:class</tt> option enables logging of class
+loading and unloading.</p>
+<a name="gbmpt" id="gbmpt"></a>
+<h4>B.2.3 <tt>-verbose:gc</tt> Option</h4>
+<p>The <tt>-verbose:gc</tt> option enables logging of garbage
+collection (GC) information. It can be combined with other HotSpot
+VM specific options such as <tt>-XX:+PrintGCDetails</tt> and
+<tt>-XX:+PrintGCTimeStamps</tt> to get further information about
+the GC. The information output includes the size of the generations
+before and after each GC, total size of the heap, the size of
+objects promoted, and the time taken.</p>
+<p>These options, together with detailed information about GC
+analysis and tuning, are described at the <a href=
+"http://java.sun.com/developer/technicalArticles/Programming/GCPortal">
+GC Portal site</a>.</p>
+<p>The <tt>-verbose:gc</tt> option can be dynamically enabled at
+runtime using the management API or JVM TI. See section <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gbmmt">2.17 Developing Diagnostic Tools</a> for
+further information on these APIs.</p>
+<p>The <tt>jconsole</tt> monitoring and management tool can also
+enable or disable the option when the tool is attached to a
+management VM. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gblfi">2.3
+JConsole Utility</a>.</p>
+<a name="gbmtv" id="gbmtv"></a>
+<h4>B.2.4 <tt>-verbose:jni</tt> Option</h4>
+<p>The <tt>-verbose:jni</tt> option enables logging of JNI. When a
+JNI or native method is resolved, the HotSpot VM prints a trace
+message to the application console (standard output). It also
+prints a trace message when a native method is registered using the
+JNI <tt>RegisterNative</tt> function. The <tt>-verbose:jni</tt>
+option can be useful in diagnosing issues with applications that
+use native libraries.</p>
+</div>
+<div class="BottomPageControlPane">
+<table class="pagecontrol">
+<tr>
+<td>
+<div class="pagefooterlinks">Copyright &#169;1995, 2011, Oracle
+and/or its affiliates. All rights reserved. <a href=
+"docinfo.html">Legal Notices</a></div>
+</td>
+<td class="pagenavlinks"><a href="envvars.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="felog.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+</body>
+</html>

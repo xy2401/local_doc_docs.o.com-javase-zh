@@ -1,0 +1,516 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Overview</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="source.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=bottom border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Environment Properties</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Overview
+</h2>
+<p>
+<blockquote>
+
+The JNDI is a generic interface.
+To access any naming/directory service,
+you must specify 
+the <a href=../../getStarted/concepts/glossary.html#PROVIDER>service provider</a>
+to use.
+This is but one piece of
+configuration information. Depending on the naming/directory service
+and the service provider, you might need to specify other
+configuration information, for example telling
+the service provider which server to use.
+You specify configuration information in the JNDI by using
+environment properties. 
+Although this section describes many environment properties,
+in general you need to specify 
+only a few properties.
+<p>
+Following are the different types of environment properties, categorized by their scope and applicability:
+<ul>
+<li><a href=#STD>Standard</a>
+<li><a href=#SERVICE>Service-specific</a>
+<li><a href=#FEATURE>Feature-specific</a>
+<li><a href=#PROVIDER>Provider-specific</a>
+</ul>
+
+<a name=STD><h4>Standard JNDI Environment Properties</h4></a>
+
+The JNDI defines environment properties that are standard across
+all service providers. 
+Not all standard environment properties
+are applicable to all service providers. But when a
+service provider does use one of these properties, it must interpret the
+property according to the definition specified by the JNDI.
+<p>
+These properties have the prefix <tt>"java.naming."</tt> The
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><tt>Context</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html"><tt>LdapContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interfaces declare constants for these properties.
+Here is a list of the standard JNDI environment properties.
+<p>
+<TABLE BORDER CELLPADDING=3 WIDTH="80%" >
+<TR>
+<TH>Property Name</TH>
+<TH>Description</TH>
+</TR>
+
+<!--- APPLET -->
+<TR>
+<TD>
+<tt>java.naming.applet</tt>
+<br>
+
+</TD>
+<TD>
+An instance of <tt>java.applet.Applet</tt>.
+The applet parameters of this applet instance are used to
+obtain certain environment properties. 
+See the <a href=source.html#APPLET>next section</a> for details.
+<br>
+<em>Constant</em>:
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#APPLET"><tt>Context.APPLET</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#APPLET"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<em>Default</em>: None.
+</TD>
+</TR>
+
+<!--- AUTHORITATIVE -->
+<TR>
+<TD>
+<tt>java.naming.authoritative</tt>
+</TD>
+<TD>
+A string (<tt>"true"</tt> or <tt>"false"</tt>) that specifies the authoritative
+source of the service requested.
+If you set this property to <tt>"true"</tt>, then you are asking the service provider to
+use the most authoritative source for the service (such as a master server).
+Otherwise the source need not be (but can be) authoritative.
+<br>
+<em>Constant</em>:
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#AUTHORITATIVE"><tt>Context.AUTHORITATIVE</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#AUTHORITATIVE"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<em>Default</em>: <tt>"false"</tt>
+</TD>
+</TR>
+
+<!--- BATCHSIZE -->
+<TR>
+<TD>
+<tt>java.naming.batchsize</tt>
+</TD>
+<TD>
+The string representation of an integer that specifies the preferred
+batch size to use when returning data via the service's protocol.
+See the
+<a target="_top" href="../../ldap/search/batch.html">Searches</a> <a href="../../ldap/search/batch.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson for details and an example.
+<br>
+<em>Constant</em>:
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#BATCHSIZE"><tt>Context.BATCHSIZE</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#BATCHSIZE"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<em>Default</em>: Provider's default.
+<br>
+<em>Example</em>: <tt>"10"</tt>
+</TD>
+</TR>
+
+<!--- DNS URL -->
+<TR>
+<TD>
+<tt>java.naming.dns.url</tt>
+</TD>
+<TD>
+A URL string that specifies the DNS host and domain names to use for
+the "jndi" URL context implementation.
+<br>
+<em>Constant</em>:
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#DNS_URL"><tt>Context.DNS_URL</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#DNS_URL"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<em>Default</em>: None.
+<br>
+<em>Example</em>: <tt>"dns://dnsserver/wiz.com"</tt>
+</TD>
+</TR>
+
+
+<!--- Control Factory -->
+<TR>
+<TD>
+<tt>java.naming.factory.control</tt>
+</TD>
+<TD>
+Colon-separated list of 
+class names of 
+<a href=../../getStarted/concepts/glossary.html#CF>control factories</a>. 
+Each class must implement the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/ControlFactory.html"><tt>ControlFactory</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/ControlFactory.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   interface.
+This property is used by
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/ControlFactory.html#getObjectInstance(javax.naming.ldap.Control, javax.naming.Context, java.util.Hashtable)"><tt>ControlFactory.getControlInstance()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/ControlFactory.html#getObjectInstance(javax.naming.ldap.Control, javax.naming.Context, java.util.Hashtable)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, which in turn is used by service providers.
+See the 
+<a target="_top" href="../../ldap/ext/index.html">Controls and Extensions</a> <a href="../../ldap/ext/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>   lesson for details.
+<br>
+<em>Constant</em>:
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#CONTROL_FACTORIES"><tt>LdapContext.CONTROL_FACTORIES</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#CONTROL_FACTORIES"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+<BR>
+<em>Default</em>: The empty list.
+<br>
+<em>Example</em>: <tt>"com.wiz.jndi.ldap.ControlFactory:vendorX.ldap.VendorXControlFactory"</tt>
+</TD>
+</TR>
+
+<!--- Initial Context Factory -->
+
+<TR>
+<TD>
+<tt>java.naming.factory.initial</tt>
+</TD>
+<TD>
+Class name of the initial context factory. Class must implement the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/InitialContextFactory.html"><tt>InitialContextFactory</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/InitialContextFactory.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interface. 
+This class is instantiated by the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html#InitialContext(java.util.Hashtable)"><tt>InitialContext</tt> constructor</a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html#InitialContext(java.util.Hashtable)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. 
+You must set this property, 
+unless you pass only <a href=../url/index.html>URL names</a>
+to the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html"><tt>InitialContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   methods.
+<br>
+<em>Constant</em>:
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#INITIAL_CONTEXT_FACTORY"><tt>Context.INITIAL_CONTEXT_FACTORY</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#INITIAL_CONTEXT_FACTORY"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><BR>
+<em>Default</em>: None.
+<br>
+<em>Example</em>: <tt>"com.sun.jndi.ldap.LdapCtxFactory"</tt>
+</TD>
+</TR>
+
+<!--- Object Factory -->
+<TR>
+<TD>
+<tt>java.naming.factory.object</tt>
+</TD>
+<TD>
+Colon-separated list of 
+class names of 
+<a href=../../getStarted/concepts/glossary.html#OF>object factories</a>. 
+Each class must implement the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/ObjectFactory.html"><tt>ObjectFactory</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/ObjectFactory.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   or
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirObjectFactory.html"><tt>DirObjectFactory</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirObjectFactory.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   interface.
+This property is used by
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/NamingManager.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable)"><tt>NamingManager.getObjectInstance()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/NamingManager.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable, javax.naming.directory.Attributes)"><tt>DirectoryManager.getObjectInstance()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, which in turn are used by service providers.
+See the 
+<a target="_top" href="../../objects/factory/index.html">Java Objects and the Directory</a> <a href="../../objects/factory/index.html"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>   trail for details.
+<br>
+<em>Constant</em>:
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#OBJECT_FACTORIES"><tt>Context.OBJECT_FACTORIES</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#OBJECT_FACTORIES"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><BR>
+<em>Default</em>: The empty list.
+<br>
+<em>Example</em>: <tt>"com.wiz.jndi.ldap.AttrsToRemote:com.wiz.jndi.ldap.AttrsToCorba"</tt>
+</TD>
+</TR>
+
+<!--- State Factory -->
+
+<TR>
+<TD>
+<tt>java.naming.factory.state</tt>
+</TD>
+<TD>
+Colon-separated list of 
+class names of 
+<a href=../../getStarted/concepts/glossary.html#SF>state factories</a>. 
+Each class must implement the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/StateFactory.html"><tt>StateFactory</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/StateFactory.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   or
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirStateFactory.html"><tt>DirStateFactory</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirStateFactory.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   interface.
+This property is used by
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/NamingManager.html#getStateToBind(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable)"><tt>NamingManager.getStateToBind()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/NamingManager.html#getStateToBind(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getStateToBind(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable, javax.naming.directory.Attributes)"><tt>DirectoryManager.getStateToBind()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getStateToBind(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, which in turn are used by service providers.
+See the 
+<a target="_top" href="../../objects/state/index.html">Java Objects and the Directory</a> <a href="../../objects/state/index.html"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>   trail for details.
+<br>
+<em>Constant</em>:
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#STATE_FACTORIES"><tt>Context.STATE_FACTORIES</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#STATE_FACTORIES"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><BR>
+<em>Default</em>: The empty list.
+<br>
+<em>Example</em>: <tt>"com.wiz.jndi.ldap.RemoteToAttrs:com.wiz.jndi.ldap.CorbaToAttrs"</tt>
+</TD>
+</TR>
+
+
+<!--- URL Package Prefixes -->
+<TR>
+<TD>
+<tt>java.naming.factory.url.pkgs</tt>
+</TD>
+<TD>
+Colon-separated list of package prefixes of URL context factories.
+The prefix consists of the URL scheme id and a suffix to
+construct the class name, as follows:
+<blockquote>
+<em>prefix</em>.<em>schemeId</em>.<em>schemeId</em>URLContextFactory
+</blockquote>
+For example, suppose the prefix is <tt>"vendorZ.jndi"</tt> and the
+URL scheme id is <tt>"ldap"</tt>, the complete class name is
+<tt>vendorZ.jndi.ldap.ldapURLContextFactory</tt>.
+Each class whose name is constructed in this manner must implement the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/ObjectFactory.html"><tt>ObjectFactory</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/ObjectFactory.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   or
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirObjectFactory.html"><tt>DirObjectFactory</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirObjectFactory.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   interface and follow the rules for processing URL names.
+The package prefix <tt>"com.sun.jndi.url"</tt> is always appended to the
+end of the list specified by this property.
+This property is used when a URL name is passed to the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html"><tt>InitialContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   methods. See the 
+<a target="_top" href="../url/index.html">URL</a> <a target="_top" href="../url/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson for more information.
+<br>
+<em>Constant</em>:
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#URL_PKG_PREFIXES"><tt>Context.URL_PKG_PREFIXES</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#URL_PKG_PREFIXES"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><BR>
+<em>Default</em>: The empty list.
+<br>
+<em>Example</em>: <tt>com.wiz.jndi.url:vendorZ.jndi</tt>
+</TD>
+</TR>
+
+
+
+<!--- LANGUAGE -->
+<TR>
+<TD>
+<tt>java.naming.language</tt>
+</TD>
+<TD>
+A string specifying the preferred language to use with this service.
+The values of this property are defined by
+<a href="http://www.ietf.org/rfc/rfc1766.txt">RFC 1766</a>.
+<br>
+<em>Constant</em>:
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#LANGUAGE"><tt>Context.LANGUAGE</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#LANGUAGE"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<em>Default</em>: Provider's default.
+<br>
+<em>Example</em>: <tt>"en-US"</tt>
+</TD>
+</TR>
+
+
+<!--- Provider URL -->
+<TR>
+<TD>
+<tt>java.naming.provider.url</tt>
+</TD>
+<TD>
+A URL string for configuring the service provider specified by the
+<tt>"java.naming.factory.initial"</tt> property.
+<br>
+<em>Constant</em>:
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#PROVIDER_URL"><tt>Context.PROVIDER_URL</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#PROVIDER_URL"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><BR>
+<em>Default</em>: Provider's default.
+<br>
+<em>Example</em>: <tt>"ldap://localhost:389/o=JNDITutorial"</tt>
+</TD>
+</TR>
+
+
+<!--- REFERRAL -->
+<TR>
+<TD>
+<tt>java.naming.referral</tt>
+</TD>
+<TD>
+A string specifying how the service provider should handle referrals;
+one of <tt>"throw"</tt>, <tt>"ignore"</tt>, or <tt>"follow"</tt>.
+See the
+<a target="_top" href="../../ldap/referral/index.html">Referrals</a> <a href="../../ldap/referral/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson for details and examples.
+<br>
+<em>Constant</em>:
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#REFERRAL"><tt>Context.REFERRAL</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#REFERRAL"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<em>Default</em>: Provider's default.
+<br>
+<em>Example</em>: <tt>"throw"</tt>
+</TD>
+</TR>
+
+<!--- SECURITY AUTHENTICATION -->
+<TR>
+<TD>
+<tt>java.naming.security.authentication</tt>
+</TD>
+<TD>
+A string specifying the type of authentication to use;
+one of <tt>"none"</tt>, <tt>"simple"</tt>, <tt>"strong"</tt>, or a 
+provider-specific string.
+See the
+<a target="_top" href="../../ldap/security/index.html">Security</a> <a href="../../ldap/security/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson for details and examples.
+<br>
+<em>Constant</em>:
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_AUTHENTICATION"><tt>Context.SECURITY_AUTHENTICATION</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_AUTHENTICATION"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<em>Default</em>: Provider's default.
+<br>
+<em>Example</em>: <tt>"simple"</tt>
+</TD>
+</TR>
+
+<!--- SECURITY CREDENTIALS -->
+<TR>
+<TD>
+<tt>java.naming.security.credentials</tt>
+</TD>
+<TD>
+An object specifying the credentials of the entity performing the authentication.
+Its type is determined by the service provider.
+See the
+<a target="_top" href="../../ldap/security/index.html">Security</a> <a href="../../ldap/security/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson for details and examples.
+<br>
+<em>Constant</em>:
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_CREDENTIALS"><tt>Context.SECURITY_CREDENTIALS</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_CREDENTIALS"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<em>Default</em>: Provider's default.
+<br>
+<em>Example</em>: A <tt>char[]</tt> containing "secret."
+</TD>
+</TR>
+
+
+
+<!--- SECURITY PRINCIPAL -->
+<TR>
+<TD>
+<tt>java.naming.security.principal</tt>
+</TD>
+<TD>
+A string that specifies the identity of the entity performing the authentication.
+See the
+<a target="_top" href="../../ldap/security/index.html">Security</a> <a href="../../ldap/security/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson for details and examples.
+<br>
+<em>Constant</em>:
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_PRINCIPAL"><tt>Context.SECURITY_PRINCIPAL</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_PRINCIPAL"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<em>Default</em>: Provider's default.
+<br>
+<em>Example</em>: <tt>"cn=Directory Manager, o=JNDITutorial"</tt>
+</TD>
+</TR>
+
+<!--- SECURITY PROTOCOL -->
+<TR>
+<TD>
+<tt>java.naming.security.protocol</tt>
+</TD>
+<TD>
+A string specifying the security protocol to use. See the
+<a target="_top" href="../../ldap/security/ssl.html">Security</a> <a href="../../ldap/security/ssl.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson for details and an example.
+<br>
+<em>Constant</em>:
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_PROTOCOL"><tt>Context.SECURITY_PROTOCOL</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_PROTOCOL"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<em>Default</em>: Provider's default.
+<br>
+<em>Example</em>: <tt>"ssl"</tt>
+</TD>
+</TR>
+
+
+
+</TABLE>
+
+<a name=SERVICE><h4>Service-Specific Environment Properties</h4></a>
+Service-specific environment properties are common across all service
+providers that implement a particular service or protocol.
+For example, several different service providers might
+implement the <a href="http://www.ietf.org/rfc/rfc2251.txt">LDAP</a>.
+These providers would use LDAP-specific environment properties.
+<p>
+Service-specific properties have the prefix 
+<tt>"java.naming.</tt><em>service</em><tt>."</tt>
+For example, the LDAP-specific properties have the prefix
+<tt>"java.naming.ldap."</tt> and the CORBA-specific properties have the prefix
+<tt>"java.naming.corba."</tt>
+Note that these are JNDI-related environment properties used by
+the JNDI service providers. A service or subsystem such as CORBA or the RMI
+might define other properties unrelated to the JNDI. 
+See the
+<a target="_top" href="../../ldap/misc/index.html">Miscellaneous</a> <a href="../../ldap/misc/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson for examples of LDAP-specific environment properties.
+
+<a name=FEATURE><h4>Feature-Specific Environment Properties</h4></a>
+
+Feature-specific environment properties are common across all service
+providers that implement a particular feature. For example,
+the LDAP service provider and a VendorX service provider might
+both use the 
+<A HREF="http://www.ietf.org/rfc/rfc2222.txt">SASL</A>
+for authentication. These providers would then use SASL-specific
+environment properties when configuring that feature.
+<p>
+Feature-specific properties have the prefix 
+<tt>"java.naming.</tt><em>feature</em><tt>."</tt>
+For example, the SASL-specific properties have the prefix
+<tt>"java.naming.security.sasl."</tt> 
+Note that these are JNDI-related environment properties used by
+the JNDI service providers. A feature or subsystem such as the SASL
+might define other properties unrelated to the JNDI.
+See the
+<a target="_top" href="../../ldap/security/sasl.html">Security</a> <a href="../../ldap/security/sasl.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson for some examples of SASL-specific properties.
+
+<a name=PROVIDER><h4>Provider-Specific Environment Properties</h4></a>
+
+Provider-specific environment properties are properties used by only
+one service provider. For example, Sun's LDAP service provider has a
+property for turning on tracing. (See the example in the
+
+<a target="_top" href="../../ldap/faq/context.html">Frequently Asked Questions</a> <a href="../../ldap/faq/context.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson.)
+A provider-specific property should have a prefix that reflects
+its uniqueness, 
+commonly the package name of the service provider. 
+For example, 
+the Sun LDAP provider's trace property is named
+<tt>"com.sun.jndi.ldap.trace.ber"</tt>. 
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="source.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=top border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Environment Properties</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

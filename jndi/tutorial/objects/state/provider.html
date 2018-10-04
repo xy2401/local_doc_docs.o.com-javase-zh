@@ -1,0 +1,174 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Interaction Between State Factories and Service Providers</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="interface.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="examples.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/objectsHeader.gif" width=26 height=26 align=bottom border=0 alt="Java Objects and the Directory | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>State Factories</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Interaction Between State Factories and Service Providers
+</h2>
+<p>
+<blockquote>
+
+A service providers acts as the go-between for the application
+and the directory when the application stores or retrieves Java objects
+from the directory. 
+When you write a service provider, you need to
+perform this go-between role by following the
+rules outlined in this section for storing objects in the directory.
+<p>
+The following detailed description is
+intended for developers writing service providers.
+The insight it offers into
+the go-between role of service providers might also
+interest API users.
+
+<h4>Relevant Methods</h4>
+
+When accepting objects to be bound into the underlying naming/directory
+service, the service provider should use the guidelines described
+in this section. An object can be bound by using one of the following methods:
+<ul>
+<li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><tt>Context.bind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#bind(javax.naming.Name, java.lang.Object, javax.naming.directory.Attributes)"><tt>DirContext.bind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#bind(javax.naming.Name, java.lang.Object, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#rebind(javax.naming.Name, java.lang.Object)"><tt>Context.rebind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#rebind(javax.naming.Name, java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#rebind(javax.naming.Name, java.lang.Object, javax.naming.directory.Attributes)"><tt>DirContext.rebind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#rebind(javax.naming.Name, java.lang.Object, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></ul>
+
+<h4>Minimal Set of Acceptable Types</h4>
+A service provider should try to support binding and rebinding
+objects that are or do one of the following:
+<ul>
+<li>Instances of 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html><tt>Reference</tt> </a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+<li>Implement the
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Referenceable.html><tt>Referenceable</tt> </a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Referenceable.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     interface
+<li>Implement the <tt>java.io.Serializable</tt> interface
+<li>Implement the
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html><tt>DirContext</tt> </a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interface
+</ul>
+It should check whether an object is in these four categories
+in the order listed because this order
+is most likely to capture the intent of the client.
+For example, a <tt>Reference</tt> is <tt>Serializable</tt>,
+so if you perform the <tt>Serializable</tt> check first,
+then no <tt>Reference</tt> objects will ever be stored in the reference format (they would all be serialized).
+<h4>Framework Support</h4>
+A service provider should use state factories
+configured with the provider and application.
+This allows the service provider to be customized to support arbitrary
+types of objects (for which a corresponding state factory is available).
+<p>
+The JNDI framework provides utility methods that service providers
+can use to access state factories.
+A service provider that implements only the 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html><tt>Context</tt> </a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     interface should use
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/NamingManager.html#getStateToBind(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable)"><tt>NamingManager.getStateToBind()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/NamingManager.html#getStateToBind(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+A service provider that implements the 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html><tt>DirContext</tt> </a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     interface should use
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getStateToBind(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable, javax.naming.directory.Attributes)"><tt>DirectoryManager.getStateToBind()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getStateToBind(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<p>
+These methods traverse the list of state factories specified in the 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#STATE_FACTORIES"><tt>Context.STATE_FACTORIES</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#STATE_FACTORIES"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   environment property and the
+<a href=../../getStarted/concepts/glossary.html#PROVRES>provider resource file</a> 
+and try to find a factory that yields a non-<tt>null</tt> answer.
+(See the
+<a target="_top" href="../../beyond/index.html">Beyond the Basics</a> <a target="_top" href="../../beyond/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>     trail for details about environment properties and the 
+provider resource file.)
+<p>
+Here's an example of how a <tt>DirContext</tt> implementation might
+use state factories.
+<blockquote>
+<pre>
+// First, use state factories to do a transformation
+DirStateFactory.Result res = DirectoryManager.getStateToBind(
+    obj, name, ctx, env, inAttrs);
+obj = res.getObject();
+Attributes outAttrs = res.getAttributes();
+
+// Check for Referenceable
+if (obj instanceof Referenceable) {
+    obj = ((Referenceable)obj).getReference();
+}
+
+// Store different formats
+if (obj instanceof Reference) {
+    // Store as ref and add outAttrs
+} else if (obj instanceof Serializable) {
+    // Serialize and add outAttrs
+} else if (obj instanceof DirContext) {
+    // Grab attributes and merge with outAttrs
+} else {
+    ...
+}
+</pre>
+</blockquote>
+When the provider gets an object (<tt>obj</tt>) and attributes (<tt>inAttrs</tt>)
+from the client to bind into the directory, it invokes <tt>getStateToBind()</tt> to
+get a possibly updated pair of object/attributes.
+If no state factories return a non-null answer, then
+<tt>getStateToBind()</tt> returns the original pair of object and attributes.
+In either case, the provider stores the results
+in the underlying directory in a format acceptable to the directory.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="interface.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="examples.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/objectsHeader.gif" width=26 height=26 align=top border=0 alt="Java Objects and the Directory | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>State Factories</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

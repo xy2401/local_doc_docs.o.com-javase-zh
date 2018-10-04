@@ -1,0 +1,361 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>LDAP & LDAPS URLs</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="ref.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="../search/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    LDAP & LDAPS URLs
+</h2>
+<p>
+<blockquote>
+
+URLs play a role in several places in the JNDI, as described in the
+
+<a target="_top" href="../../beyond/url/index.html">URLs</a> <a target="_top" href="../../beyond/url/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson.
+This section describes how they can be used with the 
+LDAP service provider.
+
+<h4>URL Formats</h4>
+
+<A HREF="http://www.ietf.org/rfc/rfc2255.txt">RFC 2255</A> describes
+the syntactic format of LDAP v3 URLs. The format contains all 
+of the elements
+necessary to specify an LDAP "search" operation, with provisions for supporting
+future version 3 extensions:
+<BLOCKQUOTE>
+<PRE>ldap://host:port/dn?attributes?scope?filter?extensions</PRE>
+</BLOCKQUOTE>
+The default hostname is <tt>localhost</tt>; the default port is
+389.  The default root distinguished name is the empty string.
+Authentication information may be specified in the <TT>extensions</TT>
+portion of the URL. See the RFC for a complete description of the format.
+<P>
+
+In addition to LDAP URLs, the LDAP provider also supports the non-standard 
+but widely used LDAPS URLs. LDAPS URLs use SSL connections instead of plain 
+(i.e., unprotected) connections. They have a syntax similar to LDAP URLs
+except the schemes are different and the default port for LDAPS URLs is 
+636 instead of 389. 
+
+<BLOCKQUOTE>
+<PRE>ldaps://host:port/dn?attributes?scope?filter?extensions</PRE>
+</BLOCKQUOTE>
+
+Note that use of LDAPS URLs has client and server requirements, 
+as detailed in the
+<a target="_top" href="../security/ssl.html#SERVER">SSL and Custom Sockets</a> <a href="../security/ssl.html#SERVER"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    section.
+
+<p>
+The LDAP provider also supports a special interpretation of
+LDAP and LDAPs URLs when they are used to name an LDAP service.
+If the URL contains neither host nor port information but contains
+a non-empty distinguished name, the LDAP provider will use the 
+distinguished name to automatically discover the LDAP service, 
+as described in the 
+<a target="_top" href="../connect/create.html#AUTO">Connections</a> <a href="../connect/create.html#AUTO"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson.
+
+
+<blockquote>
+<hr>
+<strong>Note:</strong> 
+LDAPS URLs are supported only in the <a href=http://java.sun.com/j2se/1.4.2>Java 2 SDK, v1.4.2</a>
+and later releases. Automatic discovery of the LDAP service
+using the URL's distinguished name is supported in the
+<a href=http://java.sun.com/j2se/1.4.1>Java 2 SDK, v1.4.1</a> and later releases.
+<hr>
+</blockquote>
+
+
+<h4>URL as a Name to the Initial Context</h4>
+If you pass an LDAP or LDAPS URL to the methods in 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><tt>InitialContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     or
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html"><tt>InitialDirContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, then the JNDI will look for a context implementation 
+(called a <em>URL context implementation</em>) to process the URL.
+<p>
+Here is <a href=src/SearchURL.java>an example</a> that performs a search
+from the initial context, using an LDAP URL as the name argument.
+<blockquote><pre>
+// Create the initial context
+DirContext ctx = new InitialDirContext();
+
+// Perform the search by using the URL
+NamingEnumeration answer = ctx.search(
+     "ldap://localhost:389/ou=People,o=JNDITutorial", "(sn=Geisel)", null);
+</pre></blockquote>
+This example produces the following output.
+<blockquote><pre>
+&gt;&gt;&gt;cn=Ted Geisel
+{sn=sn: Geisel, 
+ objectclass=objectclass: top, person, organizationalPerson, inetOrgPerson, 
+ jpegphoto=jpegphoto: [B@1dacd78a, 
+ mail=mail: Ted.Geisel@JNDITutorial.com, 
+ facsimiletelephonenumber=facsimiletelephonenumber: +1 408 555 2329, 
+ telephonenumber=telephonenumber: +1 408 555 5252, 
+ cn=cn: Ted Geisel}
+</pre></blockquote>
+<p>
+You might have noticed that you did not need to set up any environment
+properties to perform this search. This is because the JNDI automatically
+searches for the URL context implementation.
+If the URL context implementation is not found, it will use only
+the implementation specified by the environment properties (if any).
+For an LDAP URL, it looks for a class with the name
+<tt>ldapURLContextFactory</tt> from package locations specified by
+the environment property 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#URL_PKG_PREFIXES"><tt>Context.URL_PKG_PREFIXES</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#URL_PKG_PREFIXES"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     (<tt>"java.naming.factory.url.pkgs"</tt>).
+This property contains a list of package prefixes separated
+by colon characters (":"). If no class with the right name
+is found in these packages, then
+the package <tt>com.sun.jndi.url.ldap</tt> is searched.
+For an LDAPS URL, a class with the name
+<tt>ldapsURLContextFactory</tt> is sought using the same algorithm,
+with the default package being <tt>com.sun.jndi.url.ldaps</tt>.
+
+
+
+<a name=QUERY><h4>Query Components in a URL</h4></a>
+
+<p>With the exception of the 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.SearchControls)"><tt>DirContext.search()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.SearchControls)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     methods, when an LDAP or LDAPS URL is passed as a name to the initial context,
+the URL should <I>not</I> contain any query ('<TT>?</TT>') components.
+If it does, then an 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InvalidNameException.html"><tt>InvalidNameException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InvalidNameException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   is thrown by the LDAP service provider. 
+<p>
+For the <tt>search()</tt> methods, if a URL contains query components,
+then all other arguments (including the filter and 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/SearchControls.html"><tt>SearchControls</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/SearchControls.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>) are ignored. The query components of the URL and its defaults are
+used instead.
+For example, if an LDAP URL containing a scope component is supplied, then
+that scope overrides any scope setting that is passed in an
+argument. If the URL contains other query components but not the scope,
+then the LDAP URL's default scope ("base object") is used.
+<p>
+Here is <a href=src/SearchURLQuery.java>an example</a> that performs
+a subtree search by using a filter of <tt>"(sn=Geisel)"</tt>.
+<blockquote><pre>
+// Perform the search by using URL
+NamingEnumeration answer = ctx.search(
+	"ldap://localhost:389/ou=People,o=JNDITutorial??sub?(sn=Geisel)",
+	"" /* ignored*/, 
+        null /* ignored */);
+</pre></blockquote>
+
+<blockquote>
+<hr>
+<strong>Note:</strong>
+Version 1.2 of Sun's LDAP provider does not treat query components properly.
+<hr>
+</blockquote>
+
+<h4>URL for Configuring Service Providers</h4>
+
+To configure an LDAP service provider, you typically supply
+an LDAP or LDAPS URL in the 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#PROVIDER_URL"><tt>Context.PROVIDER_URL</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#PROVIDER_URL"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     (<tt>"java.naming.provider.url"</tt>)
+
+environment property. The LDAP service
+provider uses this URL
+to configure its connection to the directory server.  Only
+the <em>host</em>, <em>port</em>, and <em>dn</em> parts of the URL are
+relevant in this setting. Supplying other parts of the URL results in a 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ConfigurationException.html"><tt>ConfigurationException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ConfigurationException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<p>
+Instead of just one URL, you can also supply a space-separated list
+of URLs. In this case, the LDAP provider will attempt to use each URL 
+in turn until it is able to create a successful connection.
+The LDAP provider will then set the <tt>Context.PROVIDER_URL</tt>
+property to the successful URL, so that the application can determine
+which URL is being used.
+
+<a name=MULTI></a><p>
+Here is <a href=src/MultiUrls.java>an example</a> of how to specify
+a list of URLs.
+<blockquote><pre>
+Hashtable env = new Hashtable(11);
+env.put(Context.INITIAL_CONTEXT_FACTORY, 
+    "com.sun.jndi.ldap.LdapCtxFactory");
+
+// Specify list of space-separated URLs
+env.put(Context.PROVIDER_URL, 
+    "ldap://notthere:389/o=JNDITutorial " +
+    "ldap://localhost:389/o=JNDITutorial " + 
+    "ldap://remotehost/o=JNDITutorial " +
+    "ldap://thirdhost:389/o=JNDITutorial");
+
+// Create initial context
+DirContext ctx = new InitialDirContext(env);
+
+// See which server was used
+System.out.println(ctx.getEnvironment().get(Context.PROVIDER_URL));
+
+// do something useful with ctx
+</pre></blockquote>
+
+<blockquote>
+<hr>
+<strong>Note:</strong>
+Multiple URLs are supported
+only in the <a href=http://java.sun.com/j2se/1.4.1>Java 2 SDK, v1.4.1</a>
+and later releases. 
+<hr>
+</blockquote>
+
+
+
+
+<h4>URL for Specifying Referrals</h4>
+
+An LDAP referral contains a list of one or more URLs. To process an
+LDAP referral, the service provider uses the information in these
+URLs to create connections to the LDAP servers to which they refer. Multiple
+LDAP or LDAPS URLs in a single referral are treated as alternatives,
+each followed until one succeeds. The complete URL 
+(including any query components) is used.
+<p>
+You set up referrals by creating <em>referral</em> entries in the directory
+that contain the <tt>"REF"</tt> attribute.
+This attribute contains one or more referral URLs (usually
+LDAP or LDAPS URLs). See the
+<a target="_top" href="../referral/index.html">Referrals</a> <a href="../referral/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>     lesson for details on referrals.
+
+<h4>URL as a Name in <tt>NamingEnumeration</tt></h4>
+
+When you perform a 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><tt>Context.list()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>,
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#listBindings(javax.naming.Name)"><tt>Context.listBindings()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#listBindings(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, or
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.SearchControls)"><tt>DirContext.search()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.SearchControls)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, you get back a 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html"><tt>NamingEnumeration</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. Each item in this enumeration is an instance or subclass of
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameClassPair.html"><tt>NameClassPair</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameClassPair.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+
+When the name of the item (
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameClassPair.html#getName()"><tt>NameClassPair.getName()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameClassPair.html#getName()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>) is not relative to the target context,
+the name is returned as a URL.
+You can use
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameClassPair.html#isRelative()"><tt>NameClassPair.isRelative()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameClassPair.html#isRelative()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     to check whether the name is relative.
+One of main reason why the name might not be relative is because
+a referral was followed, in which case, the name of the object is that
+in the referred namespace and not the one at which the operation was initiated.
+See the
+<a target="_top" href="../../beyond/url/index.html">URLs</a> <a target="_top" href="../../beyond/url/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson for more details and an example.
+<p>
+An LDAP URL is returned if the context is communicating with the
+LDAP server by using a plain connection.
+An LDAPS URL is returned if the context is communicating 
+by using an SSL connection. The latter can happen if the
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_PROTOCOL><tt>Context.SECURITY_PROTOCOL</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_PROTOCOL><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     property was used to specify the use of SSL,
+or if an LDAPS URL was used in any of the following scenarios to get
+the context instance: to configure the service provider,
+as a referral, as a name argument to the initial context, or
+as an argument to <tt>getObjectInstance()</tt>.
+See the
+<a target="_top" href="../security/ssl.html">SSL and Custom Sockets</a> <a href="../security/ssl.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    section for more information on SSL.
+
+<h4>URL as an Argument to <tt>getObjectInstance()</tt></h4>
+
+When an LDAP namespace is federated under another namespace 
+(such as DNS), the information that is stored in the superior
+namespace might be an LDAP or LDAPS URL. In such a scenario, a
+<tt>lookup()</tt>/<tt>list()</tt>/<tt>search()</tt>
+method invocation in the superior namespace will return a
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html><tt>Reference</tt> </a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   that contains the LDAP or LDAPS URL for the LDAP namespace. 
+The service provider for the superior
+namespace will then pass the <tt>Reference</tt> to
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/NamingManager.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable)"><tt>NamingManager.getObjectInstance()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/NamingManager.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    or
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable, javax.naming.directory.Attributes)"><tt>DirectoryManager.getObjectInstance()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     to create an instance of an LDAP context.
+See the
+<a target="_top" href="../../beyond/index.html">Beyond the Basics</a> <a target="_top" href="../../beyond/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>     trail for details on federation.
+
+
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+<strong>Miscellaneous: End of Lesson</strong>
+<p>
+What's next?
+Now you can:
+<ul>
+<li> <a href=../search/index.html>Continue</a> on to the next lesson in this trail for
+examples of how to perform various types of searches.
+
+<li> Go to the 
+<a target="_top" href="../referral/index.html">Referrals</a> <a href="../referral/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>     lesson for tips on handling referrals.
+
+<li> Go to the 
+<a target="_top" href="../schema/index.html">Schema</a> <a href="../schema/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>     lesson for tips on accessing the schema.
+
+<li> Go to the 
+<a target="_top" href="../ext/index.html">Controls and Extensions</a> <a href="../ext/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>     to learn about LDAP controls and extensions.
+
+<li> Go to the 
+<a target="_top" href="../connect/index.html">Connections</a> <a href="../connect/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>     lesson for information on how connections are managed.
+
+<li> Go to the 
+<a target="_top" href="../faq/index.html">Frequently Asked Questions</a> <a href="../faq/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>     lesson to read about questions that LDAP 
+users have when using the JNDI.
+</ul>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="ref.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="../search/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

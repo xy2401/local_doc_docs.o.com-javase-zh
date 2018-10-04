@@ -1,0 +1,134 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Optional Components</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="essential.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="advanced.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Big Picture</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Optional Components
+</h2>
+<p>
+<blockquote>
+
+After building a basic service provider, 
+you might want to add a couple of useful
+features, one to support URL
+string names and the other to access the context through
+other means than the initial context.
+
+<h4>Supporting URL String Names</h4>
+
+A useful feature to support is to allow applications to supply URL strings
+as name arguments to methods invoked on the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/ObjectFactory.html"><tt>InitialContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/ObjectFactory.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>  (and its subclasses).
+
+This feature is described in the
+
+<a target="_top" href="../../beyond/url/initctx.html">URLs</a> <a target="_top" href="../../beyond/url/initctx.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson.
+
+To support this feature, 
+your service provider must have a <em>URL context factory</em>.
+This is a class that implements the
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/ObjectFactory.html"><tt>ObjectFactory</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/ObjectFactory.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interface. Its job is to return a <em>URL context implementation</em> that accepts
+URL strings of a particular scheme.
+For example, an LDAP URL context implementation accepts
+URL strings of the <tt>ldap</tt> URL scheme.
+The URL context implementation typically works closely with the main
+context implementation (the one that accepts non-URL strings).
+<p>
+The
+<a target="_top" href="../url/index.html">Adding URL Support</a> <a target="_top" href="../url/index.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>    lesson describes how to add support for URLs.
+
+<h4>Putting a Handle on Things</h4>
+
+Although you might not want to support full federation,
+a handle (that is, a reference)
+that can be bound in other naming systems
+can be useful for a context implementation.
+This allows the context to be federated at least as a terminal (i.e., leaf)
+naming system, as well as
+allows access to the context implementation
+through means other than the <tt>InitialContext</tt>.
+To support this feature, you need to decide on the format and content
+of the context's reference and define a corresponding object factory 
+that accepts that reference.
+This object factory implements the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/ObjectFactory.html"><tt>ObjectFactory</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/ObjectFactory.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interface.
+
+<p>
+The
+<a target="_top" href="../fed/index.html">Adding Federation Support</a> <a target="_top" href="../fed/index.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>    lesson describes how to add support for this feature.
+
+<h4>Putting It All Together</h4>
+
+The following picture shows the interactions between the components
+of a basic service provider and those necessary for URL support
+and object factory support.
+<p>
+<img src=../../jndiimages/allspi.gif alt="URL & Reference SPI" align=center>
+<p>
+
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="essential.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="advanced.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Big Picture</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

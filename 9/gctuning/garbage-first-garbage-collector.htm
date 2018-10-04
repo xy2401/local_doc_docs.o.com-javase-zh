@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Garbage-First Garbage Collector</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="dcterms.created" content="2017-10-11T21:49:04Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition HotSpot Virtual Machine Garbage Collection Tuning Guide" />
+<meta name="dcterms.identifier" content="E76294-05" />
+<meta name="dcterms.isVersionOf" content="JSGCT" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;2014, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="concurrent-mark-sweep-cms-collector.htm" title="Previous" type="text/html" />
+<link rel="Next" href="garbage-first-garbage-collector-tuning.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSGCT.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSGCT.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSGCT.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-ED3AB6D3-FD9B-4447-9EDF-983ED2F7A573"></a> <span id="PAGE" style="display:none;">12/14</span> <!-- End Header -->
+<h1 id="JSGCT-GUID-ED3AB6D3-FD9B-4447-9EDF-983ED2F7A573" class="sect1"><span class="enumeration_chapter">9</span> Garbage-First Garbage Collector</h1>
+<div>
+<p>This section describes the Garbage-First (G1) Garbage Collector (GC).</p>
+<div class="section">
+<p class="subhead1">Topics</p>
+<ul style="list-style-type: disc;">
+<li><a href="garbage-first-garbage-collector.htm#GUID-0394E76A-1A8F-425E-A0D0-B48A3DC82B42">Introduction to Garbage-First Garbage Collector</a></li>
+<li><a href="garbage-first-garbage-collector.htm#GUID-CE6F94B6-71AF-45D5-829E-DEADD9BA929D">Enabling G1</a></li>
+<li><a href="garbage-first-garbage-collector.htm#GUID-E9CB81BC-92E5-489E-8A2E-760691A41CDF">Basic Concepts</a>
+<ul style="list-style-type: disc;">
+<li><a href="garbage-first-garbage-collector.htm#GUID-15921907-B297-43A4-8C48-DC88035BC7CF">Heap Layout</a></li>
+<li><a href="garbage-first-garbage-collector.htm#GUID-F1BE86FA-3EDC-4D4F-BDB4-4B044AD83180">Garbage Collection Cycle</a></li>
+</ul>
+</li>
+<li><a href="garbage-first-garbage-collector.htm#GUID-1CDEB6B6-9463-4998-815D-05E095BFBD0F">Garbage-First Internals</a>
+<ul style="list-style-type: disc;">
+<li><a href="garbage-first-garbage-collector.htm#GUID-572C9203-AB27-46F1-9D33-42BA4F3C6BF3">Determining Initiating Heap Occupancy</a></li>
+<li><a href="garbage-first-garbage-collector.htm#GUID-AC383806-7FA7-4698-8B92-4FD092B9F368">Marking</a></li>
+<li><a href="garbage-first-garbage-collector.htm#GUID-BE157AF6-29E7-461A-82CF-50C1978785DA">Behavior in Very Tight Heap Situations</a></li>
+<li><a href="garbage-first-garbage-collector.htm#GUID-572C9203-AB27-46F1-9D33-42BA4F3C6BF3">Determining Initiating Heap Occupancy</a></li>
+<li><a href="garbage-first-garbage-collector.htm#GUID-D74F3CC7-CC9F-45B5-B03D-510AEEAC2DAC">Humongous Objects</a></li>
+<li><a href="garbage-first-garbage-collector.htm#GUID-C268549C-7D95-499C-9B24-A6670B44E49C">Young-Only Phase Generation Sizing</a></li>
+<li><a href="garbage-first-garbage-collector.htm#GUID-6D6B18B1-063B-48FF-99E3-5AF059C43CE8">Space-Reclamation Phase Generation Sizing</a></li>
+</ul>
+</li>
+<li><a href="garbage-first-garbage-collector.htm#GUID-082C967F-2DAC-4B59-8A81-0CEC6EEB9016" title="This topic provides an overview of the most important defaults specific to G1 and their default values. They give a rough overview of expected behavior and resource usage using G1 without any additional options.">Ergonomic Defaults for G1 GC</a></li>
+<li><a href="garbage-first-garbage-collector.htm#GUID-98E80C82-24D8-41D4-BC39-B2583F04F1FF">Comparison to Other Collectors</a></li>
+</ul>
+</div>
+<!-- class="section" --></div>
+<div class="sect2"><a id="GUID-0394E76A-1A8F-425E-A0D0-B48A3DC82B42"></a>
+<h2 id="JSGCT-GUID-0394E76A-1A8F-425E-A0D0-B48A3DC82B42" class="sect2">Introduction to Garbage-First Garbage Collector</h2>
+<div>
+<p>The Garbage-First (G1) garbage collector is targeted for multiprocessor machines with a large amount of memory. It attempts to meet garbage collection pause-time goals with high probability while achieving high throughput with little need for configuration. G1 aims to provide the best balance between latency and throughput using current target applications and environments whose features include:</p>
+<ul style="list-style-type: disc;">
+<li>Heap sizes up to ten of GBs or larger, with more than 50% of the Java heap occupied with live data.</li>
+<li>Rates of object allocation and promotion that can vary significantly over time.</li>
+<li>A significant amount of fragmentation in the heap.</li>
+<li>Predictable pause-time target goals that aren&rsquo;t longer than a few hundred milliseconds, avoiding long garbage collection pauses.</li>
+</ul>
+<p>G1 replaces the Concurrent Mark-Sweep (CMS) collector. It is also the default collector.</p>
+<p>The G1 collector achieves high performance and tries to meet pause-time goals in several ways described in the following sections.</p>
+</div>
+</div>
+<div class="sect2"><a id="GUID-CE6F94B6-71AF-45D5-829E-DEADD9BA929D"></a>
+<h2 id="JSGCT-GUID-CE6F94B6-71AF-45D5-829E-DEADD9BA929D" class="sect2">Enabling G1</h2>
+<div>
+<p>The Garbage-First garbage collector is the default collector, so typically you don't have to perform any additional actions. You can explicitly enable it by providing <code class="codeph">-XX:+UseG1GC</code> on the command line.</p>
+</div>
+</div>
+<div class="sect2"><a id="GUID-E9CB81BC-92E5-489E-8A2E-760691A41CDF"></a>
+<h2 id="JSGCT-GUID-E9CB81BC-92E5-489E-8A2E-760691A41CDF" class="sect2">Basic Concepts</h2>
+<div>
+<p>G1 is a generational, incremental, parallel, mostly concurrent, stop-the-world, and evacuating garbage collector which monitors pause-time goals in each of the stop-the-world pauses. Similar to other collectors, G1 splits the heap into (virtual) young and old generations. Space-reclamation efforts concentrate on the young generation where it is most efficient to do so, with occasional space-reclamation in the old generation</p>
+<p>Some operations are always performed in stop-the-world pauses to improve throughput. Other operations that would take more time with the application stopped such as whole-heap operations like <span class="italic">global marking</span> are performed in parallel and concurrently with the application. To keep stop-the-world pauses short for space-reclamation, G1 performs space-reclamation incrementally in steps and in parallel. G1 achieves predictability by tracking information about previous application behavior and garbage collection pauses to build a model of the associated costs. It uses this information to size the work done in the pauses. For example, G1 reclaims space in the most efficient areas first (that is the areas that are mostly filled with garbage, therefore the name).</p>
+<p>G1 reclaims space mostly by using evacuation: live objects found within selected memory areas to collect are copied into new memory areas, compacting them in the process. After an evacuation has been completed, the space previously occupied by live objects is reused for allocation by the application.</p>
+<p>The Garbage-First collector is not a real-time collector. It tries to meet set pause-time targets with high probability over a longer time, but not always with absolute certainty for a given pause.</p>
+</div>
+<div class="sect3"><a id="GUID-15921907-B297-43A4-8C48-DC88035BC7CF"></a>
+<h3 id="JSGCT-GUID-15921907-B297-43A4-8C48-DC88035BC7CF" class="sect3">Heap Layout</h3>
+<div>
+<p>G1 partitions the heap into a set of equally sized heap regions, each a contiguous range of virtual memory as shown in Figure 9-1. A region is the unit of memory allocation and memory reclamation. At any given time, each of these regions can be empty (light gray), or assigned to a particular generation, young or old. As requests for memory comes in, the memory manager hands out free regions. The memory manager assigns them to a generation and then returns them to the application as free space into which it can allocate itself.</p>
+<div class="figure" id="GUID-15921907-B297-43A4-8C48-DC88035BC7CF__HEAP_DIVISION_BY_G1">
+<p class="titleinfigure">Figure 9-1 G1 Garbage Collector Heap Layout</p>
+<img width="447" height="300" src="img/jsgct_dt_004_grbg_frst_hp.png" alt="Description of Figure 9-1 follows" title="Description of Figure 9-1 follows" /><br />
+<a href="img_text/jsgct_dt_004_grbg_frst_hp.htm">Description of "Figure 9-1 G1 Garbage Collector Heap Layout "</a></div>
+<!-- class="figure" -->
+<p>The young generation contains eden regions (red) and survivor regions (red with "S"). These regions provide the same function as the respective contiguous spaces in other collectors, with the difference that in G1 these regions are typically laid out in a noncontiguous pattern in memory. Old regions (light blue) make up the old generation. Old generation regions may be humongous (light blue with "H") for objects that span multiple regions.</p>
+<p>An application always allocates into a young generation, that is, eden regions, with the exception of humongous, objects that are directly allocated as belonging to the old generation.</p>
+<p>G1 garbage collection pauses can reclaim space in the young generation as a whole, and any additional set of old generation regions at any collection pause. During the pause G1 copies objects from this <span class="italic">collection set</span> to one or more different regions in the heap. The destination region for an object depends on the source region of that object: the entire young generation is copied into either survivor or old regions, and objects from old regions to other, different old regions using aging.</p>
+</div>
+</div>
+<div class="sect3"><a id="GUID-F1BE86FA-3EDC-4D4F-BDB4-4B044AD83180"></a>
+<h3 id="JSGCT-GUID-F1BE86FA-3EDC-4D4F-BDB4-4B044AD83180" class="sect3">Garbage Collection Cycle</h3>
+<div>
+<p>On a high level, the G1 collector alternates between two phases. The young-only phase contains garbage collections that fill up the currently available memory with objects in the old generation gradually. The space-reclamation phase is where G1 reclaims space in the old generation incrementally, in addition to handling the young generation. Then the cycle restarts with a young-only phase.</p>
+<p>Figure 9-2 gives an overview about this cycle with an example of the sequence of garbage collection pauses that could occur:</p>
+<div class="figure" id="GUID-F1BE86FA-3EDC-4D4F-BDB4-4B044AD83180__GUID-2D6AABE8-15CA-4E8B-AD13-12A9638C6274">
+<p class="titleinfigure">Figure 9-2 Garbage Collection Cycle Overview</p>
+<img width="359" height="261" src="img/jsgct_dt_001_grbgcltncyl.png" alt="Description of Figure 9-2 follows" title="Description of Figure 9-2 follows" /><br />
+<a href="img_text/jsgct_dt_001_grbgcltncyl.htm">Description of "Figure 9-2 Garbage Collection Cycle Overview "</a></div>
+<!-- class="figure" -->
+<p>The following list describes the phases, their pauses and the transition between the phases of the G1 garbage collection cycle in detail:</p>
+<ol>
+<li>
+<p>Young-only phase: This phase starts with a few young-only collections that promote objects into the old generation. The transition between the young-only phase and the space-reclamation phase starts when the old generation occupancy reaches a certain threshold, the Initiating Heap Occupancy threshold. At this time, G1 schedules an Initial Mark young-only collection instead of a regular young-only collection.</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Initial Mark : This type of collection starts the marking process in addition to performing a regular young-only collection. Concurrent marking determines all currently reachable (live) objects in the old generation regions to be kept for the following space-reclamation phase. While marking hasn&rsquo;t completely finished, regular young collections may occur. Marking finishes with two special stop-the-world pauses: Remark and Cleanup.</p>
+</li>
+<li>
+<p>Remark: This pause finalizes the marking itself, and performs global reference processing and class unloading. Between Remark and Cleanup G1 calculates a summary of the liveness information concurrently, which will be finalized and used in the Cleanup pause to update internal data structures.</p>
+</li>
+<li>
+<p>Cleanup: This pause also reclaims completely empty regions, and determines whether a space-reclamation phase will actually follow. If a space-reclamation phase follows, the young-only phase completes with a single young-only collection.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Space-reclamation phase: This phase consists of multiple mixed collections that in addition to young generation regions, also evacuate live objects of sets of old generation regions. The space-reclamation phase ends when G1 determines that evacuating more old generation regions wouldn't yield enough free space worth the effort.</p>
+</li>
+</ol>
+<p>After space-reclamation, the collection cycle restarts with another young-only phase. As backup, if the application runs out of memory while gathering liveness information, G1 performs an in-place stop-the-world full heap compaction (Full GC) like other collectors.</p>
+</div>
+</div>
+</div>
+<div class="sect2"><a id="GUID-1CDEB6B6-9463-4998-815D-05E095BFBD0F"></a>
+<h2 id="JSGCT-GUID-1CDEB6B6-9463-4998-815D-05E095BFBD0F" class="sect2">Garbage-First Internals</h2>
+<div>
+<p>This section describes some important details of the Garbage-First (G1) garbage collector.</p>
+</div>
+<div class="sect3"><a id="GUID-572C9203-AB27-46F1-9D33-42BA4F3C6BF3"></a>
+<h3 id="JSGCT-GUID-572C9203-AB27-46F1-9D33-42BA4F3C6BF3" class="sect3">Determining Initiating Heap Occupancy</h3>
+<div>
+<p>The <span class="italic">Initiating Heap Occupancy Percent (IHOP)</span> is the threshold at which an Initial Mark collection is triggered and it is defined as a percentage of the old generation size.</p>
+<p>G1 by default automatically determines an optimal IHOP by observing how long marking takes and how much memory is typically allocated in the old generation during marking cycles. This feature is called <span class="italic">Adaptive IHOP</span>. If this feature is active, then the option <code class="codeph">-XX:InitiatingHeapOccupancyPercent</code> determines the initial value as a percentage of the size of the current old generation as long as there aren't enough observations to make a good prediction of the Initiating Heap Occupancy threshold. Turn off this behavior of G1 using the option<code class="codeph">-XX:-G1UseAdaptiveIHOP</code>. In this case, the value of <code class="codeph">-XX:InitiatingHeapOccupancyPercent</code> always determines this threshold.</p>
+<p>Internally, Adaptive IHOP tries to set the Initiating Heap Occupancy so that the first mixed garbage collection of the space-reclamation phase starts when the old generation occupancy is at a current maximum old generation size minus the value of <code class="codeph">-XX:G1HeapReservePercent</code> as the extra buffer.</p>
+</div>
+</div>
+<div class="sect3"><a id="GUID-AC383806-7FA7-4698-8B92-4FD092B9F368"></a>
+<h3 id="JSGCT-GUID-AC383806-7FA7-4698-8B92-4FD092B9F368" class="sect3">Marking</h3>
+<div>
+<p>G1 marking uses an algorithm called <span class="italic">Snapshot-At-The-Beginning (SATB)</span> . It takes a virtual snapshot of the heap at the time of the Initial Mark pause, when all objects that were live at the start of marking are considered live for the remainder of marking. This means that objects that become dead (unreachable) during marking are still considered live for the purpose of space-reclamation (with some exceptions). This may cause some additional memory wrongly retained compared to other collectors. However, SATB potentially provides better latency during the Remark pause. The too conservatively considered live objects during that marking will be reclaimed during the next marking. See the <a href="garbage-first-garbage-collector-tuning.htm#GUID-90E30ACA-8040-432E-B3A0-1E0440AB556A" title="This section describes how to adapt Garbage-First garbage collector (G1 GC) behavior in case it does not meet your requirements.">Garbage-First Garbage Collector Tuning</a>&nbsp;topic for more information about problems with marking.</p>
+</div>
+</div>
+<div class="sect3"><a id="GUID-BE157AF6-29E7-461A-82CF-50C1978785DA"></a>
+<h3 id="JSGCT-GUID-BE157AF6-29E7-461A-82CF-50C1978785DA" class="sect3">Behavior in Very Tight Heap Situations</h3>
+<div>
+<p>When the application keeps alive so much memory so that an evacuation can't find enough space to copy to, an evacuation failure occurs. Evacuation failure means that G1 tries to complete the current garbage collection by keeping any objects that have already been moved in their new location, and not copying any not yet moved objects, only adjusting references between the object. Evacuation failure may incur some additional overhead, but generally should be as fast as other young collections. After this garbage collection with the evacuation failure, G1 will resume the application as normal without any other measures. G1 assumes that the evacuation failure occurred close to the end of the garbage collection; that is, most objects were already moved and there is enough space left to continue running the application until marking completes and space-reclamation starts.</p>
+<p>If this assumption doesn&rsquo;t hold, then G1 will eventually schedule a Full GC. This type of collection performs in-place compaction of the entire heap. This might be very slow.</p>
+<p>See <a href="garbage-first-garbage-collector-tuning.htm#GUID-90E30ACA-8040-432E-B3A0-1E0440AB556A" title="This section describes how to adapt Garbage-First garbage collector (G1 GC) behavior in case it does not meet your requirements.">Garbage-First Garbage Collector Tuning</a> for more information about problems with allocation failure or Full GC's before signalling out of memory.</p>
+</div>
+</div>
+<div class="sect3"><a id="GUID-D74F3CC7-CC9F-45B5-B03D-510AEEAC2DAC"></a>
+<h3 id="JSGCT-GUID-D74F3CC7-CC9F-45B5-B03D-510AEEAC2DAC" class="sect3">Humongous Objects</h3>
+<div>
+<p>Humongous objects are objects larger or equal the size of half a region. The current region size is determined ergonomically as described in the <a href="garbage-first-garbage-collector.htm#GUID-082C967F-2DAC-4B59-8A81-0CEC6EEB9016" title="This topic provides an overview of the most important defaults specific to G1 and their default values. They give a rough overview of expected behavior and resource usage using G1 without any additional options.">Ergonomic Defaults for G1 GC</a> section, unless set using the <code class="codeph">-XX:G1HeapRegionSize</code> option.</p>
+<div class="p">These humongous objects are sometimes treated in special ways:
+<ul style="list-style-type: disc;">
+<li>Every humongous object gets allocated as a sequence of contiguous regions in the old generation. The start of the object itself is always located at the start of the first region in that sequence. Any leftover space in the last region of the sequence will be lost for allocation until the entire object is reclaimed.</li>
+<li>Generally, humongous objects can be reclaimed only at the end of marking during the Cleanup pause, or during Full GC if they became unreachable. There is, however, a special provision for humongous objects for arrays of primitive types for example, <code class="codeph">bool</code>, all kinds of integers, and floating point values. G1 opportunistically tries to reclaim humongous objects if they are not referenced by many objects at any kind of garbage collection pause. This behavior is enabled by default but you can disable it with the option <code class="codeph">-XX:G1EagerReclaimHumongousObjects</code>.</li>
+<li>Allocations of humongous objects may cause garbage collection pauses to occur prematurely. G1 checks the Initiating Heap Occupancy threshold at every humongous object allocation and may force an initial mark young collection immediately, if current occupancy exceeds that threshold.</li>
+<li>The humongous objects never move, not even during a Full GC. This can cause premature slow Full GCs or unexpected out-of-memory conditions with lots of free space left due to fragmentation of the region space.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3"><a id="GUID-C268549C-7D95-499C-9B24-A6670B44E49C"></a>
+<h3 id="JSGCT-GUID-C268549C-7D95-499C-9B24-A6670B44E49C" class="sect3">Young-Only Phase Generation Sizing</h3>
+<div>
+<p>During the young-only phase, the set of regions to collect (collection set), consists only of young generation regions. G1 always sizes the young generation at the end of a young-only collection. This way, G1 can meet the pause time goals that were set using <code class="codeph">-XX:MaxGCPauseTimeMillis</code> and <code class="codeph">-XX:PauseTimeIntervalMillis</code> based on long-term observations of actual pause time. It takes into account how long it took young generations of similar size to evacuate. This includes information like how many objects had to be copied during collection, and how interconnected these objects had been.</p>
+<p>If not otherwise constrained, then G1 adaptively sizes the young generation size between the values that <code class="codeph">-XX:G1NewSizePercent</code> and <code class="codeph">-XX:G1MaxNewSizePercent</code> determine to meet pause-time. See <a href="garbage-first-garbage-collector-tuning.htm#GUID-90E30ACA-8040-432E-B3A0-1E0440AB556A" title="This section describes how to adapt Garbage-First garbage collector (G1 GC) behavior in case it does not meet your requirements.">Garbage-First Garbage Collector Tuning</a>&nbsp; for more information about how to fix long pauses.</p>
+</div>
+</div>
+<div class="sect3"><a id="GUID-6D6B18B1-063B-48FF-99E3-5AF059C43CE8"></a>
+<h3 id="JSGCT-GUID-6D6B18B1-063B-48FF-99E3-5AF059C43CE8" class="sect3">Space-Reclamation Phase Generation Sizing</h3>
+<div>
+<p>During the space-reclamation phase, G1 tries to maximize the amount of space that's reclaimed in the old generation in a single garbage collection pause. The size of the young generation is set to minimum allowed, typically as determined by <code class="codeph">-XX:G1NewSizePercent</code>, and any old generation regions to reclaim space are added until G1 determines that adding further regions will exceed the pause time goal. In a particular garbage collection pause, G1 adds old generation regions in order of their reclamation efficiency, highest first, and the remaining available time to get the final collection set.</p>
+<p>The number of old generation regions to take per garbage collection is bounded at the lower end by the number of potential candidate old generation regions (<span class="italic">collection set candidate regions</span>) to collect, divided by the length of the space-reclamation phase as determined by <code class="codeph">-XX:G1MixedGCCountTarget</code>. The collection set candidate regions are all old generation regions that have an occupancy that's lower than <code class="codeph">-XX:G1MixedGCLiveThresholdPercent</code> at the start of the phase.</p>
+<p>The phase ends when the remaining amount of space that can be reclaimed in the collection set candidate regions is less than the percentage set by <code class="codeph">-XX:G1HeapWastePercent</code>.</p>
+<p>See <a href="garbage-first-garbage-collector-tuning.htm#GUID-90E30ACA-8040-432E-B3A0-1E0440AB556A" title="This section describes how to adapt Garbage-First garbage collector (G1 GC) behavior in case it does not meet your requirements.">Garbage-First Garbage Collector Tuning</a> for more information about how many old generation regions G1 will use and how to avoid long mixed collection pauses.</p>
+</div>
+</div>
+</div>
+<div class="sect2"><a id="GUID-082C967F-2DAC-4B59-8A81-0CEC6EEB9016"></a>
+<h2 id="JSGCT-GUID-082C967F-2DAC-4B59-8A81-0CEC6EEB9016" class="sect2">Ergonomic Defaults for G1 GC</h2>
+<div>
+<p>This topic provides an overview of the most important defaults specific to G1 and their default values. They give a rough overview of expected behavior and resource usage using G1 without any additional options.</p>
+<div class="section">
+<div class="tblformal" id="GUID-082C967F-2DAC-4B59-8A81-0CEC6EEB9016__ERGONOMICDEFAULTSFORDETERMINISTICG1-9C74ED9D">
+<p class="titleintable">Table 9-1 Ergonomic Defaults G1 GC</p>
+<table class="cellalignment63" title="Ergonomic Defaults G1 GC" summary="Ergonomic defaults for G1 GC">
+<thead>
+<tr class="cellalignment57">
+<th class="cellalignment64" id="d4229e489">Option and Default Value</th>
+<th class="cellalignment65" id="d4229e492">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment57">
+<td class="cellalignment66" id="d4229e497" headers="d4229e489">
+<p><code class="codeph">-XX:MaxGCPauseMillis=200</code></p>
+</td>
+<td class="cellalignment67" headers="d4229e497 d4229e492">
+<p>The goal for the maximum pause time.</p>
+</td>
+</tr>
+<tr class="cellalignment57">
+<td class="cellalignment66" id="d4229e505" headers="d4229e489">
+<p><code class="codeph">-XX:GCPauseTimeInterval</code>=<span class="italic">&lt;ergo&gt;</span></p>
+</td>
+<td class="cellalignment67" headers="d4229e505 d4229e492">
+<p>The goal for the maximum pause time interval. By default G1 doesn&rsquo;t set any goal, allowing G1 to perform garbage collections back-to-back in extreme cases.</p>
+</td>
+</tr>
+<tr class="cellalignment57">
+<td class="cellalignment66" id="d4229e516" headers="d4229e489">
+<p><code class="codeph">-XX:ParallelGCThreads</code>=<span class="italic">&lt;ergo&gt;</span></p>
+</td>
+<td class="cellalignment67" headers="d4229e516 d4229e492">
+<p>The maximum number of threads used for parallel work during garbage collection pauses. This is derived from the number of available threads of the computer that the VM runs on in the following way: if the number of CPU threads available to the process is fewer than or equal to 8, use that. Otherwise add five eighths of the threads greater than to the final number of threads.</p>
+</td>
+</tr>
+<tr class="cellalignment57">
+<td class="cellalignment66" id="d4229e527" headers="d4229e489">
+<p><code class="codeph">-XX:ConcGCThreads</code>=<span class="italic">&lt;ergo&gt;</span>&nbsp;</p>
+</td>
+<td class="cellalignment67" headers="d4229e527 d4229e492">
+<p>The maximum number of threads used for concurrent work. By default, this value is <code class="codeph">-XX:ParallelGCThreads</code> divided by 4.</p>
+</td>
+</tr>
+<tr class="cellalignment57">
+<td class="cellalignment66" id="d4229e542" headers="d4229e489">
+<p><code class="codeph">-XX:+G1UseAdaptiveIHOP</code></p>
+<p><code class="codeph">-XX:InitiatingHeapOccupancyPercent=45</code></p>
+</td>
+<td class="cellalignment67" headers="d4229e542 d4229e492">
+<p>Defaults for controlling the initiating heap occupancy indicate that adaptive determination of that value is turned on, and that for the first few collection cycles G1 will use an occupancy of 45% of the old generation as mark start threshold.</p>
+</td>
+</tr>
+<tr class="cellalignment57">
+<td class="cellalignment66" id="d4229e553" headers="d4229e489">
+<p><code class="codeph">-XX:G1HeapRegionSize=<span class="codeinlineitalic">&lt;ergo&gt;</span>&nbsp;</code></p>
+</td>
+<td class="cellalignment67" headers="d4229e553 d4229e492">
+<p>The set of the heap region size based on initial and maximum heap size. So that heap contains roughly 2048 heap regions. The size of a heap region can vary from 1 to 32 MB, and must be a power of 2.</p>
+</td>
+</tr>
+<tr class="cellalignment57">
+<td class="cellalignment66" id="d4229e564" headers="d4229e489">
+<p><code class="codeph">-XX:G1NewSizePercent=5</code></p>
+<p><code class="codeph">-XX:G1MaxNewSizePercent=60</code></p>
+</td>
+<td class="cellalignment67" headers="d4229e564 d4229e492">The size of the young generation in total, which varies between these two values as percentages of the current Java heap in use.</td>
+</tr>
+<tr class="cellalignment57">
+<td class="cellalignment66" id="d4229e574" headers="d4229e489">
+<p><code class="codeph">-XX:G1HeapWastePercent=5</code></p>
+</td>
+<td class="cellalignment67" headers="d4229e574 d4229e492">The allowed unreclaimed space in the collection set candidates as a percentage. G1 stops the space-reclamation phase if the free space in the collection set candidates is lower than that.</td>
+</tr>
+<tr class="cellalignment57">
+<td class="cellalignment66" id="d4229e581" headers="d4229e489">
+<p><code class="codeph">-XX:G1MixedGCCountTarget=8</code></p>
+</td>
+<td class="cellalignment67" headers="d4229e581 d4229e492">The expected length of the space-reclamation phase in a number of collections.</td>
+</tr>
+<tr class="cellalignment57">
+<td class="cellalignment66" id="d4229e588" headers="d4229e489">
+<p><code class="codeph">-XX:G1MixedGCLiveThresholdPercent=85</code></p>
+</td>
+<td class="cellalignment67" headers="d4229e588 d4229e492">Old generation regions with higher live object occupancy than this percentage aren't collected in this space-reclamation phase.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<div class="infobox-note" id="GUID-082C967F-2DAC-4B59-8A81-0CEC6EEB9016__GUID-158B2AD4-B43D-4956-A474-67EAD0594471">
+<p class="notep1">Note:</p>
+<code class="codeph">&lt;ergo&gt;</code> means that the actual value is determined ergonomically depending on the environment.</div>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-98E80C82-24D8-41D4-BC39-B2583F04F1FF"></a>
+<h2 id="JSGCT-GUID-98E80C82-24D8-41D4-BC39-B2583F04F1FF" class="sect2">Comparison to Other Collectors</h2>
+<div>
+<p>This is a summary of the main differences between G1 and the other collectors:</p>
+<ul style="list-style-type: disc;">
+<li>Parallel GC can compact and reclaim space in the old generation only as a whole. G1 incrementally distributes this work across multiple much shorter collections. This substantially shortens pause time at the potential expense of throughput.</li>
+<li>Similar to the CMS, G1 concurrently performs part of the old generation space-reclamation concurrently. However, CMS can't defragment the old generation heap, eventually running into long Full GC's.</li>
+<li>G1 may exhibit higher overhead than other collectors,&nbsp;affecting throughput due to its concurrent nature.</li>
+</ul>
+<p>Due to how it works, G1 has some unique mechanisms to improve garbage collection efficiency:</p>
+<ul style="list-style-type: disc;">
+<li>G1 can reclaim some completely empty, large areas of the old generation during any collection. This could avoid many otherwise unnecessary garbage collections, freeing a significant amount of space without much effort.</li>
+<li>G1 can optionally try to deduplicate duplicate strings on the Java heap concurrently.</li>
+</ul>
+<p>Reclaiming empty, large objects from the old generation is always enabled. You can disable this feature with the option <code class="codeph">-XX:-G1EagerReclaimHumongousObjects</code>. String deduplication is disabled by default. You can enable it using the option <code class="codeph">-XX:+G1EnableStringDeduplication</code>.</p>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment56">
+<tr>
+<td class="cellalignment68">
+<table class="cellalignment61">
+<tr>
+<td class="cellalignment60"><a href="concurrent-mark-sweep-cms-collector.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment60"><a href="garbage-first-garbage-collector-tuning.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;2014, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment70">
+<table class="cellalignment59">
+<tr>
+<td class="cellalignment60"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment60"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment60"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

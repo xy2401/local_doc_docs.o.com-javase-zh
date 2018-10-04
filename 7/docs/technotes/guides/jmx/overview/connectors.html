@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content=
+"text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="GENERATOR" content=
+"Quadralay WebWorks Publisher Professional Edition 7.0.5.1025" />
+<meta name="TEMPLATEBASE" content="book-no-index" />
+<meta name="LASTUPDATED" content="Sat Aug 02 15:56:57 2008" />
+<title>Using JMX Connectors to Manage Resources Remotely</title>
+<link rel="Table of Contents" href="JMXoverviewTOC.html" />
+<link rel="Previous" href="agent.html" />
+<link rel="Next" href="lookup.html" />
+<link rel="Index" href="appendixA.html" />
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="a1"><a href="#skip" class="skiplink" title="Skip navigation bar">Skip navigation bar</a></div>
+<table width="100%" summary="">
+<tr>
+<td align="left"><a accesskey="c" href=
+"JMXoverviewTOC.html">Contents</a> | <a accesskey="p" href=
+"agent.html">Previous</a> | <a accesskey="n" href=
+"lookup.html">Next</a></td>
+</tr>
+</table>
+<a name="skip" id="skip"></a> <a name="wp874" id="wp874"></a>
+<h2 class="pChapNum">Chapter &#160; 5</h2>
+<a name="wp5529" id="wp5529"></a>
+<h2 class="pChapTitle">Using JMX Connectors to Manage Resources
+Remotely</h2>
+<a name="wp997206" id="wp997206"></a>
+<p class="pBody">The <em class="cEmphasis">Java Management
+Extensions Instrument and Agent Specification</em> defines the
+concept of <em class="cEmphasis">connectors</em>. A connector makes
+a Java Management Extensions (JMX) technology MBean server
+accessible to remote Java technology-based clients. The client end
+of a connector exports essentially the same interface as the MBean
+server.</p>
+<a name="wp997211" id="wp997211"></a>
+<p class="pBody">A connector consists of a connector client and a
+connector server. A connector server is attached to an MBean server
+and listens for connection requests from clients. A connector
+client is responsible for establishing a connection with the
+connector server. A connector client will usually be in a different
+Java Virtual Machine (Java VM) from the connector server, and will
+often be running on a different machine.</p>
+<a name="wp997227" id="wp997227"></a>
+<p class="pBody">Many different implementations of connectors are
+possible. In particular, there are many possibilities for the
+protocol used to communicate over a connection between client and
+server.</p>
+<a name="wp998832" id="wp998832"></a>
+<p class="pBody">A connector server usually has an address, used to
+establish connections between connector clients and the connector
+server. Alternatively, some connectors can provide connection stubs
+to establish connections. The way in which connections are
+established depends on the discovery and lookup technology that you
+use (see <a href="lookup.html#wp997591"><span style=
+"color: #3366CC">Chapter&#160;6, &quot;Discovery and Lookup
+Services&quot;</span></a>).</p>
+<a name="wp997556" id="wp997556"></a>
+<p class="pBody">This chapter outlines the different types of
+connector defined by the JMX Remote API specification and the
+protocols they use, in the following sections:</p>
+<div style="margin-left: 2em" class="pBullet1"><a name="wp997557"
+id="wp997557"></a>
+<div class="pBullet1">
+<ul>
+<li><a href="connectors.html#wp997004"><span style=
+"color: #3366CC">&quot;RMI Connector&quot;</span></a>: This
+standard Remote Method Invocation (RMI) protocol must be supported
+by every implementation that conforms to the JMX Remote API
+standard.</li>
+</ul>
+</div>
+<a name="wp998603" id="wp998603"></a>
+<div class="pBullet1Plus">
+<ul>
+<li><a href="connectors.html#wp998561"><span style=
+"color: #3366CC">&quot;Generic Connector&quot;</span></a>: The JMX
+Remote API standard also defines an optional protocol based
+directly on TCP sockets, called the JMX Messaging Protocol (JMXMP).
+An implementation of the standard can omit the JMXMP connector, but
+must not omit the RMI connector. The Java SE platform does not
+include the optional JMXMP connector.</li>
+</ul>
+</div>
+<a name="wp997558" id="wp997558"></a>
+<div class="pBullet1Last">
+<ul>
+<li><a href="connectors.html#wp997173"><span style=
+"color: #3366CC">&quot;User-Defined Protocols&quot;</span></a>: A
+connector can also implement a protocol that is not defined in the
+JMX technology.</li>
+</ul>
+</div>
+</div>
+<a name="wp997004" id="wp997004"></a>
+<h2 class="pHeading1">RMI Connector</h2>
+<a name="wp997315" id="wp997315"></a>
+<p class="pBody">The JMX Remote API standard defines a standard
+protocol based on RMI. The RMI connector must be present in every
+implementation of the JMX Remote API.</p>
+<a name="wp997318" id="wp997318"></a>
+<p class="pBody">RMI defines two standard transports, the Java
+Remote Method Protocol (JRMP) and the Internet Inter-ORB Protocol
+(IIOP). The RMI connector supports both transports.</p>
+<a name="wp997322" id="wp997322"></a>
+<p class="pBody">The RMI connector over JRMP provides a simple
+mechanism for securing and authenticating the connection between a
+client and a server. This mechanism provides a basic level of
+security for environments using the RMI connector. Note that the
+generic JMXMP connector provides a more advanced level of
+security.</p>
+<a name="wp997328" id="wp997328"></a>
+<p class="pBody">You can improve on the basic security mechanism of
+the RMI connector over JRMP by using an RMI socket factory so that
+the connection between client and server uses the Secure Socket
+Layer (SSL).</p>
+<a name="wp998561" id="wp998561"></a>
+<h2 class="pHeading1">Generic Connector</h2>
+<a name="wp998562" id="wp998562"></a>
+<p class="pBody">An optional part of the JMX Remote API, which is
+not included in the Java SE platform, is a generic connector. This
+connector can be configured by adding pluggable modules to define
+the following:</p>
+<div style="margin-left: 2em" class="pBullet1"><a name="wp998563"
+id="wp998563"></a>
+<div class="pBullet1">
+<ul>
+<li>The transport protocol used to send requests from the client to
+the server, and to send responses and notifications from the server
+to the clients</li>
+</ul>
+</div>
+<a name="wp998564" id="wp998564"></a>
+<div class="pBullet1Last">
+<ul>
+<li>The object wrapping for objects that are sent from the client
+to the server and whose class loader can depend on the target
+MBean</li>
+</ul>
+</div>
+</div>
+<a name="wp998565" id="wp998565"></a>
+<p class="pBody">The JMX Messaging Protocol (JMXMP) connector is a
+configuration of the generic connector where the transport protocol
+is based on TCP and the object wrapping is native Java
+serialization. Security is more advanced than for the RMI
+connector. Security is based on the Java Secure Socket Extension
+(JSSE), the Java Authentication and Authorization Service (JAAS),
+and the Simple Authentication and Security Layer (SASL).</p>
+<a name="wp1000555" id="wp1000555"></a>
+<p class="pBody">The generic connector and its JMXMP configuration
+are optional, which means that they are not always included in an
+implementation of the JMX Remote API. The Java SE platform does not
+include the optional generic connector.</p>
+<a name="wp999401" id="wp999401"></a>
+<p class="pBody"></p>
+<a name="wp997173" id="wp997173"></a>
+<h2 class="pHeading1">User-Defined Protocols</h2>
+<a name="wp997124" id="wp997124"></a>
+<p class="pBody">While the RMI connector must be present in every
+implementation of the JMX Remote API, you can also implement a
+connector based on a protocol that is not defined in the JMX Remote
+API standard. A typical example of this is a connector based on a
+protocol that uses HTTP/S. Other protocols are also possible. The
+JMX specification describes how to implement a connector based on a
+user-defined protocol.</p>
+<p>&#160;</p>
+<hr class="pHr" />
+<table width="100%" summary="">
+<tr>
+<td align="left"><a accesskey="c" href=
+"JMXoverviewTOC.html">Contents</a> | <a accesskey="p" href=
+"agent.html">Previous</a> | <a accesskey="n" href=
+"lookup.html">Next</a></td>
+</tr>
+</table>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

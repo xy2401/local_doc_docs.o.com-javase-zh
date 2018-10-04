@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Java Platform, Standard Edition Java Language Updates, Release 10</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="dcterms.created" content="2018-03-13T00:32:24Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Java Language Updates" />
+<meta name="dcterms.identifier" content="E91239-01" />
+<meta name="dcterms.isVersionOf" content="JSLAN" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;2017, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"   src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"   src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="alternate" href="JSLAN.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript"  src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript"  src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript"  src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript"  src="../dcommon/js/foundation.min.js"></script>
+<script type="application/javascript"  src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript"  src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript"  src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="application/javascript"  src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="application/javascript"  src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="application/javascript"  src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="application/javascript"  src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<!-- End Header -->
+<div class="letterstyle">
+<h1 class="docinfo">Java Platform, Standard Edition</h1>
+<p class="booktitle">Java Language Updates</p>
+<p><span class="revnumber">Release 10</span></p>
+<p class="invpartnumber">E91239-01</p>
+<p class="date">March 2018</p>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="GUID-7D5FDD65-ACE4-4B3C-80F4-CC01CBD211A4"></a>
+<h2 id="JSLAN-GUID-7D5FDD65-ACE4-4B3C-80F4-CC01CBD211A4" class="sect2">Java Language Changes for Java SE 10</h2>
+<div>
+<p>Java SE 10 introduces support for inferring the type of local variables from the context, which makes code more readable and reduces the amount of required boilerplate code.</p>
+<div class="section">
+<p class="subhead1">Local-Variable Type Inference</p>
+<p>Code such as that shown in the following example seems redundant and makes the code harder to read.</p>
+<pre dir="ltr">
+URL url = new URL("http://www.oracle.com/"); 
+URLConnection conn = url.openConnection(); 
+Reader reader = new BufferedReader(
+    new InputStreamReader(conn.getInputStream()));
+</pre>
+<p>A new identifier named <code class="codeph">var</code> is now available for local variables with non-null initializers. Using this identifier, the type of the variable is inferred from the context. The code from the previous example can be rewritten as shown in the following example:</p>
+<pre dir="ltr">
+var url = new URL("http://www.oracle.com/"); 
+var conn = url.openConnection(); 
+var reader = new BufferedReader(
+    new InputStreamReader(conn.getInputStream()));
+</pre>
+<p><code class="codeph">var</code> is a reserved type name, not a keyword, which means that existing code that uses <code class="codeph">var</code> as a variable, method, or package name is not affected. However, code that uses <code class="codeph">var</code> as a class or interface name is affected and the class or interface needs to be renamed.</p>
+<p><code class="codeph">var</code> can be used for the following types of variables:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Local variable declarations with initializers</p>
+</li>
+<li>
+<p>Enhanced for-loop indexes</p>
+</li>
+<li>
+<p>Index variables declared in traditional for loops</p>
+</li>
+<li>
+<p>Try-with-resources variable</p>
+</li>
+</ul>
+<p>The following code shows examples using <code class="codeph">var</code>:</p>
+<pre dir="ltr">
+var list = new ArrayList&lt;String&gt;();    // infers ArrayList&lt;String&gt;
+var stream = list.stream();            // infers Stream&lt;String&gt;
+
+var path = Paths.get(fileName);        // infers Path
+var bytes = Files.readAllBytes(path);  // infers bytes[]
+
+for (var counter=0; counter&lt;10; counter++)  {...}   // infers int
+
+try (var input = 
+     new FileInputStream ("validation.txt")) {...}   // FileInputStream
+</pre></div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="GUID-B06D7006-D9F4-42F8-AD21-BF861747EDCF"></a>
+<h2 id="JSLAN-GUID-B06D7006-D9F4-42F8-AD21-BF861747EDCF" class="sect2">Java Language Changes for Java SE 9</h2>
+<div>
+<p>The major change to Java Platform, Standard Edition (Java SE) 9 is the introduction of the Java Platform module system.</p>
+<p>The Java Platform module system introduces a new kind of Java programing component, the module, which is a named, self-describing collection of code and data. Its code is organized as a set of packages containing types, i.e., Java classes and interfaces; its data includes resources and other kinds of static information. Modules can either export or encapsulate packages, and they express dependencies on other modules explicitly.</p>
+<p>To learn more about the Java Platform module system, see <a href="http://openjdk.java.net/projects/jigsaw/" target="_blank">Project Jigsaw</a> on OpenJDK.</p>
+<p>Apart from the new module system, a few changes have been made to the Java language. The rest of this guide describes those changes.</p>
+</div>
+</div>
+<div class="sect3"><!-- infolevel="all" infotype="General" --><a id="GUID-A920DB06-0FD1-4F9C-8A9A-15FC979D5DA3"></a>
+<h3 id="JSLAN-GUID-A920DB06-0FD1-4F9C-8A9A-15FC979D5DA3" class="sect3">More Concise try-with-resources Statements</h3>
+<div>
+<p>If you already have a resource as a <code class="codeph">final</code> or effectively <code class="codeph">final</code> variable, you can use that variable in a <code class="codeph">try-with-resources</code> statement without declaring a new variable. An <span class="q">"effectively final"</span> variable is one whose value is never changed after it is initialized.</p>
+<p>For example, you declared these two resources:</p>
+<pre dir="ltr">
+        // A final resource
+        final Resource resource1 = new Resource("resource1");
+        // An effectively final resource
+        Resource resource2 = new Resource("resource2");
+</pre>
+<p>In Java SE 7 or 8, you would declare new variables, like this:</p>
+<pre dir="ltr">
+        try (Resource r1 = resource1;
+             Resource r2 = resource2) {
+            ...
+        }
+</pre>
+<p>In Java SE 9, you don&rsquo;t need to declare <code class="codeph">r1</code> and <code class="codeph">r2</code>:</p>
+<pre dir="ltr">
+// New and improved try-with-resources statement in Java SE 9
+        try (resource1;
+             resource2) {
+            ...
+        }
+</pre>
+<p>There is a more complete description of <a href="https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html" target="_blank">the try-with-resources statement</a> in <span>The Java Tutorials (Java SE 8 and earlier)</span>.</p>
+</div>
+</div>
+<div class="sect3"><!-- infolevel="all" infotype="General" --><a id="GUID-16A5183A-DC0D-4A96-B9D8-AAC9671222DD"></a>
+<h3 id="JSLAN-GUID-16A5183A-DC0D-4A96-B9D8-AAC9671222DD" class="sect3">Small Language Changes in Java SE 9</h3>
+<div>
+<p>There are several small language changes in Java SE 9.</p>
+<div class="section">
+<p class="subhead1">@SafeVarargs annotation is allowed on private instance methods.</p>
+<p>The @SafeVarargs annotation can be applied only to methods that cannot be overridden. These include static methods, final instance methods, and, new in Java SE 9, private instance methods.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">You can use diamond syntax in conjunction with anonymous inner classes.</p>
+<p>Types that can be written in a Java program, such as <code class="codeph">int</code> or <code class="codeph">String</code>, are called denotable types. The compiler-internal types that cannot be written in a Java program are called non-denotable types.</p>
+<p>Non-denotable types can occur as the result of the inference used by the diamond operator. Because the inferred type using diamond with an anonymous class constructor could be outside of the set of types supported by the signature attribute in class files, using the diamond with anonymous classes was not allowed in Java SE 7.</p>
+<p>In Java SE 9, as long as the inferred type is denotable, you can use the diamond operator when you create an anonymous inner class.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">The underscore character is not a legal name.</p>
+<p>If you use the underscore character (<span class="q">"_"</span>) an identifier, your source code can no longer be compiled.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Private interface methods are supported.</p>
+<p>Private interface methods are supported. This support allows nonabstract methods of an interface to share code between them.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="GUID-E409CC44-9A8F-4043-82C8-6B95CD939296"></a>
+<h2 id="JSLAN-GUID-E409CC44-9A8F-4043-82C8-6B95CD939296" class="sect2">Documentation Accessibility</h2>
+<div>
+<p>For information about Oracle's commitment to accessibility, visit the Oracle Accessibility Program website at <a href="http://www.oracle.com/pls/topic/lookup?ctx=acc&amp;id=docacc" target="_blank">http://www.oracle.com/pls/topic/lookup?ctx=acc&amp;id=docacc</a>.</p>
+<div class="section" id="GUID-E409CC44-9A8F-4043-82C8-6B95CD939296__GUID-D88DC1A6-B2C8-4B61-85D2-23B0215F1664">
+<p class="subhead1">Access to Oracle Support</p>
+<p>Oracle customers that have purchased support have access to electronic support through My Oracle Support. For information, visit <a href="http://www.oracle.com/pls/topic/lookup?ctx=acc&amp;id=info" target="_blank">http://www.oracle.com/pls/topic/lookup?ctx=acc&amp;id=info</a> or visit <a href="http://www.oracle.com/pls/topic/lookup?ctx=acc&amp;id=trs" target="_blank">http://www.oracle.com/pls/topic/lookup?ctx=acc&amp;id=trs</a> if you are hearing impaired.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+</div>
+<hr />
+<div class="notices">
+<p>Java Platform, Standard Edition Java Language Updates, <span>Release 10</span></p>
+<p>E91239-01</p>
+<p>Copyright &copy; 2017, 2018,&nbsp;Oracle and/or its affiliates. All rights reserved.</p>
+<div>
+<div>
+<p>Describes the updated language features in Java SE 9 and subsequent releases.</p>
+</div>
+</div>
+<div>
+<div>
+<p>This software and related documentation are provided under a license agreement containing restrictions on use and disclosure and are protected by intellectual property laws. Except as expressly permitted in your license agreement or allowed by law, you may not use, copy, reproduce, translate, broadcast, modify, license, transmit, distribute, exhibit, perform, publish, or display any part, in any form, or by any means. Reverse engineering, disassembly, or decompilation of this software, unless required by law for interoperability, is prohibited.</p>
+<p>The information contained herein is subject to change without notice and is not warranted to be error-free. If you find any errors, please report them to us in writing.</p>
+</div>
+</div>
+<div>
+<div>
+<p>If this is software or related documentation that is delivered to the U.S. Government or anyone licensing it on behalf of the U.S. Government, then the following notice is applicable:</p>
+<p>U.S. GOVERNMENT END USERS: Oracle programs, including any operating system, integrated software, any programs installed on the hardware, and/or documentation, delivered to U.S. Government end users are "commercial computer software" pursuant to the applicable Federal Acquisition Regulation and agency-specific supplemental regulations. As such, use, duplication, disclosure, modification, and adaptation of the programs, including any operating system, integrated software, any programs installed on the hardware, and/or documentation, shall be subject to license terms and license restrictions applicable to the programs. No other rights are granted to the U.S. Government.</p>
+</div>
+</div>
+<div>
+<div>
+<p>This software or hardware is developed for general use in a variety of information management applications. It is not developed or intended for use in any inherently dangerous applications, including applications that may create a risk of personal injury. If you use this software or hardware in dangerous applications, then you shall be responsible to take all appropriate fail-safe, backup, redundancy, and other measures to ensure its safe use. Oracle Corporation and its affiliates disclaim any liability for any damages caused by use of this software or hardware in dangerous applications.</p>
+</div>
+</div>
+<div>
+<div>
+<p>Oracle and Java are registered trademarks of Oracle and/or its affiliates. Other names may be trademarks of their respective owners.</p>
+<p>Intel and Intel Xeon are trademarks or registered trademarks of Intel Corporation. All SPARC trademarks are used under license and are trademarks or registered trademarks of SPARC International, Inc. AMD, Opteron, the AMD logo, and the AMD Opteron logo are trademarks or registered trademarks of Advanced Micro Devices. UNIX is a registered trademark of The Open Group.</p>
+</div>
+</div>
+<div>
+<div>
+<p>This software or hardware and documentation may provide access to or information about content, products, and services from third parties. Oracle Corporation and its affiliates are not responsible for and expressly disclaim all warranties of any kind with respect to third-party content, products, and services unless otherwise set forth in an applicable agreement between you and Oracle. Oracle Corporation and its affiliates will not be responsible for any loss, costs, or damages incurred due to your access to or use of third-party content, products, or services, except as set forth in an applicable agreement between you and Oracle.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment496">
+<tr>
+<td class="cellalignment502">&nbsp;</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;2017, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment504">
+<table class="cellalignment499">
+<tr>
+<td class="cellalignment500"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment500"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment500"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

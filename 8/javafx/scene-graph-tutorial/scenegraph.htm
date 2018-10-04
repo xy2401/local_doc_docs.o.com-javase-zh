@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>1 Working with the JavaFX Scene Graph (Release 8)</title>
+<meta name="description" content="This tutorial explores the JavaFX Scene Graph Application Programming Interface (API), the underlying framework that renders your graphical user interfaces (GUI) to the screen.">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXSG.pdf">PDF</a> | <a href="../JFXSG.epub">ePub</a> | <a href="../JFXSG.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Working with the JavaFX Scene Graph</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="preface.htm">Previous Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="JFXSG107" name="JFXSG107" class="anchor"></a> <a id="sthref8" name="sthref8" class="anchor"></a>
+<h1 class="chapter"><span class="secnum">1</span> Working with the JavaFX Scene Graph</h1>
+<a id="JFXSG117" name="JFXSG117" class="anchor"></a>
+<p>This tutorial explores the JavaFX Scene Graph Application Programming Interface (API), the underlying framework that renders your graphical user interfaces (GUI) to the screen.</p>
+<p>If you are an experienced Java developer, then chances are good that at some point you have created an application with a graphical user interface. This could be anything from small programs in web pages, to standalone Swing applications on the desktop. And if you have ever done any custom painting, you are familiar with the <code>Graphics</code> class and its related methods. The traditional approaches &#x2014; as powerful as they are &#x2014; have always required some amount of effort on the developer's part to correctly render the graphics to the screen. This work is often separate from the bulk of the application logic.</p>
+<a id="JFXSG108" name="JFXSG108" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref9" name="sthref9" class="anchor"></a>
+<h2 class="sect1">Overview</h2>
+<p>The JavaFX Scene Graph API makes graphical user interfaces easier to create, especially when complex visual effects and transformations are involved. A <span class="italic">scene graph</span> is a tree data structure, most commonly found in graphical applications and libraries such as vector editing tools, 3D libraries, and video games. The JavaFX scene graph is a <span class="italic">retained mode API</span>, meaning that it maintains an internal model of all graphical objects in your application. At any given time, it knows what objects to display, what areas of the screen need repainting, and how to render it all in the most efficient manner. Instead of invoking primitive drawing methods directly, you instead use the scene graph API and let the system automatically handle the rendering details. This approach significantly reduces the amount of code that is needed in your application.</p>
+<p>The individual items held within the JavaFX scene graph are known as <span class="italic">nodes</span>. Each node is classified as either a <span class="italic">branch node</span> (meaning that it can have children), or a <span class="italic">leaf node</span> (meaning that it cannot have children). The first node in the tree is always called the <span class="italic">root node</span>, and it never has a parent. See a general inheritance diagram in <a href="#BHBFJAAB">Figure 1-1</a>.</p>
+<div class="figure"><a id="BHBFJAAB" name="BHBFJAAB" class="anchor"></a><a id="JFXSG109" name="JFXSG109" class="anchor"></a>
+<p class="titleinfigure">Figure 1-1 Root, Branch, and Leaf Nodes</p>
+<img width="408" height="186" src="img/figure1.png" alt="Description of Figure 1-1 follows" title="Description of Figure 1-1 follows" longdesc="img_text/figure1.htm" /><br />
+<a id="sthref10" name="sthref10" href="img_text/figure1.htm">Description of "Figure 1-1 Root, Branch, and Leaf Nodes"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>The JavaFX API defines a number of classes that can act as root, branch or leaf nodes. When substituted with actual class names, this same figure might resemble that shown in <a href="#BHBFDIJJ">Figure 1-2</a> in a real application.</p>
+<div class="figure"><a id="BHBFDIJJ" name="BHBFDIJJ" class="anchor"></a><a id="JFXSG110" name="JFXSG110" class="anchor"></a>
+<p class="titleinfigure">Figure 1-2 Specific Root, Branch, and Leaf Classes</p>
+<img width="408" height="186" src="img/figure2.png" alt="Description of Figure 1-2 follows" title="Description of Figure 1-2 follows" longdesc="img_text/figure2.htm" /><br />
+<a id="sthref11" name="sthref11" href="img_text/figure2.htm">Description of "Figure 1-2 Specific Root, Branch, and Leaf Classes"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>In <a href="#BHBFDIJJ">Figure 1-2</a>, a <code>Group</code> object acts as the root node. The <code>Circle</code> and <code>Rectangle</code> objects are leaf nodes, because they do not (and cannot) have children. The <code>Region</code> object (which defines an area of the screen with children than can be styled using CSS) is a branch node that contains two more leaf nodes (<code>Text</code> and <code>ImageView</code>). Scene graphs can become much larger than this, but the basic organization &#x2014; that is, the way in which parent nodes contain child nodes &#x2014; is a pattern that repeats in all applications.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXSG111" name="JFXSG111" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref12" name="sthref12" class="anchor"></a>
+<h2 class="sect1">Exploring the API</h2>
+<p>So what does this all mean in terms of code? Let us start by setting up a basic application frame, populated with only the root node, as shown in <a href="#BHBEDGFB">Example 1-1</a>.</p>
+<div class="example"><a id="BHBEDGFB" name="BHBEDGFB" class="anchor"></a><a id="JFXSG112" name="JFXSG112" class="anchor"></a>
+<p class="titleinexample">Example 1-1 Creating the Application Frame</p>
+<pre xml:space="preserve" class="oac_no_warn">package scenegraphdemo;
+ 
+import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+ 
+public class Main extends Application {
+ 
+   @Override
+   public void start(Stage stage) {
+       Group root = new Group();
+       Scene scene = new Scene(root, 500, 500, Color.BLACK);
+       stage.setTitle("JavaFX Scene Graph Demo");
+       stage.setScene(scene);
+       stage.show();
+   }
+ 
+   public static void main(String[] args) {
+       launch(args);
+   }
+}
+</pre></div>
+<!-- class="example" -->
+<p>This code produces a window that looks like what is shown in <a href="#BHBIDADC">Figure 1-3</a>.</p>
+<div class="figure"><a id="BHBIDADC" name="BHBIDADC" class="anchor"></a><a id="JFXSG113" name="JFXSG113" class="anchor"></a>
+<p class="titleinfigure">Figure 1-3 Creating a Scene with Root Node Only</p>
+<img width="531" height="553" src="img/figure3.png" alt="Description of Figure 1-3 follows" title="Description of Figure 1-3 follows" longdesc="img_text/figure3.htm" /><br />
+<a id="sthref13" name="sthref13" href="img_text/figure3.htm">Description of "Figure 1-3 Creating a Scene with Root Node Only"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>The important points to consider are as follows:</p>
+<ol>
+<li>
+<p>The <code>Main</code> class is an extension of the <code>javafx.application.Application</code> class. Its <code>start</code> method is overridden and receives a <code>Stage</code> object (a top-level GUI container) as its only parameter.</p>
+</li>
+<li>
+<p>The root node (in this case, an instance of the <code>javafx.scene.Group</code> class) is created and passed to the scene's constructor, along with the scene's width, height, and fill.</p>
+</li>
+<li>
+<p>The stage's title, scene, and visibility are all set.</p>
+</li>
+<li>
+<p>The main method invokes the <code>Application.launch()</code> method.</p>
+</li>
+</ol>
+<p>The resulting application appears as it does because black is the scene's fill color. Because the root node currently has no children, there is nothing else to display. Adding a child to the root node can be accomplished with the modifications shown in <a href="#BHBIGHIE">Example 1-2</a>.</p>
+<div class="example"><a id="BHBIGHIE" name="BHBIGHIE" class="anchor"></a><a id="JFXSG114" name="JFXSG114" class="anchor"></a>
+<p class="titleinexample">Example 1-2 Adding a Leaf Node</p>
+<pre xml:space="preserve" class="oac_no_warn">package scenegraphdemo;
+ 
+import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+ 
+public class Main extends Application {
+ 
+   @Override
+   public void start(Stage stage) {
+       Group root = new Group();
+       Scene scene = new Scene(root, 500, 500, Color.BLACK);
+ 
+       Rectangle r = new Rectangle(25,25,250,250);
+       r.setFill(Color.BLUE);
+       root.getChildren().add(r);
+ 
+       stage.setTitle("JavaFX Scene Graph Demo");
+       stage.setScene(scene);
+       stage.show();
+   }
+ 
+   public static void main(String[] args) {
+       launch(args);
+   }
+}
+</pre></div>
+<!-- class="example" -->
+<p>With the change shown in <a href="#BHBIGHIE">Example 1-2</a>, a blue rectangle (leaf node) that is 250x250 pixels will appear at the specified X and Y coordinates. (By default, X increases from left to right, and Y increases from top to bottom. This can be affected by transformations, however.) <a href="#BHBFIJDG">Figure 1-4</a> shows the result of adding a leaf node.</p>
+<div class="figure"><a id="BHBFIJDG" name="BHBFIJDG" class="anchor"></a><a id="JFXSG115" name="JFXSG115" class="anchor"></a>
+<p class="titleinfigure">Figure 1-4 Adding a Leaf Node</p>
+<img width="531" height="550" src="img/figure4.png" alt="Description of Figure 1-4 follows" title="Description of Figure 1-4 follows" longdesc="img_text/figure4.htm" /><br />
+<a id="sthref14" name="sthref14" href="img_text/figure4.htm">Description of "Figure 1-4 Adding a Leaf Node"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>Because the graphical objects are managed by the scene graph, you can achieve some interesting effects with very little extra code. For example, you could easily animate the rectangle to bounce back and forth across the screen while rotating, changing its size, and transitioning its color from blue to red.</p>
+<p><a href="#BHBJHBGI">Example 1-3</a> uses transitions to make this happen:</p>
+<div class="example"><a id="BHBJHBGI" name="BHBJHBGI" class="anchor"></a><a id="JFXSG116" name="JFXSG116" class="anchor"></a>
+<p class="titleinexample">Example 1-3 Animating the Scene</p>
+<pre xml:space="preserve" class="oac_no_warn">package scenegraphdemo; 
+ 
+import javafx.animation.FillTransition; 
+import javafx.application.Application; 
+import javafx.scene.Group; 
+import javafx.scene.Scene; 
+import javafx.scene.paint.Color; 
+import javafx.scene.shape.Rectangle; 
+import javafx.stage.Stage; 
+import javafx.animation.Timeline; 
+import javafx.animation.ParallelTransition; 
+import javafx.animation.RotateTransition; 
+import javafx.animation.ScaleTransition; 
+import javafx.animation.TranslateTransition; 
+import javafx.util.Duration; 
+ 
+public class Main extends Application { 
+ 
+    @Override 
+    public void start(Stage stage) { 
+        Group root = new Group(); 
+        Scene scene = new Scene(root, 500, 500, Color.BLACK); 
+        Rectangle r = new Rectangle(0, 0, 250, 250); 
+        r.setFill(Color.BLUE); 
+        root.getChildren().add(r); 
+ 
+        TranslateTransition translate = 
+        new TranslateTransition(Duration.millis(750)); 
+        translate.setToX(390); 
+        translate.setToY(390); 
+ 
+        FillTransition fill = new FillTransition(Duration.millis(750)); 
+        fill.setToValue(Color.RED); 
+ 
+        RotateTransition rotate = new RotateTransition(Duration.millis(750)); 
+        rotate.setToAngle(360); 
+ 
+        ScaleTransition scale = new ScaleTransition(Duration.millis(750)); 
+        scale.setToX(0.1); 
+        scale.setToY(0.1); 
+ 
+        ParallelTransition transition = new ParallelTransition(r, 
+        translate, fill, rotate, scale); 
+        transition.setCycleCount(Timeline.INDEFINITE);
+        transition.setAutoReverse(true); 
+        transition.play(); 
+ 
+        stage.setTitle("JavaFX Scene Graph Demo"); 
+        stage.setScene(scene); 
+        stage.show(); 
+    } 
+ 
+    public static void main(String[] args) { 
+        launch(args); 
+    } 
+}
+</pre></div>
+<!-- class="example" -->
+<p>While these examples may be simple, they identify and demonstrate some important concepts that you will use in most graphical applications.</p>
+<p>The <code>javafx.scene</code> package defines more than a dozen classes, but three in particular are most important when it comes to learning how the API is structured:</p>
+<ul>
+<li>
+<p><code>Node</code>: The abstract base class for all scene graph nodes.</p>
+</li>
+<li>
+<p><code>Parent</code>: The abstract base class for all branch nodes. (This class directly extends <code>Node</code>).</p>
+</li>
+<li>
+<p><code>Scene</code>: The base container class for all content in the scene graph.</p>
+</li>
+</ul>
+<p>These base classes define important functionality that will subsequently be inherited by subclasses, including paint order, visibility, composition of transformations, support for CSS styling, and so on. You will also find various branch node classes that inherit directly from the <code>Parent</code> class, such as <code>Control</code>, <code>Group</code>, <code>Region</code>, and <code>WebView</code>. The leaf node classes are defined throughout a number of additional packages, such as <code>javafx.scene.shape</code> and <code>javafx.scene.text</code>.</p>
+</div>
+<!-- class="sect1" -->
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Working with the JavaFX Scene Graph</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">Audience</a></li>
+        <li><a href="preface.htm#sthref4">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref6">Related Documents</a></li>
+        <li><a href="preface.htm#sthref7">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a class="selected" href="scenegraph.htm#sthref8">1 Working with the JavaFX Scene Graph</a>
+      <ul>
+        <li><a href="scenegraph.htm#sthref9">Overview</a></li>
+        <li><a href="scenegraph.htm#sthref12">Exploring the API</a></li>
+      </ul>
+    </li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="preface.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2011, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

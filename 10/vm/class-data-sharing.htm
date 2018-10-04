@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Class Data Sharing</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="This chapter describes the class data sharing (CDS) feature that can help reduce the startup time and memory footprints for Java applications." />
+<meta name="dcterms.created" content="2018-03-13T05:24:14Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Java Virtual Machine Guide" />
+<meta name="dcterms.identifier" content="E91108-01" />
+<meta name="dcterms.isVersionOf" content="JSJVM" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="garbage-collection-enhancements.htm" title="Previous" type="text/html" />
+<link rel="Next" href="java-hotspot-virtual-machine-performance-enhancements.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSJVM.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-7EAA3411-8CF0-4D19-BD05-DF5E1780AA91"></a> <span id="PAGE" style="display:none;">10/17</span> <!-- End Header -->
+<h1 id="JSJVM-GUID-7EAA3411-8CF0-4D19-BD05-DF5E1780AA91" class="sect1"><span class="enumeration_chapter">4</span> Class Data Sharing</h1>
+<div>
+<p>This chapter describes the class data sharing (CDS) feature that can help reduce the startup time and memory footprints for Java applications.</p>
+<div class="section">
+<p class="subhead1">Topics:</p>
+<ul style="list-style-type: disc;">
+<li><a href="class-data-sharing.htm#GUID-EC975B2E-B4AB-45B4-B91F-51C3A264D0CE" title="The Class data sharing (CDS) feature helps reduce the startup time and memory footprint between multiple Java Virtual Machines (JVM).">Class Data Sharing</a></li>
+<li><a href="class-data-sharing.htm#GUID-0260F857-A70E-4399-A1DF-A5766BE33285" title="You can regenerate the shared archive for all supported platforms.">Regenerating the Shared Archive</a></li>
+<li><a href="class-data-sharing.htm#GUID-882DC523-706D-403E-8A06-FBBB0E1B2128">Manually Controlling Class Data Sharing</a></li>
+</ul>
+</div>
+<!-- class="section" --></div>
+<div class="sect2"><a id="GUID-EC975B2E-B4AB-45B4-B91F-51C3A264D0CE"></a>
+<h2 id="JSJVM-GUID-EC975B2E-B4AB-45B4-B91F-51C3A264D0CE" class="sect2">Class Data Sharing</h2>
+<div>
+<p>The Class data sharing (CDS) feature helps reduce the startup time and memory footprint between multiple Java Virtual Machines (JVM).</p>
+<p>When you use the installer to install the Oracle Java Runtime Environment (JRE), the installer loads a default set of classes from the system Java Archive (JAR) file into a private internal representation, and dumps that representation to a file called a <span class="bold">shared archive</span>. If JRE installer is not being used, then you can generate the shared archive manually.</p>
+<p>When the JVM starts, the shared archive is memory-mapped to allow sharing of read-only JVM metadata for these classes among multiple JVM processes. Because accessing the shared archive is faster than loading the classes, startup time is reduced.</p>
+<p>Class data sharing is supported with the G1, serial, parallel, and parallelOldGC garbage collectors. The shared string feature (part of class data sharing) supports only the G1 garbage collector on 64-bit non-Windows platforms.</p>
+<p>The primary motivation for including CDS in Java SE is to decrease in startup time. The smaller the application relative to the number of core classes it uses, the larger the saved fraction of startup time.</p>
+<div class="p">The footprint cost of new JVM instances has been reduced in two ways:
+<ol>
+<li>
+<p>A portion of the shared archive on the same host is mapped as read-only and shared among multiple JVM processes. Otherwise, this data would need to be replicated in each JVM instance, which would increase the startup time of your application.</p>
+</li>
+<li>
+<p>The shared archive contains class data in the form that the Java Hotspot VM uses it. The memory that would otherwise be required to access the original class information in the runtime modular image, is not used. These memory savings allow more applications to be run concurrently on the same system. In Windows applications, the memory footprint of a process, as measured by various tools, might appear to increase, because more pages are mapped to the process&rsquo;s address space. This increase is offset by the reduced amount of memory (inside Windows) that is needed to hold portions on the runtime modular image. Reducing footprint remains a high priority.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3"><a id="GUID-2942983A-E83C-4DA3-A60C-60411D731D5A"></a>
+<h3 id="JSJVM-GUID-2942983A-E83C-4DA3-A60C-60411D731D5A" class="sect3">Application Class-Data Sharing</h3>
+<div>
+<div class="section">
+<p>To further reduce the startup time and the footprint, Application Class-Data Sharing (ApsCDS) is introduced that extends the CDS to include selected classes from the application class path.</p>
+<p>This feature allows application classes to be placed in a shared drive. The common class metadata is shared across different Java processes. AppCDS allows the built-in system class loader, built-in platform class loader, and custom class loaders to load the archived classes. When multiple JVMs share the same archive file, memory is saved and the overall system response time improves.</p>
+<p>See <a class="olink JSWOR-GUID-31503FCE-93D0-4175-9B4F-F6A738B2F4C4" target="_blank" href="../tools/java.htm#JSWOR-GUID-31503FCE-93D0-4175-9B4F-F6A738B2F4C4">Application Class Data Sharing</a> in <span><cite>Java Platform, Standard Edition Tools Reference</cite></span>.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+</div>
+<div class="sect2"><a id="GUID-0260F857-A70E-4399-A1DF-A5766BE33285"></a>
+<h2 id="JSJVM-GUID-0260F857-A70E-4399-A1DF-A5766BE33285" class="sect2">Regenerating the Shared Archive</h2>
+<div>
+<p>You can regenerate the shared archive for all supported platforms.</p>
+<p>The default class that is installed with the JRE contains only a small set of core library classes. You might want to include other classes in the shared archive. To create a class list from the class loading tracing output or running applications, enter the following command to dump all loaded library classes:</p>
+<p><code class="codeph">java -XX:DumpLoadedClassList=&lt;class_list_file&gt;</code></p>
+<p>Use the class list created based on profiling to generate the shared archive.</p>
+<p>You can find the archive file along with the shared library for the JVM in the following locations:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>On Solaris, Linux, and macOS platforms, the shared archive is stored in <code>/lib/[arch]/server/classes.jsa</code></p>
+</li>
+<li>
+<p>On Windows platforms, the shared archive is stored in <code>/bin/server/classes.jsa</code></p>
+</li>
+</ul>
+<p>If the archive file exists, it is overwritten when you generate a new archive file. You don&rsquo;t need to manually remove the old archive before you generate a new archive.</p>
+<p>To regenerate the archive file log in as the administrator. In networked situations, log in to a computer of the same architecture as the Java SE installation. Ensure that you have permissions to write to the installation directory.</p>
+<p>To regenerate the shared archive by using a user defined class list, enter the following command:</p>
+<p><code class="codeph">java -XX:SharedClassListFile=&lt;class_list_file&gt; -Xshare:dump</code></p>
+<p>Diagnostic information is printed when the archive is generated.</p>
+</div>
+</div>
+<div class="sect2"><a id="GUID-882DC523-706D-403E-8A06-FBBB0E1B2128"></a>
+<h2 id="JSJVM-GUID-882DC523-706D-403E-8A06-FBBB0E1B2128" class="sect2">Manually Controlling Class Data Sharing</h2>
+<div>
+<p>Class data sharing is enabled by default. You can manually enable and disable this feature.</p>
+<p>You can use the following command-line options for diagnostic and debugging purposes.</p>
+<dl>
+<dt class="dlterm"><a id="GUID-882DC523-706D-403E-8A06-FBBB0E1B2128__GUID-06D22259-441B-4072-94DD-36DD7711B2A2"><!-- --></a><code class="codeph">-Xshare:off</code></dt>
+<dd>To disable class data sharing.</dd>
+<dt class="dlterm"><a id="GUID-882DC523-706D-403E-8A06-FBBB0E1B2128__GUID-7ADE6C02-D73E-4806-A70F-2A0F5D005157"><!-- --></a><code class="codeph">-Xshare:on</code></dt>
+<dd>To enable class data sharing. If class data sharing can't be enabled, print an error message and exit.</dd>
+<dt class="dlterm"><a id="GUID-882DC523-706D-403E-8A06-FBBB0E1B2128__GUID-E12F23C5-613C-4493-B5FC-F32F4F263577"><!-- --></a><code class="codeph">-Xshare:auto</code></dt>
+<dd>To enable class data sharing by default. Enable class data sharing whenever possible.</dd>
+</dl>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment82">
+<tr>
+<td class="cellalignment89">
+<table class="cellalignment87">
+<tr>
+<td class="cellalignment86"><a href="garbage-collection-enhancements.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment86"><a href="java-hotspot-virtual-machine-performance-enhancements.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment91">
+<table class="cellalignment85">
+<tr>
+<td class="cellalignment86"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment86"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment86"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

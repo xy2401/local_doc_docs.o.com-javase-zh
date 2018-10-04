@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en" xml:lang="en">
+<head>
+<meta content="text/html; charset=us-ascii" http-equiv="Content-Type"/>
+<meta content="text/css" http-equiv="Content-Style-Type"/>
+<meta content="text/javascript" http-equiv="Content-Script-Type"/>
+<title>Java VisualVM</title>
+<meta content="Oracle DARB XHTML Converter (Mode = document) - Merged Version 1033" name="generator"/>
+<meta content="This guide helps you to troubleshoot issues that might occur with Java Client applications created on the Java Platform, Standard Edition (Java SE) and Java HotSpot VM." name="description"/>
+<meta content="2014-12-22T14:9:28Z" name="date"/>
+<meta content="noarchive" name="robots"/>
+<meta content="Java Platform, Standard Edition Troubleshooting Guide, Release 8" name="doctitle"/>
+<meta content="Release 8" name="relnum"/>
+<meta content="E54483-02" name="partnum"/>
+<meta content="JSTGD" name="docid"/>
+
+
+
+
+
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../webdesign/pubs8/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs8/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://docs.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<b>Java Platform, Standard Edition Troubleshooting Guide</b><br/>
+
+<a href="toc.html">
+                Contents</a>&nbsp;&nbsp;&nbsp;<a href="tooldescr009.html">
+                Previous</a>&nbsp;&nbsp;&nbsp;<a href="tooldescr011.html">
+                Next</a><hr/><a id="BABEEIFH" name="BABEEIFH"/>
+<div id="JSTGD177">
+<div class="smallpagetitle"><h1><span>2.10</span> Java VisualVM</h1></div>
+<p>The Java VisualVM is one of the latest tools included in the JDK download. This tool is useful for Java application developers to troubleshoot applications and to monitor and improve the applications' performance. With Java VisualVM you can generate and analyze heap dumps, track down memory leaks, perform and monitor garbage collection, and perform lightweight memory and CPU profiling. The tool is also useful for tuning, heap sizing, offline analysis, and postmortem diagnosis.</p>
+<p>In addition, you can use existing plug-ins that expand the functionality of Java VisualVM. For example, most of the functionality of the JConsole tool is available through the MBeans tab and the JConsole plug-in wrapper tab. You can choose from a catalog of standard Java VisualVM plug-ins by choosing <b>Plugins</b> from the <b>Tools</b> menu in the main Java VisualVM window.</p>
+<p>For more details, see the <a href="../visualvm/index.html">Java VisualVM</a> documentation.</p>
+<p>The following section describes <a href="#BABFIBEC">Troubleshoot with Java VisualVM</a>.</p>
+<a id="BABFIBEC" name="BABFIBEC"/>
+<div id="JSTGD178">
+<h2><span>2.10.1</span> Troubleshoot with Java VisualVM</h2>
+<p>Java VisualVM allows you to perform the following troubleshooting activities:</p>
+<ul>
+<li>
+<p>View a list of local and remote Java applications.</p>
+</li>
+<li>
+<p>View application configuration and runtime environment. For each application, the tool shows basic runtime information: PID, host, main class, arguments passed to the process, JVM version, JDK home, JVM flags, JVM arguments, and system properties.</p>
+</li>
+<li>
+<p>Enable and disable the creation of a heap dump when a specified application encounters an <code dir="ltr">OutOfMemoryError</code> exception.</p>
+</li>
+<li>
+<p>Monitor application memory consumption, running threads, and loaded classes.</p>
+</li>
+<li>
+<p>Trigger a garbage collection immediately.</p>
+</li>
+<li>
+<p>Create a heap dump immediately. You can then view the heap dump in several views: summary, by class, by instance. You can also save the heap dump to your local file system.</p>
+</li>
+<li>
+<p>Profile application performance or analyze memory allocation (for local applications only). You can also save the profiling data.</p>
+</li>
+<li>
+<p>Create a thread dump (stack trace of the application's active threads) immediately. You can then view the thread dump.</p>
+</li>
+<li>
+<p>Analyze core dumps (with Oracle Solaris and Linux operating systems).</p>
+</li>
+<li>
+<p>Analyze applications offline, by taking application snapshots.</p>
+</li>
+<li>
+<p>Get additional plug-ins contributed by the community.</p>
+</li>
+<li>
+<p>Write and share your own plug-ins.</p>
+</li>
+<li>
+<p>Display and interact with MBeans (after installing the MBeans tab plug-in).</p>
+</li>
+</ul>
+<p>When you start Java VisualVM, the main Application window opens, displaying a list of Java applications running on the local machine, a list of Java applications running on any connected remote machines, a list of any JVM core dumps that were taken and saved (with Oracle Solaris and Linux operating systems), and a list of any application snapshots that were taken and saved.</p>
+<p>Th Java VisualVM automatically detects and connects to the Java Management Extensions (JMX) agents for Java applications that are running on JDK or that have been started with the correct system properties. For the tool to detect and connect to the agents on a remote machine, the <code dir="ltr">jstatd</code> daemon must be running on the remote machine, see <a href="tooldescr033.html#CJGHGBFD">The jstatd Daemon</a>. If Java VisualVM cannot automatically discover and connect to JMX agents that are running in a target application, then the tool provides a means for you to explicitly create these connections.</p>
+</div>
+</div>
+<a href="toc.html">
+                Contents</a>&nbsp;&nbsp;&nbsp;<a href="tooldescr009.html">
+                Previous</a>&nbsp;&nbsp;&nbsp;<a href="tooldescr011.html">
+                Next</a><hr/>
+
+
+
+
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

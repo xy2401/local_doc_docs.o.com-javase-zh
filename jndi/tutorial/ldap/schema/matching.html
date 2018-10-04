@@ -1,0 +1,193 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Attribute Matching Rule Definitions</title>
+<meta name="collection" content="learning">
+
+                    <script>var w=window;if(w.performance||w.mozPerformance||w.msPerformance||w.webkitPerformance){var d=document;AKSB=w.AKSB||{},AKSB.q=AKSB.q||[],AKSB.mark=AKSB.mark||function(e,_){AKSB.q.push(["mark",e,_||(new Date).getTime()])},AKSB.measure=AKSB.measure||function(e,_,t){AKSB.q.push(["measure",e,_,t||(new Date).getTime()])},AKSB.done=AKSB.done||function(e){AKSB.q.push(["done",e])},AKSB.mark("firstbyte",(new Date).getTime()),AKSB.prof={custid:"322179",ustr:"",originlat:"0",clientrtt:"1",ghostip:"23.212.3.15",ipv6:false,pct:"10",clientip:"45.78.37.67",requestid:"2a85eb4b",region:"32996",protocol:"",blver:14,akM:"dsca",akN:"ae",akTT:"O",akTX:"1",akTI:"2a85eb4b",ai:"206465",ra:"false",pmgn:"",pmgi:"",pmp:"",qc:""},function(e){var _=d.createElement("script");_.async="async",_.src=e;var t=d.getElementsByTagName("script"),t=t[t.length-1];t.parentNode.insertBefore(_,t)}(("https:"===d.location.protocol?"https:":"http:")+"//ds-aksb-a.akamaihd.net/aksb.min.js")}</script>
+                    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="syntax.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="example.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Schema</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Attribute Matching Rule Definitions
+</h2>
+<p>
+<blockquote>
+
+A matching rule specifies how attribute values are to be matched
+for equality, ordering, and substring comparison.
+Examples of matching rules are
+the case-exact ordering rule for English language-based
+strings and case-ignore equality match for Directory String.
+<p>
+In the schema tree, 
+the name <tt>"MatchingRule"</tt> is bound to a flat context 
+that contains
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html"><tt>DirContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     objects that represent matching rule definitions in the schema. For example, if
+a directory supports the "caseExactMatch" equality rule,
+then the <tt>"MatchingRule"</tt> context might have a binding with
+the name <tt>"caseExactMatch"</tt> that is bound to a <TT>DirContext</TT>
+object.
+Each object in <tt>"MatchingRule"</tt> context has the mandatory
+and optional attributes shown in the following table.
+
+<blockquote>
+<hr>
+<strong>Note:</strong> 
+Many servers do not publish their matching rules. Even among those that
+do, some might not publish all of the rules.
+<hr>
+</blockquote>
+
+<BR>&nbsp;
+<CENTER><TABLE BORDER CELLPADDING=3 WIDTH="70%">
+<TR>
+<TH>Attribute Identifier</TH>
+
+<TH>Attribute Value Description</TH>
+</TR>
+
+<TR>
+<TD>NUMERICOID (<FONT COLOR="#CC0000">mandatory</FONT>)</TD>
+
+<TD>Unique object identifier (OID)</TD>
+</TR>
+
+<TR>
+<TD>NAME</TD>
+
+<TD>Matching rule's name</TD>
+</TR>
+
+<TR>
+<TD>DESC</TD>
+
+<TD>Matching rule's description</TD>
+</TR>
+
+<TR>
+<TD>SYNTAX</TD>
+
+<TD>Numeric OID of the syntax to which this matching rule applies</TD>
+</TR>
+
+<TR>
+<TD>OBSOLETE</TD>
+
+<TD><tt>"true"</tt> if obsolete; <tt>"false"</tt> or absent otherwise</TD>
+</TR>
+
+</TABLE></CENTER>
+
+<P>These attributes correspond to the definition of "MatchingRuleDescription"
+in <A HREF="http://www.ietf.org/rfc/rfc2252.txt">RFC 2252</A>.
+All of the attribute values are represented by the <TT>java.lang.String</TT>
+class.
+
+
+<h4>Retrieving the Schema of a Matching Rule Definition</h4>
+
+To retrieve the schema object of a matching rule,
+you look for it in the schema tree.
+For example, you can obtain the schema object representing the 
+"caseExactOrderingMatch-en" rule by using
+the <a href=src/LookupMatchingRule.java>following code</a>.
+<BLOCKQUOTE>
+<PRE>
+// Get the schema tree root
+DirContext schema = ctx.getSchema("");
+
+// Get the schema object for the matching rule
+DirContext mrSchema =
+    (DirContext)schema.lookup("MatchingRule/caseExactOrderingMatch-en");
+</pre></blockquote>
+If you get the attributes of the <tt>mrSchema</tt> schema object, 
+then you will see the following.
+<blockquote><pre>
+SYNTAX: 1.3.6.1.4.1.1466.115.121.1.15
+NAME: caseExactOrderingMatch-en
+NUMERICOID: 2.16.840.1.113730.3.3.2.11.3
+DESC: en
+</pre></blockquote>
+<blockquote>
+<hr>
+<strong>Note:</strong> 
+This example works only with directory servers that publish their
+matching rules, such as 
+the <a href="http://www.sun.com/">SunONE Directory Server v5.1</a>.
+<hr>
+</blockquote>
+<p>
+You can use not only <tt>lookup()</tt> 
+to retrieve schema objects from the schema tree, but also
+such methods as
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><tt>list()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    or 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.directory.SearchControls)"><tt>search()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.directory.SearchControls)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+
+<h4>Creating, Modifying, or Updating a Matching Rule Definition</h4>
+
+
+Dynamically creating, deleting, or modifying matching rules
+does not make sense.
+Most servers support a fixed set of matching rules.
+Changing that set programmatically is usually not a supported feature.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="syntax.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="example.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Schema</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

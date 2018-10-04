@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN">
+<html lang="en_US">
+<head>
+<title>Patch-in-Place and Static JRE Installation</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+
+<div class="smallpagetitle"><h1>Patch-in-Place and Static JRE Installation</h1></div>
+<p>See <a href="../index.html">JDK 7 and JRE 7 Installation Guide</a> for general information about installing JDK 7 and JRE 7.</p>
+
+<p>This information applies to Java SE Runtime Environment (JRE) installers running on Microsoft Windows.</p>
+
+<p><strong>Note</strong>: This information may refer to versions of the JRE that do not exist; these versions are used to demonstrate the concepts of patch-in-place and static JRE installations.</p>
+
+<p>In the past, when a user installed different versions of the JRE, the user would be left with multiple installation directories and several entries in the Add/Remove Programs dialog in the Control Panel. This resulted in unnecessary proliferation of unused JREs.</p>
+
+<p>The JRE can now be installed in two configurations: patch-in-place and static. JRE updates may be configured to patch an existing installation or to do a brand new installation.</p>
+
+<p>The JRE may be installed in silent (non-interactive) or nonsilent (interactive) modes. For more information on silent install and uninstalling a silent installation, see <a href="jre-installer-options.html#running">Command-Line Installation</a> in <a href="jre-installer-options.html">JRE Installer Options</a>.</p>
+
+<h2><a id="patchInPlace" name="patchInPlace"></a>Patch-in-Place Installation</h2>
+
+<p>The patch-in-place mode implies that when a version of the JRE exists on a machine, any updates belonging to the same JRE family will be done in place, meaning, the existing JRE will be patched with changes. A JRE is <em>installed in patch-in-place mode by default</em>. The default installation directory of a patch-in-place installation is <code>C:/Program Files/Java/jre&lt;n&gt;</code>, where <code>&lt;n&gt;</code> is the Java SE minor version number.</p>
+
+<p>For example, if a user previously installed JRE 7 Update 1 in the default directory <code>C:/Program Files/Java/jre7</code> directory, and now attempts to install JRE 7 Update 3, the JRE 7 Update 3 installer does not create a new directory. Instead, it updates the preexisting <code>C:/Program Files/Java/jre7</code> directory with the new 7 Update 3 content. The user is left with JRE 7 Update 3 only. JRE 7 Update 1 no longer exists.</p>
+
+<h2><a id="static" name="static"></a>Static Installation</h2>
+
+<p>When a JRE is installed in static mode, it will not be updated in place by later versions. A later version from the same JRE family will be installed in a separate directory. This mode ensures that vendors, who require a specific version of the JRE for their product, can be certain that the JRE will not be overwritten by a later version.</p>
+
+<p>Some of the characteristics of a static JRE installation are as follows:</p>
+
+<ul>
+<li>A static JRE installation (for example, 7 Update 15) will ignore a previous patch-in-place installation of another JRE (for example, 7 Update 10)</li>
+
+<li>A static JRE installation is <em>never</em> overwritten by another JRE version</li>
+
+<li>When a newer JRE version is present (for example, 7 Update 15), older JRE versions (for example, 7 Update 12) are installed in static mode only</li>
+
+<li>A patch-in-place JRE can be overwritten by a static JRE installation of the same version. The user will be left with one static JRE installation.</li>
+
+</ul>
+
+<p>The default installation directory of a static JRE is <code>C:/Program Files/Java/jre&lt;version&gt;</code>. For example, by default, a static JRE 7 Update 10 will be installed in the directory <code>C:/Program Files/Java/jre1.7.0_10</code>.</p>
+
+<p>To perform a static JRE installation, use the command-line option <code>STATIC=1</code>. See <a href="jre-installer-options.html">JRE Installer Options</a> for more information.</p>
+
+<p>See <a href="jre-update-scenarios.html">JRE Update Scenarios</a> to see examples of how the installer performs.</p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2014, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

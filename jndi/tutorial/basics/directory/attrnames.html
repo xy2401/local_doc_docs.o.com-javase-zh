@@ -1,0 +1,158 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Attribute Names</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="getattrs.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/basicsHeader.gif" width=26 height=26 align=bottom border=0 alt="The Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Directory Operations</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Attribute Names
+</h2>
+<p>
+<blockquote>
+
+An <a href=../../getStarted/concepts/glossary.html#ATTRIBUTE>attribute</a>
+consists of an <em>attribute identifier</em> and a set of <em>attribute values</em>.
+The <em>attribute identifier</em>, also called <em>attribute name</em>, 
+is a string that identifies an attribute.
+An <em>attribute value</em> is the content of the attribute and its type
+is not restricted to that of string.
+You use an attribute name when you want to
+specify a particular attribute for either retrieval,
+searches, or modification. Names are also returned by operations
+that return attributes (such as when you perform reads or searches
+in the directory).
+<p>
+When using attribute names,
+you need to be aware of certain directory server features
+so that you won't be surprised by the result.
+These features are described in the next subsections.
+
+<h4>Attribute Type</h4>
+
+In directories such as the LDAP, the attribute's name identifies the
+attribute's type and is often called the <em>attribute type
+name</em>.  For example, the attribute name 
+<tt>"cn"</tt> is also called the
+attribute type name.  An attribute's type definition specifies the
+syntax that the attribute's value is to have, whether it can have
+multiple values, and equality and ordering rules to use when
+performing comparison and ordering operations on the attribute's values.
+
+<h4>Attribute Subclassing</h4>
+Some directory implementations support <em>attribute subclassing</em>,
+in which the server allows attribute types to be defined in
+terms of other attribute types. For example,
+a <tt>"name"</tt> attribute might be the superclass of all name-related
+attributes: <tt>"commonName"</tt> might be a subclass of 
+<tt>"name"</tt>.
+For directory implementations that support this,
+asking for the <tt>"name"</tt> attribute might return the 
+<tt>"commonName"</tt> attribute.
+<p>
+When accessing directories that support attribute subclassing,
+you have to be aware that the server might return
+attributes that have names different from those that
+you requested.
+To minimize the chance of this, use the most derived subclass.
+
+<h4>Attribute Name Synonyms</h4>
+Some directory implementations support synonyms for attribute
+names. For example, 
+<tt>"cn"</tt> might be a synonym for <tt>"commonName"</tt>.
+Thus a request for the <tt>"cn"</tt> attribute might 
+return the <tt>"commonName"</tt> attribute.
+<p>
+When accessing directories that support synonyms for attribute names,
+you must be aware that the server might return
+attributes that have names different from those you requested.
+To help prevent this from happening, use the canonical
+attribute name instead of one of its synonyms.
+The <em>canonical attribute name</em> is the name used in the attribute's definition;
+a synonym is the name that refers to the canonical attribute name in its
+definition.
+
+<h4>Language Preferences</h4>
+
+An extension to the LDAP v3
+(<a href=http://www.ietf.org/rfc/rfc2596.txt>RFC 2596</a>)
+allows you to specify a language code along with an attribute name.
+This resembles attribute subclassing in that
+one attribute name can represent several different attributes.
+An example is a <tt>"description"</tt> attribute that has two
+language variations:
+<blockquote>
+<pre>
+description: software
+description;lang-en: software products
+description;lang-de: Softwareprodukte
+</pre>
+</blockquote>
+
+A request for the <tt>"description"</tt> attribute would return all three attributes.
+<p>
+When accessing directories that support this feature,
+you must be aware that the server might return
+attributes that have names different from those 
+that you requested.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="getattrs.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/basicsHeader.gif" width=26 height=26 align=top border=0 alt="The Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Directory Operations</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

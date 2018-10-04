@@ -1,0 +1,154 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Adding Link Reference Support</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="referral.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="event.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Adding Link Reference Support
+</h2>
+<p>
+<blockquote>
+
+<blockquote>
+<hr>
+<strong>Prerequisite:</strong> 
+You should be familiar with link references before reading 
+this section. Link references are discussed in the
+
+<a target="_top" href="../../beyond/misc/link.html">Miscellaneous</a> <a target="_top" href="../../beyond/misc/link.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson.
+<hr>
+</blockquote>
+
+A service provider typically supports link references if it
+supports lookups that can return link references.
+However, because most naming/directory services have their own notions
+of (native) symbolic links (such as aliases and/or referrals),
+link references might be supported only by service providers
+that also support federation.
+<p>
+As with support for referrals, support for link references is an integral
+part of the service provider implementation. It affects all
+operations that involve name resolution.  Furthermore,
+link references can be implemented in different ways.
+Following are some tips that you can follow,
+but the implementation that works
+for your service provider will depend on the features
+of the underlying naming/directory service.
+Especially important in this respect is how you've structured
+your code to handle federation.
+
+<h4>Dereferencing a Link</h4>
+
+A link reference is represented by the class
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/LinkRef.html"><tt>LinkRef</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/LinkRef.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   .
+Here is <a href=src/DerefLink.java>an example</a> of a method for
+dereferencing a <tt>LinkRef</tt>.
+<blockquote><pre>
+public static Object derefLink(LinkRef ref, Context currCtx,
+    Hashtable env) throws NamingException {
+
+    String link = ref.getLinkName();
+
+    if (link.startsWith("./")) {
+	// A relative link; assume that currCtx is the 
+	// immediate context in which the link is bound
+	return currCtx.lookup(link.substring(2));
+    } else {
+	// An absolute link; resolve it to the initial context
+	Context ctx = new InitialContext(env);
+	try {
+	    return ctx.lookup(link);
+	} finally {
+	    ctx.close();  // Close when you're done
+	}
+    }
+}
+</pre></blockquote>
+
+<h4>When to Dereference</h4>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookupLink(javax.naming.Name)"><tt>lookupLink()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookupLink(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    should not dereference links. All other normal resolution
+of names for all methods in the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><tt>Context</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interface and its subinterfaces always follows links.
+
+<h4>Detecting Cycles</h4>
+
+Resolution of the link name itself might cause resolution to pass
+through other links. The result might be a cycle of
+links whose resolution can't terminate normally. 
+<p>
+Several approaches are possible to detect and avoid cycles.
+One is to maintain a fixed-sized stack.
+In this case, each followed link is pushed onto the stack
+with the corresponding remaining name.
+When the stack is full, your provider should throw a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/LinkLoopException.html"><tt>LinkLoopException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/LinkLoopException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+
+Resolution of a link proceeds by resolving each link on the stack.
+When resolution of the link on the top of the stack completes, it is
+popped off and resolution on the next link on the stack begins.  When
+the stack is empty, the resolution of the original link is complete.
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="referral.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="event.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>
+

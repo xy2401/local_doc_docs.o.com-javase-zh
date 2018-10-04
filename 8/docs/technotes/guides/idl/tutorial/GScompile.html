@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Getting Started with Java IDL: Running the Hello World
+Application</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../../webdesign/pubs8/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../webdesign/pubs8/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://docs.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Getting Started with Java IDL<br />
+Running the Hello World Application</h1></div>
+This topic walks you through running the server and client program
+that together make up the "Hello World" application.
+<h2>Running the Hello World Application</h2>
+<p>Despite its simple design, the Hello World program lets you
+learn and experiment with all the tasks required to develop almost
+any CORBA program that uses <a href=
+"../jidlGlossary.html#invocation">static invocation</a>.</p>
+<p>This example requires a naming service to make the servant
+object's operations available to clients. The server needs an
+object reference to the naming service so that it can publish the
+references to the objects implementing various interfaces. These
+object references are used by the clients for invoking methods. The
+two options for Naming Services shipped with Java SE are
+<tt><a href="../jidlNaming.html">tnameserv</a></tt>, a transient
+naming service, and <tt>orbd</tt> (a href=
+"../../../tools/unix/orbd.html"&gt;Solaris, Linux, or Mac OS X or <a href=
+"../../../tools/windows/orbd.html">Windows</a>), which is a daemon
+process containing a Bootstrap Service, a Transient Naming Service,
+a Persistent Naming Service, and a Server Manager. This example
+uses <tt>orbd</tt>.</p>
+<p>When running this example, remember that, when using Solaris
+software, you must become root to start a process on a port under
+1024. For this reason, we recommend that you use a port number
+greater than or equal to 1024. The <tt>-ORBInitialPort</tt> option
+is used to override the default port number in this example. The
+following instructions assume you can use port 1050 for the
+Java&nbsp;IDL Object Request Broker Daemon, <tt>orbd</tt>. You can
+substitute a different port if necessary. When running these
+examples on a Windows machine, subtitute a backslash (\) in path
+names.</p>
+<p>To run this client-server application on your development
+machine:</p>
+<ol>
+<li>Start <tt>orbd</tt>.
+<p>To start <tt>orbd</tt> from a Solaris, Linux, or Mac OS X command shell, enter:</p>
+<pre class="codeblock">
+  orbd -ORBInitialPort 1050 -ORBInitialHost localhost&amp;
+</pre>
+<p>From an MS-DOS system prompt (Windows), enter:</p>
+<pre class="codeblock">
+  start orbd -ORBInitialPort 1050 -ORBInitialHost localhost
+</pre>
+<p>Note that <tt>1050</tt> is the port on which you want the name
+server to run. <tt>-ORBInitialPort</tt> is a required command-line
+argument. Note that when using Solaris software, you must become
+root to start a process on a port under 1024. For this reason, we
+recommend that you use a port number greater than or equal to
+1024.</p>
+<p>Note that <tt>-ORBInitialHost</tt> is also a required
+command-line argument. For this example, since both client and
+server on running on the development machine, we have set the host
+to <tt>localhost</tt>. When developing on more than one machine,
+you will replace this with the name of the host. For an example of
+how to run this program on two machines, see <a href=
+"jidl2machines.html">The Hello World Example on Two
+Machines</a>.</p>
+</li>
+<li>Start the Hello server.
+<p>To start the Hello server from a Solaris, Linux, or Mac OS X command shell, enter:</p>
+<pre class="codeblock">
+  java HelloServer -ORBInitialPort 1050 -ORBInitialHost localhost&amp;
+</pre>
+<p>From an MS-DOS system prompt (Windows), enter:</p>
+<pre class="codeblock">
+  start java HelloServer -ORBInitialPort 1050 -ORBInitialHost localhost
+</pre>
+<p>For this example, you can omit <tt>-ORBInitialHost
+localhost</tt> since the name server is running on the same host as
+the Hello server. If the name server is running on a different
+host, use <tt>-ORBInitialHost</tt> <em>nameserverhost</em> to
+specify the host on which the IDL name server is running.</p>
+<p>Specify the name server (<tt>orbd</tt>) port as done in the
+previous step, for example, <tt>-ORBInitialPort 1050</tt>.</p>
+</li>
+<li>Run the client application:
+<pre class="codeblock">
+  java HelloClient -ORBInitialPort 1050 -ORBInitialHost localhost
+</pre>
+<p>For this example, you can omit <tt>-ORBInitialHost
+localhost</tt> since the name server is running on the same host as
+the Hello client. If the name server is running on a different
+host, use <tt>-ORBInitialHost</tt> <em>nameserverhost</em> to
+specify the host on which the IDL name server is running.</p>
+<p>Specify the name server (<tt>orbd</tt>) port as done in the
+previous step, for example, <tt>-ORBInitialPort 1050</tt>.</p>
+</li>
+<li>The client prints the string from the server to the command
+line:
+<pre class="codeblock">
+Hello world!!
+</pre></li>
+</ol>
+<p>The name server, like many CORBA servers, runs until you
+explicitly stop it. To avoid having many servers running, kill the
+name server process after the client application returns
+successfully. To do this from a DOS prompt, select the window that
+is running the server and enter <tt>Ctrl+C</tt> to shut it down. To
+do this from a Solaris, Linux, or Mac OS X shell, find the process, and kill it.</p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

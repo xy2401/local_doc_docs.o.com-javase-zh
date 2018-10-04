@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>xjc</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="You use the xjc shell script to compile an XML schema file into fully annotated Java classes." />
+<meta name="dcterms.created" content="2018-03-13T12:23:13Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Tools Reference" />
+<meta name="dcterms.identifier" content="E91146-01" />
+<meta name="dcterms.isVersionOf" content="JSWOR" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="wsimport.htm" title="Previous" type="text/html" />
+<link rel="Next" href="java-accessibility-utilities-and-commands.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSWOR.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB"></a> <span id="PAGE" style="display:none;">50/63</span> <!-- End Header -->
+<a id="JSWOR741"></a>
+<h1 id="JSWOR-GUID-AB26BC43-B259-418A-BAC6-28717F321AFB" class="sect1">xjc</h1>
+<div>
+<p><span>You use the <code class="codeph">xjc</code> shell script to compile an XML schema file into fully annotated Java classes.</span></p>
+<div class="section">
+<p class="subhead1">Synopsis</p>
+<pre dir="ltr">
+xjc [-<span class="variable">options</span>] <span class="variable">schema file/URL/dir/jar</span> ... [-b <span class="variable">bindinfo</span>] ...
+</pre>
+<dl>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-5028E3E3-4465-4048-93DA-3A3CCEBF36F1"><!-- --></a><code class="codeph"><span class="variable">options</span></code></dt>
+<dd>
+<p>This represents the <code class="codeph">xjc</code> command-line options. See <a href="xjc.htm#GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__OPTIONSFORTHEXJCCOMMAND-D2436D3F">Options for the xjc Command</a>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-FF98DD9E-87DD-484B-87DE-45805170DA17"><!-- --></a><code class="codeph"><span class="variable">schema file/URL/dir/jar</span></code></dt>
+<dd>
+<p>This represents the location of the XML schema file. If <code class="codeph">dir</code> is specified, then all schema files in it are compiled. If <code class="codeph">jar</code> is specified, then the <code class="codeph">/META-INF/sun-jaxb.episode</code> binding file is compiled.</p>
+<p>This specifies one or more schema files to compile. If you specify a directory, then the <code class="codeph">xjc</code> command scans it for all schema files and compiles them.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-AC430986-C7AB-421D-A2DD-2A8FEE0F6FA2"><!-- --></a><code class="codeph">-b <span class="variable">bindinfo</span></code></dt>
+<dd>
+<p>The location of the binding files.</p>
+</dd>
+</dl>
+<div class="infobox-note" id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-426ADE2F-EDC8-481E-BD98-264DDB1D50F3">
+<p class="notep1">Note:</p>
+<p>If <code class="codeph"><span class="variable">dir</span></code> is specified, all schema files in it will be compiled. If <code class="codeph"><span class="variable">jar</span></code> is specified, the <code class="codeph">/META-INF/sun-jaxb.episode</code> binding file will be compiled.</p>
+</div>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Description</p>
+<p>Start the binding compiler with the appropriate <code class="codeph">xjc</code> shell script in the <code class="codeph">bin</code> directory for your platform. There&rsquo;s also an Ant task to run the binding compiler.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__OPTIONSFORTHEXJCCOMMAND-D2436D3F">
+<p class="subhead1">Options for the xjc Command</p>
+<dl>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-2F55E55D-B6A1-4403-A51F-54406034B666"><!-- --></a><code class="codeph">-nv</code></dt>
+<dd>
+<p>This option disables strict schema validation. This doesn&rsquo;t mean that the binding compiler won&rsquo;t perform any validation, but means that it will perform a less strict validation.</p>
+<p>By default, the <code class="codeph">xjc</code> binding compiler performs strict validation of the source schema before processing it.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-5376DEC6-8BBD-4DC5-91CC-182F295FFE6D"><!-- --></a><code class="codeph">-extension</code></dt>
+<dd>
+<p>This option allows vendor extensions to be used. By default, the <code class="codeph">xjc</code> binding compiler strictly enforces the rules outlined in the Compatibility Rules chapter and Appendix E.2 of the JAXB Specification. Appendix E.2 defines a set of W3C XML Schema features that aren&rsquo;t completely supported by JAXB v1.0. In some cases, you may be allowed to use them in the <code class="codeph">-extension</code> mode enabled by this switch. In the default (strict) mode, you&rsquo;re also limited to using only the binding customization defined in the specification. By using the <code class="codeph">-extension</code> switch, you&rsquo;ll be allowed to use the JAXB Vendor Extensions.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-5D49D183-6DFC-4743-9617-C1CFE129C233"><!-- --></a><code class="codeph">-b <span class="variable">file/dir</span></code></dt>
+<dd>
+<p>This option specifies one or more external binding files to process. Each binding file must have its own <code class="codeph">-b</code> switch. The syntax of the external binding files is flexible. You can have a single binding file that contains customization for multiple schemas or you can break the customization into multiple bindings files. For example:</p>
+<p><code class="codeph">xjc schema1.xsd schema2.xsd schema3.xsd -b bindings123.xjb</code></p>
+<p><code class="codeph">xjc schema1.xsd schema2.xsd schema3.xsd -b bindings1.xjb -b bindings2.xjb -b bindings3.xjb</code>.</p>
+<p>In addition, the ordering of the schema files and binding files on the command line doesn&rsquo;t matter.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-8290E7CD-2738-4C9D-82C2-72491E15A3C9"><!-- --></a><code class="codeph">-d <span class="variable">dir</span></code></dt>
+<dd>
+<p>This option specifies an alternate output directory instead of the default. The output directory must already exist. The<code class="codeph">xjc</code> binding compiler doesn&rsquo;t create it for you.</p>
+<p>By default, the <code class="codeph">xjc</code> binding compiler generates the Java content classes in the current directory.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-68955731-9FDE-40DF-AA58-5B68DF70DCC6"><!-- --></a><code class="codeph">-p <span class="variable">pkg</span></code></dt>
+<dd>
+<p>When you specify a target package with this command-line option, it overrides any binding customization for the package name and the default package name algorithm defined in the specification.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-04B4B041-E923-490C-A371-1A03D920A4EB"><!-- --></a><code class="codeph">-m <span class="variable">name</span></code></dt>
+<dd>
+<p>This option generates <code class="codeph">module-info.java</code> using the specified Java module name.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-DA4D0775-D9CB-4851-AEE6-3226ADF293A3"><!-- --></a><code class="codeph">-httpproxy <span class="variable">proxy</span></code></dt>
+<dd>
+<p>This specifies the HTTP or HTTPS proxy in the format <span class="italic">[user[:password]@]proxyHost[:proxyPort]</span>. The old <code class="codeph">-host</code> and <code class="codeph">-port</code> options are still supported by the RI for backward compatibility, but they are deprecated. The password specified with this option is an argument that&rsquo;s visible to other users who use the top command. For greater security, use the <code class="codeph">-httpproxyfile</code> option.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-FD20D0BF-AFEB-4F00-8B96-DCC3F4FE8E52"><!-- --></a><code class="codeph">-httpproxyfile <span class="variable">file</span></code></dt>
+<dd>
+<p>This option specifies the HTTP or HTTPS proxy with a file. This is same format as the <code class="codeph">-httpproxy</code> option, but the password specified in the file isn&rsquo;t visible to other users.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-0B692AB7-A5F9-4516-B87F-988BFAF74761"><!-- --></a><code class="codeph">-classpath <span class="variable">arg</span></code></dt>
+<dd>
+<p>This option specifies where to find client application class files used by the <code class="codeph"><span class="variable">jxb:javaType</span></code> and <code class="codeph">xjc:<span class="variable">superClass</span></code> customization.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-EEDAB98F-AF6C-4A47-A80D-961158A0753F"><!-- --></a><code class="codeph">-catalog <span class="variable">file</span></code></dt>
+<dd>
+<p>This option specifies catalog files to resolve external entity references. It supports the TR9401, XCatalog, and OASIS XML Catalog formats.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-8394646D-9D75-489A-9F81-58824DCEAFD5"><!-- --></a><code class="codeph">-readOnly</code></dt>
+<dd>
+<p>This option forces the <code class="codeph">xjc</code> binding compiler to mark the generated Java sources as read-only.</p>
+<p>By default, the <code class="codeph">xjc</code> binding compiler doesn&rsquo;t write-protect the Java source files that it generates.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-F5D35803-3FDD-460C-96A5-22748349A707"><!-- --></a><code class="codeph">-npa</code></dt>
+<dd>
+<p>This option suppresses the generation of package-level annotations into <code class="codeph">**/package-info.java</code>. Using this switch causes the generated code to internalize those annotations into the other generated classes.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-0D47A447-9E74-4C4E-BC87-B0560F509F17"><!-- --></a><code class="codeph">-no-header</code></dt>
+<dd>
+<p>This option suppresses the generation of a file header comment that includes some note and time stamp. Using this makes the generated code more compatible with the <code class="codeph">diff</code> command.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-90117A16-258A-404B-8B9D-22E25CC5CD80"><!-- --></a><code class="codeph">-target [2.0|2.1]</code></dt>
+<dd>
+<p>This option generates code in accordance with the specified JAXWS specification version. Defaults to 2.2. The accepted values are <code class="codeph">2.0</code>, <code class="codeph">2.1</code>, and <code class="codeph">2.2</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-F2943E5D-E706-4CAB-857B-ECCF79D05AEF"><!-- --></a><code class="codeph">-encoding <span class="variable">encoding</span></code></dt>
+<dd>
+<p>This option specifies character encoding for generated source files.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-4314B24B-3772-430E-8875-D25D769ADEFE"><!-- --></a><code class="codeph">-enableIntrospection</code></dt>
+<dd>
+<p>This option enables the correct generation of Boolean getters and setters to enable Bean Introspection APIs.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-AEB13A7A-6618-4ADD-9694-423DCF2C5398"><!-- --></a><code class="codeph">-disableXmlSecurity</code></dt>
+<dd>
+<p>This option disables XML security features when parsing XML documents.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-283DEAD6-E90E-4DE1-8924-6C4980F39357"><!-- --></a><code class="codeph">-contentForWildcard</code></dt>
+<dd>
+<p>This option generates content property for types with multiple <code class="codeph">xs:any</code> derived elements.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-457CE96F-4D6D-4186-8880-F6A94A4DA731"><!-- --></a><code class="codeph">-xmlschema</code></dt>
+<dd>
+<p>This option treats input schemas as W3C XML Schema (default). If you don&rsquo;t specify this switch, then your input schemas are treated as though they&rsquo;re W3C XML Schemas.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-7060919A-285A-438F-8C35-FD6D7B72970D"><!-- --></a><code class="codeph">-dtd</code></dt>
+<dd>
+<p>This option treats input schemas as XML DTD (experimental and unsupported). Support for <code class="codeph">RELAX NG</code> schemas is provided as a JAXB Vendor Extension.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-D7574220-F782-4247-97D4-2F571A1B04D9"><!-- --></a><code class="codeph">-wsdl</code></dt>
+<dd>
+<p>This option treats input as WSDL and compiles schemas inside it (experimental and unsupported).</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-2371E003-1C98-4327-9633-BF4C151F81A8"><!-- --></a><code class="codeph">-verbose</code></dt>
+<dd>
+<p>This option generates extra verbose output, such as printing informational messages or displaying stack traces upon some errors.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-21CD4A92-A74B-4531-973D-2B290497139F"><!-- --></a><code class="codeph">-quiet</code></dt>
+<dd>
+<p>This option suppresses compiler output, such as progress information and warnings.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-73D8B60C-BEAA-4B96-B66E-05B6AFBC54BC"><!-- --></a><code class="codeph">-help</code></dt>
+<dd>
+<p>This option displays a brief summary of the compiler switches.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-603E261D-55DA-4EC2-8AFD-11163A3DB9FD"><!-- --></a><code class="codeph">-version</code></dt>
+<dd>
+<p>This option displays the compiler version information.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-EE087879-3D76-4599-9D74-C5CA1F3D94E0"><!-- --></a><code class="codeph">-fullversion</code></dt>
+<dd>
+<p>This option displays full version information.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__EXTENSIONSFORTHEXJCCOMMAND-D24371EA">
+<p class="subhead1">Extensions for the xjc Command</p>
+<dl>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-BFEEB1A1-B859-4C1F-B283-E68D248D0888"><!-- --></a><code class="codeph">-Xpropertyaccessors</code></dt>
+<dd>
+<p>This option uses <code class="codeph">XmlAccessType</code> <code class="codeph">PROPERTY</code> instead of <code class="codeph">FIELD</code> for generated classes.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-2A662FD2-081B-444A-9B98-FE0B57726B8B"><!-- --></a><code class="codeph">-mark-generated</code></dt>
+<dd>
+<p>This option marks the generated code with the annotation <code class="codeph">@javax.annotation.Generated</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-3B696895-774C-435E-9657-244236C12ABD"><!-- --></a><code class="codeph">-Xinject-code</code></dt>
+<dd>
+<p>This option injects the specified Java code fragments into the generated code.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-58759482-9B1C-4597-A77B-221CBAA4866C"><!-- --></a><code class="codeph">-episode <span class="variable">file</span></code></dt>
+<dd>
+<p>This option generates the specified episode file for separate compilation.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-EE4E23A3-F371-4EB3-9200-C6D175ADF15D"><!-- --></a><code class="codeph">-XLocator</code></dt>
+<dd>
+<p>This option causes the generated code to expose Simple API for XML (SAX) Locator information about the source XML in the Java bean instances after unmarshalling.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-193E3D0B-4457-4858-B6A2-83AE3327A16F"><!-- --></a><code class="codeph">-Xsync-methods</code></dt>
+<dd>
+<p>This option causes all of the generated method signatures to include the <code class="codeph">synchronized</code> keyword.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__DEPRECATEDANDREMOVEDOPTIONSFORTHEXJ-D24374AE">
+<p class="subhead1">Deprecated and Removed Options for the xjc Command</p>
+<dl>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-A11FA7A0-C83D-4D10-BED9-4C870F92626D"><!-- --></a><code class="codeph">-host</code> and <code class="codeph">-port</code></dt>
+<dd>
+<p>These options are replaced with the <code class="codeph">-httpproxy</code> option. For backward compatibility, these options are supported, but won&rsquo;t be documented and might be removed from future releases.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-4E477D17-C6B9-44B6-BD33-1440A419D837"><!-- --></a><code class="codeph">-use-runtime</code></dt>
+<dd>
+<p>Because the JAXB 2.0 specification has defined a portable runtime environment, it&rsquo;s no longer necessary for the JAXB reference implementation to generate <code class="codeph">**/impl/runtime</code> packages. Therefore, this switch is obsolete and was removed.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__GUID-B19DA010-197A-4D7E-9FD2-335DEECF36F8"><!-- --></a><code class="codeph">-source</code></dt>
+<dd>
+<p>The <code class="codeph">-source</code> compatibility switch was introduced in the first JAXB 2.0 Early Access release. This switch is removed from future releases of JAXB 2.0. If you need to generate 1.0.<span class="italic">n</span> code, then use an installation of the 1.0.<span class="italic">n</span> codebase.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-AB26BC43-B259-418A-BAC6-28717F321AFB__COMPILERRESTRICTIONSFORTHEXJCCOMMAN-D2437A48">
+<p class="subhead1">Compiler Restrictions for the xjc Command</p>
+<p>In general, it&rsquo;s safest to compile all related schemas as a single unit with the same binding compiler switches. Keep the following list of restrictions in mind when running the <code class="codeph">xjc</code> command. Most of these issues apply only when you compile multiple schemas with multiple invocations of the <code class="codeph">xjc</code> command.</p>
+<p>To compile multiple schemas at the same time, remember the following precedence rules for the target Java package name:</p>
+<ol>
+<li>
+<p>The <code class="codeph">-p</code> option has the highest precedence.</p>
+</li>
+<li>
+<p>If there are <code class="codeph"><span class="variable">jaxb:package</span></code> customizations.</p>
+</li>
+<li>
+<p>If <code class="codeph">targetNamespace</code> is declared, then apply the <code class="codeph">targetNamespace</code> to the Java package name algorithm defined in the specification.</p>
+</li>
+<li>
+<p>If no <code class="codeph">targetNamespace</code> is declared, then use a hard coded package named <code class="codeph">generated</code>.</p>
+</li>
+</ol>
+<p>You can&rsquo;t have more than one <code class="codeph"><span class="variable">jaxb:schemaBindings</span></code> per name space, so it&rsquo;s impossible to have two schemas in the same target name space compiled into different Java packages.</p>
+<p>All schemas being compiled into the same Java package must be submitted to the XJC binding compiler at the same time. They can&rsquo;t be compiled independently and work as expected.</p>
+<p>Element substitution groups that are spread across multiple schema files must be compiled at the same time.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment186">
+<tr>
+<td class="cellalignment198">
+<table class="cellalignment191">
+<tr>
+<td class="cellalignment190"><a href="wsimport.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment190"><a href="java-accessibility-utilities-and-commands.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment200">
+<table class="cellalignment189">
+<tr>
+<td class="cellalignment190"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment190"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment190"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

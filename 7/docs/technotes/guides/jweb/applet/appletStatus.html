@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Applet Status And Event Handlers</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Applet Status And Event Handlers</h1></div>
+<p style="background-color: rgb(247, 248, 249); border-width: 1px; padding: 10px; font-style: italic; border-style: solid; border-color: rgb(64, 74, 91);">These documentation pages are no longer current. They remain available for archival purposes. Please visit <a href="https://docs.oracle.com/javase"><code>https://docs.oracle.com/javase</code></a> for the most up-to-date documentation.</p>
+
+<p><a href="../index.html">Java Rich Internet Applications Guide</a> &gt; <a href="applet_dev_guide.html">Applet Developer's Guide</a> &gt; Applet Status and Event Handlers</p>
+
+<p>Beginning in the Java SE 7 release, you can check the value of
+the <code>status</code> variable of an applet while it is being
+initialized. This check is non-blocking and immediately returns the
+status of the applet. You can explicitly check the status of the
+applet while it is loading and perform relevant actions or register
+event handlers that will automatically be invoked during various
+stages of applet initialization. The applet should be deployed with
+the <code>java_status_events</code> parameter set to
+<code>true</code> in order to use this functionality. See the
+<a href=
+"http://docs.oracle.com/javase/tutorial/deployment/applet/appletStatus.html">
+Handling Initialization Status With Event Handlers</a> topic in the
+Java Tutorials for step by step instructions and an example.</p>
+<h2>Applet Status</h2>
+<p>The following table displays the meaning of values returned by
+the <code>status</code> method of the applet.</p>
+<table summary="Applet status values and meaning" border="1">
+<caption>Applet Status Values and Meaning</caption>
+<tr>
+<th>Applet Status</th>
+<th>Applet Status Variable Value</th>
+<th>Meaning</th>
+</tr>
+<tr>
+<td>LOADING</td>
+<td>1</td>
+<td>Applet is loading</td>
+</tr>
+<tr>
+<td>READY</td>
+<td>2</td>
+<td>Applet has loaded completely and is ready to receive JavaScript
+calls</td>
+</tr>
+<tr>
+<td>ERROR</td>
+<td>3</td>
+<td>Error while loading applet</td>
+</tr>
+</table>
+<h2>Applet Event Handlers</h2>
+<p>You can register event handlers for various events. The Java
+Plug-in software will invoke these event handlers at various stages
+of the applet loading process. The following table describes applet
+events for which event handlers can be registered.</p>
+<table summary="applet events" border="1">
+<caption>Applet Events</caption>
+<tr>
+<th>Applet Event</th>
+<th>When Event Occurs</th>
+</tr>
+<tr>
+<td>onLoad</td>
+<td>Occurs when applet status is READY. Applet has finished loading
+and is ready to receive JavaScript calls</td>
+</tr>
+<tr>
+<td>onStop</td>
+<td>Occurs when applet has stopped</td>
+</tr>
+<tr>
+<td>onError</td>
+<td>Occurs when applet status is ERROR. An error has occurred while
+loading the applet</td>
+</tr>
+</table>
+<p>You can register or determine an event handler in the JavaScript
+code of a web page as shown in the following code snippets.</p>
+<pre class="codeblock">
+// use an anonymous function
+applet.onLoad(function() {
+  //event handler for ready state
+}
+
+// use a regular function
+function onLoadHandler() {
+  // event handler for ready state
+}
+
+// Use method form
+applet.onLoad(onLoadHandler);
+
+// Use attribute form
+applet.onLoad = onLoadHandler;
+
+// get current event handler
+var handler = applet.onLoad
+</pre>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

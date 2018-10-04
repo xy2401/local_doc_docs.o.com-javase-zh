@@ -1,0 +1,234 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Referrals in the JNDI</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body bgcolor="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="overview.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="follow.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Referrals</em></strong></a>
+</td>
+</tr>
+</table>
+<p align="CENTER">
+<img src="../../jndiimages/shoeline2.GIF" align="BOTTOM" border="0" width="202"
+    height="25" naturalsizeflag="3">
+<img src="../../jndiimages/shoeline2.GIF" align="BOTTOM" border="0" width="202"
+    height="25" naturalsizeflag="3">
+</p>
+
+<h2>
+    Referrals in the JNDI
+</h2>
+<p>
+<blockquote>
+
+A JNDI application uses the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#REFERRAL"><tt>Context.REFERRAL</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#REFERRAL"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     (<tt>"java.naming.referral"</tt>)
+environment property to indicate to the service providers
+how to handle referrals.
+The following table shows the values defined for this property.
+If this property has not been set, then 
+the default is to ignore referrals.
+
+<p>
+<table border cellpadding=3>
+<tr>
+<th>
+Property Setting
+</th>
+<th>
+Description
+</th>
+</tr>
+
+<tr>
+<td valign=TOP>
+<a href="http://download.oracle.com/javase/6/docs/technotes/guides/jndi/spec/jndi/properties.html#pgfId=999460"><tt>ignore</tt></a></td>
+<td>
+Ignore referrals</td>
+</tr>
+
+<tr>
+<td><a href=follow.html><tt>follow</tt></a></td>
+
+<td>Automatically follow any referrals</td>
+</tr>
+
+<tr>
+<td><a href=throw.html><tt>throw</tt></a></td>
+
+<td>Throw a 
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html"><tt>ReferralException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     for each referral</td>
+</tr>
+
+</table>
+
+<p>
+
+Unlike aliases, which are always ignored for LDAP operations that
+update the directory, the <tt>Context.REFERRAL</tt>
+property is in effect for all operations.
+See the <a href=update.html>Creating and Updating Referrals section</a> for a 
+discussion of how to update referrals.
+<p>
+This property affects both "referral" error responses
+and continuation references.
+
+<a name=MANAGE><h4>Interaction with the <em>Manage Referral</em> Control</h4></a>
+
+The <em>Manage Referral</em> control (<a href=http://www.ietf.org/rfc/rfc3296.txt>RFC 3296</a>)
+tells the LDAP server to return referral entries as ordinary entries
+(instead of returning "referral" error responses or continuation references).
+If you are using the LDAP v3 and  have set 
+<tt>Context.REFERRAL</tt> to <tt>"ignore"</tt>,
+then the LDAP service provider will automatically send this control along with the request.
+If you are using the LDAP v2, 
+then the control will not be sent because
+it is not applicable in that protocol.
+When you set <tt>Context.REFERRAL</tt> to any other value,
+the control will not be sent regardless of the protocol version.
+When updating referral entries,
+you should always use <tt>"ignore"</tt>.
+
+<p>
+When the LDAP service provider receives a referral despite
+your having set <tt>Context.REFERRAL</tt> to <tt>"ignore"</tt>,
+it will throw a 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/PartialResultException.html"><tt>PartialResultException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/PartialResultException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    to indicate that more results might be forthcoming
+if the referral is followed.
+In this case, the server does not support the Manage Referral
+control and is supporting referral updates in some other way.
+
+
+<h4>When Referrals Are Processed</h4>
+Continuation references can be mixed in with search results
+returned by an LDAP "search" operation.
+For example, when searching a directory, the server might return several 
+search results, in addition to a few continuation references that show where 
+to obtain further results.
+These results and references might be interleaved at the protocol level.
+When the <tt>Context.REFERRAL</tt> property is set to 
+<tt>"follow"</tt>,
+the LDAP service provider processes all the normal entries first,
+before following the continuation references.
+When this property is set to <tt>"throw"</tt>,
+all of normal entries are returned in the enumeration first, before
+the <tt>ReferralException</tt> is thrown.
+<p>
+By contrast, a "referral" error response is processed immediately
+when  <tt>Context.REFERRAL</tt> is set to <tt>"follow"</tt> or <tt>"throw"</tt>.
+
+<h4>Server Configuration for Examples</h4>
+
+The examples in this trail communicate with a new server whose directory
+contains referrals to the original server set up for this tutorial.
+The original server is assumed to be running on port 389 of the
+local machine, and the new server is assumed to be running on port 489
+of the local machine.
+<p>
+<img src=../../jndiimages/referral.jpeg alt="Referral Picture" align=center>
+<p>
+The following three referrals are set up from the new server (port 489)
+to the original server (port 389).
+<ul>
+<li>
+The entry <tt>"ou=People, o=JNDITutorial"</tt> in the new server is a referral to 
+the entry by the same name in the original server.
+<li>
+The entry <tt>"ou=People, ou=All, o=JNDITutorial"</tt> in the new server is a referral 
+to the <tt>"ou=People, o=JNDITutorial"</tt> entry in the original server.
+<li>
+The entry <tt>"ou=NewHires, ou=All, o=JNDITutorial"</tt> is a referral 
+to the <tt>"ou=NewHires, o=JNDITutorial"</tt> entry in the original server.
+</ul>
+<p>
+The initial context used in the examples in this lesson is initialized by
+using the following environment properties.
+<blockquote>
+<pre>
+// Set up the environment for creating the initial context
+Hashtable env = new Hashtable();
+env.put(Context.INITIAL_CONTEXT_FACTORY, 
+    "com.sun.jndi.ldap.LdapCtxFactory");
+env.put(Context.PROVIDER_URL, "ldap://localhost:489/o=JNDITutorial");
+</pre>
+</blockquote>
+Unlike in the remaining examples in this tutorial,
+the port number is 489 instead of 389.
+
+
+<blockquote>
+<hr>
+<strong>Before you go on:</strong>
+The examples in this lesson require you to set up
+a second server using the configuration 
+file <a href=../../config/LDAP/refserver.ldif><tt>refserver.ldif</tt></a>.
+The server must support LDAP v3 and <a href=http://www.ietf.org/rfc/rfc3296.txt>RFC 3296</a>.
+
+If the server does not support referrals in this way, then these examples
+won't work as shown.
+The configuration file contains referrals that point to the original server
+that you've set up and augmented for this lesson
+(using
+<a href=../../config/LDAP/tutorial.ldif><tt>tutorial.ldif</tt></a>
+and
+<a href=../../config/LDAP/ldaptrail.ldif><tt>ldaptrail.ldif</tt></a>).
+It assumes that the original server is on port 389 on the local machine.
+If you have set up the server on another machine or port, then
+you need to edit the <tt>"ref"</tt> entries in the 
+<a href=../../config/LDAP/refserver.ldif><tt>refserver.ldif</tt></a> file
+and replace <tt>"localhost:389"</tt> with the appropriate setting.
+The second server is to be set up on port 489 on the local machine.
+If you set up the second server on another machine or port, then
+you need to adjust the setting of the <tt>Context.PROVIDER_URL</tt>
+environment property for the initial context accordingly.
+<p>
+Setting up a directory server is typically performed by 
+the directory or system administrator. See the
+<a target="_top" href="../../basics/prepare/content.html#FS">Preparations</a> <a href="../../basics/prepare/content.html#FS"><img src="../../jndiimages/basicsIcon.gif" width=20 height=20 border=0 alt="(in the Basics trail)"></a>     lesson for more information.
+<p>
+<strong>Windows Active Directory:</strong>
+Because Active Directory does not support the Manage Referral control,
+none of the examples in this lesson will work against Active Directory.
+</blockquote>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="overview.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="follow.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Referrals</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>
+

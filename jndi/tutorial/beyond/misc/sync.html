@@ -1,0 +1,167 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Threads and Synchronization</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="policy.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="security.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=bottom border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Threads and Synchronization
+</h2>
+<p>
+<blockquote>
+
+The JNDI defines synchronous access to naming and directory systems.
+Like most other APIs defined for the Java platform, asynchronous
+access is achieved by using multiple threads.
+<p>
+When you use multiple threads in your program, remember that
+the JNDI specifies that concurrent access to the <em>same</em> <tt>Context</tt>
+instance is not guaranteed to be thread-safe. Although some
+service providers might guarantee thread-safety for the same
+<tt>Context</tt> instance, it is best to use synchronization so that
+the code is portable across different service provider
+implementations.
+When you use multiple threads to access <em>different</em> <tt>Context</tt>
+instances, they need not be synchronized.
+<p>
+Here is <a href=src/DiffCtx.java>an example</a>
+that creates two threads, each listing a different <tt>Context</tt> instance.
+<blockquote><pre>
+// Create the contexts
+Context ctx1 = new InitialContext(env);
+Context ctx2 = (Context)ctx1.lookup("ou=People");
+
+// Create the threads
+Thread thread1 = new ListThread(ctx1, "ONE");
+Thread thread2 = new ListThread(ctx2, "TWO");
+
+// Let them work
+thread1.start();
+thread2.start();
+</blockquote></pre>
+Each thread's <tt>run()</tt> method looks as follows.
+<blockquote><pre>
+public void run() {
+    try {
+	NamingEnumeration namingEnum = ctx.list("");
+	while (namingEnum.hasMore()) {
+	    System.out.println(label + ": " + namingEnum.next());
+	}
+    } catch (NamingException e) {
+	System.out.println(label + ": " + e);
+    }
+}
+</blockquote></pre>
+When you run this program, you will see the following output.
+<blockquote><pre>
+# java DiffCtx
+ONE: ou=Groups: javax.naming.directory.DirContext
+ONE: ou=People: javax.naming.directory.DirContext
+ONE: ou=Staff: javax.naming.directory.DirContext
+ONE: ou=NewHires: javax.naming.directory.DirContext
+TWO: cn=Ted Geisel: javax.naming.directory.DirContext
+ONE: cn=favDrink: javax.naming.directory.DirContext
+TWO: cn=Jon Ruiz: javax.naming.directory.DirContext
+TWO: cn=Scott Seligman: javax.naming.directory.DirContext
+...
+</blockquote></pre>
+<p>
+Note that despite the fact that both <tt>Context</tt> instances are derived from
+the same <tt>InitialContext</tt> instance, you need not lock their access.
+However, if you modify the example slightly so that you
+use two threads to list the <em>same</em> <tt>Context</tt>, then you need
+to lock the <tt>Context</tt> instance.
+In the following <a href=src/SameCtx.java>modified example</a>,
+the thread's <tt>run()</tt> method looks like this.
+<blockquote><pre>
+public void run() {
+    try {
+	// Lock for multithreaded access
+	synchronized (ctx) {
+	    NamingEnumeration namingEnum = ctx.list("");
+	    while (namingEnum.hasMore()) {
+		System.out.println(label + ": " + namingEnum.next());
+	    }
+	}
+    } catch (NamingException e) {
+	System.out.println(label + ": " + e);
+    }
+}
+</blockquote></pre>
+When you run this example, it generates the following output.
+<blockquote><pre>
+# java SameCtx
+ONE: ou=Groups: javax.naming.directory.DirContext
+ONE: ou=People: javax.naming.directory.DirContext
+ONE: ou=Staff: javax.naming.directory.DirContext
+ONE: ou=NewHires: javax.naming.directory.DirContext
+ONE: cn=favDrink: javax.naming.directory.DirContext
+TWO: ou=Groups: javax.naming.directory.DirContext
+TWO: ou=People: javax.naming.directory.DirContext
+TWO: ou=Staff: javax.naming.directory.DirContext
+TWO: ou=NewHires: javax.naming.directory.DirContext
+TWO: cn=favDrink: javax.naming.directory.DirContext
+</blockquote></pre>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="policy.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="security.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=top border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>
+

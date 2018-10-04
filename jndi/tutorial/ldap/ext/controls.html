@@ -1,0 +1,150 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Controls</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="request.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Controls and Extensions</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Controls
+</h2>
+<p>
+<blockquote>
+
+In the LDAP v3, 
+a control can be either a 
+<a href=../../getStarted/concepts/glossary.html#REQCTL>request control</a>
+or a
+<a href=../../getStarted/concepts/glossary.html#RESPCTL>response control</a>.
+A request control is sent from the client to the server along with an
+LDAP operation.
+A response control is sent from the server to the client along with
+an LDAP response.
+<p>
+Either is represented by the interface
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/Control.html><tt>Control</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/Control.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.  
+An application typically does not deal directly with the
+interface. Instead, it deals with classes that implement this
+interface. The application gets control classes either as part of a
+repertoire of controls standardized through the IETF or from directory
+vendors (vendor-specific controls). The request control classes
+should have constructors that accept arguments in a type-safe and
+user-friendly manner, and the response control classes should have
+access methods for getting the data of the response in a type-safe and
+user-friendly manner. Internally, the request/response control classes
+deal with encoding and decoding BER values.
+The next few pages include some examples of control implementation classes.
+
+<h4>Criticality</h4>
+
+When a client sends a request control to a server, it specifies the
+control's <em>criticality</em>. The criticality determines whether
+the server can ignore the request control.
+When it receives a critical request control, it must either
+process the request with the control or reject the entire request.
+When a server receives a noncritical request control, it must 
+process the request either with the control or by ignoring the control.
+It can't reject the request simply because 
+it does not support the control.
+<p>
+Whether a client specifies a request control as critical
+depends mainly on the nature of the control and how it is intended
+to be used. A designer who defines a control typically dictates or recommends
+whether the control be sent as critical or noncritical.
+When a server does not support a critical control, it is supposed
+to send back an "unsupported critical extension" error, which maps to the 
+JNDI exception
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/OperationNotSupportedException.html><tt>OperationNotSupportedException</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/OperationNotSupportedException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+However, some servers, such as the Microsoft Active Directory, might
+be nonconformant and send back a protocol error (
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/CommunicationException.html><tt>CommunicationException</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/CommunicationException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>) instead.
+<p>
+You use 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/Control.html#isCritical()"><tt>Control.isCritical()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/Control.html#isCritical()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     to determine whether a control is critical.
+
+
+<h4>Identification</h4>
+
+A designer defining a control must assign it a
+unique object identifier (OID).
+For example, the 
+<a href="http://www.ietf.org/rfc/rfc2891.txt">Sort control</a> has an identifier of 1.2.840.113556.1.4.473.
+<p>
+You use 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/Control.html#getID()"><tt>Control.getID()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/Control.html#getID()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   to get a control's identifier.
+
+<h4>Encoding</h4>
+
+A control's definition specifies how it is to be encoded and transmitted
+between client and server.
+This encoding is done by using ASN.1 BER.
+Typically, an application does not need to deal with a control's encoding.
+This is because the
+implementation classes for a control deal with any encoding/decoding, as well as provide the application with type-friendly interfaces for
+constructing and accessing a control's fields.
+Service providers use
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/Control.html#getEncodedValue()"><tt>Control.getEncodedValue()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/Control.html#getEncodedValue()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    to retrieve a control's encoded value
+for transmission to the server.
+
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="request.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Controls and Extensions</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

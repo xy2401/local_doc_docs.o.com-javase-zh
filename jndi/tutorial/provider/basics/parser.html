@@ -1,0 +1,152 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Name Parser</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="update.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="morenames.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Essential Components</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Name Parser
+</h2>
+<p>
+<blockquote>
+
+Whether a context implementation supports a flat or hierarchical namespace
+depends on the underlying naming/directory service.
+For example, a context implementation for an LDAP directory service
+must support a hierarchical namespace, whereas a context implementation
+for the RMI registry must support a flat namespace because
+the underlying services dictate that.
+<p>
+A context implementation for a flat or hierarchical namespace
+needs a name parser, is a class that implements the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameParser.html"><tt>NameParser</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameParser.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interface.
+The JNDI provides a utility class,
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompoundName.html"><tt>CompoundName</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompoundName.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, for developers to use when implementing <tt>NameParser</tt>.
+However, you are not required to use <tt>CompoundName</tt>.
+You can implement <tt>NameParser</tt> in any way as long as its
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameParser.html#parse(java.lang.String)"><tt>parse()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameParser.html#parse(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   method returns an object that implements the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Name.html"><tt>Name</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Name.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interface.
+You should avoid using the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html"><tt>CompositeName</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    class for this purpose because it would be interpreted as a 
+composite name.
+<p>
+<a href=src/tut/HierCtx.java>The hierarchical namespace example</a>
+implements a syntax of right-to-left, dot-character (".") separated
+names. Here is its implementation of the <tt>NameParser</tt> interface.
+<blockquote><pre>
+class HierParser implements NameParser {
+
+    private static final Properties syntax = new Properties();
+    static {
+        syntax.put("jndi.syntax.direction", "right_to_left");
+	syntax.put("jndi.syntax.separator", ".");
+        syntax.put("jndi.syntax.ignorecase", "false");
+	syntax.put("jndi.syntax.escape", "\\");
+	syntax.put("jndi.syntax.beginquote", "'");
+    }
+
+    public Name parse(String name) throws NamingException {
+        return new CompoundName(name, syntax);
+    }
+}
+</pre></blockquote>
+The <tt>CompoundName</tt> class specifies properties that are used to define
+a naming syntax. For example, you can specify a syntax's
+atomic component separator, its escape and quotation characters,
+and whether the components are parsed right to left or left to right
+or are flat.
+Namespace syntax is determined by the underlying
+naming/directory service. You can use <tt>CompoundName</tt>
+only if the syntax of the underlying naming/directory service fits into
+<tt>CompoundName</tt>'s syntax model.
+<p>
+The API user uses
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#getNameParser()"><tt>Context.getNameParser()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#getNameParser()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    to get a <tt>Context</tt> instance's name parser.
+<a href=src/tut/HierCtx.java>The example implementation</a> first performs a 
+<tt>lookup()</tt> to verify that the input name is valid.
+It then returns the constant field <tt>myParser</tt>.
+<blockquote><pre>
+public NameParser getNameParser(Name name) throws NamingException {
+    // Do lookup to verify that the name exists
+    Object obj = lookup(name);
+    if (obj instanceof Context) {
+        ((Context)obj).close();
+    }
+    return myParser;
+}
+</blockquote></pre>
+Each context implementation has only one instance of
+<tt>HierParser</tt>:
+<blockquote><pre>
+protected final static NameParser myParser = new HierParser();
+</pre></blockquote>
+This is done to satisfy the JNDI specification, which requires that
+a context implementation return a <tt>NameParser</tt> whose
+<tt>equals()</tt> method returns <tt>true</tt> for all <tt>Context</tt> instances
+from the same namespace. 
+This requirement is useful for supporting federation.
+Even though this example does not support federation, the requirement is
+easy to fulfill.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="update.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="morenames.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Essential Components</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>
+

@@ -1,0 +1,221 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Building in Extensibility</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="schema.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="../url/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Adding Directory Support</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Building in Extensibility
+</h2>
+<p>
+<blockquote>
+
+
+<a target="_top" href="../basics/extend.html">The Essential Components</a> <a target="_top" href="../basics/extend.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>   lesson showed how to use JNDI utilities to
+make a context implementation extensible.
+When you are building a directory context implementation, you should
+replace those utilities with the ones described here.
+
+<a name=READ><h4>Reading Objects</h4></a>
+
+A directory context implementation should use
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable, javax.naming.directory.Attributes)"><tt>DirectoryManager.getObjectInstance()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   before returning an object to the user program from one of 
+the following methods:
+<ul>
+<li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><tt>Context.lookup()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+<li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookupLink(javax.naming.Name)"><tt>Context.lookupLink()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookupLink(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+<li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Binding.html#getObject()"><tt>Binding.getObject()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Binding.html#getObject()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+<li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/SearchResult.html"><tt>SearchResult.getObject()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/SearchResult.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></ul>
+Here is how <a href=src/tut/HierDirCtx.java>the hierarchical 
+directory
+example</a> calls <tt>getObjectInstance()</tt> in its <tt>lookup()</tt>.
+
+<blockquote><pre>
+// Code that determine "inter" is the object bound to the
+// atomic name "atom"
+    ...
+
+// Get the object's attributes
+Attributes attrs;
+if (inter instanceof DirContext) {
+    attrs = ((DirContext)inter).getAttributes("");
+} else {
+    // Fetch the object's attributes from this context
+    attrs = (Attributes) bindingAttrs.get(atom);
+}
+
+// Call getObjectInstance() for using any object factories
+try {
+    return DirectoryManager.getObjectInstance(inter, 
+        new CompositeName().add(atom), this, myEnv, attrs);
+} catch (Exception e) {
+    NamingException ne = new NamingException("getObjectInstance failed");
+    ne.setRootCause(e);
+    throw ne;
+}
+</pre></blockquote>
+<p>
+Similarly, when returning the enumeration generated by 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#listBindings(javax.naming.Name)"><tt>Context.listBindings()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#listBindings(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   or overloads of
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.directory.SearchControls)"><tt>DirContext.search()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.directory.SearchControls)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, you should call <tt>getObjectInstance()</tt> for the object in each
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Binding.html"><tt>Binding</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Binding.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    or
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/SearchResult.html"><tt>SearchResult</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/SearchResult.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    in the enumeration. 
+<p>
+Here is the definition of the list enumeration's
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html#next()"><tt>next()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html#next()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   method.
+<blockquote><pre>
+public Object next() throws NamingException {
+    String name = (String)names.nextElement();
+    Object obj = bindings.get(name);
+
+    try {
+	// Get the attributes
+	Attributes attrs;
+	if (obj instanceof DirContext) {
+	    attrs = ((DirContext)obj).getAttributes("");
+	} else {
+	    // Fetch the object's attributes from this context
+	    attrs = (Attributes) bindingAttrs.get(name);
+	}
+
+	obj = DirectoryManager.getObjectInstance(
+	    obj, new CompositeName().add(name), HierDirCtx.this, 
+	    HierDirCtx.this.myEnv, attrs);
+    } catch (Exception e) {
+	NamingException ne = new NamingException("getObjectInstance failed");
+	ne.setRootCause(e);
+	throw ne;
+    }
+    return new Binding(name, obj);
+}
+</blockquote></pre>
+
+<a name=STORE><h4>Storing Objects</h4></a>
+
+A directory context implementation should use
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getStateToBind(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable, javax.naming.directory.Attributes)"><tt>DirectoryManager.getStateToBind()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getStateToBind(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   before storing an object given by the user program to one of 
+the following methods:
+<ul>
+<li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><tt>Context.bind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#bind(javax.naming.Name, java.lang.Object, javax.naming.directory.Attributes)"><tt>DirContext.bind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#bind(javax.naming.Name, java.lang.Object, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#rebind(javax.naming.Name, java.lang.Object)"><tt>Context.rebind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#rebind(javax.naming.Name, java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#rebind(javax.naming.Name, java.lang.Object, javax.naming.directory.Attributes)"><tt>DirContext.rebind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#rebind(javax.naming.Name, java.lang.Object, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></ul>
+<p>
+Here is how <a href=src/tut/HierDirCtx.java>the hierarchical 
+directory
+example</a> calls <tt>getStateToBind()</tt> in its <tt>bind()</tt>
+and <tt>rebind()</tt> methods.  
+<blockquote><pre>
+// Code that determined that this is the context in which
+// to bind the atomic name "atom" to the object "obj"
+    ...
+
+// Call getStateToBind for using any state factories
+DirStateFactory.Result res = DirectoryManager.getStateToBind(
+    obj, new CompositeName().add(atom), this, myEnv, attrs);
+
+// Add the object to the internal data structure
+bindings.put(atom, res.getObject());
+
+// Add the attributes
+if (res.getAttributes() != null) {
+    bindingAttrs.put(atom, deepClone(res.getAttributes()));
+}
+</blockquote></pre>
+
+<tt>DirectoryManager.getStateToBind()</tt> returns an instance of
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirStateFactory.Result.html"><tt>DirStateFactory.Result</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirStateFactory.Result.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, which is a tuple consisting
+of the object to bind and the attributes to associate with the object.
+Upon receiving the result, the context implementation
+updates its internal bindings table and attributes table.
+
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+<strong>Adding Directory Support: End of Lesson</strong>
+<p>
+What's next? 
+Now you can:
+<ul>
+<li> <a href=../url/index.html>Continue</a> on in this trail
+to learn how to add pieces to the service provider for supporting
+URLs.
+
+<li> Go to the 
+<a target="_top" href="../fed/index.html">Adding Federation Support</a> <a target="_top" href="../fed/index.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>     lesson to learn how to add federation support to a service provider.
+
+<li> Go to the 
+<a target="_top" href="../misc/index.html">Miscellaneous</a> <a target="_top" href="../misc/index.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>     lesson to learn how to add various enhancements to a service provider,
+such as adding support for referrals and bundling factories.
+
+</ul>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="schema.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="../url/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Adding Directory Support</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

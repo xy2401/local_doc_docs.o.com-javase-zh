@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Windows Look and Feel Keyboard Navigation Hiding</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<h2>Keyboard Navigation Hiding</h2>
+<p>One of the new features that was introduced in Windows 2000 has
+been a display property which will hide the keyboard mnemonic for a
+menu item or a dialog control until the <b>Alt</b> key is pressed.
+In other words, all the underlined characters which represent an
+Alt key combination to invoke that menu or control will not be
+drawn until the user indicates the intention to invoke a command
+with the keyboard rather than the mouse. The result of this
+behavior is to provide an interface which is not visually cluttered
+with underlined characters for people who choose to navigate the
+user interface with the mouse.</p>
+<p>The keyboard navigation hiding feature will be automatically
+enabled on Windows 2000 if the application uses the Windows look
+and feel and the <i>&quot;Hide keyboard navigation indicators until
+I use the Alt key&quot;</i> property is enabled in the Windows 2000
+&quot;Display Properties&quot; control panel applet.</p>
+<h3>Implementation Details</h3>
+<p>These details will be of use to developers who are extending
+look and feels. The keyboard navigation hiding feature will
+automatically be enabled when a Windows Look and Feel Java
+application is run on Windows 2000.</p>
+<p>When the <code>WindowsLookAndFeel</code> is instantiated, it
+will read the <code>DesktopProperty</code>
+<i>&quot;win.menu.keyboardCuesOn&quot;</i>. This value is stored in
+the <code>UIManager</code> and can be referenced using the key:
+<i>&quot;Button.isMnemonicHidingEnabled&quot;</i>. The static
+methods <code>setMnemonicHidden</code> and
+<code>isMnemonicHidden</code> in
+<code>WindowsLookAndFeel</code>provide access to this value.</p>
+<h4>Hiding the mnemonics in the menus</h4>
+<p>The existing <code>BasicMenuItemUI.paintMenuItem()</code> method
+is responsible for rendering the background, text, icon and
+mnemonic of a menu item. A new protected method,
+<code>paintText()</code> was extracted from
+<code>paintMenuItem()</code>, which is consistent in name and
+signature to a similar method in the <code>BasicButtonUI</code>
+hierarchy.</p>
+<p>The <code>paintText()</code> methods are overloaded in
+<code>WindowsMenuItemUI</code> and <code>WindowsMenuUI</code>. The
+body of the overloaded <code>paintText</code> method checks the
+<code>isMnemonicEnabled</code> flag in the
+<code>WindowsLookAndFeel</code> class to determine if the mnemonic
+should be hidden and then appropriately renders the text.</p>
+<h4>Hiding the mnemonic in controls</h4>
+<p><code>BasicButtonUI</code> already defined a protected method
+<code>paintText</code>. The <code>WindowsButtonUI</code> and
+similar classes overloaded this method in much the same manner. A
+new class was introduced, <code>WindowsGraphicsUtils</code>, to
+consolidate all the <code>paintText</code> methods. This was done
+because the Windows...UI classes don't follow the same inheritance
+hierarchy as the Basic..UI classes.</p>
+<p>A new <code>RootPaneUI</code> delegate called
+<code>WindowsRootPaneUI</code> was created for the Windows look and
+feel. This class had an action registered to reset the mnemonic
+hidden bit and repaint the ui when the Alt key was pressed.</p>
+<h3>New API</h3>
+<p>All these methods were added as result of implementing this
+feature. These methods will only have value to developers who wish
+to extend or create a Look and Feel.</p>
+<h4>New method for BasicMenuItemUI:</h4>
+<pre>
+    /**
+     * Renders the text of the current menu item.
+     *
+     * @param g graphics context
+     * @param menuItem menu item to render
+     * @param textRect bounding rectangle for rendering the text
+     * @param text String to render
+     * @since 1.4
+     */
+     protected void paintText(Graphics g, JMenuItem menuItem, Rectangle textRect, String text)
+</pre>
+<h4>New class WindowsRootPaneUI:</h4>
+<pre>
+    /**
+     * Windows implementation of RootPaneUI. One WindowsRootPaneUI
+     * object is shared between all JRootPane instances.
+     *
+     * @version 1.1 08/16/00
+     * @author Mark Davidson
+     * @since 1.4
+     */
+     public class WindowsRootPaneUI extends BasicRootPaneUI
+</pre>
+<h4>New class WindowsGraphicsUtils:</h4>
+<pre>
+    /**
+     * A collection of static utility methods used for rendering the
+     * Windows look and feel.
+     *
+     * @Version 1.1 08/16/00 
+     * @author Mark Davidson
+     * @since 1.4
+     */
+     public class WindowsGraphicsUtils 
+</pre>
+<h4>New methods for WindowsLookAndFeel:</h4>
+<pre>
+    /**
+     * Sets the state of the hide mnemonic flag. This flag is used by the
+     * component UI delegates to determine if the mnemonic should be rendered.
+     * This method is a non operation if the underlying operating system
+     * does not support the mnemonic hiding feature.
+     *
+     * @param hide true if mnemonics should be hidden
+     * @since 1.4
+     */
+     public static void setMnemonicHidden(boolean hide)
+
+    /**
+     * Gets the state of the hide mnemonic flag. This only has meaning
+     * if this feature is supported by the underlying OS.
+     *
+     * @return true if mnemonics are hidden, otherwise, false
+     * @see #setMnemonicHidden
+     * @since 1.4
+     */
+     public static Boolean isMnemonicHidden()
+
+    /**
+     * Gets the state of the flag which indicates if the old Windows
+     * look and feel should be rendered. This flag is used by the
+     * component UI delegates as a hint to determine which style the component
+     * should be rendered.
+     *
+     * @return true if Windows 95 and Windows NT 4 look and feel should
+     *     be rendered
+     * @since 1.4
+     */
+     public static Boolean isClassicWindows()
+</pre>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

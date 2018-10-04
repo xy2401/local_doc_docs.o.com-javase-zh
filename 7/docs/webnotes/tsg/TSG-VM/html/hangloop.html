@@ -1,0 +1,436 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<!-- GenHTML revision 23965-->
+<meta http-equiv="Content-type" content=
+"text/html; charset=utf-8" />
+<title>Troubleshooting Hanging or Looping Processes -
+Troubleshooting Guide for HotSpot VM</title>
+<meta http-equiv="content-language" content="en-US" />
+<meta name="robots" content="index,follow" />
+<meta name="language" content="en" />
+<meta name="collection" content="reference" />
+<meta name="keywords" content="" />
+<meta name="description" content=
+"This document is a guide to help troubleshoot problems that might arise with applications that are developed using the release of Java Platform, Standard Edition Development Kit 7 (JDK 7). In particular, this guide addresses possible problems between the applications and the Java HotSpot virtual machine. The document provides a description of the tools, command line options, and other help in analyzing a problem. The document also provides guidance on how to approach some general issues such as a crash, hang, or memory resource issues. Finally, the document provides direction for data collection and bug report preparation." />
+<meta name="date" content="2008-11-01" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/default.css" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/pagelayout.css" />
+<link rel="alternate stylesheet" type="text/css" title="print"
+href="css/print.css" />
+<script type="text/javascript">
+//<![CDATA[
+function setActiveStyleSheet(title) {
+  var i, a, main;
+  for (i=0; (a = document.getElementsByTagName("link")[i]); i++) {
+         if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+                a.disabled = true;
+                if(a.getAttribute("title") == title) a.disabled = false;
+         }
+  }
+}
+
+function ClearDefault(Element) {
+   if (Element.defaultValue == Element.value) {
+        Element.value = ""
+        Element.style.cssText = "font-weight: bold; color: #00000"
+   }
+}
+
+//]]>
+</script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<div class="MastheadPane">
+<table class="MastheadTable" width="100%">
+<tr class="closeprintview">
+<td align="right"><a href="#" onclick=
+"setActiveStyleSheet('screen')">Exit Print View</a></td>
+</tr>
+<tr class="titlebar">
+<td>
+<h4 class="contentpage-doctitle"><a href="toc.html">Troubleshooting
+Guide for HotSpot VM</a></h4>
+</td>
+<td class="smallLogo"><a href="http://www.oracle.com"><img src=
+"graphics/smallOracleLogo.gif" /></a></td>
+</tr>
+</table>
+</div>
+<div class="ButtonPane">
+<table class="pagecontrol">
+<tr>
+<td class="pagebuttons"><a href="#" onclick=
+"setActiveStyleSheet('print')"><img height="46" width="40" border=
+"0" src="graphics/print.gif" alt="Print View" title=
+"Print View" /></a></td>
+<td class="pagebreadcrumb"></td>
+<td class="pagenavlinks"><a href="crashes.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="signals.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+<div class="TOCPane">
+<p class="toc level1"><a href="docinfo.html">Document
+Information</a></p>
+<p class="toc level1 tocsp"><a href="preface.html">Preface</a></p>
+<p class="toc level1 tocsp"><a href=
+"tools.html">1.&#160;&#160;Diagnostic Tools and Options</a></p>
+<p class="toc level1 tocsp"><a href=
+"tooldescr.html">2.&#160;&#160;Detailed Tool Descriptions</a></p>
+<p class="toc level1 tocsp"><a href=
+"memleaks.html">3.&#160;&#160;Troubleshooting Memory Leaks</a></p>
+<p class="toc level1 tocsp"><a href=
+"crashes.html">4.&#160;&#160;Troubleshooting System Crashes</a></p>
+<div id="scrolltoc" class="onpage">
+<p class="toc level1 tocsp"><a href=
+"">5.&#160;&#160;Troubleshooting Hanging or Looping
+Processes</a></p>
+<p class="toc level2"><a href="#gbyzy">5.1 Diagnosing a Looping
+Process</a></p>
+<p class="toc level2"><a href="#gbzay">5.2 Diagnosing a Hung
+Process</a></p>
+<p class="toc level3"><a href="#gbzbf">5.2.1 Deadlock
+Detected</a></p>
+<p class="toc level3"><a href="#gbzbe">5.2.2 Deadlock Not
+Detected</a></p>
+<p class="toc level3"><a href="#gbzbv">5.2.3 No Thread Dump</a></p>
+<p class="toc level2 tocsp"><a href="#gbzaw">5.3 Solaris 8 OS
+Thread Library</a></p>
+</div>
+<p class="toc level1 tocsp"><a href=
+"signals.html">6.&#160;&#160;Integrating Signal and Exception
+Handling</a></p>
+<p class="toc level1 tocsp"><a href=
+"bugreports.html">7.&#160;&#160;Submitting Bug Reports</a></p>
+<p class="toc level1 tocsp"><a href=
+"envvars.html">A.&#160;&#160;Environment Variables and System
+Properties</a></p>
+<p class="toc level1 tocsp"><a href=
+"clopts.html">B.&#160;&#160;Command-Line Options</a></p>
+<p class="toc level1 tocsp"><a href=
+"felog.html">C.&#160;&#160;Fatal Error Log</a></p>
+<p class="toc level1 tocsp"><a href=
+"tools-by-rel.html">D.&#160;&#160;Summary of Tools in This
+Release</a></p>
+</div>
+<div class="ContentPane"><a name="hangloop" id=
+"hangloop"></a>Chapter&#160;5
+<h2>Troubleshooting Hanging or Looping Processes</h2>
+<p>This chapter provides information and guidance on some specific
+procedures for troubleshooting hanging or looping processes.</p>
+<p>Problems can occur that involve hanging or looping processes. A
+hang can occur for many reasons but often stems from a deadlock in
+application code, API code, or library code. A hang can even be due
+to a bug in the HotSpot virtual machine.</p>
+<p>Sometimes an apparent hang turns out to be, in fact, a loop. For
+example, a bug in a VM process that causes one or more threads to
+go into an infinite loop can consume all available CPU cycles.</p>
+<p>An initial step when diagnosing a hang is to find out if the VM
+process is idle or consuming all available CPU cycles. To do this
+requires using an operating system utility. If the process appears
+to be busy and is consuming all available CPU cycles then it is
+likely that the issue is a looping thread rather than a deadlock.
+On Solaris OS, for example, the command <tt>prstat -L -p
+&#60;pid&gt;</tt> can be used to report the statistics for all LWPs
+in the target process and thus will identify the threads that are
+consuming a lot of CPU cycles.</p>
+<a name="gbyzy" id="gbyzy"></a>
+<h3>5.1 Diagnosing a Looping Process</h3>
+<p>If a VM process appears to be looping, the first step is to try
+to get a thread dump. If a thread dump can be obtained, it will
+often be clear which thread is looping. If the looping thread can
+be identified, then the trace stack in the thread dump can provide
+direction on where (and maybe why) the thread is looping.</p>
+<p>If the application console (standard input/output) is available,
+then press the Ctrl-\ key combination (on Solaris OS or Linux) or
+the Ctrl-Break key combination (on Windows) to cause the HotSpot VM
+to print a thread dump, including thread state. On Solaris OS and
+Linux the thread dump can also be obtained by sending a
+<tt>SIGQUIT</tt> to the process (command <tt>kill -QUIT
+&#60;pid&gt;</tt>). In this case the thread dump is printed to the
+standard output of the target process. The output might be directed
+to a file, depending on how the process was started.</p>
+<p>If the Java process is started with the
+<tt>-XX:+PrintClassHistogram</tt> command-line option, then the
+Ctrl-Break handler will produce a heap histogram.</p>
+<p>If a thread dump can be obtained, then a good place to start is
+the thread stacks of the threads that are in the runnable state.
+See <img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gbmpn">2.15.1 Thread Dump</a> for information on
+the format of the thread dump, as well as a table of the possible
+thread states in the thread dump. In some cases it might be
+necessary to get a sequence of thread dumps in order to determine
+which threads appear to be continuously busy.</p>
+<p>If the application console is not available (process is running
+as a background process, or the VM output is directed to an unknown
+location), then the <tt>jstack</tt> utility can be used to obtain
+the stack thread. Use the <tt>jstack -F</tt> <var>pid</var> option
+to force a stack dump of the looping process. See <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gblfh">2.11 <tt>jstack</tt> Utility</a> for
+information on the output of this utility. The <tt>jstack</tt>
+utility should also be used if the thread dump does not provide any
+evidence that a Java thread is looping.</p>
+<p>When reviewing the output of the <tt>jstack</tt> utility, focus
+initially on the threads that are in the <tt>RUNNABLE</tt> state.
+This is the most likely state for threads that are busy and
+possibly looping. It might be necessary to execute <tt>jstack</tt>
+a number of times to get a more complete picture of which threads
+are looping. If a thread appears to be always in the
+<tt>RUNNABLE</tt> state, then the <tt>-m</tt> option can be used to
+print the native frames and can provide a further hint on what the
+thread is doing. If a thread appears to be looping continuously
+while in the <tt>RUNNABLE</tt> state, this situation can indicate a
+potential HotSpot VM bug that needs further investigation.</p>
+<p>If the VM does not respond to a Ctrl-\ this could indicate a VM
+bug rather than an issue with application or library code. In this
+case use <tt>jstack</tt> with the <tt>-m</tt> option (in addition
+to the <tt>-F</tt> option) to get a thread stack for all threads.
+The output will include the thread stacks for VM internal threads.
+In this stack trace, identify threads that do not appear to be
+waiting. For example, on Solaris OS you identify the threads that
+are not in functions such as <tt>__lwp_cond_wait</tt>,
+<tt>__lwp_park</tt>, <tt>___pollsys</tt>, or other blocking
+functions. If it appears that the looping is caused by a VM bug,
+then collect as much data as possible and submit a bug report. See
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"bugreports.html">Chapter&#160;7, Submitting Bug Reports</a> for
+more details on data collection.</p>
+<a name="gbzay" id="gbzay"></a>
+<h3>5.2 Diagnosing a Hung Process</h3>
+<p>If the application appears to be hung and the process appears to
+be idle, then the first step is to try to obtain a thread dump. If
+the application console is available, then press the Ctrl-\ keys
+(on Solaris OS or Linux) or the Ctrl-Break keys (on Windows) to
+cause the HotSpot VM to print a thread dump. On Solaris OS and
+Linux the thread dump can also be obtained by sending a
+<tt>SIGQUIT</tt> to the process (command <tt>kill -QUIT
+&#60;pid&gt;</tt>).</p>
+<a name="gbzbf" id="gbzbf"></a>
+<h4>5.2.1 Deadlock Detected</h4>
+<p>If the hung process is capable of generating a thread dump, then
+the output is printed to the standard output of the target process.
+After printing the thread dump, the HotSpot VM executes a deadlock
+detection algorithm. If a deadlock is detected it will be printed
+along with the stack trace of the threads involved in the deadlock.
+Below is an example of this output.</p>
+<pre>
+Found one Java-level deadlock:
+=============================
+"AWT-EventQueue-0":
+  waiting to lock monitor 0x000ffbf8 (object 0xf0c30560, a java.awt.Component$AWTTreeLock),
+  which is held by "main"
+"main":
+  waiting to lock monitor 0x000ffe38 (object 0xf0c41ec8, a java.util.Vector),
+  which is held by "AWT-EventQueue-0"
+
+Java stack information for the threads listed above:
+===================================================
+"AWT-EventQueue-0":
+        at java.awt.Container.removeNotify(Container.java:2503)
+        - waiting to lock &#60;0xf0c30560&gt; (a java.awt.Component$AWTTreeLock)
+        at java.awt.Window$1DisposeAction.run(Window.java:604)
+        at java.awt.Window.doDispose(Window.java:617)
+        at java.awt.Dialog.doDispose(Dialog.java:625)
+        at java.awt.Window.dispose(Window.java:574)
+        at java.awt.Window.disposeImpl(Window.java:584)
+        at java.awt.Window$1DisposeAction.run(Window.java:598)
+        - locked &#60;0xf0c41ec8&gt; (a java.util.Vector)
+        at java.awt.Window.doDispose(Window.java:617)
+        at java.awt.Window.dispose(Window.java:574)
+        at javax.swing.SwingUtilities$SharedOwnerFrame.dispose(SwingUtilities.java:1743)
+        at javax.swing.SwingUtilities$SharedOwnerFrame.windowClosed(SwingUtilities.java:1722)
+        at java.awt.Window.processWindowEvent(Window.java:1173)
+        at javax.swing.JDialog.processWindowEvent(JDialog.java:407)
+        at java.awt.Window.processEvent(Window.java:1128)
+        at java.awt.Component.dispatchEventImpl(Component.java:3922)
+        at java.awt.Container.dispatchEventImpl(Container.java:2009)
+        at java.awt.Window.dispatchEventImpl(Window.java:1746)
+        at java.awt.Component.dispatchEvent(Component.java:3770)
+        at java.awt.EventQueue.dispatchEvent(EventQueue.java:463)
+        at java.awt.EventDispatchThread.pumpOneEventForHierarchy(EventDispatchThread.java:214)
+        at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:163)
+        at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:157)
+        at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:149)
+        at java.awt.EventDispatchThread.run(EventDispatchThread.java:110)
+"main":
+        at java.awt.Window.getOwnedWindows(Window.java:844)
+        - waiting to lock &#60;0xf0c41ec8&gt; (a java.util.Vector)
+        at javax.swing.SwingUtilities$SharedOwnerFrame.installListeners(SwingUtilities.java:1697)
+        at javax.swing.SwingUtilities$SharedOwnerFrame.addNotify(SwingUtilities.java:1690)
+        at java.awt.Dialog.addNotify(Dialog.java:370)
+        - locked &#60;0xf0c30560&gt; (a java.awt.Component$AWTTreeLock)
+        at java.awt.Dialog.conditionalShow(Dialog.java:441)
+        - locked &#60;0xf0c30560&gt; (a java.awt.Component$AWTTreeLock)
+        at java.awt.Dialog.show(Dialog.java:499)
+        at java.awt.Component.show(Component.java:1287)
+        at java.awt.Component.setVisible(Component.java:1242)
+        at test01.main(test01.java:10)
+
+Found 1 deadlock.
+</pre>
+<p>The default deadlock detection works with locks that are
+obtained using the <tt>synchronized</tt> keyword, as well as with
+locks that are obtained using the <tt>java.util.concurrent</tt>
+package. If the Java VM flag <tt>-XX:+PrintConcurrentLocks</tt> is
+set, then the stack trace also shows a list of lock owners.</p>
+<p>If deadlock is detected, then you must examine the output in
+more detail in order to understand the deadlock. In the above
+example the thread <tt>main</tt> is locking object
+<tt>&#60;0xf0c30560&gt;</tt> and is waiting to enter
+<tt>0xf0c41ec8</tt>, which is locked by thread
+<tt>AWT-EventQueue-0</tt>. However, thread
+<tt>AWT-EventQueue-0</tt> is waiting to enter <tt>0xf0c30560</tt>,
+which is locked by <tt>main</tt>.</p>
+<p>The detail in the stack traces provides information to help find
+the deadlock.</p>
+<a name="gbzbe" id="gbzbe"></a>
+<h4>5.2.2 Deadlock Not Detected</h4>
+<p>If the thread dump is printed and no deadlocks are found, then
+the issue might be a bug in which a thread waiting on a monitor
+that is never notified. This could be a timing issue or a general
+logic bug.</p>
+<p>To find out more about the issue, examine each of the threads in
+the thread dump and each thread that is blocked in
+<tt>Object.wait()</tt>. The caller frame in the stack trace
+indicates the class and method that is invoking the <tt>wait()</tt>
+method. If the code was compiled with line number information (the
+default), then this provides direction as to the code to examine.
+In most cases you must have some knowledge of the application logic
+or library in order to diagnose this issue further. In general you
+must understand how the synchronization works in the application
+and in particular the details and conditions for when and where
+monitors are notified.</p>
+<a name="gbzbv" id="gbzbv"></a>
+<h4>5.2.3 No Thread Dump</h4>
+<p>If the VM does not respond to a Ctrl-\ or Ctrl-Break, then it is
+possible that the VM is deadlocked or hung for some other reason.
+In that case use the <tt>jstack</tt> utility (see <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gblfh">2.11 <tt>jstack</tt> Utility</a>) to obtain
+a thread dump. Use the <tt>jstack -F</tt> <var>pid</var> option to
+force a stack dump of the hung process. This also applies in the
+case where the application is not accessible or the output is
+directed to an unknown location.</p>
+<p>In the <tt>jstack</tt> output, examine each of the threads in
+the <tt>BLOCKED</tt> state. The top frame can sometimes indicate
+why the thread is blocked, for example, <tt>Object.wait</tt> or
+<tt>Thread.sleep</tt>. The rest of the stack will give an
+indication of what the thread is doing. This is particularly true
+when the source has been compiled with line number information (the
+default) and you can cross reference the source code.</p>
+<p>If a thread is in the <tt>BLOCKED</tt> state and the reason is
+not clear, then use the <tt>-m</tt> option to get a mixed stack.
+With the mixed stack output, it should be possible to identify why
+the thread is blocked. If a thread is blocked trying to enter a
+synchronized method or block, then you will see frames such as
+<tt>ObjectMonitor::enter</tt> near the top of the stack. Below is
+an example.</p>
+<pre>
+----------------- t@13 -----------------
+0xff31e8b8      ___lwp_cond_wait + 0x4
+0xfea8c810      void ObjectMonitor::EnterI(Thread*) + 0x2b8
+0xfeac86b8      void ObjectMonitor::enter2(Thread*) + 0x250
+:
+</pre>
+<p>Threads in the <tt>RUNNABLE</tt> state might also be blocked.
+The top frames in the mixed stack should indicate what the thread
+is doing.</p>
+<p>One specific thread to check is <tt>VMThread</tt>. This is the
+special thread used to execute operations like garbage collection.
+It can be identified as the thread that is executing
+<tt>VMThread::run()</tt> in its initial frames. On Solaris OS it is
+typically <tt>t@4</tt>. On Linux it should be identifiable using
+the C++ mangled name <tt>_ZN8VMThread4loopEv</tt>.</p>
+<p>In general the VM thread is in one of three states: waiting to
+execute a VM operation, synchronizing all threads in preparation
+for a VM operation, or executing a VM operation. If you suspect
+that a hang is a HotSpot VM bug rather than an application or class
+library deadlock, then pay special attention to the VM thread.</p>
+<p>If the VM thread appears to be stuck in
+<tt>SafepointSynchronize::begin</tt>, then this could indicate an
+issue bringing the VM to a safepoint. A safepoint indicates that
+all threads executing in the VM are blocked and waiting for a
+special operation, such as garbage collection, to complete.</p>
+<p>If the VM thread appears to be stuck in <tt>function</tt>, where
+<tt>function</tt> ends in <tt>doit</tt>, then this could also
+indicate a VM problem.</p>
+<p>In general, if you can execute the application from the command
+line, and you get to a state where the VM does not respond to a
+Ctrl-\ or Ctrl-Break, it is more likely that you have uncovered a
+VM bug, a thread library issue, or a bug in another library. If
+this occurs, obtain a crash dump (see <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="bugreports.html#gbkyy">7.4
+Collecting Core Dumps</a> for instructions on how to do this),
+gather as much information as possible, and submit a bug report or
+support call.</p>
+<p>One other tool to mention in the context of hung processes is
+the <tt>pstack</tt> utility on Solaris OS. On Solaris 8 and 9 OS,
+this utility prints the thread stacks for LWPs in the target
+process. On Solaris 10 OS and starting with the JDK 5.0 release,
+the output of <tt>pstack</tt> is similar, though not identical, to
+the output from <tt>jstack -m</tt>. As with <tt>jstack</tt>, the
+Solaris 10 OS implementation of <tt>pstack</tt> prints the fully
+qualified class name, method name, and bci. It will also print line
+numbers for the cases where the source was compiled with line
+number information (the default). This is useful for developers and
+administrators who are familiar with the other utilities on Solaris
+OS that exercise features of the <tt>/proc</tt> file system.</p>
+<p>The equivalent tool of <tt>pstack</tt> on Linux is
+<tt>lsstack</tt>. This utility is included in some distributions
+and otherwise obtained from the <tt>sourceforge.net</tt> web site.
+At the time of this writing, <tt>lsstack</tt> reported native
+frames only.</p>
+<a name="gbzaw" id="gbzaw"></a>
+<h3>5.3 Solaris 8 OS Thread Library</h3>
+<p>The default thread library on Solaris 8 OS is often referred to
+as the T1 library. This thread library implemented the
+<var>m</var>:<var>n</var> threading model, where <var>m</var> user
+threads are mapped to <var>n</var> kernel-level threads (LWPs).
+Solaris 8 OS also shipped with an alternative and newer thread
+library in <tt>/usr/lib/lwp</tt>. The alternative thread library is
+often referred to as the T2 library, and it became the default
+thread library in Solaris 9 and 10 OS. In older releases of J2SE
+(pre-1.4.0 in particular) there were a number of issues with the
+default thread library, for example, bugs in the thread library,
+LWP synchronization problems, or LWP starvation. LWP starvation is
+a scenario in which there are user threads in the runnable state
+but there are no kernel level threads available.</p>
+<p>Although the issues cited are historical, it should be noted
+that when the JDK software is deployed on Solaris 8 OS, it still
+uses the T1 library by default. LWP starvation type issues do not
+arise because the JDK release uses &#8220;bound threads&#8221; so
+that each user thread is bound to a kernel thread. However in the
+event that you encounter an issue, such as a hang, which you
+believe is a thread library issue, then you can instruct the
+HotSpot VM to use the T2 library by adding <tt>/usr/lib/lwp</tt> to
+the <tt>LD_LIBRARY_PATH</tt>. To check if the T2 library is in use,
+issue the command <tt>pldd &#60;pid&gt;</tt> to list the libraries
+loaded by the specified process.</p>
+</div>
+<div class="BottomPageControlPane">
+<table class="pagecontrol">
+<tr>
+<td>
+<div class="pagefooterlinks">Copyright &#169;1995, 2011, Oracle
+and/or its affiliates. All rights reserved. <a href=
+"docinfo.html">Legal Notices</a></div>
+</td>
+<td class="pagenavlinks"><a href="crashes.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="signals.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+</body>
+</html>

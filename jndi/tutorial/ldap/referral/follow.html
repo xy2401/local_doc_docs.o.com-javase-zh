@@ -1,0 +1,121 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Automatically Following Referrals</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body bgcolor="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="jndi.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="throw.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Referrals</em></strong></a>
+</td>
+</tr>
+</table>
+<p align="CENTER">
+<img src="../../jndiimages/shoeline2.GIF" align="BOTTOM" border="0" width="202"
+    height="25" naturalsizeflag="3">
+<img src="../../jndiimages/shoeline2.GIF" align="BOTTOM" border="0" width="202"
+    height="25" naturalsizeflag="3">
+</p>
+
+<h2>
+    Automatically Following Referrals
+</h2>
+<p>
+<blockquote>
+
+If you set the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#REFERRAL"><tt>Context.REFERRAL</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#REFERRAL"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    environment property to <tt>"follow"</tt>, then referrals 
+will be followed automatically.
+Here's <a href=src/Follow.java>an example</a>.
+<blockquote><pre>
+// Set the referral property to "follow" referrals automatically
+env.put(Context.REFERRAL, "follow");
+
+// Create the initial context
+DirContext ctx = new InitialDirContext(env);
+
+// Set the controls for performing a subtree search
+SearchControls ctls = new SearchControls();
+ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+
+// Perform the search
+NamingEnumeration answer = ctx.search("", "(objectclass=*)", ctls);
+</pre></blockquote>
+Running <a href=src/Follow.java>this example</a> 
+produces the following results.
+<blockquote><pre>
+&gt;&gt;&gt;
+&gt;&gt;&gt;ou=All
+&gt;&gt;&gt;ldap://localhost:389/ou=People,o=JNDITutorial
+&gt;&gt;&gt;ldap://localhost:389/cn=Ted%20Geisel,ou=People,o=JNDITutorial
+&gt;&gt;&gt;ldap://localhost:389/cn=Jon%20Ruiz,ou=People,o=JNDITutorial
+...
+&gt;&gt;&gt;ldap://localhost:389/ou=People,o=JNDITutorial
+&gt;&gt;&gt;ldap://localhost:389/cn=Ted%20Geisel,ou=People,o=JNDITutorial
+&gt;&gt;&gt;ldap://localhost:389/cn=Jon%20Ruiz,ou=People,o=JNDITutorial
+...
+&gt;&gt;&gt;ldap://localhost:389/ou=NewHires,o=JNDITutorial
+&gt;&gt;&gt;ldap://localhost:389/cn=S.%20User,ou=NewHires,o=JNDITutorial
+&gt;&gt;&gt;ldap://localhost:389/cn=C.%20User,ou=NewHires,o=JNDITutorial
+</pre></blockquote>
+The example follows three referrals:
+<tt>"ou=People"</tt>, 
+<tt>"ou=People, ou=All"</tt>, and 
+<tt>"ou=NewHires, ou=All"</tt>.
+<p>
+Notice that the names of the referred entries are URLs instead of names
+that are relative to the context being searched.
+If you examine the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/SearchResult.html"><tt>SearchResult</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/SearchResult.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    object for each of these referred entries and invoke
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameClassPair.html#isRelative()"><tt>isRelative()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameClassPair.html#isRelative()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    on them, the method will return <tt>false</tt>.
+This indicates that the name is not relative and that it should be resolved
+relative to the initial context.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="jndi.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="throw.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Referrals</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

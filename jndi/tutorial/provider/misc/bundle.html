@@ -1,0 +1,160 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Packaging</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="referral.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Packaging
+</h2>
+<p>
+<blockquote>
+
+<a target="_top" href="../overview/index.html">The Big Picture</a> <a target="_top" href="../overview/index.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>   lesson discussed that a service provider typically contains several components.
+A service provider is delivered
+most commonly by packaging all of its components into 
+a JAR file.
+This JAR should contain the class files of the different
+components and the JNDI resource files.
+The resource files allow programs to use the service provider
+with minimal configuration.
+<p>
+Here are the contents of the JAR for
+a typical sample service provider.
+<blockquote><pre>
+
+tut/SampleContextImpl.class
+tut/SampleContextImpl&#36;Parser.class
+tut/SampleContextImpl&#36;ListEnum.class
+tut/SampleContextImpl&#36;BindingEnum.class
+tut/SampleContextImpl&#36;SearchEnum.class
+tut/SampleInitialContextFactory.class
+
+tut/OneObjectFactory.class
+tut/TwoObjectFactory.class
+tut/ThreeObjectFactory.class
+
+tut/OneStateFactory.class
+tut/TwoStateFactory.class
+
+tut/SampleResponseControlFactory.class
+tut/OneResponseControl.class
+tut/TwoResponseControl.class
+tut/ThreeResponseControl.class
+
+tut/SampleObjectFactory.class
+
+tut/sam/samURLContextFactory.class
+tut/sam/samURLContext.class
+
+tut/jndiprovider.properties
+jndi.properties
+</pre></blockquote>
+
+This sample provider is in the package <tt>tut</tt>.
+It contains a context implementation 
+(<tt>tut.SampleContextImpl</tt> and its inner classes) and an
+initial context factory (<tt>tut.SampleInitialContextFactory</tt>).
+It uses several object, state, and response control factories,
+some of which are included in the provider's
+resource file, <tt>tut/jndiprovider.properties</tt>.
+This file's contents of the are as follows:
+<blockquote><pre>
+java.naming.factory.object=tut.ThreeObjectFactory
+java.naming.factory.state=tut.OneStateFactory:tut.TwoStateFactory
+java.naming.factory.control=tut.SampleResponseControlFactory
+</pre></blockquote>
+Including this file makes the listed factories visible only to 
+this context implementation, as described in the
+<a target="_top" href="../../beyond/env/provider.html">Environment Properties</a> <a target="_top" href="../../beyond/env/provider.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson.
+The two object factories, <tt>tut.OneObjectFactory</tt> and
+<tt>tut.TwoObjectFactory</tt>, are not included in the
+<tt>jndiprovider.properties</tt> file because they
+are always referenced by their class names.
+(In other words, any reference that uses one of these factories
+will have its class name in
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html#getFactoryClassName()"><tt>getFactoryClassName()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html#getFactoryClassName()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.)
+<p>
+The provider also contains an object factory for the
+context implementation itself, called <tt>tut.SampleObjectFactory</tt>.
+This class is responsible for creating an instance of
+<tt>tut.SampleContextImpl</tt>, when given a reference for it.
+<p>
+The provider supports the <tt>sam</tt> URL scheme and provides
+the corresponding URL context factory and implementation classes
+<tt>tut.sam.samURLContextFactory</tt> and 
+<tt>tut.sam.samURLContext</tt>.
+The JAR contains a <tt>jndi.properties</tt> file that
+names the package prefix of the <tt>sam</tt> URL context factory.
+This allows the URL context factory to be considered automatically
+when the JNDI is looking for URL context factories.
+The contents of the <tt>jndi.properties</tt> file are as follows:
+<blockquote><pre>
+java.naming.factory.initial=tut.SampleInitialContextFactory
+java.naming.factory.url.pkgs=tut
+</blockquote></pre>
+This file also includes a setting for the initial context factory.
+This will cause any program that uses this JAR to use, by default,
+<tt>tut.SampleInitialContextFactory</tt> as the initial context factory.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="referral.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

@@ -1,0 +1,295 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Resolving Through Subinterfaces</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="next.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="factory.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Adding Federation Support</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Resolving Through Subinterfaces
+</h2>
+<p>
+<blockquote>
+
+The procedures described so far work fine when all of the context
+implementations involved in completing a method through a federation
+implement the same interfaces.
+What happens if some intermediate context implementations
+do not support all of the subinterfaces of 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><tt>Context</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>?
+You do not want to require that an intermediate naming system
+support all subinterfaces in order for federation to work.
+This issue is more important for nonstandard subinterfaces
+because expecting wide support for those is unreasonable.
+<p>
+Suppose that you invoke a method in the 
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html"><tt>DirContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   interface
+on a federation consisting of five naming systems, only the first and 
+last of which support <tt>DirContext</tt>.
+<p>
+<img src=../../jndiimages/resolver.gif alt="Resolver" align=center>
+<p>
+For the method to be invoked successfully on the target
+context, the intermediate naming systems must be involved in the
+resolution phase of the operation and be able to indicate 
+which operation to ultimately invoke.
+At first glance,  achieving the
+resolution step by using
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><tt>lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    might seem possible. 
+This is problematic because you want
+the target <em>context</em> and not the named object.
+For example, if you are creating a subcontext, then you want the 
+penultimate context named by the input name
+and not the named object.
+<p>
+The JNDI supports resolution through intermediate contexts by
+requiring that intermediate context implementations support the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/Resolver.html"><tt>Resolver</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/Resolver.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   interface.
+This interface contains two overloaded forms of
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/Resolver.html#resolveToClass(javax.naming.Name, java.lang.Class)"><tt>resolveToClass()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/Resolver.html#resolveToClass(javax.naming.Name, java.lang.Class)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>: one form accepts a string name and a <tt>Class</tt>
+and the other accepts a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Name.html"><tt>Name</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Name.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>  and a <tt>Class</tt>.
+The JNDI uses <tt>resolveToClass()</tt>
+to partially resolve the input name, stopping
+at the first context that is an instance of the specified interface/class.
+A context implementation needs to implement the
+<tt>Resolver</tt> interface and provide implementations
+for this method. 
+<p>
+Here is a <a href=src/tut/InterCtx.java>sample implementation</a>.
+<blockquote><pre>
+public ResolveResult resolveToClass(Name name, Class ctxType) 
+    throws NamingException {
+
+    // If you're it, you quit right now
+    if (ctxType.isInstance(this)) {
+	return new ResolveResult(this, name);
+    }
+
+    try {
+	Name[] nm = parseComponents(name);
+	Name mine = nm[0];
+	Name rest = nm[1];
+	Object nxt = null;
+
+	if (rest == null || rest.isEmpty()) {
+	    // Terminal; just use head
+	    nxt = lookup_internal(mine);
+	} else if (rest.get(0).equals("") &amp;&amp; rest.size() == 1) {
+	    // Terminal nns
+	    nxt = lookup_nns(mine);
+	} else if (mine.isEmpty() || isAllEmpty(rest)) {
+	    // Intermediate; resolve current components as intermediate
+	    Object obj = lookup_nns(mine);
+
+	    // Skip leading forward slash
+	    throw fillInCPE(obj, mine, rest.getSuffix(1));
+	} else {
+	    // Intermediate; resolve current components as intermediate
+	    Object obj = resolveIntermediate_nns(mine, rest);
+
+	    throw fillInCPE(obj, mine, rest);
+	}
+
+	if (ctxType.isInstance(nxt)) {
+	    return new ResolveResult(nxt, "");
+	} else {
+	    // Have resolved the entire composite name but
+	    // cannot find the requested context type
+	    throw new NotContextException(
+		"Not instanceof " + ctxType);
+	}
+    } catch (CannotProceedException e) {
+	Context cctx = NamingManager.getContinuationContext(e);
+	if (cctx instanceof Resolver) {
+	    return cctx.resolveToClass(e.getRemainingName(), ctxType);
+	} else {
+	    // Have hit a nonResolver; give up
+	    e.fillInStackTrace();
+	    throw e;
+        }
+    }
+}
+</pre></blockquote>
+In this method, you first check whether the current context
+implements the requested type. If so, you need to go no further.
+Otherwise, you proceed as with other context operations described
+in <a href=current.html>an earlier section</a> of this lesson.
+That is,
+you determine whether the current context is the terminal, terminal nns, or
+intermediate context.
+For the two terminal cases, if the answer is an instance of the
+requested type, 
+then you return the answer and an empty remaining name in a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/ResolveResult.html"><tt>ResolveResult</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/ResolveResult.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+If you get a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CannotProceedException.html"><tt>CannotProceedException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CannotProceedException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>,  then use it to find a continuation context.
+This context must implement the <tt>Resolver</tt> interface.
+Otherwise, you can't use it to find the target context.
+
+<h4>Continuation Contexts for Subinterfaces</h4>
+
+<p>
+The following JNDI methods use <tt>resolveToClass()</tt>
+to find the continuation context of the appropriate type.
+<ul>
+<li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/NamingManager.html#getContinuationContext(javax.naming.CannotProceedException)"><tt>NamingManager.getContinuationContext()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/NamingManager.html#getContinuationContext(javax.naming.CannotProceedException)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getContinuationDirContext(javax.naming.CannotProceedException)"><tt>DirectoryManager.getContinuationDirContext()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getContinuationDirContext(javax.naming.CannotProceedException)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></ul>
+If your context implementation supports another subinterface, 
+then it should
+define a similar method for that subinterface.
+For example, suppose that you need to support the
+<a href=../url/src/tut/BarContext.java><tt>BarContext</tt></a> subinterface.
+Then you would define a method called <tt>getContinuationBarContext()</tt>.
+Here is <a href=src/tut/ContinuationBarCtx.java>an example</a>.
+<blockquote><pre>
+public BarContext getContinuationBarContext(CannotProceedException cpe) {
+    return new ContinuationBarCtx(cpe);
+}
+</blockquote></pre>
+You then define an implementation for the continuation context,
+<a href=src/tut/ContinuationBarCtx.java><tt>ContinuationBarCtx</tt></a>.
+This class must implement both <tt>Resolver</tt> and the
+subinterface <tt>BarContext</tt>.
+The following utility methods are defined for getting the target context
+for <tt>Context</tt> and <tt>BarContext</tt> methods.
+<blockquote><pre>
+// Gets the default target context, and caches it
+protected Context getTargetContext() throws NamingException {
+    if (cctx == null) {
+	cctx = NamingManager.getContinuationContext(cpe);
+    }
+    return cctx;
+}
+
+protected ResolveResult getTargetContext(Name name)
+    throws NamingException {
+
+    Context ctx = getTargetContext();
+
+    if (ctx instanceof BarContext)
+	return new ResolveResult(ctx, name);
+
+    // Have found the resolver; ask it to find BarContext
+    if (ctx instanceof Resolver) {
+	Resolver res = (Resolver)ctx;
+	return res.resolveToClass(name, BarContext.class);
+    }
+
+    // Resolve all of the way by using lookup()
+    // This may allow the operation
+    // to succeed if it doesn't require the penultimate context
+    Object ultimate = ctx.lookup(name);
+    if (ultimate instanceof BarContext) {
+	return (new ResultResult(ultimate, new CompositeName()));
+    }
+
+    throw (NamingException)cpe.fillInStackTrace();
+}
+</blockquote></pre>
+The <tt>BarContext</tt> methods can then be implemented as follows
+in the continuation context.
+<blockquote><pre>
+public void BarMethod(Name name) throws NamingException {
+    ResolveResult res = getTargetContext(name);
+    return ((BarContext)res.getResolvedObj()).barMethod(res.getRemainingName());
+}
+</blockquote></pre>
+The method uses the resolved <tt>BarContext</tt> and the remaining name to
+continue the operation.
+<p>
+All of the <tt>Context</tt> methods are implemented by using a
+<tt>getTargetContext()</tt> method that accepts no argument.
+These implementations exist to satisfy the <tt>Context</tt> interface. 
+Typically, the 
+context implementation would use <tt>NamingManager.getContinuationContext()</tt>
+directly instead the subinterface's continuation context
+for methods in the <tt>Context</tt> interface, as shown in
+<a href=next.html>the previous section</a> of this lesson.
+<p>
+Here is a 
+<a href=src/tut/ContinuationBarCtx.java>sample implementation</a>
+of <tt>lookup()</tt> in the continuation context.
+<blockquote><pre>
+public Object lookup(Name name) throws NamingException {
+    Context ctx = getTargetContext();
+    return ctx.lookup(name);
+}
+</blockquote></pre>
+A context implementation that implements the subinterface would use
+<tt>getContinuationBarContext()</tt> in the same way that it uses
+<tt>NamingManager.getContinuationContext()</tt>.
+Here is an example.
+<blockquote><pre>
+public Object barMethod(Name name) throws NamingException {
+   try {
+       ...
+    } catch (CannotProceedException e) {
+  	BarContext cctx = ContinuationBarCtx.getContinuationBarContext(e);
+	return cctx.barMethod(e.getRemainingName());
+    }
+}
+</blockquote></pre>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="next.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="factory.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Adding Federation Support</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

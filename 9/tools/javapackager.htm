@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>javapackager</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="You use the javapackager command to perform tasks related to packaging Java and JavaFX applications." />
+<meta name="dcterms.created" content="2017-10-12T08:04:07Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Tools Reference" />
+<meta name="dcterms.identifier" content="E61612-05" />
+<meta name="dcterms.isVersionOf" content="JSWOR" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="unpack200.htm" title="Previous" type="text/html" />
+<link rel="Next" href="java-web-start-tool.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSWOR.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSWOR.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSWOR.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2"></a> <span id="PAGE" style="display:none;">39/65</span> <!-- End Header -->
+<a id="JSWOR558"></a><a id="JSWOR559"></a><a id="JSWOR560"></a><a id="JSWOR561"></a><a id="JSWOR720"></a><a id="JSWOR719"></a>
+<h1 id="JSWOR-GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2" class="sect1">javapackager</h1>
+<div>
+<p><span>You use the <code class="codeph">javapackager</code> command to perform tasks related to packaging Java and JavaFX applications.</span></p>
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__USINGTHEJAVAPACKAGERCOMMAND-62C70EB2">
+<p class="subhead1">Synopsis</p>
+<pre dir="ltr">
+<span class="bold">javapackager</span> <span class="variable">command</span> [<span class="variable">options</span>]
+</pre>
+<dl>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-F06703F4-FA14-4425-B4F3-668C8F0DF82A"><!-- --></a><code class="codeph"><span class="variable">command</span></code></dt>
+<dd>
+<p>The task that you want to perform. See <a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__COMMANDSOFTHEJAVAPACKAGERCOMMAND-62C74F12">Commands for the javapackager Command</a>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-6F5FC85F-8782-4FF5-A410-DC4029A7B65D"><!-- --></a><code class="codeph"><span class="variable">options</span></code></dt>
+<dd>
+<p>One or more options for the command, separated by spaces. See <a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OPTIONSFORTHECREATEBSSCOMMAND-26C96C51">Options for the createbss Command</a>, <a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OPTIONSFORTHECREATEJARCOMMAND-26C97259">Options for the createjar Command</a>, <a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OPTIONSFORTHEDEPLOYCOMMAND-26C975A5">Options for the deploy Command</a>, <a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OPTIONSFORTHEMAKEALLCOMMAND-26C97921">Options for the makeall Command</a>, and <a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OPTIONSFORTHESIGNJARCOMMAND-26C97D0B">Options for the signjar Command</a>.</p>
+</dd>
+</dl>
+<div class="infobox-note" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-2904AF33-8C0D-4E0F-BB19-AFF86598D137">
+<p class="notep1">Note:</p>
+<p>The <code class="codeph">javapackager</code> command isn&rsquo;t available on Oracle Solaris.</p>
+</div>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Description</p>
+<p>The Java Packager tool compiles, packages, and prepares Java and JavaFX applications for distribution. The <code class="codeph">javapackager</code> command is the command-line version. For available Ant tasks, see <a class="olink JSDPG177" target="_blank" href="../deploy/javafx-ant-tasks.htm#JSDPG177">JavaFX Ant Tasks</a> in <span><cite>Java Platform, Standard Edition Deployment Guide</cite></span>.</p>
+<p>For self-contained applications, the Java Packager for JDK 9 packages applications with a JDK 9 runtime image generated by the <code class="codeph">jlink</code> tool. To package a JDK 8 or JDK 7 JRE with your application, use the JDK 8 Java Packager.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__COMMANDSOFTHEJAVAPACKAGERCOMMAND-62C74F12">
+<p class="subhead1">Commands for the javapackager Command</p>
+<p>You can run the following commands from the command line, followed by the options for the command.</p>
+<dl class="1.00* 2.99*">
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-1EE522FA-5895-4337-8154-508F7366EAF4"><!-- --></a><code class="codeph">-createbss</code></dt>
+<dd>
+<p>Converts CSS files into binary form. See <a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OPTIONSFORTHECREATEBSSCOMMAND-26C96C51">Options for the createbss Command</a> for the options used with this command.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-6DA56037-2689-4BFF-AE59-31E71AB00F2E"><!-- --></a><code class="codeph">-createjar</code></dt>
+<dd>
+<p>Produces a JAR according to other parameters. See <a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OPTIONSFORTHECREATEJARCOMMAND-26C97259">Options for the createjar Command</a> for the options used with this command.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-D4C2AEC9-EFD6-4962-BAA1-4727F8412168"><!-- --></a><code class="codeph">-deploy</code></dt>
+<dd>
+<p>Assembles the application package for distribution. Modular and nonmodular applications are supported. By default, the deploy task generates the base application package. It can also generate a self-contained application package, if requested. See <a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OPTIONSFORTHEDEPLOYCOMMAND-26C975A5">Options for the deploy Command</a> for the options used with this command.</p>
+<p>The bundle for a self-contained application includes a custom runtime created by calling <code class="codeph">jlink</code>. The Java Packager for JDK 9 packages applications with a JDK 9 runtime image. To package a JDK 8 or JDK 7 JRE with your application, use the JDK 8 Java Packager.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-3209CE14-37A1-4269-9B5C-98CB0BC2C33D"><!-- --></a><code class="codeph">-makeall</code></dt>
+<dd>
+<div class="infobox-note" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-3383CD42-0205-4B4D-B776-B606688ABEF4">
+<p class="notep1">Note:</p>
+<span>The <code class="codeph">-makeall</code> command for the Java Packager tool is deprecated in JDK 9 in preparation for removal in a future release.</span></div>
+<p>Performs compilation, <code class="codeph">createjar</code>, and <code class="codeph">deploy</code> steps as one call, with most arguments predefined, and attempts to generate all applicable self-contained application packages. The source files must be located in a folder called <code class="codeph">src</code>, and the resulting files (JAR, JNLP, HTML, and self-contained application packages) are put in a folder called <code class="codeph">dist</code>. This command can be configured only in a minimal way and is as automated as possible. See <a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OPTIONSFORTHEMAKEALLCOMMAND-26C97921">Options for the makeall Command</a> for the options used with this command.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-DEE24C2F-B320-4F51-8E4A-8811E38DAA49"><!-- --></a><code class="codeph">-signjar</code></dt>
+<dd>
+<div class="infobox-note" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-DE35E866-3078-416A-9038-1C999486EF33">
+<p class="notep1">Note:</p>
+<span>The <code class="codeph">-signjar</code> command for the Java Packager tool is deprecated in JDK 9 in preparation for removal in a future release.</span> It also doesn&rsquo;t work with multirelease JAR file. Instead, use the <a href="jarsigner.htm" title="You use the jarsigner tool to sign and verify Java Archive (JAR) files.">jarsigner</a> tool to sign the JAR file.</div>
+<p>Signs JAR files with a provided certificate. See <a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OPTIONSFORTHESIGNJARCOMMAND-26C97D0B">Options for the signjar Command</a> for the options used with this command.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OPTIONSFORTHECREATEBSSCOMMAND-26C96C51">
+<p class="subhead1">Options for the createbss Command</p>
+<dl>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-DFD2444E-98E2-4F93-9E14-F5669E1DA354"><!-- --></a><code class="codeph">-outdir <span class="variable">dir</span></code></dt>
+<dd>
+<p>Name of the directory that receives the generated output files.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-13308E27-EFC4-4D76-8CB4-20AA43ABFCE5"><!-- --></a><code class="codeph">-srcdir <span class="variable">dir</span></code></dt>
+<dd>
+<p>Base directory of the files to pack.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-DFF4E708-62D5-40C4-A339-164728551DC8"><!-- --></a><code class="codeph">-srcfiles <span class="variable">files</span></code></dt>
+<dd>
+<p>List of files in <code class="codeph">srcdir</code>. If omitted, all files in <code class="codeph">srcdir</code> (which is a mandatory argument in this case) will be used.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OPTIONSFORTHECREATEJARCOMMAND-26C97259">
+<p class="subhead1">Options for the createjar Command</p>
+<dl>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-6E3E43B4-3B2F-43F5-B186-E24EECA16A50"><!-- --></a><code class="codeph">-appclass <span class="variable">app-class</span></code></dt>
+<dd>
+<p>Qualified name of the application class to be executed.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-9E265F43-9BC8-403B-830A-375012E45CDC"><!-- --></a><code class="codeph">-argument <span class="variable">arg</span></code></dt>
+<dd>
+<p>An unnamed argument to be inserted into the JNLP file as an <code class="codeph">&lt;fx:argument&gt;</code> element.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-D4C1EF8D-3678-40CC-B449-37F4AEFB51F1"><!-- --></a><code class="codeph">-classpath <span class="variable">files</span></code></dt>
+<dd>
+<p>List of dependent JAR file names.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-2F2ACEBA-C5A2-400A-8430-34EAF4591B7C"><!-- --></a><code class="codeph">-manifestAttrs <span class="variable">manifest-attributes</span></code></dt>
+<dd>
+<p>List of names and values for additional manifest attributes. Syntax:</p>
+<pre dir="ltr">
+"<span class="variable">name1</span>=<span class="variable">value1</span>,<span class="variable">name2</span>=<span class="variable">value2</span>,..."
+</pre></dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-F4055CB4-8969-4F4C-AB2A-B2EA7C1C072A"><!-- --></a><code class="codeph">-nocss2bin</code></dt>
+<dd>
+<p>The packager doesn&rsquo;t convert CSS files to binary form before copying to JAR file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-E0AE657D-76CB-44DF-8BFD-0824521E555D"><!-- --></a><code class="codeph">-noembedlauncher</code></dt>
+<dd>
+<p>If present, the packager will not add the JavaFX launcher classes to the jarfile.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-F2DF4926-8AA4-4C73-9555-4328E901A30C"><!-- --></a><code class="codeph">-outdir <span class="variable">dir</span></code></dt>
+<dd>
+<p>Name of the directory that receives the generated output files.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-DB398848-7B27-4CC4-9516-93AE5BEED101"><!-- --></a><code class="codeph">-outfile <span class="variable">filename</span></code></dt>
+<dd>
+<p>Name (without the extension) of the file that&rsquo;s generated.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-8A837B01-829F-419A-9E00-6466A84026D7"><!-- --></a><code class="codeph">-paramfile <span class="variable">file</span></code></dt>
+<dd>
+<p>Properties file with named parameters and their default values to pass to the application.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-6E9B09D8-FFF3-47BC-B9FF-5026BC10A39E"><!-- --></a><code class="codeph">-preloader <span class="variable">preloader-class</span></code></dt>
+<dd>
+<p>Qualified name of the JavaFX preloader class to be executed. Use this option only for JavaFX applications. Don&rsquo;t use for Java applications, including headless applications.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-DF52D3CA-3B79-4F80-A053-A6EE24C95A80"><!-- --></a> <code class="codeph">-runtimeversion <span class="variable">version</span></code></dt>
+<dd>
+<p>Specifies the version of the required JavaFX Runtime.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-F1F84211-D66B-4896-B586-4A8C1F48B149"><!-- --></a><code class="codeph">-srcdir <span class="variable">dir</span></code></dt>
+<dd>
+<p>Base directory of the files to pack.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-20208135-2D31-4F78-8178-5045E53F50C7"><!-- --></a><code class="codeph">-srcfiles <span class="variable">files</span></code></dt>
+<dd>
+<p>List of files in <code class="codeph">srcdir</code>. If omitted, all files in <code class="codeph">srcdir</code> (which is a mandatory argument in this case) will be packed.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OPTIONSFORTHEDEPLOYCOMMAND-26C975A5">
+<p class="subhead1">Options for the deploy Command</p>
+<dl class="0.99* 3.01*">
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-62B4E7A3-7640-4285-BD61-D66672836495"><!-- --></a><code class="codeph">--add-modules <span class="variable">modulename</span>[,<span class="variable">modulename</span>...]</code></dt>
+<dd>
+<p>Specifies the root modules to resolve in addition to the initial module.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-0C405B28-D2F7-46A1-BBEB-F26E962AAF43"><!-- --></a><code class="codeph">-allpermissions</code></dt>
+<dd>
+<p>If present, the application requires all security permissions in the JNLP file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-67F0C3DC-7A4A-409B-917C-65DA2DA08663"><!-- --></a><code class="codeph">-appclass <span class="variable">app-class</span></code></dt>
+<dd>
+<p>Qualified name of the application class to be executed.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-23065498-C673-47CE-AB66-3DBDA886C643"><!-- --></a><code class="codeph">-argument <span class="variable">arg</span></code></dt>
+<dd>
+<p>An unnamed argument to be inserted into an <code class="codeph">&lt;fx:argument&gt;</code> element in the JNLP file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-51DF3970-4FEB-4B4E-A3EF-73A5AE7BAC85"><!-- --></a><code class="codeph">-B<span class="variable">bundler-argument=value</span></code></dt>
+<dd>
+<p>Provides information to the bundler that&rsquo;s used to package a self-contained application. See <a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__ARGUMENTSFORSELFCONTAINEDAPPLICATIONBUNDLES-8D64879F">Arguments for Self-Contained Application Bundles</a> for information about the arguments for each bundler.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-1B28694A-3ECF-4443-92FD-B5A76DAF2767"><!-- --></a><code class="codeph">-callbacks <span class="variable">callback-methods</span></code></dt>
+<dd>
+<p>Specifies one or more user callback methods in generated HTML. The format is the following:</p>
+<pre dir="ltr">
+"<span class="variable">name1</span>:<span class="variable">value1</span>,<span class="variable">name2</span>:<span class="variable">value2</span>,..."
+</pre></dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-1C401807-0460-4C4E-9B18-79B47F1FD6FE"><!-- --></a><code class="codeph">-description <span class="variable">description</span></code></dt>
+<dd>
+<p>Description of the application.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-81C294B2-5D7C-43EE-A1DB-57077E7C345E"><!-- --></a><code class="codeph">-embedjnlp</code></dt>
+<dd>
+<p>If present, the JNLP file embedded in the HTML document.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-986A2A86-3C5C-4363-9527-216B9EC6AB6A"><!-- --></a><code class="codeph">-embedCertificates</code></dt>
+<dd>
+<p>If present, the certificates will be embedded in the jnlp file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-6C8B4BCA-2DA5-4D98-BABD-0431349EBFE7"><!-- --></a><code class="codeph">-height <span class="variable">height</span></code></dt>
+<dd>
+<p>Height of the application.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-BA18002E-FD43-4595-BC15-FC4337E179C3"><!-- --></a><code class="codeph">-htmlparamfile <span class="variable">file</span></code></dt>
+<dd>
+<p>Properties file with parameters for the resulting application when it is run in the browser.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-99BB20D0-F213-457D-B4F4-4E280AE7EC3B"><!-- --></a><code class="codeph">-isExtension</code></dt>
+<dd>
+<p>If present, the <code class="codeph">srcfiles</code> as extensions.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-DCE034CB-A5CC-4508-88B1-B0364750AA23"><!-- --></a><code class="codeph">--limit-modules <span class="variable">modulename</span>[,<span class="variable">modulename</span>...]</code></dt>
+<dd>
+<p>Limits the universe of observable modules.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-E411F5F8-261A-4649-93E3-3BE251C88547"><!-- --></a> <code class="codeph">-m <span class="variable">modulename</span> [/<span class="variable">mainclass</span>]</code> or <code class="codeph">--module <span class="variable">modulename</span> [/<span class="variable">mainclass</span>]</code></dt>
+<dd>
+<p>Specifies the initial module to resolve, and the name of the main class to execute if not specified by the module.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-145F5E0C-E40F-424D-BCB7-06DBAF7E22E9"><!-- --></a> <code class="codeph">-p <span class="variable">module path</span></code> or <code class="codeph">--module-path <span class="variable">module path</span></code></dt>
+<dd>
+<p>A : separated list of directories, each directory is a directory of modules.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-EE2CA4CB-27C9-408A-9CFB-BE1686A7CB34"><!-- --></a><code class="codeph">-name <span class="variable">name</span></code></dt>
+<dd>
+<p>Name of the application.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-659E9890-5F31-479B-94CA-58B374DB9A28"><!-- --></a><code class="codeph">-native <span class="variable">type</span></code></dt>
+<dd>
+<p>Generate the files needed for a Java Web Start application when <code class="codeph"><span class="variable">type</span></code> is set to <code class="codeph">jnlp</code>. Otherwise, generate self-contained application bundles, if possible. Use the <code class="codeph">-B</code> option to provide arguments to the bundlers being used. If <code class="codeph"><span class="variable">type</span></code> is specified, then only a bundle of this type is created. If no type is specified, then <code class="codeph">all</code> is used.</p>
+<p>The following values are valid for <span class="variable">type</span>:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph">jnlp</code>: Generates the <code>.jnlp</code> and <code>.html</code> files for a Java Web Start application.</p>
+</li>
+<li>
+<p><code class="codeph">all</code>: Runs all of the installers for the platform on which it&rsquo;s running, and creates a disk image for the application. This value is used if <code class="codeph"><span class="variable">type</span></code> isn&rsquo;t specified.</p>
+</li>
+<li>
+<p><code class="codeph">installer</code>: Runs all of the installers for the platform on which it&rsquo;s running.</p>
+</li>
+<li>
+<p><code class="codeph">image</code>: Creates a disk image for the application.</p>
+<p><span class="bold">Linux and Windows</span>: The image is the directory that gets installed.</p>
+<p><span class="bold">macOS</span>: The image is the <code class="codeph">.app</code> file.</p>
+</li>
+<li>
+<p><code class="codeph">exe</code>: Generates a Windows <code class="codeph">.exe</code> package.</p>
+</li>
+<li>
+<p><code class="codeph">msi</code>: Generates a Windows Installer package.</p>
+</li>
+<li>
+<p><code class="codeph">dmg</code>: Generates a DMG file for macOS.</p>
+</li>
+<li>
+<p><code class="codeph">pkg</code>: Generates a <code class="codeph">.pkg</code> package for macOS.</p>
+</li>
+<li>
+<p><code class="codeph">mac.appStore</code>: Generates a package for the Mac App Store.</p>
+</li>
+<li>
+<p><code class="codeph">rpm</code>: Generates an RPM package for Linux.</p>
+</li>
+<li>
+<p><code class="codeph">deb</code>: Generates a Debian package for Linux.</p>
+</li>
+</ul>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-2375FCD7-B2FA-4117-8F63-F0553A38B7B7"><!-- --></a><code class="codeph">-nosign</code></dt>
+<dd>
+<p><span class="bold">Linux and macOS</span>: If present, the bundle generated for self-contained applications isn&rsquo;t signed by the bundler. The default for bundlers that support signing is to sign the bundle if signing keys are properly configured. This attribute is ignored by bundlers that don&rsquo;t support signing.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-29B71B5E-2A6B-4FDC-B70D-D57A6BDAA8BB"><!-- --></a><code class="codeph">-outdir <span class="variable">dir</span></code></dt>
+<dd>
+<p>Name of the directory that receives the generated output files.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-912730CB-536C-4F04-8016-07C5501722CB"><!-- --></a><code class="codeph">-outfile <span class="variable">filename</span></code></dt>
+<dd>
+<p>Name (without the extension) of the file that is generated.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-535EFE4B-8E14-40B1-A77F-F5DB4C12DD48"><!-- --></a><code class="codeph">-paramfile <span class="variable">file</span></code></dt>
+<dd>
+<p>Properties file with named parameters and their default values to pass to the application.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-564E10A3-989D-4EE8-854C-6AFB4477C142"><!-- --></a><code class="codeph">-preloader <span class="variable">preloader-class</span></code></dt>
+<dd>
+<p>Qualified name of the JavaFX preloader class to be executed. Use this option only for JavaFX applications. Don&rsquo;t use for Java applications, including headless applications.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-54A95EDE-78A4-4B07-9F5D-124E8EA54651"><!-- --></a><code class="codeph">-srcdir <span class="variable">dir</span></code></dt>
+<dd>
+<p>Base directory of the files to pack.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-BFBF8D5B-F0F0-41B4-839F-268E4FDA6B59"><!-- --></a><code class="codeph">-srcfiles <span class="variable">files</span></code></dt>
+<dd>
+<p>List of files in <code class="codeph">srcdir</code>. If omitted, all files in <code class="codeph">srcdir</code> (which is a mandatory argument in this case) will be used.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-30C025D2-7BA7-42BF-9E51-1679F7C0C1EF"><!-- --></a><code class="codeph">--strip-native-commands [true|false]</code></dt>
+<dd>
+<p>Remove command-line tools such as <code class="codeph">java.exe</code> from the Java runtime that&rsquo;s generated for packaging with self-contained applications. The default is <code class="codeph">true</code>. To keep the tools in the runtime, specify <code class="codeph">false</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-55EDDF0E-0F2B-4522-821B-CDB50E9C8F4F"><!-- --></a> <code class="codeph">-templateId</code></dt>
+<dd>
+<p>Application ID of the application for template processing.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-9CF91156-982A-4129-8ABA-4C4C6475191C"><!-- --></a><code class="codeph">-templateInFilename</code></dt>
+<dd>
+<p>Name of the HTML template file. Placeholders are in the following form:</p>
+<pre dir="ltr">
+#<span class="variable">XXXX</span>.<span class="variable">YYYY</span>(<span class="variable">APPID</span>)#
+</pre>
+<p><code class="codeph"><span class="variable">APPID</span></code> is the identifier of an application and <code class="codeph"><span class="variable">XXXX</span></code> is one of following:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph">DT.SCRIPT.URL</code></p>
+<p>Location of <code>dtjava.js</code> in the Deployment Toolkit. By default, the location is</p>
+<p><code>http://java.com/js/dtjava.js</code>.</p>
+</li>
+<li>
+<p><code class="codeph">DT.SCRIPT.CODE</code></p>
+<p>Script element to include <code>dtjava.js</code> of the Deployment Toolkit.</p>
+</li>
+<li>
+<p><code class="codeph">DT.EMBED.CODE.DYNAMIC</code></p>
+<p>Code to embed the application into a given placeholder. It is expected that the code is wrapped in the <code class="codeph">function()</code> method.</p>
+</li>
+<li>
+<p><code class="codeph">DT.EMBED.CODE.ONLOAD</code></p>
+<p>All of the code needed to embed the application into a web page using the <code class="codeph">onload</code> hook (except inclusion of <code>dtjava.js</code>).</p>
+</li>
+<li>
+<p><code class="codeph">DT.LAUNCH.CODE</code></p>
+<p>Code needed to launch the application. It&rsquo;s expected that the code is wrapped in the <code class="codeph">function()</code> method.</p>
+</li>
+</ul>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-9211AE34-06CC-403B-8F0F-985AF65502B5"><!-- --></a><code class="codeph">-templateOutFilename</code></dt>
+<dd>
+<p>Name of the HTML file generated from the template.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-0FA81151-83C2-4CEA-84A6-27A0C4D850D3"><!-- --></a><code class="codeph">-title <span class="variable">title</span></code></dt>
+<dd>
+<p>Title of the application.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-76567B77-E43E-4904-A7A1-07A14795AF14"><!-- --></a><code class="codeph">-updatemode <span class="variable">update-mode</span></code></dt>
+<dd>
+<p>Sets the update mode for the JNLP file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-4E2B5EA3-4E24-4379-B078-9C1DFCFB5CC8"><!-- --></a><code class="codeph">-vendor <span class="variable">vendor</span></code></dt>
+<dd>
+<p>Vendor of the application.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-1C504C01-098B-4FC6-99CA-A4708E5FC0FF"><!-- --></a><code class="codeph">-width <span class="variable">width</span></code></dt>
+<dd>
+<p>Width of the application.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OPTIONSFORTHEMAKEALLCOMMAND-26C97921">
+<p class="subhead1">Options for the makeall Command</p>
+<div class="infobox-note" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-53EE0FB2-61D7-459C-B12F-AA9E76230553">
+<p class="notep1">Note:</p>
+<span>The <code class="codeph">-makeall</code> command for the Java Packager tool is deprecated in JDK 9 in preparation for removal in a future release.</span></div>
+<dl>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-EAB1F386-B198-41F5-9C47-79032B39210B"><!-- --></a><code class="codeph">-appclass <span class="variable">app-class</span></code></dt>
+<dd>
+<p>Qualified name of the application class to be executed.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-CE25A09C-C7D9-40EC-B0D8-5D627518ECE0"><!-- --></a><code class="codeph">-classpath <span class="variable">files</span></code></dt>
+<dd>
+<p>List of dependent JAR file names.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-6F98499F-3B99-4D19-BC83-0100C32446E2"><!-- --></a><code class="codeph">-height <span class="variable">height</span></code></dt>
+<dd>
+<p>Height of the application.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-B82E9020-37A6-4B4F-9646-A4A7217E1769"><!-- --></a><code class="codeph">-name <span class="variable">name</span></code></dt>
+<dd>
+<p>Name of the application.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-CA48EA08-FAD3-4311-B576-11330268AF87"><!-- --></a><code class="codeph">-preloader <span class="variable">preloader-class</span></code></dt>
+<dd>
+<p>Qualified name of the JavaFX preloader class to be executed. Use this option only for JavaFX applications. Don&rsquo;t use for Java applications, including headless applications.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-B2657BB9-9F22-45EF-B9C3-CCCB142EF453"><!-- --></a><code class="codeph">-v</code></dt>
+<dd>
+<p>Enables verbose output.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-22DF5F6B-AC66-438A-9FF8-E7531758A394"><!-- --></a><code class="codeph">-width <span class="variable">width</span></code></dt>
+<dd>
+<p>Width of the application.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OPTIONSFORTHESIGNJARCOMMAND-26C97D0B">
+<p class="subhead1">Options for the signjar Command</p>
+<div class="infobox-note" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-282F2B50-83EA-4AD4-BA66-01C20BB18FBD">
+<p class="notep1">Note:</p>
+<span>The <code class="codeph">-signjar</code> command for the Java Packager tool is deprecated in JDK 9 in preparation for removal in a future release.</span> It also doesn&rsquo;t work with multirelease JAR files. Use the <a href="jarsigner.htm" title="You use the jarsigner tool to sign and verify Java Archive (JAR) files.">jarsigner</a> tool to sign the JAR file.</div>
+<dl>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-2A4CD413-657D-4820-9A2D-156FBB120F5B"><!-- --></a><code class="codeph">-alias <span class="variable">key-alias</span></code></dt>
+<dd>
+<p>Alias for the key.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-38BE9F10-63FD-4D9E-B932-C94C3ED94D38"><!-- --></a><code class="codeph">-keyPass <span class="variable">password</span></code></dt>
+<dd>
+<p>Password for recovering the key.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-A23CC357-2A2D-43FA-9290-808352628864"><!-- --></a><code class="codeph">-keyStore <span class="variable">file</span></code></dt>
+<dd>
+<p>Keystore file name.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-803B8AF5-5E8E-497D-ABCB-D888B1C7FA3F"><!-- --></a><code class="codeph">-outdir <span class="variable">dir</span></code></dt>
+<dd>
+<p>Name of the directory that receives the generated output files.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-770F2E13-91B3-4AB7-82E8-D11C6ECE97D1"><!-- --></a><code class="codeph">-storePass <span class="variable">password</span></code></dt>
+<dd>
+<p>Password to check the integrity of the keystore or unlock the keystore.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-BB05F505-1A65-4AEF-B03F-9105B52291FC"><!-- --></a><code class="codeph">-storeType <span class="variable">type</span></code></dt>
+<dd>
+<p>Keystore type. The default value is <code class="codeph">jks</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-B7D6A192-388D-4E34-94E6-2A3BD9D366FE"><!-- --></a><code class="codeph">-srcdir <span class="variable">dir</span></code></dt>
+<dd>
+<p>Base directory of the files to pack.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-98F049CD-ACB8-4646-9388-0395B806A008"><!-- --></a><code class="codeph">-srcfiles <span class="variable">files</span></code></dt>
+<dd>
+<p>List of files in <code class="codeph">srcdir</code>. If omitted, all files in <code class="codeph">srcdir</code> (which is a mandatory argument in this case) will be packed.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__ARGUMENTSFORSELFCONTAINEDAPPLICATIONBUNDLES-8D64879F">
+<p class="subhead1">Arguments for Self-Contained Application Bundles</p>
+<p>The <code class="codeph">-B<span class="variable">bundler-argument=value</span></code> option for the <code class="codeph">-deploy</code> command is used when generating self-contained applications. This option enables you to set an argument for the bundler that&rsquo;s used to create self-contained applications. To set more than one argument, pass an instance of this option for each argument. Each type of bundler has its own set of arguments.</p>
+<p>The following sections describe the valid arguments for the available bundlers:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GENERALBUNDLERARGUMENTS-26C989A8">General Bundler Arguments</a></p>
+</li>
+<li>
+<p><a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OSXAPPLICATIONBUNDLERARGUMENTS-26C98D56">macOS Application Bundler Arguments</a></p>
+</li>
+<li>
+<p><a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OSXDMGDISKIMAGEBUNDLERARGUMENTS-26C9903A">macOS DMG (Disk Image) Bundler Arguments</a></p>
+</li>
+<li>
+<p><a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OSXPKGBUNDLERARGUMENTS-26C993FC">macOS PKG Bundler Arguments</a></p>
+</li>
+<li>
+<p><a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__MACAPPSTOREBUNDLERARGUMENTS-26C997E7">Mac App Store Bundler Arguments</a></p>
+</li>
+<li>
+<p><a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__LINUXDEBIANBUNDLERARGUMENTS-26C99C2F">Linux Debian Bundler Arguments</a></p>
+</li>
+<li>
+<p><a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__LINUXRPMBUNDLERARGUMENTS-26C99F02">Linux RPM Bundler Arguments</a></p>
+</li>
+<li>
+<p><a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__WINDOWSEXEBUNDLERARGUMENTS-26C9A39C">Windows EXE Bundler Arguments</a></p>
+</li>
+<li>
+<p><a href="javapackager.htm#GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__WINDOWSMSIBUNDLERARGUMENTS-26C9A792">Windows MSI Bundler Arguments</a></p>
+</li>
+</ul>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GENERALBUNDLERARGUMENTS-26C989A8">
+<p class="subhead1">General Bundler Arguments</p>
+<p>General bundler arguments are valid for all bundlers.</p>
+<dl>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-A6526C5B-1DCF-4089-AD3F-4CF2EED1738A"><!-- --></a><code class="codeph">appVersion=<span class="variable">version</span></code></dt>
+<dd>
+<p>Version of the application package. Some bundlers restrict the format of the version string.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-ED2EFC43-A928-46D7-812B-EE9E16DDDC8F"><!-- --></a><code class="codeph">arguments=<span class="variable">option</span>=<span class="variable">value</span></code></dt>
+<dd>
+<p>Arguments to pass to the application when it is started. Enclose the argument list in quotes. To pass multiple options, separate the option-value pairs with spaces, for example:</p>
+<pre dir="ltr">
+-Barguments="this.is.a.test=tru one.more.arg=affirmative" 
+</pre></dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-F9AA5400-E59A-4449-9FCC-71CE0CA2F1B5"><!-- --></a><code class="codeph">classPath=<span class="variable">path</span></code></dt>
+<dd>
+<p>Class path relative to the assembled application directory. The path is typically extracted from the JAR file manifest, and doesn&rsquo;t need to be set if you&rsquo;re using the other <code class="codeph">javapackager</code> commands.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-148382EE-9792-40D1-814B-599F576951BE"><!-- --></a><code class="codeph">dropinResourcesRoot=<span class="variable">directory</span></code></dt>
+<dd>
+<p>Directory in which to look for bundler-specific drop-in resources. For example, on macOS, to look in the current directory for the <code>Info.plist</code> file, use the following:</p>
+<pre dir="ltr">
+-BdropinResourcesRoot=.
+</pre>
+<p>The file is then found in the current directory: <code>package/macosx/Info.plist</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-2E037B5E-6025-4A68-B4CA-67DBF188A926"><!-- --></a><code class="codeph">icon=<span class="variable">path</span></code></dt>
+<dd>
+<p>Location of the default icon to be used for application launchers and other assists.</p>
+<p><span class="bold">Linux</span>: The format must be <code class="codeph">.png</code>.</p>
+<p><span class="bold">macOS</span>: The format must be <code class="codeph">.icns</code>.</p>
+<p><span class="bold">Windows</span>: The format must be <code class="codeph">.ico</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-57C7D4A8-F1D7-4C57-9F29-FBD7CAA1A710"><!-- --></a><code class="codeph">identifier=<span class="variable">value</span></code></dt>
+<dd>
+<p>Default value that is used for other platform-specific values such as <code class="codeph">mac.CFBundleIdentifier</code>. Reverse DNS order is recommended, for example, <code class="codeph">com.example.application.my-application</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-ECC47819-3C88-4B66-93E4-417DA33B7B5D"><!-- --></a><code class="codeph">jvmOptions=<span class="variable">option</span></code></dt>
+<dd>
+<p>Option to be passed to the JVM when the application is run. Any option that is valid for the <code class="codeph">java</code> command can be used. To pass more than one option, use multiple instances of the <code class="codeph">-B</code> option, as shown in the following example:</p>
+<pre dir="ltr">
+-BjvmOptions=-Xmx128m -BjvmOptions=-Xms128m
+</pre></dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-E54DD12B-ADE8-4460-A4D7-19657605C36A"><!-- --></a><code class="codeph">jvmProperties=<span class="variable">property</span>=<span class="variable">value</span></code></dt>
+<dd>
+<p>Java system property to be passed to the VM when the application is run. Any property that&rsquo;s valid for the <code class="codeph">-D</code> option of the <code class="codeph">java</code> command can be used. Specify both the property name and the value for the property. To pass more than one property, use multiple instances of the <code class="codeph">-B</code> option, as shown in the following example:</p>
+<pre dir="ltr">
+-BjvmProperties=apiUserName=example -BjvmProperties=apiKey=abcdef1234567890
+</pre></dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-5B635E7D-607E-4EF1-9D9C-934B039B9FD6"><!-- --></a><code class="codeph">mainJar=<span class="variable">filename</span></code></dt>
+<dd>
+<p>Name of the JAR file that contains the main class for the application. The file name is typically extracted from the JAR file manifest, and doesn&rsquo;t need to be set if you&rsquo;re using the other <code class="codeph">javapackager</code> commands.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-1BA79822-59EB-4B4A-9A92-B47E9B1BA573"><!-- --></a><code class="codeph">preferencesID=<span class="variable">node</span></code></dt>
+<dd>
+<p>Preferences node to examine to check for JVM options that the user can override. The node specified is passed to the application at runtime as the option <code class="codeph">-Dapp.preferences.id</code>. This argument is used with the <code class="codeph">userJVMOptions</code> argument.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-4A61E062-69E8-4C21-9628-89A474D4A0D2"><!-- --></a><code class="codeph">runtime=<span class="variable">path</span></code></dt>
+<dd>
+<p>Location of the JRE or JDK to use with a Java Web Start application, valid only when the <code class="codeph">-native</code> option is set to <code class="codeph">jnlp</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-C3D624F4-E7E4-4B82-9A5D-64A01A5F2F01"><!-- --></a><code class="codeph">userJvmOptions=<span class="variable">option</span>=<span class="variable">value</span></code></dt>
+<dd>
+<p>JVM options that users can override. Any option that&rsquo;s valid for the <code class="codeph">java</code> command can be used. Specify both the option name and the value for the option. To pass more than one option, use multiple instances of the <code class="codeph">-B</code> option, as shown in the following example:</p>
+<pre dir="ltr">
+-BuserJvmOptions=-Xmx=128m -BuserJvmOptions=-Xms=128m
+</pre></dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OSXAPPLICATIONBUNDLERARGUMENTS-26C98D56">
+<p class="subhead1">macOS Application Bundler Arguments</p>
+<dl>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-3FA1F5BE-21A5-42B1-89A5-EF03B83BDF5D"><!-- --></a><code class="codeph">mac.category=<span class="variable">category</span></code></dt>
+<dd>
+<p>Category for the application. The category must be in the list of categories found on the Apple Developer website.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-09240503-5003-4678-8479-093BE9060642"><!-- --></a><code class="codeph">mac.CFBundleIdentifier=<span class="variable">value</span></code></dt>
+<dd>
+<p>Value stored in the info plist for <code class="codeph">CFBundleIdentifier</code>. This value must be globally unique and contain only letters, numbers, dots, and dashes. Reverse DNS order is recommended, for example, <code class="codeph">com.example.application.my-application</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-7EC27057-2265-417B-AE58-82486EBE2BDB"><!-- --></a><code class="codeph">mac.CFBundleName=<span class="variable">name</span></code></dt>
+<dd>
+<p>Name of the application as it appears on the macOS menu bar. A name of fewer than 16 characters is recommended. The default is the <code class="codeph">name</code> attribute.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-C2E8F9EF-9F0C-4CCE-96B7-4BB9254AD3F2"><!-- --></a><code class="codeph">mac.CFBundleVersion=<span class="variable">value</span></code></dt>
+<dd>
+<p>Version number for the application, used internally. The value must be at least one integer and no more than three integers separated by periods (.) for example, 1.3 or 2.0.1. The value can be different than the value for the <code class="codeph">appVersion</code> argument. If the <code class="codeph">appVersion</code> argument is specified with a valid value and the <code class="codeph">mac.CFBundleVersion</code> argument isn&rsquo;t specified, then the <code class="codeph">appVersion</code> value is used. If neither argument is specified, then <code class="codeph">100</code> is used as the version number.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-05C6A49C-057D-440C-A4EC-5AFFA9391E30"><!-- --></a><code class="codeph">mac.signing-key-developer-id-app=<span class="variable">key</span></code></dt>
+<dd>
+<p>Name of the signing key used for Developer ID or Gatekeeper signing. If you imported a standard key from the Apple Developer Website, then that key is used by default. If no key can be identified, then the application isn&rsquo;t signed.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-A4A8CCDC-0375-42DE-9BD9-C1809AB8E683"><!-- --></a><code class="codeph">mac.bundle-id-signing-prefix=<span class="variable">prefix</span></code></dt>
+<dd>
+<p>Prefix that is applied to the signed binary when binaries that lack plists or existing signatures are found inside the bundles.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OSXDMGDISKIMAGEBUNDLERARGUMENTS-26C9903A">
+<p class="subhead1">macOS DMG (Disk Image) Bundler Arguments</p>
+<p>The macOS DMG installer shows the license file specified by <code class="codeph">licenseFile</code>, if provided, before allowing the disk image to be mounted.</p>
+<dl>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-0F5F7837-D8D2-45CA-8691-17FD52DA3977"><!-- --></a><code class="codeph">licenseFile=<span class="variable">path</span></code></dt>
+<dd>
+<p>Location of the End User License Agreement (EULA) to be presented or recorded by the bundler. The path is relative to the packaged application resources, for example, <code class="codeph">-BlicenseFile=COPYING</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-514D1567-2E44-4C6E-B4B7-D09E61038B9A"><!-- --></a><code class="codeph">systemWide=<span class="variable">boolean</span></code></dt>
+<dd>
+<p>Flag that indicates which drag-to-install target to use. Set to <code class="codeph">true</code> to show the Applications folder. Set to <code class="codeph">false</code> to show the Desktop folder. The default is <code class="codeph">true</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-29D46776-0CC4-4B07-9C1C-45567F949E96"><!-- --></a><code class="codeph">mac.CFBundleVersion=<span class="variable">value</span></code></dt>
+<dd>
+<p>Version number for the application, used internally. The value must be at least one integer and no more than three integers separated by periods (.) for example, 1.3 or 2.0.1. The value can be different than the value for the <code class="codeph">appVersion</code> argument. If the <code class="codeph">appVersion</code> argument is specified with a valid value and the <code class="codeph">mac.CFBundleVersion</code> argument isn&rsquo;t specified, then the <code class="codeph">appVersion</code> value is used. If neither argument is specified, then <code class="codeph">100</code> is used as the version number.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-F46F82F1-A589-47AF-BBE4-984E860A368C"><!-- --></a><code class="codeph">mac.dmg.simple=<span class="variable">boolean</span></code></dt>
+<dd>
+<p>Flag that indicates if DMG customization steps that depend on executing AppleScript code are skipped. Set to <code class="codeph">true</code> to skip the steps. When set to <code class="codeph">true</code>, the disk window doesn&rsquo;t have a background image, and the icons aren&rsquo;t moved into place. If the <code class="codeph">systemWide</code> argument is also set to <code class="codeph">true</code>, then a symbolic link to the root Applications folder is added to the DMG file. If the <code class="codeph">systemWide</code> argument is set to <code class="codeph">false</code>, then only the application is added to the DMG file, no link to the desktop is added.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__OSXPKGBUNDLERARGUMENTS-26C993FC">
+<p class="subhead1">macOS PKG Bundler Arguments</p>
+<p>The macOS PKG installer presents a wizard and shows the license file specified by the <code class="codeph">licenseFile</code> argument as one of the pages in the wizard. The user must accept the terms before installing the application.</p>
+<dl>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-067C9AF8-4D31-48DD-AD6F-EB07116FA5A1"><!-- --></a><code class="codeph">licenseFile=<span class="variable">path</span></code></dt>
+<dd>
+<p>Location of the End User License Agreement (EULA) to be presented or recorded by the bundler. The path is relative to the packaged application resources, for example, <code class="codeph">-BlicenseFile=COPYING</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-CF0D17D7-FBD8-4320-9491-2BFFF6CBF515"><!-- --></a><code class="codeph">mac.signing-key-developer-id-installer=<span class="variable">key</span></code></dt>
+<dd>
+<p>Name of the signing key used for Developer ID or Gatekeeper signing. If you imported a standard key from the Apple Developer Website, then that key is used by default. If no key can be identified, then the application isn&rsquo;t signed.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-A19BBE89-99E1-417C-8C35-13FBD5B7579B"><!-- --></a><code class="codeph">mac.CFBundleVersion=<span class="variable">value</span></code></dt>
+<dd>
+<p>Version number for the application, used internally. The value must be at least one integer and no more than three integers separated by periods (.) for example, 1.3 or 2.0.1. The value can be different than the value for the <code class="codeph">appVersion</code> argument. If the <code class="codeph">appVersion</code> argument is specified with a valid value and the <code class="codeph">mac.CFBundleVersion</code> argument isn&rsquo;t specified, then the <code class="codeph">appVersion</code> value is used. If neither argument is specified, <code class="codeph">100</code> is used as the version number.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__MACAPPSTOREBUNDLERARGUMENTS-26C997E7">
+<p class="subhead1">Mac App Store Bundler Arguments</p>
+<dl>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-EBA9FA33-233A-4F74-A444-9471133A472A"><!-- --></a><code class="codeph">mac.app-store-entitlements=<span class="variable">path</span></code></dt>
+<dd>
+<p>Location of the file that contains the entitlements that the application operates under. The file must be in the format specified by Apple. The path to the file can be specified in absolute terms, or relative to the invocation of <code class="codeph">javapackager</code>. If no entitlements are specified, then the application operates in a sandbox that&rsquo;s stricter than the typical applet sandbox, and access to network sockets and all files is prevented.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-56573EF3-0708-44EA-AE9F-D290629BF710"><!-- --></a><code class="codeph">mac.signing-key-app=<span class="variable">key</span></code></dt>
+<dd>
+<p>Name of the application signing key for the Mac App Store. If you imported a standard key from the Apple Developer Website, then that key is used by default. If no key can be identified, then the application isn&rsquo;t signed.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-CFA0E3C5-63B3-4A90-B19D-078BDF1AF1B3"><!-- --></a><code class="codeph">mac.signing-key-pkg=<span class="variable">key</span></code></dt>
+<dd>
+<p>Name of the installer signing key for the Mac App Store. If you imported a standard key from the Apple Developer Website, then that key is used by default. If no key can be identified, then the application isn&rsquo;t signed.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-EE684E94-D669-4EFC-A8B9-E62F3CD9BC3D"><!-- --></a><code class="codeph">mac.CFBundleVersion=<span class="variable">value</span></code></dt>
+<dd>
+<p>Version number for the application, used internally. The value must be at least one integer and no more than three integers separated by periods (.) for example, 1.3 or 2.0.1. The value can be different than the value for the <code class="codeph">appVersion</code> argument. If the <code class="codeph">appVersion</code> argument is specified with a valid value and the <code class="codeph">mac.CFBundleVersion</code> argument isn&rsquo;t specified, then the <code class="codeph">appVersion</code> value is used. If neither argument is specified, then <code class="codeph">100</code> is used as the version number. If this version is an upgrade for an existing application, then the value must be greater than previous version number.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__LINUXDEBIANBUNDLERARGUMENTS-26C99C2F">
+<p class="subhead1">Linux Debian Bundler Arguments</p>
+<p>The license file specified by the <code class="codeph">licenseFile</code> argument isn&rsquo;t presented to the user in all cases, but the file is included in the application metadata.</p>
+<dl>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-D1BBCAD5-7C06-4D0E-AD0C-D731A14A9283"><!-- --></a><code class="codeph">category=<span class="variable">category</span></code></dt>
+<dd>
+<p>Category for the application. See <a href="http://standards.freedesktop.org/menu-spec/latest/apa.html" target="_blank">Registered Categories</a> in <cite>Desktop Menu Specification</cite> for examples.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-82FBA346-6A73-42D0-BE7B-88B9C3F96AE0"><!-- --></a><code class="codeph">copyright=<span class="variable">string</span></code></dt>
+<dd>
+<p>Copyright string for the application. This argument is used in the Debian metadata.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-519ED2E1-2301-4601-844E-5B46C9768967"><!-- --></a><code class="codeph">email=<span class="variable">address</span></code></dt>
+<dd>
+<p>Email address used in the Debian Maintainer field.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-4A383676-97CD-4666-BCE8-BBC9BC58DB7C"><!-- --></a><code class="codeph">licenseFile=<span class="variable">path</span></code></dt>
+<dd>
+<p>Location of the End User License Agreement (EULA) to be presented or recorded by the bundler. The path is relative to the packaged application resources, for example, <code class="codeph">-BlicenseFile=COPYING</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-433619A6-EFE5-41B2-85D6-AC56C293D372"><!-- --></a><code class="codeph">licenseType=<span class="variable">type</span></code></dt>
+<dd>
+<p>Short name of the license type, such as <code class="codeph">-BlicenseType=Proprietary</code>, or <code class="codeph">"-BlicenseType=GPL v2 + Classpath Exception"</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-05E223F7-306E-40EC-9649-B335BB4983E5"><!-- --></a><code class="codeph">vendor=<span class="variable">value</span></code></dt>
+<dd>
+<p>Corporation, organization, or individual providing the application. This argument is used in the Debian Maintainer field.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__LINUXRPMBUNDLERARGUMENTS-26C99F02">
+<p class="subhead1">Linux RPM Bundler Arguments</p>
+<dl>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-7B2EB45E-6478-4F22-B9BC-F1D675DEF15B"><!-- --></a><code class="codeph">category=<span class="variable">category</span></code></dt>
+<dd>
+<p>Category for the application. See <a href="http://standards.freedesktop.org/menu-spec/latest/apa.html" target="_blank">Registered Categories</a> in <cite>Desktop Menu Specification</cite> for examples.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-AEF22BAA-4612-41B7-8652-382356581EDC"><!-- --></a><code class="codeph">licenseFile=<span class="variable">path</span></code></dt>
+<dd>
+<p>Location of the End User License Agreement (EULA) to be presented or recorded by the bundler. The path is relative to the packaged application resources, for example, <code class="codeph">-BlicenseFile=COPYING</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-0569C229-B49D-4C2B-86EA-045AA326DAF6"><!-- --></a><code class="codeph">licenseType=<span class="variable">type</span></code></dt>
+<dd>
+<p>Short name of the license type, such as <code class="codeph">-BlicenseType=Proprietary</code>, or <code class="codeph">"-BlicenseType=GPL v2 + Classpath Exception"</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-96F46C7B-AEC4-4123-8621-8223B27A348F"><!-- --></a><code class="codeph">vendor=<span class="variable">value</span></code></dt>
+<dd>
+<p>Corporation, organization, or individual providing the application.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__WINDOWSEXEBUNDLERARGUMENTS-26C9A39C">
+<p class="subhead1">Windows EXE Bundler Arguments</p>
+<dl>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-CDEF4C3A-C6B7-42F9-95E2-C6A80A40F020"><!-- --></a><code class="codeph">copyright=<span class="variable">string</span></code></dt>
+<dd>
+<p>Copyright string for the application. The string must be a single line no longer than 100 characters. This argument is used in various executable file and registry metadata.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-E715A68E-7D5B-4A83-9035-A725E22EF4FE"><!-- --></a><code class="codeph">installdirChooser=<span class="variable">boolean</span></code></dt>
+<dd>
+<p>Flag that indicates if the user can choose the directory in which the application is installed. Set to <code class="codeph">true</code> to show a dialog box for the user to choose the directory. Set to <code class="codeph">false</code> to install the application in the directory indicated by the <code class="codeph">systemWide</code> argument. The default is <code class="codeph">false</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-A18C1ACB-A275-492A-9A44-ED38263C997F"><!-- --></a><code class="codeph">licenseFile=<span class="variable">path</span></code></dt>
+<dd>
+<p>Location of the End User License Agreement (EULA) to be presented or recorded by the bundler. The path is relative to the packaged application resources, for example, <code class="codeph">-BlicenseFile=COPYING</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-6F17F968-9FA3-447C-B942-01415D028042"><!-- --></a><code class="codeph">menuHint=<span class="variable">boolean</span></code></dt>
+<dd>
+<p>Flag that indicates if a shortcut is installed on the Start menu or Start screen. Set to <code class="codeph">true</code> to install the shortcut. The default is <code class="codeph">true</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-656CE5BD-D5A9-478C-B602-F35C421D4F68"><!-- --></a><code class="codeph">shortcutHint=<span class="variable">boolean</span></code></dt>
+<dd>
+<p>Flag that indicates if a shortcut is placed on the desktop. Set to <code class="codeph">true</code> to add a shortcut to the desktop. The default is <code class="codeph">false</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-F1533885-206B-49AA-B047-89ABB835E9C5"><!-- --></a><code class="codeph">systemWide=<span class="variable">boolean</span></code></dt>
+<dd>
+<p>Flag that indicates if the application is installed in the <code>Program Files</code> directory or in the standard location in the users home directory. Set to <code class="codeph">true</code> to install the application in <code>Program Files</code>. Set to <code class="codeph">false</code> to install the application in the user's home directory. The default is <code class="codeph">false</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-985FFFBB-F6BC-44A0-881A-3452D28CF52C"><!-- --></a><code class="codeph">win.menuGroup=<span class="variable">group</span></code></dt>
+<dd>
+<p>Menu group in which to install the application when <code class="codeph">menuHint</code> is <code class="codeph">true</code>. This argument is ignored when <code class="codeph">menuHint</code> is <code class="codeph">false</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-FDCBE039-FF6B-4D30-8A50-5E839EF1A890"><!-- --></a><code class="codeph">vendor=<span class="variable">value</span></code></dt>
+<dd>
+<p>Corporation, organization, or individual providing the application. This argument is used in various executable file and registry metadata.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__WINDOWSMSIBUNDLERARGUMENTS-26C9A792">
+<p class="subhead1">Windows MSI Bundler Arguments</p>
+<dl>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-D08FABC0-F03E-4782-B0C4-9A3999430F84"><!-- --></a><code class="codeph">installdirChooser=<span class="variable">boolean</span></code></dt>
+<dd>
+<p>Flag that indicates if the user can choose the directory in which the application is installed. Set to <code class="codeph">true</code> to show a dialog box for the user to choose the directory. Set to <code class="codeph">false</code> to install the application in the directory indicated by the <code class="codeph">systemWide</code> argument. The default is <code class="codeph">false</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-1196B8E6-8445-44CC-93C2-9C1B6808E771"><!-- --></a><code class="codeph">licenseFile=<span class="variable">path</span></code></dt>
+<dd>
+<p>Location of the End User License Agreement (EULA) to be presented or recorded by the bundler. The path is relative to the packaged application resources, for example, <code class="codeph">-BlicenseFile=COPYING</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-D6BAD214-EB0F-423A-96A3-7DE4F877E3CC"><!-- --></a><code class="codeph">menuHint=<span class="variable">boolean</span></code></dt>
+<dd>
+<p>Flag that indicates if a shortcut is installed on the Start menu or Start screen. Set to <code class="codeph">true</code> to install the shortcut. The default is <code class="codeph">true</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-EE83B6B2-5618-4F45-B6C2-CCD66A841781"><!-- --></a><code class="codeph">shortcutHint=<span class="variable">boolean</span></code></dt>
+<dd>
+<p>Flag that indicates if a shortcut is placed on the desktop. Set to <code class="codeph">true</code> to add a shortcut to the desktop. The default is <code class="codeph">false</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-D8318396-C07F-43C8-BC1F-3036122BFFDD"><!-- --></a><code class="codeph">systemWide=<span class="variable">boolean</span></code></dt>
+<dd>
+<p>Flag that indicates if the application is installed in the Program Files directory or in the standard location in the users home directory. Set to <code class="codeph">true</code> to install the application in Program Files. Set to <code class="codeph">false</code> to install the application in the user's home directory. The default is <code class="codeph">true</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-34B579B9-E149-4573-8CC5-D0655A851091"><!-- --></a><code class="codeph">win.menuGroup=<span class="variable">group</span></code></dt>
+<dd>
+<p>Menu group in which to install the application when <code class="codeph">menuHint</code> is <code class="codeph">true</code>. This argument is ignored when <code class="codeph">menuHint</code> is <code class="codeph">false</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-A3A26E89-E907-4810-9261-B56266A71D2D"><!-- --></a><code class="codeph">vendor=<span class="variable">value</span></code></dt>
+<dd>
+<p>Corporation, organization, or individual providing the application. This argument is used in various executable file and registry metadata.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__DEPRECATEDOPTIONS-26C9AC46">
+<p class="subhead1">Deprecated Options</p>
+<p>The following options are no longer used by the packaging tool and are ignored if present.</p>
+<dl>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-78822868-8F15-433B-8315-F2C83340F589"><!-- --></a><code class="codeph">-embedCertificates</code></dt>
+<dd>
+<p>If present, the certificates will be embedded in the JNLP file. Deprecated <code class="codeph">&ndash;deploy</code> option.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-E394B7D5-3ECE-40C5-A5FB-8B648B16439E"><!-- --></a><code class="codeph">-noembedlauncher</code></dt>
+<dd>
+<p>If present, the packager will not add the JavaFX launcher classes to the JAR file. Deprecated.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__NOTES-26C9AF9C">
+<p class="subhead1">Notes</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>A <code class="codeph">-v</code> option can be used with any task command to enable verbose output.</p>
+</li>
+<li>
+<p>When the <code class="codeph">-srcdir</code> option is allowed in a command, it can be used more than once. If the <code class="codeph">-srcfiles</code> option is specified, then the files named in the argument are looked for in the location specified in the preceding <code class="codeph">-srcdir</code> option. If there is no <code class="codeph">-srcdir</code> preceding <code class="codeph">-srcfiles</code>, then the directory from which the <code class="codeph">javapackager</code> command is executed is used.</p>
+</li>
+</ul>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__EXAMPLES-26C9B3C2">
+<p class="subhead1">Examples</p>
+<dl>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-7355FE5B-12D2-42AB-8579-A9D9DC8E9317"><!-- --></a>Example 1&nbsp;&nbsp;&nbsp;Using the -createjar Command</dt>
+<dd>
+<pre dir="ltr">
+javapackager -createjar -appclass package.ClassName
+  -srcdir classes -outdir out -outfile outjar -v
+</pre>
+<p>Packages the contents of the <code class="codeph">classes</code> directory to <code class="codeph">outjar.jar</code>, and sets the application class to <code class="codeph">package.ClassName</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-084F69F2-9068-4A08-A85E-CE4BCE6212A5"><!-- --></a>Example 2&nbsp;&nbsp;&nbsp;Using the -deploy Command</dt>
+<dd>
+<pre dir="ltr">
+javapackager -deploy -outdir outdir -outfile outfile -width 34 -height 43 
+  -name AppName -appclass package.ClassName -v -srcdir compiled
+</pre>
+<p>Generates <code class="codeph">outfile.jnlp</code> and the corresponding <code class="codeph">outfile.html</code> files in <code class="codeph">outdir</code> for the application <code class="codeph">AppName</code>, which is started by <code class="codeph">package.ClassName</code> and has dimensions of 34 by 43 pixels.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-847772F4-A4DC-447D-93BB-2DA9C5A11C8F"><!-- --></a>Example 3&nbsp;&nbsp;&nbsp;Using the -makeall Command</dt>
+<dd>
+<div class="infobox-note" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-449A34D8-8270-4240-8FFF-4E9C0E47F76F">
+<p class="notep1">Note:</p>
+<span>The <code class="codeph">-makeall</code> command for the Java Packager tool is deprecated in JDK 9 in preparation for removal in a future release.</span></div>
+<pre dir="ltr">
+javapackager -makeall -appclass brickbreaker.Main -name BrickBreaker -width 600
+-height 600
+</pre>
+<p>Does all the packaging work including compilation, <code class="codeph">createjar</code>, and <code class="codeph">deploy</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-5F79E32B-0BF8-476B-9DD1-F81644614F37"><!-- --></a>Example 4&nbsp;&nbsp;&nbsp;Using the -signjar Command</dt>
+<dd>
+<div class="infobox-note" id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-A2606A94-DE08-4C80-955A-B8C1F34812D0">
+<p class="notep1">Note:</p>
+<span>The <code class="codeph">-signjar</code> command for the Java Packager tool is deprecated in JDK 9 in preparation for removal in a future release.</span> It also doesn&rsquo;t work with multirelease JAR files. Use the <a href="jarsigner.htm" title="You use the jarsigner tool to sign and verify Java Archive (JAR) files.">jarsigner</a> tool to sign the JAR file.</div>
+<pre dir="ltr">
+javapackager -signJar -outdir dist -keyStore sampleKeystore.jks -storePass ****
+-alias duke -keypass **** -srcdir dist
+</pre>
+<p>Signs all of the JAR files in the <code class="codeph">dist</code> directory, attaches a certificate with the specified alias, <code class="codeph">keyStore</code> and <code class="codeph">storePass</code>, and puts the signed JAR files back into the <code class="codeph">dist</code> directory.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-E51F9601-E121-4A50-BCA7-C7F8730078B2__GUID-3A712154-7B78-43E3-B6E7-B28635033638"><!-- --></a>Example 5&nbsp;&nbsp;&nbsp;Using the -deploy Command with Bundler Arguments</dt>
+<dd>
+<p><span class="bold">Linux</span>:</p>
+<p>Generates the native Linux Debian package for running the <code class="codeph">BrickBreaker</code> application as a self-contained application.</p>
+<pre dir="ltr">
+javapackager -deploy -native deb -Bcategory=Education -BjvmOptions=-Xmx128m 
+    -BjvmOptions=-Xms128m -outdir packages -outfile BrickBreaker -srcdir dist 
+    -srcfiles BrickBreaker.jar -appclass brickbreaker.Main -name BrickBreaker 
+    -title "BrickBreaker demo"
+</pre>
+<p><span class="bold">Windows</span>:</p>
+<p>Generates the native Windows EXE package for running the <code class="codeph">BrickBreaker</code> application as a self-contained application.</p>
+<pre dir="ltr">
+javapackager -deploy -native exe -BsystemWide=true -BjvmOptions=-Xmx128m 
+    -BjvmOptions=-Xms128m -outdir packages -outfile BrickBreaker -srcdir dist 
+    -srcfiles BrickBreaker.jar -appclass brickbreaker.Main -name BrickBreaker 
+    -title "BrickBreaker demo"
+</pre></dd>
+</dl>
+</div>
+<!-- class="section" --></div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment179">
+<tr>
+<td class="cellalignment191">
+<table class="cellalignment184">
+<tr>
+<td class="cellalignment183"><a href="unpack200.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment183"><a href="java-web-start-tool.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment193">
+<table class="cellalignment182">
+<tr>
+<td class="cellalignment183"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment183"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment183"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

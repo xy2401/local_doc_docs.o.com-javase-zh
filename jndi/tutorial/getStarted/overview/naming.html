@@ -1,0 +1,193 @@
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Naming Package</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="directory.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/getStartedHeader.gif" width=26 height=26 align=bottom border=0 alt="Getting Started | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>JNDI Overview</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Naming Package
+</h2>
+<p>
+<blockquote>
+
+The
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/package-summary.html><tt>javax.naming</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/package-summary.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     package contains classes and interfaces for accessing naming
+services.  
+
+
+<h4>Context</h4>
+<p>
+The <tt>javax.naming</tt> package defines a
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html><tt>Context</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   interface, which is the core interface for looking up, binding/unbinding, 
+renaming objects and creating and destroying subcontexts.
+<p>
+The most commonly used operation is
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><tt>lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+You supply <tt>lookup()</tt>
+the name of the object you want
+to look up, and it returns the object bound to that name.
+For example, the following code fragment looks up 
+a printer and sends a document to the printer object
+to be printed.
+
+<blockquote>
+<pre>
+Printer printer = (Printer)ctx.lookup("treekiller");
+printer.print(report);
+</pre>
+</blockquote>
+
+<h4>Names</h4>
+<p>
+Every naming method in the <tt>Context</tt>
+interface has two
+overloads: one that accepts a 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Name.html><tt>Name</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Name.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     argument and one that accepts a <tt>java.lang.String</tt> name.
+<tt>Name</tt> is an interface that represents a generic 
+<a href=../concepts/glossary.html#NAME>name</a>--an ordered sequence of zero or more components.
+For the methods in the <tt>Context</tt> interface, a <tt>Name</tt> argument that is an instance of
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html><tt>CompositeName</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    represents a
+<a href=../concepts/glossary.html#COMPOSITENAME>composite name</a>
+, so you can name an object using a name that spans multiple namespaces.
+A <tt>Name</tt> argument of any other type represents a 
+<a href=../concepts/glossary.html#COMPOUNDNAME>compound name</a>.
+(Names are covered in the
+<a target="_top" href="../../beyond/index.html">Beyond the Basics</a> <a target="_top" href="../../beyond/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    trail.)
+The overloads that accept <tt>Name</tt>
+are useful for applications that need to manipulate names, that is, composing
+them, comparing components, and so on.
+<p>
+A <tt>java.lang.String</tt> name argument represents a composite name.
+The overloads that accept <tt>java.lang.String</tt> names are likely to be more useful
+for simple applications, such as those that simply read in a name
+and look up the corresponding object.
+
+<h4>Bindings</h4>
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#listBindings(javax.naming.Name)"><tt>listBindings()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#listBindings(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     returns an enumeration of name-to-object 
+<a href=../concepts/glossary.html#BINDING>bindings</a>. 
+Each binding is represented by an instance of the 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Binding.html><tt>Binding</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Binding.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     class.
+A binding is a tuple containing the name of the bound object,
+the name of the object's class, and the object itself.
+<p>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><tt>list()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     is similar to <tt>listBindings()</tt>,
+except that it returns an enumeration of 
+
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameClassPair.html><tt>NameClassPair</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameClassPair.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. 
+<tt>NameClassPair</tt> contains an object's name and the name of
+the object's class.
+<tt>list()</tt> is useful for applications such
+as browsers that want to discover information about the objects
+bound within a context but that don't need all of the actual objects.
+Although <tt>listBindings()</tt> provides all of the same information,
+it is potentially a much more expensive operation.
+
+<h4>References</h4>
+Objects are stored in naming and directory services in different ways.
+A service that supports storing Java objects 
+might support storing an object in its serialized form.
+However, some naming and directory services do not support the
+storing of Java objects. Furthermore, for some
+objects in the directory, Java programs are but one group of applications 
+that access them. In this case, a serialized Java object might
+not be the most appropriate representation.
+A reference might be a very compact representation
+of an object, whereas its serialized form might contain a lot more state
+(see the
+<a target="_top" href="../concepts/naming.html#REF">Naming Concepts</a> <a target="_top" href="../concepts/naming.html#REF"><img src="../../jndiimages/getStartedIcon.gif" width=20 height=20 border=0 alt="(in the Getting Started trail)"></a>    lesson).
+<p>
+The JNDI defines the
+
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html><tt>Reference</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     class
+to represent a <a href=../concepts/glossary.html#REFERENCE>reference</a>.
+A reference contains information on how to construct a copy of the object.
+The JNDI will attempt to turn references looked up from the directory
+into the Java objects that they represent so that
+JNDI clients have the illusion that what
+is stored in the directory are Java objects. 
+
+
+<h4>The Initial Context</h4>
+
+In the JNDI, all naming and directory operations are performed relative
+to a context. There are no absolute roots.
+Therefore the JNDI defines an 
+<a href=../concepts/glossary.html#IC><em>initial context</em></a>,
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html><tt>InitialContext</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, which provides a starting point for naming and directory operations.
+Once you have an initial context, you can use it to
+look up other contexts and objects.
+
+<h4>Exceptions</h4>
+
+The JNDI defines a class hierarchy for exceptions that can be thrown in
+the course of performing naming and directory operations.  The root of
+this class hierarchy is 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html><tt>NamingException</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+Programs interested in dealing with a particular exception
+can catch the corresponding subclass of the exception.
+Otherwise, they should catch <tt>NamingException</tt>.
+
+
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="directory.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/getStartedHeader.gif" width=26 height=26 align=top border=0 alt="Getting Started | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>JNDI Overview</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

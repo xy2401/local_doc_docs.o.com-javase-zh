@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Introduction to JMX Technology</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="dcterms.created" content="2018-03-13T13:07:03Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Java Management Extensions Guide" />
+<meta name="dcterms.identifier" content="E91147-01" />
+<meta name="dcterms.isVersionOf" content="JSJMX" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;2006, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="java-management-extensions-jmx-user-guide.htm" title="Previous" type="text/html" />
+<link rel="Next" href="jmx-technology-architecture.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSJMX.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-72DCB4C1-93F8-4F37-B46E-2C708139C8A5"></a> <span id="PAGE" style="display:none;">5/95</span> <!-- End Header -->
+<h1 id="JSJMX-GUID-72DCB4C1-93F8-4F37-B46E-2C708139C8A5" class="sect1"><span class="enumeration_chapter">1</span> Introduction to JMX Technology</h1>
+<div>
+<p>If you are already familiar with Java Management Extensions (JMX) technology, see <a href="jmx-technology-versions.htm#GUID-5971D87D-657F-4768-BF21-04A5407CB5C8">JMX Technology Versions</a> for version information.</p>
+<p>JMX technology provides a simple, standard way of managing resources such as applications, devices, and services. Because JMX technology is dynamic, you can use it to monitor and manage resources as they are created, installed and implemented. You can also use JMX technology to monitor and manage the Java Virtual Machine (Java VM).</p>
+<p>JMX technology was developed through the Java Community Process (JCP) as two closely related Java Specification Requests (JSRs):</p>
+<ul style="list-style-type: disc;">
+<li><cite>JSR 3: Java Management Extensions (JMX) Specification</cite></li>
+</ul>
+<ul style="list-style-type: disc;">
+<li><cite>JSR 160: Java Management Extensions (JMX) Remote API</cite></li>
+</ul>
+<p>The JSRs are defined by the API documentation that is generated by the Javadoc tool, and in the PDF specification documents for each JSR.</p>
+<p>As its name indicates, the JMX Remote API adds remote capabilities to the JMX Specification, enabling you to remotely monitor and manage applications, systems, and networks. In this guide, the term <span class="bold">JMX technology</span> is used to describe both the JMX Specification and the JMX Remote API.</p>
+<p>This chapter introduces JMX technology in the following sections:</p>
+<ul style="list-style-type: disc;">
+<li><a href="introduction-jmx-technology.htm#GUID-594402DE-E4A7-40ED-8308-4E4DE0B06DAC">What Is JMX Technology</a></li>
+<li><a href="introduction-jmx-technology.htm#GUID-CCF1F9D8-1918-4FB1-93FF-EAF3BD239F43">Why Use JMX Technology</a></li>
+</ul>
+</div>
+<div class="sect2"><a id="GUID-594402DE-E4A7-40ED-8308-4E4DE0B06DAC"></a>
+<h2 id="JSJMX-GUID-594402DE-E4A7-40ED-8308-4E4DE0B06DAC" class="sect2">What Is JMX Technology</h2>
+<div>
+<p>The JMX specification defines in the Java programming language an architecture, the design patterns, the APIs, and the services for application and network management and monitoring.</p>
+<p>Using JMX technology, one or more Java objects known as Managed Beans (MBeans) instruments a specified resource. These MBeans are registered in a core managed object server, known as an MBean server. The MBean server acts as a management agent and can run on most devices enabled for the Java programming language.</p>
+<p>The specification defines JMX agents that you can use to manage resources that are instrumented in compliance with the specification. A JMX agent consists of an MBean server, in which MBeans are registered, and a set of services for handling MBeans. JMX agents directly control resources and make them available to remote management applications.</p>
+<p>The way in which resources are instrumented is completely independent from the management infrastructure. Resources can therefore be rendered manageable regardless of how their management applications are implemented.</p>
+<p>JMX technology defines standard connectors (JMX connectors) that enable you to access JMX agents from remote management applications. JMX connectors use different protocols to provide the same management interface. A management application can manage resources transparently, regardless of the communication protocol that is used. JMX agents can be used by systems and applications that are not compliant with the JMX Specification but which support JMX agents.</p>
+</div>
+</div>
+<div class="sect2"><a id="GUID-CCF1F9D8-1918-4FB1-93FF-EAF3BD239F43"></a>
+<h2 id="JSJMX-GUID-CCF1F9D8-1918-4FB1-93FF-EAF3BD239F43" class="sect2">Why Use JMX Technology</h2>
+<div>
+<p>JMX technology provides Java developers across all industries with a flexible means to instrument Java code, create smart Java agents, implement distributed management middleware and managers, and smoothly integrate these solutions into existing management and monitoring systems.</p>
+<ul style="list-style-type: disc;">
+<li><span class="bold">JMX technology enables management of Java applications without heavy investment</span>: A JMX technology agent can run on most Java technology-enabled devices, thus Java applications can become manageable with little impact on their design. A Java application simply needs to embed a managed object server and make some of its functionality available as one or several managed beans (MBeans) registered in the object server; that is all it takes to benefit from the management infrastructure.</li>
+<li><span class="bold">JMX technology provides a standard way to manage Java technology-based applications, systems, and networks</span>: For example, the Java Platform, Enterprise Edition (Java EE) 5 Application Server conforms to the JMX architecture and consequently can be managed using JMX technology.</li>
+<li><span class="bold">JMX technology can be used for out-of-the-box management of the Java Virtual Machine (JVM)</span>: The JVM is highly instrumented using JMX technology. You can easily start a JMX agent to access the built-in JVM instrumentation, and to monitor and manage the JVM remotely.</li>
+<li><span class="bold">JMX technology provides a scalable, dynamic, management architecture</span>: Each JMX agent service is an independent module that can be plugged in to the management agent. This component-based approach means that JMX solutions can scale from small-footprint devices to large telecommunications switches and beyond. The JMX Specification provides a set of core agent services. Additional services can be developed and dynamically loaded, unloaded, or updated in the management infrastructure.</li>
+<li><span class="bold">JMX technology takes advantage of existing standard Java technologies</span>: When needed, the JMX Specification references existing Java specifications, for example, the Java Naming and Directory Interface (JNDI).</li>
+<li><span class="bold">JMX module for the NetBeans IDE makes creating JMX applications easier</span>: You can obtain the JMX module from the NetBeans Update Center.</li>
+<li><span class="bold">JMX technology integrates with existing management solutions and emerging technologies</span>: For example, JMX agents can be managed through an HTML browser. The JMX APIs provide open interfaces that any management system vendor can use. JMX solutions can use lookup and discovery services and protocols such as Jini Technology and the Service Location Protocol (SLP).</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment263">
+<tr>
+<td class="cellalignment270">
+<table class="cellalignment268">
+<tr>
+<td class="cellalignment267"><a href="java-management-extensions-jmx-user-guide.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment267"><a href="jmx-technology-architecture.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;2006, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment272">
+<table class="cellalignment266">
+<tr>
+<td class="cellalignment267"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment267"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment267"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

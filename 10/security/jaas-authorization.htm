@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>JAAS Authorization</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="dcterms.created" content="2018-03-13T07:25:33Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Security Developer&rsquo;s Guide" />
+<meta name="dcterms.identifier" content="E91076-01" />
+<meta name="dcterms.isVersionOf" content="JSSEC" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="jaas-authentication.htm" title="Previous" type="text/html" />
+<link rel="Next" href="use-jaas-login-utility.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSSEC.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-69241059-CCD0-49F6-838F-DDC752F9F19F"></a> <span id="PAGE" style="display:none;">26/59</span> <!-- End Header -->
+<h1 id="JSSEC-GUID-69241059-CCD0-49F6-838F-DDC752F9F19F" class="sect1">JAAS Authorization</h1>
+<div>
+<p>This tutorial expands the program and policy file developed in the <a href="jaas-authentication.htm#GUID-0C6EB04B-D203-4688-A3E2-A7D442334623">JAAS Authentication</a> tutorial to demonstrate the JAAS authorization component, which ensures the authenticated caller has the access control rights (permissions) required to do subsequent security-sensitive operations. Since the authorization component requires that the user authentication first be completed, please read the <a href="jaas-authentication.htm#GUID-0C6EB04B-D203-4688-A3E2-A7D442334623">JAAS Authentication</a> tutorial first if you have not already done so.</p>
+<p>The rest of this tutorial consists of the following sections:</p>
+<ul style="list-style-type: disc;">
+<li><a href="jaas-authorization.htm#GUID-95EBDFAE-D531-45ED-BF48-4CC122E483E1">What is JAAS Authorization?</a></li>
+<li><a href="jaas-authorization.htm#GUID-9B40B33D-3618-4F98-9DDE-9A639F751CA4">How Is JAAS Authorization Performed?</a>
+<ul style="list-style-type: disc;">
+<li><a href="jaas-authorization.htm#GUID-80F0B546-1E95-457B-8EF7-5BB1519E20A4">How Do You Make Principal-Based Policy File Statements?</a></li>
+<li><a href="jaas-authorization.htm#GUID-86CC2E0C-58B9-4E35-91E1-EC130EE2E4FC">How Do You Associate a Subject with an Access Control Context?</a></li>
+</ul>
+</li>
+<li><a href="jaas-authorization.htm#GUID-6C7F947A-E2F3-4C1A-BF58-8198E4E9B6D3">The Authorization Tutorial Code</a></li>
+<li><a href="jaas-authorization.htm#GUID-C7E4B4C5-1541-4482-BA11-98A1D489CA76">The Login Configuration File</a></li>
+<li><a href="jaas-authorization.htm#GUID-19567566-CC1A-4440-AE33-D7C6AB305D3F">The Policy File</a></li>
+<li><a href="jaas-authorization.htm#GUID-F22DFBEC-7DF0-4CFB-B882-B5A58C2C76B1">Running the Authorization Tutorial Code</a></li>
+</ul>
+<p>If you want to first see the tutorial code in action, you can skip directly to <a href="jaas-authorization.htm#GUID-F22DFBEC-7DF0-4CFB-B882-B5A58C2C76B1">Running the Authorization Tutorial Code</a> and then go back to the other sections to learn more.</p>
+</div>
+<div class="sect2"><a id="GUID-95EBDFAE-D531-45ED-BF48-4CC122E483E1"></a>
+<h2 id="JSSEC-GUID-95EBDFAE-D531-45ED-BF48-4CC122E483E1" class="sect2">What is JAAS Authorization?</h2>
+<div>
+<p>JAAS authorization extends the existing Java security architecture that uses a security policy (see <a href="permissions-jdk1.htm#GUID-789089CA-8557-4017-B8B0-6899AD3BA18D">Default Policy Implementation and Policy File Syntax</a>) to specify what access rights are granted to executing code. That architecture is <span class="variable">code-centric</span>. That is, the permissions are granted based on code characteristics: where the code is coming from and whether it is digitally signed and if so by whom. We saw an example of this in the <code class="codeph">jaasacn.policy</code> file used in the <a href="jaas-authentication.htm#GUID-0C6EB04B-D203-4688-A3E2-A7D442334623">JAAS Authentication</a> tutorial. That file contains the following:</p>
+<pre dir="ltr">
+grant codebase "file:./JaasAcn.jar" {
+   permission javax.security.auth.AuthPermission 
+                    "createLoginContext.JaasSample";
+};
+</pre>
+<p>This grants the code in the <code class="codeph">JaasAcn.jar</code> file, located in the current directory, the specified permission. (No signer is specified, so it doesn't matter whether the code is signed or not.)</p>
+<p>JAAS authorization augments the existing code-centric access controls with new <span class="variable">user-centric</span> access controls. Permissions can be granted based not just on what code is running but also on <span class="variable">who</span> is running it.</p>
+<p>When an application uses JAAS authentication to authenticate the user (or other entity such as a service), a <a href="https://docs.oracle.com/javase/10/docs/api/javax/security/auth/Subject.html" target="_blank"><span class="apiname">Subject</span></a> is created as a result. The purpose of the <span class="apiname">Subject</span> is to represent the authenticated user. A <span class="apiname">Subject</span> is comprised of a set of <a href="https://docs.oracle.com/javase/10/docs/api/java/security/Principal.html" target="_blank"><span class="apiname">Principal</span></a>s, where each <span class="apiname">Principal</span> represents an identity for that user. For example, a <span class="apiname">Subject</span> could have a name <span class="apiname">Principal</span> ("Susan Smith") and a Social Security Number Principal ("987-65-4321"), thereby distinguishing this <span class="apiname">Subject</span> from other Subjects.</p>
+<p>Permissions can be granted in the policy to specific <span class="apiname">Principal</span>s. After the user has been authenticated, the application can associate the <span class="apiname">Subject</span> with the current access control context. For each subsequent security-checked operation, (a local file access, for example), the Java runtime will automatically determine whether the policy grants the required permission only to a specific <span class="apiname">Principal</span> and if so, the operation will be allowed only if the <span class="apiname">Subject</span> associated with the access control context contains the designated <span class="apiname">Principal</span>.</p>
+</div>
+</div>
+<div class="sect2"><a id="GUID-9B40B33D-3618-4F98-9DDE-9A639F751CA4"></a>
+<h2 id="JSSEC-GUID-9B40B33D-3618-4F98-9DDE-9A639F751CA4" class="sect2">How Is JAAS Authorization Performed?</h2>
+<div>
+<p>To make JAAS authorization take place, the following is required:</p>
+<ul style="list-style-type: disc;">
+<li>The user must be authenticated, as described in the <a href="jaas-authentication.htm#GUID-0C6EB04B-D203-4688-A3E2-A7D442334623">JAAS Authentication</a> tutorial.</li>
+<li>Principal-based entries must be configured in the security policy. See <a href="jaas-authorization.htm#GUID-80F0B546-1E95-457B-8EF7-5BB1519E20A4">How Do You Make Principal-Based Policy File Statements?</a></li>
+<li>The Subject that is the result of authentication must be associated with the current access control context. See <a href="jaas-authorization.htm#GUID-86CC2E0C-58B9-4E35-91E1-EC130EE2E4FC">How Do You Associate a Subject with an Access Control Context?</a></li>
+</ul>
+</div>
+<div class="sect3"><a id="GUID-80F0B546-1E95-457B-8EF7-5BB1519E20A4"></a>
+<h3 id="JSSEC-GUID-80F0B546-1E95-457B-8EF7-5BB1519E20A4" class="sect3">How Do You Make Principal-Based Policy File Statements?</h3>
+<div>
+<p>Policy file <code class="codeph">grant</code> statements can now optionally include one or more Principal fields (see <a href="permissions-jdk1.htm#GUID-789089CA-8557-4017-B8B0-6899AD3BA18D">Default Policy Implementation and Policy File Syntax</a>). Inclusion of a Principal field indicates that the user or other entity represented by the specified Principal, executing the specified code, has the designated permissions.</p>
+<p>Thus, the basic format of a <code class="codeph">grant</code> statement is now</p>
+<pre dir="ltr">
+grant &lt;<span class="variable">signer(s) field</span>&gt;, &lt;<span class="variable">codeBase URL</span>&gt; 
+  &lt;<span class="variable">Principal field(s)</span>&gt; {
+    permission <span class="variable">perm_class_name</span> "<span class="variable">target_name</span>", "<span class="variable">action</span>";
+    ....
+    permission <span class="variable">perm_class_name</span> "<span class="variable">target_name</span>", "<span class="variable">action</span>";
+  };
+</pre>
+<p>where each of the signer, codeBase and Principal fields is optional and the order between the fields doesn't matter.</p>
+<p>A Principal field looks like the following:</p>
+<pre dir="ltr">
+Principal <span class="variable">Principal_class</span> "<span class="variable">principal_name</span>"
+</pre>
+<p>That is, it is the word "Principal" (where case doesn't matter) followed by the (fully qualified) name of a Principal class and a principal name.</p>
+<p>A <span class="apiname">Principal</span> class is a class that implements the <a href="https://docs.oracle.com/javase/10/docs/api/java/security/Principal.html" target="_blank"><span class="apiname">java.security.Principal</span></a> interface. All Principal objects have an associated name that can be obtained by calling their <code class="codeph">getName</code> method. The format used for the name is dependent on each <span class="apiname">Principal</span> implementation.</p>
+<p>The type of <span class="apiname">Principal</span> placed in the <span class="apiname">Subject</span> created by the Kerberos authentication mechanism used by this tutorial is <code class="codeph">javax.security.auth.kerberos.KerberosPrincipal</code>, so that is what should be used as the <code class="codeph"><span class="variable">Principal_class</span></code> part of our <code class="codeph">grant</code> statement's <span class="apiname">Principal</span> designation. User names for <code class="codeph">KerberosPrincipal</code>s are of the form <code class="codeph"><span class="variable">name</span>@<span class="variable">realm</span></code>. Thus, if the user name is <code class="codeph">mjones</code> and the realm is <code class="codeph">KRBNT-OPS.ABC.COM</code>, the full <code class="codeph"><span class="variable">principal_name</span></code> designation to use in the <code class="codeph">grant</code> statement is <code class="codeph">mjones@KRBNT-OPS.ABC.COM</code>.</p>
+<p>It is possible to include more than one Principal field in a <code class="codeph">grant</code> statement. If multiple Principal fields are specified, then the permissions in that <code class="codeph">grant</code> statement are granted only if the Subject associated with the current access control context contains <span class="variable">all</span> of those Principals.</p>
+<p>To grant the same set of permissions to different Principals, create multiple <code class="codeph">grant</code> statements where each lists the permissions and contains a single Principal field designating one of the Principals.</p>
+<p>The policy file for this tutorial includes one <code class="codeph">grant</code> statement with a Principal field:</p>
+<pre dir="ltr">
+grant codebase "file:./SampleAction.jar",
+    Principal javax.security.auth.kerberos.KerberosPrincipal 
+        "your_user_name@your_realm"  {
+
+   permission java.util.PropertyPermission "java.home", "read";
+   permission java.util.PropertyPermission "user.home", "read";
+   permission java.io.FilePermission "foo.txt", "read";
+};
+</pre>
+<p>where you substitute your Kerberos user name (complete with "@" and realm) for <code class="codeph">your_user_name@your_realm</code>. This specifies that the indicated permissions are granted to the specified principal executing the code in <code class="codeph">SampleAction.jar</code>.</p>
+</div>
+</div>
+<div class="sect3"><a id="GUID-86CC2E0C-58B9-4E35-91E1-EC130EE2E4FC"></a>
+<h3 id="JSSEC-GUID-86CC2E0C-58B9-4E35-91E1-EC130EE2E4FC" class="sect3">How Do You Associate a Subject with an Access Control Context?</h3>
+<div>
+<p>To create and associate a Subject with an access control context, you need the following:</p>
+<ul style="list-style-type: disc;">
+<li>The user must first be authenticated, as described in <a href="jaas-authentication.htm#GUID-0C6EB04B-D203-4688-A3E2-A7D442334623">JAAS Authentication</a>.</li>
+<li>The static <code class="codeph">doAs</code> method from the <span class="apiname">Subject</span> class must be called, passing it an authenticated <span class="apiname">Subject</span> and a <a href="https://docs.oracle.com/javase/10/docs/api/java/security/PrivilegedAction.html" target="_blank"><span class="apiname">java.security.PrivilegedAction</span></a> or <a href="https://docs.oracle.com/javase/10/docs/api/java/security/PrivilegedExceptionAction.html" target="_blank"><span class="apiname">java.security.PrivilegedExceptionAction</span></a>. (See <a href="java-se-platform-security-architecture.htm#GUID-BB3C8FB3-1A1A-47F3-8536-3952B84F46F2" title="This section explains what privileged code is and what it is used for. It also shows you how to use the doPrivileged API.">Appendix A: API for Privileged Blocks</a> for a comparison of <span class="apiname">PrivilegedAction</span> and <span class="apiname">PrivilegedExceptionAction</span>.) The <code class="codeph">doAs</code> method associates the provided <span class="apiname">Subject</span> with the current access control context and then invokes the <code class="codeph">run</code> method from the action. The <code class="codeph">run</code> method implementation contains all the code to be executed as the specified <span class="apiname">Subject</span>. The action thus executes as the specified <span class="apiname">Subject</span>.
+<p>The static <code class="codeph">doAsPrivileged</code> method from the <span class="apiname">Subject</span> class may be called instead of the <code class="codeph">doAs</code> method. In addition to the parameters passed to <code class="codeph">doAs</code>, <code class="codeph">doAsPrivileged</code> requires a third parameter: an <span class="apiname">AccessControlContext</span>. Unlike <code class="codeph">doAs</code>, which associates the provided Subject with the current access control context, <code class="codeph">doAsPrivileged</code> associates the <span class="apiname">Subject</span> with the provided access control context. See <a href="java-authentication-and-authorization-service-jaas-reference-guide.htm#GUID-97198A0C-B488-4D24-A242-CAFA8F70DFA5">doAs versus doAsPrivileged</a> in the JAAS Reference Guide for a comparison of those methods.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2"><a id="GUID-6C7F947A-E2F3-4C1A-BF58-8198E4E9B6D3"></a>
+<h2 id="JSSEC-GUID-6C7F947A-E2F3-4C1A-BF58-8198E4E9B6D3" class="sect2">The Authorization Tutorial Code</h2>
+<div>
+<p>The code for this tutorial consists of two files:</p>
+<ul style="list-style-type: disc;">
+<li><a href="source-code-jaas-and-java-gss-api-tutorials.htm#GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__JAASAZN.JAVA-33892F00"><code>JaasAzn.java</code></a> is exactly the same as the <code class="codeph">JaasAcn.java</code> from the <a href="jaas-authentication.htm#GUID-0C6EB04B-D203-4688-A3E2-A7D442334623">JAAS Authentication</a> tutorial except for the additional code needed to call <code class="codeph">Subject.doAsPrivileged</code>.</li>
+<li><a href="source-code-jaas-and-java-gss-api-tutorials.htm#GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__SAMPLEACTION.JAVA-33893145"><code>SampleAction.java</code></a> contains the <span class="apiname">SampleAction</span> class. This class implements <span class="apiname">PrivilegedAction</span> and has a <code class="codeph">run</code> method that contains all the code we want to be executed with <span class="apiname">Principal</span>-based authorization checks.</li>
+</ul>
+</div>
+<div class="sect3"><a id="GUID-EEBB584B-80FA-4EDD-B57A-BED4CCFE4EB4"></a>
+<h3 id="JSSEC-GUID-EEBB584B-80FA-4EDD-B57A-BED4CCFE4EB4" class="sect3">JaasAzn.java</h3>
+<div>
+<p><a href="source-code-jaas-and-java-gss-api-tutorials.htm#GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__JAASAZN.JAVA-33892F00"><code>JaasAzn.java</code></a> is exactly the same as the <code class="codeph">JaasAcn.java</code> code used in the previous tutorial except with three statements added at the end of the <code class="codeph">main</code> method, after the authentication is done. These statements result in (1) association of a <span class="apiname">Subject</span> representing the authenticated user with the current access control context and (2) execution of the code in the <code class="codeph">run</code> method of <code class="codeph">SampleAction</code>. Associating the <span class="apiname">Subject</span> with the access control context enables security-sensitive operations in the <code class="codeph">SampleAction</code> <code class="codeph">run</code> method (and any code it invokes directly or indirectly) to be executed if a <span class="apiname">Principal</span> representing the authenticated user is granted the required permissions in the current policy.</p>
+<p>Like <code class="codeph">JaasAcn.java</code>, <code class="codeph">JaasAzn.java</code> instantiates a <span class="apiname">LoginContext</span> <code class="codeph">lc</code> and calls its <code class="codeph">login</code> method to perform the authentication. If successful, the authenticated <span class="apiname">Subject</span> (which includes a <span class="apiname">Principal</span> representing the user) is obtained by calling the <span class="apiname">LoginContext</span>'s <code class="codeph">getSubject</code> method:</p>
+<pre dir="ltr">
+Subject mySubject = lc.getSubject();
+</pre>
+<p>The <code class="codeph">main</code> method then calls <code class="codeph">Subject.doAsPrivileged</code>, passing it the authenticated <span class="apiname">Subject</span> <code class="codeph">mySubject</code>, a <span class="apiname">PrivilegedAction</span> (<code class="codeph">SampleAction</code>) and a <code class="codeph">null</code> <span class="apiname">AccessControlContext</span>, as described in the following.</p>
+<p>The <code class="codeph">SampleAction</code> class is instantiated via the following:</p>
+<pre dir="ltr">
+PrivilegedAction action = new SampleAction();
+</pre>
+<p>The call to <code class="codeph">Subject.doAsPrivileged</code> is performed via:</p>
+<pre dir="ltr">
+Subject.doAsPrivileged(mySubject, action, null);
+</pre>
+<p>The <code class="codeph">doAsPrivileged</code> method invokes execution of the <code class="codeph">run</code> method in the <span class="apiname">PrivilegedAction</span> <code class="codeph">action</code> (<code class="codeph">SampleAction</code>) to initiate execution of the rest of the code, which is considered to be executed on behalf of the Subject <code class="codeph">mySubject</code>.</p>
+<p>Passing <code class="codeph">null</code> as the <span class="apiname">AccessControlContext</span> (third) argument to <code class="codeph">doAsPrivileged</code> indicates that <code class="codeph">mySubject</code> should be associated with a new empty <span class="apiname">AccessControlContext</span>. The result is that security checks occurring during execution of <code class="codeph">SampleAction</code> will only require permissions for the <code class="codeph">SampleAction</code> code itself (or other code it invokes), running as <code class="codeph">mySubject</code>. Note that the caller of <code class="codeph">doAsPrivileged</code> (and the callers on the execution stack at the time <code class="codeph">doAsPrivileged</code> was called) do not require any permissions while the action executes.</p>
+</div>
+</div>
+<div class="sect3"><a id="GUID-994AEA05-292D-418A-8C2D-A32E3A9AC7D3"></a>
+<h3 id="JSSEC-GUID-994AEA05-292D-418A-8C2D-A32E3A9AC7D3" class="sect3">SampleAction.java</h3>
+<div>
+<p><a href="source-code-jaas-and-java-gss-api-tutorials.htm#GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__SAMPLEACTION.JAVA-33893145"><code>SampleAction.java</code></a> contains the <span class="apiname">SampleAction</span> class. This class implements <code class="codeph">java.security.PrivilegedAction</code> and has a <code class="codeph">run</code> method that contains all the code we want to be executed as the Subject <code class="codeph">mySubject</code>. For this tutorial, we will perform three operations, each of which cannot be done unless code has been granted required permissions. We will:</p>
+<ul style="list-style-type: disc;">
+<li>Read and print the value of the <code class="codeph">java.home</code> system property,</li>
+<li>Read and print the value of the <code class="codeph">user.home</code> system property, and</li>
+<li>Determine whether or not a file named <code class="codeph">foo.txt</code> exists in the current directory.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2"><a id="GUID-C7E4B4C5-1541-4482-BA11-98A1D489CA76"></a>
+<h2 id="JSSEC-GUID-C7E4B4C5-1541-4482-BA11-98A1D489CA76" class="sect2">The Login Configuration File</h2>
+<div>
+<p>The login configuration file used for this tutorial can be exactly the same as that used by the <a href="jaas-authentication.htm#GUID-0C6EB04B-D203-4688-A3E2-A7D442334623">JAAS Authentication</a> tutorial. Thus we can use <a href="source-code-jaas-and-java-gss-api-tutorials.htm#GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__JASS.CONF-33892AE7"><span class="apiname">jaas.conf</span></a>, which contains just one entry:</p>
+<pre dir="ltr">
+JaasSample {
+  com.sun.security.auth.module.Krb5LoginModule required;
+};
+</pre>
+<p>This entry is named "JaasSample" and that is the name that both our tutorial applications <code class="codeph">JaasAcn</code> and <code class="codeph">JaasAzn</code> use to refer to it. The entry specifies that the <span class="apiname">LoginModule</span> to be used to do the user authentication is the <span class="apiname">Krb5LoginModule</span> in the <code class="codeph">com.sun.security.auth.module</code> package and that this <span class="apiname">Krb5LoginModule</span> is required to "succeed" in order for authentication to be considered successful. The <span class="apiname">Krb5LoginModule</span> succeeds only if the name and password supplied by the user are successfully used to log the user into the Kerberos KDC.</p>
+</div>
+</div>
+<div class="sect2"><a id="GUID-19567566-CC1A-4440-AE33-D7C6AB305D3F"></a>
+<h2 id="JSSEC-GUID-19567566-CC1A-4440-AE33-D7C6AB305D3F" class="sect2">The Policy File</h2>
+<div>
+<p>This authorization tutorial contains two classes, <code class="codeph">JaasAzn</code> and <code class="codeph">SampleAction</code>. The code in each class contains some security-sensitive operations and thus relevant permissions are required in a policy file in order for the operations to be executed.</p>
+</div>
+<div class="sect3"><a id="GUID-90DA29A4-6980-49EB-B4F0-21E6678AB7A2"></a>
+<h3 id="JSSEC-GUID-90DA29A4-6980-49EB-B4F0-21E6678AB7A2" class="sect3">Permissions Required by JaasAzn</h3>
+<div>
+<p>The main method of the <code class="codeph">JaasAzn</code> class does two operations for which permissions are required. It</p>
+<ul style="list-style-type: disc;">
+<li>creates a <span class="apiname">LoginContext</span>, and</li>
+<li>calls the <code class="codeph">doAsPrivileged</code> static method of the <span class="apiname">Subject</span> class.</li>
+</ul>
+<p>The <span class="apiname">LoginContext</span> creation is exactly the same as was done in the authentication tutorial, and it thus needs the same <code class="codeph">javax.security.auth.AuthPermission</code> permission with target <code class="codeph">createLoginContext.JaasSample</code>.</p>
+<p>In order to call the <code class="codeph">doAsPrivileged</code> method of the Subject class, you need to have a <code class="codeph">javax.security.auth.AuthPermission</code> with target <code class="codeph">doAsPrivileged</code>.</p>
+<p>Assuming the <code class="codeph">JaasAzn</code> class is placed in a JAR file named <code class="codeph">JaasAzn.jar</code>, these permissions can be granted to the <code class="codeph">JaasAzn</code> code via the following <code class="codeph">grant</code> statement in the policy file:</p>
+<pre dir="ltr">
+grant codebase "file:./JaasAzn.jar" {
+   permission javax.security.auth.AuthPermission 
+                    "createLoginContext.JaasSample";
+   permission javax.security.auth.AuthPermission "doAsPrivileged";
+};
+</pre></div>
+</div>
+<div class="sect3"><a id="GUID-9ADEB874-E415-4ABC-BB20-70FBBFF87F84"></a>
+<h3 id="JSSEC-GUID-9ADEB874-E415-4ABC-BB20-70FBBFF87F84" class="sect3">Permissions Required by SampleAction</h3>
+<div>
+<p>The <code class="codeph">SampleAction</code> code does three operations for which permissions are required. It</p>
+<ul style="list-style-type: disc;">
+<li>reads the value of the <code class="codeph">java.home</code> system property.</li>
+<li>reads the value of the <code class="codeph">user.home</code> system property.</li>
+<li>checks to see whether or not a file named <code class="codeph">foo.txt</code> exists in the current directory.</li>
+</ul>
+<p>The permissions required for these operations are the following:</p>
+<pre dir="ltr">
+permission java.util.PropertyPermission "java.home", "read";
+permission java.util.PropertyPermission "user.home", "read";
+permission java.io.FilePermission "foo.txt", "read";
+</pre>
+<p>We need to grant these permissions to the code in <code class="codeph">SampleAction.class</code>, which we will place in a JAR file named <code class="codeph">SampleAction.jar</code>. However, for this particular <code class="codeph">grant</code> statement we want to grant the permissions not just to the <span class="variable">code</span> but to a specific user executing the code, to demonstrate how to restrict access to a particular user.</p>
+<p>Thus, as explained in <a href="jaas-authorization.htm#GUID-80F0B546-1E95-457B-8EF7-5BB1519E20A4">How Do You Make Principal-Based Policy File Statements?</a>, our <code class="codeph">grant</code> statement looks like the following:</p>
+<pre dir="ltr">
+grant codebase "file:./SampleAction.jar",
+    Principal javax.security.auth.kerberos.KerberosPrincipal 
+        "your_user_name@your_realm"  {
+
+   permission java.util.PropertyPermission "java.home", "read";
+   permission java.util.PropertyPermission "user.home", "read";
+   permission java.io.FilePermission "foo.txt", "read";
+};
+</pre>
+<p>You substitute your Kerberos user name (complete with "@" and realm) for <code class="codeph">your_user_name@your_realm</code>. For example, if your user name is <code class="codeph">mjones</code> and your realm is <code class="codeph">KRBNT-OPERATIONS.ABC.COM</code>, you would use <code class="codeph">mjones@KRBNT-OPERATIONS.ABC.COM</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect2"><a id="GUID-F22DFBEC-7DF0-4CFB-B882-B5A58C2C76B1"></a>
+<h2 id="JSSEC-GUID-F22DFBEC-7DF0-4CFB-B882-B5A58C2C76B1" class="sect2">Running the Authorization Tutorial Code</h2>
+<div>
+<p>To execute our JAAS authorization tutorial code, all you have to do is</p>
+<ol>
+<li>Place the following files into a directory:
+<ul style="list-style-type: disc;">
+<li>The <a href="source-code-jaas-and-java-gss-api-tutorials.htm#GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__JAASAZN.JAVA-33892F00"><code>JaasAzn.java</code></a> source file.</li>
+<li>The <a href="source-code-jaas-and-java-gss-api-tutorials.htm#GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__SAMPLEACTION.JAVA-33893145"><code>SampleAction.java</code></a> source file.</li>
+<li>The <a href="source-code-jaas-and-java-gss-api-tutorials.htm#GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__JASS.CONF-33892AE7"><code>jaas.conf</code></a> login configuration file.</li>
+<li>The <a href="source-code-jaas-and-java-gss-api-tutorials.htm#GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__JASSAZN.POLICY-3389344E"><code>jaasazn.policy</code></a> policy file.</li>
+</ul>
+</li>
+<li>Replace <code class="codeph">your_user_name@your_realm</code> in <code class="codeph">jaasazn.policy</code> with your user name and realm.</li>
+<li>Compile <code class="codeph">SampleAction.java</code> and <code class="codeph">JaasAzn.java</code>:
+<pre dir="ltr">
+javac SampleAction.java JaasAzn.java
+</pre></li>
+<li>Create a JAR file named <code class="codeph">JaasAzn.jar</code> containing <code class="codeph">JaasAzn.class</code>:
+<pre dir="ltr">
+jar -cvf JaasAzn.jar JaasAzn.class
+</pre></li>
+<li>Create a JAR file named <code class="codeph">SampleAction.jar</code> containing <code class="codeph">SampleAction.class</code>:
+<pre dir="ltr">
+jar -cvf SampleAction.jar SampleAction.class
+</pre></li>
+<li>Execute the <code class="codeph">JaasAzn</code> application, specifying
+<ol>
+<li>by an appropriate <code class="codeph">-classpath</code> clause that classes should be searched for in the <code class="codeph">JaasAzn.jar</code> and <code class="codeph">SampleAction.jar</code> JAR files,</li>
+<li>by <code class="codeph">-Djava.security.manager</code> that a security manager should be installed,</li>
+<li>by <code class="codeph">-Djava.security.krb5.realm=<span class="variable">&lt;your_realm&gt;</span></code> that your Kerberos realm is the one specified.</li>
+<li>by <code class="codeph">-Djava.security.krb5.kdc=<span class="variable">&lt;your_kdc&gt;</span></code> that your Kerberos KDC is the one specified.</li>
+<li>by <code class="codeph">-Djava.security.policy=jaasazn.policy</code> that the policy file to be used is <code class="codeph">jaasazn.policy</code>, and</li>
+<li>by <code class="codeph">-Djava.security.auth.login.config=jaas.conf</code> that the login configuration file to be used is <code class="codeph">jaas.conf</code>.</li>
+</ol>
+<p>Below are the full commands to use for Windows, Solaris, Linux, and macOS. The only difference is that on Windows you use semicolons to separate classpath items, while you use colons for that purpose on Solaris, Linux, and macOS.</p>
+<div class="infobox-note" id="GUID-F22DFBEC-7DF0-4CFB-B882-B5A58C2C76B1__GUID-727C449C-ADA7-4370-8CA3-BF4DA171C9D7">
+<p class="notep1">Note:</p>
+<p><span class="bold">Be sure to replace <code class="codeph"><span class="variable">&lt;your_realm&gt;</span></code> with your Kerberos realm, and <code class="codeph"><span class="variable">&lt;your_kdc&gt;</span></code> with your Kerberos KDC.</span></p>
+</div>
+<p>Here is the full command for Windows:</p>
+<pre dir="ltr">
+java -classpath JaasAzn.jar;SampleAction.jar 
+ -Djava.security.manager 
+ -Djava.security.krb5.realm=<span class="variable">&lt;your_realm&gt;</span> 
+ -Djava.security.krb5.kdc=<span class="variable">&lt;your_kdc&gt;</span> 
+ -Djava.security.policy=jaasazn.policy 
+ -Djava.security.auth.login.config=jaas.conf JaasAzn
+</pre>
+<p>Here is the full command for Solaris, Linux, and macOS:</p>
+<pre dir="ltr">
+java -classpath JaasAzn.jar:SampleAction.jar 
+ -Djava.security.manager 
+ -Djava.security.krb5.realm=<span class="variable">&lt;your_realm&gt;</span> 
+ -Djava.security.krb5.kdc=<span class="variable">&lt;your_kdc&gt;</span> 
+ -Djava.security.policy=jaasazn.policy 
+ -Djava.security.auth.login.config=jaas.conf JaasAzn
+</pre>
+<p>Type the full command on one line. Multiple lines are used here for legibility. If the command is too long for your system, you may need to place it in a .bat file (for Windows) or a .sh file (for Solaris, Linux, and macOS) and then run that file to execute the command.</p>
+<p>You will be prompted for your Kerberos user name and password, and the underlying Kerberos authentication mechanism specified in the login configuration file will log you into Kerberos. If your login is successful, you will see the message "Authentication succeeded!" and if not, you will see "Authentication Failed."</p>
+<p>For login troubleshooting suggestions, see <a href="troubleshooting.htm#GUID-2087ADBA-6C36-43D5-8841-C79FCB4F5FBE">Troubleshooting</a>.</p>
+<p>Once authentication is successfully completed, the rest of the program (in <code class="codeph">SampleAction</code>) will be executed on behalf of you, the user, requiring you to have been granted appropriate permissions. The <code class="codeph">jaasazn.policy</code> policy file grants you the required permissions, so you will see a display of the values of your <code class="codeph">java.home</code> and <code class="codeph">user.home</code> system properties and a statement as to whether or not you have a file named <code class="codeph">foo.txt</code> in the current directory.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment455">
+<tr>
+<td class="cellalignment462">
+<table class="cellalignment460">
+<tr>
+<td class="cellalignment459"><a href="jaas-authentication.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment459"><a href="use-jaas-login-utility.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment464">
+<table class="cellalignment458">
+<tr>
+<td class="cellalignment459"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment459"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment459"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

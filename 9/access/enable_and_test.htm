@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Enabling and Testing Java Access Bridge</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="By default, Java Access Bridge is not enabled. Enable it either through the command line or the Windows Control Panel. Test it by running a Java application that uses the Accessibility API." />
+<meta name="dcterms.created" content="2017-10-12T13:24:17Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Java Accessibility Guide" />
+<meta name="dcterms.identifier" content="E71688-03" />
+<meta name="dcterms.isVersionOf" content="JSACC" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="java-access-bridge-overview.htm" title="Previous" type="text/html" />
+<link rel="Next" href="java-access-bridge-architecture.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSACC.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSACC.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSACC.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-7890D37B-16F2-48EC-B45F-2A6CF0613EE5"></a> <span id="PAGE" style="display:none;">6/10</span> <!-- End Header -->
+<h1 id="JSACC-GUID-7890D37B-16F2-48EC-B45F-2A6CF0613EE5" class="sect1">Enabling and Testing Java Access Bridge</h1>
+<div>
+<p>By default, Java Access Bridge is not enabled. Enable it either through the command line or the Windows Control Panel. Test it by running a Java application that uses the Accessibility API.</p>
+<div class="section">
+<p class="subhead1">Topics</p>
+<ul style="list-style-type: disc;">
+<li><a href="enable_and_test.htm#GUID-E5390F1B-1BDE-493B-B6E9-62F5AC0AEE8E" title="Java Access Bridge is included with JRE 7u6 and later.">Java Access Bridge Supported Java SE Platforms</a></li>
+<li><a href="enable_and_test.htm#GUID-62BE28D5-400B-469E-BE22-E82047983C05" title="Enable Java Access Bridge with the jabswitch command.">Enabling Java Access Bridge Through the Command Line</a></li>
+<li><a href="enable_and_test.htm#GUID-89BB3387-2E87-423D-99DB-E10B583C2C96" title="Enable Java Access Bridge through the Control Panel with the Ease of Access Center.">Enabling Java Access Bridge Through the Control Panel</a></li>
+<li><a href="enable_and_test.htm#GUID-5E67CF19-FF47-4C41-B872-1309846294A4" title="Disable Java Access Bridge with the jabswitch command.">Disabling Java Access Bridge</a></li>
+<li><a href="enable_and_test.htm#GUID-C011B04B-A1F0-4AB6-86A9-A37D36A9625D" title="Test Java Access Bridge by first installing a supported assistive technology then running a Java application that uses the Accessibility API.">Testing Java Access Bridge</a></li>
+<li><a href="enable_and_test.htm#GUID-88CAD8EF-E48B-478F-8BC0-046350A0BE26" title="Use the jaccessinspector and jaccesswalker tools, which are part of the JRE and JDK, to test Java Access Bridge.">Java Access Bridge Tools</a></li>
+<li><a href="enable_and_test.htm#GUID-B7FF4E99-224F-487A-92ED-CF1DEF3FF385" title="This topic lists the minimum version requirements of some assistive technologies for 64-bit operating systems.">Minimum Version Requirements of Assistive Technologies on 64-Bit Operating Systems</a></li>
+</ul>
+</div>
+<!-- class="section" --></div>
+<div class="sect2"><a id="GUID-E5390F1B-1BDE-493B-B6E9-62F5AC0AEE8E"></a>
+<h2 id="JSACC-GUID-E5390F1B-1BDE-493B-B6E9-62F5AC0AEE8E" class="sect2">Java Access Bridge Supported Java SE Platforms</h2>
+<div>
+<p>Java Access Bridge is included with JRE 7u6 and later.</p>
+</div>
+</div>
+<div class="sect2"><a id="GUID-62BE28D5-400B-469E-BE22-E82047983C05"></a>
+<h2 id="JSACC-GUID-62BE28D5-400B-469E-BE22-E82047983C05" class="sect2">Enabling Java Access Bridge Through the Command Line</h2>
+<div>
+<p>Enable Java Access Bridge with the <code>jabswitch</code> command.</p>
+<div class="section">
+<p>Run the following command (where <code>%JRE_HOME%</code> is the directory of your JRE):</p>
+<pre dir="ltr">
+%JRE_HOME%\bin\jabswitch -enable
+</pre></div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-89BB3387-2E87-423D-99DB-E10B583C2C96"></a>
+<h2 id="JSACC-GUID-89BB3387-2E87-423D-99DB-E10B583C2C96" class="sect2">Enabling Java Access Bridge Through the Control Panel</h2>
+<div>
+<p>Enable Java Access Bridge through the Control Panel with the Ease of Access Center.</p>
+<ol>
+<li><span>Click <span class="bold">Start</span>, select <span class="bold">Control Panel</span>, then <span class="bold">Ease of Access</span>, then <span class="bold">Ease of Access Center</span>. Alternatively, press Windows logo key + U to access the Ease of Access Center.</span></li>
+<li><span>Select <span class="bold">Use the computer without a display</span>.</span></li>
+<li><span>In the section <span class="bold">Other programs installed</span>, select the check box <span class="bold">Enable Java Access Bridge</span> (you may have to scroll down).</span></li>
+</ol>
+</div>
+</div>
+<div class="sect2"><a id="GUID-5E67CF19-FF47-4C41-B872-1309846294A4"></a>
+<h2 id="JSACC-GUID-5E67CF19-FF47-4C41-B872-1309846294A4" class="sect2">Disabling Java Access Bridge</h2>
+<div>
+<p>Disable Java Access Bridge with the <code>jabswitch</code> command.</p>
+<div class="section"></div>
+<!-- class="section" -->
+<div class="section">
+<p>Run the following command:</p>
+<pre dir="ltr">
+%JRE_HOME%\bin\jabswitch -disable
+</pre>
+<div class="infobox-note" id="GUID-5E67CF19-FF47-4C41-B872-1309846294A4__GUID-12DCA1DC-2445-49D5-936C-ACF7F80271CA">
+<p class="notep1">Note:</p>
+You cannot disable Java Access Bridge through the Windows Ease of Access Center.</div>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-C011B04B-A1F0-4AB6-86A9-A37D36A9625D"></a>
+<h2 id="JSACC-GUID-C011B04B-A1F0-4AB6-86A9-A37D36A9625D" class="sect2">Testing Java Access Bridge</h2>
+<div>
+<p>Test Java Access Bridge by first installing a supported assistive technology then running a Java application that uses the Accessibility API.</p>
+<ol>
+<li class="stepexpand"><span>Ensure that Java Access Bridge is enabled.</span></li>
+<li class="stepexpand"><span>Install an assistive technology product that supports Java Access Bridge such as one of the following products:</span>
+<div>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="http://www.oracle.com/pls/topic/lookup?ctx=javase9&amp;id=jaws_home_page" target="_blank">JAWS</a></p>
+</li>
+<li>
+<p><a href="http://www.oracle.com/pls/topic/lookup?ctx=javase9&amp;id=nvda_home_page" target="_blank">NonVisual Desktop Access (NVDA)</a></p>
+</li>
+<li>
+<p><a href="http://www.oracle.com/pls/topic/lookup?ctx=javase9&amp;id=window_eyes_home_page" target="_blank">Window-Eyes</a></p>
+</li>
+<li>
+<p><a href="http://www.oracle.com/pls/topic/lookup?ctx=javase9&amp;id=zoomtext_home_page" target="_blank">ZoomText</a></p>
+</li>
+<li>
+<p><a href="http://www.oracle.com/pls/topic/lookup?ctx=javase9&amp;id=dophin_supernova_home_page" target="_blank">SuperNova</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li class="stepexpand"><span>Run a Java application that uses the <a href="https://docs.oracle.com/javase/9/docs/api/javax/accessibility/package-summary.html" target="_blank"><code class="codeph">javax.accessibility</code></a> package and ensure that your assistive technology product works properly with it.</span></li>
+</ol>
+</div>
+</div>
+<div class="sect2"><a id="GUID-88CAD8EF-E48B-478F-8BC0-046350A0BE26"></a>
+<h2 id="JSACC-GUID-88CAD8EF-E48B-478F-8BC0-046350A0BE26" class="sect2">Java Access Bridge Tools</h2>
+<div>
+<p>Use the <code>jaccessinspector</code> and <code>jaccesswalker</code> tools, which are part of the JRE and JDK, to test Java Access Bridge.</p>
+<div class="section">The <a class="olink JSWOR-GUID-F70952CE-C8A1-4D1C-8277-DF8F8D6A6973" target="_blank" href="../tools/jaccessinspector.htm#JSWOR-GUID-F70952CE-C8A1-4D1C-8277-DF8F8D6A6973"><code>jaccessinspector</code></a> tool uses the Java Accessibility Utilities API to examine accessible information about the objects in the Java Virtual Machine. The <a class="olink JSWOR-GUID-B451D421-D232-4031-8968-27C177E3566C" target="_blank" href="../tools/jaccesswalker.htm#JSWOR-GUID-B451D421-D232-4031-8968-27C177E3566C"><code>jaccesswalker</code></a> tool walks through the component trees in a particular Java Virtual Machine and presents the accessibility hierarchy in a tree view. Find these tools in the JRE's or JDK's <code>bin</code> directory.</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-B7FF4E99-224F-487A-92ED-CF1DEF3FF385"></a>
+<h2 id="JSACC-GUID-B7FF4E99-224F-487A-92ED-CF1DEF3FF385" class="sect2">Minimum Version Requirements of Assistive Technologies on 64-Bit Operating Systems</h2>
+<div>
+<p>This topic lists the minimum version requirements of some assistive technologies for 64-bit operating systems.</p>
+<div class="section">
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold">JAWS</span>: Version 13 and later</p>
+</li>
+<li>
+<p><span class="bold">NVDA</span>: Version 2011.3 and later</p>
+</li>
+<li>
+<p><span class="bold">SuperNova</span>: Version 13 and later</p>
+</li>
+<li>
+<p><span class="bold">Window-Eyes</span>: Version 8.2 and later</p>
+</li>
+<li>
+<p><span class="bold">ZoomText</span>: Version 10.1.5 and later</p>
+</li>
+</ul>
+<div class="infobox-note" id="GUID-B7FF4E99-224F-487A-92ED-CF1DEF3FF385__GUID-6C2F1F4E-CE37-4A2C-B6E9-A5B7B954CB84">
+<p class="notep1">Note:</p>
+64-bit applications require 64-bit browsers; in particular, if you use Internet Explorer, ensure it's the 64-bit version.</div>
+</div>
+<!-- class="section" --></div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment39">
+<tr>
+<td class="cellalignment46">
+<table class="cellalignment49">
+<tr>
+<td class="cellalignment43"><a href="java-access-bridge-overview.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment43"><a href="java-access-bridge-architecture.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment48">
+<table class="cellalignment42">
+<tr>
+<td class="cellalignment43"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment43"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment43"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

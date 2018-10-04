@@ -1,0 +1,1268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<!-- GenHTML revision 23965-->
+<meta http-equiv="Content-type" content=
+"text/html; charset=utf-8" />
+<title>AWT - Troubleshooting Guide for Java SE 7 Desktop
+Technologies</title>
+<meta http-equiv="content-language" content="en-US" />
+<meta name="robots" content="index,follow" />
+<meta name="language" content="en" />
+<meta name="collection" content="reference" />
+<meta name="keywords" content="" />
+<meta name="description" content=
+"This document is a guide to help troubleshoot problems that might arise with applications that are deployed using the release of Java Platform, Standard Edition 7 (Java SE 7). Most of the information also applies to Java SE 5." />
+<meta name="date" content="2008-09-01" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/default.css" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/pagelayout.css" />
+<link rel="alternate stylesheet" type="text/css" title="print"
+href="css/print.css" />
+<script type="text/javascript">
+//<![CDATA[
+function setActiveStyleSheet(title) {
+  var i, a, main;
+  for (i=0; (a = document.getElementsByTagName("link")[i]); i++) {
+         if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+                a.disabled = true;
+                if(a.getAttribute("title") == title) a.disabled = false;
+         }
+  }
+}
+
+function ClearDefault(Element) {
+   if (Element.defaultValue == Element.value) {
+        Element.value = ""
+        Element.style.cssText = "font-weight: bold; color: #00000"
+   }
+}
+
+//]]>
+</script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<div class="MastheadPane">
+<table class="MastheadTable" width="100%">
+<tr class="closeprintview">
+<td align="right"><a href="#" onclick=
+"setActiveStyleSheet('screen')">Exit Print View</a></td>
+</tr>
+<tr class="titlebar">
+<td>
+<h4 class="contentpage-doctitle"><a href="toc.html">Troubleshooting
+Guide for Java SE 7 Desktop Technologies</a></h4>
+</td>
+<td class="smallLogo"><a href="http://www.oracle.com"><img src=
+"graphics/smallOracleLogo.gif" /></a></td>
+</tr>
+</table>
+</div>
+<div class="ButtonPane">
+<table class="pagecontrol">
+<tr>
+<td class="pagebuttons"><a href="#" onclick=
+"setActiveStyleSheet('print')"><img height="46" width="40" border=
+"0" src="graphics/print.gif" alt="Print View" title=
+"Print View" /></a></td>
+<td class="pagebreadcrumb"></td>
+<td class="pagenavlinks"><a href="introduction.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="java2d.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+<div class="TOCPane">
+<p class="toc level1"><a href="docinfo.html">Document
+Information</a></p>
+<p class="toc level1 tocsp"><a href="preface.html">Preface</a></p>
+<p class="toc level1 tocsp"><a href=
+"introduction.html">1.&#160;&#160;Introduction</a></p>
+<div id="scrolltoc" class="onpage">
+<p class="toc level1 tocsp"><a href="">2.&#160;&#160;AWT</a></p>
+<p class="toc level2"><a href="#gchlz">2.1 Debugging Tips for
+AWT</a></p>
+<p class="toc level2"><a href="#gdaai">2.2 Problems With
+Layout</a></p>
+<p class="toc level2"><a href="#gdkbc">2.3 Key Events</a></p>
+<p class="toc level3"><a href="#gdkat">2.3.1 General Unresolved
+Keyboard Issues</a></p>
+<p class="toc level3"><a href="#gdkce">2.3.2 Linux and Solaris 10
+OS x86 Keyboard Issues</a></p>
+<p class="toc level2 tocsp"><a href="#gdjqu">2.4 Modality</a></p>
+<p class="toc level3"><a href="#gdjrp">2.4.1 UNIX Window
+Managers</a></p>
+<p class="toc level3"><a href="#gdjrc">2.4.2 Using Modal Dialogs
+from Applets</a></p>
+<p class="toc level3"><a href="#gdjrs">2.4.3 Other Modal
+Problems</a></p>
+<p class="toc level2 tocsp"><a href="#gdgyw">2.5 Memory
+Leaks</a></p>
+<p class="toc level3"><a href="#gdgym">2.5.1 Troubleshooting Memory
+Leaks</a></p>
+<p class="toc level3"><a href="#gdgzf">2.5.2 Memory Leak
+Issues</a></p>
+<p class="toc level2 tocsp"><a href="#gdaey">2.6 Crashes</a></p>
+<p class="toc level3"><a href="#gdafm">2.6.1 How to Distinguish an
+AWT Crash</a></p>
+<p class="toc level3"><a href="#gdafa">2.6.2 How to Troubleshoot a
+Crash in AWT</a></p>
+<p class="toc level2 tocsp"><a href="#gdaao">2.7 Problems With
+Focus</a></p>
+<p class="toc level3"><a href="#gcwtq">2.7.1 How to Trace Focus
+Events</a></p>
+<p class="toc level3"><a href="#gdcqp">2.7.2 Communication With
+Native Focus System</a></p>
+<p class="toc level3"><a href="#gcwuv">2.7.3 Focus System in the
+Plugin</a></p>
+<p class="toc level3"><a href="#gcwun">2.7.4 Focus Models Supported
+by X Window Managers</a></p>
+<p class="toc level3"><a href="#gdabn">2.7.5 Miscellaneous Problems
+With Focus</a></p>
+<p class="toc level2 tocsp"><a href="#gdjsp">2.8 Drag and
+Drop</a></p>
+<p class="toc level3"><a href="#gdjzz">2.8.1 Debugging Drag and
+Drop Applications</a></p>
+<p class="toc level3"><a href="#gdjzb">2.8.2 Frequent Issues With
+Drag and Drop</a></p>
+<p class="toc level2 tocsp"><a href="#gdadm">2.9 Other
+Issues</a></p>
+<p class="toc level3"><a href="#gdjxs">2.9.1 Splash Screen
+Issues</a></p>
+<p class="toc level3"><a href="#gdgzh">2.9.2 Tray Icon
+Issues</a></p>
+<p class="toc level3"><a href="#gdgyg">2.9.3 Popup Menu
+Issues</a></p>
+<p class="toc level3"><a href="#gdacx">2.9.4 Background/Foreground
+Color Inheritance</a></p>
+<p class="toc level3"><a href="#gdadu">2.9.5 AWT Panel Size
+Restriction</a></p>
+<p class="toc level3"><a href="#gdadua">2.9.6 Hangs when debugging
+popup menus and similar components on X11</a></p>
+<p class="toc level3"><a href="#gdadub">2.9.7
+Window.toFront()/toBack() behavior on X11</a></p>
+<p class="toc level2 tocsp"><a href="#gdaduc">2.10
+Heavyweight/Lightweight Components Mixing</a></p>
+<p class="toc level3"><a href="#gdadud">2.10.1 The requirement of
+validating the component hierarchy</a></p>
+<p class="toc level3"><a href="#gdadue">2.10.2 Validate
+roots</a></p>
+<p class="toc level3"><a href="#gdaduf">2.10.3 Swing painting
+optimizations</a></p>
+<p class="toc level3"><a href="#gdadug">2.10.4 Non-opaque
+lightweight components</a></p>
+<p class="toc level3"><a href="#gdaduh">2.10.5 Disabling the
+default hw/lw mixing feature implementation</a></p>
+</div>
+<p class="toc level1 tocsp"><a href=
+"java2d.html">3.&#160;&#160;Java 2D</a></p>
+<p class="toc level1 tocsp"><a href=
+"swing.html">4.&#160;&#160;Swing</a></p>
+<p class="toc level1 tocsp"><a href=
+"i18n.html">5.&#160;&#160;Internationalization</a></p>
+<p class="toc level1 tocsp"><a href="sound.html">6.&#160;&#160;Java
+Sound</a></p>
+<p class="toc level1 tocsp"><a href=
+"plugin.html">7.&#160;&#160;Applets and Java Web Start
+Applications</a></p>
+<p class="toc level1 tocsp"><a href=
+"bugreports.html">8.&#160;&#160;Submitting Bug Reports</a></p>
+<p class="toc level1 tocsp"><a href=
+"java2d-props.html">A.&#160;&#160;Java 2D Properties</a></p>
+<p class="toc level1 tocsp"><a href=
+"felog.html">B.&#160;&#160;Fatal Error Log</a></p>
+</div>
+<div class="ContentPane"><a name="awt" id="awt"></a>Chapter&#160;2
+<h2>AWT</h2>
+<p>This chapter provides information and guidance on some specific
+procedures for troubleshooting some of the most common issues that
+might be found in the Java SE AWT API:</p>
+<ul>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gchlz">2.1 Debugging Tips for AWT</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdaai">2.2 Problems With Layout</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdkbc">2.3 Key Events</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdjqu">2.4 Modality</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdgyw">2.5 Memory Leaks</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdaey">2.6 Crashes</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdaao">2.7 Problems With Focus</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdjsp">2.8 Drag and Drop</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdadm">2.9 Other Issues</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdaduc">2.10 Heavyweight/Lightweight Components Mixing</a></p>
+</li>
+</ul>
+<a name="gchlz" id="gchlz"></a>
+<h3>2.1 Debugging Tips for AWT</h3>
+<p>The following AWT debugging tips can be helpful:</p>
+<ul>
+<li>Solaris OS and Linux only: To trace X11 errors, set the
+<code>sun.awt.noisyerrorhandler</code> system property to
+<code>true</code>. In Java SE 6 and before, the
+<code>NOISY_AWT</code> environment variable was used for this
+purpose.</li>
+<li>
+<p>To dump the AWT component hierarchy, press Ctrl+Shift+F1.</p>
+</li>
+<li>
+<p>If the application hangs, get a stack trace with Ctrl+\
+(SIGQUIT) on Solaris OS and Linux or Ctrl+Break on Windows.</p>
+</li>
+</ul>
+<p>Prior to Java SE 7, exceptions thrown in the AWT Event Dispatch
+Thread (EDT) could be caught by setting the system property
+<code>sun.awt.exception.handler</code> to the name of a class that
+implements a <code>public void handle(Throwable)</code> method.
+This mechanism has been updated in Java SE 7 to use the standard
+<a href=
+"http://download.oracle.com/javase/7/docs/api/java/lang/Thread.UncaughtExceptionHandler.html">
+<code>Thread.UncaughtExceptionHandler</code></a> interface.</p>
+<p>Loggers can produce helpful output when debugging AWT problems.
+For information on using loggers, consult the <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/logging/overview.html">
+Java Logging Overview</a> and the <a href=
+"http://download.oracle.com/javase/7/docs/api/java/util/logging/package-summary.html">
+<code>java.util.logging</code> package description</a>.</p>
+<p>The following loggers are available:</p>
+<ul>
+<li>java.awt</li>
+<li>java.awt.focus</li>
+<li>java.awt.event</li>
+<li>java.awt.mixing</li>
+<li>sun.awt</li>
+<li>sun.awt.windows</li>
+<li>sun.awt.X11</li>
+</ul>
+<a name="gdaai" id="gdaai"></a>
+<h3>2.2 Problems With Layout</h3>
+<p>This section describes some possible problems with layout and
+provides workarounds when available.</p>
+<dl>
+<dt><b>Issue: Call to</b> <tt>invalidate()</tt> <b>and</b>
+<tt>validate()</tt> <b>increases Component size.</b></dt>
+<dd>
+<p><b>Cause:</b> Due to some specifics of the layout manager
+<tt>GridBagLayout</tt>, if <tt>ipadx</tt> or <tt>ipady</tt> is set,
+and if <tt>invalidate()</tt> and <tt>validate()</tt> are called,
+then Component size increases to the value of <tt>ipadx</tt> or
+<tt>ipady</tt>. This happens because the layout manager
+<tt>GridBagLayout</tt> iteratively calculates the amount of space
+needed to store the component within the container.</p>
+<p><b>Workaround:</b> The JDK does not provide a reliable and
+simple way to detect if the layout manager should rearrange
+components or not in such a case, but there is a very simple
+workaround. Use components with the overridden method
+<tt>getPreferredSize()</tt>, which always returns the current
+needed size.</p>
+<pre>
+public Dimension getPreferredSize(){
+   return new Dimension(size+xpad*2+1, size+ypad*2+1); 
+}
+</pre></dd>
+<dt><b>Issue: Infinite recursion with</b> <tt>validate()</tt>
+<b>from any</b> <tt>Container.doLayout()</tt> <b>method.</b></dt>
+<dd>
+<p><b>Cause:</b> Invoking <tt>validate()</tt> from any
+<tt>Container.doLayout()</tt> method can lead to infinite recursion
+because AWT itself invokes <tt>doLayout()</tt> from
+<tt>validate()</tt>.</p>
+</dd>
+</dl>
+<a name="gdkbc" id="gdkbc"></a>
+<h3>2.3 Key Events</h3>
+<p>This section describes issues with key events.</p>
+<a name="gdkat" id="gdkat"></a>
+<h4>2.3.1 General Unresolved Keyboard Issues</h4>
+<p>The following keyboard issues are currently unresolved.</p>
+<ul>
+<li>
+<p>On some non-English keyboards certain accented keys are engraved
+on the keytop and therefore are primary layer characters.
+Nevertheless, they cannot be used for mnemonics because there is no
+corresponding Java keycode.</p>
+</li>
+<li>
+<p>Changing the default locale at runtime does not change the text
+that is displayed for the menu accelerator keys.</p>
+</li>
+<li>
+<p>On a standard 109-key Japanese keyboard, the yen key and the
+backslash key both generate a backslash, because they have the same
+charCode for the WM_CHAR message. AWT should distinguish them. This
+will be fixed in a future release.</p>
+</li>
+</ul>
+<a name="gdkce" id="gdkce"></a>
+<h4>2.3.2 Linux and Solaris 10 OS x86 Keyboard Issues</h4>
+<p>The following keyboard issues concern the Linux and Solaris 10
+OS x86 systems.</p>
+<ul>
+<li>
+<p>Keyboard input in these systems is usually based on XKEYBOARD X
+Window extension. Users can configure only one keyboard layout (for
+instance, Danish: <tt>dk</tt>) or several layouts to switch between
+(for example, <tt>us</tt> and <tt>dk</tt>).</p>
+</li>
+<li>
+<p>With some keyboard layouts, for instance <tt>sk</tt>,
+<tt>hu</tt>, and <tt>cz</tt>, pressing the NumPad decimal separator
+not only enters a delimiter but also deletes the previous
+character. This is due to a native bug. A workaround is to use two
+layouts, for example, <tt>us</tt> and <tt>sk</tt>. In this case the
+numeric keypad works correctly in both layouts.</p>
+</li>
+<li>
+<p>On UNIX systems that support dynamic keyboard changes, a running
+Java application does not recognize such a change. For instance,
+changing the keyboard from US to German does not change the
+keyboard mapping. Although the X server detects the change and
+sends out a <tt>MappingNotify</tt> event to interested clients, AWT
+does not refresh its notion of the keycode-keysym mapping.</p>
+</li>
+</ul>
+<a name="gdjqu" id="gdjqu"></a>
+<h3>2.4 Modality</h3>
+<p>With the Java SE 6 release, many problems were fixed and many
+improvements were implemented in the area of AWT modality. If you
+observe a modality problem with Java SE 1.5 or an earlier release,
+first upgrade to the latest Java SE release to see if the problem
+has been already fixed. Some of the problems that were fixed in
+Java SE 6 are the following:</p>
+<ul>
+<li>
+<p>Modal dialog goes behind a blocked frame.</p>
+</li>
+<li>
+<p>Two modal dialogs with the same parent window opened at the same
+time.</p>
+</li>
+</ul>
+<a name="gdjrp" id="gdjrp"></a>
+<h4>2.4.1 UNIX Window Managers</h4>
+<p>Many of the modality improvements are unavailable in some
+Solaris OS or Linux environments, for example, when using CDE
+window managers. With Java SE 6 or later, to see if a modality type
+or modal exclusion type is supported in particular configuration,
+use the methods <tt>Toolkit.isModalityTypeSupported()</tt> and
+<tt>Toolkit.isModalExclusionTypeSupported()</tt>.</p>
+<p>Another problem exists when running Java modal dialogs on
+Solaris OS or Linux. When a modal dialog appears on the screen, the
+window manager might hide some of the Java top-level windows in the
+same application from the task bar. This can confuse end users, but
+it does not affect their work much, because all the hidden windows
+are modal blocked and cannot be operated.</p>
+<a name="gdjrc" id="gdjrc"></a>
+<h4>2.4.2 Using Modal Dialogs from Applets</h4>
+<p>When your application runs as an applet in a browser and shows a
+modal dialog, the browser window might become blocked. The
+implementation of this blocking varies in different browsers and
+operating systems. For example, on Windows, both Internet Explorer
+and Mozilla work correctly, and on Solaris OS and Linux, Mozilla
+windows are not blocked. This will be corrected in a future
+release.</p>
+<a name="gdjrs" id="gdjrs"></a>
+<h4>2.4.3 Other Modal Problems</h4>
+<p>The <a href=
+"http://download.oracle.com/javase/7/docs/api/java/awt/doc-files/Modality.html">
+The AWT Modality document for Java SE 7</a> describes the
+modality-related features and how to use them. One of the sections
+in this document describes some areas that might be related to or
+affected by modal dialogs: always-on-top property, focus handling,
+window states, and so forth. Application behavior in such cases is
+usually unspecified or depends on the platform; therefore, do not
+rely on any particular behavior.</p>
+<a name="gdgyw" id="gdgyw"></a>
+<h3>2.5 Memory Leaks</h3>
+<p>This section first describes how to troubleshoot memory leaks.
+It then presents some possible sources of memory leaks and provides
+workarounds.</p>
+<a name="gdgym" id="gdgym"></a>
+<h4>2.5.1 Troubleshooting Memory Leaks</h4>
+<p>To get more information on a memory leak, execute <tt>java</tt>
+with the heap profiler active. Specify that the output should be
+generated in binary format so that you can use the <tt>jhat</tt>
+utility to read the output.</p>
+<pre>
+$ <b>java -agentlib:hprof=file=snapshot.hprof,format=b</b> <var>application</var>
+</pre>
+<p>See the <i>Troubleshooting Guide for Java SE 7 with HotSpot
+VM</i> for more detailed information on troubleshooting memory
+leaks, as well as descriptions of the <tt>jhat</tt> utility and
+other troubleshooting tools that are available.</p>
+<a name="gdgzf" id="gdgzf"></a>
+<h4>2.5.2 Memory Leak Issues</h4>
+<p><b>Issue: Memory leak in application.</b></p>
+<p><b>Cause:</b> Frames and Dialogs are sometimes not being
+garbage-collected. This bug will be corrected in a future version
+of Java SE.</p>
+<p><b>Workaround:</b> Known memory leaks occur in cases when the
+system starts to transfer focus to a focusable top-level element
+(window, dialog, frame), but the element is closed, hidden, or
+disposed of before the focus transfer is complete. Therefore, the
+application must wait for the focus transfer operation to finish
+before closing, hiding, or disposing of the element.</p>
+<p>Note that this problem normally occurs only when these actions
+are performed programmatically, since the user typically cannot
+physically perform these actions fast enough to cause the
+problem.</p>
+<a name="gdaey" id="gdaey"></a>
+<h3>2.6 Crashes</h3>
+<p>This section describes how to determine if a crash is related to
+AWT, as well as how to troubleshoot such crashes.</p>
+<a name="gdafm" id="gdafm"></a>
+<h4>2.6.1 How to Distinguish an AWT Crash</h4>
+<p>When a crash occurs, an error log is created with information
+and the state obtained at the time of the fatal error. See
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"felog.html">Appendix&#160;B, Fatal Error Log</a> for detailed
+information about this log file.</p>
+<p>A line near the top of the file indicates the library where the
+error occurred. The example below shows that the crash was related
+to the AWT library.</p>
+<pre>
+...
+# Java VM: Java HotSpot(TM) Client VM (1.6.0-beta2-b76 mixed mode, sharing)
+# Problematic frame:
+# C  [awt.dll+0x123456]
+...
+</pre>
+<p>However, the crash can happen somewhere deep in the system
+libraries, although still caused by AWT. In such cases the
+indication <tt>awt.dll</tt> does not appear as a problematic frame,
+and you need to look further in the file, in the section <tt>Stack:
+Native frames: Java frames</tt>. Below is an example.</p>
+<pre>
+Stack: [0x0aeb0000,0x0aef0000),  sp=0x0aeefa44,  free space=254k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  0x00abc751
+C  [USER32.dll+0x3a5f]
+C  [USER32.dll+0x3b2e]
+C  [USER32.dll+0x5874]
+C  [USER32.dll+0x58a4]
+C  [ntdll.dll+0x108f]
+C  [USER32.dll+0x5e7e]
+C  [awt.dll+0xec889]
+C  [awt.dll+0xf877d]
+j  sun.awt.windows.WToolkit.eventLoop()V+0
+j  sun.awt.windows.WToolkit.run()V+69
+j  java.lang.Thread.run()V+11
+v  ~StubRoutines::call_stub
+V  [jvm.dll+0x83c86]
+V  [jvm.dll+0xd870f]
+V  [jvm.dll+0x83b48]
+V  [jvm.dll+0x838a5]
+V  [jvm.dll+0x9ebc8]
+V  [jvm.dll+0x108ba1]
+V  [jvm.dll+0x108b6f]
+C  [MSVCRT.dll+0x27fb8]
+C  [kernel32.dll+0x202ed]
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  sun.awt.windows.WToolkit.eventLoop()V+0
+j  sun.awt.windows.WToolkit.run()V+69
+j  java.lang.Thread.run()V+11
+v  ~StubRoutines::call_stub
+</pre>
+<p>If the text <tt>awt.dll</tt> appears somewhere in the native
+frames, then the crash might be related to AWT.</p>
+<a name="gdafa" id="gdafa"></a>
+<h4>2.6.2 How to Troubleshoot a Crash in AWT</h4>
+<p>Most of the AWT crashes occur on the Windows platform and are
+caused by thread races. Many of these problems were fixed in Java
+SE version 6, so if your crash occurred in an earlier release,
+first try to determine if the problem is already fixed in the
+latest release.</p>
+<p>One of the possible causes of crashes is that many AWT
+operations are asynchronous. For example, if you show a frame with
+a call to <tt>frame.setVisible(true)</tt>, then you cannot be sure
+that it will be an active window after the return from this
+call.</p>
+<p>Another example concerns native file dialogs. It takes some time
+for the operating system to initialize and show these dialogs, and
+if you dispose of them immediately after the call to
+<tt>setVisible(true)</tt>, then a crash might occur. Therefore, if
+your application contains some AWT calls running simultaneously or
+immediately one after another, it is a good idea to insert some
+delays between them or add some synchronization.</p>
+<a name="gdaao" id="gdaao"></a>
+<h3>2.7 Problems With Focus</h3>
+<p>This section includes the following information:</p>
+<ul>
+<li>
+<p>How to trace focus events</p>
+</li>
+<li>
+<p>Description of the focus system in the plugin</p>
+</li>
+<li>
+<p>Focus models supported by X Window managers</p>
+</li>
+<li>
+<p>Focus traversal</p>
+</li>
+<li>
+<p>Miscellaneous problems that can occur with focus</p>
+</li>
+</ul>
+<a name="gcwtq" id="gcwtq"></a>
+<h4>2.7.1 How to Trace Focus Events</h4>
+<p>To troubleshoot a problem with the focus, you can trace focus
+events. Start with just adding a focus listener to the toolkit, as
+shown here.</p>
+<pre>
+Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener(
+   public void eventDispatched(AWTEvent e) {
+      System.err.println(e);
+   }
+), FocusEvent.FOCUS_EVENT_MASK | WindowEvent.WINDOW_FOCUS_EVENT_MASK |
+   WindowEvent.WINDOW_EVENT_MASK);
+</pre>
+<p>The <tt>System.err</tt> stream is used here because it does not
+buffer the output.</p>
+<p>Remember that the correct order of focus events is the
+following:</p>
+<ul>
+<li>
+<p><tt>FOCUS_LOST</tt> on component losing focus</p>
+</li>
+<li>
+<p><tt>WINDOW_LOST_FOCUS</tt> on top-level losing focus</p>
+</li>
+<li>
+<p><tt>WINDOW_DEACTIVATED</tt> on top-level losing activation</p>
+</li>
+<li>
+<p><tt>WINDOW_ACTIVATED</tt> on top-level becoming active widow</p>
+</li>
+<li>
+<p><tt>WINDOW_GAINED_FOCUS</tt> on top-level becoming focused
+window</p>
+</li>
+<li>
+<p><tt>FOCUS_GAINED</tt> on component gaining focus</p>
+</li>
+</ul>
+<p>When focus is transferred between components inside the focused
+window, only <tt>FOCUS_LOST</tt> and <tt>FOCUS_GAINED</tt> events
+should be generated. When focus is transferred between owned
+windows of the same owner or between an owned window and its owner,
+then the following events should be generated:</p>
+<ul>
+<li>
+<p><tt>FOCUS_LOST</tt></p>
+</li>
+<li>
+<p><tt>WINDOW_LOST_FOCUS</tt></p>
+</li>
+<li>
+<p><tt>WINDOW_GAINED_FOCUS</tt></p>
+</li>
+<li>
+<p><tt>FOCUS_GAINED</tt></p>
+</li>
+</ul>
+<p>Note that events of losing focus or activation should come
+first.</p>
+<a name="gdcqp" id="gdcqp"></a>
+<h4>2.7.2 Communication With Native Focus System</h4>
+<p>Sometimes a problem may be caused by the native platform. To
+check this, investigate the native events that are related to
+focus. Make sure that the window you want to be focused gets
+activated and the component you want to focus receives the native
+focus event.</p>
+<p>On the Windows platform, the native focus events are the
+following:</p>
+<ul>
+<li>
+<p><tt>WM_ACTIVATE</tt> for a top-level. <tt>WPARAM</tt> is
+<tt>WA_ACTIVE</tt> when activating and <tt>WA_INACTIVE</tt> when
+deactivating.</p>
+</li>
+<li>
+<p><tt>WM_SETFOCUS</tt> and <tt>WM_KILLFOCUS</tt> for a
+component.</p>
+</li>
+</ul>
+<p>On the Windows platform, a concept of &#8220;synthetic
+focus&#8221; has been implemented. It means that a focus owner
+component only emulates its focusable state whereas real native
+focus is set to a &#8220;focus proxy&#8221; component. This
+component receives key and input method native messages and
+dispatches them to a focus owner. Prior to JDK7 a focus proxy
+component was a dedicated hidden child component inside a
+frame/dialog. In JDK7 a frame/dialog itself serves as a focus
+proxy. Now it proxies focus not only for components in an owned
+window but for all child components as well. A simple window never
+receives native focus and relies on focus proxy of its owner. This
+mechanism is transparent for a user but should be taken into
+account when debugging.</p>
+<p>On Solaris OS and Linux, XToolkit uses a focus model that allows
+AWT to manage focus itself. With this model the window manager does
+not directly set input focus on a top-level window, but instead it
+sends only the <tt>WM_TAKE_FOCUS</tt> client message to indicate
+that focus should be set. AWT then explicitly sets focus on the
+top-level window if it is allowed.</p>
+<p>Note that X server and some window managers may nevertheless
+send focus events to a window. However all such events are
+discarded by AWT.</p>
+<p>AWT does not generate the hierarchical chains of focus events
+when a component inside a top-level gains focus. Moreover, the
+native window mapped to the component itself does not get any
+native focus event. On the Solaris OS and Linux platforms, as well
+as on the Windows platform, AWT uses the focus proxy mechanism.
+Therefore, focus on the component is set by synthesizing a focus
+event, whereas the invisible focus proxy has native focus.</p>
+<p>A native window that is mapped to a <tt>Window</tt> object (not
+a <tt>Frame</tt> or <tt>Dialog</tt> object) has the
+<tt>override-redirect</tt> flag set. Thus the window manager does
+not notify the window about focus change. Focus is requested on the
+window only in response to a mouse click. This window will not
+receive native focus events at all. Therefore, you can trace only
+<tt>FocusIn</tt> or <tt>FocusOut</tt> events on a frame or dialog.
+Since the major processing of focus occurs at the Java level,
+debugging focus with XToolkit is simpler than with WToolkit.</p>
+<a name="gcwuv" id="gcwuv"></a>
+<h4>2.7.3 Focus System in the Plugin</h4>
+<p>An applet is embedded in a browser as a child (though not a
+direct child) of an <tt>EmbeddedFrame</tt>. This is a special
+<tt>Frame</tt> that has the ability to communicate with the plugin.
+From the applet's perspective the <tt>EmbeddedFrame</tt> is a full
+top-level <tt>Frame</tt>. Managing focus for an
+<tt>EmbeddedFrame</tt> requires special additional actions. When an
+applet first starts, the <tt>EmbeddedFrame</tt> does not get
+activated by default by the native system. The activation is
+performed by the plugin that triggers a special API provided by the
+<tt>EmbeddedFrame</tt>. When focus leaves the applet, the
+<tt>EmbeddedFrame</tt> is also deactivated in a synthesized
+manner.</p>
+<a name="gcwun" id="gcwun"></a>
+<h4>2.7.4 Focus Models Supported by X Window Managers</h4>
+<p>The following focus models are supported by X window
+managers:</p>
+<ul>
+<li>
+<p><tt>click-to-focus</tt> is a commonly used focus model. (For
+example, Microsoft Windows uses this model.)</p>
+</li>
+<li>
+<p><tt>focus-follows-mouse</tt> is a focus model in which focus
+goes to the window that the mouse hovers over.</p>
+</li>
+</ul>
+<p>The <tt>focus-follows-mouse</tt> mode is not detected in XAWT in
+Java SE 7, and this causes problems for simple windows (objects of
+<tt>java.awt.Window</tt>class). Such windows have the
+override-redirect property, which means that they can be focused
+only when the mouse button is pressed, and not by hovering over the
+window. As a workaround, set <tt>MouseListener</tt> on the window
+and request focus on it when mouse crosses the window borders.</p>
+<a name="gdabn" id="gdabn"></a>
+<h4>2.7.5 Miscellaneous Problems With Focus</h4>
+<p>This section describes some issues that can arise with focus in
+AWT and suggests solutions.</p>
+<dl>
+<dt><b>Issue: Linux + KDE, XToolkit. Focus cannot be switched
+between two frames when frame's title is clicked.</b></dt>
+<dd>
+<p>Clicking a component inside a frame causes focus to change.</p>
+<p><b>Solution:</b> Check the version of your window manager and
+upgrade it to 3.0 or greater.</p>
+</dd>
+<dt><b>Issue: You want to manage focus using</b>
+<tt>KeyListener</tt> <b>to transfer focus in response to
+Tab/Shift+Tab, but no key events appear.</b></dt>
+<dd>
+<p><b>Solution:</b> To catch traversal key events, you must enable
+them by calling
+<tt>Component.setFocusTraversalKeysEnabled(boolean)</tt>.</p>
+</dd>
+<dt><b>Issue: A window is set modal excluded with</b>
+<tt>Window.setModalExclusionType(ModalExclusionType)</tt><b>.</b></dt>
+<dd>
+<p>The frame, its owner, is modal blocked. In this case the window
+will also remain modal blocked.</p>
+<p><b>Solution:</b> A window cannot become the focused window when
+its owner is not allowed to get focus. The solution is to exclude
+the owner from modality.</p>
+</dd>
+<dt><b>Issue: MS Windows. A component requests focus and is
+concurrently removed from its container.</b></dt>
+<dd>
+<p>Sometimes <tt>java.lang.NullPointerException: null pData</tt> is
+thrown.</p>
+<p><b>Solution:</b> The easiest way to avoid throwing the exception
+is to do the removal along with requesting focus on EDT. Another,
+more complicated, approach is to synchronize requesting focus and
+removal if you need to perform these actions on different
+threads.</p>
+</dd>
+<dt><b>Issue: When focus is requested on a component and the focus
+owner is immediately removed, focus goes to the component after the
+removed component.</b></dt>
+<dd>
+<p>For example, Component A is the focus owner. Focus is requested
+on Component B, and immediately after this Component A is removed
+from its container. Eventually focus goes to Component C, which is
+located after Component A in the container, but not to Component
+B.</p>
+<p><b>Solution:</b> In this case, ensure that the requesting focus
+is executed after Component A is removed, not before.</p>
+</dd>
+<dt><b>Issue: MS Windows. When a window is set</b>
+<tt>alwaysOnTop</tt> <b>in an inactive frame, the window cannot
+receive key events.</b></dt>
+<dd>
+<p>For example, a frame is displayed, with a window that it owns.
+The frame is inactive, so the window is not focused. Then the
+window is set to <tt>alwaysOnTop</tt>. The window gains focus, but
+its owner remains inactive. Therefore, the window cannot receive
+key events.</p>
+<p><b>Solution:</b> Bring the frame to front
+(<tt>Frame.toFront()</tt> method) before setting the window to
+<tt>alwaysOnTop</tt>.</p>
+</dd>
+<dt><b>Issue: When a SplashScreen is shown and a frame is shown
+after the SplashScreen window closes, the frame does not get
+activated.</b></dt>
+<dd>
+<p><b>Solution:</b> Bring the frame to front
+(<tt>Frame.toFront()</tt> method) after showing it
+(<tt>Frame.setVisible(true)</tt> method).</p>
+</dd>
+<dt><b>Issue: The</b>
+<tt>WindowFocusListener.windowGainedFocus(WindowEvent)</tt>
+<b>method does not return the frame's most recent focus
+owner.</b></dt>
+<dd>
+<p>For example, a frame is the focused window, and one of its
+components is the focus owner. Another window is clicked, and then
+the frame is clicked again. <tt>WINDOW_GAINED_FOCUS</tt> comes to
+the frame and the
+<tt>WindowFocusListener.windowGainedFocus(WindowEvent)</tt> method
+is called. However, inside of this callback you cannot determine
+the frame's most recent focus owner, because
+<tt>Frame.getMostRecentFocusOwner()</tt> returns null.</p>
+<p><b>Solution:</b> You can get the frame's most recent focus owner
+inside the <tt>WindowListener.windowActivated(WindowEvent)</tt>
+callback. However, by this time the frame will have become the
+focused window only if it does not have owned windows. Note that
+this approach does not work for the window, only for the frame or
+dialog.</p>
+</dd>
+<dt><b>Issue: An applet steals focus when it starts.</b></dt>
+<dd>
+<p><b>Solution:</b> This behavior is the default since JDK 1.3.
+However you might need to prevent the applet from getting focus on
+startup, for example, if your applet is invisible and does not
+require focus at all. In this case, you can set to <tt>false</tt>
+the special parameter <tt>initial_focus</tt> in the HTML tag, as
+follows:</p>
+<pre>
+&#60;applet code="MyApplet" width=50 height=50&gt;
+&#60;param name=initial_focus value="false"&gt;
+&#60;/applet&gt;
+</pre></dd>
+<dt><b>Issue: A window is disabled with</b>
+<tt>Component.setEnabled(false)</tt><b>, but does not get totally
+unfocusable.</b></dt>
+<dd>
+<p><b>Solution:</b> Do not assume that the condition set by calling
+<tt>Component.setEnabled(false)</tt> or
+<tt>Component.setFocusable(false)</tt> will be maintained
+unfocusable along with all its content. Instead, use the
+<tt>Window.setFocusableWindowState(boolean)</tt> method.</p>
+</dd>
+</dl>
+<a name="gdjsp" id="gdjsp"></a>
+<h3>2.8 Drag and Drop</h3>
+<p>This section discusses possible problems with Drag and Drop and
+the clipboard.</p>
+<a name="gdjzz" id="gdjzz"></a>
+<h4>2.8.1 Debugging Drag and Drop Applications</h4>
+<p>It is difficult to use a debugger to troubleshoot Drag and Drop,
+because during the drag&#8211;and&#8211;drop operation all input is
+grabbed. Therefore, if you place a breakpoint during
+drag&#8211;and&#8211;drop, you might need to restart your X server.
+Try to use remote debugging instead.</p>
+<p>Two simple methods can be used to troubleshoot most issues with
+Drag and Drop:</p>
+<ul>
+<li>
+<p>Printing all <tt>DataFlavor</tt> instances</p>
+</li>
+<li>
+<p>Printing received data</p>
+</li>
+</ul>
+<p>An alternative to remote debugging is the
+<tt>System.err.println()</tt> function, which prints output without
+delay.</p>
+<a name="gdjzb" id="gdjzb"></a>
+<h4>2.8.2 Frequent Issues With Drag and Drop</h4>
+<p>This section describes some issues that frequently arise with
+Drag and Drop in AWT and suggests troubleshooting solutions.</p>
+<dl>
+<dt><b>Problem: Pasting a huge amount of data from the clipboard
+takes too much time.</b></dt>
+<dd>
+<p>Using the <tt>Clipboard.getContents()</tt> function for a paste
+operation sometimes causes the application to hang for a while,
+especially if a rich application provides the data to paste.</p>
+<p>The <tt>Clipboard.getContents()</tt> function fetches clipboard
+data in all available flavors (for example, some text and image
+flavors), and this can be expensive and unnecessary.</p>
+<p><b>Solution:</b> Use the <tt>Clipboard.getData()</tt> method to
+get only specific data from the clipboard. If data in only one or a
+few flavors are needed, use one of the following <tt>Clipboard</tt>
+methods instead of <tt>getContents()</tt>:</p>
+<ul>
+<li>
+<p><tt>DataFlavor[] getAvailableDataFlavors()</tt></p>
+</li>
+<li>
+<p><tt>boolean isDataFlavorAvailable(DataFlavorflavor)</tt></p>
+</li>
+<li>
+<p><tt>Object getData(DataFlavorflavor)</tt></p>
+</li>
+</ul>
+</dd>
+<dt><b>Problem: When a Java application uses</b>
+<tt>Transferable.getTransferData()</tt> <b>for DnD operations, the
+drag seems to take a long time.</b></dt>
+<dd>
+<p>In order to initialize transferred data only if it is needed,
+initialization code was put in
+<tt>Transferable.getTransferData()</tt>.</p>
+<p><tt>Transferable</tt> data is expensive to generate, and during
+a DnD operation <tt>Transferable.getTransferData()</tt> is invoked
+more than once, causing a slowdown.</p>
+<p><b>Solution:</b> Cache the <tt>Transferable</tt> data so that is
+generated only once.</p>
+</dd>
+<dt><b>Problem: Files cannot be transferred between a Java
+application and the GNOME/KDE desktop and file browser.</b></dt>
+<dd>
+<p>On Windows and some window managers, transferred file lists can
+be represented as <tt>DataFlavor.javaFileListFlavor</tt> data
+flavor. But not all window managers represent lists of files in
+this format. For example, the GNOME window manager represents a
+file list as a list of URIs.</p>
+<p><b>Workaround:</b> To get files, request data of type
+<tt>String</tt>, and then translate the string to a list of files
+according to text/uri-list format described in RFC 2483. To enable
+dropping files from a Java application to GNOME/KDE desktop and
+file browser, export data in the text/uri-list format. For a code
+example, see the Work Around section of this bug report:</p>
+<p><a href=
+"http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4899516">http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4899516</a></p>
+</dd>
+<dt><b>Problem: An image is passed to one of the</b>
+<tt>startDrag()</tt> <b>methods of</b> <tt>DragGestureEvent</tt>
+<b>or</b> <tt>DragSource</tt><b>, but the image is not displayed
+during the subsequent DnD operation.</b></dt>
+<dd>
+<p><b>Solution:</b>Move a Window with an image rendered on it as
+the mouse cursor moves during a DnD operation. See the code example
+in the Work Around section of the following RFE:</p>
+<p><a href=
+"http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4874070">http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4874070</a></p>
+</dd>
+<dt><b>Problem: There is no way to transfer an array using Drag and
+Drop.</b></dt>
+<dd>
+<p>The <tt>DataFlavor</tt> class has no constructor which handles
+arrays. The mime type for array contains characters which should be
+escaped. For example, the following code throws an
+<tt>IllegalArgumentException</tt>:</p>
+<pre>
+new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType + 
+"; class=" + 
+(new String[0]).getClass().getName())
+</pre>
+<p><b>Solution:</b> Quote the value of the representation class
+parameter, as shown in the following code, where the quotation
+marks are escaped:</p>
+<pre>
+new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType + 
+"; class=" + 
+"\"" + 
+(new String[0]).getClass().getName() + 
+"\"")
+</pre>
+<p>For more information, see the following bug report:</p>
+<p><a href=
+"http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4276926">http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4276926</a></p>
+</dd>
+<dt><b>Problem: There are problems using AWT Drag and Drop support
+with Swing components.</b></dt>
+<dd>
+<p>Various problems can arise, for example, odd events are fired
+during a DnD operation, multiple items cannot be dragged and
+dropped, an <tt>InvalidDnDOperationException</tt> is thrown.</p>
+<p><b>Solution:</b> Use Swing's DnD support with Swing components.
+Although the Swing DnD implementation is based on the AWT DnD
+implementation, you cannot mix Swing and AWT
+drag&#8211;and&#8211;drop. Refer to the following
+documentation:</p>
+<ul>
+<li>
+<p><a href=
+"http://download.oracle.com/javase/tutorial/uiswing/dnd/index.html">
+Swing Tutorial</a></p>
+</li>
+<li>
+<p><a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/swing/">Swing
+guide</a></p>
+</li>
+</ul>
+</dd>
+<dt><b>Problem: There is no way to change the state of the source
+to depend on the target.</b></dt>
+<dd>
+<p>In order to change the state of the source to depend on the
+target, you need to have references to the source and target
+components in the same area of code, but this is not currently
+implemented in the Drag and Drop API.</p>
+<p><b>Workaround:</b> One workaround is to add flags to the
+transferable object that allow you to determine the context of the
+event.</p>
+<p>For the transfer of data within one Java VM, the following
+workaround is proposed:</p>
+<ul>
+<li>
+<p>Implement your target component as
+<tt>DragSourceListener</tt>.</p>
+</li>
+<li>
+<p>In <tt>DragGestureRecognizer.dragGestureRecognized()</tt> add
+the target at drag source listener, as follows:</p>
+<pre>
+public void dragGestureRecognized(DragGestureEvent dge) {
+             dge.startDrag(null, new StringSelection("SomeTransferedText"));
+             dge.getDragSource().addDragSourceListener(target);             
+        }
+</pre></li>
+<li>
+<p>Now you can get the target and the source in the
+<tt>dragEnter()</tt>, <tt>dragOver()</tt>,
+<tt>dropActionChanged()</tt>, and <tt>dragDropEnd()</tt> methods of
+<tt>DragSourceListener()</tt>.</p>
+</li>
+</ul>
+</dd>
+<dt><b>Problem: Transferring of objects in an application takes a
+long time.</b></dt>
+<dd>
+<p>The transferring of a big bundle of data or the creation of
+transferred objects takes too long. The user must wait a long time
+for the data transfer to complete.</p>
+<p>This expensive operation makes transferring too long because you
+must wait until <tt>Transferable.getTransferData()</tt>
+finishes.</p>
+<p><b>Solution:</b> This solution is valid only for transferring
+data within one Java VM. Create or get expensive resources before
+the drag operation. For example, obtain file content when you
+create transferable, so that
+<tt>Transferable.getTransferData()</tt> will not be too long.</p>
+</dd>
+</dl>
+<a name="gdadm" id="gdadm"></a>
+<h3>2.9 Other Issues</h3>
+<p>This section describes other issues in troubleshooting AWT.</p>
+<a name="gdjxs" id="gdjxs"></a>
+<h4>2.9.1 Splash Screen Issues</h4>
+<p>This section describes some issues that can arise with the
+splash screen in AWT with the Java SE 7 release, and suggests
+solutions.</p>
+<dl>
+<dt><b>Issue: The user specified a jar file with an appropriate</b>
+<tt>MANIFEST.MF</tt> <b>in</b> <tt>-classpath</tt><b>, but the
+splash screen does not work.</b></dt>
+<dd>
+<p><b>Solution:</b> See next solution.</p>
+</dd>
+<dt><b>Issue: It is not clear which of several jar files in an
+application should contain the splash screen image.</b></dt>
+<dd>
+<p><b>Solution:</b> The splash screen image will be picked from a
+jar file only if the jar file is used with the <tt>-jar</tt>
+command line option. This jar file should contain both the
+&#8220;SplashScreen-Image&#8221; manifest option and the image
+file. Jar files in <tt>-classpath</tt> will never be checked for
+splash screens in <tt>MANIFEST.MF</tt>. If you do not use
+<tt>-jar</tt>, you can still use <tt>-splash</tt> to specify the
+splash screen image in the command line.</p>
+</dd>
+<dt><b>Issue: Translucent png splash screens do not work on Solaris
+OS and Linux.</b></dt>
+<dd>
+<p><b>Solution:</b> This is a native limitation of X11. On Solaris
+OS and Linux, the alpha channel of a translucent image will be
+compared with 50% threshold. Alpha values above 0.5 will make
+opaque pixels and pixels with alpha below 0.5 completely
+transparent. Translucency support might improve in future versions
+of Java SE.</p>
+</dd>
+</dl>
+<a name="gdgzh" id="gdgzh"></a>
+<h4>2.9.2 Tray Icon Issues</h4>
+<p>With the Java SE 6 release on the Windows 98 platform, the
+method <tt>TrayIcon.displayMessage()</tt> is not supported because
+the native service to display a balloon is not supported on Windows
+98.</p>
+<p>If a <tt>SecurityManager</tt> is installed, the value of
+<tt>AWTPermission</tt> must be set to <tt>accessSystemTray</tt> in
+order to create a <tt>TrayIcon</tt> object.</p>
+<a name="gdgyg" id="gdgyg"></a>
+<h4>2.9.3 Popup Menu Issues</h4>
+<p>In the <tt>JPopupMenu.setInvoker()</tt> method, the invoker is
+the component in which the popup menu is to be displayed. If this
+property is set to null, the popup menu does not function
+correctly.</p>
+<p>The solution is to set the popup's invoker to itself.</p>
+<a name="gdacx" id="gdacx"></a>
+<h4>2.9.4 Background/Foreground Color Inheritance</h4>
+<p>Many AWT components use their own defaults for background and
+foreground colors instead of using the colors of their parents.</p>
+<p>This behavior is platform-dependent: the same component can
+behave differently on different platforms. In addition, some
+components use the default value for one of the background or
+foreground colors, but take the value from the parent for another
+color.</p>
+<p>To ensure the consistency of your application on every platform,
+use explicit color assignment (both foreground and background) for
+every component or container.</p>
+<a name="gdadu" id="gdadu"></a>
+<h4>2.9.5 AWT Panel Size Restriction</h4>
+<p>The AWT Container has a size limitation. On most platforms, this
+limit is 32767 pixels. This means that, for example, if the canvas
+objects are 25 pixels high, a Java AWT panel cannot display more
+than about 1400 objects.</p>
+<p>Unfortunately there is no way to change this limit, either with
+Java code or with native code. The limit depends on what data type
+the operating system uses to store a widget size. For example, the
+Windows 2000/XP operating system and the Linux X operating system
+use <tt>integer</tt> type and are therefore limited to the maximum
+size of an integer. Other operating systems might use different
+types, such as <tt>long</tt>, and in this case the limit could be
+higher.</p>
+<p>Refer to the documentation for your platform for
+information.</p>
+<p>The following are examples of workarounds for this limit that
+might be helpful:</p>
+<ul>
+<li>
+<p>Display components page by page.</p>
+</li>
+<li>
+<p>Use tabs to display a few components at a time.</p>
+</li>
+</ul>
+<a name="gdadua" id="gdadua"></a>
+<h4>2.9.6 Hangs when debugging popup menus and similar components
+on X11</h4>
+<p>Certain GUI actions require grabbing all the input events in
+order to determine when the action should terminate (e.g.
+navigating popup menus). While the grab is active, no other
+applications receive input events. If a Java application is being
+debugged, and reached a breakpoint while the grab has been active,
+the operating system appears hanged. This happens because the Java
+application holding the grab is stopped by the debugger and can't
+process any input events, and other applications simply don't
+receive the events due to the installed grab. In order to allow
+debugging such applications, the following system property should
+be set when running the application from the debugger:</p>
+<pre>
+-Dsun.awt.disablegrab=true
+</pre>
+<p>This effectively turns off setting the grab, and as such doesn't
+hang the system. However, with this option set, in some cases this
+may lead to inability to terminate a GUI actions that would
+normally be terminated. For example, popup menus may not be
+dismissed when clicking window's titlebar.</p>
+<a name="gdadub" id="gdadub"></a>
+<h4>2.9.7 <code>Window.toFront()</code>/<code>toBack()</code>
+behavior on X11</h4>
+<p>Due to restrictions enforced by third-party software (in
+particular, by window managers such as the Metacity), the
+<code>toFront()</code>/<code>toBack()</code> methods may not always
+work as expected and cause the window to not change its stacking
+order in relation to other top-level windows. More details are
+available in the CR 6472274.</p>
+<p>If an application ultimately wants to bring a window to top, it
+can try to workaround the issue by temporarily making the window
+"always on top" calling the
+<code>Window.setAlwaysOnTop(true)</code> and then calling
+<code>setAlwaysOnTop(false)</code> to reset the "always on top"
+state. Note that this workaround isn't guaranteed to work either
+because window managers can enforce more restrictions in the
+future. Also please note that setting a window "always on top" is
+available to trusted applications only. An unsigned applet or an
+unsigned web-start application running in a sandbox can't use this
+API, and thus is unable to workaround the issue.</p>
+<p>However, native applications experience similar issues, and as
+such this peculiarity makes Java applications behave similar to
+native applications. Therefore this issue cannot be considered as a
+bug.</p>
+<a name="gdaduc" id="gdaduc"></a>
+<h3>2.10 Heavyweight/Lightweight Components Mixing</h3>
+<p>This section discusses possible issues with the
+heavyweight/lightweight (HW/LW) mixing feature.</p>
+<a name="gdadud" id="gdadud"></a>
+<h4>2.10.1 The requirement of validating the component
+hierarchy</h4>
+<p>Changing any layout-related properties of a component, such as
+its size, location, or font, invalidates the component as well as
+its ancestors. In order for the HW/LW Mixing feature to function
+correctly, the component hierarchy must be validated after making
+such changes. By default, invalidation stops on the top-most
+container of the hierarchy (for example, a <code>Frame</code>
+object). Therefore, to restore the validity of the hierarchy the
+application should call the <code>Frame.validate()</code> method.
+For example:</p>
+<pre>
+component.setFont(myFont);
+frame.validate();
+</pre>
+<p>where <code>frame</code> refers to a frame which contains
+<code>component</code>. Note that Swing applications and the Swing
+library itself often use the following pattern:</p>
+<pre>
+component.setFont(myFont);
+component.revalidate();
+</pre>
+<p>The <code>revalidate()</code> call is <b>not</b> sufficient
+because it validates the hierarchy starting from the nearest
+validate root of the component only, thus leaving the upper
+containers invalid. In that case, the HW/LW feature may not
+calculate correct shapes for heavyweight components, and visual
+artifacts may be seen on the screen.</p>
+<p>To verify the validity of the whole component hierarchy a user
+can use the key combination Ctrl+Shift+F1 as described in 2.1 of
+this document. A component marked 'invalid' may indicate a missing
+<code>validate()</code> call somewhere.</p>
+<a name="gdadue" id="gdadue"></a>
+<h4>2.10.2 Validate roots</h4>
+<p>The concept of validate roots mentioned in 2.10.1 has been
+introduced in Swing in order to speed up the process of validating
+component hierarchies because it may take a significant amount of
+time. While such optimization leaves upper parts of hierarchies
+invalid, this didn't bring any issues because the layout of
+components inside a validate root doesn't affect the layout of
+outside component hierarchy (that is, the siblings of the validate
+root). However, when HW and LW components are mixed together in a
+hierarchy, this statement is no longer true. That's why the feature
+requires the whole component hierarchy to be valid.</p>
+<p>Calling <code>frame.validate()</code> may be inefficient as
+well, and as such AWT supports an alternative, optimized way of
+handling invalidation/validation of component hierarchies. This
+feature is enabled with a system property:</p>
+<pre>
+-Djava.awt.smartInvalidate=true
+</pre>
+<p>Once this property is specified, the <code>invalidate()</code>
+method will stop invalidation of the hierarchy when it reaches the
+nearest validate root of a component the <code>invalidate()</code>
+method has been invoked on. Afterwards the application should
+simply call:</p>
+<pre>
+component.revalidate();
+</pre>
+<p>to restore the validity of the component hierarchy. Note that in
+this case calling <code>frame.validate()</code> would be
+effectively a no-op because frame is still valid. Since some
+applications rely on calling <code>validate()</code> directly on a
+component upper than the validate root of the hierarchy (for
+example, a frame), this new optimized behavior may cause
+incompatibility issues, and hence it's available only when
+specifying the system property.</p>
+<p>If an application experiences any difficulties running in this
+new optimized mode, a user can use the key combination
+Ctrl+Shift+F1 as described in 2.1 of this document to investigate
+what parts of the component hierarchy are left invalid, and thus
+possibly cause the problems.</p>
+<a name="gdaduf" id="gdaduf"></a>
+<h4>2.10.3 Swing painting optimizations</h4>
+<p>By default, Swing library assumes that there are no heavyweight
+components in the component hierarchy, and therefore uses optimized
+drawing techniques to boost performance of the Swing UI. If a
+component hierarchy contains hw components, the optimizations must
+be turned off. This is relevant for Swing <code>JScrollPane</code>s
+in the first place. You can change the scrolling mode by using the
+<code>JViewPort.setScrollMode(int)</code> method.</p>
+<a name="gdadug" id="gdadug"></a>
+<h4>2.10.4 Non-opaque lightweight components</h4>
+<p>Non-opaque lightweight components are not supported by the hw/lw
+mixing feature implementation by default. In order to enable mixing
+non-rectangular lw components with hw components, the application
+must use the
+<code>com.sun.awt.AWTUtilities.setComponentMixingCutoutShape()</code>
+non-public API.</p>
+<p>Note that non-rectangular lw components should still paint
+themselves using either opaque (alpha == 1.0) or transparent (alpha
+== 0.0) colors. Using translucent colors (with 0.0 &lt; alpha &lt;
+1.0) is not supported.</p>
+<a name="gdaduh" id="gdaduh"></a>
+<h4>2.10.5 Disabling the default hw/lw mixing feature
+implementation</h4>
+<p>In the past, some developers have implemented their own support
+for cases when hw and lw components must be mixed together. The
+built-in implementation of the feature available since JDK 6 update
+12 and JDK 7 may cause problems with custom workarounds. In order
+to disable the built-in feature the application must be started
+with the following system property:</p>
+<pre>
+-Dsun.awt.disableMixing=true
+</pre></div>
+<div class="BottomPageControlPane">
+<table class="pagecontrol">
+<tr>
+<td>
+<div class="pagefooterlinks">Copyright &#169;1995, 2011, Oracle
+and/or its affiliates. All rights reserved. <a href=
+"docinfo.html">Legal Notices</a></div>
+</td>
+<td class="pagenavlinks"><a href="introduction.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="java2d.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+</body>
+</html>

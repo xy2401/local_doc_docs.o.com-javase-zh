@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Java Platform Debugger Architecture</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<a name="top" id="top"></a>
+<div class="smallpagetitle"><h1>Java Platform Debugger Architecture</h1></div>
+<p>As a demonstration of the Java Debug Interface (JDI), we are
+providing source code for the <b>jdb</b> debugger.</p>
+<h2>jdb man pages</h2>
+<a href="../../tools/windows/jdb.html"><b>jdb</b> man pages for
+Windows</a>
+<p><a href="../../tools/solaris/jdb.html"><b>jdb</b> man pages for
+Solaris</a></p>
+<h2>Invoking jdb</h2>
+<p>The <b>jdb</b> sample can be run by executing:</p>
+<pre class="codeblock">
+   java tty.TTY &lt;options&gt;.. &lt;class-name&gt;<br />
+</pre>
+where &lt;class-name&gt; is the name you would normally place on
+the <code>java</code> command line. The <code>-help</code> option
+provides information on options. Note: Be sure that the Java 2
+SDK's <tt>lib/tools.jar</tt> file is on the class path used to
+invoke <tt>tty.TTY</tt>. The <tt>tools.jar</tt> file includes the
+<a href="examples.html#SETUP">JDI Library</a> and to the compiled
+<b>jdb</b> class files.
+<p>For more information on invoking and connecting see Connection
+and Invocation Details section of the JPDA documentation,
+particularly the section on <b>jdb</b>.</p>
+<h2>Source for jdb</h2>
+Full source code for <b>jdb</b> is included as part of the example
+code in the Java 2 SDK's <code>lib/jpda</code> directory, in
+<code>examples.jar</code>. (Use <tt>jar xvf examples.jar</tt> to
+extract the contents of <tt>examples.jar</tt>.) Note: this file
+also includes the source for <a href=
+"javadt.html"><code>javadt</code></a>. Source code of these example
+application is included to provide concrete examples for debugger
+developers. Example code may be used, modified and redistributed by
+debugger developers providing they adhere to the terms in the
+copyright notice.
+<p><b>jdb</b> uses the following packages (found in the
+<code>examples.jar</code> file):</p>
+<dl>
+<dt><code>tty</code></dt>
+<dd>Application code</dd>
+<dt><code>expr</code></dt>
+<dd>Expression processing code</dd>
+</dl>
+<h2>Building jdb</h2>
+To completely rebuild the <b>jdb</b> classes from the provided
+source files, you need only to compile them. No special options are
+required, aside from those which set your classpath to include the
+<a href="examples.html#SETUP">JDI Library</a>. However, if want to
+modify the expression parser in the file <code>Expr.jj</code>, you
+will need the <a href="https://javacc.dev.java.net/">JavaCC parser
+generator</a>. <!-- end main page content -->
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<meta http-equiv="content-type" content=
+"text/html; charset=utf-8" />
+<style type="text/css">
+/*<![CDATA[*/
+
+.style1 {
+        color: #FF0000;
+        font-style: italic;
+        font-weight: bold;
+}
+.style8 {font-size: 12pt}
+.style10 {color: #594fbf}
+
+p, li,  ul li { margin-left: 40pt;
+                   font-family: Helvetica, Arial, sans-serif;
+                            font-size: medium; 
+                            }
+
+h2  { margin-left: 40pt;
+      margin-top:32pt;
+      font-family: Helvetica, Arial, sans-serif;
+         font-size: larger; }
+         
+h3      { font-family: helvetica,arial,sans-serif;
+       font-size: medium;
+       font-weight: bold; 
+ 
+          margin-left: 40pt;
+          }
+                            
+/*]]>*/
+</style>
+<title>Advanced JGSS Security Programming</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<!-- part III -->
+<h2 class="main1"><a name="PART3" id="PART3">Part III : Deploying
+for Single Sign-On in a Kerberos Environment</a></h2>
+<h2 style="text-align: left;"><a name="SSO" href="#SSO" id=
+"SSO"></a>Exercise 6: Deploying for Single Sign-On</h2>
+<h3>Goal of this exercise:</h3>
+<p>The goal of this exercise is to learn how to configure a JAAS
+application that uses Kerberos for authentication to achieve
+<em>single sign-on</em>. Single sign-on means that the user needs
+only authenticate once to a system or a collection of services.
+After the initial authentication, the user can access other
+services in the system using the same identity as he used for the
+initial authentication.</p>
+<p>Single sign-on can be used to describe different types of
+authentication. There are HTTP-based network single sign-on
+protocols. There is Kerberos-based single sign-on for network
+services. In this particular exercise, we show how to achieve
+single sign-on in Kerberos-based systems by showing how to import
+already-acquired Kerberos credentials from the underlying native
+operating system.</p>
+<h3>Background and Resources for this exercise:</h3>
+<ol>
+<li><a href="../../../security/jgss/single-signon.html">Single Sign-On Using Kerberos in Java</a></li>
+</ol>
+<p>In addition, see the information provided in <a href=
+"part1.html#KRB5BG">Exercises 2</a> and <a href=
+"part2.html#JGSSBG">4</a> for background information about Kerberos
+and Java GSS.</p>
+<p><span style=
+"font-family: helvetica,arial,sans-serif;"><span style=
+"font-weight: bold; color: rgb(0, 0, 0); text-decoration: underline;">
+Steps to follow:</span></span></p>
+<ol>
+<li>Edit the JAAS configuration file. This is located in <a href=
+"src/jaas-krb5.conf"><code>src/jaas-krb5.conf<br /></code></a></li>
+</ol>
+<div>
+<p>This file contains two entries, one named "client" and one named
+"server." &nbsp; Add the line <b><tt>"useTicketCache=true"</tt></b>
+to the client entry.</p>
+<p>Code listing for updated <code>jaas-krb5.conf</code>.</p>
+<ol>
+<li><code>client {</code></li>
+<li><code>&nbsp; &nbsp;
+com.sun.security.auth.module.Krb5LoginModule required</code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;<span style=
+"color: rgb(255, 0, 0);">useTicketCache=true</span></code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;principal="test";</code></li>
+<li><code>};</code></li>
+<li><code>server {</code></li>
+<li><code>&nbsp;&nbsp; com.sun.security.auth.module.Krb5LoginModule
+required</code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;useKeyTab=true</code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;storeKey=true</code></li>
+<li><code>&nbsp;&nbsp;&nbsp;&nbsp;keyTab=sample.keytab</code></li>
+<li>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;principal="host/j1hol-001";</code></li>
+<li><code>};</code></li>
+</ol>
+<br /></div>
+<ol style="list-style-type: decimal;" start="2">
+<li>Perform Kerberos login to the native operating system. 
+<!-- This step is usually not necessary in a typical enterprise environment
+because the Kerberos login would be done automatically as part of
+by the operating system's login procedure. However, in this  environment,
+due to multiple labs running on the same machine with different
+requirements,
+the Kerberos login was not part of the operating system login. -->
+<br />
+To login to Kerberos, use <b>kinit</b> command as follows.
+<pre class="codeblock">
+<b>% kinit test</b>
+</pre>
+Then, enter <tt>changeit</tt> when prompted for the password.</li>
+<li>Run the client and server programs in Exercises 1-5 as before
+and you will note that the client applications no longer ask you to
+enter a password.</li>
+</ol>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

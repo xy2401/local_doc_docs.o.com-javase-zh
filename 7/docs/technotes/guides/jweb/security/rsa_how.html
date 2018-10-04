@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>How RSA Signed Applet Verification Works in Java
+Plug-in</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+
+<div class="smallpagetitle"><h1>Verification of RSA Signed Applets in Java Plug-in</h1></div>
+<p style="background-color: rgb(247, 248, 249); border-width: 1px; padding: 10px; font-style: italic; border-style: solid; border-color: rgb(64, 74, 91);">These documentation pages are no longer current. They remain available for archival purposes. Please visit <a href="https://docs.oracle.com/javase"><code>https://docs.oracle.com/javase</code></a> for the most up-to-date documentation.</p>
+
+<p><a href="../index.html">Java Rich Internet Applications Guide</a> &gt; <a href="security.html">Security</a> &gt; Verification of RSA Signed Applets in Java Plug-in</p>
+
+<p>The following topics are covered:</p>
+
+<ul>
+<li><a href="#intro">Introduction</a>&nbsp;</li>
+<li><a href="#verification">Support for RSA Verification</a></li>
+<li><a href="#trust">Support for Dynamic Trust
+Management</a>&nbsp;</li>
+</ul>
+<h2><a name="intro" id="intro"></a>Introduction</h2>
+<p>This page provides an overview of how verification of RSA signed
+applets is implemented in Java Plug-in. For an overview of how to
+use RSA signed applets, see <a href="rsa_deploying.html">Deploying RSA-Signed Applets in Java Plug-in</a>.</p>
+<h2><a name="verification" id="verification"></a>Support for RSA
+Verification</h2>
+<p>To enable verification of RSA signatures in a
+browser-independent way, Java Plug-in includes a Cryptographic
+Service Provider (CSP). The CSP supports the &quot;MD2withRSA",
+"MD5withRSA", and "SHA1withRSA" digital signature algorithms. It is
+automatically registered with the Java Cryptographic Architecture
+framework as part of the static initializer of the
+<code>PluginClassLoader</code>.</p>
+<h2><a name="trust" id="trust"></a>Support for Dynamic Trust
+Management</h2>
+<p>Java SE has a fine-grained access control based on "codesource"
+and "protection domain". Every class that is loaded from a JAR file
+has a codesource, which encapsulates two pieces of information:</p>
+<ul>
+<li>The location (URL) where the class came from. In addition,
+every class that is loaded by a classloader belongs to one and only
+one protection domain, based on its codesource (i.e., based on
+where the class came from and who signed it). Every protection
+domain has a set of permissions associated with it, based on the
+configured security policy. The protection domain encapsulates the
+codesource and the set of permissions granted to it</li>
+<li>The list of principals who signed it (its certificates). Each
+signer principal in the codesource is represented by its X.509
+public-key certificate and supporting certificate chain.</li>
+</ul>
+<p>A certificate chain is a list of hierarchically ordered
+public-key certificates, starting at the signer's public-key
+certificate and ending at the certificate of a Root Certification
+Authority ("Root CA"). The public key of one certificate in the
+chain is used to verify the signature on the previous certificate
+in the chain. The Root CA certificate is self-signed. The
+assumption is that the Root CA is trusted because it is well known
+and widely published.</p>
+<p>The <code>PluginClassLoader</code> checks the configured
+security policy to determine which permissions to grant to a given
+codesource. The codesource and the set of permissions granted to it
+then form a protection domain. This behavior is common to all
+secure classloaders (i.e., instances of
+<tt>java.security.SecureClassLoader</tt>).</p>
+<p>The <tt>sun.plugin.security.PluginClassLoader</tt> extends
+<tt>sun.applet.AppletClassLoader</tt>, which is a subclass of
+<tt>java.net.URLClassLoader</tt>, which in turn extends
+<tt>java.security.SecureClassLoader</tt>. The
+<code>PluginClassLoader</code> does additional work: If the applet
+is signed, the
+<code>PluginClassLoader</code> extracts the signers (and their
+supporting certificate chains) from the applet's codesource and
+attempts to verify them.</p>
+<p>If Plug-in can verify the certificate chain all the way up to
+its Root CA certificate, it checks if that Root CA certificate is
+contained in the database of trusted Root CA certificates. If so,
+Plug-in will display the certificate chain of the authenticated
+signer and ask the user whether or not to grant
+<code>AllPermission</code> to code signed by that principal. Java
+code that is assigned the <code>AllPermission</code> permission is
+treated the same as system code, meaning it has all the privileges
+that system code has. The user can then choose whether or not to
+grant <code>AllPermission</code> to code signed by that principal,
+and whether such permission should be granted to any code signed by
+that principal for all subsequent sessions or for the current
+session only.</p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

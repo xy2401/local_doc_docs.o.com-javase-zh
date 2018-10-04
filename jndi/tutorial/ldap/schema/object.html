@@ -1,0 +1,429 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Object Class Definitions</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="jndi.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="attribute.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Schema</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Object Class Definitions
+</h2>
+<p>
+<blockquote>
+
+All LDAP entries in the directory are <em>typed</em>.
+That is, each entry belongs to <em>object classes</em> that identify
+the type of data represented by the entry.
+The object class specifies the mandatory and optional attributes
+that can be associated with an entry of that class.
+<p>
+The object classes for all objects in the directory
+form a class hierarchy. The classes 
+<tt>"top"</tt> and <tt>"alias"</tt> are at the root
+of the hierarchy.
+For example, the <tt>"organizationalPerson"</tt> object class is a subclass of
+the <tt>"Person"</tt> object class, which in turn is a subclass of <tt>"top"</tt>.
+When creating a new LDAP entry, you must always specify all of the
+object classes to which the new entry belongs.
+Because many directories do not support object class subclassing, you also should
+always include all of the superclasses of the entry.
+For example, for an 
+<tt>"organizationalPerson"</tt> object, you should list
+in its object classes the 
+<tt>"organizationalPerson"</tt>, 
+<tt>"person"</tt>, and 
+<tt>"top"</tt> classes.
+<p>
+Three types of object classes are possible:
+<ul>
+<li><b>Structural.</b> Indicates the attributes that the entry may have
+and where each entry may occur in the DIT.
+<li><b>Auxiliary.</b> Indicates the attributes that the entry may have.
+<li><b>Abstract.</b> Indicates a "partial" specification in the object class hierarchy;
+only structural and auxiliary subclasses may appear as entries in the directory.
+</ul>
+<p>
+
+In the schema tree, the name <tt>"ClassDefinition"</tt>
+is bound to a flat context containing
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html"><tt>DirContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    objects that represents object class definitions in the schema. For example,
+if a directory supports a <tt>"person"</tt> object class, then the 
+<tt>"ClassDefinition"</tt>
+context will have a binding with the name <tt>"person"</tt> that is bound to a 
+<TT>DirContext</TT> object.
+Each object in the <tt>"ClassDefinition"</tt> context has mandatory
+and optional attributes shown in the following table.
+Only <tt>"NUMERICOID"</tt> is mandatory.
+<BR>&nbsp;
+<CENTER><TABLE BORDER CELLPADDING=3 WIDTH="70%">
+<TR>
+<TH>Attribute Identifier</TH>
+
+<TH>Attribute Value Description</TH>
+</TR>
+
+<TR>
+<TD>NUMERICOID (<FONT COLOR="#CC0000">mandatory</FONT>)</TD>
+
+<TD>Unique object identifier (OID)</TD>
+</TR>
+
+<TR>
+<TD>NAME</TD>
+
+<TD>Object class's name</TD>
+</TR>
+
+<TR>
+<TD>DESC</TD>
+
+<TD>Object class's description</TD>
+</TR>
+
+<TR>
+<TD>OBSOLETE</TD>
+
+<TD><tt>"true"</tt> if obsolete; <tt>"false"</tt> or absent otherwise</TD>
+</TR>
+
+<TR>
+<TD>SUP</TD>
+
+<TD>Names of superior object classes from which this object class is derived</TD>
+</TR>
+
+<TR>
+<TD>ABSTRACT</TD>
+
+<TD><tt>"true"</tt> if object class is abstract; <tt>"false"</tt> or absent otherwise</TD>
+</TR>
+
+<TR>
+<TD>STRUCTURAL</TD>
+
+<TD><tt>"true"</tt> if object class is structural; <tt>"false"</tt> or absent otherwise</TD>
+</TR>
+
+<TR>
+<TD>AUXILIARY</TD>
+
+<TD><tt>"true"</tt> if object class is auxiliary; <tt>"false"</tt> or absent otherwise</TD>
+</TR>
+
+<TR>
+<TD>MUST</TD>
+
+<TD>List of type names of attributes that must be present</TD>
+</TR>
+
+<TR>
+<TD>MAY</TD>
+
+<TD>List of type names of attributes that may be present</TD>
+</TR>
+<!--
+<TR>
+<TD>NOT</TD>
+
+<TD>List of type names of attributes that must not be present</TD>
+</TR>
+-->
+</TABLE></CENTER>
+
+<P>These attributes correspond to the definition of "ObjectClassDescription"
+in <A HREF="http://www.ietf.org/rfc/rfc2252.txt">RFC 2252</A>.
+All of the attribute values are represented by the <TT>java.lang.String</TT>
+class. Some directories do not publish all of the schema data. For example, 
+the <a href="http://www.sun.com/">SunONE Directory Server v5.1</a>
+does not publish whether an object class is abstract, structural,
+or auxiliary. In such cases, the schema objects do not completely
+describe the object classes definitions.
+
+<h4>Retrieving the Schema Object of an Object Class</h4>
+
+To retrieve the schema object of an object class,
+you look for it in the schema tree.
+For example, you can obtain the schema object 
+that represents the <tt>"person"</tt> object
+class by using the <a href=src/LookupObjectClass.java>following code</a>.
+<BLOCKQUOTE>
+<PRE>
+// Get the schema tree root
+DirContext schema = ctx.getSchema("");
+
+// Get the schema object for "person"
+DirContext personSchema = (DirContext)schema.lookup("ClassDefinition/person");
+</pre></BLOCKQUOTE>
+If you get the attributes of the <tt>personSchema</tt> schema
+object, then you will see the following.
+<BLOCKQUOTE>
+<PRE>
+NUMERICOID: 2.5.6.6
+NAME: person 
+MAY:  description, seealso, telephonenumber, userpassword
+MUST: objectclass, sn, cn 
+DESC: Standard ObjectClass 
+SUP: top
+</pre>
+</BLOCKQUOTE>
+<p>
+In addition to using <tt>lookup()</tt>, you can use methods such as
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><tt>list()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    or 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.directory.SearchControls)"><tt>search()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.directory.SearchControls)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    to retrieve schema objects from the schema tree.
+
+<h4>Getting an Entry's Object Classes</h4>
+<p>
+Given a <tt>DirContext</tt> object representing an LDAP entry,
+you can get that entry's object classes by invoking
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#getSchemaClassDefinition(javax.naming.Name)"><tt>DirContext.getSchemaClassDefinition()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#getSchemaClassDefinition(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    on it.
+<p>
+Following is <a href=src/GetClassDefn.java>an example</a> that enumerates the
+object class definitions for the entry <tt>"cn=Ted Geisel, ou=People"</tt>.
+<tt>getSchemaClassDefinition()</tt> returns a context 
+that contains the entry's
+object class definitions. Using this context, you can look up an individual
+definition, search for a definition, enumerate all definitions,
+or perform other <tt>DirContext</tt> operations.
+<blockquote><pre>
+// Create the initial context
+DirContext ctx = new InitialDirContext(env);
+
+// Get context containing class definitions for the "cn=Ted Geisel" entry
+DirContext tedClasses = ctx.getSchemaClassDefinition("cn=Ted Geisel, ou=People");
+
+// Enumerate the class definitions
+NamingEnumeration namingEnum = tedClasses.search("", null);
+while (namingEnum.hasMore()) {
+    System.out.println(namingEnum.next());
+}
+</pre></blockquote>
+
+
+<a name=ADD><h4>Adding a New Object Class</h4></a>
+
+<blockquote>
+<hr>
+<strong>Before you go on: </strong>To update the schema, you must authenticate as 
+the <em>directory administrator</em>. This is the name that you supplied
+to the directory administration program when you first configured the directory.
+For example, if you configured <tt>"cn=Directory Manager"</tt> as the administrator,
+then you need to do something like the following when creating the initial context.
+<blockquote><pre>
+env.put(Context.SECURITY_PRINCIPAL, "cn=Directory Manager");
+env.put(Context.SECURITY_CREDENTIALS, "secret99");
+</pre></blockquote>
+<p>
+<strong>Netscape v4.0 Bugs: </strong>
+The <a href="http://www.netscape.com/">Netscape Directory Server v4.0</a>
+and earlier releases do not support schema entries that comply with 
+<A HREF="http://www.ietf.org/rfc/rfc2252.txt">RFC 2252</A>.
+Specifically, contrary to RFC 2252, the Netscape server requires
+that
+OIDs (such as those for SUP and SYNTAX) be
+delimited by single quotation marks and MUST/MAY lists be enclosed by parentheses.
+By default, the LDAP service provider produces schema entries that
+comply with RFC 2252 but are not acceptable to the Netscape server.
+To produce schema entries that are acceptable to the
+Netscape v4.0 server, you must add the following to 
+the environment properties before creating the initial context:
+<blockquote><pre>
+env.put("com.sun.jndi.ldap.netscape.schemaBugs", "true");
+</pre></blockquote>
+
+<strong>Netscape v4.1 Bugs: </strong>
+The <a href="http://www.netscape.com/">Netscape Directory Server v4.1</a>
+has fixed some of the schema-handling problems found in the version 4.0 server, so
+you should <em>not</em> use the 
+<tt>"com.sun.jndi.ldap.netscape.schemaBugs"</tt> property with version 4.1.
+However, the  version 4.1 server still requires that MUST/MAY lists be enclosed by parentheses. 
+Sun's LDAP provider uses a quoted item instead of a parenthetical
+list for single-item MUST/MAY specifications.
+You can work around this problem by creating a single-valued
+<tt>"MUST"</tt>/<tt>"MAY"</tt> attribute and then adding
+a superfluous value, such as <tt>"objectclass"</tt>, 
+when you are modifying or creating an object class definition
+that has a single-itme MUST/MAY list.
+<p>
+<strong>Windows Active Directory: </strong>
+Active Directory does not support the modification of the 
+<A HREF="http://www.ietf.org/rfc/rfc2252.txt">RFC 2252</A> schema
+descriptions. Instead, you must update Active Directory's internal
+schema representation.
+See the
+<a href="http://www.microsoft.com/windows2000/techinfo/planning/activedirectory/adschemasteps.asp">Windows 
+2000 Planning Guide</a> for details on
+how to enable and perform schema updates.
+
+<p>
+<strong>OpenLDAP: </strong>
+<a href=http://www.openldap.org>OpenLDAP</a> does not support the modification 
+of the <A HREF="http://www.ietf.org/rfc/rfc2252.txt">RFC 2252</A> schema
+descriptions. Instead, you must add any new schema or updated schema
+descriptions statically to the server's schema files.
+See the OpenLDAP documentation for details.
+<hr>
+</blockquote>
+Adding a new object class to the schema is like adding a new entry
+to the directory.
+This is because the schema tree and schema objects are
+<tt>DirContext</tt> objects.
+<p>
+Following is <a href=src/AddObjectClass.java>an example</a> that adds a new
+object class (<tt>"fooObjectClas"</tt>) to the schema. It first declares the attributes that
+describe the new object class and then adds the object class definition
+to the schema by using
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#createSubcontext(java.lang.String, javax.naming.directory.Attributes)"><tt>DirContext.createSubcontext()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#createSubcontext(java.lang.String, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<blockquote><pre>
+// Specify attributes for the schema object
+Attributes attrs = new BasicAttributes(true); // Ignore case
+attrs.put("NUMERICOID", "1.3.6.1.4.1.42.2.27.4.2.3.1.1.1");
+attrs.put("NAME", "fooObjectClass");
+attrs.put("DESC", "for JNDITutorial example only");
+attrs.put("SUP", "top");
+attrs.put("STRUCTURAL", "true");
+Attribute must = new BasicAttribute("MUST", "cn");
+must.add("objectclass");
+attrs.put(must);
+
+// Get the schema tree root
+DirContext schema = ctx.getSchema("");
+
+// Add the new schema object for "fooObjectClass"
+DirContext newClass = schema.createSubcontext("ClassDefinition/fooObjectClass", attrs);
+</pre></blockquote>
+
+Some servers might modify the definition before adding it to the schema.
+To check the newly added definition, use a new initial context
+to read the definition so that any cached definition is not used.
+
+
+<h4>Modifying an Object Class</h4>
+
+<blockquote>
+<hr>
+<strong>Note:</strong>
+In versions of the LDAP provider prior to the Java 2 SDK, v1.4,
+you cannot modify an existing object class.
+In those releases, you must first delete the existing object class definition 
+and then add the updated version.
+<p>
+<strong>Before you go on: </strong>
+See the <a href=#ADD>Adding a New Object Class section</a>
+for notes regarding updating the schema.
+<hr>
+</blockquote>
+
+Modifying an existing object class in the schema is like modifying an entry
+in the directory.
+Here's <a href=src/ModifyObjectClass.java>an example</a> that adds
+a <tt>"description"</tt> optional attribute to
+the object class <tt>"fooObjectClass"</tt> in the schema by using
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#modifyAttributes(java.lang.String, int, javax.naming.directory.Attributes)"><tt>DirContext.modifyAttributes()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#modifyAttributes(java.lang.String, int, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<blockquote><pre>
+// Specify new MAY attribute for schema object
+Attribute may = new BasicAttribute("MAY", "description");
+Attributes attrs = new BasicAttributes(false);
+attrs.put(may);
+
+// Get the schema tree root
+DirContext schema = ctx.getSchema("");
+
+// Modify schema object for "fooObjectClass"
+schema.modifyAttributes("ClassDefinition/fooObjectClass", 
+    DirContext.ADD_ATTRIBUTE, attrs);
+</pre></blockquote>
+
+Some servers might modify the definition before performing
+the update on the schema or ignore the update.
+To check the newly updated definition, use a new 
+initial context to read the definition
+so that any cached definition is not used.
+
+
+<h4>Deleting an Object Class</h4>
+
+<blockquote>
+<hr>
+<strong>Before you go on: </strong>
+See the <a href=#ADD>Adding a New Object Class section</a>
+for notes regarding updating the schema.
+<hr>
+</blockquote>
+
+Deleting an existing object class from the schema is like deleting an entry
+from the directory.
+Here's <a href=src/DeleteObjectClass.java>an example</a> that removes
+the object class <tt>"fooObjectClass"</tt> from the schema by using
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#destroySubcontext(java.lang.String)"><tt>DirContext.destroySubcontext()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#destroySubcontext(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<blockquote><pre>
+// Get the schema tree root
+DirContext schema = ctx.getSchema("");
+
+// Remove the schema object for "fooObjectClass"
+schema.destroySubcontext("ClassDefinition/fooObjectClass");
+</pre></blockquote>
+
+Some servers might not let you delete an object class that's being used
+by entries in the directory. You might be able to get around this restriction by
+turning off schema checking.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="jndi.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="attribute.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Schema</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

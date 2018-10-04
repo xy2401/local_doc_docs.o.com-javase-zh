@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<!-- InstanceBegin template="/Templates/jweb_guide_template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Codebase Determination</title>
+<!-- InstanceEndEditable -->
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Codebase Determination</h1></div>
+<p style="background-color: rgb(247, 248, 249); border-width: 1px; padding: 10px; font-style: italic; border-style: solid; border-color: rgb(64, 74, 91);">These documentation pages are no longer current. They remain available for archival purposes. Please visit <a href="https://docs.oracle.com/javase"><code>https://docs.oracle.com/javase</code></a> for the most up-to-date documentation.</p>
+
+<p><a href="../index.html">Java Rich Internet Applications Guide</a> &gt; <a href="applet_dev_guide.html">Applet Developer's Guide</a> &gt; Codebase Determination</p>
+
+<p>The following topics are covered:</p>
+
+<ul>
+<li class="TOC"><a href="#intro">Codebase Computation Rules</a>
+<ul>
+<li><a href="#CODEBASE_EXAMPLES">Examples</a></li>
+</ul>
+</li>
+<li class="TOC"><a href="#CODEBASE_BEST_PRACTICES">Best
+Practices</a></li>
+</ul>
+
+<h2><a name="intro" id="intro"></a>Codebase Computation Rules</h2>
+<p>In a JNLP file, the codebase is an optional parameter to the
+<code>&lt;jnlp&gt;</code> tag. It is used both to locate resources
+described in that JNLP file, as well as to find the JNLP file
+itself. For technical reasons, Java Web Start is not able to
+refresh the contents of the JNLP file from the server unless an
+absolute codebase is specified.</p>
+<p>A codebase is always provided by the browser, either
+because it was explicitly specified, or implicitly obtained from
+the location of the HTML document. This allows relative URLs to be
+used in JNLP files, which is very useful for moving an entire tree
+of content from one server to another.</p>
+<p>JNLP files reference other JNLP files in a tree structure. The
+root JNLP file for a JNLP applet is referenced by an
+<code>&lt;applet&gt;</code> tag. The applet tag's codebase helps
+define the location of the <em>root JNLP file</em>.</p>
+<p>The rules for codebase computation are as follows:</p>
+<ul>
+<li>If an absolute codebase is specified in the JNLP file, it is
+used. This is required for backward compatibility reasons.</li>
+<li>If the JNLP codebase is not specified, the directory containing
+the JNLP file is used.</li>
+<li>Otherwise, merge the JNLP's codebase into the directory
+containing the JNLP file.</li>
+</ul>
+<p>In simple Java terms, this can be expressed as</p>
+<pre>
+   URL new_codebase = new URL(current_jnlp_dir, current_jnlp_codebase);
+</pre>
+<p>This codebase computation is not an extension of JSR-56. JSR-56
+does not restrict the codebase to be <b>absolute</b>, and therefore
+it <em>may</em> be <b>relative</b>.</p>
+<h3><a name="CODEBASE_EXAMPLES" id=
+"CODEBASE_EXAMPLES">Examples</a></h3>
+<p>Example 1:</p>
+<pre>
+   this JNLP's location:   http://someserver.example.com/this.jnlp
+   this JNLP's codebase:   http://www.example.com/test/
+   resulting codebase for
+     parsing this JNLP:    http://www.example.com/test/
+</pre>
+<p>Example 2:</p>
+<pre>
+   this JNLP's location:   http://www.example.com/test2/this.jnlp
+   this JNLP's codebase:   &lt;none&gt;
+   resulting codebase for
+     parsing this JNLP:    http://www.example.com/test2/
+</pre>
+<p>Example 3:</p>
+<pre>
+   this JNLP's location:   http://www.example.com/this.jnlp
+   this JNLP's codebase:   codebasedir
+   resulting codebase for
+     parsing this JNLP:    http://www.example.com/codebasedir
+</pre>
+<p>Example 4:</p>
+<p>Relative paths are used to refer to each nested JNLP, just as in
+a tree of HTML files.</p>
+<pre>
+   www.example.com/html/my_applet.html
+     refers to: my_applet.jnlp
+     codebase:  www.example.com/html
+
+     my_applet.jnlp:
+       codebase not specified
+       inherits "www.example.com/html"
+       references JNLP extension "jogl/jogl.jnlp"
+
+     jogl/
+       jogl.jnlp
+       codebase not specified
+       inherits "www.example.com/html/jogl"
+         (the directory containing jogl.jnlp)
+       references gluegen-rt/gluegen-rt.jnlp
+
+       gluegen-rt/
+         gluegen-rt.jnlp
+         codebase not specified
+         inherits "www.example.com/html/jogl/gluegen-rt"
+           (the directory containing gluegen-rt.jnlp)
+</pre>
+<h2><a name="CODEBASE_BEST_PRACTICES" id=
+"CODEBASE_BEST_PRACTICES">Best Practices</a></h2>
+<p>We recommend either:</p>
+<ul>
+<li>Leaving the codebase empty for both the main or extension JNLP
+file, allowing the referencing JNLP file or
+<code>&lt;applet&gt;</code> tag to implicitly specify the
+codebase.</li>
+<li>Specifying an absolute URL for the codebase of any main or
+extension JNLP file.</li>
+</ul>
+
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

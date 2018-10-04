@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Fatal Error Reporting</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="Fatal errors are errors such as native memory exhaustion, memory access errors, or explicit signals directed to the process. Fatal errors can be triggered by native code within the application (for example, developer-written Java Native Interface (JNI) code), by third-party native libraries that the are used by application or the JVM, or by native code in the JVM. If a fatal error causes the process that is hosting the JVM to terminate, the JVM gathers information about the error and writes a crash report." />
+<meta name="dcterms.created" content="2018-03-13T05:24:14Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Java Virtual Machine Guide" />
+<meta name="dcterms.identifier" content="E91108-01" />
+<meta name="dcterms.isVersionOf" content="JSJVM" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="dtrace-probes-hotspot-vm.htm" title="Previous" type="text/html" />
+<link rel="Next" href="java-virtual-machine-related-resources.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSJVM.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-2A43EBDE-5EF0-4E6D-AEB6-D6F4B08D8B0C"></a> <span id="PAGE" style="display:none;">16/17</span> <!-- End Header -->
+<h1 id="JSJVM-GUID-2A43EBDE-5EF0-4E6D-AEB6-D6F4B08D8B0C" class="sect1"><span class="enumeration_chapter">10</span> Fatal Error Reporting</h1>
+<div>
+<p>Fatal errors are errors such as native memory exhaustion, memory access errors, or explicit signals directed to the process. Fatal errors can be triggered by native code within the application (for example, developer-written Java Native Interface (JNI) code), by third-party native libraries that the are used by application or the JVM, or by native code in the JVM. If a fatal error causes the process that is hosting the JVM to terminate, the JVM gathers information about the error and writes a crash report.</p>
+<p>The JVM tries to identify the nature and location of the error. If possible, the JVM writes detailed information about the state of the JVM and the process, at the time of the crash. The details that are available can depend on the platform and the nature of the crash.&nbsp;The information that is provided by this error-reporting mechanism lets you debug your application more easily and efficiently, and helps you identify issues in third-party code. When an error message indicates a problem in the JVM code, you can submit a more accurate and helpful bug report. In some cases, crash report generation causes secondary errors that prevent full details from being reported.</p>
+</div>
+<div class="sect2"><a id="GUID-AAEB5185-60E8-441D-92E4-7079C3DA40B5"></a>
+<h2 id="JSJVM-GUID-AAEB5185-60E8-441D-92E4-7079C3DA40B5" class="sect2">Error Report Example</h2>
+<div>
+<p>The following example shows the start of an error report (file <code>hs_err_pid18240.log</code>) for a crash in the native JNI code for an application:</p>
+<pre dir="ltr">
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f0f159f857d, pid=18240, tid=18245
+#
+# JRE version: Java(TM) SE Runtime Environment (9.0+167) (build 9-ea+167)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (9-ea+167, mixed mode, tiered, compressed oops, g1 gc, linux-amd64)
+# Problematic frame:
+# C  [libMyApp.so+0x57d]  Java_MyApp_readData+0x11
+#
+# Core dump will be written. Default location: /cores/core.18240)
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: MyApp
+
+Host: Intel(R) Xeon(R) CPU           X5675  @ 3.07GHz, 24 cores, 141G, Ubuntu 12.04 LTS
+Time: Fri Apr 28 02:57:13 2017 EDT elapsed time: 2 seconds (0d 0h 0m 2s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00007f102c013000):  JavaThread "main" [_thread_in_native, id=18245, stack(0x00007f10345c0000,0x00007f10346c0000)]
+
+Stack: [0x00007f10345c0000,0x00007f10346c0000],  sp=0x00007f10346be930,  free space=1018k
+Native frames: (J=compiled Java code, A=aot compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  [libMyApp.so+0x57d]  Java_MyApp_readData+0x11
+j  MyApp.readData()I+0
+j  MyApp.main([Ljava/lang/String;)V+15
+v  ~StubRoutines::call_stub
+V  [libjvm.so+0x839eea]  JavaCalls::call_helper(JavaValue*, methodHandle const&amp;, JavaCallArguments*, Thread*)+0x47a
+V  [libjvm.so+0x896fcf]  jni_invoke_static(JNIEnv_*, JavaValue*, _jobject*, JNICallType, _jmethodID*, JNI_ArgumentPusher*, Thread*) [clone .isra.90]+0x21f
+V  [libjvm.so+0x8a7f1e]  jni_CallStaticVoidMethod+0x14e
+C  [libjli.so+0x4142]  JavaMain+0x812
+C  [libpthread.so.0+0x7e9a]  start_thread+0xda
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  MyApp.readData()I+0
+j  MyApp.main([Ljava/lang/String;)V+15
+v  ~StubRoutines::call_stub
+
+siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000000000000
+</pre></div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment82">
+<tr>
+<td class="cellalignment89">
+<table class="cellalignment87">
+<tr>
+<td class="cellalignment86"><a href="dtrace-probes-hotspot-vm.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment86"><a href="java-virtual-machine-related-resources.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment91">
+<table class="cellalignment85">
+<tr>
+<td class="cellalignment86"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment86"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment86"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Applets and Java Web Start Applications</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="Descriptions of some problems and solutions related to deploying Java applets and Java Web Start applications." />
+<meta name="dcterms.created" content="2017-10-12T11:32:58Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Troubleshooting Guide" />
+<meta name="dcterms.identifier" content="E61074-05" />
+<meta name="dcterms.isVersionOf" content="JSTGD" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1995, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="java-sound.htm" title="Previous" type="text/html" />
+<link rel="Next" href="submit-bug-reports.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSTGD.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSTGD.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSTGD.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-27B88930-515E-4925-ACFD-EB87F439E4C2"></a> <span id="PAGE" style="display:none;">23/31</span> <!-- End Header -->
+<a id="JSTGD494"></a><a id="JSTGD493"></a>
+<h1 id="JSTGD-GUID-27B88930-515E-4925-ACFD-EB87F439E4C2" class="sect1"><span class="enumeration_chapter">16</span> Applets and Java Web Start Applications</h1>
+<div>
+<p>Descriptions of some problems and solutions related to deploying Java applets and Java Web Start applications.</p>
+<p>This chapter contains the following sections:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="applets-and-java-web-start-applications.htm#GUID-95D16C1D-3C9A-41A4-B224-F98C8843C8AA" title="Troubleshooting techniques to solve configuration problems in applets and a Java Web Start application.">Configuration Problems</a></p>
+</li>
+<li>
+<p><a href="applets-and-java-web-start-applications.htm#GUID-961C4E20-A98B-4E03-AA93-87EB034B0C3D">Troubleshoot Applets</a></p>
+</li>
+<li>
+<p><a href="applets-and-java-web-start-applications.htm#GUID-2476953C-D768-4F4D-B4EA-8E7AE30C1C5B">Avoid Security Dialog Boxes</a></p>
+</li>
+<li>
+<p><a href="applets-and-java-web-start-applications.htm#GUID-CFF4C1C5-4348-45A9-9ECC-53F9E424B061" title="For Java Web Start applications and applets, you can use most of techniques available to debug and profile standalone applications, except that you will need to use the attach mechanism instead of direct launch.">Development Tips</a></p>
+</li>
+</ul>
+</div>
+<a id="JSTGD495"></a>
+<div class="props_rev_3"><a id="GUID-95D16C1D-3C9A-41A4-B224-F98C8843C8AA"></a>
+<h2 id="JSTGD-GUID-95D16C1D-3C9A-41A4-B224-F98C8843C8AA" class="sect2">Configuration Problems</h2>
+<div>
+<p>Troubleshooting techniques to solve configuration problems in applets and a Java Web Start application.</p>
+<p>This following sections describes a number of problems concerning various configuration parameters and settings, and suggests troubleshooting techniques for configuring applets and Java Web Start applications.</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="applets-and-java-web-start-applications.htm#GUID-E69EDD58-BA01-47CF-B0DE-962AFED543CE" title="Validation techniques when your application does not run.">Validation</a></p>
+</li>
+<li>
+<p><a href="applets-and-java-web-start-applications.htm#GUID-EE3A193E-B898-4EFB-9CCD-ECA87AC4420C" title="Troubleshooting techniques to solve common configuration problems.">Common Configuration Problems</a></p>
+</li>
+<li>
+<p><a href="applets-and-java-web-start-applications.htm#GUID-E983B46E-0829-4F07-8464-3B39D8BB6C29" title="You can use the Java Control Panel tool to manage the list of installed Java Runtime Environments and their behavior.">Manage Java Runtime</a></p>
+</li>
+<li>
+<p><a href="applets-and-java-web-start-applications.htm#GUID-15EA6233-C4A7-4419-BF41-9D2560B3DE45" title="Troubleshooting, debugging, profiling, and other development activities may require launching the JVM with a special set of parameters. One way to accomplish this is to use the Java Control Panel.">Pass Parameters to the JRE</a></p>
+</li>
+<li>
+<p><a href="applets-and-java-web-start-applications.htm#GUID-6BC2FC2C-785E-47F3-8EBC-B651CA7E78F1">Java Deployment Home</a></p>
+</li>
+<li>
+<p><a href="applets-and-java-web-start-applications.htm#GUID-F70C2DB3-2A06-4D9E-ADEB-06C62473DFAF" title="Both Java Plug-in and Java Web Start can print trace information into trace files. This includes log information from the JRE itself as well as everything your application may be printing to System.out or System.err.">Deployment Tracing</a></p>
+</li>
+<li>
+<p><a href="applets-and-java-web-start-applications.htm#GUID-0BEFC93E-1AA6-4CDB-A502-72F1E3EC8DA5">Deployment Cache</a></p>
+</li>
+<li>
+<p><a href="applets-and-java-web-start-applications.htm#GUID-8D3F8130-5993-493F-9FDF-1F02040BA7C3">Network Configuration</a></p>
+</li>
+</ul>
+</div>
+<a id="JSTGD496"></a>
+<div class="props_rev_3"><a id="GUID-E69EDD58-BA01-47CF-B0DE-962AFED543CE"></a>
+<h3 id="JSTGD-GUID-E69EDD58-BA01-47CF-B0DE-962AFED543CE" class="sect3">Validation</h3>
+<div>
+<p>Validation techniques when your application does not run.</p>
+<div class="section">
+<p>If your application does not run, perform the following checks:</p>
+</div>
+<!-- class="section" -->
+<ol>
+<li class="stepexpand"><span><span class="bold">Verify that the Java Plugin is working.</span></span>
+<div>
+<ul style="list-style-type: disc;">
+<li>
+<p>Go to <a href="http://java.com/en/download/installed.jsp" target="_blank">Verify Java and Find Versions</a>.</p>
+</li>
+<li>
+<p>Click <span class="bold">Verify Java version</span>.</p>
+</li>
+<li>
+<p>If you see that the expected Java technology version is reported, then the plugin is enabled and found.</p>
+</li>
+</ul>
+</div>
+</li>
+<li class="stepexpand"><span><span class="bold">Check that your browser knows about the Java plugin</span>.</span>
+<div>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold">Chrome</span>: Enter <code class="codeph">about: plugins</code> in the address bar.</p>
+</li>
+<li>
+<p><span class="bold">Firefox</span>: On the <span class="bold">Tools</span> menu, select <span class="bold">Addons</span> and click <span class="bold">Plugins</span>.</p>
+</li>
+<li>
+<p><span class="bold">Internet Explorer</span>: On the <span class="bold">Tools</span> menu, select <span class="bold">Manage Addons</span>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li class="stepexpand"><span><span class="bold">Make sure the Java runtime environment is installed</span>.</span>
+<div>
+<p>On Windows, check the list of installed programs in the Control Panel.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<a id="JSTGD497"></a>
+<div class="props_rev_3"><a id="GUID-EE3A193E-B898-4EFB-9CCD-ECA87AC4420C"></a>
+<h3 id="JSTGD-GUID-EE3A193E-B898-4EFB-9CCD-ECA87AC4420C" class="sect3">Common Configuration Problems</h3>
+<div>
+<p>Troubleshooting techniques to solve common configuration problems.</p>
+<div class="section">
+<p>The following are troubleshooting techniques for common configuration problems:</p>
+</div>
+<!-- class="section" -->
+<ul>
+<li class="stepexpand"><span><span class="bold">Install Java runtime:</span></span>
+<div>
+<div class="p">It is not sufficient to install the Java Developer Kit. A JRE is required to be able to run an applet or a Java Start application.
+<div class="infobox-note" id="GUID-EE3A193E-B898-4EFB-9CCD-ECA87AC4420C__GUID-03F3A459-F01F-4660-8BBB-E4EA59274D36">
+<p class="notep1">Note:</p>
+The JRE requires a 64-bit browser.</div>
+</div>
+</div>
+</li>
+<li class="stepexpand"><span><span class="bold">Use the latest matching plugin/webstart:</span></span>
+<div>
+<p>There could be just one plugin registered in the browser, and the JRE always registers the plugin from the latest JRE on the system as active. The only way to ensure the use of an older plugin is to uninstall newer JREs.</p>
+</div>
+</li>
+<li class="stepexpand"><span><span class="bold">Restart the browser for any change in the Java runtime configuration:</span></span>
+<div>
+<p>Java is not enabled or there are multiple places where Java could be disabled. Check the Java Control Panel and your browser plug-ins/addons list.</p>
+</div>
+</li>
+<li class="stepexpand"><span><span class="bold">Ensure that the new generation plugin is enabled:</span></span>
+<div>
+<p>Unless you need to run in the legacy mode, ensure that the <span class="bold">New generation plugin</span> is enabled in the Java Control Panel.</p>
+</div>
+</li>
+<li class="stepexpand"><span><span class="bold">Enable JavaScript:</span></span>
+<div>
+<p>If JavaScript is disabled, then an attempt to launch a Java applet may fail at a very early stage.</p>
+</div>
+</li>
+<li class="stepexpand"><span><span class="bold">Disable last-time usage time tracking:</span></span>
+<div>The JRE keeps track of the last time it was used. It records, in a file, the last time it was used for an applet or a Java Web Start application, or invoked from the command line or through any other method.
+<p>By default, last-usage time tracking is enabled. To disable last-usage time tracking, set the Java Usage Tracker property <code class="codeph">com.oracle.usagetracker.track.last.usage</code> to <code class="codeph">false</code> in the Java Usage Tracker properties file. See <a class="olink JSUTO-GUID-C75C1DF1-95DA-4636-A2D3-3DFC4096EDE1" target="_blank" href="http://www.oracle.com/pls/topic/lookup?ctx=javase9&amp;id=JSUTO-GUID-C75C1DF1-95DA-4636-A2D3-3DFC4096EDE1">Java Usage Tracker Properties</a> in <span><cite>Java Platform, Standard Edition Usage Tracker Guide</cite></span> for more information.</p>
+<div class="p">If last-usage time tracking is enabled, then it creates a file in one of the following directories, depending on your operating system:
+<ul style="list-style-type: disc;">
+<li>
+<p>Windows: <code class="codeph">%ProgramData%\Oracle\Java\.oracle_jre-usage\</code></p>
+</li>
+<li>
+<p>All other operating systems: <code class="codeph">${user.home}/.oracle_jre_usage/</code></p>
+</li>
+</ul>
+</div>
+<div class="infobox-note" id="GUID-EE3A193E-B898-4EFB-9CCD-ECA87AC4420C__GUID-096FED5B-2B83-48BA-97F4-CECD9B76CF74">
+<p class="notep1">Note:</p>
+<p>Java Usage Tracker, which is a commercial feature, and last-usage time tracking, which is not a commercial feature, are enabled separately; disabling one does not disable the other.</p>
+</div>
+</div>
+</li>
+<li class="stepexpand"><span><span class="bold">Java control panel fails to make changes in the Java config:</span></span>
+<div>
+<p>On Windows 7 or Windows Vista systems with UAC on, the Java Control Panel may fail to update the global registry settings. To work around this, ensure that you launch Java Control Panel as Administrator if you need to alter these settings.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<a id="JSTGD499"></a><a id="JSTGD498"></a>
+<div class="props_rev_3"><a id="GUID-E983B46E-0829-4F07-8464-3B39D8BB6C29"></a>
+<h3 id="JSTGD-GUID-E983B46E-0829-4F07-8464-3B39D8BB6C29" class="sect3">Manage Java Runtime</h3>
+<div>
+<p>You can use the Java Control Panel tool to manage the list of installed Java Runtime Environments and their behavior.</p>
+<div class="section">
+<p>The Java Control Panel can be launched from the <code>bin</code> directory of the JRE installation folder. On Windows operating systems, you can also access it from <span class="bold">Control Panel &gt; Java</span>.</p>
+<p>Use the Java Control Panel if you need to:</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<ul style="list-style-type: disc;">
+<li>
+<p>See which versions of the JRE are installed and active</p>
+</li>
+<li>
+<p>Temporarily enable or disable the use of a particular version of the JRE</p>
+</li>
+<li>
+<p>Set "global" parameters to be passed to the JVM when an applet or Web Start application is launched</p>
+</li>
+<li>
+<p>Enable or disable the use of the Java Plugin in a particular browser</p>
+</li>
+<li>
+<p>Tune behavior of the Plugin or Web Start application by specifying configuration parameters such as the location of cache of temporary files or enable tracing, as shown in <a href="applets-and-java-web-start-applications.htm#GUID-E983B46E-0829-4F07-8464-3B39D8BB6C29__BABJFDEC">Figure 16-1</a>.</p>
+</li>
+</ul>
+<div class="figure" id="GUID-E983B46E-0829-4F07-8464-3B39D8BB6C29__BABJFDEC">
+<p class="titleinfigure">Figure 16-1 The Java Runtime Environment Settings Window</p>
+<img width="542" height="359" src="img/jres.png" alt="Description of Figure 16-1 follows" title="Description of Figure 16-1 follows" /><br />
+<a href="img_text/jres.htm">Description of "Figure 16-1 The Java Runtime Environment Settings Window"</a></div>
+<!-- class="figure" --></div>
+<!-- class="section" --></div>
+</div>
+<a id="JSTGD500"></a>
+<div class="props_rev_3"><a id="GUID-15EA6233-C4A7-4419-BF41-9D2560B3DE45"></a>
+<h3 id="JSTGD-GUID-15EA6233-C4A7-4419-BF41-9D2560B3DE45" class="sect3">Pass Parameters to the JRE</h3>
+<div>
+<p>Troubleshooting, debugging, profiling, and other development activities may require launching the JVM with a special set of parameters. One way to accomplish this is to use the Java Control Panel.</p>
+<div class="section">
+<p>Open the Java Control Panel, and click <span class="bold">View</span> on the <span class="bold">Java</span> tab. Select the <span class="bold">Runtime Parameters</span> cell for the JRE that you want to change, and enter parameters into this cell.</p>
+<div class="infobox-note" id="GUID-15EA6233-C4A7-4419-BF41-9D2560B3DE45__GUID-E3260795-798B-4D5C-8BA4-2F6A5ACA7F32">
+<p class="notep1">Note:</p>
+<p>These changes are global, meaning that any Java Web Start application or applet that runs using this version of JRE will have these parameters set (in addition to what the applet tag or JNLP file may specify).</p>
+</div>
+<p>To pass parameters to a specific JVM used with Java Web Start or an applet, use one of the following techniques:</p>
+</div>
+<!-- class="section" -->
+<ul>
+<li class="stepexpand"><span>Set the environment variable before launching <code class="codeph">javaws</code> or the browser process.</span>
+<div>
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph">JAVAWS_VM_ARGS</code> for Java Web Start applications. For example:</p>
+<pre dir="ltr">
+JAVAWS_VM_ARGS = -Dsome.property=true
+</pre></li>
+<li>
+<p><code class="codeph">_JPI_VM_OPTIONS</code> for applets. For example:</p>
+<pre dir="ltr">
+_JPI_VM_OPTIONS = -Dsome.property=true
+</pre>
+<div class="infobox-note" id="GUID-15EA6233-C4A7-4419-BF41-9D2560B3DE45__GUID-5943E715-F26C-4275-9ED9-10D205E071EA">
+<p class="notep1">Note:</p>
+<p>You must restart your browser after you set the environment variable. If you are setting this environment variable in the command shell, then you must use the same command shell to launch the browser so that the browser inherits the value of the environment variable.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li class="stepexpand"><span>Use the <code class="codeph">-J</code> option for the <code class="codeph">javaws</code> command. For example:</span>
+<div>
+<pre dir="ltr">
+javaws -J-Dsome.property=true http://example.com/my.jnlp
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+<a id="JSTGD501"></a>
+<div class="props_rev_3"><a id="GUID-6BC2FC2C-785E-47F3-8EBC-B651CA7E78F1"></a>
+<h3 id="JSTGD-GUID-6BC2FC2C-785E-47F3-8EBC-B651CA7E78F1" class="sect3">Java Deployment Home</h3>
+<div>
+<p>This is the place where the main configuration files are kept. The location is specific to your operating system:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold">Windows XP</span>: <code><span class="variable">%HOME%</span>\Application Data\Sun\Java\Deployment</code></p>
+</li>
+<li>
+<p><span class="bold">Windows 7/Vista</span>: <code><span class="variable">%APPDATA%</span>\..\LocalLow\Sun\Java\Deployment</code></p>
+</li>
+<li>
+<p><span class="bold">Oracle Solaris/Linux</span>: <code><span class="variable">%HOME%</span>/.java/deployment</code></p>
+</li>
+</ul>
+</div>
+</div>
+<a id="JSTGD502"></a>
+<div class="props_rev_3"><a id="GUID-F70C2DB3-2A06-4D9E-ADEB-06C62473DFAF"></a>
+<h3 id="JSTGD-GUID-F70C2DB3-2A06-4D9E-ADEB-06C62473DFAF" class="sect3">Deployment Tracing</h3>
+<div>
+<p>Both Java Plug-in and Java Web Start can print trace information into trace files. This includes log information from the JRE itself as well as everything your application may be printing to <code class="codeph">System.out</code> or <code class="codeph">System.err</code>.</p>
+<div class="section">
+<p>To get access to trace information:</p>
+</div>
+<!-- class="section" -->
+<ol>
+<li><span>Open the Java Control Panel (<code class="codeph"><span class="codeinlineitalic">jre_home_dir</span>/bin/ControlPanel</code>).</span></li>
+<li><span>Select the <span class="bold">Advanced</span> tab.</span></li>
+<li><span>In the <span class="bold">Debugging</span> category, select the <span class="bold">Enable tracing</span> check box.</span></li>
+<li><span>(Optional) In the <span class="bold">Java console</span> category, select the <span class="bold">Show console</span> option to see the trace information in the console window. The full trace file still will be saved to a file.</span></li>
+</ol>
+<div class="section">
+<p>The trace file is saved into the <code class="codeph">log</code> directory in the Java deployment home folder. See <a href="applets-and-java-web-start-applications.htm#GUID-6BC2FC2C-785E-47F3-8EBC-B651CA7E78F1">Java Deployment Home</a>. The file name has the prefix <code class="codeph">javaws</code> or <code class="codeph">plugin</code>, depending on what you are running. One trace file is produced per process, but one application can be launched using several processes.</p>
+<p>To get the maximum level of detail in the trace file, edit the <code>deployment.properties</code> file (which is located in the Java deployment home directory) and add the following line:</p>
+<pre dir="ltr">
+deployment.trace.level=all
+</pre>
+<p>By default, a maximum of five trace files are created. The oldest trace files are automatically deleted. To change the limit of the maximum number of trace files, add the following line to the <code>deployment.properties</code> file:</p>
+<pre dir="ltr">
+deployment.max.output.files=<span class="italic">max_number_of_trace_files</span>
+</pre>
+<p>You can use the Java console to view the trace log at runtime. By default, the Java console is hidden. Enable it in the Java Control Panel.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<a id="JSTGD503"></a>
+<div class="props_rev_3"><a id="GUID-0BEFC93E-1AA6-4CDB-A502-72F1E3EC8DA5"></a>
+<h3 id="JSTGD-GUID-0BEFC93E-1AA6-4CDB-A502-72F1E3EC8DA5" class="sect3">Deployment Cache</h3>
+<div>
+<div class="section">
+<p>Application jars and resources are cached on the disk to avoid loading them the next time they are needed.</p>
+<p>The default location of the cache depends on the operating system and can be overridden in the Java Control Panel.</p>
+<p>Settings and controls for the cache are available in the <span class="bold">General</span> tab of the Java Control Panel, in the <span class="bold">Temporary Internet Files</span> section. Click <span class="bold">Settings</span> to change the location and size of the cache. Click <span class="bold">View</span> to see what files are in the cache.</p>
+<p>You can clean the cache by running <code class="codeph">javaws -uninstall</code>, or open the Java Control Panel's <span class="bold">General</span> tab, click <span class="bold">View</span>, and delete the files manually. You can also use the Java Control Panel to uninstall individual applications and extensions.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<a id="JSTGD504"></a>
+<div class="props_rev_3"><a id="GUID-8D3F8130-5993-493F-9FDF-1F02040BA7C3"></a>
+<h3 id="JSTGD-GUID-8D3F8130-5993-493F-9FDF-1F02040BA7C3" class="sect3">Network Configuration</h3>
+<div>
+<div class="section">
+<p>In general, Java Web Start applications use the system network configuration by default, and applets use the browser network settings. You can set network proxies explicitly using the Java Control Panel.</p>
+<p>In particular, the Java technology networking layer automatically detects which networking stack to use. However, sometimes autodetection does not work, and you may see <code class="codeph">Permission Denied</code> exceptions trying to open a socket to download your application or applet, even while the same URL is accessible using the same proxy settings with other tools. This problem was seen on some Windows 7 systems when VPN software was used. This can be resolved by explicitly passing a parameter to the JVM:</p>
+<pre dir="ltr">
+-Djava.net.preferIPv4Stack=true
+</pre>
+<p>See <a href="applets-and-java-web-start-applications.htm#GUID-15EA6233-C4A7-4419-BF41-9D2560B3DE45" title="Troubleshooting, debugging, profiling, and other development activities may require launching the JVM with a special set of parameters. One way to accomplish this is to use the Java Control Panel.">Pass Parameters to the JRE</a>.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+</div>
+<a id="JSTGD505"></a>
+<div class="props_rev_3"><a id="GUID-961C4E20-A98B-4E03-AA93-87EB034B0C3D"></a>
+<h2 id="JSTGD-GUID-961C4E20-A98B-4E03-AA93-87EB034B0C3D" class="sect2">Troubleshoot Applets</h2>
+<div>
+<p>For modern browsers that support tabs, each tab might be a separate browser process. If a Java applet is embedded in a browser page and the next generation plugin is being used, then usually the process associated with the browser tab creates a JVM within the process (browser VM). The browser VM will create another JVM process (client VM) which will run the applet and manage the applet's life cycle. The client VM is a Java process (<code class="codeph">java.exe</code> on Windows and <code class="codeph">java</code> on Oracle Solaris/Linux platforms).</p>
+<p>The following are some problems with applets and troubleshooting techniques.</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="applets-and-java-web-start-applications.htm#GUID-FAC4FEC8-8ECF-4A86-944D-5B610C4B7233">Plugin Cheat Sheet for Applet Start</a></p>
+</li>
+<li>
+<p><a href="applets-and-java-web-start-applications.htm#GUID-10EDDE54-FE81-40DA-92EB-58B45EE1F4C3">Browser or Java Process Crash</a></p>
+</li>
+<li>
+<p><a href="applets-and-java-web-start-applications.htm#GUID-A31B36BA-887B-4AED-A3EB-F0C64FCC33C5">Unresponsive Web page</a></p>
+</li>
+</ul>
+</div>
+<a id="JSTGD506"></a>
+<div class="props_rev_3"><a id="GUID-FAC4FEC8-8ECF-4A86-944D-5B610C4B7233"></a>
+<h3 id="JSTGD-GUID-FAC4FEC8-8ECF-4A86-944D-5B610C4B7233" class="sect3">Plugin Cheat Sheet for Applet Start</h3>
+<div>
+<div class="section">
+<p>If your applet does not start, ensure that you enable tracing and the Java console as explained previously. Then, use the following hints to find the reason why the applet does not work.</p>
+<p>Do you get a trace file generated or see the Java console?</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<ul style="list-style-type: disc;">
+<li>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold">No, I don't get a trace file</span>.</p>
+<p>Check if the Java technology is detected. See <a href="applets-and-java-web-start-applications.htm#GUID-E69EDD58-BA01-47CF-B0DE-962AFED543CE" title="Validation techniques when your application does not run.">Validation</a>.</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold">Yes</span></p>
+<p>Look at the JVM browser issues from <a href="applets-and-java-web-start-applications.htm#GUID-10EDDE54-FE81-40DA-92EB-58B45EE1F4C3">Browser or Java Process Crash</a>.</p>
+</li>
+<li>
+<p><span class="bold">No</span></p>
+<p>It is likely to be a configuration issue. See <a href="applets-and-java-web-start-applications.htm#GUID-EE3A193E-B898-4EFB-9CCD-ECA87AC4420C" title="Troubleshooting techniques to solve common configuration problems.">Common Configuration Problems</a>, and if it does not help, look at the JVM browser issues from <a href="applets-and-java-web-start-applications.htm#GUID-10EDDE54-FE81-40DA-92EB-58B45EE1F4C3">Browser or Java Process Crash</a>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><span class="bold">Yes, I have a trace file</span>.</p>
+<p>It is unlikely to be a configuration issue (unless you have the new generation plugin disabled). The problem is likely to be specific to this applet. Try to launch some other applets to confirm. Look at JVM client issues from <a href="applets-and-java-web-start-applications.htm#GUID-10EDDE54-FE81-40DA-92EB-58B45EE1F4C3">Browser or Java Process Crash</a>.</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<!-- class="section" --></div>
+</div>
+<a id="JSTGD507"></a>
+<div class="props_rev_3"><a id="GUID-10EDDE54-FE81-40DA-92EB-58B45EE1F4C3"></a>
+<h3 id="JSTGD-GUID-10EDDE54-FE81-40DA-92EB-58B45EE1F4C3" class="sect3">Browser or Java Process Crash</h3>
+<div>
+<div class="section">
+<p>A crash could be caused by a platform or application issue.</p>
+<p>Typically, if a crash happens in the JVM, then there should be an <code>hs_err_*log</code> file created in the current working directory. On Windows, it is often placed on the desktop. It is the same crash report file as for standalone applications. See <a href="fatal-error-log.htm#GUID-2AE5EE08-A68F-4514-9618-A581C0EDFB1B" title="Describes the fatal error log, its location, and contents.">Fatal Error Log</a>.</p>
+<p>If you can see native libraries loaded from the deployment cache directory, especially if you see code from these libraries in the crash stack, then it is very likely to be a bug in the application.</p>
+<p>Otherwise, it is a JRE bug and needs to be reported to <a href="http://bugs.java.com" target="_blank">Bug Database</a>.</p>
+<p>The following are two scenarios to consider for a crash by platform or application issue.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold">JVM browser issues:</span> Get more details about a JVM running in the browser process. Set the following two environment variables before starting the browser:</p>
+<pre dir="ltr">
+JPI_PLUGIN2_DEBUG=1
+JPI_PLUGIN2_VERBOSE=1
+</pre>
+<p>On Windows, there should be a command window associated with the browser process. All browser VM debug output goes into the command window. Check to see if any exceptions are visible there. A Java thread dump can be obtained by using the Control+Break key sequence on the command window.</p>
+<p>On the Oracle Solaris or Linux platforms, after setting these variables, start the browser from the same session. All browser VM debug output goes into the terminal window. To get a Java thread dump, on a separate terminal, use <code class="codeph">kill -3</code> <code class="codeph"><span class="variable">pid</span></code> or <code class="codeph">kill -SIGQUIT</code> <code class="codeph"><span class="variable">pid</span></code>, where <code class="codeph"><span class="variable">pid</span></code> is the process ID of the browser process.</p>
+<p>There are heartbeat messages sent between the client VM and browser VM. The heartbeat messages can be turned off by setting the <code class="codeph">JPI_PLUGIN2_NO_HEARTBEAT</code> environment variable to <code class="codeph">1</code>. This will help isolate whether the problem is related to the heartbeat.</p>
+<p>If the log is not opening and environment variables are set in the browser process, then it is likely that the JRE is not installed correctly or Java is disabled. Check for configuration errors, and try to reinstall the JRE if nothing else helps.</p>
+</li>
+<li>
+<p><span class="bold">JVM client issues:</span> Check the latest trace file for ideas.</p>
+<p><span class="italic">Note:</span> The same client JVM may be shared between multiple applets. Sometimes intermittent failures happen because the shared JVM does not have enough resources available (for example, heap size). In that case, a page reload often helps to resolve the problem.</p>
+<p>If an application fails with an <code class="codeph">Out of memory</code> error, then the heap size needs to be increased. This can be done in the application deployment descriptor (JNLP file) or in the Java Control Panel using runtime parameters for JRE in use.</p>
+<p>If an application is signed and the user declined a security dialog box, then this may cause the application fail. The decision made by the user is remembered until the JVM is restarted. To see the security dialog box again, the user may need to restart the browser.</p>
+</li>
+</ul>
+</div>
+<!-- class="section" --></div>
+</div>
+<a id="JSTGD508"></a>
+<div class="props_rev_3"><a id="GUID-A31B36BA-887B-4AED-A3EB-F0C64FCC33C5"></a>
+<h3 id="JSTGD-GUID-A31B36BA-887B-4AED-A3EB-F0C64FCC33C5" class="sect3">Unresponsive Web page</h3>
+<div>
+<p>The following are scenarios that could cause an unresponsive web page.</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold">Frozen applet at applet start or during runtime:</span></p>
+<p>The cause for a frozen applet at applet start or during runtime could be Liveconnect calls.</p>
+<p>On startup, an attempt to access the Java applet from JavaScript may block the JavaScript engine until the applet initialization is complete. It is recommended to postpone JavaScript access until the applet is ready, and use the <code class="codeph">enableStatusEvents</code> parameter to unlock non-blocking access to applet status checks.</p>
+<p>To use Liveconnect in runtime, it is recommended to make JavaScript calls return quickly to avoid blocking the single-threaded JavaScript engine.</p>
+</li>
+<li>
+<p><span class="bold">Applet or browser hangs:</span></p>
+<p>The best source of information in this case is the stack state for both client and browser JVMs.</p>
+<p>Use <code class="codeph">jstack</code> to collect the JVM stack status for the browser JVM (by running <code class="codeph">jstack browser-pid</code>) and client JVM. <span class="italic">Note:</span> The <code class="codeph">jstack</code> may highlight a deadlock if it happens in context of one of these VMs, but it cannot do this if the deadlock involves both processes. In this case, the thread stacks need to be examined manually. See <a href="diagnostic-tools.htm#GUID-36CBAF37-0B61-4455-9183-1268E6D497DD" title="Use the jcmd utility, instead of jcmd utility to diagnose problems with JVM and Java applications.">The jstack Utility</a>.</p>
+<p>See <a href="troubleshoot-process-hangs-and-loops.htm#GUID-0777035D-123C-4DC5-A241-21560882C7BB" title="This chapter provides information and guidance about some specific procedures for troubleshooting hanging or looping processes.">Troubleshoot Process Hangs and Loops</a> .</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<a id="JSTGD509"></a>
+<div class="props_rev_3"><a id="GUID-2476953C-D768-4F4D-B4EA-8E7AE30C1C5B"></a>
+<h2 id="JSTGD-GUID-2476953C-D768-4F4D-B4EA-8E7AE30C1C5B" class="sect2">Avoid Security Dialog Boxes</h2>
+<div>
+<p>The Java Runtime will automatically warn the user about possible security sensitive issues. If you are confident that applications you use are safe, then it is possible to bypass security dialog boxes to simplify the user experience.</p>
+<p>The following are two scenarios to avoid security dialog boxes.</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="applets-and-java-web-start-applications.htm#GUID-11C5E84E-02F6-4245-9D9C-DB8F0005D2CF">Signed Applications</a></p>
+</li>
+<li>
+<p><a href="applets-and-java-web-start-applications.htm#GUID-6CB13E4D-8C1F-4560-8E39-164480EB25E8">Mixed-Code Issues</a></p>
+</li>
+</ul>
+</div>
+<a id="JSTGD510"></a>
+<div class="props_rev_3"><a id="GUID-11C5E84E-02F6-4245-9D9C-DB8F0005D2CF"></a>
+<h3 id="JSTGD-GUID-11C5E84E-02F6-4245-9D9C-DB8F0005D2CF" class="sect3">Signed Applications</h3>
+<div>
+<div class="section">
+<p>If a Java applet or Web Start application is signed, a certificate security warning dialog box will pop up and the user must click <span class="bold">Run</span> to give all permissions to the code of the application.</p>
+<p>To avoid seeing this dialog box, you can do one of the following:</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<ul style="list-style-type: disc;">
+<li>
+<p>User accepts the certificate used to sign the application and selects the <span class="bold">Always trust content from this publisher</span> check box. Then, next time permissions will be granted to this application automatically (until the certificate expires or is removed from the trusted key store).</p>
+</li>
+<li>
+<p>The certificate can be manually imported into the JRE trusted certificate store. To import the certificate using the Java Control Panel, on the <span class="bold">Security</span> tab, click <span class="bold">Certificates</span> and then <span class="bold">Trusted Certificates</span>. To import a certificate into the certificate store from the command line, use the <a class="olink JSWOR-GUID-5990A2E4-78E3-47B7-AE75-6D1826259549" target="_blank" href="../tools/keytool.htm#JSWOR-GUID-5990A2E4-78E3-47B7-AE75-6D1826259549"><code class="codeph">keytool</code></a> utility (in the JRE's <code>bin</code> folder).</p>
+</li>
+<li>
+<p>Grant <code class="codeph">AllPermissions</code> in the Java policy file located at <code><span class="variable">${user.home}</span>/.java.policy</code>, or point to any Java policy file which has <code class="codeph">AllPermissions</code> in the <code><span class="variable">$(JRE_HOME)</span>/lib/security/java.security</code> file. Permissions can be granted to all applications or restricted to a particular URL. See <a class="olink JSSEC-GUID-789089CA-8557-4017-B8B0-6899AD3BA18D" target="_blank" href="../security/permissions-java-development-kit.htm#JSSEC-GUID-789089CA-8557-4017-B8B0-6899AD3BA18D">Default Policy Implementation and Policy File Syntax</a> for more details on <code class="codeph">.java.policy</code>.</p>
+</li>
+</ul>
+<div class="infobox-note" id="GUID-11C5E84E-02F6-4245-9D9C-DB8F0005D2CF__GUID-8D0F9682-3E90-4CF4-B9C6-8D68CE291279">
+<p class="notep1">Note:</p>
+<p>If automatic granting of permissions is not desired, then use the Java Control Panel to remove certificates from trusted certificate keystore. This will result in the security dialog box popping up.</p>
+</div>
+</div>
+<!-- class="section" --></div>
+</div>
+<a id="JSTGD511"></a>
+<div class="props_rev_3"><a id="GUID-6CB13E4D-8C1F-4560-8E39-164480EB25E8"></a>
+<h3 id="JSTGD-GUID-6CB13E4D-8C1F-4560-8E39-164480EB25E8" class="sect3">Mixed-Code Issues</h3>
+<div>
+<p>Signed Java Web Start applications and applets that contain signed and unsigned components could potentially be unsafe unless the mixed-code was intended by the application vendor. The latest versions of the Java runtime raise a mixed-code warning dialog when a program contains both signed and unsigned components and suspicious use is detected.</p>
+<p>Bypassing this dialog box generally requires making changes to application implementation or repackaging the application. It is also possible to completely disable the software from checking for mixed trusted and untrusted code, but that is not recommended because this allows the user to run potentially unsafe code with no warning and without additional protections.</p>
+</div>
+</div>
+</div>
+<a id="JSTGD512"></a>
+<div class="props_rev_3"><a id="GUID-CFF4C1C5-4348-45A9-9ECC-53F9E424B061"></a>
+<h2 id="JSTGD-GUID-CFF4C1C5-4348-45A9-9ECC-53F9E424B061" class="sect2">Development Tips</h2>
+<div>
+<p>For Java Web Start applications and applets, you can use most of techniques available to debug and profile standalone applications, except that you will need to use the attach mechanism instead of direct launch.</p>
+<div class="section">
+<div class="p">
+<div class="infobox-note" id="GUID-CFF4C1C5-4348-45A9-9ECC-53F9E424B061__GUID-7544EAFA-9444-4792-8BCE-A6C3C2718DF5">
+<p class="notep1">Note:</p>
+Both the plugin and Java Web Start will spawn additional <code class="codeph">java</code> or <code class="codeph">javaw</code> processes that will actually run the JVM executing the application or applet. You must attach to those processes to be able to collect information about your applet. For example, if you want to get a memory dump of your applet, then you must first figure out the process ID for the <code class="codeph">java</code> process executing the <code class="codeph">PluginMain</code> class. For example, use the <a href="diagnostic-tools.htm#GUID-FC269C18-470F-441E-9564-7EEA182F8125" title="The jps utility lists every instrumented Java HotSpot VM for the current user on the target system.">The jps Utility</a> from the JDK and then use <a href="diagnostic-tools.htm#GUID-2E915FE8-A8A6-47C5-BA1D-4CC85174E818" title="The jmap command-line utility prints memory-related statistics for a running VM or core file.">The jmap Utility</a> to get a memory dump.</div>
+</div>
+<p>The following are development tips for debugging applets:</p>
+</div>
+<!-- class="section" -->
+<ul>
+<li class="stepexpand"><span><span class="bold">Debug Java applets and Web Start applications:</span></span>
+<div>
+<p>Just as with standalone Java applications, any JPDA-based debugger can be used to debug your applet or Web Start application; for example, see <a href="diagnostic-tools.htm#GUID-DAD34EEE-090B-4C2C-AAE6-5FB1D800E7A7" title="The jdb utility is included in the JDK as an example command-line debugger. The jdb utility uses the Java Debug Interface (JDI) to launch or connect to the target JVM.">The jdb Utility</a> or the NetBeans debugger.</p>
+<p>You will need to enable the JDWP agent for the JVM running your application and specify the port number. After the JVM is started, you can use your favorite IDE or tools to attach to it.</p>
+<p>For details about how to pass arguments to the JVM running applet or Java Web Start application, see <a href="applets-and-java-web-start-applications.htm#GUID-15EA6233-C4A7-4419-BF41-9D2560B3DE45" title="Troubleshooting, debugging, profiling, and other development activities may require launching the JVM with a special set of parameters. One way to accomplish this is to use the Java Control Panel.">Pass Parameters to the JRE</a>. The following example shows how you can pass details to the Java Web Start application from the command line.</p>
+<pre dir="ltr">
+bash$ javaws -J-agentlib:jdwp=transport=dt_socket,address=4000,server=y,suspend=y http://acme.com/my/webstart.jnlp
+</pre>
+<p>This code instructs the agent to suspend after the JVM is initialized and wait for a debugger to connect on port 4000.</p>
+</div>
+</li>
+<li class="stepexpand"><span><span class="bold">Profile Java applets and Java Web Start applications:</span></span>
+<div>
+<p>When you profile a standalone Java application, your favorite IDE is likely to be using the JVMTI agent to collect details on program execution. You can do the same for applets and Java Web Start applications but you may need to configure the JVMTI agent explicitly by passing the <code class="codeph">-agentpath</code> option to the JVM, as shown in the following example. To know more about how to pass options to the JVM, see <a href="applets-and-java-web-start-applications.htm#GUID-15EA6233-C4A7-4419-BF41-9D2560B3DE45" title="Troubleshooting, debugging, profiling, and other development activities may require launching the JVM with a special set of parameters. One way to accomplish this is to use the Java Control Panel.">Pass Parameters to the JRE</a>.</p>
+<pre dir="ltr">
+set _JPI_VM_OPTIONS="-agentpath:C:\Tools\NetBeans\profiler\lib\deployed\jdk16\windows\profilerinterface.dll=C:\Tools\NetBeans\profiler\lib,5140"
+</pre>
+<p>Now, launch your browser. The NetBeans profile agent is enabled for any applet you will be running in this browser session. You can use the NetBeans IDE to attach to the <code class="codeph">java</code> process. Consult your profiler documentation for exact details about which agent to use and how to configure it.</p>
+</div>
+</li>
+<li class="stepexpand"><span><span class="bold">Debug memory leaks:</span></span>
+<div>
+<p>See <a href="troubleshoot-memory-leaks.htm#GUID-8090B138-6E0C-4926-9659-BE739062AB75" title="This chapter provides some suggestions for diagnosing problems involving possible memory leaks.">Troubleshoot Memory Leaks</a> for the techniques available for standalone applications on the process running your applet or application. For example, use <code class="codeph">jmap</code> to obtain a heap dump, <code class="codeph">jconsole</code> to observe threads, or pass <code>-XX:+HeapDumpOnOutOfMemoryError</code> to the JVM (see <a href="applets-and-java-web-start-applications.htm#GUID-15EA6233-C4A7-4419-BF41-9D2560B3DE45" title="Troubleshooting, debugging, profiling, and other development activities may require launching the JVM with a special set of parameters. One way to accomplish this is to use the Java Control Panel.">Pass Parameters to the JRE</a>) to get a memory dump if an error occurs. Use the <code class="codeph">jps</code> utility to find the process ID for the process running your application.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment331">
+<tr>
+<td class="cellalignment338">
+<table class="cellalignment336">
+<tr>
+<td class="cellalignment335"><a href="java-sound.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment335"><a href="submit-bug-reports.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1995, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment340">
+<table class="cellalignment334">
+<tr>
+<td class="cellalignment335"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment335"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment335"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

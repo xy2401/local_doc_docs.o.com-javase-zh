@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Common Migration Issues and Solutions</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="This topic describes some common issues that can occur while migrating from Oracle JRockit to HotSpot, along with their solutions." />
+<meta name="dcterms.created" content="2018-03-13T05:53:20Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition JRockit to HotSpot Migration Guide" />
+<meta name="dcterms.identifier" content="E91473-01" />
+<meta name="dcterms.isVersionOf" content="JRHMG" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1995, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="command-line-options.htm" title="Previous" type="text/html" />
+<link rel="Next" href="troubleshooting-tools.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JRHMG.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-9DF7ADD8-3289-4F7D-97F1-49489FB2AA5B"></a> <span id="PAGE" style="display:none;">10/11</span> <!-- End Header -->
+<a id="JRHMG134"></a><a id="JRHMG133"></a>
+<h1 id="JRHMG-GUID-9DF7ADD8-3289-4F7D-97F1-49489FB2AA5B" class="sect1"><span class="enumeration_chapter">7</span> Common Migration Issues and Solutions</h1>
+<div>
+<div><span>This topic describes some common issues that can occur while migrating from Oracle JRockit to HotSpot, along with their solutions.</span></div>
+<p>The following table lists some common issues that can occur during the migration process and solutions for resolving them:</p>
+<div class="tblformalwide" id="GUID-9DF7ADD8-3289-4F7D-97F1-49489FB2AA5B__MIGRATIONSISSUESANDSOLUTIONS-B126170B">
+<p class="titleintable">Table 7-1 Migrations Issues and Solutions</p>
+<table class="cellalignment301" title="Migrations Issues and Solutions" summary="Migration Issues">
+<thead>
+<tr class="cellalignment283">
+<th class="cellalignment330" id="d13888e32">Problem</th>
+<th class="cellalignment331" id="d13888e35">Oracle JRockit Option</th>
+<th class="cellalignment304" id="d13888e38">HotSpot Option</th>
+<th class="cellalignment331" id="d13888e41">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment283">
+<td class="cellalignment332" id="d13888e46" headers="d13888e32">
+<p>Performance degradation after migrating to JDK 7.</p>
+<p>The issue was resolved with the use of <code class="codeph">-XX:ReservedCodeCacheSize=1g</code></p>
+</td>
+<td class="cellalignment333" headers="d13888e46 d13888e35">
+<p><code class="codeph">-XX:+ReserveCodeMemory</code></p>
+<p>Default values:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>When you use <code class="codeph">-XX:+UseLargePagesForCode</code>: 64 MB</p>
+</li>
+<li>
+<p>When you use <code class="codeph">-XX:-UseLargePagesForCode</code>: 1024 MB</p>
+</li>
+</ul>
+</td>
+<td class="cellalignment307" headers="d13888e46 d13888e38">
+<p><code class="codeph">-XX:ReservedCodeCacheSize</code></p>
+<p>The default value on most of the platforms is 48 MB.</p>
+</td>
+<td class="cellalignment333" headers="d13888e46 d13888e41">
+<p>With HotSpot VM, it was observed that in some cases increasing the <code class="codeph">ReservedCodeCacheSize</code> value, for example, <code class="codeph">-XX:ReservedCodeCacheSize=1g</code>, improves the performance significantly.</p>
+</td>
+</tr>
+<tr class="cellalignment283">
+<td class="cellalignment332" id="d13888e88" headers="d13888e32">
+<p>Increased locking/unlocking events observed after switching to HotSpot.</p>
+<p>Disabling <code class="codeph">UseBiasedLocking</code> helped improve the overall performance.</p>
+</td>
+<td class="cellalignment333" headers="d13888e88 d13888e35">
+<p><code class="codeph">-XX:-UseLazyUnlocking</code> (to disable)</p>
+</td>
+<td class="cellalignment307" headers="d13888e88 d13888e38">
+<p><code class="codeph">-XX:-UseBiasedLocking</code> (to disable)</p>
+</td>
+<td class="cellalignment333" headers="d13888e88 d13888e41">
+<p>The <code class="codeph">UseBiasedLocking</code> option improves the performance of uncontended synchronization. This option is enabled by default.</p>
+<p>However, if the application has high contended synchronization, then disabling <code class="codeph">UseBiasedLocking</code> benefits the performance.</p>
+<p>If you face performance issues due to locking or synchronization after migrating to HotSpot, then disabling this option might provide some performance gains.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment282">
+<tr>
+<td class="cellalignment298">
+<table class="cellalignment287">
+<tr>
+<td class="cellalignment286"><a href="command-line-options.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment286"><a href="troubleshooting-tools.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1995, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment300">
+<table class="cellalignment285">
+<tr>
+<td class="cellalignment286"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment286"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment286"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

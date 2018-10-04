@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>javah</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="You use the javah tool to generate C header and source files from a Java class." />
+<meta name="dcterms.created" content="2017-10-12T08:04:07Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Tools Reference" />
+<meta name="dcterms.identifier" content="E61612-05" />
+<meta name="dcterms.isVersionOf" content="JSWOR" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="javap.htm" title="Previous" type="text/html" />
+<link rel="Next" href="javadoc.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSWOR.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSWOR.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSWOR.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-29806C8E-6597-4A08-A532-8865976829D2"></a> <span id="PAGE" style="display:none;">8/65</span> <!-- End Header -->
+<a id="JSWOR687"></a>
+<h1 id="JSWOR-GUID-29806C8E-6597-4A08-A532-8865976829D2" class="sect1">javah</h1>
+<div>
+<p><span>You use the <code class="codeph">javah</code> tool to generate C header and source files from a Java class.</span></p>
+<div class="section">
+<p class="subhead1"></p>
+<div class="infobox-note" id="GUID-29806C8E-6597-4A08-A532-8865976829D2__GUID-C5D49200-D224-44D4-B356-E424295BDCC0">
+<p class="notep1">Note:</p>
+<p>The <code class="codeph">javah</code> tool is <span>deprecated as of JDK 9 and might be removed in a future JDK release.</span> The tool has been superseded by the <code class="codeph">-h</code> option added to <code class="codeph">javac</code> in JDK 8.</p>
+</div>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Synopsis</p>
+<pre dir="ltr">
+javah [<span class="variable">options</span>] <span class="variable">fully-qualified-class-name ...</span>
+</pre>
+<dl>
+<dt class="dlterm"><a id="GUID-29806C8E-6597-4A08-A532-8865976829D2__GUID-76F2C3E7-C11E-4505-BEF4-E348533F18F1"><!-- --></a><code class="codeph"><span class="variable">options</span></code></dt>
+<dd>
+<p>Specifies the command-line options. See <a href="javah.htm#GUID-29806C8E-6597-4A08-A532-8865976829D2__BJEJJAEA">Options for javah</a>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-29806C8E-6597-4A08-A532-8865976829D2__GUID-96E66B91-255A-4BD1-ABDD-677B9AFBB7FD"><!-- --></a><code class="codeph"><span class="variable">fully-qualified-class-name</span></code></dt>
+<dd>
+<p>Specifies the fully qualified location of the classes to be converted to C header and source files.</p>
+<p>Each class must be specified by its fully qualified name, optionally prefixed by a module name followed by the slash (/). For example:</p>
+<p><code class="codeph">java.lang.Object</code></p>
+<p><code class="codeph">java.base/java.io.File</code></p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Description</p>
+<p>The <code class="codeph">javah</code> command generates C header and source files that are needed to implement native methods. The generated header and source files are used by C programs to reference an object's instance variables from native source code. The <code class="codeph">.h</code> file contains a <code class="codeph">struct</code> definition with a layout that parallels the layout of the corresponding class. The fields in the <code class="codeph">struct</code> correspond to instance variables in the class.</p>
+<p>The name of the header file and the structure declared within it are derived from the name of the class. When the class passed to the <code class="codeph">javah</code> command is inside a package, the package name is added to the beginning of both the header file name and the structure name. Underscores (_) are used as name delimiters.</p>
+<p>By default, the <code class="codeph">javah</code> command creates a header file for each class listed on the command line and puts the files in the current directory. Use the <code class="codeph">-stubs</code> option to create source files. Use the <code class="codeph">-o</code> option to concatenate the results for all listed classes into a single file.</p>
+<p>The Java Native Interface (JNI) doesn&rsquo;t require header information or stub files. The <code class="codeph">javah</code> command can still be used to generate native method function prototypes needed for JNI-style native methods. The <code class="codeph">javah</code> command produces JNI-style output and places the result in the <code class="codeph">.h</code> file.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-29806C8E-6597-4A08-A532-8865976829D2__BJEJJAEA">
+<p class="subhead1">Options for javah</p>
+<div class="infobox-note" id="GUID-29806C8E-6597-4A08-A532-8865976829D2__GUID-67A84A40-5F27-48C2-9966-9C829BCA4586">
+<p class="notep1">Note:</p>
+<p><span>In tools that support <code class="codeph">--</code> style options, the GNU-style options can use the equal sign (=) instead of a white space to separate the name of an option from its value.</span></p>
+</div>
+<dl>
+<dt class="dlterm"><a id="GUID-29806C8E-6597-4A08-A532-8865976829D2__GUID-A60CB519-B8AA-4B92-A044-09D543DC62DC"><!-- --></a><code class="codeph">-o <span class="variable">outputfile</span></code></dt>
+<dd>
+<p>Concatenates the resulting header or source files for all the classes listed on the command line into an output file. Only one of the options <code class="codeph">-o</code> or <code class="codeph">-d</code> can be used.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-29806C8E-6597-4A08-A532-8865976829D2__GUID-0EC62DF5-0112-42B9-94AA-DE46A2773533"><!-- --></a><code class="codeph">-d <span class="variable">directory</span></code></dt>
+<dd>
+<p>Sets the directory where the <code class="codeph">javah</code> command saves the header files or the stub files. Only one of the options <code class="codeph">-d</code> or <code class="codeph">-o</code> can be used.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-29806C8E-6597-4A08-A532-8865976829D2__GUID-83888EDF-101D-4566-8A3A-BF9E00FB6D66"><!-- --></a><code class="codeph">-v</code> or <code class="codeph">-verbose</code></dt>
+<dd>
+<p>Indicates verbose output and causes the <code class="codeph">javah</code> command to print a message to <code class="codeph">stdout</code> about the status of the generated files.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-29806C8E-6597-4A08-A532-8865976829D2__GUID-FCD00E45-37B3-452C-A358-F18CE7F4ACAB"><!-- --></a><code class="codeph">-h</code> , <code class="codeph">-help</code>, or <code class="codeph">-?</code></dt>
+<dd>
+<p>Prints a help message for <code class="codeph">javah</code> usage.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-29806C8E-6597-4A08-A532-8865976829D2__GUID-91090A6D-1652-4767-B531-E9097283B948"><!-- --></a><code class="codeph">-version</code></dt>
+<dd>
+<p>Prints <code class="codeph">javah</code> command release information.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-29806C8E-6597-4A08-A532-8865976829D2__GUID-31CC1DB4-1E07-45B7-8C11-14184E1C5AF3"><!-- --></a><code class="codeph">-jni</code></dt>
+<dd>
+<p>Causes the <code class="codeph">javah</code> command to create an output file containing JNI-style native method function prototypes. This is the default output; use of <code class="codeph">-jni</code> is optional.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-29806C8E-6597-4A08-A532-8865976829D2__GUID-ED56D4C8-0C50-41D8-83CC-92642FFD4644"><!-- --></a><code class="codeph">-force</code></dt>
+<dd>
+<p>Specifies that output files should always be written.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-29806C8E-6597-4A08-A532-8865976829D2__GUID-002BAFE3-0EFF-4E07-901D-EDEBB50E326E"><!-- --></a><code class="codeph">--module-path <span class="variable">path</span></code></dt>
+<dd>
+<p>Specifies the path from which to load application modules.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-29806C8E-6597-4A08-A532-8865976829D2__GUID-49D5855A-8B92-46E2-9395-8DB30DD4C91E"><!-- --></a><code class="codeph">--system <span class="variable">jdk</span></code></dt>
+<dd>
+<p>Specifies where to find system modules.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-29806C8E-6597-4A08-A532-8865976829D2__GUID-948E34E7-595F-4C7A-8E9A-662B403C98C3"><!-- --></a><code class="codeph">--class-path <span class="variable">path</span></code> , <code class="codeph">-classpath <span class="variable">path</span></code> , or <code class="codeph">-cp <span class="variable">path</span></code></dt>
+<dd>
+<p>Specifies the path that the <code class="codeph">javah</code> command uses to look up classes. Overrides the default or the <code class="codeph">CLASSPATH</code> environment variable when it&rsquo;s set. Directories are separated by colons on Oracle Solaris and semicolons on Windows. The general format for the path is:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold"><span>Oracle Solaris, Linux, and OS X</span>:</span></p>
+<p><code class="codeph">:<span class="variable">your-path</span></code></p>
+<p>Example: <code class="codeph">:/home/avh/classes:/usr/local/java/classes</code></p>
+</li>
+<li>
+<p><span class="bold">Windows:</span></p>
+<p><code class="codeph">;</code><span class="variable">your-path</span></p>
+<p>Example: <code class="codeph">;C:\users\dac\classes;C:\tools\java\classes</code></p>
+</li>
+</ul>
+<p>As a special convenience, a class path element that contains a base name with an asterisk (*) is considered equivalent to specifying a list of all the files in the directory with the extension <code class="codeph">.jar</code> or <code class="codeph">.JAR</code>.</p>
+<p>For example, if directory <code class="codeph">mydir</code> contains <code class="codeph">a.jar</code> and <code class="codeph">b.JAR</code>, then the class path element <code class="codeph">mydir/*</code> is expanded to <code class="codeph">a.jar:b.JAR</code>, except that the order of JAR files is unspecified. All JAR files in the specified directory, including hidden ones, are included in the list. A class path entry that consists of an asterisk (*) expands to a list of all the JAR files in the current directory. The <code class="codeph">CLASSPATH</code> environment variable, where defined, is similarly expanded. Any class path wildcard expansion occurs before the Java Virtual Machine (JVM) is started. A Java program never sees unexpanded wild cards except by querying the environment, for example, by calling <code class="codeph">System.getenv("CLASSPATH")</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-29806C8E-6597-4A08-A532-8865976829D2__GUID-195D4DAE-D122-4049-889F-EA374806CF2F"><!-- --></a><code class="codeph">-bootclasspath <span class="variable">path</span></code></dt>
+<dd>
+<p>Specifies the path from which to load bootstrap classes.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" --></div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment179">
+<tr>
+<td class="cellalignment191">
+<table class="cellalignment184">
+<tr>
+<td class="cellalignment183"><a href="javap.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment183"><a href="javadoc.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment193">
+<table class="cellalignment182">
+<tr>
+<td class="cellalignment183"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment183"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment183"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

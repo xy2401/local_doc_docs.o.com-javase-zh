@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>idlj</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="You use the idlj command to generate Java bindings for a specified Interface Definition Language (IDL) file." />
+<meta name="dcterms.created" content="2018-03-13T12:23:13Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Tools Reference" />
+<meta name="dcterms.identifier" content="E91146-01" />
+<meta name="dcterms.isVersionOf" content="JSWOR" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="tnameserv.htm" title="Previous" type="text/html" />
+<link rel="Next" href="orbd.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSWOR.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37"></a> <span id="PAGE" style="display:none;">31/63</span> <!-- End Header -->
+<a id="JSWOR712"></a><a id="JSWOR713"></a><a id="JSWOR711"></a>
+<h1 id="JSWOR-GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37" class="sect1">idlj</h1>
+<div>
+<p><span>You use the <code class="codeph">idlj</code> command to generate Java bindings for a specified Interface Definition Language (IDL) file.</span></p>
+<div class="section">
+<p class="subhead1">Synopsis</p>
+<pre dir="ltr">
+idlj [<span class="variable">options</span>] <span class="variable">idlfile</span>
+</pre>
+<dl>
+<dt class="dlterm"><a id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__GUID-D7F2C99F-1570-4F9D-B886-82792CC9831C"><!-- --></a><code class="codeph"><span class="variable">options</span></code></dt>
+<dd>
+<p>The command-line options. Options can appear in any order, but must precede the <code class="codeph">idlfile</code>. See <a href="idlj.htm#GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__BGBFFEFE">Options for idlj</a>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__GUID-1F8803C5-EF01-466E-A30A-D44CC1098280"><!-- --></a><code class="codeph"><span class="variable">idlfile</span></code></dt>
+<dd>
+<p>The name of a file that contains the Interface Definition Language (IDL) definitions. The <code class="codeph"><span class="variable">idlfile</span></code> is required and must appear last.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Description</p>
+<p>The IDL-to-Java compiler generates the Java bindings for a specified IDL file. Some earlier releases of the IDL-to-Java compiler were named <code class="codeph">idltojava</code>.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Emit Client and Server Bindings</p>
+<p>The following <code class="codeph">idlj</code> command generates an IDL file named <code class="codeph">My.idl</code> with client-side bindings:</p>
+<pre dir="ltr">
+idlj My.idl
+</pre>
+<p>The previous syntax is equivalent to the following:</p>
+<pre dir="ltr">
+idlj -fclient My.idl
+</pre>
+<p>The following example generates the server-side bindings, and includes the client-side bindings plus the skeleton, all of which are Portable Object Adapter (Inheritance Model).</p>
+<pre dir="ltr">
+idlg -fserver My.idl
+</pre>
+<p>If you want to generate both client and server-side bindings, then use one of the following (equivalent) commands:</p>
+<pre dir="ltr">
+idlj -fclient -fserver My.idl
+idlj -fall My.idl
+</pre>
+<p>There are two possible server-side models:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="idlj.htm#GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__PORTABLESERVANTINHERITANCEMODEL-98243BD0">Portable Servant Inheritance Model</a></p>
+</li>
+<li>
+<p><a href="idlj.htm#GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__BGBBCDFD">Tie Model</a></p>
+</li>
+</ul>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__PORTABLESERVANTINHERITANCEMODEL-98243BD0">
+<p class="subhead1">Portable Servant Inheritance Model</p>
+<p>The default server-side model is the Portable Servant Inheritance Model. Given an interface <code class="codeph">My</code> defined in <code class="codeph">My.idl</code>, the file <code class="codeph">MyPOA.java</code> is generated. You must provide the implementation for the <code class="codeph">My</code> interface, and the <code class="codeph">My</code> interface must inherit from the <code class="codeph">MyPOA</code> class. <code class="codeph">MyPOA.java</code> is a stream-based skeleton that extends the class <code class="codeph">org.omg.PortableServer.Servant</code>.</p>
+<p>The <code class="codeph">My</code> interface implements the <code class="codeph">callHandler</code> interface and the operations interface associated with the IDL interface that the skeleton implements.</p>
+<p>The <code class="codeph">PortableServer</code> module for the Portable Object Adapter (POA) defines the native <code class="codeph">Servant</code> type.</p>
+<p>In the Java programming language, the <code class="codeph">Servant</code> type is mapped to the Java <code class="codeph">org.omg.PortableServer.Servant</code> class. It serves as the base class for all POA servant implementations and provides a number of methods that can be called by the application programmer, and methods that are called by the POA and that can be overridden by the user to control aspects of servant behavior.</p>
+<p>Another option for the Inheritance Model is to use the <code class="codeph">-oldImplBase</code> flag to generate server-side bindings that are compatible with releases of the Java programming language before Java SE 1.4. The <code class="codeph">-oldImplBase</code> flag is nonstandard, and these APIs are deprecated. You would use this flag only for compatibility with existing servers written in Java SE 1.3. In that case, you would need to modify an existing make file to add the <code class="codeph">-oldImplBase</code> flag to the <code class="codeph">idlj</code> compiler. Otherwise, POA-based server-side mappings are generated. To generate server-side bindings that are backward compatible, enter the following:</p>
+<pre dir="ltr">
+idlj -fclient -fserver -oldImplBase My.idl
+idlj -fall -oldImplBase My.idl
+</pre>
+<p>Given an interface <code class="codeph">My</code> defined in <code class="codeph">My.idl</code>, the file <code class="codeph">_MyImplBase.java</code> is generated. You must provide the implementation for the <code class="codeph">My</code> interface, and the <code class="codeph">My</code> interface must inherit from the <code class="codeph">_MyImplBase</code> class.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__BGBBCDFD">
+<p class="subhead1">Tie Model</p>
+<p>The other server-side model is called the Tie Model. This is a delegation model. Because it isn&rsquo;t possible to generate ties and skeletons at the same time, they must be generated separately. The following commands generate the bindings for the Tie Model:</p>
+<pre dir="ltr">
+idlj -fall My.idl
+idlj -fallTIE My.idl
+</pre>
+<p>For the <code class="codeph">My</code> interface, the second command generates <code class="codeph">MyPOATie.java</code>. The constructor to the <code class="codeph">MyPOATie</code> class takes a delegate. In this example, using the default POA model, the constructor also needs a POA. You must provide the implementation for the delegate. It doesn&rsquo;t have to inherit from any other class, only from the interface <code class="codeph">MyOperations</code>. To use it with the ORB, you must wrap your implementation within the <code class="codeph">MyPOATie</code> class, for example:</p>
+<pre dir="ltr">
+ORB orb = ORB.init(args, System.getProperties());
+ 
+// Get reference to rootpoa &amp; activate the POAManager
+POA rootpoa = (POA)orb.resolve_initial_references("RootPOA");
+rootpoa.the_POAManager().activate();
+ 
+// create servant and register it with the ORB
+MyServant myDelegate = new MyServant();
+myDelegate.setORB(orb); 
+ 
+// create a tie, with servant being the delegate.
+MyPOATie tie = new MyPOATie(myDelegate, rootpoa);
+ 
+// obtain the objectRef for the tie
+My ref = tie._this(orb);
+</pre>
+<p>You might want to use the Tie model instead of the typical Inheritance model when your implementation must inherit from some other implementation. Java allows any number of interface inheritances, but there&rsquo;s only one slot for class inheritance. If you use the inheritance model, then that slot is used up. With the Tie Model, that slot is freed up for your own use. The drawback is that it introduces a level of indirection: One extra method call occurs when a method is called.</p>
+<p>For server-side generation, the following Tie Model bindings are compatible with versions of the IDL-to-Java language mapping in versions earlier than Java SE 1.4.</p>
+<pre dir="ltr">
+idlj -oldImplBase -fall My.idl
+idlj -oldImplBase -fallTIE My.idl
+</pre>
+<p>For the <code class="codeph">My</code> interface, this generates <code class="codeph">My_Tie.java</code>. The constructor to the <code class="codeph">My_Tie</code> class takes an <code class="codeph">impl</code> object. You must provide the implementation for <code class="codeph">impl</code>, but it doesn&rsquo;t have to inherit from any other class, only the interface <code class="codeph">HelloOperations</code>. However to use it with the ORB, you must wrap your implementation within <code class="codeph">My_Tie</code>. For example:</p>
+<pre dir="ltr">
+ORB orb = ORB.init(args, System.getProperties());
+
+// create servant and register it with the ORB
+MyServant myDelegate = new MyServant();
+myDelegate.setORB(orb); 
+ 
+// create a tie, with servant being the delegate.
+MyPOATie tie = new MyPOATie(myDelegate);
+ 
+// obtain the objectRef for the tie
+My ref = tie._this(orb);
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Specify Alternate Locations for Emitted Files</p>
+<p>If you want to direct the emitted files to a directory other than the current directory, then call the compiler in the following way:</p>
+<pre dir="ltr">
+idlj -td /altdir My.idl
+</pre>
+<p>For the <code class="codeph">My</code> interface, the bindings are emitted to <code class="codeph">/altdir/My.java</code>., instead of <code class="codeph">./My.java</code>.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Specify Alternate Locations for Include Files</p>
+<p>If the <code class="codeph">My.idl</code> file includes another <code class="codeph">idl</code> file, <code class="codeph">MyOther.idl</code>, then the compiler assumes that the <code class="codeph">MyOther.idl</code> file resides in the local directory. If it resides in <code class="codeph">/includes</code>, for example, then you call the compiler with the following command:</p>
+<pre dir="ltr">
+idlj -i /includes My.idl
+</pre>
+<p>If <code class="codeph">My.idl</code> also included in the <code class="codeph">Another.idl</code> that resided in <code class="codeph">/moreIncludes</code>, for example, then you call the compiler with the following command:</p>
+<pre dir="ltr">
+idlj -i /includes -i /moreIncludes My.idl
+</pre>
+<p>Because this form of the <code class="codeph">include</code> file can become long, another way to indicate to the compiler where to search for included files is provided. This technique is similar to the idea of an environment variable. Create a file named <code>idl.config</code> in a directory that is listed in your <code class="codeph">CLASSPATH</code> variable. Inside <code class="codeph">idl.config</code>, provide a line with the following form:</p>
+<pre dir="ltr">
+includes=/includes;/moreIncludes
+</pre>
+<p>The compiler will find this file and read in the includes list. Note that in this example, the separator character between the two directories is a semicolon (;). This separator character is platform-dependent. On the Windows platform, use a semicolon; on the <span>Oracle Solaris, Linux, and OS X</span> platforms, use a colon.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Emit Bindings for Include Files</p>
+<p>By default, only those interfaces, structures, and so on, that are defined in the <code class="codeph">idl</code> file on the command line have Java bindings generated for them. The types defined in included files aren&rsquo;t generated. For example, assume the following two <code class="codeph">idl</code> files:</p>
+<pre dir="ltr">
+My.idl file:
+ 
+#include &lt;MyOther.idl&gt;
+interface My
+{
+};
+ 
+MyOther.idl file:
+ 
+interface MyOther
+{
+};
+</pre>
+<p>There&rsquo;s a caveat to the default rule. Any <code class="codeph">#include</code> statements that appear at the global scope are treated as described. These <code class="codeph">#include</code> statements can be thought of as import statements. The <code class="codeph">#include</code> statements that appear within an enclosed scope are treated as true <code class="codeph">#include</code> statements, which means that the code within the included file is treated as though it appeared in the original file and, therefore, Java bindings are emitted for it. For example:</p>
+<pre dir="ltr">
+My.idl file:
+ 
+#include &lt;MyOther.idl&gt;
+interface My
+{
+  #include &lt;Embedded.idl&gt;
+};
+ 
+MyOther.idl file:
+ 
+interface MyOther
+{
+};
+ 
+Embedded.idl
+ 
+enum E {one, two, three};
+</pre>
+<p>Run <code class="codeph">idlj My.idl</code> to generate the following list of Java files. Notice that <code class="codeph">MyOther.java</code> isn&rsquo;t generated because it&rsquo;s defined in an import-like <code class="codeph">#include</code>. However, <code class="codeph">E.java</code> was generated because it was defined in a true <code class="codeph">#include</code>. Notice that because the <code class="codeph">Embedded.idl</code> file is included within the scope of the interface <code class="codeph">My</code>, it appears within the scope of <code class="codeph">My</code> (in <code class="codeph">MyPackage</code>). If the <code class="codeph">-emitAll</code> flag had been used, then all types in all included files would have been emitted.</p>
+<pre dir="ltr">
+./MyHolder.java
+./MyHelper.java
+./_MyStub.java
+./MyPackage
+./MyPackage/EHolder.java
+./MyPackage/EHelper.java
+./MyPackage/E.java
+./My.java
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Insert Package Prefixes</p>
+<p>Suppose that you work for a company named ABC that has constructed the following IDL file:</p>
+<pre dir="ltr">
+Widgets.idl file:
+ 
+module Widgets
+{
+  interface W1 {...};
+  interface W2 {...};
+};
+</pre>
+<p>If you run this file through the IDL-to-Java compiler, then the Java bindings for W1 and W2 are placed within the <code class="codeph">Widgets</code> package. There&rsquo;s an industry convention that states that a company's packages should reside within a package named <code class="codeph">com.&lt;company name&gt;</code>. To follow this convention, the package name should be <code class="codeph">com.abc.Widgets</code>. To place this package prefix onto the Widgets module, execute the following:</p>
+<pre dir="ltr">
+idlj -pkgPrefix Widgets com.abc Widgets.idl
+</pre>
+<p>If you have an IDL file that includes <code class="codeph">Widgets.idl</code>, then the <code class="codeph">-pkgPrefix</code> flag must appear in that command also. If it doesn&rsquo;t, then your IDL file will be looking for a <code class="codeph">Widgets</code> package rather than a <code class="codeph">com.abc.Widgets</code> package.</p>
+<p>If you have a number of these packages that require prefixes, then it might be easier to place them into the <code class="codeph">idl.config</code> file described previously. Each package prefix line should be of the form: <code class="codeph">PkgPrefix.&lt;type&gt;=&lt;prefix&gt;</code>. The line for the previous example would be <code class="codeph">PkgPrefix.Widgets=com.abc</code>. This option doesn&rsquo;t affect the Repository ID.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Define Symbols Before Compilation</p>
+<p>You might need to define a symbol for compilation that isn&rsquo;t defined within the IDL file, perhaps to include debugging code in the bindings. The command <code class="codeph">idlj -d MYDEF My.idl</code> is equivalent to putting the line <code class="codeph">#define MYDEF</code> inside <code class="codeph">My.idl</code>.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Preserve Preexisting Bindings</p>
+<p>If the Java binding files already exist, then the <code class="codeph">-keep</code> flag keeps the compiler from overwriting them. The default is to generate all files without considering that they already exist. If you&rsquo;ve customized those files (which you shouldn&rsquo;t do unless you&rsquo;re very comfortable with their contents), then the <code class="codeph">-keep</code> option is very useful. The command <code class="codeph">idlj -keep My.idl</code> emits all client-side bindings that don&rsquo;t already exist.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">View Compilation Progress</p>
+<p>The IDL-to-Java compiler generates status messages as it progresses through its phases of execution. Use the <code class="codeph">-v</code> option to activate the verbose mode: <code class="codeph">idlj -v My.idl</code>.</p>
+<p>By default, the compiler doesn&rsquo;t operate in verbose mode.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Display Version Information</p>
+<p>To display the build version of the IDL-to-Java compiler, specify the <code class="codeph">-version</code> option on the command-line: <code class="codeph">idlj -version</code>.</p>
+<p>Version information also appears within the bindings generated by the compiler. Any additional options appearing on the command-line are ignored.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__BGBFFEFE">
+<p class="subhead1">Options for idlj</p>
+<dl>
+<dt class="dlterm"><a id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__GUID-98FD9DE1-ACF3-4A64-9251-E23F0148248D"><!-- --></a><code class="codeph">-d <span class="variable">symbol</span></code></dt>
+<dd>
+<p>Equivalent to the following line in an IDL file:</p>
+<pre dir="ltr">
+#define <span class="variable">symbol</span>
+</pre></dd>
+<dt class="dlterm"><a id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__GUID-28FF3F57-7720-4C06-BE73-CBA10FB83B37"><!-- --></a><code class="codeph">-emitAll</code></dt>
+<dd>
+<p>Emit all types, including those found in <code class="codeph">#included</code> files.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__GUID-D11AC5BA-C1A1-4934-99C8-B36FD988BEA3"><!-- --></a><code class="codeph">-f<span class="variable">side</span></code></dt>
+<dd>
+<p>Defines what bindings to emit. The <code class="codeph"><span class="variable">side</span></code> parameter can be <code class="codeph">client</code>, <code class="codeph">server</code>, <code class="codeph">serverTIE</code>, <code class="codeph">all</code>, or <code class="codeph">allTIE</code>. The <code class="codeph">-fserverTIE</code> and <code class="codeph">-fallTIE</code> options cause delegate model skeletons to be emitted. This defaults to <code class="codeph">-fclient</code> when the flag isn&rsquo;t specified.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__GUID-05B50192-5893-4464-9742-3F325F201213"><!-- --></a><code class="codeph">-i <span class="variable">include-path</span></code></dt>
+<dd>
+<p>By default, the current directory to be scanned for included files. This option adds another directory.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__GUID-8A104493-EB46-4655-9978-47C0DFE0CACA"><!-- --></a><code class="codeph">-keep</code></dt>
+<dd>
+<p>If a file to be generated already exists, then do not overwrite it. By default it is overwritten.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__GUID-B5CB7DA0-73D5-424F-9201-0717A92B9CDF"><!-- --></a><code class="codeph">-noWarn</code></dt>
+<dd>
+<p>Suppress warning messages.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__GUID-08D05861-03FC-4053-B6D5-FE88C1EA1B56"><!-- --></a><code class="codeph">-oldImplBase</code></dt>
+<dd>
+<p>Generates skeletons compatible with pre-1.4 JDK ORBs. By default, the POA Inheritance Model server-side bindings are generated. This option provides backward-compatibility with earlier releases of the Java programming language by generating server-side bindings that are <code class="codeph">ImplBase</code> Inheritance Model classes.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__GUID-EE37CDA4-FE1D-486C-8FBE-DC6F9DAC5100"><!-- --></a><code class="codeph">-pkgPrefix <span class="variable">type</span> <span class="variable">prefix</span></code></dt>
+<dd>
+<p>Wherever <code class="codeph">type</code> is encountered at file scope, prefix the generated Java package name with <code class="codeph">prefix</code> for all files generated for that type. The type is the simple name of either a top-level module, or an IDL type defined outside of any module.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__GUID-342009AA-D2E5-436B-88C1-02518D8D32FD"><!-- --></a><code class="codeph">-pkgTranslate <span class="variable">type</span> <span class="variable">package</span></code></dt>
+<dd>
+<p>Whenever the module name type is encountered in an identifier, replace it in the identifier with package for all files in the generated Java package. Note that <code class="codeph">pkgPrefix</code> changes are made first. The type value is the simple name of either a top-level module, or an IDL type defined outside of any module and must match the full package name exactly.</p>
+<p>If more than one translation matches an identifier, then the longest match is chosen as shown in the following example:</p>
+<p><span class="bold">Command</span>:</p>
+<pre dir="ltr">
+pkgTranslate type pkg -pkgTranslate type2.baz pkg2.fizz
+</pre>
+<p><span class="bold">Resulting Translation</span>:</p>
+<pre dir="ltr">
+type =&gt; pkg
+type.ext =&gt; pkg.ext
+type.baz =&gt; pkg2.fizz
+type2.baz.pkg =&gt; pkg2.fizz.pkg
+</pre>
+<p>The following package names <code class="codeph">org</code>, <code class="codeph">org.omg</code>, or any subpackages of <code class="codeph">org.omg</code> can&rsquo;t be translated. Any attempt to translate these packages results in uncompilable code, and the use of these packages as the first argument after <code class="codeph">-pkgTranslate</code> is treated as an error.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__GUID-27055F48-081F-4178-96A5-B3C3B684735E"><!-- --></a><code class="codeph">-skeletonName <span class="variable">xxx%yyy</span></code></dt>
+<dd>
+<p>Use <code class="codeph">xxx%yyy</code> as the pattern for naming the skeleton. The defaults are: <code class="codeph">%POA</code> for the <code class="codeph">POA</code> base class (<code class="codeph">-fserver</code> or <code class="codeph">-fall</code>), and <code class="codeph">_%ImplBase</code> for the <code class="codeph">oldImplBase</code> class (<code class="codeph">-oldImplBase</code>) and (<code class="codeph">-fserver</code> or <code class="codeph">-fall</code>).</p>
+</dd>
+<dt class="dlterm"><a id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__GUID-5D88CCF2-FDCC-448B-B5CB-0366E16ABCAA"><!-- --></a><code class="codeph">-td <span class="variable">dir</span></code></dt>
+<dd>
+<p>Use <code class="codeph"><span class="variable">dir</span></code> for the output directory instead of the current directory.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__GUID-51C26AC7-CDB9-4F14-9F36-DE5056B009B5"><!-- --></a><code class="codeph">-tieName <span class="variable">xxx%yyy</span></code></dt>
+<dd>
+<p>Use <code class="codeph"><span class="variable">xxx%yyy</span></code> according to the pattern. The defaults are: <code class="codeph">%POA</code> for the <code class="codeph">POA</code> base class (<code class="codeph">-fserverTie</code> or <code class="codeph">-fallTie</code>), and <code class="codeph">_%Tie</code> for the <code class="codeph">oldImplBase</code> tie class (<code class="codeph">-oldImplBase</code>) and (<code class="codeph">-fserverTie</code> or <code class="codeph">-fallTie</code>).</p>
+</dd>
+<dt class="dlterm"><a id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__GUID-25EE23D6-EF7B-4949-AEF0-80FF43EC74D0"><!-- --></a><code class="codeph">-v</code> or <code class="codeph">-verbose</code></dt>
+<dd>
+<p>Displays release information and terminates.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-419C92CB-7463-41F7-8698-F8C2E3DA6A37__GUID-62DE4BD3-8C17-46D6-A745-39BCC338A8E6"><!-- --></a><code class="codeph">-version</code></dt>
+<dd>
+<p>Displays release information and terminates.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Restrictions</p>
+<p>Escaped identifiers in the global scope can&rsquo;t have the same spelling as IDL primitive types, <code class="codeph">Object</code> or <code class="codeph">ValueBase</code>. This is because the symbol table is preloaded with these identifiers. Allowing them to be redefined would overwrite their original definitions. Possible permanent restriction.</p>
+<p>The <code class="codeph">fixed</code> IDL type isn&rsquo;t supported.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Known Problems</p>
+<p>No import is generated for global identifiers. If you call an unexported local <code class="codeph">impl</code> object, then you do get an exception, but it seems to be due to a <code class="codeph">NullPointerException</code> in the <code class="codeph">ServerDelegate</code> DSI code.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment186">
+<tr>
+<td class="cellalignment198">
+<table class="cellalignment191">
+<tr>
+<td class="cellalignment190"><a href="tnameserv.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment190"><a href="orbd.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment200">
+<table class="cellalignment189">
+<tr>
+<td class="cellalignment190"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment190"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment190"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Using JMX Agents</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="dcterms.created" content="2017-09-14T12:05:30Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Java Management Extensions Guide" />
+<meta name="dcterms.identifier" content="E79011-02" />
+<meta name="dcterms.isVersionOf" content="JSJMX" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;2006, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="instrumenting-your-resources-jmx-technology.htm" title="Previous" type="text/html" />
+<link rel="Next" href="using-jmx-connectors-manage-resources-remotely.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSJMX.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSJMX.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSJMX.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-A3E653A9-A82E-45F5-8028-74A364FBEDFC"></a> <span id="PAGE" style="display:none;">8/95</span> <!-- End Header -->
+<h1 id="JSJMX-GUID-A3E653A9-A82E-45F5-8028-74A364FBEDFC" class="sect1"><span class="enumeration_chapter">4</span> Using JMX Agents</h1>
+<div>
+<p>A Java Management Extensions (JMX) agent is a management entity that runs in a Java Virtual Machine (JVM) and acts as the liaison between the managed beans (MBeans) and the management application. The various components of a JMX agent are outlined in the following sections:</p>
+<ul style="list-style-type: disc;">
+<li><a href="using-jmx-agents.htm#GUID-AB3E6A8C-D8C8-401D-B9DD-1F20A004FD5C">MBean Server</a></li>
+<li><a href="using-jmx-agents.htm#GUID-7D3417AC-35D0-43C5-95C4-22BD63148D26">Agent Services</a></li>
+<li><a href="using-jmx-agents.htm#GUID-4EBA9236-E0A3-400A-B57B-160AEA3DCD66">Protocol Adaptors and Connectors</a></li>
+</ul>
+</div>
+<div class="sect2"><a id="GUID-AB3E6A8C-D8C8-401D-B9DD-1F20A004FD5C"></a>
+<h2 id="JSJMX-GUID-AB3E6A8C-D8C8-401D-B9DD-1F20A004FD5C" class="sect2">MBean Server</h2>
+<div>
+<p>The MBean server is the core component of a JMX agent. It&rsquo;s a registry for objects in a JMX agent that are exposed to management operations. An object that is registered with the MBean server is visible to management applications. The MBean server exposes only the management interface of an MBean, never its direct object reference.</p>
+<p>Any resource that you want to manage from outside the agent&rsquo;s JVM must be registered as an MBean with the server. The MBean server provides a standardized interface for accessing MBeans within the same JVM, giving local objects all the benefits of manipulating manageable resources. MBeans can be instantiated and registered by:</p>
+<ul style="list-style-type: disc;">
+<li>Another MBean</li>
+<li>The agent itself</li>
+<li>A remote management application</li>
+</ul>
+<p>When you register an MBean, you must assign it a unique object name. A management application uses the object name to identify the object on which it is to perform a management operation. The operations available on MBeans include:</p>
+<ul style="list-style-type: disc;">
+<li>Discovering the management interface of MBeans</li>
+<li>Reading and writing their attribute values</li>
+<li>Performing operations defined by the MBeans</li>
+<li>Getting notifications emitted by MBeans</li>
+<li>Querying MBeans by using their object name or their attribute values</li>
+</ul>
+</div>
+</div>
+<div class="sect2"><a id="GUID-7D3417AC-35D0-43C5-95C4-22BD63148D26"></a>
+<h2 id="JSJMX-GUID-7D3417AC-35D0-43C5-95C4-22BD63148D26" class="sect2">Agent Services</h2>
+<div>
+<p>Agent services are objects that can perform management operations on the MBeans that are registered with the MBean server. By including management intelligence into the agent, JMX helps you build more powerful management solutions. Agent services can be MBeans as well, allowing them and their functionality to be controlled through the MBean server. The JMX Specification defines the following agent services:</p>
+<ul style="list-style-type: disc;">
+<li>Dynamic class loading through the management applet (m-let) service retrieves and instantiates new classes and native libraries that are dynamically downloaded from the network.</li>
+<li>Monitors the numerical or string value of MBean attributes and can notify other objects of several types of changes.</li>
+<li>Timers provide a scheduling mechanism and can send notifications at predetermined intervals.</li>
+<li>The relation service defines associations between MBeans and maintains the consistency of the relation.</li>
+</ul>
+</div>
+</div>
+<div class="sect2"><a id="GUID-4EBA9236-E0A3-400A-B57B-160AEA3DCD66"></a>
+<h2 id="JSJMX-GUID-4EBA9236-E0A3-400A-B57B-160AEA3DCD66" class="sect2">Protocol Adaptors and Connectors</h2>
+<div>
+<p>Protocol adaptors and connectors make the agent accessible from remote management applications. They provide a view through a specific protocol of the MBeans that are instantiated and registered with the MBean server. They enable a management application outside the JVM to:</p>
+<ul style="list-style-type: disc;">
+<li>Get or set attributes of existing MBeans</li>
+<li>Perform operations on existing MBeans</li>
+<li>Instantiate and register new MBeans</li>
+<li>Register for and receive notifications emitted by MBeans</li>
+</ul>
+<p>Consequently, for a JMX agent to be manageable, it must include at least one protocol adaptor or connector. The Java SE platform includes the standard Remote Method Invocation (RMI) connector. An agent can include one or more protocol adaptors and connectors, allowing it to be managed and monitored remotely through different protocols simultaneously.</p>
+</div>
+<div class="sect3"><a id="GUID-51136D5E-E7C8-4178-80C4-8FF47D365F1E"></a>
+<h3 id="JSJMX-GUID-51136D5E-E7C8-4178-80C4-8FF47D365F1E" class="sect3">Protocol Adaptors</h3>
+<div>
+<p>Protocol adaptors provide a management view of the JMX agent through a given protocol. They adapt the operations of MBeans and the MBean server into a representation in the given protocol, and possibly into a different information model, for example SNMP. The Java SE platform does not include any protocol adaptors as standard.</p>
+<p>Management applications that connect to a protocol adaptor are usually specific to the given protocol. This is typically the case for legacy management solutions that rely on a specific management protocol. They access the JMX agent not through a remote representation of the MBean server, but through operations that are mapped to those of the MBean server.</p>
+</div>
+</div>
+<div class="sect3"><a id="GUID-A05A2413-10B2-499D-95B1-EF21F3B4748E"></a>
+<h3 id="JSJMX-GUID-A05A2413-10B2-499D-95B1-EF21F3B4748E" class="sect3">Connectors</h3>
+<div>
+<p>Connectors are used to connect an agent with a remote management application enabled for JMX technology, namely, a management application developed using the distributed services of the JMX specification. This kind of communication involves a connector server in the agent and a connector client in the manager.</p>
+<p>These components convey management operations transparently point-to-point over a specific protocol. The JMX Remote API provides a remote interface to the MBean server through which the management application can perform operations. A connector is specific to a given protocol, but the management application can use any connector indifferently because they have the same remote interface.</p>
+<p>See <a href="using-jmx-connectors-manage-resources-remotely.htm#GUID-86B27FC6-3FA2-4749-AA4D-E3F8726A6C4C">Using JMX Connectors to Manage Resources Remotely</a> for more information on standard JMX connectors.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment256">
+<tr>
+<td class="cellalignment263">
+<table class="cellalignment261">
+<tr>
+<td class="cellalignment260"><a href="instrumenting-your-resources-jmx-technology.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment260"><a href="using-jmx-connectors-manage-resources-remotely.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;2006, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment265">
+<table class="cellalignment259">
+<tr>
+<td class="cellalignment260"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment260"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment260"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en-US"  xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>unpack200 - JAR Unpacking tool</title>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=us-ascii" />
+    <meta name="collection" content="reference" />
+    <meta name="copyright" content="2004, 2011" />
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+  <div class="smallpagetitle"><h1>unpack200 - JAR Unpacking tool</h1></div>
+
+  <ul>
+    <li><a href="#synopsis">Synopsis</a></li>
+
+    <li><a href="#description">Description</a></li>
+
+    <li><a href="#options">Options</a></li>
+
+    <li><a href="#exitstatus">Exit Status</a></li>
+
+    <li><a href="#seealso">See Also</a></li>
+
+    <li><a href="#notes">Notes</a></li>
+  </ul><!-- ============================================== -->
+
+
+  <h2><a name="synopsis"/>SYNOPSIS</h2>
+
+
+    <p><code><strong>unpack200</strong> [ <em>options</em> ]
+    <em>input-file</em> <em>JAR-file</em></code></p>
+
+    <p>Options may be in any order. The last option on the command
+    line supersedes all previously specified options.</p>
+
+
+      <dl>
+        <dt><code><em>input-file</em></code></dt>
+
+        <dd>Name of the input file, which can be a pack200 gzip
+        file or a pack200 file. The input could also be JAR file
+        produced by pack200(1) with an effort of 0. In this case
+        the contents of the input file will be copied to the output
+        JAR file with the Pack200 marker.</dd>
+
+        <dt><code><em>JAR-file</em></code></dt>
+
+        <dd>Name of the output JAR file.</dd>
+      </dl>
+
+
+  <!-- ============================================== -->
+
+
+  <h2><a name="description"/>DESCRIPTION</h2>
+
+
+    <p><code>unpack200</code> is a native implementation that
+    transforms a packed file produced by <code>pack200</code>(1)
+    into a JAR file. Typical usage:</p>
+
+
+      <p><code>% unpack200 myarchive.pack.gz
+      myarchive.jar</code></p>
+
+
+    <p>In this example, the <code>myarchive.jar</code> is produced
+    from <code>myarchive.pack.gz</code> using the default
+    <code>unpack200</code> settings.</p>
+
+  <!-- ============================================== -->
+
+
+  <h2><a name="options"/>OPTIONS</h2>
+
+    <p><code><strong>-Hvalue --deflate-hint=</strong><em>value</em></code></p>
+
+
+      <p>Sets the deflation to be <code>true</code>,
+      <code>false</code>, or <code>keep</code> on all entries
+      within a JAR file. The default mode is <code>keep</code>. If
+      <code>true</code> or <code>false</code>, overrides the
+      default behavior and sets the deflation mode on all entries
+      within the output JAR file.</p>
+      
+
+    <p><strong><code>-r --remove-pack-file</code></strong></p>
+      <p>Removes the input packed file.</p>
+
+
+    <p><strong><code>-v --verbose</code></strong></p>
+      <p>Outputs minimal messages. Multiple specification of this
+      option will output more verbose messages.</p>
+
+
+    <p><strong><code>-q --quiet</code></strong></p>
+      <p>Specifies quiet operation with no messages.</p>
+
+
+    <p><code><strong>-lfilename --log-file=</strong><em>filename</em></code></p>
+
+
+      <p>Specifies a log file to output messages.</p>
+      
+     <p><strong><code>-? -h --help</code></strong></p>
+     <p>Prints help information about this command.</p>
+     
+     <p><strong><code>-V --version</code></strong></p>
+     <p>Prints version information about this command.</p>
+      
+    <p><code><strong>-J</strong>option</code></p>
+
+      <p>Passes <code><em>option</em></code> to the Java launcher called by
+      <code>unpack200</code>.</p>
+
+
+  <!-- ============================================== -->
+
+
+  <h2><a name="exitstatus"/>EXIT STATUS</h2>
+
+
+    <p>The following exit values are returned:</p>
+
+
+      <p><code>&nbsp;0</code> if successful completion;</p>
+
+      <p><code>&gt;0</code> if an error occurred.</p>
+
+
+  <!-- ============================================== -->
+
+
+  <h2><a name="seealso">SEE ALSO</a></h2>
+
+  <ul>
+    <li><a href="pack200.html">pack200 - JAR Packing Tool</a></li>
+
+    <li><a href="../../../index.html">Java SE Documentation</a></li>
+    <li><a href=
+    "../../guides/deployment/deployment-guide/pack200.html">Java Deployment Guide
+        - Pack200</a></li>
+    <li><a href="../index.html#jar"><code>jar</code></a> - Java Archive Tool</li>
+    <li><a href="../index.html#jarsigner"><code>jarsigner</code></a> - JAR Signer
+      tool</li>
+    <li><code>attributes(5)</code> man page</li>
+    </ul>
+  <!-- ============================================== -->
+
+
+  <h2><a name="notes"/>NOTES</h2>
+
+
+    <p>This command should not be confused with
+    <code>unpack(1)</code>. They are distinctly separate
+    products.</p>
+
+    <p>The Java SE API Specification provided with the JDK is the
+    superseding authority, in case of discrepancies.</p>
+
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Creating Immutable Lists, Sets, and Maps</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="Convenience static factory methods on the List, Set, and Map interfaces, which were added in JDK 9, let you easily create immutable lists, sets, and maps." />
+<meta name="dcterms.created" content="2017-09-14T14:43:24Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Core Libraries" />
+<meta name="dcterms.identifier" content="E74190-02" />
+<meta name="dcterms.isVersionOf" content="JSCOR" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="xml-catalog-api1.htm" title="Previous" type="text/html" />
+<link rel="Next" href="process-api1.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSCOR.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSCOR.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSCOR.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-DD066F67-9C9B-444E-A3CB-820503735951"></a> <span id="PAGE" style="display:none;">6/7</span> <!-- End Header -->
+<h1 id="JSCOR-GUID-DD066F67-9C9B-444E-A3CB-820503735951" class="sect1"><span class="enumeration_chapter">3</span> Creating Immutable Lists, Sets, and Maps</h1>
+<div>
+<p>Convenience static factory methods on the List, Set, and Map interfaces, which were added in JDK 9, let you easily create immutable lists, sets, and maps.</p>
+<p>An object is considered <span class="italic">immutable</span> if its state cannot change after it is constructed. After you create an immutable instance of a collection, it holds the same data as long as a reference to it exists.</p>
+<p>If the collections created using these methods contain immutable objects, then they are automatically thread safe after construction. Because the structures do not need to support mutation, they can be made much more space efficient. Immutable collection instances generally consume much less memory than their mutable counterparts.</p>
+<p>As discussed in <a href="creating-immutable-lists-sets-and-maps.htm#GUID-4F3E2B7D-CE90-4862-A78A-414FC08DA6E4" title="The collections returned by the convenience factory methods added in JDK 9 are conventionally immutable. Any attempt to add, set, or remove elements from these collections causes an UnsupportedOperationException to be thrown.">About Immutability</a>, an immutable collection can contain mutable objects, and if it does, the collection is neither immutable nor thread safe.</p>
+<div class="section">
+<p class="subhead1">Topics</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="creating-immutable-lists-sets-and-maps.htm#GUID-1222F8A3-7EC0-4E49-9B75-C3B263F9A1BB" title="The common use case for the immutable methods is a collection that is initialized from known values, and that never changes. Also consider using these methods if your data changes infrequently.">Use Cases</a></p>
+</li>
+<li>
+<p><a href="creating-immutable-lists-sets-and-maps.htm#GUID-930A5334-9413-4E87-A1D7-6FF4E9E421B2" title="The API for these new collections is simple, especially for small numbers of elements.">Syntax</a></p>
+</li>
+<li>
+<p><a href="creating-immutable-lists-sets-and-maps.htm#GUID-A9B36F89-BA86-41BA-AAE1-ED73A5FC5C6E" title="The iteration order for Set elements and Map keys is randomized: it is likely to be different from one JVM run to the next. This is intentional &mdash; it makes it easier for you to identify code that depends on iteration order. Sometimes dependencies on iteration order inadvertently creep into code, and cause problems that are difficult to debug.">Randomized Iteration Order</a></p>
+</li>
+<li>
+<p><a href="creating-immutable-lists-sets-and-maps.htm#GUID-4F3E2B7D-CE90-4862-A78A-414FC08DA6E4" title="The collections returned by the convenience factory methods added in JDK 9 are conventionally immutable. Any attempt to add, set, or remove elements from these collections causes an UnsupportedOperationException to be thrown.">About Immutability</a></p>
+</li>
+<li>
+<p><a href="creating-immutable-lists-sets-and-maps.htm#GUID-6A9BAE41-A1AD-4AA1-AF1A-A8FC99A14199" title="The collections returned by the convenience factory methods are more space efficient than their mutable equivalents.">Space Efficiency</a></p>
+</li>
+</ul>
+</div>
+<!-- class="section" --></div>
+<div class="sect2"><a id="GUID-1222F8A3-7EC0-4E49-9B75-C3B263F9A1BB"></a>
+<h2 id="JSCOR-GUID-1222F8A3-7EC0-4E49-9B75-C3B263F9A1BB" class="sect2">Use Cases</h2>
+<div>
+<p>The common use case for the immutable methods is a collection that is initialized from known values, and that never changes. Also consider using these methods if your data changes infrequently.</p>
+<p>For optimal performance, the immutable collections store a data set that never changes. However, you may be able to take advantage of the performance and space-saving benefits even if your data is subject to change. These collections may provide better performance than the mutable collections, even if your data changes occasionally.</p>
+<p>If you have a large number of values, you may consider storing them in a <a href="https://docs.oracle.com/javase/9/docs/api/java/util/HashMap.html" target="_blank">HashMap</a>. If you are constantly adding and removing entries, then this is a good choice. But, if you have a set of values that never change, or rarely change, and you read from that set a lot, then the immutable <span class="apiname">Map</span> is a more efficient choice. If the data set is read frequently, and the values change only rarely, then you may find that the overall speed is faster, even when you include the performance impact of destroying and rebuilding an immutable <span class="apiname">Map</span> when a value changes.</p>
+</div>
+</div>
+<div class="sect2"><a id="GUID-930A5334-9413-4E87-A1D7-6FF4E9E421B2"></a>
+<h2 id="JSCOR-GUID-930A5334-9413-4E87-A1D7-6FF4E9E421B2" class="sect2">Syntax</h2>
+<div>
+<p>The API for these new collections is simple, especially for small numbers of elements.</p>
+<div class="section">
+<p class="subhead2">Topics</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="creating-immutable-lists-sets-and-maps.htm#GUID-202D195E-6E18-41F6-90C0-7423B2C9B381" title="The List.of static factory methods provide a convenient way to create immutable lists.">Immutable List Static Factory Methods</a></p>
+</li>
+<li>
+<p><a href="creating-immutable-lists-sets-and-maps.htm#GUID-DB0865D2-C052-40BC-A3DC-20FCB3088DC9" title="The Set.of static factory methods provide a convenient way to create immutable sets.">Immutable Set Static Factory Methods</a></p>
+</li>
+<li>
+<p><a href="creating-immutable-lists-sets-and-maps.htm#GUID-ECD1A3C5-14A7-47E2-995E-40C9B6B935C4" title="The Map.of and Map.ofEntries static factory methods provide a convenient way to create immutable maps.">Immutable Map Static Factory Methods</a></p>
+</li>
+</ul>
+</div>
+<!-- class="section" --></div>
+<div class="sect3"><a id="GUID-202D195E-6E18-41F6-90C0-7423B2C9B381"></a>
+<h3 id="JSCOR-GUID-202D195E-6E18-41F6-90C0-7423B2C9B381" class="sect3">Immutable List Static Factory Methods</h3>
+<div>
+<p>The <span class="apiname">List.of</span> static factory methods provide a convenient way to create immutable lists.</p>
+<p>A list is an ordered collection, where duplicate elements are typically allowed. Null values are not allowed.</p>
+<p>The syntax of these methods is:</p>
+<pre dir="ltr">
+List.of()
+List.of(e1)
+List.of(e1, e2)         // fixed-argument form overloads up to 10 elements
+List.of(elements...)   // varargs form supports an arbitrary number of elements or an array
+</pre>
+<div class="example" id="GUID-202D195E-6E18-41F6-90C0-7423B2C9B381__GUID-1D2F8109-0F3B-46CE-ABC7-649FE6B8CE1F">
+<p class="titleinexample">Example 3-1 Examples</p>
+<p>In JDK 8:</p>
+<pre dir="ltr">
+List&lt;String&gt; stringList = Arrays.asList("a", "b", "c");
+stringList = Collections.unmodifiableList(stringList);
+</pre>
+<p>In JDK 9:</p>
+<pre dir="ltr">
+List stringList = List.of("a", "b", "c");
+</pre>
+<p>See <a href="https://docs.oracle.com/javase/9/docs/api/java/util/List.html#immutable" target="_blank">Immutable List Static Factory Methods</a>.</p>
+</div>
+<!-- class="example" --></div>
+</div>
+<div class="sect3"><a id="GUID-DB0865D2-C052-40BC-A3DC-20FCB3088DC9"></a>
+<h3 id="JSCOR-GUID-DB0865D2-C052-40BC-A3DC-20FCB3088DC9" class="sect3">Immutable Set Static Factory Methods</h3>
+<div>
+<p>The <span class="apiname">Set.of</span> static factory methods provide a convenient way to create immutable sets.</p>
+<p>A set is a collection that does not contain duplicate elements. If a duplicate entry is detected, then an <code class="codeph">IllegalArgumentException</code> is thrown. Null values are not allowed.</p>
+<p>The syntax of these methods is:</p>
+<pre dir="ltr">
+Set.of()
+Set.of(e1)
+Set.of(e1, e2)         // fixed-argument form overloads up to 10 elements
+Set.of(elements...)   // varargs form supports an arbitrary number of elements or an array
+</pre>
+<div class="example" id="GUID-DB0865D2-C052-40BC-A3DC-20FCB3088DC9__GUID-1D2F8109-0F3B-46CE-ABC7-649FE6B8CE1F">
+<p class="titleinexample">Example 3-2 Examples</p>
+<p>In JDK 8:</p>
+<pre dir="ltr">
+Set&lt;String&gt; stringSet = new HashSet&lt;&gt;(Arrays.asList("a", "b", "c"));
+stringSet = Collections.unmodifiableSet(stringSet);
+</pre>
+<p>In JDK 9:</p>
+<pre dir="ltr">
+Set&lt;String&gt; stringSet = Set.of("a", "b", "c");
+</pre>
+<p>See <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html#immutable" target="_blank">Immutable Set Static Factory Methods</a>.</p>
+</div>
+<!-- class="example" --></div>
+</div>
+<div class="sect3"><a id="GUID-ECD1A3C5-14A7-47E2-995E-40C9B6B935C4"></a>
+<h3 id="JSCOR-GUID-ECD1A3C5-14A7-47E2-995E-40C9B6B935C4" class="sect3">Immutable Map Static Factory Methods</h3>
+<div>
+<p>The <span class="apiname">Map.of</span> and <span class="apiname">Map.ofEntries</span> static factory methods provide a convenient way to create immutable maps.</p>
+<p>A <span class="apiname">Map</span> cannot contain duplicate keys; each key can map to at most one value. If a duplicate key is detected, then an <code class="codeph">IllegalArgumentException</code> is thrown. Null values cannot be used as <span class="apiname">Map</span> keys or values.</p>
+<p>The syntax of these methods is:</p>
+<pre dir="ltr">
+Map.of()
+Map.of(k1, v1)
+Map.of(k1, v1, k2, v2)    // fixed-argument form overloads up to 10 key-value pairs
+Map.ofEntries(entry(k1, v1), entry(k2, v2),...)
+ // varargs form supports an arbitrary number of Entry objects or an array
+</pre>
+<div class="example" id="GUID-ECD1A3C5-14A7-47E2-995E-40C9B6B935C4__GUID-1D2F8109-0F3B-46CE-ABC7-649FE6B8CE1F">
+<p class="titleinexample">Example 3-3 Examples</p>
+<p>In JDK 8:</p>
+<pre dir="ltr">
+Map&lt;String, Integer&gt; stringMap = new HashMap&lt;String, Integer&gt;(); 
+stringMap.put("a", 1); 
+stringMap.put("b", 2);
+stringMap.put("c", 3);
+stringMap = Collections.unmodifiableMap(stringMap);
+</pre>
+<p>In JDK 9:</p>
+<pre dir="ltr">
+Map stringMap = Map.of("a", 1, "b", 2, "c", 3);
+</pre></div>
+<!-- class="example" -->
+<div class="example" id="GUID-ECD1A3C5-14A7-47E2-995E-40C9B6B935C4__GUID-09185476-6886-4C66-8A11-3E9F27E504E2">
+<p class="titleinexample">Example 3-4 Map with Arbitrary Number of Pairs</p>
+<p>If you have more than 10 key-value pairs, then create the map entries using the <span class="apiname">Map.entry</span> method, and pass those objects to the <span class="apiname">Map.ofEntries</span> method. For example:</p>
+<pre dir="ltr">
+import static java.util.Map.entry;
+Map &lt;Integer, String&gt; friendMap = Map.ofEntries(
+   entry(1, "Tom"),
+   entry(2, "Dick"),
+   entry(3, "Harry"),
+   ...
+   entry(99, "Mathilde"));
+</pre>
+<p>See <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Map.html#immutable" target="_blank">Immutable Map Static Factory Methods</a>.</p>
+</div>
+<!-- class="example" --></div>
+</div>
+</div>
+<div class="sect2"><a id="GUID-A9B36F89-BA86-41BA-AAE1-ED73A5FC5C6E"></a>
+<h2 id="JSCOR-GUID-A9B36F89-BA86-41BA-AAE1-ED73A5FC5C6E" class="sect2">Randomized Iteration Order</h2>
+<div>
+<p>The iteration order for <span class="apiname">Set</span> elements and <span class="apiname">Map</span> keys is randomized: it is likely to be different from one JVM run to the next. This is intentional &mdash; it makes it easier for you to identify code that depends on iteration order. Sometimes dependencies on iteration order inadvertently creep into code, and cause problems that are difficult to debug.</p>
+<p>You can see how the iteration order is the same until <code class="codeph">jshell</code> is restarted.</p>
+<pre dir="ltr">
+jshell&gt; <span class="bold">Map stringMap = Map.of("a", 1, "b", 2, "c", 3);</span>
+stringMap ==&gt; {b=2, c=3, a=1}
+
+jshell&gt; <span class="bold">Map stringMap = Map.of("a", 1, "b", 2, "c", 3);</span>
+stringMap ==&gt; {b=2, c=3, a=1}
+
+jshell&gt; <span class="bold">/exit</span>
+|  Goodbye
+
+C:\Program Files\Java\jdk-9\bin&gt;<span class="bold">jshell</span>
+|  Welcome to JShell -- Version 9-ea
+|  For an introduction type: /help intro
+
+jshell&gt; <span class="bold">Map stringMap = Map.of("a", 1, "b", 2, "c", 3);</span>
+stringMap ==&gt; {a=1, b=2, c=3}
+</pre>
+<p>The collection instances created by the <span class="apiname">Set.of</span>, <span class="apiname">Map.of</span>, and <span class="apiname">Map.ofEntries</span> methods are the only ones whose iteration orders are randomized. The iteration ordering of collection implementations such as <span class="apiname">HashMap</span> and <span class="apiname">HashSet</span> is unchanged.</p>
+</div>
+</div>
+<div class="sect2"><a id="GUID-4F3E2B7D-CE90-4862-A78A-414FC08DA6E4"></a>
+<h2 id="JSCOR-GUID-4F3E2B7D-CE90-4862-A78A-414FC08DA6E4" class="sect2">About Immutability</h2>
+<div>
+<p>The collections returned by the convenience factory methods added in JDK 9 are conventionally immutable. Any attempt to add, set, or remove elements from these collections causes an <span class="apiname">UnsupportedOperationException</span> to be thrown.</p>
+<p>These collections are not <span class="q">"immutable persistent"</span> or <span class="q">"functional"</span> collections. If you are using one of those collections, then you can modify it, but when you do, you are returned a new updated collection that may share the structure of the first one.</p>
+<p>One advantage of an immutable collection is that it is automatically thread safe. After you create a collection, you can hand it to multiple threads, and they will all see a consistent view.</p>
+<p>However, an immutable collection of objects is not the same as a collection of immutable objects. If the contained elements are mutable, then this may cause the collection to behave inconsistently or make its contents to appear to change.</p>
+<p>Let&rsquo;s look at an example where an immutable collection contains mutable elements. Using <code class="codeph">jshell</code>, create two lists of <span class="apiname">String</span> objects using the <span class="apiname">ArrayList</span> class, where the second list is a copy of the first. Trivial <code class="codeph">jshell</code> output was removed.</p>
+<pre dir="ltr">
+jshell&gt; <span class="bold">List&lt;String&gt; list1 = new ArrayList&lt;&gt;();</span>
+jshell&gt; <span class="bold">list1.add("a")</span>
+jshell&gt; <span class="bold">list1.add("b")</span>
+jshell&gt; <span class="bold">list1</span>
+list1 ==&gt; [a, b]
+
+jshell&gt; <span class="bold">List&lt;String&gt; list2 = new ArrayList&lt;&gt;(list1);</span>
+list2 ==&gt; [a, b]
+</pre>
+<p>Next, using the <span class="apiname">List.of</span> method, create <code class="codeph">ilist1</code> and <code class="codeph">ilist2</code> that point to the first lists. If you try to modify <code class="codeph">ilist1</code>, then you see an exception error because <code class="codeph">ilist1</code> is immutable. Any modification attempt throws an exception.</p>
+<pre dir="ltr">
+jshell&gt; <span class="bold">List&lt;List&lt;String&gt;&gt; ilist1 = List.of(list1, list1);</span>
+ilist1 ==&gt; [[a, b], [a, b]]
+
+jshell&gt; <span class="bold">List&lt;List&lt;String&gt;&gt; ilist2 = List.of(list2, list2);</span>
+ilist2 ==&gt; [[a, b], [a, b]]
+
+jshell&gt; <span class="bold">ilist1.add(new ArrayList&lt;String&gt;())</span>
+|  java.lang.UnsupportedOperationException thrown:
+|        at ImmutableCollections.uoe (ImmutableCollections.java:70)
+|        at ImmutableCollections$AbstractImmutableList.add (ImmutableCollections
+.java:76)
+|        at (#10:1)
+</pre>
+<p>But if you modify the original <code class="codeph">list1</code>, <code class="codeph">ilist1</code> and <code class="codeph">ilist2</code> are no longer equal.</p>
+<pre dir="ltr">
+jshell&gt; <span class="bold">list1.add("c")</span>
+jshell&gt; <span class="bold">list1</span>
+list1 ==&gt; [a, b, c]
+jshell&gt; <span class="bold">ilist1</span>
+ilist1 ==&gt; [[a, b, c], [a, b, c]]
+
+jshell&gt; <span class="bold">ilist2</span>
+ilist2 ==&gt; [[a, b], [a, b]]
+
+jshell&gt; <span class="bold">ilist1.equals(ilist2)</span>
+$14 ==&gt; false
+</pre>
+<div class="section">
+<p class="subhead2">Immutable and Unmodifiable Are Not the Same</p>
+<p>The immutable collections behave in the same way as the <span class="apiname">Collections.unmodifiable...</span> wrappers. However, these collections are not wrappers &mdash; these are data structures implemented by classes where any attempt to modify the data causes an exception to be thrown.</p>
+<p>If you create a <span class="apiname">List</span> and pass it to the <span class="apiname">Collections.unmodifiableList</span> method, then you get an unmodifiable view. The underlying list is still modifiable, and modifications to it are visible through the <span class="apiname">List</span> that is returned, so it is not actually immutable.</p>
+</div>
+<!-- class="section" -->
+<div class="example" id="GUID-4F3E2B7D-CE90-4862-A78A-414FC08DA6E4__GUID-89F8942F-F166-4FB0-ADB2-215F18620C8B">
+<p>To demonstrate this behavior, create a <span class="apiname">List</span> and pass it to <span class="apiname">Collections.unmodifiableList</span>. If you try to add to that <span class="apiname">List</span> directly, then an exception is thrown.</p>
+<pre dir="ltr">
+jshell&gt; <span class="bold">List&lt;String&gt; unmodlist1 = Collections.unmodifiableList(list1);</span>
+unmodlist1 ==&gt; [a, b, c]
+
+jshell&gt; <span class="bold">unmodlist1.add("d")</span>
+|  java.lang.UnsupportedOperationException thrown:
+|        at Collections$UnmodifiableCollection.add (Collections.java:1056)
+|        at (#17:1)
+</pre>
+<p>But, if you change the original <code class="codeph">list1</code>, no error is generated, and the <code class="codeph">unmodlist1</code> list has been modified.</p>
+<pre dir="ltr">
+jshell&gt; <span class="bold">list1.add("d")</span>
+$19 ==&gt; true
+jshell&gt; <span class="bold">list1</span>
+list1 ==&gt; [a, b, c, d]
+
+jshell&gt; <span class="bold">unmodlist1</span>
+unmodlist1 ==&gt; [a, b, c, d]
+</pre></div>
+<!-- class="example" --></div>
+</div>
+<div class="sect2"><a id="GUID-6A9BAE41-A1AD-4AA1-AF1A-A8FC99A14199"></a>
+<h2 id="JSCOR-GUID-6A9BAE41-A1AD-4AA1-AF1A-A8FC99A14199" class="sect2">Space Efficiency</h2>
+<div>
+<p>The collections returned by the convenience factory methods are more space efficient than their mutable equivalents.</p>
+<p>All of the implementations of these collections are private classes hidden behind a static factory method. When it is called, the static factory method chooses the implementation class based on the size. The data may be stored in a compact field-based or array-based layout.</p>
+<div class="p">Let&rsquo;s look at the heap space consumed by two alternative implementations. First, here&rsquo;s an unmodifiable <span class="apiname">HashSet</span> that contains two strings:
+<pre dir="ltr">
+Set&lt;String&gt; set = new HashSet&lt;&gt;(3);   // 3 buckets
+set.add("silly");
+set.add("string");
+set = Collections.unmodifiableSet(set);
+</pre>
+The set includes six objects: the unmodifiable wrapper; the <span class="apiname">HashSet</span>, which contains a <span class="apiname">HashMap</span>; the table of buckets (an array); and two <span class="apiname">Node</span> instances (one for each element). On a typical VM, with a 12&ndash;byte header per object, the total overhead comes to 96 bytes + 28 * 2 = 152 bytes for the set. This is a large amount of overhead compared to the amount of data stored. Plus, access to the data unavoidably requires multiple method calls and pointer dereferences.</div>
+<p>Instead, we can implement the set using <span class="apiname">Set.of</span>:</p>
+<pre dir="ltr">
+Set&lt;String&gt; set = Set.of("silly", "string");
+</pre>
+<p>Because this is a field-based implementation, the set contains one object and two fields. The overhead is 20 bytes. The new collections consume less heap space, both in terms of fixed overhead and on a per-element basis.</p>
+<p>Not needing to support mutation also contributes to space savings. In addition, the locality of reference is improved, because there are fewer objects required to hold the data.</p>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment160">
+<tr>
+<td class="cellalignment167">
+<table class="cellalignment165">
+<tr>
+<td class="cellalignment164"><a href="xml-catalog-api1.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment164"><a href="process-api1.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment169">
+<table class="cellalignment163">
+<tr>
+<td class="cellalignment164"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment164"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment164"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

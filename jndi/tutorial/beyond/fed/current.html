@@ -1,0 +1,206 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>The Current Naming System </title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="boundary.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="next.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=bottom border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Federation</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    The Current Naming System 
+</h2>
+<p>
+<blockquote>
+
+Regardless of whether a service provider supports strong
+or weak separation, once it has determined the 
+components of the composite name that it should process,
+it needs to process them.
+How it does this depends on whether its 
+participation in the name's resolution
+is as an intermediate naming system or a terminal naming system.
+<p>
+An <em>intermediate naming system</em> is a naming system
+that is involved only in the
+resolution of the composite name. 
+It is responsible for passing on the
+operation to its target context.  The 
+<em>terminal</em> (or <em>target</em>) <em>naming
+system</em> is the system that contains the context in which the operation is
+carried out. In other words, the terminal naming system is 
+the system named
+by the tail component(s) of a composite name.
+In the following sample composite name:
+<blockquote><pre>
+cn=homedir,cn=Jon Ruiz,ou=People/tutorial/report.txt
+</pre></blockquote>
+the LDAP directory is an intermediate naming system
+and is responsible for resolving the name
+<tt>"cn=homedir,cn=Jon Ruiz,ou=People"</tt>.
+The UNIX file system is the terminal or target naming system
+and is responsible for performing the requested context
+operation on the name <tt>"tutorial/report.txt"</tt>.
+<p>
+Processing for a terminal naming system is not very interesting.
+The provider merely carries out the requested context operation.
+For example, if the context method invoked was 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><tt>Context.list()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, then the service provider would invoke <tt>list()</tt>, using
+its components from the composite name, as 
+if it was not in a federation and then return the results of <tt>list()</tt>
+to the caller.
+<p>
+By contrast,
+processing for an intermediate naming system is much more interesting.
+The provider's job is to
+determine the reference to the <em>next naming system</em>, or <em>nns</em>, when given
+its components from the composite name.
+This reference is called the <em>next naming system pointer</em>,
+or <em>nns pointer</em>.
+In the previous example, the LDAP provider must determine the nns pointer
+for the LDAP name <tt>"cn=homedir,cn=Jon Ruiz,ou=People"</tt>.
+
+<h4>Retrieving NNS Pointers</h4>
+A service provider can support retrieval of the nns pointer
+in either of two ways.
+One way is to use an explicitly
+named nns pointer, also called a <em>junction</em>.
+The second way is via an <em>implicit</em> nns pointer.
+
+<p><em><strong>Junctions</strong></em>
+<p>
+
+A <em>junction</em> is a binding of a name to an nns pointer;
+in the previous example,
+<tt>"cn=homedir,cn=Jon Ruiz,ou=People"</tt>
+is a junction. This name is bound to a reference to a file system context.
+If you perform a 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><tt>Context.lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>  on the name,
+then you will get back not an LDAP entry but
+a <tt>Context</tt> instance for a directory (<tt>/tmp</tt>) in the file system.
+<p>
+A context may have an unlimited number of junctions.
+Moreover,
+a junction is usually indistinguishable from other normal (nonjunction)
+names in the context, although this
+depends on the naming policy of the underlying naming system.
+
+
+<p><em><strong>Implicit NNS Pointers</strong></em><p>
+
+A service provider also can support retrieval of the nns
+pointer via an <em>implicit</em> nns pointer.
+An implicit nns pointer is named by using the
+composite name component separator ("<tt>/</tt>").
+Suppose the name <tt>"corp.wiz.com"</tt> names an object in the
+current naming system.
+Then the name <tt>"corp.wiz.com/"</tt> will
+name its nns pointer.
+<p>
+An implicit nns pointer is used when a naming system's native entries cannot
+or should not be used directly to hold an nns pointer.
+It can be determined <em>statically</em> or <em>dynamically</em>.
+<p>
+<em>Static Implicit NNS Pointers.</em>
+A static implicit nns pointer is constructed by using
+data found in the current naming system.
+For example, suppose that you store nns pointers in the
+DNS by using TXT records. 
+When the DNS provider processes the name
+<tt>"corp.wiz.com/"</tt>, it will use the data in the TXT record
+of the <tt>"corp.wiz.com"</tt> entry to construct the nns pointer.
+<p>
+<em>Dynamic Implicit NNS Pointers.</em>
+An implicit nns pointer can also be determined dynamically, based
+on the types and content of the objects bound in the current naming
+system.
+This is useful when the result of resolving 
+a composite name's components
+in the current naming system does not indicate any nns information.
+The only conclusion that the service provider can draw is that
+resolution was completed in the current naming system
+and should proceed to the next naming system.
+<p>
+For example, suppose that the composite name <tt>"lib/xyz.zip/part1/abc"</tt>
+consists of two parts: <tt>"lib/xyz.zip"</tt> and <tt>"part1/abc"</tt>.
+<tt>"lib/xyz.zip"</tt> names a file in the ZIP format, and
+<tt>"part1/abc"</tt> names an entry in the ZIP file.
+The resolution of <tt>"lib/xyz.zip"</tt> results in a file object
+and does not indicate which nns to use for continuing the
+operation on <tt>"part1/abc"</tt>.
+<p>
+To support a dynamic implicit nns pointer, the JNDI defines a special
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html"><tt>Reference</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a> called an <em>nns reference</em>.
+This reference has an address type <tt>"nns"</tt>
+and an address content that is the resolved object.
+In the ZIP file example, the resolved object is the ZIP file itself
+and the file system service provider would construct an nns reference as
+follows.
+<blockquote><pre>
+Reference ref = new Reference("java.io.File",
+    new RefAddr("nns") {
+	public Object getContent() {
+	    return theFile;
+	}
+    });
+</pre></blockquote>
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="boundary.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="next.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=top border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Federation</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

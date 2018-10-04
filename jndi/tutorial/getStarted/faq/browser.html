@@ -1,0 +1,125 @@
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Web Browser Problems</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="runtime.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="../end.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/getStartedHeader.gif" width=26 height=26 align=bottom border=0 alt="Getting Started | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Common Problems (and Their Solutions)</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Web Browser Problems
+</h2>
+<p>
+<blockquote>
+
+Here are some problems that you might encounter when
+trying to deploy an applet that uses the JNDI classes.
+
+<h4>Cannot Authenticate by Using CRAM-MD5</h4>
+
+
+<p><em>Problem</em>: You get an <tt>AppletSecurityException</tt> when an
+applet running inside Netscape Communicator
+attempts to authenticate using CRAM-MD5 to the LDAP server.
+
+<p><em>Cause</em>:
+Netscape Communicator disables access to the <tt>java.security</tt> packages.
+The LDAP provider used the message digest functionality provided
+by <tt>java.security.MessageDigest</tt> for implementing CRAM-MD5.
+
+<p><em>Solution</em>:
+Use the <a href=http://java.sun.com/products/plugin/>Java Plug-in</a>.
+
+<h4>Cannot Connect to Arbitrary Hosts</h4>
+
+<p><em>Problem</em>: You get an <tt>AppletSecurityException</tt> when
+your applet attempts to communicate with a directory server that is running
+on a machine different from the one from which the applet was loaded.
+
+<p><em>Cause</em>:
+Your applet was not signed, so it can connect only to the machine
+from which it was loaded. Or, if the applet was signed,
+the browser has not granted the applet permission to
+connect to the directory server machine.
+
+<p><em>Solution</em>:
+If you want to allow the applet to connect to directory
+servers running on arbitrary machines, then you need to sign
+<em>both</em> your applet <em>and</em> all of the JNDI JARs 
+that your applet will be using.
+For information on signing jars, see 
+<a href="http://java.sun.com/products/jdk/1.1/docs/guide/security/index.html">
+http://java.sun.com/products/jdk/1.1/docs/guide/security/index.html</a>.
+
+<h4>Cannot Access System Properties for Configuration</h4>
+<p><em>Problem</em>: You get an <tt>AppletSecurityException</tt>
+when your applet attempts to set up the environment properties
+using system properties.
+
+<p><em>Cause</em>:
+Web browsers limit access to system properties and throw
+a <tt>SecurityException</tt> if you attempt to read them.
+
+<p><em>Solution</em>:
+If you need to obtain input for your applet, then try using 
+applet params instead.
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="runtime.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="../end.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/getStartedHeader.gif" width=26 height=26 align=top border=0 alt="Getting Started | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Common Problems (and Their Solutions)</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

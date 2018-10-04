@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Configuring inetd to Launch rmid</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../../webdesign/pubs8/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../webdesign/pubs8/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://docs.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+
+<div class="smallpagetitle"><h1>Configuring <code>inetd</code> to Launch <code>rmid</code></h1></div>
+
+<p>On the Solaris Operating System (Solaris OS), the Internet
+services daemon <code>inetd</code> provides an alternative to
+starting up services at system boot time. This daemon, a server
+process for Internet standard services, can be configured to start
+services on demand. For details on the Internet services daemon,
+see the Solaris OS <code>inetd(1M)</code> man page.</p>
+<p><code>inetd</code> can be
+configured to start the Java RMI activation daemon
+<code>rmid</code> on demand. In this case, <code>rmid</code> does
+not need to be started up at boot time or started up manually.
+Instead, <code>rmid</code> will be started when a client attempts
+to connect to it, such as in order to activate an object.</p>
+<p>Note: If restartable services are registered with
+<code>rmid</code>, <code>rmid</code> should be started at system
+boot type (not by <code>inetd</code>) so that the restartable
+services are always running when the system is up.</p>
+<p>To configure <code>inetd</code> to launch <code>rmid</code>, you
+will need to add an entry to each of two configuration files that
+<code>inetd</code> uses, <code>/etc/inetd.conf</code> and
+<code>/etc/services</code>. Editing these files requires root
+access to the machine that <code>rmid</code> will run on.</p>
+<p>After <code>inetd</code> has been reconfigured, you should test
+your configuration to make sure that it works properly.</p>
+<p>This tutorial has the following steps:</p>
+<ul>
+<li><a href="#a1">Configure <code>/etc/inetd.conf</code></a></li>
+<li><a href="#a2">Configure <code>/etc/services</code></a></li>
+<li><a href="#a3">Force <code>inetd</code> to read its new
+configuration</a></li>
+<li><a href="#a4">Test your configuration</a></li>
+</ul>
+<hr />
+<h2><a name="a1" id="a1"></a>Configure
+<code>/etc/inetd.conf</code></h2>
+<p>The <code>/etc/inetd.conf</code> configuration file contains
+entries for the services to be launched when <code>inetd</code>
+receives a request over a socket. For details on the format of this
+configuration file see the Solaris OS <code>inetd.conf(4)</code>
+man page.</p>
+<p>To configure <code>inetd</code> to launch <code>rmid</code>, add
+the following entry to the <code>/etc/inetd.conf</code>
+configuration file (requires root access to the machine):</p>
+<pre class="codeblock">
+rmid stream tcp wait nobody <i><b>jreHome</b></i>/bin/rmid  \
+     rmid -log <i><b>logDir</b></i>/rmid.log <i><b>rmidOptions</b></i>
+</pre>
+where <i><b>jreHome</b></i> is a path to the installed JRE,
+<i><b>logDir</b></i> is the directory for the log file, and
+<i><b>rmidOptions</b></i> is any other options for
+<code>rmid</code> (for example, property initializations). When
+<code>rmid</code> is launched by <code>inetd</code> the
+<code>-log</code> option must be specified, and the
+<code>-port</code> option must <i>not</i> be specified, since the
+port is derived from the <code>/etc/services</code> configuration.
+<p>If <code>rmid</code> needs to be run as a user other than
+<code>nobody</code>, replace <code>nobody</code> above with the
+user ID under which <code>rmid</code> should run.</p>
+<h2><a name="a2" id="a2"></a>Configure
+<code>/etc/services</code></h2>
+<p>Next, <code>rmid</code> needs to be listed as a service in the
+<code>/etc/services</code> configuration file. For details on the
+format of this configuration file see the Solaris OS
+<code>services(4)</code> man page.</p>
+<p>To list <code>rmid</code> as a service, add the following entry
+to the <code>/etc/services</code> configuration file (requires root
+access to the machine):</p>
+<pre class="codeblock">
+rmid        <b><i>port</i></b>/tcp
+</pre>
+<p>where <b><i>port</i></b> is the port number for the
+<code>ActivationSystem</code> and the <code>Activator</code> remote
+objects that <code>rmid</code> exports. This port number is
+typically 1098, but another port number can be used as long as the
+clients and activatable services define the system property
+<code>java.rmi.activation.port</code> to that port.</p>
+<h2><a name="a3" id="a3"></a>Force <code>inetd</code> to read its
+new configuration</h2>
+<p>Now that the configuration has been modified, <code>inetd</code>
+needs to read the new configuration so that it can listen on the
+appropriate ports for the services that are configured.</p>
+<p>But first, it is important to make sure that <code>rmid</code>
+is not already running. To do this, run the following command:</p>
+<pre class="codeblock">
+% ps -ef | grep rmid
+</pre>
+<p>If the above command does not print out the information for a
+running <code>rmid</code> process, then <code>rmid</code> is not
+running. If it does, then you will need to shut down
+<code>rmid</code> first before continuing.</p>
+<p>Next, <code>inetd</code> needs to read its new configuration. To
+force <code>inetd</code> to reread its configuration, the running
+<code>inetd</code> process must be sent a hangup signal. First,
+find the process ID for the running <code>inetd</code> process by
+running the following command:</p>
+<pre class="codeblock">
+% ps -ef | grep inetd
+</pre>
+<p>which will print out something like this:</p>
+<pre class="codeblock">
+root   171     1  0   Sep 30 ?        0:02 /usr/sbin/inetd -s
+</pre>
+<p>In this example, the process ID for <code>inetd</code> is
+<code>171</code>. Now, the <code>inetd</code> process can be sent a
+hangup signal by running the following command and supplying the
+process ID (requires root access):</p>
+<pre class="codeblock">
+% kill -HUP 171
+</pre>
+<p>Now, <code>inetd</code> is all set to launch <code>rmid</code>
+when a program attempts to connect to the port configured
+above.</p>
+<h2><a name="a4" id="a4"></a>Test your configuration</h2>
+<p>To test that <code>inetd</code> is configured properly, you can
+run a simple program that looks up the
+<code>ActivationSystem</code> which will, in turn, cause
+<code>inetd</code> to launch <code>rmid</code> if the configuration
+is correct.</p>
+<p>The following is a simple program to look up the
+<code>ActivationSystem</code> on a port, supplied as the value of
+the <code>java.rmi.activation.port</code> system property:</p>
+<pre class="codeblock">
+package example.inetd;
+
+import java.rmi.activation.ActivationSystem;
+import java.rmi.activation.ActivationGroup;
+
+public class GetActivationSystem {
+
+    public static void main(String[] args) throws Exception {
+
+        ActivationSystem system = ActivationGroup.getSystem();
+        System.err.println("ActivationSystem = " + system);
+    }
+}
+</pre>
+<p>Compile and run this program as follows:</p>
+<pre class="codeblock">
+% javac -d <b><i>classDir</i></b> GetActivationSystem.java
+% java -classpath <b><i>classDir</i></b> -Djava.rmi.activation.port=<b><i>port</i></b> 
+example.inetd.GetActivationSystem
+</pre>
+where <b><i>classDir</i></b> is the class path for this example
+class, and <b><i>port</i></b> is the port for the
+<code>ActivationSystem</code> <a href="#a2">configured for
+<code>rmid</code> in the <code>/etc/services</code> file</a>.
+<p>If the program prints out the <code>ActivationSystem</code>
+successfully then <code>rmid</code> was launched by
+<code>inetd</code>.</p>
+<p>If the program either hangs or prints an exception trace, check
+the output file produced by <code>rmid</code>. When
+<code>rmid</code> is launched by <code>inetd</code>, any output
+written to <code>System.err</code> is written to a file located in
+the directory specified by the property
+<code>java.io.tmpdir</code>, typically <code>/var/tmp</code> on the
+Solaris OS. The output file is prefixed with "rmid-err" and has the
+suffix of ".tmp". The file name also contains other characters
+(typically numbers) in between to keep the file name unique.</p>
+<p>If <code>rmid</code> starts up successfully from
+<code>inetd</code>, the output file should contain text similar to
+the following (with no warning or error messages):</p>
+<pre class="codeblock">
+Tue Sep 30 13:07:38 EDT 2003
+rmid startup with inherited channel: sun.nio.ch.ServerSocketChannelImpl[/192.0.2.120:1098]
+</pre>
+<p>If the file does not exist, the above text is not in the file,
+or additional error output is in the file, then recheck the
+configuration. Upon changing the <code>inetd</code> configuration,
+remember to send <code>inetd</code> a hangup signal so that it
+rereads its altered configuration, and remember to terminate any
+<code>rmid</code> process started from the previous attempt before
+continuing.</p>
+<p><!-- Body text ends here --></p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

@@ -1,0 +1,226 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>LDAP Operations and JNDI Mapping</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="jndi.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="exceptions.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Comparison of the LDAP and JNDI Models</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    LDAP Operations and JNDI Mapping
+</h2>
+<p>
+<blockquote>
+
+The LDAP defines a set of operations or requests
+(see
+<A HREF="http://www.ietf.org/rfc/rfc2251.txt">RFC 2251</A>).
+In the JNDI, these map to operations on the
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html><tt>DirContext</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html><tt>LdapContext</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interfaces (which are subinterfaces of
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html><tt>Context</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>).
+
+For example, when a caller invokes a <tt>DirContext</tt> method,
+the LDAP service provider implements the method by sending LDAP requests
+to the LDAP server. 
+<p>
+The following table shows how operations in the LDAP correspond to
+JNDI methods.
+<p>
+
+<TABLE BORDER CELLPADDING=3 WIDTH="80%" >
+<TR>
+<TH>LDAP Operation</TH>
+
+<TH>Corresponding JNDI Methods</TH>
+</TR>
+
+<tr>
+<td>bind</td>
+<td>
+The corresponding way of creating an initial connection to
+the LDAP server in the JNDI is the creation of an
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InitialDirContext.html"><tt>InitialDirContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InitialDirContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. When the application creates an initial context, 
+it supplies client authentication information
+via environment properties.
+To change that authentication information for an existing context, 
+use
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#addToEnvironment(java.lang.String, java.lang.Object)"><tt>Context.addToEnvironment()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#addToEnvironment(java.lang.String, java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#removeFromEnvironment(java.lang.String)"><tt>Context.removeFromEnvironment()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#removeFromEnvironment(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+</td>
+</tr>
+
+
+<tr>
+<td>unbind</td>
+<td>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#close"><tt>Context.close()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#close"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>  is used to free resources used by a context.
+It differs from the LDAP "unbind" operation in that 
+within a given service provider implementation, resources
+can be shared among contexts, so closing one context won't free
+all of the resources if those resources are being shared with another context.
+Make sure to close all contexts if your intent is to free all resources.
+</td>
+</tr>
+
+<tr> <td>search</td> <td> 
+
+The corresponding method in the JNDI is the overloading of
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(java.lang.String, java.lang.String, javax.naming.directory.SearchControls)"><tt>DirContext.search()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(java.lang.String, java.lang.String, javax.naming.directory.SearchControls)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    that accepts a 
+<a href=../../getStarted/concepts/glossary.html#FILTER><em>search filter</em></a> 
+(<A HREF="http://www.ietf.org/rfc/rfc2254.txt">RFC 2254</A>).
+See 
+<a target="_top" href="../../basics/directory/filter.html">The Basics</a> <a href="../../basics/directory/filter.html"><img src="../../jndiimages/basicsIcon.gif" width=20 height=20 border=0 alt="(in the Basics trail)"></a>     trail for an example.
+Also, see the
+<a target="_top" href="../search/index.html">Searches</a> <a href="../search/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>     lesson for more examples.
+
+</tr>
+<tr>
+<td>
+modify
+</td>
+<td>
+The corresponding method in the JNDI is the overloading of
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#modifyAttributes(java.lang.String, javax.naming.directory.ModificationItem[])"><tt>DirContext.modifyAttributes()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#modifyAttributes(java.lang.String, javax.naming.directory.ModificationItem[])"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     that accepts an array of 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/ModificationItem.html"><tt>DirContext.ModificationItem</tt>s</a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/ModificationItem.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+See
+<a target="_top" href="../../basics/directory/modattrs.html">The Basics</a> <a href="../../basics/directory/modattrs.html"><img src="../../jndiimages/basicsIcon.gif" width=20 height=20 border=0 alt="(in the Basics trail)"></a>     trail for an example.
+</td>
+</tr>
+
+<tr>
+<td>
+add
+</td>
+<td>
+The corresponding methods in the JNDI are
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#bind(java.lang.String, java.lang.Object, javax.naming.directory.Attributes)"><tt>DirContext.bind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#bind(java.lang.String, java.lang.Object, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#createSubcontext(java.lang.String, javax.naming.directory.Attributes)"><tt>DirContext.createSubcontext()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#createSubcontext(java.lang.String, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.  You can use either to add a new LDAP entry.
+
+Using <tt>bind()</tt>, you can specify not only 
+a set of attributes for the
+new entry but also a Java object to be added along with the attributes.
+See
+<a target="_top" href="../../basics/directory/hybrid.html">The Basics</a> <a href="../../basics/directory/hybrid.html"><img src="../../jndiimages/basicsIcon.gif" width=20 height=20 border=0 alt="(in the Basics trail)"></a>     trail for examples of both.
+</td>
+</tr>
+
+<tr>
+<td>
+delete
+</td>
+<td>
+The corresponding methods in the JNDI are
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#unbind(java.lang.String)"><tt>Context.unbind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#unbind(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#destroySubcontext(java.lang.String)"><tt>Context.destroySubcontext()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#destroySubcontext(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. You can use either to remove an LDAP entry.
+</td>
+</tr>
+
+<tr>
+<td>
+modify DN/RDN
+</td>
+<td>
+The corresponding method in the JNDI is 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#rename(java.lang.String, java.lang.String)"><tt>Context.rename()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#rename(java.lang.String, java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+See the 
+<a target="_top" href="../search/index.html">Miscellaneous</a> <a href="../search/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>     lesson for more details.
+</td>
+</tr>
+
+<tr>
+<td>
+compare
+</td>
+<td>
+The corresponding operation in the JNDI is a suitably constrained
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(java.lang.String, javax.naming.directory.Attributes, java.lang.String[])"><tt>DirContext.search()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(java.lang.String, javax.naming.directory.Attributes, java.lang.String[])"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. See the
+<a target="_top" href="../search/compare.html">Searches</a> <a href="../search/compare.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>     lesson for an example.
+
+</td>
+</tr>
+
+<tr>
+<td>
+abandon
+</td>
+<td>
+When you close a context, all of its outstanding requests are abandoned.
+Similarly, when you close a 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html><tt>NamingEnumeration</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, the corresponding LDAP "search" request is abandoned.
+</td>
+</tr>
+
+<tr>
+<td>
+extended operation
+</td>
+<td>
+The corresponding method in the JNDI is
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#extendedOperation(javax.naming.ldap.ExtendedRequest)"><tt>LdapContext.extendedOperation()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#extendedOperation(javax.naming.ldap.ExtendedRequest)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. See the 
+
+<a target="_top" href="../ext/index.html">Controls and Extensions</a> <a href="../ext/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>     lesson for more details.
+</td>
+</tr>
+
+</table>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="jndi.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="exceptions.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Comparison of the LDAP and JNDI Models</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

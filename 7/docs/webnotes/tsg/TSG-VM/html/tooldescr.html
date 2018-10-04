@@ -1,0 +1,3327 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<!-- GenHTML revision 23965-->
+<meta http-equiv="Content-type" content=
+"text/html; charset=utf-8" />
+<title>Detailed Tool Descriptions - Troubleshooting Guide for
+HotSpot VM</title>
+<meta http-equiv="content-language" content="en-US" />
+<meta name="robots" content="index,follow" />
+<meta name="language" content="en" />
+<meta name="collection" content="reference" />
+<meta name="keywords" content="" />
+<meta name="description" content=
+"This document is a guide to help troubleshoot problems that might arise with applications that are developed using the release of Java Platform, Standard Edition Development Kit 7 (JDK 7). In particular, this guide addresses possible problems between the applications and the Java HotSpot virtual machine. The document provides a description of the tools, command line options, and other help in analyzing a problem. The document also provides guidance on how to approach some general issues such as a crash, hang, or memory resource issues. Finally, the document provides direction for data collection and bug report preparation." />
+<meta name="date" content="2008-11-01" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/default.css" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/pagelayout.css" />
+<link rel="alternate stylesheet" type="text/css" title="print"
+href="css/print.css" />
+<script type="text/javascript">
+//<![CDATA[
+function setActiveStyleSheet(title) {
+  var i, a, main;
+  for (i=0; (a = document.getElementsByTagName("link")[i]); i++) {
+         if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+                a.disabled = true;
+                if(a.getAttribute("title") == title) a.disabled = false;
+         }
+  }
+}
+
+function ClearDefault(Element) {
+   if (Element.defaultValue == Element.value) {
+        Element.value = ""
+        Element.style.cssText = "font-weight: bold; color: #00000"
+   }
+}
+
+//]]>
+</script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<div class="MastheadPane">
+<table class="MastheadTable" width="100%">
+<tr class="closeprintview">
+<td align="right"><a href="#" onclick=
+"setActiveStyleSheet('screen')">Exit Print View</a></td>
+</tr>
+<tr class="titlebar">
+<td>
+<h4 class="contentpage-doctitle"><a href="toc.html">Troubleshooting
+Guide for HotSpot VM</a></h4>
+</td>
+<td class="smallLogo"><a href="http://www.oracle.com"><img src=
+"graphics/smallOracleLogo.gif" /></a></td>
+</tr>
+</table>
+</div>
+<div class="ButtonPane">
+<table class="pagecontrol">
+<tr>
+<td class="pagebuttons"><a href="#" onclick=
+"setActiveStyleSheet('print')"><img height="46" width="40" border=
+"0" src="graphics/print.gif" alt="Print View" title=
+"Print View" /></a></td>
+<td class="pagebreadcrumb"></td>
+<td class="pagenavlinks"><a href="tools.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="memleaks.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+<div class="TOCPane">
+<p class="toc level1"><a href="docinfo.html">Document
+Information</a></p>
+<p class="toc level1 tocsp"><a href="preface.html">Preface</a></p>
+<p class="toc level1 tocsp"><a href=
+"tools.html">1.&#160;&#160;Diagnostic Tools and Options</a></p>
+<div id="scrolltoc" class="onpage">
+<p class="toc level1 tocsp"><a href="">2.&#160;&#160;Detailed Tool
+Descriptions</a></p>
+<p class="toc level2"><a href="#gblvj">2.1 HPROF - Heap
+Profiler</a></p>
+<p class="toc level3"><a href="#gbluz">2.1.1 Heap Allocation
+Profiles (<tt>heap=sites</tt>)</a></p>
+<p class="toc level3"><a href="#gbltw">2.1.2 Heap Dump
+(<tt>heap=dump</tt>)</a></p>
+<p class="toc level3"><a href="#gblvd">2.1.3 CPU Usage Sampling
+Profiles (<tt>cpu=samples</tt>)</a></p>
+<p class="toc level3"><a href="#gbluw">2.1.4 CPU Usage Times
+Profile (<tt>cpu=times</tt>)</a></p>
+<p class="toc level2 tocsp"><a href="#ghscd">2.2 Java
+VisualVM</a></p>
+<p class="toc level2"><a href="#gblfi">2.3 JConsole Utility</a></p>
+<p class="toc level2"><a href="#gbldt">2.4 <tt>jdb</tt>
+Utility</a></p>
+<p class="toc level3"><a href="#gbmlq">2.4.1 Attaching to a
+Process</a></p>
+<p class="toc level3"><a href="#gbmnc">2.4.2 Attaching to a Core
+File on the Same Machine</a></p>
+<p class="toc level3"><a href="#gbmog">2.4.3 Attaching to a Core
+File or a Hung Process from a Different Machine</a></p>
+<p class="toc level2 tocsp"><a href="#gblfj">2.5 <tt>jhat</tt>
+Utility</a></p>
+<p class="toc level3"><a href="#gcadr">2.5.1 Standard
+Queries</a></p>
+<p class="toc level4"><a href="#gcacg">2.5.1.1 All Classes
+Query</a></p>
+<p class="toc level4"><a href="#gcadu">2.5.1.2 Class Query</a></p>
+<p class="toc level4"><a href="#gcadh">2.5.1.3 Object Query</a></p>
+<p class="toc level4"><a href="#gcabt">2.5.1.4 Instances
+Query</a></p>
+<p class="toc level4"><a href="#gcadg">2.5.1.5 Roots Query</a></p>
+<p class="toc level4"><a href="#gcadq">2.5.1.6 Reachable Objects
+Query</a></p>
+<p class="toc level4"><a href="#gcacl">2.5.1.7 Instance Counts for
+All Classes Query</a></p>
+<p class="toc level4"><a href="#gcabw">2.5.1.8 All Roots
+Query</a></p>
+<p class="toc level4"><a href="#gcaci">2.5.1.9 New Instances
+Query</a></p>
+<p class="toc level4"><a href="#gdyha">2.5.1.10 Histogram
+Queries</a></p>
+<p class="toc level3 tocsp"><a href="#gcbdr">2.5.2 Custom
+Queries</a></p>
+<p class="toc level3"><a href="#gcaep">2.5.3 Heap Analysis
+Hints</a></p>
+<p class="toc level4"><a href="#gcaen">2.5.3.1 What is keeping an
+object alive?</a></p>
+<p class="toc level4"><a href="#gcaem">2.5.3.2 Where was this
+object allocated?</a></p>
+<p class="toc level2 tocsp"><a href="#gbdio">2.6 <tt>jinfo</tt>
+Utility</a></p>
+<p class="toc level2"><a href="#gbdid">2.7 <tt>jmap</tt>
+Utility</a></p>
+<p class="toc level3"><a href="#gblmn">2.7.1 Heap Configuration and
+Usage</a></p>
+<p class="toc level3"><a href="#gblmi">2.7.2 Heap Histogram of
+Running Process</a></p>
+<p class="toc level3"><a href="#gdvsh">2.7.3 Heap Histogram of Core
+File</a></p>
+<p class="toc level3"><a href="#gblmm">2.7.4 Getting Information on
+the Permanent Generation</a></p>
+<p class="toc level2 tocsp"><a href="#gblry">2.8 <tt>jps</tt>
+Utility</a></p>
+<p class="toc level2"><a href="#gcbcv">2.9 <tt>jrunscript</tt>
+Utility</a></p>
+<p class="toc level2"><a href="#gcaqg">2.10 <tt>jsadebugd</tt>
+Daemon</a></p>
+<p class="toc level2"><a href="#gblfh">2.11 <tt>jstack</tt>
+Utility</a></p>
+<p class="toc level3"><a href="#gdvsu">2.11.1 Forcing a Stack
+Dump</a></p>
+<p class="toc level3"><a href="#gdvte">2.11.2 Printing Stack Trace
+From Core Dump</a></p>
+<p class="toc level3"><a href="#gdvst">2.11.3 Printing a Mixed
+Stack</a></p>
+<p class="toc level2 tocsp"><a href="#gblfb">2.12 <tt>jstat</tt>
+Utility</a></p>
+<p class="toc level3"><a href="#gdvvs">2.12.1 Example of
+<tt>-gcutil</tt> Option</a></p>
+<p class="toc level3"><a href="#gdvxc">2.12.2 Example of
+<tt>-gcnew</tt> Option</a></p>
+<p class="toc level3"><a href="#gdvwc">2.12.3 Example of
+<tt>-gcoldcapacity</tt> Option</a></p>
+<p class="toc level2 tocsp"><a href="#gcfdd">2.13 <tt>jstatd</tt>
+Daemon</a></p>
+<p class="toc level2"><a href="#gblsf">2.14 <tt>visualgc</tt>
+Tool</a></p>
+<p class="toc level2"><a href="#gbmps">2.15 Ctrl-Break
+Handler</a></p>
+<p class="toc level3"><a href="#gbmpn">2.15.1 Thread Dump</a></p>
+<p class="toc level3"><a href="#gbmpe">2.15.2 Deadlock
+Detection</a></p>
+<p class="toc level3"><a href="#gdtkh">2.15.3 Heap Summary</a></p>
+<p class="toc level2 tocsp"><a href="#gbmoy">2.16
+Operating-System-Specific Tools</a></p>
+<p class="toc level3"><a href="#gbmtd">2.16.1 Solaris Operating
+System</a></p>
+<p class="toc level3"><a href="#gbmtf">2.16.2 Linux Operating
+System</a></p>
+<p class="toc level3"><a href="#gbmtr">2.16.3 Windows Operating
+System</a></p>
+<p class="toc level3"><a href="#gbmtk">2.16.4 Tools Introduced in
+Solaris 10 OS</a></p>
+<p class="toc level4"><a href="#gbmtl">2.16.4.1 Improvements in
+<tt>pmap</tt> Tool</a></p>
+<p class="toc level4"><a href="#gbmvd">2.16.4.2 Improvements in
+<tt>pstack</tt> Tool</a></p>
+<p class="toc level4"><a href="#gbmvp">2.16.4.3 Using the DTrace
+Tool</a></p>
+<p class="toc level5"><a href="#gcvrl">Probe Providers in Java
+HotSpot VM</a></p>
+<p class="toc level5"><a href="#gcvrb">Example of Using
+DTrace</a></p>
+<p class="toc level2 tocsp"><a href="#gbmmt">2.17 Developing
+Diagnostic Tools</a></p>
+<p class="toc level3"><a href="#gbmmi">2.17.1
+<tt>java.lang.management</tt> Package</a></p>
+<p class="toc level3"><a href="#gbmla">2.17.2
+<tt>java.lang.instrument</tt> Package</a></p>
+<p class="toc level3"><a href="#gbmmk">2.17.3
+<tt>java.lang.Thread</tt> Class</a></p>
+<p class="toc level3"><a href="#gbmls">2.17.4 Java Virtual Machine
+Tools Interface</a></p>
+<p class="toc level3"><a href="#gbmlg">2.17.5 Java Platform
+Debugger Architecture</a></p>
+</div>
+<p class="toc level1 tocsp"><a href=
+"memleaks.html">3.&#160;&#160;Troubleshooting Memory Leaks</a></p>
+<p class="toc level1 tocsp"><a href=
+"crashes.html">4.&#160;&#160;Troubleshooting System Crashes</a></p>
+<p class="toc level1 tocsp"><a href=
+"hangloop.html">5.&#160;&#160;Troubleshooting Hanging or Looping
+Processes</a></p>
+<p class="toc level1 tocsp"><a href=
+"signals.html">6.&#160;&#160;Integrating Signal and Exception
+Handling</a></p>
+<p class="toc level1 tocsp"><a href=
+"bugreports.html">7.&#160;&#160;Submitting Bug Reports</a></p>
+<p class="toc level1 tocsp"><a href=
+"envvars.html">A.&#160;&#160;Environment Variables and System
+Properties</a></p>
+<p class="toc level1 tocsp"><a href=
+"clopts.html">B.&#160;&#160;Command-Line Options</a></p>
+<p class="toc level1 tocsp"><a href=
+"felog.html">C.&#160;&#160;Fatal Error Log</a></p>
+<p class="toc level1 tocsp"><a href=
+"tools-by-rel.html">D.&#160;&#160;Summary of Tools in This
+Release</a></p>
+</div>
+<div class="ContentPane"><a name="tooldescr" id=
+"tooldescr"></a>Chapter&#160;2
+<h2>Detailed Tool Descriptions</h2>
+<p>This chapter describes in detail the troubleshooting tools that
+are available in JDK 7. In addition, the chapter lists
+operating-system-specific tools that may be used in conjunction
+with these troubleshooting tools. Finally, the chapter explains how
+you can develop new tools using the APIs provided with JDK
+7.</p>
+<p>The chapter contains the following sections:</p>
+<ul>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gblvj">2.1 HPROF - Heap Profiler</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#ghscd">2.2 Java VisualVM</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gblfi">2.3 JConsole Utility</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbldt">2.4 <tt>jdb</tt> Utility</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gblfj">2.5 <tt>jhat</tt> Utility</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbdio">2.6 <tt>jinfo</tt> Utility</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbdid">2.7 <tt>jmap</tt> Utility</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gblry">2.8 <tt>jps</tt> Utility</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gcbcv">2.9 <tt>jrunscript</tt> Utility</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gcaqg">2.10 <tt>jsadebugd</tt> Daemon</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gblfh">2.11 <tt>jstack</tt> Utility</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gblfb">2.12 <tt>jstat</tt> Utility</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gcfdd">2.13 <tt>jstatd</tt> Daemon</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gblsf">2.14 <tt>visualgc</tt> Tool</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbmps">2.15 Ctrl-Break Handler</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbmoy">2.16 Operating-System-Specific Tools</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbmmt">2.17 Developing Diagnostic Tools</a></p>
+</li>
+</ul>
+<a name="gblvj" id="gblvj"></a>
+<h3>2.1 HPROF - Heap Profiler</h3>
+<p>The Heap Profiler (HPROF) tool is a simple profiler agent
+shipped with the JDK release. It is a dynamically linked library
+that interfaces with the Java VM using the Java Virtual Machine
+Tools Interface (JVM TI). The tool writes profiling information
+either to a file or to a socket in ASCII or binary format. This
+information can be further processed by a profiler front-end
+tool.</p>
+<p>The HPROF tool is capable of presenting CPU usage, heap
+allocation statistics, and monitor contention profiles. In
+addition, it can report complete heap dumps and states of all the
+monitors and threads in the Java virtual machine. In terms of
+diagnosing problems, HPROF is useful when analyzing performance,
+lock contention, memory leaks, and other issues.</p>
+<p>In addition to the HPROF library, the JDK release includes the
+source for HPROF as JVM TI demonstration code. This code is located
+in the <tt>$JAVA_HOME/demo/jvmti/hprof</tt> directory.</p>
+<p>The HPROF tool is invoked as follows:</p>
+<pre>
+$ <b>java -agentlib:hprof</b> <var>ToBeProfiledClass</var>
+</pre>
+<p>Depending on the type of profiling requested, HPROF instructs
+the virtual machine to send it the relevant events. The tool then
+processes the event data into profiling information. For example,
+the following command obtains the heap allocation profile:</p>
+<pre>
+$ <b>java -agentlib:hprof=heap=sites</b> <var>ToBeProfiledClass</var>
+</pre>
+<p>The complete list of options is printed when the HPROF agent is
+provided with the <tt>help</tt> option, as shown below.</p>
+<pre>
+$ <b>java -agentlib:hprof=help</b>
+     HPROF: Heap and CPU Profiling Agent (JVMTI Demonstration Code)
+hprof usage: java -agentlib:hprof=[help]|[&#60;option&gt;=&#60;value&gt;, ...]
+Option Name and Value  Description                    Default
+---------------------  -----------                    -------
+heap=dump|sites|all    heap profiling                 all
+cpu=samples|times|old  CPU usage                      off
+monitor=y|n            monitor contention             n
+format=a|b             text(txt) or binary output     a
+file=&#60;file&gt;            write data to file             java.hprof[{.txt}]
+net=&#60;host&gt;:&#60;port&gt;      send data over a socket        off
+depth=&#60;size&gt;           stack trace depth              4
+interval=&#60;ms&gt;          sample interval in ms          10
+cutoff=&#60;value&gt;         output cutoff point            0.0001
+lineno=y|n             line number in traces?         y
+thread=y|n             thread in traces?              n
+doe=y|n                dump on exit?                  y
+msa=y|n                Solaris micro state accounting n
+force=y|n              force output to &#60;file&gt;         y
+verbose=y|n            print messages about dumps     y
+Obsolete Options
+----------------
+gc_okay=y|n
+&#60;&gt;
+Examples
+--------
+  - Get sample cpu information every 20 millisec, with a stack depth of 3:
+      java -agentlib:hprof=cpu=samples,interval=20,depth=3 classname
+  - Get heap usage information based on the allocation sites:
+      java -agentlib:hprof=heap=sites classname
+Notes
+-----
+  - The option format=b cannot be used with monitor=y.
+  - The option format=b cannot be used with cpu=old|times.
+  - Use of the -Xrunhprof interface can still be used, e.g.
+       java -Xrunhprof:[help]|[&#60;option&gt;=&#60;value&gt;, ...]
+    will behave exactly the same as:
+       java -agentlib:hprof=[help]|[&#60;option&gt;=&#60;value&gt;, ...]
+Warnings
+--------
+  - This is demonstration code for the JVMTI interface and use of BCI,
+    it is not an official product or formal part of the JDK.
+  - The -Xrunhprof interface will be removed in a future release.
+  - The option format=b is considered experimental, this format may change
+    in a future release.
+</pre>
+<p>By default, heap profiling information (sites and dump) is
+written out to <tt>java.hprof.txt</tt> (in ASCII) in the current
+working directory.</p>
+<p>The output is normally generated when the VM exits, although
+this can be disabled by setting the &#8220;dump on exit&#8221;
+option to &#8220;n&#8221; (<tt>doe=n</tt>). In addition, a profile
+is generated when Ctrl-\ or Ctrl-Break (depending on platform) is
+pressed. On Solaris OS and Linux a profile is also generated when a
+QUIT signal is received (<tt>kill -QUIT</tt> <var>pid</var>). If
+Ctrl-\ or Ctrl-Break is pressed multiple times, multiple profiles
+are generated to the one file.</p>
+<p>The output in most cases will contain IDs for traces, threads,
+and objects. Each type of ID will typically start with a different
+number than the other IDs. For example, traces might start with
+300000.</p>
+<a name="gbluz" id="gbluz"></a>
+<h4>2.1.1 Heap Allocation Profiles (<tt>heap=sites</tt>)</h4>
+<p>The following output is the heap allocation profile generated by
+running the Java compiler (<tt>javac</tt>) on a set of input files.
+Only parts of the profiler output are shown here.</p>
+<pre>
+$ <b>javac -J-agentlib:hprof=heap=sites Hello.java</b>
+SITES BEGIN (ordered by live bytes) Wed Oct 4 13:13:42 2006
+          percent          live          alloc'ed  stack class
+ rank   self  accum     bytes objs     bytes  objs trace name
+    1 44.13% 44.13%   1117360 13967  1117360 13967 301926 java.util.zip.ZipEntry
+    2  8.83% 52.95%    223472 13967   223472 13967 301927 com.sun.tools.javac.util.List
+    3  5.18% 58.13%    131088    1    131088     1 300996 byte[]
+    4  5.18% 63.31%    131088    1    131088     1 300995 com.sun.tools.javac.util.Name[]
+</pre>
+<p>A crucial piece of information in the heap profile is the amount
+of allocation that occurs in various parts of the program. The
+SITES record above shows that 44.13% of the total space was
+allocated for <tt>java.util.zip.ZipEntry</tt> objects.</p>
+<p>A good way to relate allocation sites to the source code is to
+record the dynamic stack traces that led to the heap allocation.
+The following output shows another part of the profiler output.
+This output illustrates the stack traces referred to by the four
+allocation sites in output shown above.</p>
+<pre>
+TRACE 301926:
+        java.util.zip.ZipEntry.&#60;init&gt;(ZipEntry.java:101)
+        java.util.zip.ZipFile+3.nextElement(ZipFile.java:417)
+        com.sun.tools.javac.jvm.ClassReader.openArchive(ClassReader.java:1374)
+        com.sun.tools.javac.jvm.ClassReader.list(ClassReader.java:1631)
+TRACE 301927:
+        com.sun.tools.javac.util.List.&#60;init&gt;(List.java:42)
+        com.sun.tools.javac.util.List.&#60;init&gt;(List.java:50)
+        com.sun.tools.javac.util.ListBuffer.append(ListBuffer.java:94)
+        com.sun.tools.javac.jvm.ClassReader.openArchive(ClassReader.java:1374)
+TRACE 300996:
+        com.sun.tools.javac.util.Name$Table.&#60;init&gt;(Name.java:379)
+        com.sun.tools.javac.util.Name$Table.&#60;init&gt;(Name.java:481)
+        com.sun.tools.javac.util.Name$Table.make(Name.java:332)
+        com.sun.tools.javac.util.Name$Table.instance(Name.java:349)
+TRACE 300995:
+        com.sun.tools.javac.util.Name$Table.&#60;init&gt;(Name.java:378)
+        com.sun.tools.javac.util.Name$Table.&#60;init&gt;(Name.java:481)
+        com.sun.tools.javac.util.Name$Table.make(Name.java:332)
+        com.sun.tools.javac.util.Name$Table.instance(Name.java:349)
+</pre>
+<p>Each frame in the stack trace contains class name, method name,
+source file name, and the line number. The user can set the maximum
+number of frames collected by the HPROF agent. The default limit is
+four. Stack traces reveal not only which methods performed heap
+allocation, but also which methods were ultimately responsible for
+making calls that resulted in memory allocation.</p>
+<a name="gbltw" id="gbltw"></a>
+<h4>2.1.2 Heap Dump (<tt>heap=dump</tt>)</h4>
+<p>A heap dump is obtained using the <tt>heap=dump</tt> option. The
+heap dump is in either ASCII or binary format, depending on the
+setting of the <tt>format</tt> option. Tools such as <tt>jhat</tt>
+(see <img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gblfj">2.5 <tt>jhat</tt> Utility</a>) use the binary format and
+therefore the <tt>format=b</tt> option is required. When the binary
+format is specified, the dump includes primitive type instance
+fields and primitive array content.</p>
+<p>The following command produces a dump from executing the
+<tt>javac</tt> compiler.</p>
+<pre>
+$ <b>javac -J-agentlib:hprof=heap=dump Hello.java</b>
+</pre>
+<p>The output is a large file. It consists of the root set as
+determined by the garbage collector, and an entry for each Java
+object in the heap that can be reached from the root set. The
+following is a selection of records from a sample heap dump.</p>
+<pre>
+HEAP DUMP BEGIN (39793 objects, 2628264 bytes) Wed Oct 4 13:54:03 2006
+ROOT 50000114 (kind=&#60;thread&gt;, id=200002, trace=300000)
+ROOT 50000006 (kind=&#60;JNI global ref&gt;, id=8, trace=300000)
+ROOT 50008c6f (kind=&#60;Java stack&gt;, thread=200000, frame=5)
+:
+CLS 50000006 (name=java.lang.annotation.Annotation, trace=300000)
+    loader        90000001
+OBJ 50000114 (sz=96, trace=300001, class=java.lang.Thread@50000106)
+    name        50000116
+    group        50008c6c
+    contextClassLoader    50008c53
+    inheritedAccessControlContext    50008c79
+    blockerLock    50000115
+OBJ 50008c6c (sz=48, trace=300000, class=java.lang.ThreadGroup@50000068)
+    name        50008c7d
+    threads    50008c7c
+    groups        50008c7b
+ARR 50008c6f (sz=16, trace=300000, nelems=1, 
+     elem type=java.lang.String[]@5000008e)
+    [0]        500007a5
+CLS 5000008e (name=java.lang.String[], trace=300000)
+    super        50000012
+    loader        90000001
+:
+HEAP DUMP END
+</pre>
+<p>Each record is a <tt>ROOT</tt>, <tt>OBJ</tt>, <tt>CLS</tt>, or
+<tt>ARR</tt> to represent a root, an object instance, a class, or
+an array. The hexadecimal numbers are identifiers assigned by
+HPROF. These numbers are used to show the references from an object
+to another object. For example, in the above sample, the
+<tt>java.lang.Thread instance</tt> 50000114 has a reference to its
+thread group (50008c6c) and other objects.</p>
+<p>In general, as the output is very large, it is necessary to use
+a tool to visualize or process the output of a heap dump. One such
+tool is <tt>jhat</tt>. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="#gblfj">2.5 <tt>jhat</tt>
+Utility</a>.</p>
+<a name="gblvd" id="gblvd"></a>
+<h4>2.1.3 CPU Usage Sampling Profiles (<tt>cpu=samples</tt>)</h4>
+<p>The HPROF tool can collect CPU usage information by sampling
+threads. Below is part of the output collected from a run of the
+<tt>javac</tt> compiler.</p>
+<pre>
+$ <b>javac -J-agentlib:hprof=cpu=samples Hello.java</b>
+CPU SAMPLES BEGIN (total = 462) Wed Oct 4 13:33:07 2006
+rank   self  accum   count trace method
+   1 49.57% 49.57%     229 300187 java.util.zip.ZipFile.getNextEntry
+   2  6.93% 56.49%      32 300190 java.util.zip.ZipEntry.initFields
+   3  4.76% 61.26%      22 300122 java.lang.ClassLoader.defineClass2
+   4  2.81% 64.07%      13 300188 java.util.zip.ZipFile.freeEntry
+   5  1.95% 66.02%       9 300129 java.util.Vector.addElement
+   6  1.73% 67.75%       8 300124 java.util.zip.ZipFile.getEntry
+   7  1.52% 69.26%       7 300125 java.lang.ClassLoader.findBootstrapClass
+   8  0.87% 70.13%       4 300172 com.sun.tools.javac.main.JavaCompiler.&#60;init&gt;
+   9  0.65% 70.78%       3 300030 java.util.zip.ZipFile.open
+  10  0.65% 71.43%       3 300175 com.sun.tools.javac.main.JavaCompiler.&#60;init&gt;
+
+...
+CPU SAMPLES END
+</pre>
+<p>The HPROF agent periodically samples the stack of all running
+threads to record the most frequently active stack traces. The
+<tt>count</tt> field above indicates how many times a particular
+stack trace was found to be active. These stack traces correspond
+to the CPU usage hot spots in the application.</p>
+<a name="gbluw" id="gbluw"></a>
+<h4>2.1.4 CPU Usage Times Profile (<tt>cpu=times</tt>)</h4>
+<p>The HPROF tool can collect CPU usage information by injecting
+code into every method entry and exit, thereby keeping track of
+exact method call counts and the time spent in each method. This
+process uses Byte Code Injection (BCI) and runs considerably slower
+than the <tt>cpu=samples</tt> option. Below is part of the output
+collected from a run of the <tt>javac</tt> compiler.</p>
+<pre>
+$ <b>javac -J-agentlib:hprof=cpu=times Hello.java</b>
+CPU TIME (ms) BEGIN (total = 2082665289) Wed oct 4 13:43:42 2006
+rank   self  accum   count trace method
+   1  3.70%  3.70%       1 311243 com.sun.tools.javac.Main.compile
+   2  3.64%  7.34%       1 311242 com.sun.tools.javac.main.Main.compile
+   3  3.64% 10.97%       1 311241 com.sun.tools.javac.main.Main.compile
+   4  3.11% 14.08%       1 311173 com.sun.tools.javac.main.JavaCompiler.compile
+   5  2.54% 16.62%       8 306183 com.sun.tools.javac.jvm.ClassReader.listAll
+   6  2.53% 19.15%      36 306182 com.sun.tools.javac.jvm.ClassReader.list
+   7  2.03% 21.18%       1 307195 com.sun.tools.javac.comp.Enter.main
+   8  2.03% 23.21%       1 307194 com.sun.tools.javac.comp.Enter.complete
+   9  1.68% 24.90%       1 306392 com.sun.tools.javac.comp.Enter.classEnter
+  10  1.68% 26.58%       1 306388 com.sun.tools.javac.comp.Enter.classEnter
+...
+CPU TIME (ms) END
+</pre>
+<p>In this output the count represents the true count of the number
+of times this method was entered, and the percentages represent a
+measure of thread CPU time spent in those methods.</p>
+<a name="ghscd" id="ghscd"></a>
+<h3>2.2 Java VisualVM</h3>
+<p>Java VisualVM is one of the tools included in the JDK download
+(starting with JDK release 7 update 7). This tool is useful to
+Java application developers to troubleshoot applications and to
+monitor and improve the applications' performance. With Java
+VisualVM you can generate and analyze heap dumps, track down memory
+leaks, perform and monitor garbage collection, and perform
+lightweight memory and CPU profiling. The tool is also useful for
+tuning, heap sizing, offline analysis, and post-mortem
+diagnosis.</p>
+<p>In addition, you can use existing plug-ins that expand the
+functionality of Java VisualVM. For example, most of the
+functionality of the JConsole tool is available via the MBeans tab
+and the JConsole plug-in wrapper tab. You can choose from a catalog
+of standard Java VisualVM plug-ins by choosing Plugins from the
+Tools menu in the main Java VisualVM window.</p>
+<p>For comprehensive documentation for Java VisualVM, see <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/visualvm/index.html">
+http://download.oracle.com/javase/7/docs/technotes/guides/visualvm/index.html</a></p>
+<p>Java VisualVM allows you to perform the following
+troubleshooting activities:</p>
+<ul>
+<li>
+<p>View a list of local and remote Java applications.</p>
+</li>
+<li>
+<p>View application configuration and runtime environment. For each
+application, the tool shows basic runtime information: PID, host,
+main class, arguments passed to the process, JVM version, JDK home,
+JVM flags, JVM arguments, system properties.</p>
+</li>
+<li>
+<p>Enable and disable the creation of a heap dump when a specified
+application encounters an <tt>OutOfMemoryError</tt> exception.</p>
+</li>
+<li>
+<p>Monitor application memory consumption, running threads, and
+loaded classes.</p>
+</li>
+<li>
+<p>Trigger a garbage collection immediately.</p>
+</li>
+<li>
+<p>Create a heap dump immediately. You can then view the heap dump
+in several views: summary, by class, by instance. You can also save
+the heap dump to your local file system.</p>
+</li>
+<li>
+<p>Profile application performance or analyze memory allocation
+(for local applications only). You can also save the profiling
+data.</p>
+</li>
+<li>
+<p>Create a thread dump (stack trace of the application's active
+threads) immediately. You can then view the thread dump.</p>
+</li>
+<li>
+<p>Analyze core dumps (with Solaris OS and Linux).</p>
+</li>
+<li>
+<p>Analyze applications offline, by taking application
+snapshots.</p>
+</li>
+<li>
+<p>Get additional plug-ins contributed by the community.</p>
+</li>
+<li>
+<p>Write and share your own plug-ins.</p>
+</li>
+<li>
+<p>Display and interact with MBeans (after installing the MBeans
+tab plug-in).</p>
+</li>
+</ul>
+<p>When you start Java VisualVM, the main Application window opens,
+displaying a list of Java applications running on the local
+machine, a list of Java applications running on any connected
+remote machines, a list of any VM core dumps that were taken and
+saved (with Solaris OS and Linux), and a list of any application
+snapshots that were taken and saved.</p>
+<p>Java VisualVM will automatically detect and connect to JMX
+agents for Java applications that are running on JDK 7 or that
+have been started with the correct system
+properties on version 5.0. In order for the tool to detect and
+connect to the agents on a remote machine, the <tt>jstatd</tt>
+daemon must be running on the remote machine (see <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href="#gcfdd">2.13
+<tt>jstatd</tt> Daemon</a>). In cases where Java VisualVM cannot
+automatically discover and connect to JMX agents that are running
+in a target application, the tool provides a means for you to
+explicitly create these connections.</p>
+<a name="gblfi" id="gblfi"></a>
+<h3>2.3 JConsole Utility</h3>
+<p>Another useful tool included in the JDK download is the JConsole
+monitoring tool. This tool is compliant with Java Management
+Extensions (JMX). The tool uses the built-in JMX instrumentation in
+the Java Virtual Machine to provide information on the performance
+and resource consumption of running applications. Although the tool
+is included in the JDK download, it can also be used to monitor and
+manage applications deployed with the Java runtime environment.</p>
+<p>The JConsole tool can attach to any Java application in order
+to display useful information such as thread usage, memory
+consumption, and details about class loading, runtime compilation,
+and the operating system.</p>
+<p>This output helps with high-level diagnosis on problems such as
+memory leaks, excessive class loading, and running threads. It can
+also be useful for tuning and heap sizing.</p>
+<p>In addition to monitoring, JConsole can be used to dynamically
+change several parameters in the running system. For example, the
+setting of the <tt>-verbose:gc</tt> option can be changed so that
+garbage collection trace output can be dynamically enabled or
+disabled for a running application.</p>
+<p>The following list provides an idea of the data that can be
+monitored using the JConsole tool. Each heading corresponds to a
+tab pane in the tool.</p>
+<ul>
+<li>
+<p>Overview</p>
+<p>This pane displays graphs showing, over time, heap memory usage,
+number of threads, number of classes, and CPU usage. This overview
+allows you to visualize the activity of several resources at
+once.</p>
+</li>
+<li>
+<p>Memory</p>
+<ul>
+<li>
+<p>For a selected memory area (heap, non-heap, various memory
+pools):</p>
+<ul>
+<li>
+<p>Graph of memory usage over time</p>
+</li>
+<li>
+<p>Current memory size</p>
+</li>
+<li>
+<p>Amount of committed memory</p>
+</li>
+<li>
+<p>Maximum memory size</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Garbage collector information, including the number of
+collections performed, and the total time spent performing garbage
+collection.</p>
+</li>
+<li>
+<p>Graph showing percentage of heap and non-heap memory currently
+used.</p>
+</li>
+</ul>
+<p>In addition, on this pane you can request garbage collection to
+be performed.</p>
+</li>
+<li>
+<p>Threads</p>
+<ul>
+<li>
+<p>Graph of thread usage over time.</p>
+</li>
+<li>
+<p>Live threads - Current number of live threads.</p>
+</li>
+<li>
+<p>Peak - Highest number of live threads since the Java VM
+started.</p>
+</li>
+<li>
+<p>For a selected thread, the name, state, and stack trace, as well
+as, for a blocked thread, the synchronizer that the thread is
+waiting to acquire and the thread owning the lock.</p>
+</li>
+<li>
+<p>Deadlock Detection button - Sends a request to the target
+application to perform deadlock detection and displays each
+deadlock cycle in a separate tab.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Classes</p>
+<ul>
+<li>
+<p>Graph of number of loaded classes over time.</p>
+</li>
+<li>
+<p>Number of classes currently loaded into memory.</p>
+</li>
+<li>
+<p>Total number of classes loaded into memory since the Java VM
+started, including those subsequently unloaded.</p>
+</li>
+<li>
+<p>Total number of classes unloaded from memory since the Java VM
+started.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>VM Summary</p>
+<ul>
+<li>
+<p>General information, such as the JConsole connection data,
+uptime for the Java VM, CPU time consumed by the Java VM, complier
+name and total compile time, and so forth.</p>
+</li>
+<li>
+<p>Thread and class summary information.</p>
+</li>
+<li>
+<p>Memory and garbage collection information, including number of
+objects pending finalization, and so forth.</p>
+</li>
+<li>
+<p>Information about the operating system, including physical
+characteristics, the amount of virtual memory for the running
+process, swap space, and so forth.</p>
+</li>
+<li>
+<p>Information about the virtual machine itself, such as arguments,
+class path, and so forth.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>MBeans</p>
+<p>This pane displays a tree structure showing all platform and
+application MBeans that are registered in the connected JMX agent.
+When you select an MBean in the tree, its attributes, operations,
+notifications, and other information are displayed.</p>
+<ul>
+<li>
+<p>You can invoke operations, if any. For example, the operation
+<tt>dumpHeap</tt> for the <tt>HotSpotDiagnostic</tt> MBean, which
+is in the <tt>com.sun.management</tt> domain, performs a heap dump.
+The input parameter for this operation is the pathname of the heap
+dump file on the machine where the target VM is running.</p>
+</li>
+<li>
+<p>As another example of invoking an operation, you can set the
+value of writable attributes. For example, you can set, unset, or
+change the value of certain VM flags by invoking the
+<tt>setVMOption</tt> operation of the <tt>HotSpotDiagnostic</tt>
+MBean. The flags are indicated by the list of values of the
+<tt>DiagnosticOptions</tt> attribute.</p>
+</li>
+<li>
+<p>You can subscribe to notifications, if any, by using the
+Subscribe and Unsubscribe buttons.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>JConsole can monitor both local applications and remote
+applications. If you start the tool with an argument specifying a
+JMX agent to connect to, the tool will automatically start
+monitoring the specified application.</p>
+<p>To monitor a local application, execute the command
+<tt>jconsole</tt> <var>pid</var>, where <var>pid</var> is the
+process ID of the application.</p>
+<p>To monitor a remote application, execute the command
+<tt>jconsole</tt>
+<var>hostname</var><tt>:</tt><var>portnumber</var>, where
+<var>hostname</var> is the name of the host running the
+application, and <var>portnumber</var> is the port number you
+specified when you enabled the JMX agent.</p>
+<p>If you execute the <tt>jconsole</tt> command without arguments,
+the tool will start by displaying the New Connection window, where
+you specify the local or remote process to be monitored. You can
+connect to a different host at any time by using the Connection
+menu.</p>
+<p>With the JDK 1.5 release, you must start the application to be
+monitored with the <tt>-Dcom.sun.management.jmxremote</tt> option.
+With the JDK 7 release, no option is necessary when starting
+the application to be monitored.</p>
+<p>As an example of the output of the monitoring tool, the
+following screen shows a chart of heap memory usage.</p>
+<a name="gcdnn" id="gcdnn"></a>
+<h6 class="figuretitle">Sample Output from JConsole</h6>
+<img src="figures/jconsole-memory-tab.gif" alt=
+"Java Monitoring and Management Console (JConsole), Memory tab"
+title=
+"Java Monitoring and Management Console (JConsole), Memory tab"
+width="676" height="578" />
+<p>A complete tutorial on the JConsole tool is beyond the scope of
+this document. However, the following documents describe in more
+detail the monitoring and management capabilities, and how to use
+JConsole:</p>
+<ul>
+<li>
+<p><i>Monitoring and Management for the Java Platform</i></p>
+<p><a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/management/index.html">
+http://download.oracle.com/javase/7/docs/technotes/guides/management/index.html</a></p>
+</li>
+<li>
+<p><i>Monitoring and Management Using JMX</i></p>
+<p><a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/management/agent.html">
+http://download.oracle.com/javase/7/docs/technotes/guides/management/agent.html</a></p>
+</li>
+<li>
+<p>Using JConsole</p>
+<p><a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/management/jconsole.html">
+http://download.oracle.com/javase/7/docs/technotes/guides/management/jconsole.html</a></p>
+</li>
+<li>
+<p>Manual page for <tt>jconsole</tt></p>
+<p><a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jconsole.html">
+http://download.oracle.com/javase/7/docs/technotes/tools/share/jconsole.html</a></p>
+</li>
+</ul>
+<a name="gbldt" id="gbldt"></a>
+<h3>2.4 <tt>jdb</tt> Utility</h3>
+<p>The <tt>jdb</tt> utility is included in the JDK release as the
+example command-line debugger. The <tt>jdb</tt> utility uses the
+Java Debug Interface (JDI) to launch or connect to the target VM.
+The source code for <tt>jdb</tt> is included in
+<tt>$JAVA_HOME/demo/jpda/examples.jar</tt>.</p>
+<p>The Java Debug Interface (JDI) is a high-level Java API that
+provides information useful for debuggers and similar systems that
+need access to the running state of a (usually remote) virtual
+machine. JDI is a component of the Java Platform Debugger
+Architecture (JPDA). See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="#gbmlg">2.17.5 Java Platform
+Debugger Architecture</a>.</p>
+<p>In JDI a connector is the means by which the debugger connects
+to the target virtual machine. The JDK release has traditionally
+shipped with connectors that launch and establish a debugging
+session with a target VM, as well as connectors that are used for
+remote debugging (using TCP/IP or shared memory transports).</p>
+<p>This JDK release also ships with several Serviceability Agent
+(SA) connectors that allow a Java language debugger to attach to a
+crash dump or hung process. This can be useful in determining what
+the application was doing at the time of the crash or hang.</p>
+<p>
+<!--The Serviceability Agent connectors are not available on the Windows
+platform, nor on the Linux platform.--> These connectors are
+SACoreAttachingConnector, SADebugServerAttachingConnector, and
+SAPIDAttachingConnector.</p>
+<p>These connectors are generally used with enterprise debuggers,
+such as as NetBeans IDE or commerical IDEs. The following
+subsections demonstrate how these connectors can be used with the
+<tt>jdb</tt> command-line debugger.</p>
+<p>For detailed information about the connectors, see <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/jpda/conninv.html#Connectors">
+http://download.oracle.com/javase/7/docs/technotes/guides/jpda/conninv.html#Connectors</a>.</p>
+<p>The command <tt>jdb -listconnectors</tt> prints a list of the
+available connectors. The command <tt>jdb -help</tt> prints the
+command usage.</p>
+<p>For more information on the <tt>jdb</tt> utility, refer to the
+manual pages:</p>
+<ul>
+<li>
+<p>Solaris OS and Linux: <tt>jdb</tt> man page</p>
+<p><a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/solaris/jdb.html">
+http://download.oracle.com/javase/7/docs/technotes/tools/solaris/jdb.html</a></p>
+</li>
+<li>
+<p>Windows: <tt>jdb</tt> man page</p>
+<p><a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/windows/jdb.html">
+http://download.oracle.com/javase/7/docs/technotes/tools/windows/jdb.html</a></p>
+</li>
+</ul>
+<a name="gbmlq" id="gbmlq"></a>
+<h4>2.4.1 Attaching to a Process</h4>
+<p>This example uses the SA PID Attaching Connector to attach to a
+process. The target process is not started with any special
+options, that is, the <tt>-agentlib:jdwp</tt> option is not
+required. When this connector attaches to a process it does so in
+read-only mode: the debugger can examine threads and the running
+application but it cannot change anything. The process is frozen
+while the debugger is attached.</p>
+<p>The command in the following example instructs <tt>jdb</tt> to
+use a connector named
+<tt>sun.jvm.hotspot.jdi.SAPIDAttachingConnector</tt>. This is a
+connector name rather than a class name. The connector takes one
+argument called <tt>pid</tt>, whose value is the process ID of the
+target process (9302 in this example).</p>
+<pre>
+$ <b>jdb -connect sun.jvm.hotspot.jdi.SAPIDAttachingConnector:pid=9302</b>
+
+Initializing jdb ...
+&gt; <b>threads</b>
+Group system:
+  (java.lang.ref.Reference$ReferenceHandler)0xa Reference Handler unknown
+  (java.lang.ref.Finalizer$FinalizerThread)0x9  Finalizer         unknown
+  (java.lang.Thread)0x8                         Signal Dispatcher running
+  (java.lang.Thread)0x7                         Java2D Disposer   unknown
+  (java.lang.Thread)0x2                         TimerQueue        unknown
+Group main:
+  (java.lang.Thread)0x6                         AWT-XAWT          running
+  (java.lang.Thread)0x5                         AWT-Shutdown      unknown
+  (java.awt.EventDispatchThread)0x4             AWT-EventQueue-0  unknown
+  (java.lang.Thread)0x3                         DestroyJavaVM     running
+  (sun.awt.image.ImageFetcher)0x1               Image Animator 0  sleeping
+  (java.lang.Thread)0x0                         Intro             running
+&gt; <b>thread 0x7</b>
+Java2D Disposer[1] <b>where</b>
+  [1] java.lang.Object.wait (native method)
+  [2] java.lang.ref.ReferenceQueue.remove (ReferenceQueue.java:116)
+  [3] java.lang.ref.ReferenceQueue.remove (ReferenceQueue.java:132)
+  [4] sun.java2d.Disposer.run (Disposer.java:125)
+  [5] java.lang.Thread.run (Thread.java:619)
+Java2D Disposer[1] <b>up 1</b>
+Java2D Disposer[2] <b>where</b>
+  [2] java.lang.ref.ReferenceQueue.remove (ReferenceQueue.java:116)
+  [3] java.lang.ref.ReferenceQueue.remove (ReferenceQueue.java:132)
+  [4] sun.java2d.Disposer.run (Disposer.java:125)
+  [5] java.lang.Thread.run (Thread.java:619)
+</pre>
+<p>In this example the <tt>threads</tt> command is used to get a
+list of all threads. Then a specific thread is selected with the
+<tt>thread 0x7</tt> command, and the <tt>where</tt> command is used
+to get a thread dump. Next the <tt>up 1</tt> command is used to
+move up one frame in the stack, and the <tt>where</tt> command is
+used again to get a thread dump.</p>
+<a name="gbmnc" id="gbmnc"></a>
+<h4>2.4.2 Attaching to a Core File on the Same Machine</h4>
+<p>The SA Core Attaching Connector is used to attach the debugger
+to a core file. The core file may have been created after a crash
+(see <img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"crashes.html">Chapter&#160;4, Troubleshooting System Crashes</a>).
+The core file can also be obtained by using the <tt>gcore</tt>
+command on Solaris OS or the <tt>gcore</tt> command in <tt>gdb</tt>
+on Linux. Because the core file is a snapshot of the process at the
+time the core file was created, the connector attaches in read-only
+mode: the debugger can examine threads and the running application
+at the time of the crash.</p>
+<p>The following command is an example of using this connector:</p>
+<pre>
+$ <b>jdb -connect sun.jvm.hotspot.jdi.SACoreAttachingConnector:\ javaExecutable=$JAVA_HOME/bin/java,core=core.20441</b>
+</pre>
+<p>This command instructs <tt>jdb</tt> to use a connector named
+<tt>sun.jvm.hotspot.jdi.SACoreAttachingConnector</tt>. The
+connector takes two arguments called <tt>javaExecutable</tt> and
+<tt>core</tt>. The <tt>javaExecutable</tt> argument indicates the
+name of the Java binary. The <tt>core</tt> argument is the core
+file name (the core from the process with PID 20441 in this
+example).</p>
+<a name="gbmog" id="gbmog"></a>
+<h4>2.4.3 Attaching to a Core File or a Hung Process from a
+Different Machine</h4>
+<p>In order to debug a core file that has been transported from
+another machine, the OS versions and libraries must match. In this
+case you can first run a proxy server called the SA Debug Server.
+Then, on the machine where the debugger is installed, you can use
+the SA Debug Server Attaching Connector to connect to the debug
+server.</p>
+<p>In the example below, there are two machines, machine 1 and
+machine 2. A core file is available on machine 1 and the debugger
+is available on machine 2. The SA Debug Server is started on
+machine 1 as follows.</p>
+<pre>
+$ <b>jsadebugd $JAVA_HOME/bin/java core.20441</b>
+</pre>
+<p>The <tt>jsadebugd</tt> command takes two arguments. The first
+argument is the name of the executable. In most cases this is
+<tt>java</tt>, but it can be another name (in the case of embedded
+VMs, for example). The second argument is the name of the core
+file. In this example the core file was obtained for a process with
+PID 20441 using the <tt>gcore</tt> utility.</p>
+<p>On machine 2, the debugger connects to the remote SA Debug
+Server using the SA Debug Server Attaching Connector, as with the
+following command:</p>
+<pre>
+$ <b>jdb -connect sun.jvm.hotspot.jdi.SADebugServerAttachingConnector:\ debugServerName=machine1</b>
+</pre>
+<p>This command instructs <tt>jdb</tt> to use a connector named
+<tt>sun.jvm.hotspot.jdi.SADebugServerAttachingConnector</tt>. The
+connector has one argument <tt>debugServerName</tt>, which is the
+hostname or IP address of the machine where the SA Debug Server is
+running.</p>
+<p>Note that the SA Debug Server can also be used to remotely debug
+a hung process. In that case it takes a single argument which is
+the process ID of the process. In addition, if it is required to
+run multiple debug servers on the same machine, each one must be
+provided with a unique ID. With the SA Debug Server Attaching
+Connector, this ID is provided as an additional connector argument.
+These details are described in the JPDA documentation.</p>
+<a name="gblfj" id="gblfj"></a>
+<h3>2.5 <tt>jhat</tt> Utility</h3>
+<p>The <tt>jhat</tt> tool provides a convenient means to browse the
+object topology in a heap snapshot. This tool was introduced in the
+JDK 6 release to replace the Heap Analysis Tool (HAT).</p>
+<p>For more information about the <tt>jhat</tt> utility, see the
+<a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jhat.html">
+man page for jhat- Java Heap Analysis Tool</a>.</p>
+<p>The tool parses a heap dump in binary format, for example, a
+heap dump produced by <tt>jmap -dump</tt>.</p>
+<p>This utility can help debug unintentional object retention. This
+term is used to describe an object that is no longer needed but is
+kept alive due to references through some path from the rootset.
+This can happen, for example, if an unintentional static reference
+to an object remains after the object is no longer needed, if an
+Observer or Listener fails to de-register itself from its subject
+when it is no longer needed, or if a Thread that refers to an
+object does not terminate when it should. Unintentional object
+retention is the Java language equivalent of a memory leak.</p>
+<p>The tool provides a number of standard queries. For example, the
+Roots query displays all reference paths from the rootset to a
+specified object and is particularly useful for finding unnecessary
+object retention.</p>
+<p>In addition to the standard queries, you can develop your own
+custom queries with the Object Query Language (OQL) interface.</p>
+<p>When you issue the <tt>jhat</tt> command, the utility starts an
+HTTP server on a specified TCP port. You can then use any browser
+to connect to the server and execute queries on the specified heap
+dump.</p>
+<p>The following example shows how to execute <tt>jhat</tt> to
+analyze a heap dump file named <tt>snapshot.hprof</tt>:</p>
+<pre>
+$ <b>jhat snapshot.hprof</b>
+Started HTTP server on port 7000
+Reading from java_pid2278.hprof...
+Dump file created Fri May 19 17:18:38 BST 2006
+Snapshot read, resolving...
+Resolving 6162194 objects...
+Chasing references, expect 12324 dots................................
+Eliminating duplicate references.....................................
+Snapshot resolved.
+Server is ready.
+</pre>
+<p>At this point <tt>jhat</tt> has started a HTTP server on port
+7000. Point your browser to
+<tt>http://</tt><var>localhost</var><tt>:7000</tt> to connect to
+the <tt>jhat</tt> server.</p>
+<p>When you are connected to the server, you can execute the
+standard queries (see the following subsection) or create an OQL
+query (see <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="#gcbdr">2.5.2 Custom
+Queries</a>). The All Classes query is displayed by default.</p>
+<a name="gcadr" id="gcadr"></a>
+<h4>2.5.1 Standard Queries</h4>
+<p>The standard queries are described in these subsections.</p>
+<a name="gcacg" id="gcacg"></a>
+<h5>2.5.1.1 All Classes Query</h5>
+<p>The default page is the All Classes query, which displays all of
+the classes present in the heap, excluding platform classes. This
+list is sorted by fully-qualified class name, and broken out by
+package. Click on the name of a class to go to the Class query.</p>
+<p>The second variant of this query includes the platform classes.
+Platform classes include classes whose fully-qualified names start
+with prefixes such as <tt>java</tt>, <tt>sun.</tt>,
+<tt>javax.swing.</tt>, or <tt>char[</tt>. The list of prefixes is
+in a system resource file called
+<tt>resources/platform_names.txt</tt>. You can override this list
+by replacing it in the JAR file, or by arranging for your
+replacement to occur first on the classpath when <tt>jhat</tt> is
+invoked.</p>
+<a name="gcadu" id="gcadu"></a>
+<h5>2.5.1.2 Class Query</h5>
+<p>The Class query displays information about a class. This
+includes its superclass, any subclasses, instance data members, and
+static data members. From this page you can navigate to any of the
+classes that are referenced, or you can navigate to an Instances
+query.</p>
+<a name="gcadh" id="gcadh"></a>
+<h5>2.5.1.3 Object Query</h5>
+<p>The Object query provides information about an object that was
+on the heap. From here, you can navigate to the class of the object
+and to the value of any object members of the object. You can also
+navigate to objects that refer to the current object. Perhaps the
+most valuable query is at the end: the Roots query
+(&#8220;Reference Chains from Rootset&#8221;).</p>
+<p>Note that the object query also provides a stack backtrace of
+the point of allocation of the object.</p>
+<a name="gcabt" id="gcabt"></a>
+<h5>2.5.1.4 Instances Query</h5>
+<p>The instances query displays all instances of a given class. The
+<tt>allInstances</tt> variant includes instances of subclasses of
+the given class as well. From here, you can navigate back to the
+source class, or you can navigate to an Object query on one of the
+instances.</p>
+<a name="gcadg" id="gcadg"></a>
+<h5>2.5.1.5 Roots Query</h5>
+<p>The Roots query displays reference chains from the rootset to a
+given object. It provides one chain for each member of the rootset
+from which the given object is reachable. When calculating these
+chains, the tool does a depth-first search, so that it will provide
+reference chains of minimal length.</p>
+<p>There are two kinds of Roots query: one that excludes weak
+references (Roots), and one that includes them (All Roots). A
+<b>weak reference</b> is a reference object that does not prevent
+its referent from being made finalizable, finalized, and then
+reclaimed. If an object is only referred to by a weak reference, it
+usually isn't considered to be retained, because the garbage
+collector can collect it as soon as it needs the space.</p>
+<p>This is probably the most valuable query in <tt>jhat</tt> for
+debugging unintentional object retention. Once you find an object
+that is being retained, this query tells you <b>why</b> it is being
+retained.</p>
+<a name="gcadq" id="gcadq"></a>
+<h5>2.5.1.6 Reachable Objects Query</h5>
+<p>This query is accessible from the Object query and shows the
+transitive closure of all objects reachable from a given object.
+This list is sorted in decreasing size, and alphabetically within
+each size. At the end, the total size of all of the reachable
+objects is given. This can be useful for determining the total
+runtime footprint of an object in memory, at least in systems with
+simple object topologies.</p>
+<p>This query is most valuable when used in conjunction with the
+<tt>-exclude</tt> command line option. This is useful, for example,
+if the object being analyzed is an Observable. By default, all of
+its Observers would be reachable, which would count against the
+total size. The <tt>-exclude</tt> option allows you to exclude the
+data members <tt>java.util.Observable.obs</tt> and
+<tt>java.util.Observable.arr</tt>.</p>
+<a name="gcacl" id="gcacl"></a>
+<h5>2.5.1.7 Instance Counts for All Classes Query</h5>
+<p>This query shows the count of instances for every class in the
+system, excluding platform classes. It is sorted in descending
+order, by instance count. A good way to spot a problem with
+unintentional object retention is to run a program for a long time
+with a variety of input, then request a heap dump. Looking at the
+instance counts for all classes, you may recognize a number of
+classes because there are more instances than you expect. Then you
+can analyze them to determine why they are being retained (possibly
+using the Roots query). A variant of this query includes platform
+classes.</p>
+<p>The section on the All Classes query defines platform
+classes.</p>
+<a name="gcabw" id="gcabw"></a>
+<h5>2.5.1.8 All Roots Query</h5>
+<p>This query shows all members of the rootset, including weak
+references.</p>
+<a name="gcaci" id="gcaci"></a>
+<h5>2.5.1.9 New Instances Query</h5>
+<p>The New Instances query is available only if you invoke the
+<tt>jhat</tt> server with two heap dumps. This query is similar to
+the Instances query, except that it shows only new instances. An
+instance is considered new if it is in the second heap dump and
+there is no object of the same type with the same ID in the
+baseline heap dump. An object's ID is a 32&#8211;bit or
+64&#8211;bit integer that uniquely identifies the object.</p>
+<a name="gdyha" id="gdyha"></a>
+<h5>2.5.1.10 Histogram Queries</h5>
+<p>The built-in histogram and finalizer histogram queries also
+provide useful information.</p>
+<a name="gcbdr" id="gcbdr"></a>
+<h4>2.5.2 Custom Queries</h4>
+<p>You can develop your own custom queries with the built-in Object
+Query Language (OQL) interface. Click on the Execute OQL Query
+button on the first page to display the OQL query page, where you
+can create and execute your custom queries. The OQL Help facility
+describes the built-in functions, with examples.</p>
+<p>The syntax of the <tt>select</tt> statement is as follows:</p>
+<pre>
+select <var>JavaScript-expression-to-select</var>
+   [ from [instanceof] <var>classname</var> <var>identifier</var>
+   [ where <var>JavaScript-boolean-expression-to-filter</var> ] ]
+</pre>
+<p>The following is an example of a <tt>select</tt> statement:</p>
+<pre>
+select s from java.lang.String s where s.count &gt;= 100
+</pre>
+<a name="gcaep" id="gcaep"></a>
+<h4>2.5.3 Heap Analysis Hints</h4>
+<p>To get useful information from <tt>jhat</tt> often requires some
+knowledge of the application and in addition some knowledge about
+the libraries and APIs that it uses. However in general the tool
+can be used to answer two important questions:</p>
+<ul>
+<li>
+<p>What is keeping an object alive?</p>
+</li>
+<li>
+<p>Where was this object allocated?</p>
+</li>
+</ul>
+<a name="gcaen" id="gcaen"></a>
+<h5>2.5.3.1 What is keeping an object alive?</h5>
+<p>When viewing an object instance, you can check the objects
+listed in the section entitled &#8220;References to this
+object&#8221; to see which objects directly reference this object.
+More importantly you use a Roots query to determine the reference
+chains from the root set to the given object. These reference
+chains show a path from a root object to this object. With these
+chains you can quickly see how an object is reachable from the root
+set.</p>
+<p>As noted earlier, there are two kinds of Roots queries: one that
+excludes weak references (Roots), and one that includes them (All
+Roots). A weak reference is a reference object that does not
+prevent its referent from being made finalizable, finalized, and
+then reclaimed. If an object is only referred to by a weak
+reference, it usually is not considered to be retained, because the
+garbage collector can collect it as soon as it needs the space.</p>
+<p>The <tt>jhat</tt> tool sorts the rootset reference chains by the
+type of the root, in the following order:</p>
+<ul>
+<li>
+<p>Static data members of Java classes.</p>
+</li>
+<li>
+<p>Java local variables. For these roots, the thread responsible
+for them is shown. Because a Thread is a Java object, this link is
+clickable. This allows you, for example, to easily navigate to the
+name of the thread.</p>
+</li>
+<li>
+<p>Native static values.</p>
+</li>
+<li>
+<p>Native local variables. Again, such roots are identified with
+their thread.</p>
+</li>
+</ul>
+<a name="gcaem" id="gcaem"></a>
+<h5>2.5.3.2 Where was this object allocated?</h5>
+<p>When an object instance is being displayed, the section entitled
+&#8220;Objects allocated from&#8221; shows the allocation site in
+the form of a stack trace. In this way, you can see where the
+object was created.</p>
+<p>Note that this allocation site information is available only if
+the heap dump was created with HPROF using the <tt>heap=all</tt>
+option. This HPROF option includes both the <tt>heap=dump</tt>
+option and the <tt>heap=sites</tt> option.</p>
+<p>If the leak cannot be identified using a single object dump,
+then another approach is to collect a series of dumps and to focus
+on the objects created in the interval between each dump. The
+<tt>jhat</tt> tool provides this capability using the
+<tt>-baseline</tt> option.</p>
+<p>The <tt>-baseline</tt> option allows two dumps to be compared if
+they were produced by HPROF and from the same VM instance. If the
+same object appears in both dumps it will be excluded from the list
+of new objects reported. One dump is specified as a baseline and
+the analysis can focus on the objects that are created in the
+second dump since the baseline was obtained.</p>
+<p>The following example show how to specify the baseline:</p>
+<pre>
+$ <b>jhat -baseline snapshot.hprof#1 snapshot.hprof#2</b>
+</pre>
+<p>In the above example, the two dumps are in the file
+<tt>snapshot.hprof</tt>, and they are distinguished by appending
+<tt>#1</tt> and <tt>#2</tt> to the file name.</p>
+<p>When <tt>jhat</tt> is started with two heap dumps, the Instance
+Counts for All Classes query includes an additional column that is
+the count of the number of new objects for that type. An instance
+is considered new if it is in the second heap dump and there is no
+object of the same type with the same ID in the baseline. If you
+click on a new count, then <tt>jhat</tt> lists the new objects of
+that type. Then for each instance you can view where it was
+allocated, which objects these new objects reference, and which
+other objects reference the new object.</p>
+<p>In general, the <tt>-baseline</tt> option can be very useful if
+the objects that need to be identified are created in the interval
+between the successive dumps.</p>
+<a name="gbdio" id="gbdio"></a>
+<h3>2.6 <tt>jinfo</tt> Utility</h3>
+<p>The <tt>jinfo</tt> command-line utility gets configuration
+information from a running Java process or crash dump and prints
+the system properties or the command-line flags that were used to
+start the virtual machine.</p>
+<p>The utility can also use the <tt>jsadebugd</tt> daemon to query
+a process or core file on a remote machine. Note that the output
+takes longer to print in this case.</p>
+<p>With the <tt>-flag</tt> option, the utility can dynamically set,
+unset, or change the value of certain Java VM flags for the
+specified Java process. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="clopts.html#gdaxd">B.1.1 Dynamic
+Changing of Flag Values</a>.</p>
+<!--
+<p>This utility is included in the Solaris OS and Linux releases of
+the JDK software. It is also included in the JDK 7 release for
+Windows, but only the <tt>jinfo -flag</tt> option for a running process.</p>
+-->
+<p>For more information on the <tt>jinfo</tt> utility, refer to the
+<a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jinfo.html">
+man page</a>.</p>
+<p>The following is an example of the output from a Java
+process.</p>
+<pre>
+$ <b>jinfo 29620</b>
+Attaching to process ID 29620, please wait...
+Debugger attached successfully.
+Client compiler detected.
+JVM version is 1.6.0-rc-b100
+Java System Properties:
+
+java.runtime.name = Java(TM) SE Runtime Environment
+sun.boot.library.path = /usr/jdk/instances/jdk1.6.0/jre/lib/sparc
+java.vm.version = 1.6.0-rc-b100
+java.vm.vendor = Sun Microsystems Inc.
+java.vendor.url = http://java.sun.com/
+path.separator = :
+java.vm.name = Java HotSpot(TM) Client VM
+file.encoding.pkg = sun.io
+sun.java.launcher = SUN_STANDARD
+sun.os.patch.level = unknown
+java.vm.specification.name = Java Virtual Machine Specification
+user.dir = /home/js159705
+java.runtime.version = 1.6.0-rc-b100
+java.awt.graphicsenv = sun.awt.X11GraphicsEnvironment
+java.endorsed.dirs = /usr/jdk/instances/jdk1.6.0/jre/lib/endorsed
+os.arch = sparc
+java.io.tmpdir = /var/tmp/
+line.separator =
+
+java.vm.specification.vendor = Sun Microsystems Inc.
+os.name = SunOS
+sun.jnu.encoding = ISO646-US
+java.library.path = /usr/jdk/instances/jdk1.6.0/jre/lib/sparc/client:/usr/jdk/instances/jdk1.6.0/jre/lib/sparc:
+/usr/jdk/instances/jdk1.6.0/jre/../lib/sparc:/net/gtee.sfbay/usr/sge/sge6/lib/sol-sparc64:
+/usr/jdk/packages/lib/sparc:/lib:/usr/lib
+java.specification.name = Java Platform API Specification
+java.class.version = 50.0
+sun.management.compiler = HotSpot Client Compiler
+os.version = 5.10
+user.home = /home/js159705
+user.timezone = US/Pacific
+java.awt.printerjob = sun.print.PSPrinterJob
+file.encoding = ISO646-US
+java.specification.version = 1.6
+java.class.path = /usr/jdk/jdk1.6.0/demo/jfc/Java2D/Java2Demo.jar
+user.name = js159705
+java.vm.specification.version = 1.0
+java.home = /usr/jdk/instances/jdk1.6.0/jre
+sun.arch.data.model = 32
+user.language = en
+java.specification.vendor = Sun Microsystems Inc.
+java.vm.info = mixed mode, sharing
+java.version = 1.6.0-rc
+java.ext.dirs = /usr/jdk/instances/jdk1.6.0/jre/lib/ext:/usr/jdk/packages/lib/ext
+sun.boot.class.path = /usr/jdk/instances/jdk1.6.0/jre/lib/resources.jar:
+/usr/jdk/instances/jdk1.6.0/jre/lib/rt.jar:/usr/jdk/instances/jdk1.6.0/jre/lib/sunrsasign.jar:
+/usr/jdk/instances/jdk1.6.0/jre/lib/jsse.jar:
+/usr/jdk/instances/jdk1.6.0/jre/lib/jce.jar:/usr/jdk/instances/jdk1.6.0/jre/lib/charsets.jar:
+/usr/jdk/instances/jdk1.6.0/jre/classes
+java.vendor = Sun Microsystems Inc.
+file.separator = /
+java.vendor.url.bug = http://java.sun.com/cgi-bin/bugreport.cgi
+sun.io.unicode.encoding = UnicodeBig
+sun.cpu.endian = big
+sun.cpu.isalist =
+
+VM Flags:
+</pre>
+<p>If you start the target Java VM with the <tt>-classpath</tt> and
+<tt>-Xbootclasspath</tt> arguments, the output from <tt>jinfo</tt>
+provides the settings for <tt>java.class.path</tt> and
+<tt>sun.boot.class.path</tt>. This information might be needed when
+investigating class loader issues.</p>
+<p>In addition to obtaining information from a process, the
+<tt>jinfo</tt> tool can use a core file as input. On Solaris OS,
+for example, the <tt>gcore</tt> utility can be used to get a core
+file of the process in the above example. The core file will be
+named <tt>core.29620</tt> and will be generated in the working
+directory of the process. The path to the Java executable and the
+core file must be specified as arguments to the <tt>jinfo</tt>
+utility, as in the following example:</p>
+<pre>
+$ <b>jinfo $JAVA_HOME/bin/java core.29620</b>
+</pre>
+<p>Sometimes the binary name will not be <tt>java</tt>. This occurs
+when the VM is created using the JNI invocation API. The
+<tt>jinfo</tt> tool requires the binary from which the core file
+was generated.</p>
+<a name="gbdid" id="gbdid"></a>
+<h3>2.7 <tt>jmap</tt> Utility</h3>
+<p>The <tt>jmap</tt> command-line utility prints memory related
+statistics for a running VM or core file.</p>
+<p>The utility can also use the <tt>jsadebugd</tt> daemon to query
+a process or core file on a remote machine. Note that the output
+takes longer to print in this case.</p>
+<p>If <tt>jmap</tt> is used with a process or core file without any
+command-line options, then it prints the list of shared objects
+loaded (the output is similar to the <tt>pmap</tt> utility on
+Solaris OS). For more specific information, you can use the options
+<tt>-heap</tt>, <tt>-histo</tt>, or <tt>-permstat</tt>. These
+options are described in the subsections that follow.</p>
+<p>In addition, the JDK 7 release introduced the
+<tt>-dump:format=b,file=</tt><var>filename</var> option, which
+causes <tt>jmap</tt> to dump the Java heap in binary <tt>HPROF</tt>
+format to a specified file. This file can then be analyzed with the
+<tt>jhat</tt> tool.</p>
+<p>If the <tt>jmap</tt> <var>pid</var> command does not respond
+because of a hung process, the <tt>-F</tt> option can be used (on
+Solaris OS and Linux only) to force the use of the Serviceability
+Agent.</p>
+<!--
+<p>This utility is included in the Solaris OS and Linux releases of
+the JDK software. It is also included in the JDK 7 release on
+Windows, but only the <tt>jmap -dump:format=b,file=</tt><var>file pid</var> option and the <tt>jmap -histo[:live]</tt> <var>pid</var> option are available.</p>
+-->
+<p>For more information on the <tt>jmap</tt> utility, refer to the
+<a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jmap.html">
+manual page</a>.</p>
+<a name="gblmn" id="gblmn"></a>
+<h4>2.7.1 Heap Configuration and Usage</h4>
+<p>The <tt>-heap</tt> option is used to obtain the following Java
+heap information:</p>
+<ul>
+<li>
+<p>Information specific to the garbage collection (GC) algorithm ,
+including the name of the GC algorithm (Parallel GC for example)
+and algorithm specific details (such as number of threads for
+parallel GC).</p>
+</li>
+<li>
+<p>Heap configuration. The heap configuration might have been
+specified as command line options or selected by the VM based on
+the machine configuration.</p>
+</li>
+<li>
+<p>Heap usage summary. For each generation (area of the heap), the
+tool prints the total heap capacity, in-use memory, and available
+free memory. If a generation is organized as a collection of spaces
+(the new generation for example), then a space-wise memory size
+summary is included.</p>
+</li>
+</ul>
+<p>The following example shows output from the <tt>jmap -heap</tt>
+command.</p>
+<pre>
+$ <b>jmap -heap 29620</b>
+Attaching to process ID 29620, please wait...
+Debugger attached successfully.
+Client compiler detected.
+JVM version is 1.6.0-rc-b100
+
+using thread-local object allocation.
+Mark Sweep Compact GC
+
+Heap Configuration:
+   MinHeapFreeRatio = 40
+   MaxHeapFreeRatio = 70
+   MaxHeapSize      = 67108864 (64.0MB)
+   NewSize          = 2228224 (2.125MB)
+   MaxNewSize       = 4294901760 (4095.9375MB)
+   OldSize          = 4194304 (4.0MB)
+   NewRatio         = 8
+   SurvivorRatio    = 8
+   PermSize         = 12582912 (12.0MB)
+   MaxPermSize      = 67108864 (64.0MB)
+
+Heap Usage:
+New Generation (Eden + 1 Survivor Space):
+   capacity = 2031616 (1.9375MB)
+   used     = 70984 (0.06769561767578125MB)
+   free     = 1960632 (1.8698043823242188MB)
+   3.4939673639112905% used
+Eden Space:
+   capacity = 1835008 (1.75MB)
+   used     = 36152 (0.03447723388671875MB)
+   free     = 1798856 (1.7155227661132812MB)
+   1.9701276506696428% used
+From Space:
+   capacity = 196608 (0.1875MB)
+   used     = 34832 (0.0332183837890625MB)
+   free     = 161776 (0.1542816162109375MB)
+   17.716471354166668% used
+To Space:
+   capacity = 196608 (0.1875MB)
+   used     = 0 (0.0MB)
+   free     = 196608 (0.1875MB)
+   0.0% used
+tenured generation:
+   capacity = 15966208 (15.2265625MB)
+   used     = 9577760 (9.134063720703125MB)
+   free     = 6388448 (6.092498779296875MB)
+   59.98769400974859% used
+Perm Generation:
+   capacity = 12582912 (12.0MB)
+   used     = 1469408 (1.401336669921875MB)
+   free     = 11113504 (10.598663330078125MB)
+   11.677805582682291% used
+</pre>
+<a name="gblmi" id="gblmi"></a>
+<h4>2.7.2 Heap Histogram of Running Process</h4>
+<p>The <tt>-histo</tt> option can be used to obtain a class-wise
+histogram of the heap.</p>
+<p>When the command is executed on a running process, the tool
+prints the number of objects, memory size in bytes, and fully
+qualified class name for each class. Internal classes in the
+HotSpot VM are enclosed in angle brackets. The histogram is useful
+in understanding how the heap is used. To get the size of an object
+you must divide the total size by the count of that object
+type.</p>
+<p>The following example shows output from the <tt>jmap -histo</tt>
+command when it is executed on a process.</p>
+<pre>
+$ <b>jmap -histo 29620</b>
+num   #instances    #bytes  class name
+--------------------------------------
+  1:      1414     6013016  [I
+  2:       793      482888  [B
+  3:      2502      334928  &#60;constMethodKlass&gt;
+  4:       280      274976  &#60;instanceKlassKlass&gt;
+  5:       324      227152  [D
+  6:      2502      200896  &#60;methodKlass&gt;
+  7:      2094      187496  [C
+  8:       280      172248  &#60;constantPoolKlass&gt;
+  9:      3767      139000  [Ljava.lang.Object;
+ 10:       260      122416  &#60;constantPoolCacheKlass&gt;
+ 11:      3304      112864  &#60;symbolKlass&gt;
+ 12:       160       72960  java2d.Tools$3
+ 13:       192       61440  &#60;objArrayKlassKlass&gt;
+ 14:       219       55640  [F
+ 15:      2114       50736  java.lang.String
+ 16:      2079       49896  java.util.HashMap$Entry
+ 17:       528       48344  [S
+ 18:      1940       46560  java.util.Hashtable$Entry
+ 19:       481       46176  java.lang.Class
+ 20:        92       43424  javax.swing.plaf.metal.MetalScrollButton
+... more lines removed here to reduce output...
+1118:         1           8  java.util.Hashtable$EmptyIterator
+1119:         1           8  sun.java2d.pipe.SolidTextRenderer
+Total    61297    10152040
+</pre>
+<a name="gdvsh" id="gdvsh"></a>
+<h4>2.7.3 Heap Histogram of Core File</h4>
+<p>When the <tt>jmap -histo</tt> command is executed on a core
+file, the tool prints the size, count, and class name for each
+class. Internal classes in the HotSpot VM are prefixed with an
+asterisk (*).</p>
+<pre>
+&#38; <b>jmap -histo /net/koori.sfbay/onestop/jdk/6.0/promoted/all/b100/binaries/ solaris-sparcv9/bin/java core</b>
+Attaching to core core from executable /net/koori.sfbay/onestop/jdk/6.0/
+promoted/all/b100/binaries/solaris-sparcv9/bin/java, please wait...
+Debugger attached successfully.
+Server compiler detected.
+JVM version is 1.6.0-rc-b100
+Iterating over heap. This may take a while...
+Heap traversal took 8.902 seconds.
+
+Object Histogram:
+
+Size    Count    Class description
+-------------------------------------------------------
+4151816    2941    int[]
+2997816    26403    * ConstMethodKlass
+2118728    26403    * MethodKlass
+1613184    39750    * SymbolKlass
+1268896    2011    * ConstantPoolKlass
+1097040    2011    * InstanceKlassKlass
+882048    1906    * ConstantPoolCacheKlass
+758424    7572    char[]
+733776    2518    byte[]
+252240    3260    short[]
+214944    2239    java.lang.Class
+177448    3341    * System ObjArray
+176832    7368    java.lang.String
+137792    3756    java.lang.Object[]
+121744    74    long[]
+72960    160    java2d.Tools$3
+63680    199    * ObjArrayKlassKlass
+53264    158    float[]
+... more lines removed here to reduce output...
+</pre>
+<a name="gblmm" id="gblmm"></a>
+<h4>2.7.4 Getting Information on the Permanent Generation</h4>
+<p>The permanent generation is the area of heap that holds all the
+reflective data of the virtual machine itself, such as class and
+method objects (also called &#8220;method area&#8221; in The Java
+Virtual Machine Specification).</p>
+<p>Configuring the size of the permanent generation can be
+important for applications that dynamically generate and load a
+very large number of classes (for example, Java Server Pages/web
+containers). If an application loads &#8220;too many&#8221;
+classes, then it is possible it will abort with an
+<tt>OutOfMemoryError</tt>. The specific error is <tt>Exception in
+thread XXXX java.lang.OutOfMemoryError: PermGen space</tt>. See
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"memleaks.html#gbywc">3.1 Meaning of <tt>OutOfMemoryError</tt></a>
+for a description of this and other reasons for
+<tt>OutOfMemoryError</tt>.</p>
+<p>To get further information about the permanent generation, you
+can use the <tt>-permstat</tt> option to print statistics for the
+objects in the permanent generation. The following example shows
+output from the <tt>jmap -permstat</tt> command.</p>
+<pre>
+$ <b>jmap -permstat 29620</b>
+Attaching to process ID 29620, please wait...
+Debugger attached successfully.
+Client compiler detected.
+JVM version is 1.6.0-rc-b100
+12674 intern Strings occupying 1082616 bytes.
+finding class loader instances ..Unknown oop at 0xd0400900
+Oop's klass is 0xd0bf8408
+Unknown oop at 0xd0401100
+Oop's klass is null
+done.
+computing per loader stat ..done.
+please wait.. computing liveness.........................................done.
+class_loader    classes bytes   parent_loader   alive?  type
+
+&#60;bootstrap&gt;     1846 5321080  null        live   &#60;internal&gt;
+0xd0bf3828  0      0      null         live    sun/misc/Launcher$ExtClassLoader@0xd8c98c78
+0xd0d2f370  1    904      null         dead    sun/reflect/DelegatingClassLoader@0xd8c22f50
+0xd0c99280  1   1440      null         dead    sun/reflect/DelegatingClassLoader@0xd8c22f50
+0xd0b71d90  0      0   0xd0b5b9c0    live java/util/ResourceBundle$RBClassLoader@0xd8d042e8
+0xd0d2f4c0  1    904      null         dead    sun/reflect/DelegatingClassLoader@0xd8c22f50
+0xd0b5bf98  1    920   0xd0b5bf38      dead    sun/reflect/DelegatingClassLoader@0xd8c22f50
+0xd0c99248  1    904      null         dead    sun/reflect/DelegatingClassLoader@0xd8c22f50
+0xd0d2f488  1    904      null         dead    sun/reflect/DelegatingClassLoader@0xd8c22f50
+0xd0b5bf38  6   11832  0xd0b5b9c0      dead    sun/reflect/misc/MethodUtil@0xd8e8e560
+0xd0d2f338  1    904      null         dead    sun/reflect/DelegatingClassLoader@0xd8c22f50
+0xd0d2f418  1    904      null         dead    sun/reflect/DelegatingClassLoader@0xd8c22f50
+0xd0d2f3a8  1    904     null          dead    sun/reflect/DelegatingClassLoader@0xd8c22f50
+0xd0b5b9c0  317 1397448 0xd0bf3828     live    sun/misc/Launcher$AppClassLoader@0xd8cb83d8
+0xd0d2f300  1    904      null         dead    sun/reflect/DelegatingClassLoader@0xd8c22f50
+0xd0d2f3e0  1    904      null         dead    sun/reflect/DelegatingClassLoader@0xd8c22f50
+0xd0ec3968  1   1440      null         dead    sun/reflect/DelegatingClassLoader@0xd8c22f50
+0xd0e0a248  1    904      null         dead    sun/reflect/DelegatingClassLoader@0xd8c22f50
+0xd0c99210  1    904      null         dead    sun/reflect/DelegatingClassLoader@0xd8c22f50
+0xd0d2f450  1    904      null         dead    sun/reflect/DelegatingClassLoader@0xd8c22f50
+0xd0d2f4f8  1    904      null         dead    sun/reflect/DelegatingClassLoader@0xd8c22f50
+0xd0e0a280  1    904      null         dead    sun/reflect/DelegatingClassLoader@0xd8c22f50
+
+total = 22      2186    6746816   N/A   alive=4, dead=18       N/A    
+</pre>
+<p>For each class loader object, the following details are
+printed:</p>
+<ul>
+<li>
+<p>The address of the class loader object at the snapshot when the
+utility was run</p>
+</li>
+<li>
+<p>The number of classes loaded</p>
+</li>
+<li>
+<p>The approximate number of bytes consumed by meta-data for all
+classes loaded by this class loader</p>
+</li>
+<li>
+<p>The address of the parent class loader (if any)</p>
+</li>
+<li>
+<p>A &#8220;live&#8221; or &#8220;dead&#8221; indication of whether
+the loader object will be garbage collected in the future</p>
+</li>
+<li>
+<p>The class name of this class loader</p>
+</li>
+</ul>
+<a name="gblry" id="gblry"></a>
+<h3>2.8 <tt>jps</tt> Utility</h3>
+<p>The <tt>jps</tt> utility lists the instrumented HotSpot Virtual
+Machines for the current user on the target system. The utility is
+very useful in environments where the VM is embedded, that is, it
+is started using the JNI Invocation API rather than the
+<tt>java</tt> launcher. In these environments it is not always easy
+to recognize the Java processes in the process list.</p>
+<p>The following example demonstrates the usage of the <tt>jps</tt>
+utility.</p>
+<pre>
+$ <b>jps</b>
+16217 MyApplication
+16342 jps
+</pre>
+<p>The utility lists the virtual machines for which the user has
+access rights. This is determined by operating-system-specific
+access-control mechanisms. On Solaris OS, for example, if a
+non-root user executes the <tt>jps</tt> utility, the output is a
+list of the virtual machines that were started with that user's
+<tt>uid</tt>.</p>
+<p>In addition to listing the process ID, the utility provides
+options to output the arguments passed to the application's main
+method, the complete list of VM arguments, and the full package
+name of the application's main class. The <tt>jps</tt> utility can
+also list processes on a remote system if the remote system is
+running the <tt>jstat</tt> daemon (<tt>jstatd</tt>).</p>
+<p>If you are running several Java Web Start applications on a
+system, they tend to look the same, as shown in the following
+example:</p>
+<pre>
+$ <b>jps</b>
+1271 jps
+     1269 Main
+     1190 Main
+</pre>
+<p>In this case, use <tt>jps -m</tt> to distinguish them, as
+follows:</p>
+<pre>
+$ <b>jps -m</b>
+1271 jps -m
+     1269 Main http://bugster.central.sun.com/bugster.jnlp
+     1190 Main http://webbugs.sfbay/IncidentManager/incident.jnlp
+</pre>
+<p>For more information on the <tt>jps</tt> utility, refer to the
+<a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jps.html">
+man page</a>.</p>
+<p>The utility is included in the JDK download for all operating
+system platforms supported by Sun.</p>
+<div class="note">
+<hr />
+<p><b>Note -</b> The HotSpot instrumentation is not accessible on
+Windows 98 or Windows ME. In addition, the instrumentation might
+not be accessible on Windows if the temporary directory is on a
+FAT32 file system.</p>
+<hr /></div>
+<a name="gcbcv" id="gcbcv"></a>
+<h3>2.9 <tt>jrunscript</tt> Utility</h3>
+<p>The <tt>jrunscript</tt> utility is a command-line script shell.
+It supports script execution in both interactive mode and in batch
+mode. By default, the shell uses JavaScript, but you can specify
+any other scripting language for which you supply the path to the
+script engines's JAR file of <tt>.class files.</tt></p>
+<p>Thanks to the communication between the Java language and the
+scripting language, the <tt>jrunscript</tt> utility supports an
+<b>exploratory programming</b> style.</p>
+<p>For more information on the <tt>jrunscript</tt> utility, refer
+to the <a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jrunscript.html">
+man page</a>.</p>
+<a name="gcaqg" id="gcaqg"></a>
+<h3>2.10 <tt>jsadebugd</tt> Daemon</h3>
+<p>The Serviceability Agent Debug Daemon (<tt>jsadebugd</tt>)
+attaches to a Java process or to a core file and acts as a debug
+server. This utility is currently available only on Solaris OS and
+Linux. Remote clients such as <tt>jstack</tt>, <tt>jmap</tt>, and
+<tt>jinfo</tt> can attach to the server using Java Remote Method
+Invocation (RMI).</p>
+<p>For more information on <tt>jsadebugd</tt>, refer to the
+<a href="http://download.oracle.com/javase/7/docs/technotes/tools/share/jsadebugd.html">
+man page</a>.</p>
+<a name="gblfh" id="gblfh"></a>
+<h3>2.11 <tt>jstack</tt> Utility</h3>
+<p>The <tt>jstack</tt> command-line utility attaches to the
+specified process or core file and prints the stack traces of all
+threads that are attached to the virtual machine, including Java
+threads and VM internal threads, and optionally native stack
+frames. The utility also performs deadlock detection.</p>
+<p>The utility can also use the <tt>jsadebugd</tt> daemon to query
+a process or core file on a remote machine. Note that the output
+takes longer to print in this case.</p>
+<p>A stack trace of all threads can be useful in diagnosing a
+number of issues such as deadlocks or hangs.</p>
+<!--
+<p>The utility is included in the Solaris OS and Linux releases of
+the JDK software. It is also included in the JDK 7 release on
+Windows, but only the <tt>jstack</tt> <var>pid</var> option and  <tt>jstack -l</tt> <var>pid</var> option.</p>
+-->
+<p>The JDK 7 release introduced the <tt>-l</tt> option, which
+instructs the utility to look for ownable synchronizers in the heap
+and print information about <tt>java.util.concurrent.locks</tt>.
+Without this option, the thread dump includes information only on
+monitors.</p>
+<p>Starting with JDK 7, the output from the <tt>jstack</tt>
+<var>pid</var> option is the same as that obtained by pressing
+Ctrl-\ at the application console (standard input) or by sending
+the process a QUIT signal. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="#gbmps">2.15 Ctrl-Break
+Handler</a> for an output example.</p>
+<p>Thread dumps can also be obtained programmatically using the
+<tt>Thread.getAllStackTraces</tt> method, or in the debugger using
+the debugger option to print all thread stacks (the <tt>where</tt>
+command in the case of the <tt>jdb</tt> sample debugger).</p>
+<p>For more information on the <tt>jstack</tt> utility , refer to
+the <a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jstack.html">
+man page</a>.</p>
+<a name="gdvsu" id="gdvsu"></a>
+<h4>2.11.1 Forcing a Stack Dump</h4>
+<p>If the <tt>jstack</tt> <var>pid</var> command does not respond
+because of a hung process, the <tt>-F</tt> option can be used (on
+Solaris OS and Linux only) to force a stack dump, as in the
+following example:</p>
+<pre>
+$ <b>jstack -F 8321</b>
+Attaching to process ID 8321, please wait...
+Debugger attached successfully.
+Client compiler detected.
+JVM version is 1.6.0-rc-b100
+Deadlock Detection:
+
+Found one Java-level deadlock:
+=============================
+
+"Thread2":
+  waiting to lock Monitor@0x000af398 (Object@0xf819aa10, a java/lang/String),
+  which is held by "Thread1"
+"Thread1":
+  waiting to lock Monitor@0x000af400 (Object@0xf819aa48, a java/lang/String),
+  which is held by "Thread2"
+
+Found a total of 1 deadlock.
+
+Thread t@2: (state = BLOCKED)
+
+Thread t@11: (state = BLOCKED)
+ - Deadlock$DeadlockMakerThread.run() @bci=108, line=32 (Interpreted frame)
+
+Thread t@10: (state = BLOCKED)
+ - Deadlock$DeadlockMakerThread.run() @bci=108, line=32 (Interpreted frame)
+
+Thread t@6: (state = BLOCKED)
+
+Thread t@5: (state = BLOCKED)
+ - java.lang.Object.wait(long) @bci=-1107318896 (Interpreted frame)
+ - java.lang.Object.wait(long) @bci=0 (Interpreted frame)
+ - java.lang.ref.ReferenceQueue.remove(long) @bci=44, line=116 (Interpreted frame)
+ - java.lang.ref.ReferenceQueue.remove() @bci=2, line=132 (Interpreted frame)
+ - java.lang.ref.Finalizer$FinalizerThread.run() @bci=3, line=159 (Interpreted frame)
+
+Thread t@4: (state = BLOCKED)
+ - java.lang.Object.wait(long) @bci=0 (Interpreted frame)
+ - java.lang.Object.wait(long) @bci=0 (Interpreted frame)
+ - java.lang.Object.wait() @bci=2, line=485 (Interpreted frame)
+ - java.lang.ref.Reference$ReferenceHandler.run() @bci=46, line=116 (Interpreted frame)
+</pre>
+<a name="gdvte" id="gdvte"></a>
+<h4>2.11.2 Printing Stack Trace From Core Dump</h4>
+<p>To obtain stack traces from a core dump, execute the following
+command:</p>
+<pre>
+$ <b>jstack $JAVA_HOME/bin/java core</b>
+</pre>
+<a name="gdvst" id="gdvst"></a>
+<h4>2.11.3 Printing a Mixed Stack</h4>
+<p>The <tt>jstack</tt> utility can also be used to print a mixed
+stack, that is, it can print native stack frames in addition to the
+Java stack. Native frames are the C/C++ frames associated with VM
+code and JNI/native code.</p>
+<p>To print a mixed stack, use the <tt>-m</tt> option, as in the
+following example:</p>
+<pre>
+$ <b>jstack -m 21177</b>
+Attaching to process ID 21177, please wait...
+Debugger attached successfully.
+Client compiler detected.
+JVM version is 1.6.0-rc-b100
+Deadlock Detection:
+
+Found one Java-level deadlock:
+=============================
+
+"Thread1":
+  waiting to lock Monitor@0x0005c750 (Object@0xd4405938, a java/lang/String),
+  which is held by "Thread2"
+"Thread2":
+  waiting to lock Monitor@0x0005c6e8 (Object@0xd4405900, a java/lang/String),
+  which is held by "Thread1"
+
+Found a total of 1 deadlock.
+
+----------------- t@1 -----------------
+0xff2c0fbc    __lwp_wait + 0x4
+0xff2bc9bc    _thrp_join + 0x34
+0xff2bcb28    thr_join + 0x10
+0x00018a04    ContinueInNewThread + 0x30
+0x00012480    main + 0xeb0
+0x000111a0    _start + 0x108
+----------------- t@2 -----------------
+0xff2c1070    ___lwp_cond_wait + 0x4
+0xfec03638    bool Monitor::wait(bool,long) + 0x420
+0xfec9e2c8    bool Threads::destroy_vm() + 0xa4
+0xfe93ad5c    jni_DestroyJavaVM + 0x1bc
+0x00013ac0    JavaMain + 0x1600
+0xff2bfd9c    _lwp_start
+----------------- t@3 -----------------
+0xff2c1070    ___lwp_cond_wait + 0x4
+0xff2ac104    _lwp_cond_timedwait + 0x1c
+0xfec034f4    bool Monitor::wait(bool,long) + 0x2dc
+0xfece60bc    void VMThread::loop() + 0x1b8
+0xfe8b66a4    void VMThread::run() + 0x98
+0xfec139f4    java_start + 0x118
+0xff2bfd9c    _lwp_start
+----------------- t@4 -----------------
+0xff2c1070    ___lwp_cond_wait + 0x4
+0xfec195e8    void os::PlatformEvent::park() + 0xf0
+0xfec88464    void ObjectMonitor::wait(long long,bool,Thread*) + 0x548
+0xfe8cb974    void ObjectSynchronizer::wait(Handle,long long,Thread*) + 0x148
+0xfe8cb508    JVM_MonitorWait + 0x29c
+0xfc40e548    * java.lang.Object.wait(long) bci:0 (Interpreted frame)
+0xfc40e4f4    * java.lang.Object.wait(long) bci:0 (Interpreted frame)
+0xfc405a10    * java.lang.Object.wait() bci:2 line:485 (Interpreted frame)
+... more lines removed here to reduce output...
+----------------- t@12 -----------------
+0xff2bfe3c    __lwp_park + 0x10
+0xfe9925e4    AttachOperation*AttachListener::dequeue() + 0x148
+0xfe99115c    void attach_listener_thread_entry(JavaThread*,Thread*) + 0x1fc
+0xfec99ad8    void JavaThread::thread_main_inner() + 0x48
+0xfec139f4    java_start + 0x118
+0xff2bfd9c    _lwp_start
+----------------- t@13 -----------------
+0xff2c1500    _door_return + 0xc
+----------------- t@14 -----------------
+0xff2c1500    _door_return + 0xc
+</pre>
+<p>Frames that are prefixed with '*' are Java frames, while frames
+that are not prefixed with '*' are native C/C++ frames.</p>
+<p>The output of the utility can be piped through <tt>c++filt</tt>
+to demangle C++ mangled symbol names. Because the HotSpot Virtual
+Machine is developed in the C++ language, the <tt>jstack</tt>
+utility prints C++ mangled symbol names for the HotSpot internal
+functions. The <tt>c++filt</tt> utility is delivered with the
+native <tt>c++</tt> compiler suite: <tt>SUNWspro</tt> on Solaris OS
+and <tt>gnu</tt> on Linux.</p>
+<a name="gblfb" id="gblfb"></a>
+<h3>2.12 <tt>jstat</tt> Utility</h3>
+<p>The <tt>jstat</tt> utility uses the built-in instrumentation in
+the HotSpot VM to provide information on performance and resource
+consumption of running applications. The tool can be used when
+diagnosing performance issues, and in particular issues related to
+heap sizing and garbage collection. The <tt>jstat</tt> utility does
+not require the VM to be started with any special options. The
+built-in instrumentation in the HotSpot VM is enabled by default.
+The utility is included in the JDK download for all operating
+system platforms supported by Sun.</p>
+<div class="note">
+<hr />
+<p><b>Note -</b> The instrumentation is not accessible on Windows
+98 or Windows ME. In addition, instrumentation is not accessible on
+Windows NT, 2000, or XP if a FAT32 file system is used.</p>
+<hr /></div>
+<p>The following list presents the options for the <tt>jstat</tt>
+utility.</p>
+<ul>
+<li>
+<p><tt>class</tt> - prints statistics on the behavior of the class
+loader.</p>
+</li>
+<li>
+<p><tt>compiler</tt> - prints statistics of the behavior of the
+HotSpot compiler.</p>
+</li>
+<li>
+<p><tt>gc</tt> - prints statistics of the behavior of the garbage
+collected heap.</p>
+</li>
+<li>
+<p><tt>gccapacity</tt> - prints statistics of the capacities of the
+generations and their corresponding spaces.</p>
+</li>
+<li>
+<p><tt>gccause</tt> - prints the summary of garbage collection
+statistics (same as -gcutil), with the cause of the last and
+current (if applicable) garbage collection events.</p>
+</li>
+<li>
+<p><tt>gcnew</tt> - prints statistics of the behavior of the new
+generation.</p>
+</li>
+<li>
+<p><tt>gcnewcapacity</tt> - prints statistics of the sizes of the
+new generations and its corresponding spaces.</p>
+</li>
+<li>
+<p><tt>gcold</tt> - prints statistics of the behavior of the old
+and permanent generations.</p>
+</li>
+<li>
+<p><tt>gcoldcapacity</tt> - prints statistics of the sizes of the
+old generation.</p>
+</li>
+<li>
+<p><tt>gcpermcapacity</tt> - prints statistics of the sizes of the
+permanent generation.</p>
+</li>
+<li>
+<p><tt>gcutil</tt> - prints a summary of garbage collection
+statistics.</p>
+</li>
+<li>
+<p><tt>printcompilation</tt> - prints HotSpot compilation method
+statistics.</p>
+</li>
+</ul>
+<p>For a complete description of the <tt>jstat</tt> utility, refer
+to the <a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jstat.html">
+man page</a>.</p>
+<p>The documentation includes a number of examples, and a few of
+those examples are repeated here in this document.</p>
+<p>The <tt>jstat</tt> utility uses a <tt>vmid</tt> to identify the
+target process. The documentation describes the syntax of a
+<tt>vmid</tt> but in the simplest case a <tt>vmid</tt> can be a
+local virtual machine identifier. In the case of Solaris OS, Linux,
+and Windows, it can be considered to be the process ID. Note that
+this is typical but may not always be the case.</p>
+<p>The <tt>jstat</tt> tool provides data similar to the data
+provided by the tools <tt>vmstat</tt> and <tt>iostat</tt> on
+Solaris OS and Linux.</p>
+<p>For a graphical representation of the data, you can use the
+<tt>visualgc</tt> tool. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="#gblsf">2.14 <tt>visualgc</tt>
+Tool</a>.</p>
+<a name="gdvvs" id="gdvvs"></a>
+<h4>2.12.1 Example of <tt>-gcutil</tt> Option</h4>
+<p>Below is an example of the <tt>-gcutil</tt> option. The utility
+attaches to <tt>lvmid</tt> 2834, takes nine samples at 250
+millisecond intervals, and displays the output.</p>
+<pre>
+$ <b>jstat -gcutil 2834 250 9</b>
+  S0     S1     E      O      P     YGC     YGCT    FGC    FGCT     GCT   
+  0.00   0.00  87.14  46.56  96.82     54    1.197   140   86.559   87.757
+  0.00   0.00  91.90  46.56  96.82     54    1.197   140   86.559   87.757
+  0.00   0.00 100.00  46.56  96.82     54    1.197   140   86.559   87.757
+  0.00  27.12   5.01  54.60  96.82     55    1.215   140   86.559   87.774
+  0.00  27.12  11.22  54.60  96.82     55    1.215   140   86.559   87.774
+  0.00  27.12  13.57  54.60  96.82     55    1.215   140   86.559   87.774
+  0.00  27.12  18.05  54.60  96.82     55    1.215   140   86.559   87.774
+  0.00  27.12  23.85  54.60  96.82     55    1.215   140   86.559   87.774
+  0.00  27.12  27.32  54.60  96.82     55    1.215   140   86.559   87.774
+</pre>
+<p>The output of this example shows that a young generation
+collection occurred between the third and fourth samples. The
+collection took 0.017 seconds and promoted objects from the
+<tt>eden</tt> space (E) to the <tt>old</tt> space (O), resulting in
+an increase of old space utilization from 46.56% to 54.60%.</p>
+<a name="gdvxc" id="gdvxc"></a>
+<h4>2.12.2 Example of <tt>-gcnew</tt> Option</h4>
+<p>The following example illustrates the <tt>-gcnew</tt> option.
+The utility attaches to <tt>lvmid</tt> 2834, takes samples at 250
+millisecond intervals, and displays the output. In addition, it
+uses the <tt>-h3</tt> option to display the column header after
+every 3 lines of data.</p>
+<pre>
+$ <b>jstat -gcnew -h3 2834 250</b>
+S0C    S1C    S0U    S1U   TT MTT  DSS      EC       EU     YGC     YGCT  
+ 192.0  192.0    0.0    0.0 15  15   96.0   1984.0    942.0    218    1.999
+ 192.0  192.0    0.0    0.0 15  15   96.0   1984.0   1024.8    218    1.999
+ 192.0  192.0    0.0    0.0 15  15   96.0   1984.0   1068.1    218    1.999
+ S0C    S1C    S0U    S1U   TT MTT  DSS      EC       EU     YGC     YGCT  
+ 192.0  192.0    0.0    0.0 15  15   96.0   1984.0   1109.0    218    1.999
+ 192.0  192.0    0.0  103.2  1  15   96.0   1984.0      0.0    219    2.019
+ 192.0  192.0    0.0  103.2  1  15   96.0   1984.0     71.6    219    2.019
+ S0C    S1C    S0U    S1U   TT MTT  DSS      EC       EU     YGC     YGCT  
+ 192.0  192.0    0.0  103.2  1  15   96.0   1984.0     73.7    219    2.019
+ 192.0  192.0    0.0  103.2  1  15   96.0   1984.0     78.0    219    2.019
+ 192.0  192.0    0.0  103.2  1  15   96.0   1984.0    116.1    219    2.019
+</pre>
+<p>In addition to showing the repeating header string, this example
+shows that between the fourth and fifth samples, a young generation
+collection occurred, whose duration was 0.02 seconds. The
+collection found enough live data that the survivor space 0
+utilization (S1U) would have exceeded the desired survivor size
+(DSS). As a result, objects were promoted to the old generation
+(not visible in this output), and the tenuring threshold (TT) was
+lowered from 15 to 1.</p>
+<a name="gdvwc" id="gdvwc"></a>
+<h4>2.12.3 Example of <tt>-gcoldcapacity</tt> Option</h4>
+<p>The following example illustrates the <tt>-gcoldcapacity</tt>
+option. The utility attaches to <tt>lvmid</tt> 21891 and takes 3
+samples at 250 millisecond intervals. The <tt>-t</tt> option is
+used to generate a time stamp for each sample in the first
+column.</p>
+<pre>
+$ <b>jstat -gcoldcapacity -t 21891 250 3</b>
+Timestamp    OGCMN     OGCMX       OGC        OC   YGC   FGC     FGCT     GCT
+    150.1   1408.0   60544.0   11696.0   11696.0   194    80    2.874   3.799
+    150.4   1408.0   60544.0   13820.0   13820.0   194    81    2.938   3.863
+    150.7   1408.0   60544.0   13820.0   13820.0   194    81    2.938   3.863
+</pre>
+<p>The Timestamp column reports the elapsed time in seconds since
+the start of the target Java VM. In addition, the
+<tt>-gcoldcapacity</tt> output shows the old generation capacity
+(OGC) and the old space capacity (OC) increasing as the heap
+expands to meet allocation or promotion demands. The old generation
+capacity (OGC) has grown from 11696 KB to 13820 KB after the 81st
+Full GC (FGC). The maximum capacity of the generation (and space)
+is 60544 KB (OGCMX), so it still has room to expand.</p>
+<a name="gcfdd" id="gcfdd"></a>
+<h3>2.13 <tt>jstatd</tt> Daemon</h3>
+<p>The <tt>jstatd</tt> daemon is a Remote Method Invocation (RMI)
+server application that monitors the creation and termination of
+instrumented Java HotSpot virtual machines and provides an
+interface to allow remote monitoring tools to attach to Java VMs
+running on the local host. For example, this daemon allows the
+<tt>jps</tt> utility to list processes on a remote system.</p>
+<div class="note">
+<hr />
+<p><b>Note -</b> The instrumentation is not accessible on Windows
+98 or Windows ME. In addition, instrumentation is not accessible on
+Windows NT, 2000, or XP if a FAT32 file system is used.</p>
+<hr /></div>
+<p>For more information about the <tt>jstatd</tt> daemon, including
+detailed usage examples, refer to the <a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jstatd.html">
+man page</a>.</p>
+<a name="gblsf" id="gblsf"></a>
+<h3>2.14 <tt>visualgc</tt> Tool</h3>
+<p>The <tt>visualgc</tt> tool is related to the <tt>jstat</tt>
+tool. (See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="#gblfb">2.12 <tt>jstat</tt>
+Utility</a>.) The <tt>visualgc</tt> tool provides a graphical view
+of the garbage collection (GC) system. As with <tt>jstat</tt>, it
+uses the built-in instrumentation of the HotSpot VM.</p>
+<p>The <tt>visualgc</tt> tool is not included in the JDK release
+but is available as a separate download from the <a href=
+"http://www.oracle.com/technetwork/java/jvmstat-142257.html">jvmstat
+3.0 site</a>.</p>
+<p>The following screen output demonstrates how the GC and heap are
+visualized.</p>
+<a name="gbuxv" id="gbuxv"></a>
+<h6 class="figuretitle">Sample Output from <tt>visualgc</tt></h6>
+<img src="figures/visualgc.gif" alt=
+"Sample output screen from visualgc tool" title=
+"Sample output screen from visualgc tool" /> <a name="gbmps" id=
+"gbmps"></a>
+<h3>2.15 Ctrl-Break Handler</h3>
+<p>On Solaris OS or Linux, the combination of pressing the Ctrl key
+and the backslash (\) key at the application console (standard
+input) causes the HotSpot VM to print a thread dump to the
+application's standard output. On Windows the equivalent key
+sequence is the Ctrl and Break keys. The general term for these key
+combinations is the Ctrl-Break handler.</p>
+<p>On Solaris OS and Linux, a thread dump is printed if the Java
+process receives a QUIT signal. Therefore, the <tt>kill -QUIT</tt>
+<var>pid</var> command causes the process with ID <var>pid</var> to
+print a thread dump to the standard output.</p>
+<p>The following subsections explain in detail the output from the
+Ctrl-Break handler:</p>
+<ul>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbmpn">2.15.1 Thread Dump</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbmpe">2.15.2 Deadlock Detection</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdtkh">2.15.3 Heap Summary</a></p>
+</li>
+</ul>
+<a name="gbmpn" id="gbmpn"></a>
+<h4>2.15.1 Thread Dump</h4>
+<p>The thread dump consists of the thread stack, including thread
+state, for all Java threads in the virtual machine. The thread dump
+does not terminate the application: it continues after the thread
+information is printed.</p>
+<p>The following example illustrates a thread dump.</p>
+<pre>
+Full thread dump Java HotSpot(TM) Client VM (1.6.0-rc-b100 mixed mode):
+
+"DestroyJavaVM" prio=10 tid=0x00030400 nid=0x2 waiting on condition [0x00000000..0xfe77fbf0]
+   java.lang.Thread.State: RUNNABLE
+
+"Thread2" prio=10 tid=0x000d7c00 nid=0xb waiting for monitor entry [0xf36ff000..0xf36ff8c0]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+        at Deadlock$DeadlockMakerThread.run(Deadlock.java:32)
+        - waiting to lock &#60;0xf819a938&gt; (a java.lang.String)
+        - locked &#60;0xf819a970&gt; (a java.lang.String)
+
+"Thread1" prio=10 tid=0x000d6c00 nid=0xa waiting for monitor entry [0xf37ff000..0xf37ffbc0]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+        at Deadlock$DeadlockMakerThread.run(Deadlock.java:32)
+        - waiting to lock &#60;0xf819a970&gt; (a java.lang.String)
+        - locked &#60;0xf819a938&gt; (a java.lang.String)
+
+"Low Memory Detector" daemon prio=10 tid=0x000c7800 nid=0x8 runnable [0x00000000..0x00000000]
+   java.lang.Thread.State: RUNNABLE
+
+"CompilerThread0" daemon prio=10 tid=0x000c5400 nid=0x7 waiting on condition [0x00000000..0x00000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Signal Dispatcher" daemon prio=10 tid=0x000c4400 nid=0x6 waiting on condition [0x00000000..0x00000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Finalizer" daemon prio=10 tid=0x000b2800 nid=0x5 in Object.wait() [0xf3f7f000..0xf3f7f9c0]
+   java.lang.Thread.State: WAITING (on object monitor)
+        at java.lang.Object.wait(Native Method)
+        - waiting on &#60;0xf4000b40&gt; (a java.lang.ref.ReferenceQueue$Lock)
+        at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:116)
+        - locked &#60;0xf4000b40&gt; (a java.lang.ref.ReferenceQueue$Lock)
+        at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:132)
+        at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:159)
+
+"Reference Handler" daemon prio=10 tid=0x000ae000 nid=0x4 in Object.wait() [0xfe57f000..0xfe57f940]
+   java.lang.Thread.State: WAITING (on object monitor)
+        at java.lang.Object.wait(Native Method)
+        - waiting on &#60;0xf4000a40&gt; (a java.lang.ref.Reference$Lock)
+        at java.lang.Object.wait(Object.java:485)
+        at java.lang.ref.Reference$ReferenceHandler.run(Reference.java:116)
+        - locked &#60;0xf4000a40&gt; (a java.lang.ref.Reference$Lock)
+
+"VM Thread" prio=10 tid=0x000ab000 nid=0x3 runnable 
+
+"VM Periodic Task Thread" prio=10 tid=0x000c8c00 nid=0x9 waiting on condition 
+</pre>
+<p>The output consists of a header and a stack trace for each
+thread. Each thread is separated by an empty line. The Java threads
+(threads that are capable of executing Java language code) are
+printed first, and these are followed by information on VM internal
+threads.</p>
+<p>The header line contains the following information about the
+thread:</p>
+<ul>
+<li>
+<p>Thread name</p>
+</li>
+<li>
+<p>Indication if the thread is a daemon thread</p>
+</li>
+<li>
+<p>Thread priority (<tt>prio</tt>)</p>
+</li>
+<li>
+<p>Thread ID (<tt>tid</tt>), which is the address of a thread
+structure in memory</p>
+</li>
+<li>
+<p>ID of the native thread (<tt>nid</tt>)</p>
+</li>
+<li>
+<p>Thread state, which indicates what the thread was doing at the
+time of the thread dump</p>
+</li>
+<li>
+<p>Address range, which gives an estimate of the valid stack region
+for the thread</p>
+</li>
+</ul>
+<p>The following table lists the possible thread states that can be
+printed.</p>
+<table border="0" cellpadding="0" cellspacing="0" class="dkgrey1"
+width="100%">
+<tr>
+<td>
+<table border="0" cellpadding="0" cellspacing="1" width="100%"
+class="vatop">
+<col width="38%" />
+<col width="61%" />
+<tr>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Thread State</div>
+</th>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Meaning</div>
+</th>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>NEW</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">The thread has not yet started.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>RUNNABLE</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">The thread is executing in the Java virtual
+machine.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>BLOCKED</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">The thread is blocked waiting for a monitor
+lock.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>WAITING</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">The thread is waiting indefinitely for another
+thread to perform a particular action.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>TIMED_WAITING</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">The thread is waiting for another thread to
+perform an action for up to a specified waiting time.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>TERMINATED</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">The thread has exited.</div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<p>The thread header is followed by the thread stack.</p>
+<a name="gbmpe" id="gbmpe"></a>
+<h4>2.15.2 Deadlock Detection</h4>
+<p>In addition to the thread stacks, the Ctrl-Break handler
+executes a deadlock detection algorithm. If any deadlocks are
+detected, it prints additional information after the thread dump on
+each deadlocked thread.</p>
+<pre>
+Found one Java-level deadlock:
+=============================
+"Thread2":
+  waiting to lock monitor 0x000af330 (object 0xf819a938, a java.lang.String),
+  which is held by "Thread1"
+"Thread1":
+  waiting to lock monitor 0x000af398 (object 0xf819a970, a java.lang.String),
+  which is held by "Thread2"
+
+Java stack information for the threads listed above:
+===================================================
+"Thread2":
+        at Deadlock$DeadlockMakerThread.run(Deadlock.java:32)
+        - waiting to lock &#60;0xf819a938&gt; (a java.lang.String)
+        - locked &#60;0xf819a970&gt; (a java.lang.String)
+"Thread1":
+        at Deadlock$DeadlockMakerThread.run(Deadlock.java:32)
+        - waiting to lock &#60;0xf819a970&gt; (a java.lang.String)
+        - locked &#60;0xf819a938&gt; (a java.lang.String)
+
+Found 1 deadlock.
+</pre>
+<p>If the Java VM flag <tt>-XX:+PrintConcurrentLocks</tt> is set,
+Ctrl-Break will also print the list of concurrent locks owned by
+each thread.</p>
+<a name="gdtkh" id="gdtkh"></a>
+<h4>2.15.3 Heap Summary</h4>
+<p>Starting with JDK 7, the Ctrl-Break handler also prints a
+heap summary. This output shows the different generations (areas of
+the heap), with the size, the amount used, and the address range.
+The address range is especially useful if you are also examining
+the process with tools such as <tt>pmap</tt>.</p>
+<pre>
+Heap
+ def new generation   total 1152K, used 435K [0x22960000, 0x22a90000, 0x22e40000
+)
+  eden space 1088K,  40% used [0x22960000, 0x229ccd40, 0x22a70000)
+  from space 64K,   0% used [0x22a70000, 0x22a70000, 0x22a80000)
+  to   space 64K,   0% used [0x22a80000, 0x22a80000, 0x22a90000)
+ tenured generation   total 13728K, used 6971K [0x22e40000, 0x23ba8000, 0x269600
+00)
+   the space 13728K,  50% used [0x22e40000, 0x2350ecb0, 0x2350ee00, 0x23ba8000)
+ compacting perm gen  total 12288K, used 1417K [0x26960000, 0x27560000, 0x2a9600
+00)
+   the space 12288K,  11% used [0x26960000, 0x26ac24f8, 0x26ac2600, 0x27560000)
+    ro space 8192K,  62% used [0x2a960000, 0x2ae5ba98, 0x2ae5bc00, 0x2b160000)
+    rw space 12288K,  52% used [0x2b160000, 0x2b79e410, 0x2b79e600, 0x2bd60000)
+</pre>
+<p>If the Java VM flag <tt>-XX:+PrintClassHistogram</tt> is set,
+then the Ctrl-Break handler will produce a heap histogram.</p>
+<a name="gbmoy" id="gbmoy"></a>
+<h3>2.16 Operating-System-Specific Tools</h3>
+<p>This section lists a number of operating-system-specific tools
+that are useful for troubleshooting or monitoring purposes. A brief
+description is provided for each tool. For further details, refer
+to the operating system documentation (or man pages in the case of
+Solaris OS and Linux).</p>
+<a name="gbmtd" id="gbmtd"></a>
+<h4>2.16.1 Solaris Operating System</h4>
+<p>The following tools are provided by the Solaris Operating
+System. See also <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="#gbmtk">2.16.4 Tools Introduced
+in Solaris 10 OS</a>, which gives details for some of the tools
+that were introduced in version 10 of Solaris OS.</p>
+<table border="0" cellpadding="0" cellspacing="0" class="dkgrey1"
+width="100%">
+<tr>
+<td>
+<table border="0" cellpadding="0" cellspacing="1" width="100%"
+class="vatop">
+<col width="30%" />
+<col width="69%" />
+<tr>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Tool</div>
+</th>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Description</div>
+</th>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>coreadm</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Specify name and location of core files
+produced by the Java VM.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>cpustat</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Monitor system behavior using CPU performance
+counters.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>cputrack</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Per-process monitor process, LWP behavior
+using CPU performance counters.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>c++filt</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Demangle C++ mangled symbol names. This
+utility is delivered with the native <tt>c++</tt> compiler suite:
+<tt>SUNWspro</tt> on Solaris OS.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">DTrace tool
+<p><tt>dtrace</tt> command</p>
+</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Introduced in Solaris 10 OS: Dynamic tracing
+of kernel functions, system calls, and user functions. This tool
+allows arbitrary, safe scripting to be executed at entry, exit, and
+other probe points. The script is written in C-like but safe
+pointer semantics language called the <b>D programming
+language</b>. See also <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="#gbmvp">2.16.4.3 Using the
+DTrace Tool</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>gcore</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Force a core dump of a process. The process
+continues after the core dump is written.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>intrstat</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Report statistics on CPU consumed by interrupt
+threads.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>iostat</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Report I/O statistics.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>libumem</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Introduced in Solaris 9 OS update 3: User
+space slab allocator. This tool can be used to find and fix memory
+management bugs (see <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="memleaks.html#gbyzn">3.4.5 Using
+<tt>libumem</tt> to Find Leaks</a>).</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>mdb</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Modular debugger for kernel and user
+applications and crash dumps</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>netstat</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Display the contents of various
+network-related data structures.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>pargs</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Print process arguments, environment
+variables, or auxiliary vector. Long output is not truncated as it
+would be by other commands, such as <tt>ps</tt>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>pfiles</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Print information on process file descriptors.
+Starting with Solaris 10 OS, the tool prints the filename
+also.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>pldd</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Print shared objects loaded by a
+process.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>pmap</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Print memory layout of a process or core file,
+including heap, data, text sections. Starting with Solaris 10 OS,
+stack segments are clearly identified with the text
+<tt>[stack]</tt> along with the thread ID. See also <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href="#gbmtl">2.16.4.1
+Improvements in <tt>pmap</tt> Tool</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>prstat</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Report statistics for active Solaris OS
+processes. (Similar to <tt>top</tt>.).</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>prun</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Set the process to running mode (reverse of
+<tt>pstop</tt>).</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>ps</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">List all processes.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>psig</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">List the signal handlers of a process.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>pstack</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Print stack of threads of a given process or
+core file. Starting with Solaris 10 OS, Java method names can be
+printed for Java frames. See also <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="#gbmvd">2.16.4.2 Improvements in
+<tt>pstack</tt> Tool</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>pstop</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Stop the process (suspend).</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>ptree</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Print process tree containing the given
+<tt>pid</tt>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>sar</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">System activity reporter.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>sdtprocess</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Display most CPU-intensive processes. (Similar
+to <tt>top</tt>.).</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>sdtperfmeter</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Display graphs showing system performance, for
+example, CPU, disks, network, and so forth.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>top</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Display most CPU-intensive processes. This
+tool is available as freeware for Solaris OS but is not installed
+by default.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>trapstat</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Display runtime trap statistics. (SPARC
+only)</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>truss</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Trace entry and exit events for system calls,
+user-mode functions, and signals; optionally stop the process at
+one of these events. This tool also prints the arguments of system
+calls and user functions.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>vmstat</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Report system virtual memory statistics.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>watchmalloc</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Track memory allocations.</div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<a name="gbmtf" id="gbmtf"></a>
+<h4>2.16.2 Linux Operating System</h4>
+<p>The following tools are provided by the Linux Operating
+System.</p>
+<table border="0" cellpadding="0" cellspacing="0" class="dkgrey1"
+width="100%">
+<tr>
+<td>
+<table border="0" cellpadding="0" cellspacing="1" width="100%"
+class="vatop">
+<col width="30%" />
+<col width="69%" />
+<tr>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Tool</div>
+</th>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Description</div>
+</th>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>c++filt</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Demangle C++ mangled symbol names. This
+utility is delivered with the native <tt>c++</tt> compiler suite:
+<tt>gnu</tt> on Linux OS.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>gdb</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">GNU debugger.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>libnjamd</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Memory allocation tracking.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>lsstack</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Print thread stack (similar to <tt>pstack</tt>
+in Solaris OS).
+<p>Not all distributions provide this tool by default; therefore,
+you might have to download it from the <tt>sourceforge.net</tt> web
+site.</p>
+</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>ltrace</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Library call tracer (equivalent to <tt>truss
+-u</tt> in Solaris OS).
+<p>Not all distributions provide this tool by default; therefore,
+you might have to download it separately.</p>
+</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>mtrace</tt> and <tt>muntrace</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">GNU malloc tracer.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>proc</tt> tools such as <tt>pmap</tt> and
+<tt>pstack</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Some but not all of the <tt>proc</tt> tools on
+Solaris OS have equivalent tools on Linux. In addition, core file
+support is not as good as for Solaris OS; for example,
+<tt>pstack</tt> does not work for core dumps.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>strace</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">System call tracer (equivalent to <tt>truss
+-t</tt> in Solaris OS).</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>top</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Display most CPU-intensive processes.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>vmstat</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Report information about processes, memory,
+paging, block I/O, traps, and CPU activity.</div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<a name="gbmtr" id="gbmtr"></a>
+<h4>2.16.3 Windows Operating System</h4>
+<p>The following tools are provided by the Windows Operating
+System. In addition, you can access the <a href=
+"http://msdn.microsoft.com/library/default.asp">MSDN Library
+site</a> and search for debug support.</p>
+<table border="0" cellpadding="0" cellspacing="0" class="dkgrey1"
+width="100%">
+<tr>
+<td>
+<table border="0" cellpadding="0" cellspacing="1" width="100%"
+class="vatop">
+<col width="30%" />
+<col width="69%" />
+<tr>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Tool</div>
+</th>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Description</div>
+</th>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>dumpchk</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Command-line utility to verify that a memory
+dump file has been created correctly This tool is included in
+Debugging Tools for Windows download available from the Microsoft
+web site (see <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="bugreports.html#gbkzq">7.4.4
+Collecting Crash Dumps on Windows</a>).</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>msdev</tt> debugger</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Command-line utility that can be used to
+launch Visual C++ and the Win32 debugger.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>userdump</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">User Mode Process Dump utility. This tool is
+included in the OEM Support Tools download available from the
+Microsoft web site (see section <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="bugreports.html#gbkzq">7.4.4
+Collecting Crash Dumps on Windows</a>).</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>windbg</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Windows debugger which can be used to debug
+Windows applications or crash dumps. This tool is included in
+Debugging Tools for Windows download available from the Microsoft
+web site (see section <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="bugreports.html#gbkzq">7.4.4
+Collecting Crash Dumps on Windows</a>).</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>/Md</tt> and <tt>/Mdd</tt> compiler
+options</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Compiler options that automatically include
+extra support for tracking memory allocations.</div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<a name="gbmtk" id="gbmtk"></a>
+<h4>2.16.4 Tools Introduced in Solaris 10 OS</h4>
+<p>This section provides details for some of the diagnostic tools
+that were introduced in version 10 of the Solaris Operating
+System.</p>
+<a name="gbmtl" id="gbmtl"></a>
+<h5>2.16.4.1 Improvements in <tt>pmap</tt> Tool</h5>
+<p>The <tt>pmap</tt> utility was improved in Solaris 10 OS to print
+stack segments with the text <tt>[stack]</tt>. This text helps you
+to locate the stack easily.</p>
+<p>The following example shows some output from this tool.</p>
+<pre>
+19846:    /net/myserver/export1/user/j2sdk6/bin/java -Djava.endorsed.d
+00010000      72K r-x--  /export/disk09/jdk/6/rc/b63/binaries/solsparc/bin/java
+00030000      16K rwx--  /export/disk09/jdk/6/rc/b63/binaries/solsparc/bin/java
+00034000   32544K rwx--    [ heap ]
+D1378000      32K rwx-R    [ stack tid=44 ]
+D1478000      32K rwx-R    [ stack tid=43 ]
+D1578000      32K rwx-R    [ stack tid=42 ]
+D1678000      32K rwx-R    [ stack tid=41 ]
+D1778000      32K rwx-R    [ stack tid=40 ]
+D1878000      32K rwx-R    [ stack tid=39 ]
+D1974000      48K rwx-R    [ stack tid=38 ]
+D1A78000      32K rwx-R    [ stack tid=37 ]
+D1B78000      32K rwx-R    [ stack tid=36 ]
+[.. more lines removed here to reduce output ..]
+FF370000       8K r-x--  /usr/lib/libsched.so.1
+FF380000       8K r-x--  /platform/sun4u-us3/lib/libc_psr.so.1
+FF390000      16K r-x--  /lib/libthread.so.1
+FF3A4000       8K rwx--  /lib/libthread.so.1
+FF3B0000       8K r-x--  /lib/libdl.so.1
+FF3C0000     168K r-x--  /lib/ld.so.1
+FF3F8000       8K rwx--  /lib/ld.so.1
+FF3FA000       8K rwx--  /lib/ld.so.1
+FFB80000      24K -----    [ anon ]
+FFBF0000      64K rwx--    [ stack ]
+ total    167224K
+</pre>
+<a name="gbmvd" id="gbmvd"></a>
+<h5>2.16.4.2 Improvements in <tt>pstack</tt> Tool</h5>
+<p>Prior to the Solaris 10 OS release, the <tt>pstack</tt> utility
+did not support the Java language. It printed hexadecimal addresses
+for both interpreted and (HotSpot) compiled Java methods.</p>
+<p>Starting in Solaris 10 OS, the <tt>pstack</tt> command-line tool
+prints mixed mode stack traces (Java and C/C++ frames) from a core
+file or a live process. The tool prints Java method names for
+interpreted, compiled and inlined Java methods.</p>
+<a name="gbmvp" id="gbmvp"></a>
+<h5>2.16.4.3 Using the DTrace Tool</h5>
+<p>Solaris 10 OS includes the DTrace tool, which allows dynamic
+tracing of the operating system kernel and user-level programs.
+This tool supports scripting at system-call entry and exit, at
+user-mode function entry and exit, and at many other probe points.
+The scripts are written in the <b>D programming language</b>, which
+is a C-like language with safe pointer semantics. These scripts can
+help you in troubleshooting problems or solving performance
+issues.</p>
+<p>The <tt>dtrace</tt> command is a generic front-end to the DTrace
+tool. This command provides a simple interface to invoke the D
+language, to retrieve buffered trace data, and to access a set of
+basic routines to format and print traced data.</p>
+<p>You may write your own customized DTrace scripts, using the D
+language, or download and use one or more of the many scripts that
+are already available on various sites.</p>
+<p>The probes are delivered and instrumented by kernel modules
+called providers. The types of tracing offered by the probe
+providers include user instruction tracing, function boundary
+tracing, kernel lock instrumentation, profile interrupt, system
+call tracing, and much more. If you write your own scripts, you use
+the D language to enable the probes; this language also allows
+conditional tracing and output formatting.</p>
+<p>You can use the <tt>dtrace -l</tt> option to explore the set of
+providers and probes that are available on your Solaris OS.</p>
+<p>The DTrace Toolkit is a collection of useful documented scripts
+developed by the OpenSolaris DTrace community. See <a href=
+"http://www.opensolaris.org/os/community/dtrace/dtracetoolkit/">http://www.opensolaris.org/os/community/dtrace/dtracetoolkit/</a></p>
+<p>Details on DTrace are provided at the following locations:</p>
+<ul>
+<li>
+<p><i>Solaris Dynamic Tracing Guide</i>: <a href=
+"http://docs.sun.com/app/docs/doc/817-6223/">http://docs.sun.com/app/docs/doc/817-6223/</a></p>
+</li>
+<li>
+<p>BigAdmin System Administration Portal for DTrace: <a href=
+"http://www.sun.com/bigadmin/content/dtrace/">http://www.sun.com/bigadmin/content/dtrace/</a></p>
+</li>
+</ul>
+<a name="gcvrl" id="gcvrl"></a>
+<h5>Probe Providers in Java HotSpot VM</h5>
+<p>Starting with JDK 7, the Java HotSpot VM
+contains two built-in probe providers: <tt>hotspot</tt> and
+<tt>hotspot_jni</tt>. These providers deliver probes that can be
+used to monitor the internal state and activities of the VM, as
+well as the Java application that is running.</p>
+<!--
+<p>The article <a
+href="http://www.sun.com/bigadmin/features/articles/java_se6_observability.html">Observability
+Using Java Platform, Standard Edition 6, and Solaris OS</a> describes these two
+probe providers and provides examples of using them.</p>
+-->
+<p>The <tt>hotspot</tt> provider probes can be categorized as
+follows:</p>
+<ul>
+<li>
+<p>VM lifecycle: VM initialization begin and end, and VM
+shutdown.</p>
+</li>
+<li>
+<p>Thread lifecycle: thread start and stop, thread name, thread ID,
+and so on.</p>
+</li>
+<li>
+<p>Class-loading: Java class loading and unloading.</p>
+</li>
+<li>
+<p>Garbage collection: start and stop of garbage collection,
+system-wide or by memory pool.</p>
+</li>
+<li>
+<p>Method compilation: method compilation begin and end, and method
+loading and unloading.</p>
+</li>
+<li>
+<p>Monitor probes: wait events, notification events, contended
+monitor entry and exit.</p>
+</li>
+<li>
+<p>Application tracking: method entry and return, allocation of a
+Java object.</p>
+</li>
+</ul>
+<p>In order to call from native code to Java code, the native code
+must make a call through the JNI interface. The
+<tt>hotspot_jni</tt> provider manages DTrace probes at the entry
+point and return point for each of the methods that the JNI
+interface provides for invoking Java code and examining the state
+of the VM.</p>
+<a name="gcvrb" id="gcvrb"></a>
+<h5>Example of Using DTrace</h5>
+<p>At probe points, you can print the stack trace current thread
+using the <tt>ustack</tt> built-in function. This function prints
+Java method names in addition to C/C++ native function names. The
+following is a simple D script that prints a full stack trace
+whenever a thread calls the read system call.</p>
+<pre>
+#!/usr/sbin/dtrace -s
+syscall::read:entry 
+/pid == $1 &#38;&#38; tid == 1/ {    
+   ustack(50, 0x2000);
+}
+</pre>
+<p>The above script is stored in a file named <tt>read.d</tt> and
+is run with the following command:</p>
+<pre>
+<b>read.d</b> <var>pid-of-the-Java-process-that-is-traced</var>
+</pre>
+<p>If your Java application generated a lot of I/O or had some
+unexpected latency, the use of the DTrace tool and its
+<tt>ustack()</tt> action can help you diagnose the problem.</p>
+<a name="gbmmt" id="gbmmt"></a>
+<h3>2.17 Developing Diagnostic Tools</h3>
+<p>The JDK software has extensive Application Programing Interfaces
+(APIs) which can be used to develop tools to observe, monitor,
+profile, debug, and diagnose issues in applications that are
+deployed on the Java runtime environment. The development of new
+tools is beyond the scope of this document. Instead this section
+provides a brief overview of the programming interfaces available.
+Refer also to example and demonstration code that is included in
+the JDK download.</p>
+<a name="gbmmi" id="gbmmi"></a>
+<h4>2.17.1 <tt>java.lang.management</tt> Package</h4>
+<p>The <tt>java.lang.management</tt> package provides the
+management interface for monitoring and management of the Java
+Virtual Machine and the operating system. Specifically it covers
+interfaces for the following systems:</p>
+<ul>
+<li>
+<p>Class loading</p>
+</li>
+<li>
+<p>Compilation</p>
+</li>
+<li>
+<p>Garbage collection</p>
+</li>
+<li>
+<p>Memory manager</p>
+</li>
+<li>
+<p>Runtime</p>
+</li>
+<li>
+<p>Threads</p>
+</li>
+</ul>
+<p>The <tt>java.lang.management</tt> package is fully described in
+the <a href=
+"http://download.oracle.com/javase/7/docs/api/index.html">Java SE
+API documentation</a>.</p>
+<p>The JDK release includes example code that demonstrates the
+usage of the <tt>java.lang.management</tt> package. These examples
+can be found in the <tt>$JAVA_HOME/demo/management</tt> directory.
+Some of these examples are as follows:</p>
+<ul>
+<li>
+<p><tt>MemoryMonitor</tt> - demonstrates the use of the
+<tt>java.lang.management</tt> API to observe the memory usage of
+all memory pools consumed by the application.</p>
+</li>
+<li>
+<p><tt>FullThreadDump</tt> - demonstrates the use of the
+<tt>java.lang.management</tt> API to get a full thread dump and
+detect deadlocks programmatically.</p>
+</li>
+<li>
+<p><tt>VerboseGC</tt> - demonstrates the use of the
+<tt>java.lang.management</tt> API to print the garbage collection
+statistics and memory usage of an application.</p>
+</li>
+</ul>
+<p>In addition to the <tt>java.lang.management</tt> package, the
+JDK release includes platform extensions in the
+<tt>com.sun.management</tt> package. The platform extensions
+include a management interface to obtain detailed statistics from
+garbage collectors that perform collections in cycles. These
+extensions also include a management interface to obtain additional
+memory statistics from the operating system.</p>
+<p>Details on the platform extensions can be found at <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/management/index.html">
+Java SE API documentation: Monitoring and Management Interface for
+the Java Platform</a>.</p>
+<a name="gbmla" id="gbmla"></a>
+<h4>2.17.2 <tt>java.lang.instrument</tt> Package</h4>
+<p>The <tt>java.lang.instrument</tt> package provides services that
+allow Java programming language agents to instrument programs
+running on the Java VM. Instrumentation is used by tools such as
+profilers, tools for tracing method calls, and many others. The
+package facilitates both load-time and dynamic instrumentation. It
+also includes methods to obtain information on the loaded classes
+and information about the amount of storage consumed by a given
+object.</p>
+<p>The <tt>java.lang.instrument</tt> package is fully described in
+the <a href=
+"http://download.oracle.com/javase/7/docs/api/index.html">Java SE
+API documentation</a>.</p>
+<a name="gbmmk" id="gbmmk"></a>
+<h4>2.17.3 <tt>java.lang.Thread</tt> Class</h4>
+<p>The <tt>java.lang.Thread</tt> class has a static method called
+<tt>getAllStackTraces</tt>, which returns a map of stack traces for
+all live threads. The <tt>Thread</tt> class also has a method
+called <tt>getState</tt>, which returns the thread state; states
+are defined by the <tt>java.lang.Thread.State</tt> enumeration.
+These methods can be useful when adding diagnostic or monitoring
+capabilities to an application. These methods are fully described
+in the API documentation.</p>
+<a name="gbmls" id="gbmls"></a>
+<h4>2.17.4 Java Virtual Machine Tools Interface</h4>
+<p>The Java Virtual Machine Tools Interface (JVM TI) is a native
+(C/C++) programming interface that can be used to develop a wide
+range of developing and monitoring tools. JVM TI provides an
+interface for the full breadth of tools that need access to VM
+state, including but not limited to profiling, debugging,
+monitoring, thread analysis, and coverage analysis tools.</p>
+<p>Some examples of agents that rely on JVM TI are the
+following:</p>
+<ul>
+<li>
+<p>HPROF profiler (see <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="#gblvj">2.1 HPROF - Heap
+Profiler</a>)</p>
+</li>
+<li>
+<p>Java Debug Wire Protocol (JDWP) agent (see <img class="linkicon"
+src="graphics/linkicon.gif" /><a href="#gbmlg">2.17.5 Java Platform
+Debugger Architecture</a>)</p>
+</li>
+<li>
+<p><tt>java.lang.instrument</tt> implementation (see <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href="#gbmla">2.17.2
+<tt>java.lang.instrument</tt> Package</a>)</p>
+</li>
+</ul>
+<p>The specification for JVM TI can be found in the <a href=
+"http://download.oracle.com/javase/7/docs/platform/jvmti/jvmti.html">
+JVM Tool Interface documentation</a>.</p>
+<p>The JDK release includes example code that demonstrates the
+usage of JVM TI. These examples can be found in the
+<tt>$JAVA_HOME/demo/jvmti directory</tt>. Some of the examples are
+as follows:</p>
+<ul>
+<li>
+<p><tt>mtrace</tt> - an agent library that tracks method call and
+return counts. It uses byte-code instrumentation to instrument all
+classes loaded into the virtual machine and prints a sorted list of
+the frequently used methods.</p>
+</li>
+<li>
+<p><tt>heapTracker</tt> - an agent library that tracks object
+allocation. It uses byte-code instrumentation to instrument
+constructor methods.</p>
+</li>
+<li>
+<p><tt>heapViewer</tt> - an agent library that prints heap
+statistics when Ctrl-\ or Ctrl-Break is pressed. For each loaded
+class it prints an instance count of that class and the space
+used.</p>
+</li>
+</ul>
+<a name="gbmlg" id="gbmlg"></a>
+<h4>2.17.5 Java Platform Debugger Architecture</h4>
+<p>The Java Platform Debugger Architecture (JPDA) is the
+architecture designed for use by debuggers and debugger-like tools.
+It consists of two programming interfaces and a wire protocol.</p>
+<ul>
+<li>
+<p>The Java Virtual Machine Tools Interface (JVM TI) is the
+interface to the virtual machine (as described in <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href="#gbmls">2.17.4
+Java Virtual Machine Tools Interface</a>).</p>
+</li>
+<li>
+<p>The Java Debug Interface (JDI) defines information and requests
+at the user code level. It is a pure Java programming language
+interface for debugging Java programming language applications. In
+JPDA, the JDI is a remote view in the debugger process of a virtual
+machine in the debuggee process. It is implemented by the
+front-end, while a debugger-like application (for example, IDE,
+debugger, tracer, monitoring tool, and so forth) is the client.</p>
+</li>
+<li>
+<p>The Java Debug Wire Protocol (JDWP) defines the format of
+information and requests transferred between the process being
+debugged and the debugger front end, which implements the JDI.</p>
+</li>
+</ul>
+<p>A complete description (including specifications) for JPDA is
+located in the <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/jpda/index.html">
+Java Platform Debugger Architecture (JPDA) documentation</a>.</p>
+<p>A graphic view of the JPDA structure is presented in the
+<a href="http://download.oracle.com/javase/7/docs/technotes/guides/jpda/architecture.html">
+Java Platform Debugger Architecture description</a>.</p>
+<p>The <tt>jdb</tt> utility is included in the JDK release as the
+example command-line debugger. The <tt>jdb</tt> utility uses the
+Java Debug Interface (JDI) to launch or connect to the target VM.
+See <img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbldt">2.4 <tt>jdb</tt> Utility</a>.</p>
+<p>In addition to traditional debugger-type tools, JDI can also be
+used to develop tools that help in post-mortem diagnostics and
+scenarios where the tool needs to attach to a process in a
+non-cooperative manner (a hung process, for example). See
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbldt">2.4 <tt>jdb</tt> Utility</a> for a description of the JDI
+connectors which can be used to attach a JDI-based tool to a crash
+dump or hung process.</p>
+</div>
+<div class="BottomPageControlPane">
+<table class="pagecontrol">
+<tr>
+<td>
+<div class="pagefooterlinks">Copyright &#169;1995, 2011, Oracle
+and/or its affiliates. All rights reserved. <a href=
+"docinfo.html">Legal Notices</a></div>
+</td>
+<td class="pagenavlinks"><a href="tools.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="memleaks.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+</body>
+</html>

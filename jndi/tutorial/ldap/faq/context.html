@@ -1,0 +1,138 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Contexts</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="attr.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Frequently Asked Questions</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Contexts
+</h2>
+<p>
+<blockquote>
+
+<h4>Is the context safe for multithreaded access, or do I need to lock/synchronize access to a context?</h4>
+
+The answer depends on the implementation.
+This is because the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><tt>Context</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html"><tt>DirContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     interfaces do not specify synchronization requirements.
+Sun's LDAP implementation is optimized for single-threaded access.
+If you have multiple threads accessing the same 
+<tt>Context</tt> instance, then each thread needs to
+lock the <tt>Context</tt> instance when using it.
+This also applies to any <tt>NamingEnumeration</tt> that is derived from the
+same <tt>Context</tt> instance.
+However, multiple threads can access <em>different</em> 
+<tt>Context</tt> instances
+(even those derived from the same initial context) concurrently
+without locks.
+
+<h4>Why does the LDAP provider ignore my security environment properties
+if I do not set the
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_CREDENTIALS><tt>Context.SECURITY_CREDENTIALS</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_CREDENTIALS><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    (<tt>"java.naming.security.credentials"</tt>) property or set it to the empty string?
+</h4>
+If you supply an empty string, an empty <tt>byte</tt>/<tt>char</tt> array, or <tt>null</tt> to the
+<tt>Context.SECURITY_CREDENTIALS</tt> environment property,
+then an anonymous bind will occur even if the
+<tt>Context.SECURITY_AUTHENTICATION</tt> property
+was set to <tt>"simple"</tt>.
+This is because for simple authentication,
+the LDAP requires the password to be nonempty.
+If a password is not supplied,
+then the protocol automatically converts the authentication to <tt>"none"</tt>.
+
+<h4>Why do I keep getting a
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/CommunicationException.html><tt>CommunicationException</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/CommunicationException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   when I try to create an initial context?</h4>
+
+You might be talking to a server that supports only the LDAP v2.
+See the
+<a target="_top" href="../misc/version.html">Miscellaneous</a> <a href="../misc/version.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson for an example of how to set the version number.
+
+<a name=TRACE></a>
+<h4>I'm seeing some strange behavior. How do I find out what's really going on?</h4>
+
+Try using the <tt>"com.sun.jndi.ldap.trace.ber"</tt> environment
+property.  If the value of this property is an instance of
+<tt>java.io.OutputStream</tt>, then trace information about BER buffers
+sent and received by the LDAP provider is written to that stream. If
+the property's value is <tt>null</tt>, then no trace output is written.
+
+<p>
+For example, the following code will send the trace output to <tt>System.err</tt>.
+
+<blockquote><pre>
+env.put("com.sun.jndi.ldap.trace.ber", System.err);
+</pre></blockquote>
+
+
+<h4>How do I use a different authentication mechanism such as Kerberos?</h4>
+
+Follow the instructions in the
+
+<a target="_top" href="../security/gssapi.html">GSS-API/Kerberos v5 Authentication</a> <a href="../security/gssapi.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>   section in the Security lesson for information on
+how to use Kerberos authentication.
+To use other authentication mechanisms, see the
+<a target="_top" href="../security/mechanism.html">Using Arbitrary SASL Mechanisms</a> <a href="../security/mechanism.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>   section.
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="attr.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Frequently Asked Questions</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

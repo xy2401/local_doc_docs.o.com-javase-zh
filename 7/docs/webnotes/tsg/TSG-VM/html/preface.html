@@ -1,0 +1,635 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<!-- GenHTML revision 23965-->
+<meta http-equiv="Content-type" content=
+"text/html; charset=utf-8" />
+<title>Preface - Troubleshooting Guide for HotSpot
+VM</title>
+<meta http-equiv="content-language" content="en-US" />
+<meta name="robots" content="index,follow" />
+<meta name="language" content="en" />
+<meta name="collection" content="reference" />
+<meta name="keywords" content="" />
+<meta name="description" content=
+"This document is a guide to help troubleshoot problems that might arise with applications that are developed using the release of Java Platform, Standard Edition Development Kit 7 (JDK 7). In particular, this guide addresses possible problems between the applications and the Java HotSpot virtual machine. The document provides a description of the tools, command line options, and other help in analyzing a problem. The document also provides guidance on how to approach some general issues such as a crash, hang, or memory resource issues. Finally, the document provides direction for data collection and bug report preparation." />
+<meta name="date" content="2008-11-01" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/default.css" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/pagelayout.css" />
+<link rel="alternate stylesheet" type="text/css" title="print"
+href="css/print.css" />
+<script type="text/javascript">
+//<![CDATA[
+function setActiveStyleSheet(title) {
+  var i, a, main;
+  for (i=0; (a = document.getElementsByTagName("link")[i]); i++) {
+         if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+                a.disabled = true;
+                if(a.getAttribute("title") == title) a.disabled = false;
+         }
+  }
+}
+
+function ClearDefault(Element) {
+   if (Element.defaultValue == Element.value) {
+        Element.value = ""
+        Element.style.cssText = "font-weight: bold; color: #00000"
+   }
+}
+
+//]]>
+</script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<div class="MastheadPane">
+<table class="MastheadTable" width="100%">
+<tr class="closeprintview">
+<td align="right"><a href="#" onclick=
+"setActiveStyleSheet('screen')">Exit Print View</a></td>
+</tr>
+<tr class="titlebar">
+<td>
+<h4 class="contentpage-doctitle"><a href="toc.html">Troubleshooting
+Guide for HotSpot VM</a></h4>
+</td>
+<td class="smallLogo"><a href="http://www.oracle.com"><img src=
+"graphics/smallOracleLogo.gif" /></a></td>
+</tr>
+</table>
+</div>
+<div class="ButtonPane">
+<table class="pagecontrol">
+<tr>
+<td class="pagebuttons"><a href="#" onclick=
+"setActiveStyleSheet('print')"><img height="46" width="40" border=
+"0" src="graphics/print.gif" alt="Print View" title=
+"Print View" /></a></td>
+<td class="pagebreadcrumb"></td>
+<td class="pagenavlinks"><a href="docinfo.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="tools.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+<div class="TOCPane">
+<p class="toc level1"><a href="docinfo.html">Document
+Information</a></p>
+<div id="scrolltoc" class="onpage">
+<p class="toc level1 tocsp"><a href="">Preface</a></p>
+</div>
+<p class="toc level1 tocsp"><a href=
+"tools.html">1.&#160;&#160;Diagnostic Tools and Options</a></p>
+<p class="toc level1 tocsp"><a href=
+"tooldescr.html">2.&#160;&#160;Detailed Tool Descriptions</a></p>
+<p class="toc level1 tocsp"><a href=
+"memleaks.html">3.&#160;&#160;Troubleshooting Memory Leaks</a></p>
+<p class="toc level1 tocsp"><a href=
+"crashes.html">4.&#160;&#160;Troubleshooting System Crashes</a></p>
+<p class="toc level1 tocsp"><a href=
+"hangloop.html">5.&#160;&#160;Troubleshooting Hanging or Looping
+Processes</a></p>
+<p class="toc level1 tocsp"><a href=
+"signals.html">6.&#160;&#160;Integrating Signal and Exception
+Handling</a></p>
+<p class="toc level1 tocsp"><a href=
+"bugreports.html">7.&#160;&#160;Submitting Bug Reports</a></p>
+<p class="toc level1 tocsp"><a href=
+"envvars.html">A.&#160;&#160;Environment Variables and System
+Properties</a></p>
+<p class="toc level1 tocsp"><a href=
+"clopts.html">B.&#160;&#160;Command-Line Options</a></p>
+<p class="toc level1 tocsp"><a href=
+"felog.html">C.&#160;&#160;Fatal Error Log</a></p>
+<p class="toc level1 tocsp"><a href=
+"tools-by-rel.html">D.&#160;&#160;Summary of Tools in This
+Release</a></p>
+</div>
+<div class="ContentPane"><a name="preface" id="preface"></a>
+<h2>Preface</h2>
+<p>This document helps in troubleshooting problems that might occur
+with applications that are developed using the release of Java
+Platform, Standard Edition Development Kit 7 (JDK 7 release).
+In particular, this guide addresses possible
+problems between the application and the Java HotSpot virtual
+machine.</p>
+<p>See <img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"tools-by-rel.html">Appendix&#160;D, Summary of Tools in This
+Release</a> for a list of changes to the troubleshooting tools for
+this release of the JDK compared with the previous release.</p>
+<p>This document is currently focused on providing information
+about the tools and options available for diagnostics and
+monitoring. It does not yet include information on garbage
+collection or diagnosing performance issues.</p>
+<p>For help in troubleshooting Java applications that use
+desktop technologies, see the following guide: <i>Troubleshooting
+Guide for Java SE 7 Desktop Technologies</i>.</p>
+<a name="gdtqa" id="gdtqa"></a>
+<h3>Java HotSpot Virtual Machine</h3>
+<p>The Java HotSpot virtual machine provides a runtime environment
+for instructions that were generated by a Java compiler. The JDK
+provides two implementations of the Java virtual machine: client VM
+and server VM. These two systems are essentially two different
+just-in-time compilers interfacing with the same runtime
+system.</p>
+<ul>
+<li>
+<p>Client VM. This implementation is installed on platforms that
+are typically used for client, or desktop, applications. The client
+VM is tuned to reduce startup time and memory footprint. It is
+invoked by using the <tt>-client</tt> command-line option when
+launching an application.</p>
+</li>
+<li>
+<p>Server VM. This implementation is installed on all platforms.
+The server VM is designed for maximum program execution speed. It
+is invoked by using the <tt>-server</tt> command-line option when
+launching an application.</p>
+</li>
+</ul>
+<p>The default implementation depends on the platform and the class
+of the machine. <!--
+For full details, see <a
+href="http://java.sun.com/docs/hotspot/gc5.0/ergo5.html">Ergonomics in the 5.0
+Java[tm] Virtual Machine</a>.
+--></p>
+<p>More information on the Java Hotspot VM can be found at the
+following locations:</p>
+<ul>
+<li>
+<p><a href=
+"http://www.oracle.com/technetwork/java/javase/tech/index-jsp-136373.html">
+Java SE HotSpot at a Glance</a></p>
+</li>
+<li>
+<p><a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/vm/index.html">
+Java Virtual Machine Technology, on the Java SE 7 web site</a></p>
+</li>
+</ul>
+<a name="gbdaa" id="gbdaa"></a>
+<h3>Who Should Use This Guide</h3>
+<p>The target audience for this document comprises developers who
+are working with JDK 7, as well as support or administration
+personnel who maintain applications that are deployed with JDK
+7.</p>
+<p>This document is intended for readers with a high-level
+understanding of the components of the Java Virtual Machine, as
+well as some understanding of concepts such as garbage collection,
+threads, native libraries, and so on. In addition, it is assumed
+that the reader is reasonably proficient on the operating system
+where the Java application is installed.</p>
+<a name="gbdae" id="gbdae"></a>
+<h3>How This Guide Is Organized</h3>
+<p>The first chapter of this document introduces the various
+diagnostic and monitoring tools, utilities, options, and system
+properties that are available for troubleshooting in JDK 7. The
+chapter also provides a summary of tools and options by category.
+Note that tool availability depends on the platform: Solaris
+Operating System (Solaris OS), Linux, or Windows. Read this chapter
+to get acquainted with the capabilities of the utilities and
+options that are available.</p>
+<p>The second chapter describes the troubleshooting tools in
+detail. The chapter also provides a list of the operating system
+tools and utilities that may be used in conjunction with the 
+JDK utilities and options. Finally, the chapter describes in detail
+how you can develop new tools using the APIs provided in the JDK.</p>
+<p>The third through fifth chapters suggest procedures to try when
+you encounter a problem with memory leaks, crashes, or hangs.</p>
+<p>The sixth chapter deals with applications that use signal
+handlers.</p>
+<p>The last chapter provides suggestions on what to try before
+submitting a bug report, guidance on how to submit a report, and
+suggestions on what data to collect for the report.</p>
+<p>Finally, there is an appendix for each of the following
+reference areas: environment variables, command line options,
+details about the format of the fatal error report, and a list of
+tools in this release.</p>
+<a name="gcvve" id="gcvve"></a>
+<h3>Feedback and Suggestions</h3>
+<p>Troubleshooting is a very important topic. If you have feedback
+on this document or if you have suggestions for topics that could
+be covered in a future version, <a href=
+"http://download.oracle.com/javase/feedback.html">please send your
+comments</a>.</p>
+<!--
+<div class="note"><hr><p><b>Note - </b>Do not use this feedback form for support requests; they will not be
+answered. Technical support is provided at the <a href="http://developers.sun.com/services">Services site for Sun Developer Network</a>.</p>
+<hr></div>
+-->
+<a name="gbdbo" id="gbdbo"></a>
+<h3>Other Resources</h3>
+<p>Troubleshooting information for J2SE 1.5 is described in the
+<a href="http://java.sun.com/j2se/1.5/pdf/jdk50_ts_guide.pdf">Java
+2 Platform, Standard Edition 5.0, Troubleshooting and Diagnostic
+Guide</a>.</p>
+<p>In addition, the following online troubleshooting resources are
+available:</p>
+<ul>
+<li>
+<p>The article <a href=
+"http://java.sun.com/developer/technicalArticles/J2SE/monitoring/">Monitoring
+and Managing Java SE 6 Platform Applications</a> describes the most
+common problems in Java applications and suggests how to use
+several tools for troubleshooting these problems.</p>
+</li>
+<li>
+<p>The article <a href=
+"http://java.sun.com/developer/technicalArticles/javase/troubleshoot/">
+Troubleshooting Java SE 6 Deployment</a> explores several ways to
+troubleshoot running Java applications, with examples.</p>
+</li>
+<li>
+<p>The <a href=
+"http://java.sun.com/performance/reference/whitepapers/tuning.html">
+Java Tuning White Paper</a> provides performance tuning
+information, techniques, and pointers for the Java programming
+language.</p>
+</li>
+<li>
+<p>The <a href=
+"http://www.oracle.com/technetwork/java/javase/tech/index-jsp-136373.html">
+Documentation for the Java HotSpot VM</a> provides information
+about performance tuning of the Java HotSpot virtual machine,
+including garbage collection tuning.</p>
+</li>
+<li><!--
+<p>The <a
+href="http://java.sun.com/javase/6/webnotes/install/jdk/install-windows.html#troubleshooting">Java
+SE 7 Release Notes, Microsoft Windows Installation (32&#8211;bit)</a> provides
+tips to work around issues that can arise during or following the installation
+of Java SE on Windows.</p></li> <li>
+-->
+<p>The <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/plugin/developer_guide/contents.html">
+Java Plug-in Guide</a> provides troubleshooting FAQ as well as
+information on how to enable tracing when trying to diagnose issues
+with the Java Plug-in.</p>
+</li>
+<li>
+<p>The <a href=
+"http://www.oracle.com/technetwork/java/javase/javawebstart/index.html">
+Java Web Start FAQ</a> has a troubleshooting section dealing with
+issues that might arise with Java Web Start.</p>
+</li>
+<li>
+<p>The <a href="http://bugs.sun.com/bugdatabase/">bug database</a>
+can be a useful resource to search for problems and solutions.</p>
+</li>
+<li>
+<p>The <a href=
+"http://www.sun.com/software/solaris/freeware/">Solaris Operating
+System Freeware site</a> is the source for freeware that is
+packaged for the Solaris Operating System.</p>
+</li>
+<li>
+<p>The <a href="http://www.sunfreeware.com/">Sunfreeware.com site
+(Freeware for Solaris)</a> explains how to download freeware that
+is packaged for the Solaris Operating System.</p>
+</li>
+<li>
+<p>The <a href=
+"http://hub.opensolaris.org/bin/view/Main/">OpenSolaris site</a> is
+the principle open source community site for OpenSolaris
+technology.</p>
+</li>
+<li>
+<p>The <a href="http://www.blastwave.org/">blastwave.org site</a>
+supports a collective effort to assemble free software that can be
+automatically installed on a Solaris computer.</p>
+</li>
+</ul>
+<!--
+<a name="gbdib"></a><h3>Commercial Support</h3>
+
+
+<p>Sun provides a wide range of support offerings, from developer technical support for
+software developers  using Sun development products or technologies, to support for production
+systems in enterprise environments. Two commercial support options are summarized here: developer technical
+support and Java mulitplatform support.</p>
+
+
+
+<a name="gbdgj"></a><h4>Developer Technical Support</h4>
+
+
+<p>Developer technical support is aimed at developers who are using Sun development products
+or technologies, and who are working at the source-code level of their own
+applications.</p>
+
+<p>This support offering includes response to technical questions, diagnostic and troubleshooting help, suggestions
+for best practices, bug escalation, and more.</p>
+
+<p>Details on these support offerings are provided at the <a href="http://developers.sun.com/services">Services site for Sun Developer Network</a>. This site
+steers you to information about developer support from Sun, for example:</p>
+<ul><li>
+
+<p><a href="http://developers.sun.com/">Sun Developer Solutions site</a></p></li>
+<li>
+
+<p><a href="http://www.sun.com/service/sse/">Sun Solution Support Engineering Services</a></p></li></ul>
+
+
+
+
+<a name="gbdgs"></a><h4>Java Multiplatform Support</h4>
+
+
+<p>The Java multiplatform support offering is designed to provide production support for shipping
+releases of Java technology-based applications using Sun's Java runtime environment (JRE) and distributed to
+end users in heterogeneous environments. This support offering helps to optimize application performance
+and to reduce time spent keeping applications up and running.</p>
+
+<p>The highest level of this support offering can include accelerated access to an
+engineer and emergency software fixes. Details on this support offering are available at
+the <a href="http://www.sun.com/service/javamultiplatform/index.xml">SunSpectrum Java MultiPlatform site</a>.</p>
+-->
+<a name="gbdhw" id="gbdhw"></a>
+<h3>Community Support</h3>
+<p>Community support can often be obtained using the Java
+Technology Forums. The forums provide a way to share information
+and locate solutions to problems. The forums are located at
+<a href="http://forums.oracle.com/forums/category.jspa?categoryID=285">
+http://forums.oracle.com/forums/category.jspa?categoryID=285</a>.</p>
+<a name="gentextid-139" id="gentextid-139"></a>
+<h3>Typographic Conventions</h3>
+<p>The following table describes the typographic conventions that
+are used in this book.</p>
+<a name="fwbjp" id="fwbjp"></a>
+<h6>Typographic Conventions</h6>
+<table border="0" cellpadding="0" cellspacing="0" class="dkgrey1"
+width="100%">
+<tr>
+<td>
+<table border="0" cellpadding="0" cellspacing="1" width="100%"
+class="vatop">
+<col width="20%" />
+<col width="45%" />
+<col width="34%" />
+<tr>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Typeface</div>
+</th>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Meaning</div>
+</th>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Example</div>
+</th>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>AaBbCc123</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">The names of commands, files, and directories,
+and onscreen computer output</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Edit your <tt>.login</tt> file.
+<p>Use <tt>ls <tt>-a</tt></tt> to list all files.</p>
+<p><tt>machine_name% you have mail.</tt></p>
+</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt><b>AaBbCc123</b></tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">What you type, contrasted with onscreen
+computer output</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10"><tt>machine_name%</tt> <tt><b>su</b></tt>
+<p><tt>Password:</tt></p>
+</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><var>aabbcc123</var></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Placeholder: replace with a real name or
+value</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">The command to remove a file is <tt>rm</tt>
+<var>filename</var>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><b>AaBbCc123</b></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Book titles, new terms, and terms to be
+emphasized</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Read Chapter 6 in the <i>User's Guide</i>.
+<p>A <b>cache</b> is a copy that is stored locally.</p>
+<p>Do <b>not</b> save the file.</p>
+<p><b>Note:</b> Some emphasized items appear bold online.</p>
+</div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<a name="fwbsd" id="fwbsd"></a>
+<h3>Shell Prompts in Command Examples</h3>
+<p>The following table shows the default UNIX system prompt and
+superuser prompt for shells that are included in the Solaris OS.
+Note that the default system prompt that is displayed in command
+examples varies, depending on the Solaris release.</p>
+<a name="fwbsz" id="fwbsz"></a>
+<h6>Shell Prompts</h6>
+<table border="0" cellpadding="0" cellspacing="0" class="dkgrey1"
+width="100%">
+<tr>
+<td>
+<table border="0" cellpadding="0" cellspacing="1" width="100%"
+class="vatop">
+<col width="50%" />
+<col width="50%" />
+<tr>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Shell</div>
+</th>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Prompt</div>
+</th>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">Bash shell, Korn shell, and Bourne shell</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10"><tt>$</tt></div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">Bash shell, Korn shell, and Bourne shell for
+superuser</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10"><tt>#</tt></div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">C shell</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10"><tt>machine_name%</tt></div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">C shell for superuser</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10"><tt>machine_name#</tt></div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<a name="eqqfd" id="eqqfd"></a>
+<h3>Related Third-Party Web Site References</h3>
+<p>Third-party URLs are referenced in this document and provide
+additional, related information.</p>
+<div class="note">
+<hr />
+<p><b>Note -</b> Oracle is not responsible for the availability of
+third-party web sites mentioned in this document. Oracle does not
+endorse and is not responsible or liable for any content,
+advertising, products, or other materials that are available on or
+through such sites or resources. Oracle will not be responsible or
+liable for any actual or alleged damage or loss caused or alleged
+to be caused by or in connection with use of or reliance on any
+such content, goods, or services that are available on or through
+such sites or resources.</p>
+<hr /></div>
+<a name="gdvun" id="gdvun"></a>
+<h3>Acknowledgments</h3>
+<p>Many people contributed technical expertise and other input to
+this guide: Alan Bateman (major contributor), Tim Bell (major
+contributor and reviewer), Stephen Bohne, Mandy Chung, Stuart
+Clements, Uday Dhanikonda (responsible engineering manager),
+Christine Dorffi, Daniel Fuchs, Jim Holmlund (major contributor and
+reviewer), David Holmes, Karen Kinnear, Peter LaPierre, James C.
+Lee, Antonia Lewis (writer), Teresa London, Srinivas Madishetty,
+Keith McGuigan, Kelly O'Hair, Coleen Phillimore, Leif Samuelsson,
+Bill Situ, A. Sundararajan, Jesse Suen, Adam Wisnewski.</p>
+<a name="gdvuv" id="gdvuv"></a>
+<h3>Document History</h3>
+<p>The following table tracks the changes in version of this
+guide.</p>
+<table border="0" cellpadding="0" cellspacing="0" class="dkgrey1"
+width="100%">
+<tr>
+<td>
+<table border="0" cellpadding="0" cellspacing="1" width="100%"
+class="vatop">
+<col width="23%" />
+<col width="76%" />
+<tr>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Version Date</div>
+</th>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Changes</div>
+</th>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">December 2006</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Original version.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">January 2007</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">New feedback form.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">May 2007</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Minor corrections.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">August 2007</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Corrections to tool support by platform.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">September 2007</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Addition to <tt>jmap</tt> entry in Appendix D.
+Minor corrections and improvements.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">November 2008</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Addition of the Java VisualVM tool.
+Corrections to changed link locations.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">June 2011</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Updates for JDK 7.</div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="BottomPageControlPane">
+<table class="pagecontrol">
+<tr>
+<td>
+<div class="pagefooterlinks">Copyright &#169;1995, 2011, Oracle
+and/or its affiliates. All rights reserved. <a href=
+"docinfo.html">Legal Notices</a></div>
+</td>
+<td class="pagenavlinks"><a href="docinfo.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="tools.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+</body>
+</html>

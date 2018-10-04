@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en" xml:lang="en">
+<head>
+<meta content="text/html; charset=us-ascii" http-equiv="Content-Type"/>
+<meta content="text/css" http-equiv="Content-Style-Type"/>
+<meta content="text/javascript" http-equiv="Content-Script-Type"/>
+<title>AWT Crashes</title>
+<meta content="Oracle DARB XHTML Converter (Mode = document) - Merged Version 1033" name="generator"/>
+<meta content="This guide helps you to troubleshoot issues that might occur with Java Client applications created on the Java Platform, Standard Edition (Java SE) and Java HotSpot VM." name="description"/>
+<meta content="2014-12-22T14:9:28Z" name="date"/>
+<meta content="noarchive" name="robots"/>
+<meta content="Java Platform, Standard Edition Troubleshooting Guide, Release 8" name="doctitle"/>
+<meta content="Release 8" name="relnum"/>
+<meta content="E54483-02" name="partnum"/>
+<meta content="JSTGD" name="docid"/>
+
+
+
+
+
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../webdesign/pubs8/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+
+                    <script>var w=window;if(w.performance||w.mozPerformance||w.msPerformance||w.webkitPerformance){var d=document;AKSB=w.AKSB||{},AKSB.q=AKSB.q||[],AKSB.mark=AKSB.mark||function(e,_){AKSB.q.push(["mark",e,_||(new Date).getTime()])},AKSB.measure=AKSB.measure||function(e,_,t){AKSB.q.push(["measure",e,_,t||(new Date).getTime()])},AKSB.done=AKSB.done||function(e){AKSB.q.push(["done",e])},AKSB.mark("firstbyte",(new Date).getTime()),AKSB.prof={custid:"322179",ustr:"",originlat:"0",clientrtt:"1",ghostip:"23.212.3.15",ipv6:false,pct:"10",clientip:"45.78.37.67",requestid:"2a56e3a9",region:"32996",protocol:"",blver:14,akM:"dsca",akN:"ae",akTT:"O",akTX:"1",akTI:"2a56e3a9",ai:"206465",ra:"false",pmgn:"",pmgi:"",pmp:"",qc:""},function(e){var _=d.createElement("script");_.async="async",_.src=e;var t=d.getElementsByTagName("script"),t=t[t.length-1];t.parentNode.insertBefore(_,t)}(("https:"===d.location.protocol?"https:":"http:")+"//ds-aksb-a.akamaihd.net/aksb.min.js")}</script>
+                    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs8/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://docs.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<b>Java Platform, Standard Edition Troubleshooting Guide</b><br/>
+
+<a href="toc.html">
+                Contents</a>&nbsp;&nbsp;&nbsp;<a href="awt005.html">
+                Previous</a>&nbsp;&nbsp;&nbsp;<a href="awt007.html">
+                Next</a><hr/><a id="CIHDCHGE" name="CIHDCHGE"/>
+<div id="JSTGD402">
+<div class="smallpagetitle"><h1><span>10.6</span> AWT Crashes</h1></div>
+<p>This topic describes how to determine if a crash is related to AWT, as well as how to troubleshoot such crashes.</p>
+<ul>
+<li>
+<p><b>To distinguish an AWT crash:</b></p>
+<p>When a crash occurs, an error log is created with information and the state obtained at the time of the crash. For detailed information about the fatal error log file, see <a href="felog.html#fatal_error_log_vm">Appendix A</a>.</p>
+<p>A line near the top of the file indicates the library where the error occurred. <a href="#CIHDIDEF">Example 10-3</a> shows a part of the error log file in the case when the crash was related to the AWT library.</p>
+<div id="JSTGD403"><a id="CIHDIDEF" name="CIHDIDEF"/>
+<p>Example 10-3 Error Log for AWT Library Crash</p>
+<pre dir="ltr" xml:space="preserve">
+...
+# Java VM: Java HotSpot(TM) Client VM (1.6.0-beta2-b76 mixed mode, sharing)
+# Problematic frame:
+# C  [awt.dll+0x123456]
+...
+</pre></div>
+
+<p>However, the crash can happen somewhere deep in the system libraries, although still caused by AWT. In such cases the indication <code dir="ltr">awt.dll</code> does not appear as a problematic frame, and you need to look further in the file, in the section <code dir="ltr">Stack: Native frames: Java frames</code> as shown in <a href="#CIHFEACJ">Example 10-4</a>.</p>
+<div id="JSTGD404"><a id="CIHFEACJ" name="CIHFEACJ"/>
+<p>Example 10-4 Error Log for Stack Native Frames</p>
+<pre dir="ltr" xml:space="preserve">
+Stack: [0x0aeb0000,0x0aef0000),  sp=0x0aeefa44,  free space=254k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  0x00abc751
+C  [USER32.dll+0x3a5f]
+C  [USER32.dll+0x3b2e]
+C  [USER32.dll+0x5874]
+C  [USER32.dll+0x58a4]
+C  [ntdll.dll+0x108f]
+C  [USER32.dll+0x5e7e]
+C  [awt.dll+0xec889]
+C  [awt.dll+0xf877d]
+j  sun.awt.windows.WToolkit.eventLoop()V+0
+j  sun.awt.windows.WToolkit.run()V+69
+j  java.lang.Thread.run()V+11
+v  ~StubRoutines::call_stub
+V  [jvm.dll+0x83c86]
+V  [jvm.dll+0xd870f]
+V  [jvm.dll+0x83b48]
+V  [jvm.dll+0x838a5]
+V  [jvm.dll+0x9ebc8]
+V  [jvm.dll+0x108ba1]
+V  [jvm.dll+0x108b6f]
+C  [MSVCRT.dll+0x27fb8]
+C  [kernel32.dll+0x202ed]
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  sun.awt.windows.WToolkit.eventLoop()V+0
+j  sun.awt.windows.WToolkit.run()V+69
+j  java.lang.Thread.run()V+11
+v  ~StubRoutines::call_stub
+</pre></div>
+
+<p>If the text <code dir="ltr">awt.dll</code> appears somewhere in the native frames, then the crash might be related to AWT.</p>
+</li>
+<li>
+<p><b>To troubleshoot an AWT crash:</b></p>
+<p>Most of the AWT crashes occur on the Windows platform and are caused by thread races. Many of these problems were fixed in Java SE 6, so if your crash occurred in an earlier release, first try to determine if the problem is already fixed in the latest release.</p>
+<p>One of the possible causes of crashes is that many AWT operations are asynchronous. For example, if you show a frame with a call to <code dir="ltr">frame.setVisible(true)</code>, then you cannot be sure that it will be the active window after the return from this call.</p>
+<p>Another example concerns native file dialogs. It takes some time for the operating system to initialize and show these dialogs, and if you dispose of them immediately after the call to <code dir="ltr">setVisible(true)</code>, then a crash might occur. Therefore, if your application contains some AWT calls running simultaneously or immediately one after another, it is a good idea to insert some delays between them or add some synchronization.</p>
+</li>
+</ul>
+</div>
+<a href="toc.html">
+                Contents</a>&nbsp;&nbsp;&nbsp;<a href="awt005.html">
+                Previous</a>&nbsp;&nbsp;&nbsp;<a href="awt007.html">
+                Next</a><hr/>
+
+
+
+
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

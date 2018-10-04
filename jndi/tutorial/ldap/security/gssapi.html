@@ -1,0 +1,501 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>GSS-API/Kerberos v5 Authentication</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="callback.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="mechanism.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Security</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    GSS-API/Kerberos v5 Authentication
+</h2>
+<p>
+<blockquote>
+
+<blockquote>
+<hr>
+<strong>Note:</strong>
+The LDAP provider's GSS-API implementation uses the
+Java Bindings for GSS-API
+(<A HREF="http://www.ietf.org/rfc/rfc2853.txt">RFC 2853</A>)
+for GSS-API/Kerberos v5 support.
+If you are using the <a href=http://java.sun.com/j2se/1.4>Java 2 SDK, v1.4</a>, then the Java GSS
+and Kerberos implementations are already included so you
+need to take no further action.
+Otherwise, you need to install a Java GSS and Kerberos implementation
+in order for the examples in this section to work.
+<hr>
+</blockquote>
+
+GSS-API is <em>Generic Security Service API</em> 
+(<A HREF="http://www.ietf.org/rfc/rfc2744.txt">RFC 2744</A>).
+It provides a common interface for accessing different security services.
+One of the most popular security services available for GSS-API is
+the Kerberos v5
+(see <A HREF="http://www.ietf.org/rfc/rfc1510.txt">RFC 1510</A> and
+<A HREF="http://www.ietf.org/rfc/rfc1964.txt">RFC 1964</A>).
+Kerberos v5 is the security system used in Microsoft's
+Windows 2000 platform.
+<p>
+The GSS-API SASL mechanism is described in 
+<a href="http://www.ietf.org/rfc/rfc2222.txt">RFC 2222</a>.
+It specifies how GSS-API services can be used for SASL authentication
+and establishment of a security layer.
+The GSS-API SASL mechanism was
+originally intended to support any GSS-API implementation, not just
+Kerberos v5. However, some problems related to the secure
+negotiation of a GSS-API mechanism beneath the SASL layer were identified
+and the GSS-API SASL mechanism was retrofitted to mean only Kerberos v5.
+The GSS-API SASL mechanism is supported only by LDAP v3 servers.
+The LDAP servers that support the GSS-API SASL mechanism
+include Windows 2000's Active Directory server, OpenLDAP, and
+the SunONE Directory Server v5.2.
+<p>
+The use of the GSS-API SASL authentication mechanism requires a
+slightly different programming model than the use of the other SASL
+mechanisms that have been shown previously.  This is because the
+GSS-API/Kerberos subsystem is a security system for the entire Java
+platform, whereas SASL mechanisms such as Digest-MD5 and CRAM-MD5 are
+independent authentication mechanisms.  In other words, the
+GSS-API/Kerberos subsystem allows a Java application to authenticate to
+Kerberos once, and then use the acquired security credentials to 
+access a whole array of services securely, including directory
+services. Mechanisms such as Digest-MD5 and CRAM-MD5 provide security
+only for a single LDAP session with an LDAP server.
+<p>
+To use the GSS-API SASL mechanism, you must do the following.
+<ol>
+<li>Authenticate to Kerberos.
+<li>Assume the identity of the authenticated principal.
+<li>When creating the initial context, set the
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_AUTHENTICATION><tt>Context.SECURITY_AUTHENTICATION</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_AUTHENTICATION><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+ environment property to the string <tt>"GSSAPI"</tt>.
+</ol>
+
+In a standalone application, you would have to perform all three
+steps.  However, in an applet environment or other container
+environments, the first two steps might be performed for you already if
+you are accessing a directory service that uses the same Kerberos
+service as the container. This section shows how to perform all three steps.
+<p>
+
+<h4>Authenticating to Kerberos</h4>
+
+
+<p>
+On the Java platform, you use the <a href=http://java.sun.com/security/jaas>Java Authentication and 
+Authorization Service (JAAS)</a> for authentication to security services.
+We give enough details in this section to show how to use the JAAS to 
+authenticate to Kerberos.
+For additional information and examples, see the
+<a href=http://java.sun.com/j2se/1.4/docs/guide/security/jgss/tutorials/index.html>JAAS and
+Java GSS-API Tutorials</a>.
+<p>
+A Java application logs into one or more security systems by first creating a
+<a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/login/LoginContext.html"><tt>LoginContext</tt></a><a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/login/LoginContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+You supply to the 
+<a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/login/LoginContext.html#LoginContext(java.lang.String, javax.security.auth.callback.CallbackHandler)"><tt>LoginContext</tt>&nbsp;constructor</a><a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/login/LoginContext.html#LoginContext(java.lang.String, javax.security.auth.callback.CallbackHandler)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+
+the name of the
+class that is doing the authentication and a
+<a target="_top" href=http://java.sun.com/security/jaas/apidoc/javax/security/auth/callback/CallbackHandler.html><tt>CallbackHandler</tt></a><a target="_top" href=http://java.sun.com/security/jaas/apidoc/javax/security/auth/callback/CallbackHandler.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+
+Here is <a href=src/GssExample.java>code</a> that creates a <tt>LoginContext</tt>.
+<blockquote><pre>
+LoginContext lc = new LoginContext(GssExample.class.getName(), new SampleCallbackHandler());
+</pre></blockquote>
+
+The class name is used by the JAAS to identify the login modules that are
+required for the class. The JAAS allows dynamic configuration of login modules.
+When the program is run, you specify a JAAS configuration file
+that specifies the login modules to use.
+Here is a <a href=src/gsseg_jaas.conf>configuration file</a> that
+requests a Kerberos v5 authentication module for the our 
+sample program named <tt>GssExample</tt>.
+<blockquote><pre>
+GssExample {
+  com.sun.security.auth.module.Krb5LoginModule required client=TRUE;
+};
+</pre></blockquote>
+
+<p>
+The <tt>CallbackHandler</tt> is used by the
+login modules to obtain the required authentication information.  The
+Kerberos v5 login module, for example, requires a username and
+password.
+In the example, the callback handler is
+<a href=src/SampleCallbackHandler.java>SampleCallbackHandler</a>,
+the same handler we used for the <a href=callback.html>CRAM-MD5 
+callback example</a>.
+
+<p>
+After you have create an instance of <tt>LoginContext</tt>, you
+perform the authentication by invoking
+
+<a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/login/LoginContext.html#login()"><tt>LoginContext.login()</tt></a><a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/login/LoginContext.html#login()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+This method throws a subclass of <tt>LoginException</tt> if the authentication
+fails. The exception indicates the cause of the failure.
+For certain exceptions, such as
+<a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/login/FailedLoginException.html"><tt>FailedLoginException</tt></a><a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/login/FailedLoginException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, you might want to reattempt the authentication
+by reinvoking <tt>login()</tt> in case the failure was due to a mistyped password
+or username.
+<p>
+Here is
+<a href=src/GssExample.java>an example</a> that performs the authentication without
+any retries. 
+<blockquote><pre>
+// 1. Log in (to Kerberos)
+LoginContext lc = null;
+try {
+    lc = new LoginContext(GssExample.class.getName(),
+	new SampleCallbackHandler());
+
+    // Attempt authentication
+    // You might want to do this in a "for" loop to give
+    // user more than one chance to enter correct username/password
+    lc.login();
+
+} catch (LoginException le) {
+    System.err.println("Authentication attempt failed" + le);
+    System.exit(-1);
+}
+</pre></blockquote>
+
+<h4>Assuming the Identity of the Authenticated Principal</h4>
+
+To act on behalf of the authenticated principal, 
+use one of the following methods.
+<ul>
+<li>
+<a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/Subject.html#doAs(javax.security.auth.Subject, java.security.PrivilegedAction)"><tt>Subject.doAs(Subject, PrivilegedAction)</tt></a><a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/Subject.html#doAs(javax.security.auth.Subject, java.security.PrivilegedAction)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+<li>
+<a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/Subject.html#doAs(javax.security.auth.Subject, java.security.PrivilegedExceptionAction)"><tt>Subject.doAs(Subject, PrivilegedExceptionAction)</tt></a><a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/Subject.html#doAs(javax.security.auth.Subject, java.security.PrivilegedExceptionAction)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+<li>
+<a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/Subject.html#doAsPrivileged(javax.security.auth.Subject, java.security.PrivilegedAction, java.security.AccessControlContext)"><tt>Subject.doAsPrivileged(Subject, PrivilegedAction, AccessControlContext)</tt></a><a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/Subject.html#doAsPrivileged(javax.security.auth.Subject, java.security.PrivilegedAction, java.security.AccessControlContext)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+<li>
+<a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/Subject.html#doAsPrivileged(javax.security.auth.Subject, java.security.PrivilegedExceptionAction, java.security.AccessControlContext)"><tt>Subject.doAsPrivileged(Subject, PrivilegedExceptionAction, AccessControlContext)</tt></a><a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/Subject.html#doAsPrivileged(javax.security.auth.Subject, java.security.PrivilegedExceptionAction, java.security.AccessControlContext)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></ul>
+The 
+
+<a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/Subject.html"><tt>Subject</tt></a><a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/Subject.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+argument is obtained by invoking
+
+<a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/login/LoginContext.html#getSubject()"><tt>LoginContext.getSubject()</tt></a><a target="_top" href="http://java.sun.com/security/jaas/apidoc/javax/security/auth/login/LoginContext.html#getSubject()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+on the <tt>LoginContext</tt> that was used for Kerberos authentication.
+
+<a target="_top" href=http://java.sun.com/j2se/1.4/docs/api/java/security/PrivilegedAction.html><tt>PrivilegedAction</tt></a><a target="_top" href=http://java.sun.com/j2se/1.4/docs/api/java/security/PrivilegedAction.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+and
+
+<a target="_top" href=http://java.sun.com/j2se/1.4/docs/api/java/security/PrivilegedAction.html><tt>PrivilegedExceptionAction</tt></a><a target="_top" href=http://java.sun.com/j2se/1.4/docs/api/java/security/PrivilegedAction.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+define the computation to be performed with the privileges of the
+authenticated user enabled.
+<tt>PrivilegedAction</tt> and <tt>PrivilegedExceptionAction</tt>
+are used for computations that, respectively,
+do and do not throw checked exceptions.
+The
+
+<a target="_top" href=http://java.sun.com/j2se/1.4/docs/api/java/security/AccessControlContext.html><tt>AccessControlContext</tt></a><a target="_top" href=http://java.sun.com/j2se/1.4/docs/api/java/security/AccessControlContext.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    argument is used to specify a security context to use other than that of the
+caller. For example, a worker thread might use
+the security context of its master instead of its own.
+For more information about security contexts, <tt>PrivilegedAction</tt>
+and <tt>PrivilegedExceptionAction</tt>, see the 
+<a href=http://java.sun.com/j2se/1.4.1/docs/guide/security/spec/security-spec.doc.html>Java 2 Platform Security Architecture</a>.
+
+<p>
+Continuing with our example, we need to define a class that implements either
+<tt>PrivilegedAction</tt> or <tt>PrivilegedExceptionAction</tt> and
+encapsulate the JNDI calls within the class's <tt>run()</tt> method.
+In our example, we defined a class called
+<a href=src/GssExample.java><tt>JndiAction</tt></a> that performs the directory
+access calls using the JNDI. 
+(The definition of <tt>JndiAction</tt> is described in the next section.)
+The <a href=src/GssExample.java>following code</a> executes <tt>JndiAction</tt>'s
+<tt>run()</tt> method with the privileges of
+the authenticated Kerberos principal enabled.
+
+<blockquote><pre>
+Subject.doAs(lc.getSubject(), new JndiAction(args));
+</pre></blockquote>
+
+<h4>Performing the JNDI Task</h4>
+
+From within the 
+
+<a target="_top" href="http://java.sun.com/j2se/1.4/docs/api/java/security/PrivilegedAction.html#run()"><tt>PrivilegedAction.run()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.4/docs/api/java/security/PrivilegedAction.html#run()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+and
+
+<a target="_top" href="http://java.sun.com/j2se/1.4/docs/api/java/security/PrivilegedAction.html#run()"><tt>PrivilegedExceptionAction.run()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.4/docs/api/java/security/PrivilegedAction.html#run()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>methods, the JNDI calls are made in the same way as described in
+the rest of this book. 
+Remember to make the calls in the class's <tt>run()</tt> method
+(not its constructor).
+The only thing to note is that when
+you specify the hostname in the URL in the
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#PROVIDER_URL"><tt>Context.PROVIDER_URL</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#PROVIDER_URL"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    property, be sure to use the name that the host is known as in the
+Kerberos database.
+Typically, this means using the fully qualified hostname.
+If you use a name that is not in the Kerberos database, the program will
+fail with an authentication error.
+<p>
+The <a href=src/GssExample.java>following code</a> shows how to
+set the environment properties for
+performing authentication using the GSS-API SASL mechanism.
+
+<blockquote><pre>
+env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+
+// Must use fully qualified hostname
+env.put(Context.PROVIDER_URL, "ldap://ldap.jnditutorial.org:389/o=JndiTutorial");
+
+// Request the use of the "GSSAPI" SASL mechanism
+// Authenticate by using already established Kerberos credentials
+env.put(Context.SECURITY_AUTHENTICATION, "GSSAPI");
+</pre></blockquote>
+<p>
+Here is the complete definition of <a href=src/GssExample.java>JndiAction</a>.
+<blockquote><pre>
+class JndiAction implements java.security.PrivilegedAction {
+    private String[] args;
+
+    public JndiAction(String[] origArgs) {
+	this.args = (String[])origArgs.clone();
+    }
+
+    public Object run() {
+	performJndiOperation(args);
+	return null;
+    }
+
+    private static void performJndiOperation(String[] args) {
+
+	// Set up environment for creating initial context
+	Hashtable env = new Hashtable(11);
+
+	env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+
+	// Must use fully qualified hostname
+	env.put(Context.PROVIDER_URL, "ldap://ldap.jnditutorial.org:389/o=JndiTutorial");
+    
+	// Request the use of the "GSSAPI" SASL mechanism
+	// Authenticate by using already established Kerberos credentials
+	env.put(Context.SECURITY_AUTHENTICATION, "GSSAPI");
+
+	try {
+	    /* Create initial context */
+	    DirContext ctx = new InitialDirContext(env);
+
+	    // do something useful with ctx
+		...
+
+	    // Close the context when we're done
+	    ctx.close();
+	} catch (NamingException e) {
+	    e.printStackTrace();
+	}
+    }
+}
+</pre></blockquote>
+
+<h4>Running the Example</h4>
+
+Before running the example, ensure that the Kerberos configuration
+that you are using is for the Kerberos system that is also being used
+by your target directory server.  Kerberos configuration differs on
+different operating system platforms.  For our example, we use a
+configuration file supplied in the command line.  To run the example
+in your environment, you must change at a minimum the realm
+declaration and the hostname of the Kerberos server (i.e., the
+Kerberos Key Distribution Center, or Kerberos KDC). 
+Suppose we are using the Kerberos realm <tt>JNDITUTORIAL.ORG</tt>
+and the Kerberos server <tt>kerberos.jnditutorial.org</tt>.
+The first few lines of the <a href=src/krb5.conf>configuration file</a>
+would look as follows.
+<p>
+<blockquote><pre>
+[libdefaults]
+        default_realm = JNDITUTORIAL.ORG
+	default_checksum = rsa-md5
+
+[realms]
+        JNDITUTORIAL.ORG = {
+                kdc = kerberos.jnditutorial.org
+        }
+
+[domain_realm]
+	.jnditutorial.org = JNDITUTORIAL.ORG
+</pre></blockquote>
+
+You might need to change the <tt>default_checksum</tt> setting
+and some other settings
+in the file depending on the ciphers and features supported by
+the Kerberos server.
+<p>
+Here is the command line for 
+running the program using <a href=src/krb5.conf>this configuration file</a> and 
+<a href=src/gsseg_jaas.conf>the JAAS configuration
+file</a> shown previously. This assumes the use of the 
+<a href=http://java.sun.com/j2se/1.4>Java 2 SDK, v1.4</a>.
+<blockquote><pre>
+# java \
+    -Djava.security.auth.login.config=gsseg_jaas.conf \
+    -Djava.security.krb5.conf=krb5.conf \
+    GssExample
+</pre></blockquote>
+
+When you run this program, it will prompt you for the username and password
+of the Kerberos principal being authenticating.
+
+<h4>Permissions</h4>
+If you run this example with a security manager installed,
+or if you adapt this example to work in an applet, then you need
+to grant the program or applet permission to connect to the Kerberos
+server and to initiate service requests with both the Kerberos and LDAP servers.
+These permissions
+are in addition to the permissions you need to connect to the LDAP server.
+The application, or the applet if it will be performing the Kerberos
+authentication, also needs permission to create a <tt>LoginContext</tt>
+and to invoke the <tt>doAs()</tt> method.
+Here are <a href=src/krb5.policy>the permissions</a>
+used for our example.
+For your own code, replace <tt>GssExample</tt> with the class name of your program,
+<tt>JNDITUTORIAL.ORG</tt> with your Kerberos realm name, 
+and <tt>ldap.jnditutorial.org</tt> and <tt>kerberos.jnditutorial.org</tt>
+with the hostnames of the LDAP and Kerberos servers, respectively.
+Also, insert the codebase of the program in the <tt>grant</tt> statement.
+<p>
+<blockquote><pre>
+
+permission java.net.SocketPermission "ldap.jnditutorial.org", "connect";
+permission java.net.SocketPermission "kerberos.jnditutorial.org", "connect";
+
+permission javax.security.auth.AuthPermission "createLoginContext.GssExample";
+permission javax.security.auth.AuthPermission "doAs";	
+
+permission javax.security.auth.kerberos.ServicePermission "krbtgt/JNDITUTORIAL.ORG@JNDITUTORIAL.ORG", "initiate";
+permission javax.security.auth.kerberos.ServicePermission "ldap/ldap.jnditutorial.org@JNDITUTORIAL.ORG", "initiate";
+</pre></blockquote>
+
+To run the example with a security manager installed, enter the following.
+The <a href=src/krb5.policy><tt>krb5.policy</tt></a> file is the security policy file that contains the
+permissions.
+<blockquote><pre>
+# java \
+    -Djava.security.auth.login.config=gsseg_jaas.conf \
+    -Djava.security.krb5.conf=krb5.conf \
+    -Djava.security.manager \
+    -Djava.security.policy=krb5.policy \
+    GssExample
+</pre></blockquote>
+
+
+<h4>Setting Additional Parameters</h4>
+
+You may request integrity and privacy protection by using the
+<a href=sasl.html#qop><tt>"javax.security.sasl.qop"</tt></a>
+environment property. Cipher selection is configured via
+the Kerberos configuration mechanism (such as the configuration file);
+the <a href=sasl.html#strength><tt>"javax.security.sasl.strength"</tt></a>
+environment property is ignored.
+<p>
+When requesting integrity or privacy protection, you may
+specify the maximum receive buffer size to use by using
+the <a href=sasl.html#maxbuf><tt>"javax.security.sasl.maxbuffer"</tt></a>
+environment property.
+If you do not specify a maximum, then an implementation-dependent default is used.
+<p>
+When requesting to use an authorization id different from the
+authentication id, use the
+<a href=sasl.html#authzid><tt>"java.naming.security.sasl.authorizationId"</tt></a>
+environment property.
+
+<blockquote>
+<hr>
+<strong>Note:</strong>
+The Active Directory in Windows 2000 ignores the maximum receive buffer size
+and the authorization id.
+<hr>
+</blockquote>
+
+<p>
+To request mutual authentication, set the
+<a href=sasl.html#mutual><tt>"javax.security.sasl.server.authentication"</tt></a>
+environment property to <tt>"true"</tt>.
+The <a href=src/Mutual.java>following code</a> shows how to
+set the environment properties for
+performing mutual authentication using the GSS-API SASL mechanism.
+
+<blockquote><pre>
+env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+
+// Must use fully qualified hostname
+env.put(Context.PROVIDER_URL, "ldap://ldap.jnditutorial.org:389/o=JndiTutorial");
+
+// Request the use of the "GSSAPI" SASL mechanism
+// Authenticate by using already established Kerberos credentials
+env.put(Context.SECURITY_AUTHENTICATION, "GSSAPI");
+
+// Request mutual authentication
+env.put("javax.security.sasl.server.authentication", "true");
+</pre></blockquote>
+
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="callback.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="mechanism.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Security</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>
+

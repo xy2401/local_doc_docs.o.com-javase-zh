@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>D MediaPlayer.java (Release 8)</title>
+<meta name="description" content="For a description, see Leveraging Applications with Media Features.">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXIP.pdf">PDF</a> | <a href="../JFXIP.epub">ePub</a> | <a href="../JFXIP.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Interoperability</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="sampletablemodeljava.htm">Previous Page</a><a class="button" title="Next Page" href="mediacontroljava.htm">Next Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="CBBGGGEB" name="CBBGGGEB" class="anchor"></a><a id="JFXIP671" name="JFXIP671" class="anchor"></a>
+<h1 class="appendix"><span class="secnum">D</span> MediaPlayer.java</h1>
+<a id="JFXIP765" name="JFXIP765" class="anchor"></a>
+<p>For a description, see <a href="media-player.htm#BGBDICDI">Leveraging Applications with Media Features</a>.</p>
+<a id="JFXIP766" name="JFXIP766" class="anchor"></a>
+<p class="subhead2">Legal Terms and Copyright Notice</p>
+<pre xml:space="preserve" class="oac_no_warn">/*
+ * Copyright (c) 2011, 2014, Oracle and/or its affiliates.
+ * All rights reserved. Use is subject to license terms.
+ *
+ * This file is available and licensed under the following license:
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  - Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *  - Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the distribution.
+ *  - Neither the name of Oracle nor the names of its
+ *    contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+</pre>
+<a id="JFXIP767" name="JFXIP767" class="anchor"></a>
+<p class="subhead2">Code</p>
+<pre xml:space="preserve" class="oac_no_warn">package mediaplayer;
+ 
+import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.stage.Stage;
+ 
+public class MediaPlayer extends Application {
+    private static final String MEDIA_URL = "http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv";
+    private static String arg1;
+ 
+    @Override public void start(Stage stage) {
+        stage.setTitle("Media Player");
+        Group root = new Group();
+        Scene scene = new Scene(root,600,265);
+        // create media player
+        Media media = new Media((arg1 != null) ? arg1 : MEDIA_URL);
+        javafx.scene.media.MediaPlayer mediaPlayer = new javafx.scene.media.MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        MediaControl mediaControl = new MediaControl(mediaPlayer);
+        scene.setRoot(mediaControl);
+        scene.getStylesheets().add(MediaPlayer.class.getResource("mediaplayer.css").toExternalForm());
+        // show stage
+        stage.setScene(scene);
+        stage.show();
+    }
+ 
+    public static void main(String[] args) {
+        if (args.length &gt; 0) {
+            arg1 = args[0];
+        }
+        Application.launch(args);
+    }
+}
+</pre>
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Interoperability</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">About This Document</a></li>
+        <li><a href="preface.htm#sthref4">Audience</a></li>
+        <li><a href="preface.htm#sthref5">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref7">Related Documents</a></li>
+        <li><a href="preface.htm#sthref8">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a href="fx_concurrency.htm#sthref9">Part I Concurrency in JavaFX</a>
+    <ul>
+    <li><a href="concurrency.htm#JFXIP546">1 Concurrency in JavaFX</a>
+      <ul>
+        <li><a href="concurrency.htm#sthref10">Why Use the javafx.concurrent Package?</a></li>
+        <li><a href="concurrency.htm#sthref11">Overview of the javafx.concurrent Package</a>
+          <ul>
+          <li><a href="concurrency.htm#JFXIP549">The Worker Interface</a></li>
+          <li><a href="concurrency.htm#JFXIP550">The Task Class</a></li>
+          <li><a href="concurrency.htm#JFXIP556">The Service Class</a></li>
+          <li><a href="concurrency.htm#JFXIP558">The WorkerStateEvent Class and State Transitions</a></li>
+          <li><a href="concurrency.htm#JFXIP800">The ScheduledService Class</a></li>
+          </ul>
+        </li>
+        <li><a href="concurrency.htm#sthref16">Conclusion</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="fx_swing.htm#JFXIP561">Part II JavaFX-Swing Interoperability</a>
+    <ul>
+    <li><a href="overview.htm#JFXIP102">2 The JavaFX Advantage for Swing Developers</a>
+      <ul>
+        <li><a href="overview.htm#sthref17">Using FXML</a></li>
+        <li><a href="overview.htm#sthref18">JavaFX Scene Builder</a></li>
+        <li><a href="overview.htm#sthref19">CSS Support</a></li>
+        <li><a href="overview.htm#sthref20">JavaFX Media Support</a></li>
+        <li><a href="overview.htm#sthref21">Animation</a></li>
+        <li><a href="overview.htm#sthref22">HTML Content</a></li>
+      </ul>
+    </li>
+    <li><a href="swing-fx-interoperability.htm#JFXIP109">3 Integrating JavaFX into Swing Applications</a>
+      <ul>
+        <li><a href="swing-fx-interoperability.htm#sthref23">Adding JavaFX Content to a Swing Component</a></li>
+        <li><a href="swing-fx-interoperability.htm#sthref24">Swing&#x2013;JavaFX Interoperability and Threads</a>
+          <ul>
+          <li><a href="swing-fx-interoperability.htm#sthref25">Changing JavaFX Data in Response to a Change in Swing Data</a></li>
+          <li><a href="swing-fx-interoperability.htm#sthref26">Changing Swing Data in Response to a Change in JavaFX Data</a></li>
+          </ul>
+        </li>
+        <li><a href="swing-fx-interoperability.htm#sthref27">Introducing the SimpleSwingBrowser Application</a>
+          <ul>
+          <li><a href="swing-fx-interoperability.htm#sthref29">Initializing Swing Data</a></li>
+          <li><a href="swing-fx-interoperability.htm#sthref30">Loading JavaFX Content</a></li>
+          <li><a href="swing-fx-interoperability.htm#sthref31">Updating Swing Data</a></li>
+          </ul>
+        </li>
+        <li><a href="swing-fx-interoperability.htm#sthref32">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a href="jtable-barchart.htm#JFXIP131">4 Enriching Swing Applications with JavaFX Functionality</a>
+      <ul>
+        <li><a href="jtable-barchart.htm#sthref35">Sample Swing Application</a></li>
+        <li><a href="jtable-barchart.htm#sthref37">Integrating JavaFX Bar Chart</a></li>
+        <li><a href="jtable-barchart.htm#sthref39">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a href="media-player.htm#JFXIP147">5 Leveraging Applications with Media Features</a>
+      <ul>
+        <li><a href="media-player.htm#sthref42">About Media Integration</a></li>
+        <li><a href="media-player.htm#sthref43">Building the Media Player Application</a>
+          <ul>
+          <li><a href="media-player.htm#sthref45">Skinning the Application with CSS</a></li>
+          <li><a href="media-player.htm#sthref46">Adding a New Control to the Control Bar</a></li>
+          </ul>
+        </li>
+        <li><a href="media-player.htm#sthref47">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a href="port-to-javafx.htm#JFXIP164">6 Implementing a Swing Application in JavaFX</a>
+      <ul>
+        <li><a href="port-to-javafx.htm#sthref51">Analyzing the Converter Application Developed in Swing</a></li>
+        <li><a href="port-to-javafx.htm#sthref52">Planning the Converter Application in JavaFX</a></li>
+        <li><a href="port-to-javafx.htm#sthref53">Creating the Converter Application in JavaFX</a>
+          <ul>
+          <li><a href="port-to-javafx.htm#sthref54">Standard JavaFX Pattern to Create the GUI</a></li>
+          <li><a href="port-to-javafx.htm#sthref55">Containers and Layouts</a></li>
+          <li><a href="port-to-javafx.htm#sthref56">UI Controls</a></li>
+          <li><a href="port-to-javafx.htm#sthref57">Mechanism of Getting Notifications on User Actions and Binding</a></li>
+          <li><a href="port-to-javafx.htm#sthref58">Creating the ConversionPanel Class</a></li>
+          <li><a href="port-to-javafx.htm#sthref64">Creating the Converter Class</a></li>
+          </ul>
+        </li>
+        <li><a href="port-to-javafx.htm#sthref69">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a href="embed-swing.htm#JFXIP566">7 Embedding Swing Content in JavaFX Applications</a>
+      <ul>
+        <li><a href="embed-swing.htm#sthref72">SwingNode Class</a></li>
+        <li><a href="embed-swing.htm#sthref74">Embedding Swing Content and Handling Events</a></li>
+        <li><a href="embed-swing.htm#sthref76">Adding Interoperability Between Swing and JavaFX Components</a></li>
+        <li><a href="embed-swing.htm#sthref81">Conclusion</a></li>
+        <li><a href="embed-swing.htm#sthref82">Application Files</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="fx_swt.htm#sthref85">Part III Interoperability with SWT</a>
+    <ul>
+    <li><a href="fx-swt_interoperability.htm#JFXIP101">8 JavaFX Interoperability with SWT</a>
+      <ul>
+        <li><a href="fx-swt_interoperability.htm#JFXIP543">Introduction</a></li>
+        <li><a href="fx-swt_interoperability.htm#JFXIP606">Adding JavaFX Content to an SWT Component</a></li>
+        <li><a href="fx-swt_interoperability.htm#JFXIP541">Creating SWT-JavaFX Applications in an IDE</a></li>
+        <li><a href="fx-swt_interoperability.htm#JFXIP609">Packaging SWT-JavaFX Applications</a>
+          <ul>
+          <li><a href="fx-swt_interoperability.htm#sthref89">Packaging the Application when JavaFX is Bundled with the JDK</a></li>
+          <li><a href="fx-swt_interoperability.htm#sthref90">Packaging the Application with a Standalone JavaFX Installation</a></li>
+          </ul>
+        </li>
+        <li><a href="fx-swt_interoperability.htm#JFXIP799">Application Files</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="sample-source-code.htm#sthref92">Part IV Source Code for the Interoperability Tutorial</a>
+    <ul>
+    <li><a href="simpleswingbrowserjava.htm#JFXIP620">A SimpleSwingBrowser.java</a></li>
+    <li><a href="swinginteropjava.htm#JFXIP637">B SwingInterop.java</a></li>
+    <li><a href="sampletablemodeljava.htm#JFXIP654">C SampleTableModel.java</a></li>
+    <li><a class="selected" href="mediaplayerjava.htm#JFXIP671">D MediaPlayer.java</a></li>
+    <li><a href="mediacontroljava.htm#JFXIP688">E MediaControl.java</a></li>
+    <li><a href="mediaplayercss.htm#JFXIP795">F mediaplayer.css</a></li>
+    <li><a href="converterjava.htm#JFXIP705">G Converter.java</a></li>
+    <li><a href="conversionpaneljava.htm#JFXIP722">H ConversionPanel.java</a></li>
+    <li><a href="swingnodesamplejava.htm#JFXIP739">I SwingNodeSample.java</a></li>
+    <li><a href="buttonhtmldemojava.htm#JFXIP784">J ButtonHtmlDemo.java</a></li>
+    <li><a href="enablefxbuttonjava.htm#JFXIP756">K EnableFXButton.java</a></li>
+    <li><a href="enablebuttonsjava.htm#JFXIP791">L EnableButtons.java</a></li>
+    <li><a href="imagesources.htm#sthref93">M Image Source Files</a>
+      <ul>
+        <li><a href="imagesources.htm#JFXIP809">left.gif</a></li>
+        <li><a href="imagesources.htm#JFXIP810">right.gif</a></li>
+        <li><a href="imagesources.htm#JFXIP811">down.gif</a></li>
+        <li><a href="imagesources.htm#JFXIP812">middle.gif</a></li>
+      </ul>
+    </li>
+</ul>
+
+</li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="sampletablemodeljava.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a><a class="button" title="Next Page" href="mediacontroljava.htm">Next Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2012, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

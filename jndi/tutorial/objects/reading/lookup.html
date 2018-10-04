@@ -1,0 +1,212 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Lookups</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="list.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/objectsHeader.gif" width=26 height=26 align=bottom border=0 alt="Java Objects and the Directory | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Reading Objects from the Directory</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Lookups
+</h2>
+<p>
+<blockquote>
+
+The
+<a target="_top" href="../storing/serial.html#EXAMPLE">serialization example</a> <a href="../storing/serial.html#EXAMPLE"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>    showed that an object stored (serialized) in a directory can
+be read back by using 
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><tt>Context.lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<p>
+<blockquote>
+<pre>
+// Check that the object is bound
+Button b2 = (Button)ctx.lookup("cn=Button");
+System.out.println(b2);
+</pre>
+</blockquote>
+<p>
+
+Similarly, in the 
+<a target="_top" href="../storing/reference.html#EXAMPLE">reference example</a> <a href="../storing/reference.html#EXAMPLE"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>,
+<a target="_top" href="../storing/dircontext.html#EXAMPLE">attributes example</a> <a href="../storing/dircontext.html#EXAMPLE"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>,
+<a target="_top" href="../storing/remote.html#MARSH">remote object examples</a> <a href="../storing/remote.html#MARSH"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>, the
+<a target="_top" href="../storing/corba.html#EXAMPLE">CORBA object example</a> <a href="../storing/corba.html#EXAMPLE"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>, and the
+<a target="_top" href="../state/custom.html">custom object example</a> <a href="../state/custom.html"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>, you could simply use <tt>lookup()</tt> to retrieve 
+the stored object.
+
+<h4>Object Factories</h4>
+In the attributes example, the environment used to create
+the initial context had an additional property,
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#OBJECT_FACTORIES"><tt>Context.OBJECT_FACTORIES</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#OBJECT_FACTORIES"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+
+This property specifies the class names of one or more
+<a href=../../getStarted/concepts/glossary.html#OF>object factories</a>
+to use when turning information stored in the
+directory into Java objects expected by the application.  
+<p>When the
+object is represented as a reference in the directory, the reference
+contains the class name and, optionally, the location of the object
+factory. Consequently, the reference example did not need to set the
+<tt>Context.OBJECT_FACTORIES</tt> property.
+Similarly, when an object is serialized, it typically
+needs only to be deserialized and not transformed any further.
+This was the case with the previous <tt>java.awt.Button</tt>
+example, so again, no object factory was specified.
+<p>
+In the attributes example, what is stored 
+to represent the <a href=../storing/src/Drink.java><tt>Drink</tt></a>
+object is simply a collection of attributes,
+so you need to specify an object factory, 
+<a href=../storing/src/DrinkFactory.java><tt>DrinkFactory</tt></a>,
+to use to convert those attributes to a <tt>Drink</tt> object.
+<p>
+Although no factories were specified explicitly in
+the remote and CORBA object examples, object factories
+were preconfigured into the LDAP service provider that was used.
+(See the
+
+<a target="_top" href="../../beyond/index.html">Beyond the Basics</a> <a target="_top" href="../../beyond/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>     trail for details about environment properties and
+how they are used to configure service providers.)
+The custom object example also used an object factory. 
+There, the factory was specified by using an
+application resource file
+(see the
+
+<a target="_top" href="../../beyond/index.html">Beyond the Basics</a> <a target="_top" href="../../beyond/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    trail for details).
+
+<p>
+Object factories are described in more detail in
+the 
+<a target="_top" href="../factory/index.html">Object Factories</a> <a href="../factory/index.html"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>     lesson.
+
+<h4>Type of Object</h4>
+The type of object returned by <tt>lookup()</tt> is determined by
+the object factory and/or the service provider.
+In the remote object examples, the object looked up is a
+<tt>java.rmi.Remote</tt> object.
+In the RMI/IIOP object and CORBA object examples, the object looked up
+is a CORBA object.
+Following are some examples of how an object is used after it has been
+looked up from the directory.
+<p>
+<a href=src/LookupRemote.java>The following code</a>
+looks up a remote object bound by using the
+<a target="_top" href="../storing/remote.html#MARSH">directly bound</a> <a href="../storing/remote.html#MARSH"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>     and
+<a target="_top" href="../storing/remote.html#REF">reference</a> <a href="../storing/remote.html#REF"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>     examples.
+<blockquote><pre>
+// Read from the directory 
+Hello h = (Hello)ctx.lookup(name);
+
+// Execute the remote method
+System.out.println(h.sayHello());
+</pre></blockquote>
+To successfully run this example, 
+the RMI requires that you specify a security manager
+and <a href=src/.policy>a security policy</a>.
+<blockquote><pre>
+# java -Djava.security.manager -Djava.security.policy=.policy \
+    LookupRemote cn=RemoteHello
+</pre></blockquote>
+
+After performing the <tt>lookup()</tt>, you can cast the result
+to a <tt>Hello</tt> class and invoke a method on it.
+<blockquote>
+<hr>
+<strong>Note:</strong>
+The stub and server files must have been placed in the location
+specified by the server programs (i.e., that specified by the
+<tt>"java.rmi.server.codebase"</tt> property), as directed by
+the 
+<a target="_top" href="../storing/remote.html#MARSH">binding examples</a> <a href="../storing/remote.html#MARSH"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>.
+<hr>
+</blockquote>
+<p>
+<a href=src/LookupCorba.java>The following code</a> looks up
+a CORBA object bound by using the
+<a target="_top" href="../storing/corba.html#EXAMPLE">CORBA object example</a> <a href="../storing/corba.html#EXAMPLE"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>.
+<blockquote><pre>
+// Look up the object
+org.omg.CORBA.Object cobj = (org.omg.CORBA.Object)ctx.lookup("cn=CorbaHello");
+
+// Narrow the object to the right type
+HelloApp.hello h2 = HelloApp.helloHelper.narrow(cobj);
+
+// Invoke the method on the object
+System.out.println(h2.sayHello());
+</pre></blockquote>
+After performing the <tt>lookup()</tt>, you must use the appropriate
+<tt>narrow()</tt> method to narrow the object to the right type
+and then invoke the appropriate method on the object.
+
+<blockquote>
+<hr>
+<strong>Note:</strong>
+You must copy to the classpath, or otherwise make available in the classpath,
+the class files generated by <tt>idltojava</tt> 
+(i.e., the <tt>HelloApp</tt> directory and its contents)
+in the 
+<a target="_top" href="../storing/corba.html#EXAMPLE">binding example</a> <a href="../storing/corba.html#EXAMPLE"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>. 
+</blockquote>
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="list.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/objectsHeader.gif" width=26 height=26 align=top border=0 alt="Java Objects and the Directory | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Reading Objects from the Directory</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

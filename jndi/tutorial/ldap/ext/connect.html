@@ -1,0 +1,209 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Connection Request Controls</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="context.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="response.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Controls and Extensions</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Connection Request Controls
+</h2>
+<p>
+<blockquote>
+
+Connection request controls are used whenever a connection
+needs to be established or re-established to an LDAP server.
+They do not affect other nonconnection related LDAP operations,
+such as "search" or "modify."
+Conversely, context request controls do not affect
+connection-related LDAP operations. For example, setting
+a context's request controls to be a critical Sort control
+won't affect an LDAP "bind" operation.
+<p>
+You initialize
+a context's connection request controls by using the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/InitialLdapContext.html#InitialLdapContext(java.util.Hashtable, javax.naming.ldap.Control[])"><tt>InitialLdapContext</tt> constructor</a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/InitialLdapContext.html#InitialLdapContext(java.util.Hashtable, javax.naming.ldap.Control[])"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. Here is <a href=src/Connect.java>an example</a>.
+<blockquote><pre>
+// Create the control to use when establishing connection
+Control[] connCtls = new Control[]{new SampleRequestControl()};
+
+// Create the initial context
+LdapContext ctx = new InitialLdapContext(env, connCtls);
+</pre></blockquote>
+This example creates a new 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/InitialLdapContext.html"><tt>InitialLdapContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/InitialLdapContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    instance with connection controls initialized to 
+<a href=src/SampleRequestControl.java><tt>SampleRequestControl</tt></a>.
+Once set, the connection controls (<tt>SampleRequestControl</tt>)
+are inherited by all contexts derived from this context. 
+Notice that this differs from context request controls, 
+which are not inherited.
+<p>
+<h4>Changing the Connection Request Controls</h4>
+You can change the connection request controls of a context by using 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#reconnect(javax.naming.ldap.Control[])"><tt>LdapContext.reconnect()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#reconnect(javax.naming.ldap.Control[])"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+This method establishes a new connection to the LDAP server
+by using the request controls supplied as the argument. If the argument
+is <tt>null</tt>, then no request controls are sent. Subsequent
+to the connection's being established, any implicit reconnections,
+for example those resulting from updated credentials, will also use
+the same controls.
+<p>
+<tt>reconnect()</tt> affects only the connection that is being used by 
+the <tt>Context</tt> instance on which <tt>reconnect()</tt> is invoked.
+Any new <tt>Context</tt> instances that are derived from the context inherit
+the new connection controls, but contexts that previously shared the
+connection remain unchanged. That is, a context's
+connection request controls must be explicitly changed and is not
+affected by changes to another context's connection request
+controls.
+<p>
+In the <a href=src/Reconnect.java>following example</a>,
+an <tt>InitialLdapContext</tt> is created with a
+<a href=src/SampleRequestControl.java><tt>SampleRequestControl</tt></a>.
+The context's connection request controls are then set to <tt>null</tt>
+via a call to <tt>reconnect()</tt>, with <tt>null</tt> as the argument.
+<blockquote><pre>
+// Create the control to use when establishing the connection
+Control[] connCtls = new Control[]{new SampleRequestControl()};
+
+// Create the initial context
+LdapContext ctx = new InitialLdapContext(env, connCtls);
+
+// Do something useful with ctx
+
+// Reconnect by using no controls
+ctx.reconnect(null);
+</pre></blockquote>
+
+<h4>Finding Out the Connection Request Controls That Are in Effect</h4>
+
+To find out the connection request controls that are
+in effect for a context, you use
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#getConnectControls()"><tt>LdapContext.getConnectControls()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#getConnectControls()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+Here is <a href=src/GetConnect.java>an example</a> that initializes the 
+connection request controls to be 
+<tt>SampleRequestControl</tt> and then checks the controls by using 
+<tt>getConnectControls()</tt>.
+<blockquote><pre>
+// Create the control to use when establishing the connection
+Control[] connCtls = new Control[]{new SampleRequestControl()};
+
+// Create the initial context
+LdapContext ctx = new InitialLdapContext(env, connCtls);
+
+// Check the controls in effect for connection establishment
+Control[] reqCtls = ctx.getConnectControls();
+</pre></blockquote>
+
+Here is the output produced by this example.
+<blockquote><pre>
+SampleRequestControl@1fa4d891
+com.sun.jndi.ldap.ManageReferralControl@1fa4d59d
+</pre></blockquote>
+This output shows both the control that was added (<tt>SampleRequestControl</tt>) as well as a
+<a href=../referral/jndi.html#MANAGE>Manage Referral</a> control
+that the LDAP provider sends when referrals are being ignored
+(that is, the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#REFERRAL"><tt>Context.REFERRAL</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#REFERRAL"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    environment property is unset or was set to <tt>"ignore"</tt>).
+To stop the LDAP provider from sending this control, you must
+set the <tt>Context.REFERRAL</tt> property to <tt>"throw"</tt> or
+<tt>"follow"</tt>.
+See the
+<a target="_top" href="../referral/index.html">Referrals</a> <a href="../referral/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson for details.
+
+
+<a name=REF>
+<h4>Initializing a Referral Context's Connection Request Controls</h4></a>
+
+Referrals are discussed in detail in the
+<a target="_top" href="../referral/index.html">Referrals</a> <a href="../referral/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson.
+When you follow referrals automatically, the referral context
+inherits both the connection and the context request controls from
+the original context. When you handle referrals manually,
+you have the option of setting both
+controls for each referral context.
+<p>
+Here is <a href=src/ReferralConnect.java>an example</a>. 
+The referral context's connection request
+controls are set by passing the controls to
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapReferralException.html#getReferralContext(java.util.Hashtable, javax.naming.ldap.Control[])"><tt>LdapReferralException.getReferralContext(Hashtable, Control[])</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapReferralException.html#getReferralContext(java.util.Hashtable, javax.naming.ldap.Control[])"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+After the referral context has been created, the context
+request controls are set via a call to
+<tt>LdapContext.setRequestControls()</tt>.
+<blockquote><pre>
+...
+} catch (LdapReferralException e) {
+    Control[] connCtls = new Control[]{new SampleRequestControl()};
+    Control[] ctxCtls = new Control[]{
+	new SortControl(new String[]{"cn"}, Control.CRITICAL)
+    };
+
+    // Get the referral context by using connection controls
+    // when establishing the connection by using the referral
+    ctx = (LdapContext) e.getReferralContext(env, connCtls);
+
+    // Set the context request controls for the referral context
+    ctx.setRequestControls(ctxCtls);
+}
+</blockquote></pre>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="context.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="response.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Controls and Extensions</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

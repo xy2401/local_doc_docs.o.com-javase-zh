@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Java Print Service API User Guide: 4 - Printing and
+Streaming Documents</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<a href="JPSTOC.fm.html">CONTENTS</a> | <a href=
+"printing.fm1.html">PREV</a> | <a href=
+"printing.fm3.html">NEXT</a><br />
+<h2><a name="a998467">Locating Services</a></h2>
+<a name="999413"><!-- --></a> An application locates a print
+service in a slightly differently way from locating a stream print
+service. The <a href="printing.fm2.html#998927"><em>Discovering
+Print Services</em></a> section explains locating print services.
+The Discovering Stream Prin t Services section explains locating
+stream print services.<br />
+<h3><a name="998927"><!-- --></a> Discovering Print Services</h3>
+<a name="999409"><!-- --></a> Before sending a print job to a
+printer, the application needs to find printers that have the
+capabilities to handle the print job. To print a double-sided
+document, the application first needs to find printers that have
+the double-sided printing capabili ty.
+<p><a name="998928"><!-- --></a> The javax.print.PrintServiceLookup
+class included in the Java Print Service API provides static
+methods that applications use to locate printers.</p>
+<p><a name="1000286"><!-- --></a> An application invokes the
+lookupPrintServices method of PrintServiceLookup with a DocFlavor
+and an AttrbuteSet:</p>
+<p><a name="1000287"><!-- --></a></p>
+<pre class="codeblock">
+DocFlavor flavor = DocFlavor.INPUT_STREAM.POSTSCRIPT;
+PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+aset.add(MediaSizeName.ISO_A4);
+aset.add(new Copies(2));
+PrintService[] service =
+        PrintServiceLookup.lookupPrintServices(flavor,
+                        aset);
+</pre>
+<a name="998931"><!-- --></a> This method returns an array of print
+services representing printers that have the capabilities specified
+in the attribute set and can print the data format specified in the
+doc flavor. See the <a href=
+"attributes.fm.html#996958"><em>Attributes</em></a> c hapter and
+the <a href="docflavor.fm.html#996958"><em>Specifying Document
+Types</em></a> chapter for more help in choosing a DocFlavor and
+creating an AttributeSet.
+<p><a name="998932"><!-- --></a> The base set of printers returned
+from the lookupPrintServices method are the same as the set of
+printers returned by the platform. For example, when using Windows
+NT, the set of returned printers is the same as the set of printers
+visible in the Windows Printer Control Panel. Likewise, when using
+Solaris, the returned printers are the same as those enumerated by
+the System V Unix "lpstat" command. However, since third parties
+can augment these sets, additional printers, such as JINI printers,
+can be retu rned.</p>
+<p><a name="998933"><!-- --></a> After obtaining a suitable
+PrintService, the application can access its many query methods to
+determine what values are supported for attribute categories. The
+<a href="printing.fm3.html#998941"><em>Obtaining a Print
+Job</em></a> section explains how to g et a print job from the
+PrintService.</p>
+<br />
+<h3><a name="999433"><!-- --></a> Discovering Stream Print
+Services</h3>
+<a name="999439"><!-- --></a> An application uses stream print
+services to convert print data to different formats. This is
+useful, for example, if you do not have a printer that can print
+the format of a particular piece of print data. This section
+demonstrates how to convert a GIF d ocument into Postscript using a
+StreamPrintService.
+<p><a name="999731"><!-- --></a> The StreamPrintServiceFactory
+class has a lookupStreamPrintServiceFactories method for locating
+stream print services. This method, like the lookupPrintServices
+method in PrintServiceLookup, takes a DocFlavor that represents the
+type of the input document --in this case,
+DocFlavor.INPUT_STREAM.GIF. Unlike lookupPrintServices, this method
+also takes a MIME type. This MIME type represents the format of the
+output. Since this example converts GIF to postscript, the MIME
+type is &#34;application/postscript&#34; ;. The DocFlavor class has
+the getMimeType method for returning the MIME type from a
+DocFlavor. The lookupStreamPrintServicesFactories method returns an
+array of StreamPrintServiceFactory objects, which are factories for
+StreamPrintService instances. This code sample demonstrates
+obtaining an array of StreamPrintServiceFactory objects that can
+return StreamPrintService objects able to convert a GIF image into
+PostScript:</p>
+<p><a name="999766"><!-- --></a></p>
+<pre class="codeblock">
+DocFlavor flavor = DocFlavor.INPUT_STREAM.GIF;
+String psMimeType = DocFlavor.BYTE_ARRAY.POSTSCRIPT.getMimeType();
+StreamPrintServiceFactory[] psfactories =
+        StreamPrintServiceFactory.lookupStreamPrintServiceFactories(
+                flavor, psMimeType);
+</pre>
+<a name="999443"><!-- --></a> The StreamPrintServiceFactory object
+has an instance method called getPrintService that takes an
+OutputStream parameter and creates a StreamPrintService instance
+that writes to that stream:
+<p><a name="999444"><!-- --></a></p>
+<pre class="codeblock">
+FileOutputStream fos = new FileOutputStream(filename);
+StreamPrintService psService = psfactories[0].getPrintService(fos);
+</pre>
+<a name="999446"><!-- --></a> The JDK V1.4 includes one stream
+print service that can export Postscript from graphics calls, such
+as through the Pageable and Printable interfaces. To verify the
+availability of this service, use the StreamPrintServiceFactory
+class to try to l ocate it. The <a href=
+"printing2d.fm.html"><em>Printing and Streaming 2D
+Graphics</em></a> chapter discusses streaming 2D graphics.
+<p><a name="999447"><!-- --></a> StreamPrintService implements
+PrintService, which means you can use a StreamPrintService wherever
+you can use a PrintService. The application is responsible for
+closing the output stream after a job has printed to the stream.
+Once the stream is closed, th e StreamPrintService instance can no
+longer be used.</p>
+<p><a name="999437"><!-- --></a></p>
+<br />
+<hr />
+<a href="JPSTOC.fm.html">CONTENTS</a> | <a href=
+"printing.fm1.html">PREV</a> | <a href="printing.fm3.html">NEXT</a>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

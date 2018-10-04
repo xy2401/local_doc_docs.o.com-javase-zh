@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Popup &amp; PopupFactory</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1><code>Popup</code> &amp; <code>PopupFactory</code></h1></div>
+The bugtraq report that corresponds to this change is: <a href=
+"http://bugs.sun.com/view_bug.do?bug_id=4303635">
+4303635</a>.
+<p>Certain <code>Component</code>s, such as <code>JPopupMenu</code>
+and <code>JToolTip</code>, present themselves above all other
+<code>Component</code>s in a particular containment hierarchy.
+Rather than each of these <code>Component</code>s containing the
+same code to obtain the same behavior, they delegate to a
+<code>Popup</code> which can be obtained from a
+<code>PopupFactory</code>. A <code>Popup</code> is able to display
+a <code>Component</code> at a particular location on the screen.
+Based on the size and location of the requested
+<code>Component</code>, <code>PopupFactory</code> returns an
+appropriate <code>Popup</code>.</p>
+<p>Previously, <code>Popup</code> and <code>PopupFactory</code>
+were package private. For JDK 1.4, we have exposed these classes to
+enable custom look and feel implementations to create their own
+<code>Popup</code>s. This allows other look and feels to position
+menus in an appropriate manner for their look and feel. To this
+end, we have made these classes public:</p>
+<pre>
+public class <a href=
+"../../../../api/javax/swing/PopupFactory.html">PopupFactory</a> {
+    public static void <a href=
+"../../../../api/javax/swing/PopupFactory.html#setSharedInstance(javax.swing.PopupFactory)">setSharedInstance(PopupFactory factory);</a>
+    public static PopupFactory <a href=
+"../../../../api/javax/swing/PopupFactory.html#getSharedInstance()">getSharedInstance();</a>
+    public Popup <a href=
+"../../../../api/javax/swing/PopupFactory.html#getPopup(java.awt.Component,%20java.awt.Component,%20int,%20int)">getPopup(Component owner, Component contents, int x, int y)</a> throws IllegalArgumentException;
+    }
+    
+</pre>
+<pre>
+public class <a href=
+"../../../../api/javax/swing/Popup.html">Popup</a> {
+    protected <a href=
+"../../../../api/javax/swing/Popup.html#Popup(java.awt.Component,%20java.awt.Component,%20int,%20int)">Popup(Component owner, Component contents, int x, int y);</a>
+    protected <a href=
+"../../../../api/javax/swing/Popup.html#Popup()">Popup();</a>
+    public void <a href=
+"../../../../api/javax/swing/Popup.html#show()">show();</a>
+    public void <a href=
+"../../../../api/javax/swing/Popup.html#hide()">hide();</a>
+    }
+</pre>
+<p>To enable the <code>Popup</code> used by <code>JPopupMenu</code>
+to be replaced by the UI, we added the following to <a href=
+"../../../../api/javax/swing/plaf/PopupMenuUI.html"><code>PopupMenuUI</code></a>:</p>
+<pre>
+    public Popup <a href=
+"../../../../api/javax/swing/plaf/PopupMenuUI.html#getPopup(javax.swing.JPopupMenu,%20int,%20int)">getPopup(JPopupMenu popup, int x, int y);</a>
+    
+</pre>
+<p><code>PopupMenuUI.getPopup</code>'s implementation obtains the
+<code>Popup</code> from the shared <code>PopupFactory</code>, but
+custom look and feel implementations may override this and return
+whatever <code>Popup</code> they desire.</p>
+<h2>Semantic Changes</h2>
+<p><code>JPopupMenu</code> previously defined the method
+<code>setLocation</code>. Prior to this release, this method would
+invoke <code>setLocation</code> on the <code>Popup</code>, but as
+we have removed this method from <code>Popup</code>,
+<code>JPopupMenu</code> now recreates the <code>Popup</code>.</p>
+<p><code>JPopupMenu</code> also defined the method
+<code>setPopupSize</code>, which invoked <code>setSize</code> on
+the <code>Popup</code> if it was visible. Internally, we changed
+this method to set the preferred size of the
+<code>JPopupMenu</code>, which gives the same results. If the
+<code>JPopupMenu</code> is visible when this is invoked, the
+<code>Popup</code> will be recreated. The <a href=
+"../../../../api/javax/swing/JPopupMenu.html"><code>JPopupMenu</code></a>
+javadoc changed to reflect the new behavior:</p>
+<pre>
+    public void <a href=
+"../../../../api/javax/swing/JPopupMenu.html#setPopupSize(java.awt.Dimension)">setPopupSize(Dimension d);</a>
+
+    public void <a href=
+"../../../../api/javax/swing/JPopupMenu.html#setPopupSize(int,%20int)">setPopupSize(int width, int height);</a>
+</pre>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

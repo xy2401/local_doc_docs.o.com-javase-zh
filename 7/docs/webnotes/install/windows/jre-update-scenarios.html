@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN">
+<html lang="en_US">
+<head>
+<title>Java SE Runtime Environment Update Scenarios</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Java SE Runtime Environment Update Scenarios</h1></div>
+
+<p>Java SE Runtime Environment (JRE) may be installed in patch-in-place or static modes. This document describes various scenarios to demonstrate the behavior of the JRE update process. See <a href="patch-in-place-and-static-jre-installation.html">Patch-in-Place and Static JRE Installation</a> for more information about these modes.</p>
+
+<p>The following topics are covered:</p>
+
+<ul>
+  <li><a href="#patch-in-placeJREUpdate">Updating patch-in-place JRE</a></li>
+  <li><a href="#scenario-2">Installing patch-in-place JRE when a static JRE is present</a></li>
+  <li><a href="#scenario-3">Installing static JRE when earlier patch-in-place JRE is present</a></li>
+  <li><a href="#scenario-4">Installing earlier patch-in-place JRE when later patch-in-place JRE is present, then reinstalling earlier patch-in-place JRE</a></li>
+  <li><a href="#scenario-5">Installing static JRE when same JRE version of patch-in-place JRE is present</a></li>
+  <li><a href="#scenario-6">Attempting to install patch-in-place JRE when same JRE version of static JRE is present</a></li>
+  <li><a href="#scenario-8">Installing earlier patch-in-place JRE when later static JRE is present</a></li>
+  <li><a href="#scenario-9">Applying consecutive patches</a></li>
+  <li><a href="#scenario-10">Applying intermediate patches</a></li>
+  <li><a href="#scenario-11">Installing later patch-in-place version using offline installer</a></li>
+  <li><a href="#scenario-12">Reinstalling static JRE when older patch-in-place JRE installed.</a></li>
+  <li><a href="#scenario-13">Reinstalling static JRE without explicitly ever installing as static</a></li>
+</ul>
+
+<p><strong>Note</strong>: Software versions, such as Java SE 7 Update 17, are represented by an abbreviation in the form of 7u17.</p>
+
+
+<h2><a id="patch-in-placeJREUpdate" name="patch-in-placeJREUpdate">Updating patch-in-place JRE</a></h2>
+
+<p>This is the most likely scenario.</p>
+
+<ol>
+  <li>The user installs JRE 7u17 as a patch-in-place JRE by default into the directory <code>C:\Program Files\Java\jre7</code>.</li>
+  <li>The user gets prompted by Java Update to update to JRE 7u18.</li>
+  <li>The user agrees and goes through the Java Update process.</li>
+  <li>Java Update recognizes that the JRE 7u17 was installed as a patch-in-place JRE, and can therefore just patch-in-place to 7u18.</li>
+  <li>Now only one 7u18 patch-in-place JRE is located in the directory <code>C:\Program Files\Java\jre7</code>. JRE 7u17 no longer exists in the computer.</li>
+</ol>
+
+<h2><a name="scenario-2">Installing patch-in-place JRE when static JRE is present</a></h2>
+
+<ol>
+  <li>The user installs a static JRE 7u17 into the directory <code>C:\Program Files\Java\jre1.7.0_17</code>.</li>
+  <li>The user gets prompted by Java Update to update to JRE 7u18.</li>
+  <li>The user agrees and goes through the Java Update process.</li>
+  <li>Java update ignores the previous static installation of JRE 7u17, and downloads a full copy of  patch-in-place JRE 7u18, which is installed into <code>C:\Program Files\Java\jre7</code>.</li>
+  <li>After the installation is finished, the user now has both a static JRE 7u17 in <code>C:\Program Files\Java\jre1.7.0_17</code>, and a patch-in-place JRE 7u18 in <code>C:\Program Files\Java\jre7</code>.</li>
+</ol>
+
+<h2><a name="scenario-3">Installing static JRE when earlier patch-in-place JRE is present</a></h2>
+
+<ol>
+  <li>The user installs a patch-in-place JRE 7u17 into the directory <code>C:\Program Files\Java\jre7</code>.</li>
+  <li>The user then installs a static JRE 7u18.</li>
+  <li>The JRE 7u18 static installer ignores the existence of the patch-in-place JRE 7u17, and downloads a full copy of JRE 7u18, which is installed into <code>C:\Program Files\Java\jre1.7.0_18</code>.</li>
+  <li>After the installation is finished, the user now has a patch-in-place JRE 7u17 in <code>C:\Program Files\Java\jre7</code>, and a static JRE 7u18 in <code>C:\Program Files\Java\jre1.7.0_18</code>.</li>
+</ol>
+
+<h2><a name="scenario-4">Installing earlier patch-in-place JRE when later patch-in-place JRE is present, then reinstalling earlier patch-in-place JRE</a></h2>
+
+<ol>
+<li>The user installs patch-in-place JRE 7u18 in <code>C:\Program Files\Java\jre7</code>.</li>
+<li>The user runs the JRE 7u17 <code>iftw.exe</code> installer in the default patch-in-place mode (<code>iftw</code> stands for install from the web).</li>
+<li>The JRE 7u17 installer detects that a later patch-in-place JRE that is present and switches to static mode.</li>
+<li>The user now has both a patch-in-place JRE 7u18 in <code>C:\Program Files\Java\jre7</code>, and a static JRE 7u17 in <code>C:\Program Files\Java\jre1.7.0_17</code>.</li>
+<li>The user runs the 7u17 <code>iftw.exe</code> installer in the default patch-in-place mode.
+<li>7u17 installer detects that 7u17 is already installed as static JRE and switches to static mode. In static mode, the installer prompts the user to reinstall. If the user selects yes, the static JRE 7u17 is uninstalled and reinstalled.</li>
+<li>After the installation is finished, the user now has both a patch-in-place copy of 7u18 in <code>C:\Program Files\Java\jre7</code>, and a copy of 7u17 JRE in <code>C:\Program Files\Java\jre1.7.0_17</code>.</li>
+</ol>
+
+<h2><a name="scenario-5">Installing static JRE when same JRE version of patch-in-place JRE is present</a></h2>
+
+<ol>
+<li>The user installs the patch-in-place JRE 7u17.</li>
+<li>The user runs the static JRE 7u17 installer.</li>
+<li>The Installer will uninstall the patch-in-place JRE 7u17 and install a static JRE 7u17. An entire download of the JRE 7u17 will take place.</li>
+<li>The user will be left with 7u17 static JRE at <code>C:\Program Files\Java\jre1.7.0_17</code>.</li>
+</ol>
+
+<h2><a name="scenario-7">Attempting to install patch-in-place JRE when same JRE version of static JRE is present</a></h2>
+
+<ol>
+<li>The user installs the static JRE 7u18.</li>
+<li>The user downloads and runs the patch-in-place JRE 7u18 installer.</li>
+<li>The installer will launch the static JRE 7u18 Microsoft Windows Installer (MSI) and the user will be prompted if he or she wants to reinstall.</li>
+<li>The user agrees to reinstall.</li>
+<li>The user will be left with a static JRE 7u18.</li>
+</ol>
+
+
+<h2><a name="scenario-8">Installing earlier patch-in-place JRE when later static JRE is already present</a></h2>
+
+<ol>
+<li>The user installs static JRE 7u18 into <code>C:\Program Files\Java\jre1.7.0_18</code></li>
+<li>The user runs the JRE 7u17 <code>iftw.exe</code> installer in the default patch-in-place mode.</li>
+<li>After the installation is finished, the user now has both a static JRE 7u18 in <code>C:\Program Files\Java\jre1.7.0_18</code>, and a patch-in-place JRE 7u17.</li>
+</ol>
+
+<h2><a name="scenario-9">Applying consecutive patches</a></h2>
+
+<ol>
+<li>The user installs the patch-in-place JRE 7u16 (using the Windows Online or Offline Installer).</li>
+<li>The user installs the patch-in-place JRE 7u17 using the Windows Online Installer.</li>
+<li>The JRE 7u16 is patched in place to JRE 7u17.</li>
+<li>The user installs the patch-in-place JRE 7u18 using the Windows Online Installer.</li>
+<li>The JRE 7u17 is patched in place to the JRE 7u18.</li>
+</ol>
+
+<h2><a name="scenario-10">Applying intermediate patches</a></h2>
+
+<ol>
+<li>The user installs patch-in-place JRE 7u15 (using the Windows Online or Offline Installer).</li>
+<li>The user installs patch-in-place JRE 7u17  using the Windows Online Installer.</li>
+<li>The JRE 7u15 is patched in place to the JRE 7u17.</li>
+<li>The user installs the patch-in-place JRE 7u18 using the Windows Online Installer.</li>
+<li>The JRE 7u17 is patched in place to the JRE 7u18.</li>
+</ol>
+
+<h2><a name="scenario-11">Installing later patch-in-place version using Windows Offline Installer</a></h2>
+
+<ol>
+<li>The user installs the patch-in-place JRE 7u17 (using the Windows Online or Offline installer).</li>
+<li>The user downloads the JRE 7u18 Windows Offline Installer.</li>
+<li>The user runs the JRE 7u18 Offline Installer in the default patch-in-place mode.</li>
+<li>The JRE 7u17 is uninstalled and the patch-in-place JRE 7u18 is installed.</li>
+<li>The user will be left with a patch-in-place JRE 7u18.</li>
+</ol>
+
+<h2><a name="scenario-12">Reinstalling static JRE when earlier patch-in-place JRE installed</a></h2>
+
+<ol>
+<li>The user installs patch-in-place JRE 7u17 (using online or offline installer).</li>
+<li>The user installs static JRE 7u18 (using online or offline installer).</li>
+<li>The user launches patch-in-place JRE 7u18 installer (online or offline).</li>
+<li>The 7u18 installer detects that static JRE 7u18 already exists and switches to static mode. In static mode, the install prompts to reinstall. If the user selects yes, static JRE 7u18 is uninstalled and reinstalled.</li>
+<li>After the installation is finished, the user now has both a patch-in-place copy of patch-in-place JRE 7u17 in <code>C:\Program Files\Java\jre7</code>, and a copy of static JRE 7u18 in <code>C:\Program Files\Java\jre1.7.0_18</code>.</li>
+</ol>
+
+<h2><a name="scenario-13">Reinstalling static JRE without explicitly installing as static</a></h2>
+
+<ol>
+<li>The user installs the patch-in-place JRE 7u18 (using the Windows Online or Offline Installer).</li>
+<li>The user installs the  patch-in-place JRE 7u17 in default mode (using the Windows Online or Offline Installer). The static JRE 7u17 is installed. The user now has the static JRE 7u17 and the  patch-in-place JRE 7u18.</li>
+<li>The user uninstalls the patch-in-place JRE 7u18. The user now has the static JRE 7u17.</li>
+<li>The user installs the patch-in-place JRE 7u16 (using the Windows Online or Offline Installer). The user now has the patch-in-place JRE 7u16 and the static JRE 7u17.</li>
+<li>The user installs the patch-in-place JRE 7u17 (using the Windows Online or Offline Installer).</li>
+<li>The JRE 7u17 installer detects that the static JRE 7u17 is already installed. The installer switches to static mode. In static mode, the installer prompts the user to reinstall. If the user selects yes, the static JRE 7u17 is uninstalled and reinstalled.</li>
+<li>After the installation is finished, there are a patch-in-place JRE 7u16 in the directory <code>C:\Program Files\Java\jre7</code>, and a static JRE 7u17 in the directory <code>C:\Program Files\Java\jre1.7.0_17</code>.</li>
+</ol>
+
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2014, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

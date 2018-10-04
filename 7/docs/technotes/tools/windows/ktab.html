@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Windows (vers 12 April 2005), see www.w3.org" />
+<title>ktab - Kerberos tool</title>
+<meta name="collection" content="reference" />
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>ktab - Kerberos key table manager</h1></div>
+<p><code>ktab</code> allows the user to manage the principal
+names and service keys stored in a local key table. Principal and
+key pairs listed in the keytab allow services running on a host
+to authenticate themselves to the Key Distribution Center (KDC).
+Before a server can be setup to use Kerberos, the user must setup
+a keytab on the host running the server. Note that any updates
+made to the keytab using <code>ktab</code> do not affect the
+Kerberos database. If you change the keys in the keytab, you must
+also make the corresponding changes to the Kerberos database.</p>
+<h2>SYNOPSIS</h2>
+<p><code>ktab [ <a href="#commands">commands</a>
+]</code></p>
+<h2>DESCRIPTION</h2>
+<p><code>ktab</code> manages principal name and key pairs in the
+key table. ktab allows the user to list, add, update or delete
+principal names and key pairs in the key table. None of these
+operations affect the Kerberos database.</p>
+
+<dl>
+<dt>Keytab</dt>
+<dd>A keytab is a host's copy of its own keylist, which is
+analogous to a user's password. An application server that needs
+to authenticate itself to the Key Distribution Center (KDC) must
+have a keytab which contains its own principal and key. Just as
+it is important for users to protect their passwords, it is
+equally important for hosts to protect their keytabs. You should
+always store keytab files on the local disk and make them
+readable only by root. You should never send a keytab file over a
+network in the clear.</dd>
+</dl>
+
+<h2><a name="commands" id="commands"></a>COMMANDS</h2>
+<p><b>Usage:</b> The command line options are <i>not</i>
+case-sensitive.</p>
+<b><code>ktab -help</code></b>
+<p><code>ktab -l [-e -t] [-k
+&lt;<i><em>keytab_name</em></i>&gt;]</code></p>
+<p><code>ktab [-a
+&lt;<i><em>principal_name</em></i>&gt;
+&lt;<i><em>password</em></i>&gt;] [-k
+&lt;<i><em>keytab_name</em></i>&gt;]</code></p>
+<p><code>ktab [-d
+&lt;<i><em>principal_name</em></i>&gt;
+[&lt;<i><em>etype</em></i>&gt;]] [-k
+&lt;<i><em>keytab_name</em></i>&gt;]</code></p>
+<table width="550" border="1" cellspacing="2" cellpadding="2"
+summary="List of ktab Command Options and Descriptions">
+<tr>
+<th>Command Option</th>
+<th>Description</th>
+</tr>
+<tr>
+<td width="119"><code>-l [-e -t]</code></td>
+<td width="431">List the keytab name and entries. When -e is
+specified, the encryption type for each entry is displayed. When
+-t is specified, timestamp for each entry is displayed.</td>
+</tr>
+<tr>
+<td width="119"><code>-a &lt;<i><em>principal_name</em></i>&gt;
+&lt;<i><em>password</em></i>&gt;</code></td>
+<td width="431">Add an entry to the keytab. No changes are made
+to the Kerberos database. (DO NOT SPECIFY YOUR PASSWORD ON
+COMMAND LINE OR IN A SCRIPT.)</td>
+</tr>
+<tr>
+<td width="119"><code>-d &lt;<i><em>principal_name</em></i>&gt;
+[&lt;<i><em>etype</em></i>&gt;]</code></td>
+<td width="431">Delete one or more entries from the keytab. No
+changes are made to the Kerberos database. When
+<i><em>etype</em></i> is provided, only the entry matching this
+encryption type is deleted. Otherwise, all entries are
+deleted.</td>
+</tr>
+<tr>
+<td width="119"><code>-k
+&lt;<i><em>keytab_name</em></i>&gt;</code></td>
+<td width="431">Specify keytab name and path with the prefix
+<code>FILE:</code></td>
+</tr>
+<tr>
+<td width="119"><code>-help</code></td>
+<td width="431">Displays instructions.</td>
+</tr>
+</table>
+<h2>EXAMPLES</h2>
+<dl>
+<dt>To list all the entries in the default keytable:</dt>
+<dd><code>ktab -l</code></dd>
+</dl>
+<dl>
+<dt>To add a new principal to the key table (note that you will
+be prompted for your password):</dt>
+<dd><code>ktab -a duke@example.com</code></dd>
+</dl>
+<dl>
+<dt>To delete a principal from the key table:</dt>
+<dd><code>ktab -d duke@example.com</code></dd>
+</dl>
+<h2>SECURITY ALERT</h2>
+<p>Do not specify your password on the command line. Doing so is
+a security hole. For example, an attacker could discover your
+password while running the Unix <code>ps</code> command.</p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

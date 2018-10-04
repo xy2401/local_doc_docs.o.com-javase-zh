@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Installation of JDK and JRE on Oracle Solaris</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="dcterms.created" content="2017-10-12T03:08:59Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Installation Guide" />
+<meta name="dcterms.identifier" content="E72277-05" />
+<meta name="dcterms.isVersionOf" content="JSJIG" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="version-string-format.htm" title="Previous" type="text/html" />
+<link rel="Next" href="server-jre-9-installation-oracle-solaris.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSJIG.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSJIG.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSJIG.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-2E913807-CACF-4632-BF6C-98A0E749C77D"></a> <span id="PAGE" style="display:none;">6/15</span> <!-- End Header -->
+<h1 id="JSJIG-GUID-2E913807-CACF-4632-BF6C-98A0E749C77D" class="sect1"><span class="enumeration_chapter">3</span> Installation of JDK and JRE on Oracle Solaris</h1>
+<div>
+<p>This topic includes the following sections:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="installation-jdk-and-jre-oracle-solaris.htm#GUID-055C243F-5C1A-48A1-AB89-82C8282E8D41">System Requirements for Installing the JDK and JRE on Oracle Solaris</a></p>
+</li>
+<li>
+<p><a href="installation-jdk-and-jre-oracle-solaris.htm#GUID-14849896-182F-44F2-9CCF-9FB80D973A77" title="Instructions for installing either the JDK or JRE contain a minor.security.patch notation that represents the update version number.">JDK and JRE Installation Instruction Notation for Oracle Solaris</a></p>
+</li>
+<li>
+<p><a href="installation-jdk-and-jre-oracle-solaris.htm#GUID-ACF77FD9-E94C-487D-AE5C-FDFC97FEBC3C" title="You can install JDK 9 on an Oracle Solaris platform from archive binaries (.tar.gz) and Image Packaging System (IPS), which is the Solaris Update Repository.">Installation of JDK on Oracle Solaris from Archive Binaries</a></p>
+</li>
+<li>
+<p><a href="installation-jdk-and-jre-oracle-solaris.htm#GUID-9C8CC11E-4727-4156-BB10-50187929F80B" title="You can install JDK 9 on Oracle Solaris by using an IPS package.">Installing JDK on Oracle Solaris 11 from IPS Packages</a></p>
+</li>
+<li>
+<p><a href="installation-jdk-and-jre-oracle-solaris.htm#GUID-FD1BB584-4E8A-40BE-AC64-4F587ADE4BE3" title="You can install a JRE 9 archive binary in any location that you can write to. The installation does not displace the system version of the Java platform provided by the Oracle Solaris OS.">Installing the JRE on Oracle Solaris from Archive Binaries</a></p>
+</li>
+<li>
+<p><a href="installation-jdk-and-jre-oracle-solaris.htm#GUID-B44BB1F7-0909-4B62-81F4-075E88E85775" title="You can install JRE 9 on Oracle Solaris by using an IPS package.">Installing the JRE on Oracle Solaris 11 from IPS Packages</a></p>
+</li>
+<li>
+<p><a href="installation-jdk-and-jre-oracle-solaris.htm#GUID-B6706BCE-E9BD-4B8F-93C5-7FC2AB6FFC19">Specifying the Default Java Platform</a></p>
+</li>
+</ul>
+</div>
+<div class="sect2"><a id="GUID-055C243F-5C1A-48A1-AB89-82C8282E8D41"></a>
+<h2 id="JSJIG-GUID-055C243F-5C1A-48A1-AB89-82C8282E8D41" class="sect2">System Requirements for Installing the JDK and JRE on Oracle Solaris</h2>
+<div>
+<div class="section">
+<p>The Server JRE 9 is supported on the Oracle Solaris SPARC (64-bit), version 11 or later.</p>
+<p>For supported processors and browsers, see <a href="http://www.oracle.com/pls/topic/lookup?ctx=javase9&amp;id=latest_certified_system_configurations" target="_blank">Oracle JDK 9 and JRE 9 Certified Systems Configurations</a>.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-14849896-182F-44F2-9CCF-9FB80D973A77"></a>
+<h2 id="JSJIG-GUID-14849896-182F-44F2-9CCF-9FB80D973A77" class="sect2">JDK and JRE Installation Instruction Notation for Oracle Solaris</h2>
+<div>
+<p>Instructions for installing either the JDK or JRE contain a <code class="codeph"><span class="codeinlineitalic">minor.security.patch</span></code> notation that represents the update version number.</p>
+<div class="section">
+<p>For JDK and JRE installation instructions that contain the notation <code class="codeph"><span class="codeinlineitalic">minor.security.patch</span></code>, substitute the appropriate update version number. For example, if you are installing JDK 9 Minor 2, Security 1, and Patch 1, then the following string represents the name of the bundle:</p>
+<p><code class="codeph">jdk-9.<span class="codeinlineitalic">minor.security.patch</span>_solaris-sparcv9_bin.tar.gz</code></p>
+<p>This string becomes:</p>
+<p><code class="codeph">jdk-9.2.1.1_solaris-sparcv9_bin.tar.gz</code></p>
+<p>If you are installing JRE 9 Minor 2 and Security 1, then the following string represents the name of the bundle:</p>
+<p><code class="codeph">jre-9.<span class="codeinlineitalic">minor.security.patch</span>_solaris-sparcv9_bin.tar.gz</code></p>
+<p>This string becomes:</p>
+<p><code class="codeph">jre-9.2.1.1_solaris-sparcv9_bin.tar.gz</code></p>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-ACF77FD9-E94C-487D-AE5C-FDFC97FEBC3C"></a>
+<h2 id="JSJIG-GUID-ACF77FD9-E94C-487D-AE5C-FDFC97FEBC3C" class="sect2">Installation of JDK on Oracle Solaris from Archive Binaries</h2>
+<div>
+<p>You can install JDK 9 on an Oracle Solaris platform from archive binaries (<code class="codeph">.tar.gz</code>) and Image Packaging System (IPS), which is the Solaris Update Repository.</p>
+<div class="section">The following list provides details about the download bundle:
+<ul style="list-style-type: disc;">
+<li>
+<p>Download File: <code class="codeph">jdk-9.<span class="codeinlineitalic">minor.security.patch</span>_solaris-sparcv9_bin.tar.gz</code></p>
+</li>
+<li>
+<p>Architecture: 64-bit SPARC</p>
+</li>
+<li>
+<p>Who Can Install: Anyone</p>
+</li>
+</ul>
+<p>The installation instructions for using these files are organized by the <code class="codeph">.tar.gz</code> file type. This technique allows you to install a private version of the JDK for the current user in any location without affecting other JDK installations. However, it involves manual steps to get some features to work.</p>
+<div class="infobox-note" id="GUID-ACF77FD9-E94C-487D-AE5C-FDFC97FEBC3C__GUID-67074E5D-70A1-452D-BEC5-F9DA4E6DEC92">
+<p class="notep1">Note:</p>
+See <a href="installation-jdk-and-jre-oracle-solaris.htm#GUID-9C8CC11E-4727-4156-BB10-50187929F80B" title="You can install JDK 9 on Oracle Solaris by using an IPS package.">Installing JDK on Oracle Solaris 11 from IPS Packages</a> for the recommended approach.</div>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">Installing JDK on Oracle Solaris from Archive Binaries</p>
+You can install the JDK archive binary in any location that you can write to. It does not displace the system version of the Java platform provided by the Oracle Solaris OS.</div>
+<!-- class="section" -->
+<div class="section">To install JDK from archive binaries (<code class="codeph">.tar.gz</code>) on Oracle Solaris:</div>
+<!-- class="section" -->
+<ol>
+<li class="stepexpand"><span>Download the bundle.</span>
+<div>
+<p>Ensure that you accept the license agreement before downloading the file. The archive binaries can be installed by anyone in any location that you can write to.</p>
+<p>You can simultaneously uncompress and extract the <code class="codeph">.tar.gz</code> archive file (also called a tarball) in one step.</p>
+</div>
+</li>
+<li class="stepexpand"><span>Change the directory to the location where you want the JDK to be installed.</span></li>
+<li class="stepexpand"><span>Move the <code class="codeph">.tar.gz</code> archive binaries to the current directory.</span></li>
+<li class="stepexpand"><span>Unpack the tarball and install the JDK on SPARC processor: <code class="codeph">% gzip -dc jdk-9.<span class="codeinlineitalic">minor.security.patch</span>_solaris-sparcv9_bin.tar.gz | tar xf -</code></span>
+<div>
+<p>The JDK is installed in a directory called <code class="codeph">jdk&ndash;9.<span class="codeinlineitalic">minor.security.patch</span></code> in the current directory. For example, the directory for the JDK 9 Minor 1, Security 0, and Patch 0 is named: <code class="codeph">jdk-9.1</code>.</p>
+<p>The JDK documentation is a separate download. See <a href="http://www.oracle.com/pls/topic/lookup?ctx=javase9&amp;id=javase_downloads" target="_blank">Java SE Downloads</a>.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2"><a id="GUID-9C8CC11E-4727-4156-BB10-50187929F80B"></a>
+<h2 id="JSJIG-GUID-9C8CC11E-4727-4156-BB10-50187929F80B" class="sect2">Installing JDK on Oracle Solaris 11 from IPS Packages</h2>
+<div>
+<p>You can install JDK 9 on Oracle Solaris by using an IPS package.</p>
+<div class="section">To install JDK 9 on Oracle Solaris 11 by using the <code class="codeph">jdk-9</code> package:</div>
+<!-- class="section" -->
+<ol>
+<li class="stepexpand"><span>Ensure that the <code class="codeph">jdk-9</code> package is available from your IPS publisher.</span>
+<div>For example:
+<p><code class="codeph">$ pkg list -a jdk-9</code></p>
+<div class="tblformal" id="GUID-9C8CC11E-4727-4156-BB10-50187929F80B__GUID-9F45AC6B-B119-40BB-85F9-F7D12FD223F2">
+<table class="cellalignment8" summary="A three column table providing the name of the IPS publisher location, the IPS version number, and the description.">
+<thead>
+<tr class="cellalignment2">
+<th class="cellalignment9" id="d1575e297">Name (Publisher)</th>
+<th class="cellalignment9" id="d1575e299">Version</th>
+<th class="cellalignment9" id="d1575e301">IFO</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment2">
+<td class="cellalignment10" id="d1575e305" headers="d1575e297"><code class="codeph">developer/java/jdk-9</code></td>
+<td class="cellalignment10" headers="d1575e305 d1575e299"><code class="codeph">9.1.8.0.0-0.183.0.0.0.0.0</code></td>
+<td class="cellalignment10" headers="d1575e305 d1575e301">i---</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<div>
+<ul style="list-style-type: disc;">
+<li>
+<p>Name: the name of the package. If the publisher from which the package is installed (or available) is not the first in the publisher search order, then the publisher name is listed in parentheses after the package name.</p>
+</li>
+<li>
+<p>Version: the release and branch versions of the package.</p>
+</li>
+<li>
+<p>IFO:</p>
+the set of flags that display the status of the package:
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph">i</code> in the <span class="bold">I</span> column implies that the package is installed.</p>
+</li>
+<li>
+<p><code class="codeph">f</code> in the <span class="bold">F</span> column implies that the package is frozen.</p>
+</li>
+<li>
+<p><code class="codeph">o</code> in the <span class="bold">O</span> column implies that the package is obsolete.</p>
+</li>
+<li>
+<p><code class="codeph">r</code> in the <span class="bold">O</span> column implies that the package has been renamed.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>This package is available from the Oracle Solaris publisher at <code class="codeph">pkg.oracle.com</code> and also from other publisher origins. If you see a message that no such package is found, then use the <code class="codeph">pkg publisher</code> command to check your publisher origin and contact your system administrator or Oracle Support representative.</p>
+</div>
+</li>
+<li class="stepexpand"><span>Ensure that you have permission to install IPS packages:</span>
+<div>
+<ul style="list-style-type: disc;">
+<li>
+<p>Use the <code>profiles</code> command to list the rights profiles that are assigned to you. If you have the Software Installation rights profile, then you can use the <code>pfexec</code> command to install and update packages.</p>
+<div class="p">
+<pre dir="ltr">
+$ pfexec pkg install jdk-9
+</pre></div>
+<p>Other rights profiles also provide installation privileges, such as the System Administrator rights profile.</p>
+</li>
+<li>
+<p>Depending on the security policy at your site, you might be able to use the <code>sudo</code> command with your user password to execute a privileged command:</p>
+<div class="p">
+<pre dir="ltr">
+$ sudo pkg install jdk-9
+</pre></div>
+</li>
+<li>
+<p>Use the roles command to list the roles that are assigned to you. If you have the root role, you can use the <code>su</code> command with the root password to assume the root role:</p>
+<div class="p">
+<pre dir="ltr">
+# pkg install jdk-9
+</pre></div>
+<div class="infobox-note" id="GUID-9C8CC11E-4727-4156-BB10-50187929F80B__GUID-3E29093B-19AD-42E0-A9DF-20CAAA702910">
+<p class="notep1">Note:</p>
+The JDK 9 installation from the SVR4 package (through the <code class="codeph">pkgadd</code> command) is not supported. Install JDK 9 using the IPS package.</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2"><a id="GUID-FD1BB584-4E8A-40BE-AC64-4F587ADE4BE3"></a>
+<h2 id="JSJIG-GUID-FD1BB584-4E8A-40BE-AC64-4F587ADE4BE3" class="sect2">Installing the JRE on Oracle Solaris from Archive Binaries</h2>
+<div>
+<p>You can install a JRE 9 archive binary in any location that you can write to. The installation does not displace the system version of the Java platform provided by the Oracle Solaris OS.</p>
+<div class="section">To install the JRE 9 on Oracle Solaris from archive binaries (<code class="codeph">.tar.gz</code>):</div>
+<!-- class="section" -->
+<ol>
+<li class="stepexpand"><span>Download the bundle.</span>
+<div>
+<ul style="list-style-type: disc;">
+<li>
+<p>Download File: <code class="codeph">jre-9.<span class="codeinlineitalic">minor.security.patch</span>_solaris-sparcv9_bin.tar.gz</code></p>
+</li>
+<li>
+<p>Architecture: 64-bit SPARC</p>
+</li>
+<li>
+<p>Who Can Install: Anyone</p>
+</li>
+</ul>
+<p>Ensure that you accept the license agreement before downloading the file. The archive binaries can be installed by anyone in any location that you can write to.</p>
+<p>You can simultaneously uncompress and extract the <code class="codeph">.tar.gz</code> archive file (also called a tarball) in one step.</p>
+</div>
+</li>
+<li class="stepexpand"><span>Change the directory to the location where you want the JRE to be installed.</span></li>
+<li class="stepexpand"><span>Move the <code class="codeph">.tar.gz</code> archive binaries to the current directory.</span></li>
+<li class="stepexpand"><span>Unpack the tarball and install the JRE on SPARC processor: <code class="codeph">% gzip -dc jre-9.<span class="codeinlineitalic">minor.security.patch</span>_solaris-sparcv9_bin.tar.gz | tar xf -</code></span>
+<div>
+<p>The JRE is installed in a directory called <code class="codeph">jre-9.<span class="codeinlineitalic">minor.security.patch</span></code> in the current directory. For example, the directory for the JRE 9 Minor 1, Security 0, and Patch 0 is named <code class="codeph">jre-9.1</code>.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2"><a id="GUID-B44BB1F7-0909-4B62-81F4-075E88E85775"></a>
+<h2 id="JSJIG-GUID-B44BB1F7-0909-4B62-81F4-075E88E85775" class="sect2">Installing the JRE on Oracle Solaris 11 from IPS Packages</h2>
+<div>
+<p>You can install JRE 9 on Oracle Solaris by using an IPS package.</p>
+<div class="section">To install JRE 9:</div>
+<!-- class="section" -->
+<ol>
+<li class="stepexpand"><span>Ensure that the <code class="codeph">jre-9</code> package is available from your IPS publisher.</span>
+<div>For example:
+<p><code class="codeph">$ pkg list -a jre-9</code></p>
+<div class="tblformal" id="GUID-B44BB1F7-0909-4B62-81F4-075E88E85775__GUID-99D05040-E256-4CCB-BA5D-C49134618C80">
+<table class="cellalignment8" summary="A three column table providing the name of the IPS publisher location, the IPS version number, and the description.">
+<thead>
+<tr class="cellalignment2">
+<th class="cellalignment15" id="d1575e526">Name (Publisher)</th>
+<th class="cellalignment15" id="d1575e528">Version</th>
+<th class="cellalignment15" id="d1575e530">IFO</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment2">
+<td class="cellalignment2" id="d1575e534" headers="d1575e526"><code class="codeph">developer/java/jre-9</code></td>
+<td class="cellalignment2" headers="d1575e534 d1575e528"><code class="codeph">9.1.8.0.0-0.183.0.0.0.0.0</code></td>
+<td class="cellalignment2" headers="d1575e534 d1575e530">i---</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<div>
+<p>If you see an <code class="codeph">i</code> in the I column, then the package is already installed.</p>
+<p>This package is available from the Oracle Solaris publisher at <code class="codeph">pkg.oracle.com</code> and also from other publisher origins. If you see a message that no such package is found, then use the <code class="codeph">pkg publisher</code> command to check your publisher origin, and contact your system administrator or Oracle Support representative.</p>
+</div>
+</li>
+<li class="stepexpand"><span>Ensure that you have permission to install IPS packages.</span>
+<div>
+<ul style="list-style-type: disc;">
+<li>
+<p>Use the <code>profiles</code> command to list the rights profiles that are assigned to you. If you have the Software Installation rights profile, then use the <code>pfexec</code> command to install and update packages:</p>
+<div class="p">
+<pre dir="ltr">
+$ pfexec pkg install jre-9
+</pre></div>
+<p>Other rights profiles also provide installation privileges, such as the System Administrator rights profile.</p>
+</li>
+<li>
+<div class="p">While installing the updates, you need to accept the user license using the following command:
+<pre dir="ltr">
+$ pfexec pkg install jre-9 --accept
+</pre></div>
+</li>
+<li>
+<p>Depending on the security policy at your site, use the <code>sudo</code> command with your user password to execute a privileged command:</p>
+<div class="p">
+<pre dir="ltr">
+$ sudo pkg install jre-9
+</pre></div>
+</li>
+<li>
+<p>Use the roles command to list the roles that are assigned to you. If you have the root role, then use the <code>su</code> command with the root password to assume the root role:</p>
+<div class="p">
+<pre dir="ltr">
+# pkg install jre-9
+</pre></div>
+</li>
+</ul>
+<div class="infobox-note" id="GUID-B44BB1F7-0909-4B62-81F4-075E88E85775__GUID-55A73709-DF85-4089-BCFD-782C8811665A">
+<p class="notep1">Note:</p>
+The JDK 9 installation from SVR4 package (through the <code class="codeph">pkgadd</code> command) is not supported. Install JDK 9 using the IPS package.</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2"><a id="GUID-B6706BCE-E9BD-4B8F-93C5-7FC2AB6FFC19"></a>
+<h2 id="JSJIG-GUID-B6706BCE-E9BD-4B8F-93C5-7FC2AB6FFC19" class="sect2">Specifying the Default Java Platform</h2>
+<div>
+<p>If there are multiple versions of Java installed on the same image, then you can specify the default or preferred Java version using Mediator. A mediator contains a set of links to different implementations of an application, where every link has the same mediator name and link path, but different target link paths.</p>
+<div class="section">
+<p class="subhead2">View the Current Default Version</p>
+</div>
+<!-- class="section" -->
+<div class="section">Use <code class="codeph">pkg mediator</code> command to display all mediators in the image and the current default Java version.
+<pre dir="ltr">
+/usr/bin/pkg mediator | grep java
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">Set the Default Java Version</p>
+Use the <code class="codeph">pkg set-mediator</code> command to set Java 9 as the default or preferred version.
+<pre dir="ltr">
+usr/bin/pkg set-mediator -V 9 java
+</pre></div>
+<!-- class="section" --></div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment1">
+<tr>
+<td class="cellalignment11">
+<table class="cellalignment6">
+<tr>
+<td class="cellalignment5"><a href="version-string-format.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment5"><a href="server-jre-9-installation-oracle-solaris.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment13">
+<table class="cellalignment4">
+<tr>
+<td class="cellalignment5"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment5"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment5"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

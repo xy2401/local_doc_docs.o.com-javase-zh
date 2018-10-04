@@ -1,0 +1,173 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Packages and Classpath</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="content.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="exception.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/basicsHeader.gif" width=26 height=26 align=bottom border=0 alt="The Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Preparations</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Packages and Classpath
+</h2>
+<p>
+<blockquote>
+
+To use the JNDI in your program, you need to set up
+its compilation and execution environments.
+
+
+<h4>Importing the JNDI Classes</h4>
+Following are the JNDI packages:
+<ul>
+<li>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/package-summary.html><tt>javax.naming</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/package-summary.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/package-summary.html><tt>javax.naming.directory</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/package-summary.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/package-summary.html><tt>javax.naming.event</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/package-summary.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/package-summary.html><tt>javax.naming.ldap</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/package-summary.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/package-summary.html><tt>javax.naming.spi</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/package-summary.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></ul>
+<p>
+The examples in this trail use classes and interfaces
+from the first two packages. You need to
+import these two packages into your program or import individual
+classes and interfaces that you use.
+The following two lines import all of the classes and interfaces from
+the two packages <tt>javax.naming</tt> and <tt>javax.naming.directory</tt>.
+
+<blockquote>
+<pre>
+import javax.naming.*;
+import javax.naming.directory.*;
+</pre>
+</blockquote>
+
+<h4>Compilation Environment</h4>
+
+To compile a program that uses the JNDI, you need access to the JNDI classes.
+The
+<a href=http://java.sun.com/j2se/1.3>Java 2 SDK, v1.3</a>
+already includes the JNDI classes, so if you are using it you need not take further actions.
+<p>
+If you are using an older version of the Java SDK, 
+then you need to download the
+JNDI classes from the 
+<a href=http://java.sun.com/products/jndi/#download>JNDI Web site</a>.
+<p>
+If you are using the 
+<a href="http://java.sun.com/products/jdk/1.2">Java 2 SDK, v1.2</a>,
+then you can install the JNDI classes as 
+<a href=http://java.sun.com/tutorial/ext/index.html>an installed extension</a>.
+Copy the <tt>jndi.jar</tt> archive file to the 
+<em>JAVA_HOME</em><tt>/jre/lib/ext</tt> directory, where
+<em>JAVA_HOME</em> is the directory that contains
+the SDK.
+<p>
+If you are not using the JNDI as an installed extension, or
+are using the JDK<sup><font size=-2>TM</font></sup> 1.1, then
+copy the <tt>jndi.jar</tt> archive file to its permanent location and add its location
+to your classpath. You can do this by setting the <tt>CLASSPATH</tt>
+variable to include the absolute filename of the <tt>jndi.jar</tt> archive file.
+
+<h4>Execution Environment</h4>
+
+To run a program that uses the JNDI, 
+you need access to the JNDI classes and classes for any service
+providers that the program uses.
+The
+<a href=http://java.sun.com/j2se/1.3>Java 2 Runtime Environment (JRE) v1.3</a>
+already includes
+the JNDI classes and service providers for LDAP, COS naming, and
+the RMI registry.
+If you are using some other
+service providers, then you need to download and install their archive files in the
+<em>JAVA_HOME</em><tt>/jre/lib/ext</tt> directory, where
+<em>JAVA_HOME</em> is the directory that contains
+the JRE.
+<p>
+If you are using an older version of the JRE, then you need to download the
+JNDI classes from the 
+<a href=http://java.sun.com/products/jndi/#download>JNDI Web site</a>.
+This Web site also lists some service providers.
+You may download these providers or use providers
+from other vendors.
+<p>
+If you are using
+the <a href="http://java.sun.com/products/jdk/1.2">JRE v1.2</a>,
+then you can install the JNDI classes as 
+<a href=http://java.sun.com/tutorial/ext/index.html>an installed extension</a>.
+Copy the <tt>jndi.jar</tt> archive file to the 
+<em>JAVA_HOME</em><tt>/jre/lib/ext</tt> directory, where
+<em>JAVA_HOME</em> is the directory that contains
+the JRE.
+<p>
+If you are not using the JNDI as an installed extension or
+are using the JRE v1.1,
+then copy the JNDI and service provider archive files to their permanent 
+location and add that location
+to your classpath. You can do that by setting the <tt>CLASSPATH</tt>
+variable to include the absolute filenames of the archive files.
+For the examples in this trail, you'll need the
+file system and LDAP service providers.
+To provide for this, include the filenames
+<tt>fscontext.jar</tt>,
+<tt>ldap.jar</tt>, and <tt>providerutil.jar</tt>
+in your <tt>CLASSPATH</tt> variable.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="content.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="exception.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/basicsHeader.gif" width=26 height=26 align=top border=0 alt="The Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Preparations</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

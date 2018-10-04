@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Appendix B: JAAS Login Configuration File</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="dcterms.created" content="2018-03-13T07:25:33Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Security Developer&rsquo;s Guide" />
+<meta name="dcterms.identifier" content="E91076-01" />
+<meta name="dcterms.isVersionOf" content="JSSEC" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="java-authentication-and-authorization-service-jaas-reference-guide.htm" title="Previous" type="text/html" />
+<link rel="Next" href="jaas-tutorials.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSSEC.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-7EB80FA5-3C16-4016-AED6-0FC619F86F8E"></a> <span id="PAGE" style="display:none;">16/59</span> <!-- End Header -->
+<h1 id="JSSEC-GUID-7EB80FA5-3C16-4016-AED6-0FC619F86F8E" class="sect1">Appendix B: JAAS Login Configuration File</h1>
+<div>
+<p>JAAS authentication is performed in a pluggable fashion, so Java applications can remain independent from underlying authentication technologies. Configuration information such as the desired authentication technology is specified at runtime. The source of the configuration information (for example, a file or a database) is up to the current <a href="https://docs.oracle.com/javase/10/docs/api/javax/security/auth/login/Configuration.html" target="_blank"><span class="apiname">javax.security.auth.login.Configuration</span></a> implementation. The default <code class="codeph">Configuration</code> implementation, <code class="codeph">ConfigFile</code>, gets its configuration information from login configuration files. For details about the default login <code class="codeph">Configuration</code> implementation provided with JAAS, see the <a href="https://docs.oracle.com/javase/10/docs/api/com/sun/security/auth/login/ConfigFile.html" target="_blank"><code class="codeph">com.sun.security.auth.login.ConfigFile</code></a> class.</p>
+</div>
+<div class="sect2"><a id="GUID-9713B697-EFED-49A1-9E15-8039AD04458B"></a>
+<h2 id="JSSEC-GUID-9713B697-EFED-49A1-9E15-8039AD04458B" class="sect2">Login Configuration File Structure and Contents</h2>
+<div>
+<p>A login configuration file consists of one or more entries, each specifying which underlying authentication technology should be used for a particular application or applications. The structure of each entry is the following:</p>
+<pre dir="ltr">
+<span class="variable">&lt;name used by application to refer to this entry&gt;</span> { 
+    <span class="variable">&lt;LoginModule&gt;</span> <span class="variable">&lt;flag&gt;</span> <span class="variable">&lt;LoginModule options&gt;</span>;
+    <span class="variable">&lt;optional additional LoginModules, flags and options&gt;</span>;
+};
+</pre>
+<p>Thus, each login configuration file entry consists of a name followed by one or more <span class="apiname">LoginModule</span>-specific entries, where each <span class="apiname">LoginModule</span>-specific entry is terminated by a semicolon and the entire group of <span class="apiname">LoginModule</span>-specific entries is enclosed in braces. Each configuration file entry is terminated by a semicolon.</p>
+<div class="example" id="GUID-9713B697-EFED-49A1-9E15-8039AD04458B__GUID-8B49A958-1B17-4713-AB56-42F99D6B8247">
+<p class="titleinexample">Example 6-1 Login Configuration File for JAAS Authentication Tutorial</p>
+<p>As an example, the login configuration file used for the <a href="jaas-authentication-tutorial.htm#GUID-BFEBDB00-9826-499C-A20F-E9463883DED4">JAAS Authentication Tutorial</a> tutorial contains just one entry, which is</p>
+<pre dir="ltr">
+<span class="bold">Sample {
+   sample.module.SampleLoginModule required debug=true;
+};</span>
+</pre>
+<p>Here, the entry is named <code class="codeph">Sample</code> and that is the name that the JAAS Authentication tutorial application (<code class="codeph">SampleAcn.java</code>) uses to refer to this entry. The entry specifies that the <span class="apiname">LoginModule</span> to be used to do the user authentication is the <code class="codeph">SampleLoginModule</code> in the <code class="codeph">sample.module</code> package and that this <code class="codeph">SampleLoginModule</code> is required to "succeed" in order for authentication to be considered successful. The <code class="codeph">SampleLoginModule</code> succeeds only if the name and password supplied by the user are the ones it expects (<code class="codeph">testUser</code> and <code class="codeph">testPassword</code>, respectively).</p>
+<p>The <span class="bold">name</span> for an entry in a login configuration file is the name that applications use to refer to the entry when they instantiate a <span class="apiname">LoginContext</span>, as described in <a href="jaas-authentication-tutorial.htm#GUID-BFEBDB00-9826-499C-A20F-E9463883DED4">JAAS Authentication Tutorial</a> in the JAAS authentication tutorial. The name can be whatever name the application developer wishes to use. Here, the term "application" refers to whatever code does the JAAS login.</p>
+<p>The specified <span class="apiname">LoginModules</span> (described below) are used to control the authentication process. Authentication proceeds down the list in the exact order specified, as described in the <a href="https://docs.oracle.com/javase/10/docs/api/javax/security/auth/login/Configuration.html" target="_blank"><span class="apiname">Configuration</span></a> class.</p>
+<p>The subparts of each <span class="apiname">LoginModule</span>-specific entry are the following:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold">LoginModule</span>: This specifies a class implementing the desired authentication technology. Specifically, the class must be a subclass of the <span class="apiname">LoginModule</span> class, which is in the <code class="codeph">javax.security.auth.spi</code> package. A typical <span class="apiname">LoginModule</span> may prompt for and verify a user name and password, as is done by the <code class="codeph">SampleLoginModule</code> (in the <code class="codeph">sample.module</code> package) used for these tutorials. Any vendor can provide a LoginModule implementation that you can use. Some implementations are supplied with the JRE from Oracle. You can view the reference documentation for the various <span class="apiname">LoginModule</span>s, all in the <code class="codeph">com.sun.security.auth</code> package:</p>
+<ul style="list-style-type: disc;">
+<li><a href="https://docs.oracle.com/javase/10/docs/api/com/sun/security/auth/module/JndiLoginModule.html" target="_blank"><span class="apiname">JndiLoginModule</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/com/sun/security/auth/module/KeyStoreLoginModule.html" target="_blank"><span class="apiname">KeyStoreLoginModule</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/com/sun/security/auth/module/Krb5LoginModule.html" target="_blank"><span class="apiname">Krb5LoginModule</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/com/sun/security/auth/module/NTLoginModule.html" target="_blank"><span class="apiname">NTLoginModule</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/com/sun/security/auth/module/UnixLoginModule.html" target="_blank"><span class="apiname">UnixLoginModule</span></a></li>
+</ul>
+</li>
+<li>
+<p><span class="bold">flag</span>: The flag value indicates whether success of the preceding <span class="apiname">LoginModule</span> is <code class="codeph">required</code>, <code class="codeph">requisite</code>, <code class="codeph">sufficient</code>, or <code class="codeph">optional</code>. If there is just one <span class="apiname">LoginModule</span>-specific entry, as there is in our tutorials, then the flag for it should be "required". The options are described in more detail in the <a href="https://docs.oracle.com/javase/10/docs/api/javax/security/auth/login/Configuration.html" target="_blank"><span class="apiname">Configuration</span></a> class.</p>
+</li>
+<li>
+<p><span class="bold">LoginModule options</span>: If the specified <span class="apiname">LoginModule</span> implementation has options that can be set, you specify any desired option values here. This is a space-separated list of values which are passed directly to the underlying <span class="apiname">LoginModule</span>. Options are defined by the <span class="apiname">LoginModule</span> itself, and control the behavior within it. For example, a <span class="apiname">LoginModule</span> may define options to support debugging/testing capabilities.</p>
+<p>The correct way to specify options in the configuration file is by using a name-value pairing, for example <code class="codeph">debug=true</code>, where the option name (in this case, <code class="codeph">debug</code>) and value (in this case, <code class="codeph">true</code>) should be separated by an equals symbol.</p>
+</li>
+</ul>
+</div>
+<!-- class="example" -->
+<div class="example" id="GUID-9713B697-EFED-49A1-9E15-8039AD04458B__GUID-B4E5B990-335D-4505-984C-23EA6B12E626">
+<p class="titleinexample">Example 6-2 Login Configuration File Demonstrating required, sufficient, requisite, and optional Flags</p>
+<p>The following is a sample login configuration file that demonstrates the <code class="codeph">required</code>, <code class="codeph">sufficient</code>, <code class="codeph">requisite</code>, and <code class="codeph">optional</code> flags. See the <a href="https://docs.oracle.com/javase/10/docs/api/javax/security/auth/login/Configuration.html" target="_blank"><code class="codeph">Configuration</code></a> class for more information about these flags.</p>
+<pre dir="ltr">
+Login1 {
+       sample.SampleLoginModule required debug=true;
+    };
+
+    Login2 {
+       sample.SampleLoginModule required;
+       com.sun.security.auth.module.NTLoginModule sufficient;
+       com.foo.SmartCard requisite debug=true;
+       com.foo.Kerberos optional debug=true;
+    };
+</pre>
+<p>The application <span class="bold">Login1</span> only has one configured <code class="codeph">LoginModule</code>, <code class="codeph">SampleLoginModule</code>. Therefore, an attempt by <span class="bold">Login1</span> to authenticate a subject (user or service) will be successful if and only if the <code class="codeph">SampleLoginModule</code> succeeds.</p>
+<p>The authentication logic for the application <span class="bold">Login2</span> is easier to explain with the following table:</p>
+<div class="tblformalwide" id="GUID-9713B697-EFED-49A1-9E15-8039AD04458B__GUID-08C8B04B-2735-4218-AA3B-DDE4F7514A5F">
+<p class="titleintable">Table 6-1 Login2 Authentication Status</p>
+<table class="cellalignment469" title="Login2 Authentication Status" summary="Authentication logic for the application Login2">
+<thead>
+<tr class="cellalignment456">
+<th class="cellalignment471" id="d84137e307">Module Class</th>
+<th class="cellalignment471" id="d84137e310">Flag</th>
+<th class="cellalignment471" id="d84137e313">Authentication Attempt 1</th>
+<th class="cellalignment471" id="d84137e316">Authentication Attempt 2</th>
+<th class="cellalignment471" id="d84137e319">Authentication Attempt 3</th>
+<th class="cellalignment471" id="d84137e322">Authentication Attempt 4</th>
+<th class="cellalignment471" id="d84137e325">Authentication Attempt 5</th>
+<th class="cellalignment471" id="d84137e328">Authentication Attempt 6</th>
+<th class="cellalignment471" id="d84137e331">Authentication Attempt 7</th>
+<th class="cellalignment471" id="d84137e334">Authentication Attempt 8</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d84137e340" headers="d84137e307">
+<p><code class="codeph">SampleLoginModule</code></p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e340 d84137e310">
+<p>required</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e340 d84137e313">
+<p>pass</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e340 d84137e316">
+<p>pass</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e340 d84137e319">
+<p>pass</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e340 d84137e322">
+<p>pass</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e340 d84137e325">
+<p>fail</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e340 d84137e328">
+<p>fail</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e340 d84137e331">
+<p>fail</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e340 d84137e334">
+<p>fail</p>
+</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d84137e372" headers="d84137e307">
+<p><code class="codeph">NTLoginModule</code></p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e372 d84137e310">
+<p>sufficient</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e372 d84137e313">
+<p>pass</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e372 d84137e316">
+<p>fail</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e372 d84137e319">
+<p>fail</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e372 d84137e322">
+<p>fail</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e372 d84137e325">
+<p>pass</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e372 d84137e328">
+<p>fail</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e372 d84137e331">
+<p>fail</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e372 d84137e334">
+<p>fail</p>
+</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d84137e404" headers="d84137e307">
+<p>SmartCard</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e404 d84137e310">
+<p>requisite</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e404 d84137e313">
+<p>*</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e404 d84137e316">
+<p>pass</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e404 d84137e319">
+<p>pass</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e404 d84137e322">
+<p>fail</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e404 d84137e325">
+<p>*</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e404 d84137e328">
+<p>pass</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e404 d84137e331">
+<p>pass</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e404 d84137e334">
+<p>fail</p>
+</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d84137e435" headers="d84137e307">
+<p>Kerberos</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e435 d84137e310">
+<p>optional</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e435 d84137e313">
+<p>*</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e435 d84137e316">
+<p>pass</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e435 d84137e319">
+<p>fail</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e435 d84137e322">
+<p>*</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e435 d84137e325">
+<p>*</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e435 d84137e328">
+<p>pass</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e435 d84137e331">
+<p>fail</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e435 d84137e334">
+<p>*</p>
+</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d84137e466" headers="d84137e307">
+<p>Overall Authentication</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e466 d84137e310">
+<p>not applicable</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e466 d84137e313">
+<p>pass</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e466 d84137e316">
+<p>pass</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e466 d84137e319">
+<p>pass</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e466 d84137e322">
+<p>fail</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e466 d84137e325">
+<p>fail</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e466 d84137e328">
+<p>fail</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e466 d84137e331">
+<p>fail</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d84137e466 d84137e334">
+<p>fail</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p>* = trivial value due to control returning to the application because a previous <span class="italic">requisite</span> module failed or a previous <span class="italic">sufficient</span> module succeeded.</p>
+</div>
+<!-- class="example" --></div>
+</div>
+<div class="sect2"><a id="GUID-1D5D78E1-4771-43B7-AEED-1D427A7044F0"></a>
+<h2 id="JSSEC-GUID-1D5D78E1-4771-43B7-AEED-1D427A7044F0" class="sect2">Where to Specify Which Login Configuration File Should Be Used</h2>
+<div>
+<p>The configuration file to be used can be specified in one of two ways:</p>
+<ol>
+<li>
+<p>On the command line.</p>
+<p>You can use a <code class="codeph">-Djava.security.auth.login.config</code> interpreter command line argument to specify the login configuration file that should be used. We use this approach for all the tutorials. For example, we run our <code class="codeph">SampleAcn</code> application in the <a href="jaas-authentication-tutorial.htm#GUID-BFEBDB00-9826-499C-A20F-E9463883DED4">JAAS Authentication Tutorial</a> using the following command, which specifies that the configuration file is the <code class="codeph">sample_jaas.config</code> file in the current directory:</p>
+<pre dir="ltr">
+java -Djava.security.auth.login.config==sample_jaas.config sample.SampleAcn
+</pre>
+<div class="infobox-note" id="GUID-1D5D78E1-4771-43B7-AEED-1D427A7044F0__GUID-2DD19A7E-59D7-40A6-AC26-ACD6E8AD9583">
+<p class="notep1">Note:</p>
+<p>If you use a single equals sign (<code class="codeph">=</code>) with the <code class="codeph">java.security.auth.login.config</code> system property, then the configurations specified by both this system property and the <code>java.security</code> file are used.</p>
+</div>
+</li>
+<li>
+<p>In the Java Security Properties file.</p>
+<p>An alternate approach to specifying the location of the login configuration file is to indicate its URL as the value of a <code class="codeph">login.config.url.<span class="variable">n</span></code> property in the security properties file. The Security Properties file is the <code class="codeph">java.security</code> file located in the <code class="codeph">conf/security</code> directory of the JDK.</p>
+<p>Here, <code class="codeph"><span class="variable">n</span></code> indicates a consecutively-numbered integer starting with 1. Thus, if desired, you can specify more than one login configuration file by indicating one file's URL for the <code class="codeph">login.config.url.1</code> property, a second file's URL for the <code class="codeph">login.config.url.2</code> property, and so on. If more than one login configuration file is specified (that is, if <code class="codeph"><span class="variable">n</span></code> &gt; 1), then the files are read and concatenated into a single configuration.</p>
+<p>Here is an example of what would need to be added to the security properties file in order to indicate the <code class="codeph">sample_jaas.config</code> login configuration file used by this tutorial. This example assumes the file is in the <code class="codeph">C:\AcnTest</code> directory on Windows:</p>
+<pre dir="ltr">
+login.config.url.1=file:C:/AcnTest/sample_jaas.config
+</pre>
+<p>(Note that URLs always use forward slashes, regardless of what operating system the user is running.)</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment455">
+<tr>
+<td class="cellalignment462">
+<table class="cellalignment460">
+<tr>
+<td class="cellalignment459"><a href="java-authentication-and-authorization-service-jaas-reference-guide.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment459"><a href="jaas-tutorials.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment464">
+<table class="cellalignment458">
+<tr>
+<td class="cellalignment459"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment459"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment459"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

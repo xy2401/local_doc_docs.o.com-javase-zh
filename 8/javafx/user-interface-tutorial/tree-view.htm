@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>14 Tree View (Release 8)</title>
+<meta name="description" content="In this chapter you can learn how to build tree structures in your JavaFX application, add items to the tree views, process events, and customize the tree cells by implementing and applying cell factories.">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXUI.pdf">PDF</a> | <a href="../JFXUI.epub">ePub</a> | <a href="../JFXUI.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Working with JavaFX UI Components</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="table-view.htm">Previous Page</a><a class="button" title="Next Page" href="tree-table-view.htm">Next Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="BABDEADA" name="BABDEADA" class="anchor"></a><a id="JFXUI377" name="JFXUI377" class="anchor"></a>
+<h1 class="chapter"><span class="secnum">14</span> Tree View</h1>
+<a id="JFXUI378" name="JFXUI378" class="anchor"></a>
+<p>In this chapter you can learn how to build tree structures in your JavaFX application, add items to the tree views, process events, and customize the tree cells by implementing and applying cell factories.</p>
+<p>The <code>TreeView</code> class of the <code>javafx.scene.control</code> package provides a view of hierarchical structures. In each tree the highest object in the hierarchy is called the "root." The root contains several child items, which can have children as well. An item without children is called "leaf."</p>
+<p><a href="#BABFFAFJ">Figure 14-1</a> shows a screen capture of an application with a tree view.</p>
+<div class="figure"><a id="BABFFAFJ" name="BABFFAFJ" class="anchor"></a><a id="JFXUI379" name="JFXUI379" class="anchor"></a>
+<p class="titleinfigure">Figure 14-1 Tree View Sample</p>
+<img width="419" height="329" src="img/tree-view-sample.png" alt="Description of Figure 14-1 follows" title="Description of Figure 14-1 follows" longdesc="img_text/tree-view-sample.htm" /><br />
+<a id="sthref120" name="sthref120" href="img_text/tree-view-sample.htm">Description of "Figure 14-1 Tree View Sample"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<a id="JFXUI380" name="JFXUI380" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref121" name="sthref121" class="anchor"></a>
+<h2 class="sect1">Creating Tree Views</h2>
+<p>When you build a tree structure in your JavaFX applications, you typically need to instantiate the <code>TreeView</code> class, define several <code>TreeItem</code> objects, make one of the tree items the root, add the root to the tree view and other tree items to the root.</p>
+<p>You can accompany each tree item with a graphical icon by using the corresponding constructor of the <code>TreeItem</code> class or by calling the <code>setGraphic</code> method. The recommended size for icons is 16x16, but in fact, any <code>Node</code> object can be set as the icon and it will be fully interactive.</p>
+<p><a href="#BABEJCHA">Example 14-1</a> is an implementation of a simple tree view with the root and five leaves.</p>
+<div class="example"><a id="BABEJCHA" name="BABEJCHA" class="anchor"></a><a id="JFXUI381" name="JFXUI381" class="anchor"></a>
+<p class="titleinexample">Example 14-1 Creating a Tree View</p>
+<pre xml:space="preserve" class="oac_no_warn">import javafx.application.Application;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+ 
+public class TreeViewSample extends Application {
+ 
+    private final Node rootIcon = new ImageView(
+        new Image(getClass().getResourceAsStream("folder_16.png"))
+    );
+ 
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Tree View Sample");        
+        
+        <span class="bold">TreeItem&lt;String&gt; rootItem = new TreeItem&lt;&gt; ("Inbox", rootIcon);</span>
+        <span class="bold">rootItem.setExpanded(true);</span>
+        for (int i = 1; i &lt; 6; i++) {
+            <span class="bold">TreeItem&lt;String&gt; item = new TreeItem&lt;&gt; ("Message" + i);</span>            
+            <span class="bold">rootItem.getChildren().add(item);</span>
+        }        
+        <span class="bold">TreeView&lt;String&gt; tree = new TreeView&lt;&gt; (rootItem);</span>        
+        StackPane root = new StackPane();
+        root.getChildren().add(tree);
+        primaryStage.setScene(new Scene(root, 300, 250));
+        primaryStage.show();
+    }
+}
+</pre></div>
+<!-- class="example" -->
+<p>All the tree items created within the <code>for</code> loop are added to the root item by calling the <code>getChildren</code> and <code>add</code> methods. You can also use the <code>addAll</code> method instead of the <code>add</code> method to include all the previously created tree items at once.</p>
+<p>You can specify the root of the tree within the constructor of the <code>TreeView</code> class when you create a new <code>TreeView</code> object as shown in <a href="#BABEJCHA">Example 14-1</a>, or you can set it by calling the <code>setRoot</code> method of the <code>TreeView</code> class.</p>
+<p>The <code>setExpanded</code> method called on the root item defines the initial appearance of the tree view item. By default, all <code>TreeItem</code> instances are collapsed, and must be manually expanded if required. Pass the <code>true</code> value to the <code>setExpanded</code> method, so that the root tree item looks expanded when the application starts, as shown in <a href="#BABJACDB">Figure 14-2</a>.</p>
+<div class="figure"><a id="BABJACDB" name="BABJACDB" class="anchor"></a><a id="JFXUI382" name="JFXUI382" class="anchor"></a>
+<p class="titleinfigure">Figure 14-2 Tree View with Five Tree Items</p>
+<img width="321" height="290" src="img/tree-view-simple.png" alt="Description of Figure 14-2 follows" title="Description of Figure 14-2 follows" longdesc="img_text/tree-view-simple.htm" /><br />
+<a id="sthref122" name="sthref122" href="img_text/tree-view-simple.htm">Description of "Figure 14-2 Tree View with Five Tree Items"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p><a href="#BABEJCHA">Example 14-1</a> creates a simple tree view with the <code>String</code> items. However, a tree structure can contain items of different types. Use the following generic notation of the <code>TreeItem</code> constructor to define application-specific data represented by a tree item: <code>TreeItem&lt;T&gt; (T value)</code>. The <code>T</code> value can specify any object, such as UI controls or custom components.</p>
+<p>Unlike the <code>TreeView</code> class, the <code>TreeItem</code> class does not extend the <code>Node</code> class. Therefore, you cannot apply any visual effects or add menus to the tree items. Use the cell factory mechanism to overcome this obstacle and define as much custom behavior for the tree items as your application requires.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXUI383" name="JFXUI383" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref123" name="sthref123" class="anchor"></a>
+<h2 class="sect1">Implementing Cell Factories</h2>
+<p>The cell factory mechanism is used for generating <code>TreeCell</code> instances to represent a single <code>TreeItem</code> in the <code>TreeView</code>. Using cell factories is particularly helpful when your application operates with an excessive amount of data that is changed dynamically or added on demand.</p>
+<p>Consider an application that visualizes human resources data of a given company, and enables users to modify employee details and add new employees.</p>
+<p><a href="#BABJGGGF">Example 14-2</a> creates the <code>Employee</code> class and arranges employees in groups according to their departments.</p>
+<div class="example"><a id="BABJGGGF" name="BABJGGGF" class="anchor"></a><a id="JFXUI384" name="JFXUI384" class="anchor"></a>
+<p class="titleinexample">Example 14-2 Creating a Model of the Human Resources Tree View</p>
+<pre xml:space="preserve" class="oac_no_warn">import java.util.Arrays;
+import java.util.List;
+import javafx.application.Application;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+ 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.layout.VBox;
+ 
+public class TreeViewSample extends Application {
+ 
+    private final Node rootIcon = 
+        new ImageView(new Image(getClass().getResourceAsStream("root.png")));
+    private final Image depIcon = 
+        new Image(getClass().getResourceAsStream("department.png"));
+    List&lt;Employee&gt; employees = Arrays.&lt;Employee&gt;asList(
+            new Employee("Jacob Smith", "Accounts Department"),
+            new Employee("Isabella Johnson", "Accounts Department"),           
+            new Employee("Ethan Williams", "Sales Department"),
+            new Employee("Emma Jones", "Sales Department"),
+            new Employee("Michael Brown", "Sales Department"),
+            new Employee("Anna Black", "Sales Department"),
+            new Employee("Rodger York", "Sales Department"),
+            new Employee("Susan Collins", "Sales Department"),
+            new Employee("Mike Graham", "IT Support"),
+            new Employee("Judy Mayer", "IT Support"),
+            new Employee("Gregory Smith", "IT Support"));
+    <span class="bold">TreeItem&lt;String&gt; rootNode;</span>
+ 
+    public static void main(String[] args) {
+        launch(args);
+    }
+ 
+    public TreeViewSample() {
+        <span class="bold">this.rootNode = new TreeItem&lt;&gt;("MyCompany Human Resources", rootIcon);</span>
+    }
+ 
+    @Override
+    public void start(Stage stage) {
+        <span class="bold">rootNode.setExpanded(true);</span>
+        <span class="bold">for (Employee employee : employees) {</span>
+            <span class="bold">TreeItem&lt;String&gt; empLeaf = new TreeItem&lt;&gt;(employee.getName());</span>
+            <span class="bold">boolean found = false;</span>
+            <span class="bold">for (TreeItem&lt;String&gt; depNode : rootNode.getChildren()) {</span>
+                <span class="bold">if (depNode.getValue().contentEquals(employee.getDepartment())){</span>
+                    <span class="bold">depNode.getChildren().add(empLeaf);</span>
+                    <span class="bold">found = true;</span>
+                    <span class="bold">break;</span>
+                <span class="bold">}</span>
+            <span class="bold">}</span>
+            <span class="bold">if (!found) {</span>
+                <span class="bold">TreeItem&lt;String&gt; depNode = new TreeItem&lt;&gt;(</span>
+                    <span class="bold">employee.getDepartment(),</span> 
+                    <span class="bold">new ImageView(depIcon)</span>
+                <span class="bold">);</span>
+                <span class="bold">rootNode.getChildren().add(depNode);</span>
+                <span class="bold">depNode.getChildren().add(empLeaf);</span>
+            <span class="bold">}</span>
+        <span class="bold">}</span>
+ 
+        stage.setTitle("Tree View Sample");
+        VBox box = new VBox();
+        final Scene scene = new Scene(box, 400, 300);
+        scene.setFill(Color.LIGHTGRAY);
+ 
+        <span class="bold">TreeView&lt;String&gt; treeView = new TreeView&lt;&gt;(rootNode);</span>
+        
+        box.getChildren().add(treeView);
+        stage.setScene(scene);
+        stage.show();
+    }
+ 
+    public static class Employee {
+ 
+        private final SimpleStringProperty name;
+        private final SimpleStringProperty department;
+ 
+        private Employee(String name, String department) {
+            this.name = new SimpleStringProperty(name);
+            this.department = new SimpleStringProperty(department);
+        }
+ 
+        public String getName() {
+            return name.get();
+        }
+ 
+        public void setName(String fName) {
+            name.set(fName);
+        }
+ 
+        public String getDepartment() {
+            return department.get();
+        }
+ 
+        public void setDepartment(String fName) {
+            department.set(fName);
+        }
+    }
+}
+</pre></div>
+<!-- class="example" -->
+<p>Each <code>Employee</code> object in <a href="#BABJGGGF">Example 14-2</a> has two properties: <code>name</code> and <code>department</code>. <code>TreeItem</code> objects corresponding to the employees are referred as tree leaves, whereas the tree items corresponding to the departments are referred to as tree items with children. The name of the new department to be created is retrieved from an <code>Employee</code> object by calling the <code>getDepartment</code> method.</p>
+<p>When you compile and run this application, it creates the window shown in <a href="#BABGJJCI">Figure 14-3</a>.</p>
+<div class="figure"><a id="BABGJJCI" name="BABGJJCI" class="anchor"></a><a id="JFXUI385" name="JFXUI385" class="anchor"></a>
+<p class="titleinfigure">Figure 14-3 List of Employees in the Tree View Sample Application</p>
+<img width="419" height="392" src="img/tree-view-hr1.png" alt="Description of Figure 14-3 follows" title="Description of Figure 14-3 follows" longdesc="img_text/tree-view-hr1.htm" /><br />
+<a id="sthref124" name="sthref124" href="img_text/tree-view-hr1.htm">Description of "Figure 14-3 List of Employees in the Tree View Sample Application"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>With <a href="#BABJGGGF">Example 14-2</a>, you can preview the tree view and its items, but you cannot change the existing items or add any new items. <a href="#BABGHEHF">Example 14-3</a> shows a modified version of the application with the cell factory implemented. The modified application enables you to change the name of an employee.</p>
+<div class="example"><a id="BABGHEHF" name="BABGHEHF" class="anchor"></a><a id="JFXUI386" name="JFXUI386" class="anchor"></a>
+<p class="titleinexample">Example 14-3 Implementing a Cell Factory</p>
+<pre xml:space="preserve" class="oac_no_warn">import java.util.Arrays;
+import java.util.List;
+import javafx.application.Application;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TreeCell;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.layout.VBox;
+ 
+public class TreeViewSample extends Application {
+ 
+    private final Node rootIcon = 
+        new ImageView(new Image(getClass().getResourceAsStream("root.png")));
+    private final Image depIcon = 
+        new Image(getClass().getResourceAsStream("department.png"));
+    List&lt;Employee&gt; employees = Arrays.&lt;Employee&gt;asList(
+            new Employee("Jacob Smith", "Accounts Department"),
+            new Employee("Isabella Johnson", "Accounts Department"),
+            new Employee("Ethan Williams", "Sales Department"),
+            new Employee("Emma Jones", "Sales Department"),
+            new Employee("Michael Brown", "Sales Department"),
+            new Employee("Anna Black", "Sales Department"),
+            new Employee("Rodger York", "Sales Department"),
+            new Employee("Susan Collins", "Sales Department"),
+            new Employee("Mike Graham", "IT Support"),
+            new Employee("Judy Mayer", "IT Support"),
+            new Employee("Gregory Smith", "IT Support"));
+    TreeItem&lt;String&gt; rootNode;
+ 
+    public static void main(String[] args) {
+        Application.launch(args);
+    }
+ 
+    public TreeViewSample() {
+        this.rootNode = new TreeItem&lt;&gt;("MyCompany Human Resources", rootIcon);
+    }
+ 
+    @Override
+    public void start(Stage stage) {
+        rootNode.setExpanded(true);
+        for (Employee employee : employees) {
+            TreeItem&lt;String&gt; empLeaf = new TreeItem&lt;&gt;(employee.getName());
+            boolean found = false;
+            for (TreeItem&lt;String&gt; depNode : rootNode.getChildren()) {
+                if (depNode.getValue().contentEquals(employee.getDepartment())){
+                    depNode.getChildren().add(empLeaf);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                TreeItem&lt;String&gt; depNode = new TreeItem&lt;&gt;(
+                    employee.getDepartment(), 
+                    new ImageView(depIcon)
+                );
+                rootNode.getChildren().add(depNode);
+                depNode.getChildren().add(empLeaf);
+            }
+        }
+ 
+        stage.setTitle("Tree View Sample");
+        VBox box = new VBox();
+        final Scene scene = new Scene(box, 400, 300);
+        scene.setFill(Color.LIGHTGRAY);
+ 
+        TreeView&lt;String&gt; treeView = new TreeView&lt;&gt;(rootNode);
+        <span class="bold">treeView.setEditable(true);</span>
+        <span class="bold">treeView.setCellFactory((TreeView&lt;String&gt; p) -&gt;</span> 
+            <span class="bold">new TextFieldTreeCellImpl());</span>
+ 
+        box.getChildren().add(treeView);
+        stage.setScene(scene);
+        stage.show();
+    }
+ 
+    <span class="bold">private final class TextFieldTreeCellImpl extends TreeCell&lt;String&gt; {</span>
+ 
+        <span class="bold">private TextField textField;</span>
+ 
+        <span class="bold">public TextFieldTreeCellImpl() {</span>
+        <span class="bold">}</span>
+ 
+        <span class="bold">@Override</span>
+        <span class="bold">public void startEdit() {</span>
+            <span class="bold">super.startEdit();</span>
+ 
+            <span class="bold">if (textField == null) {</span>
+                <span class="bold">createTextField();</span>
+            <span class="bold">}</span>
+            <span class="bold">setText(null);</span>
+            <span class="bold">setGraphic(textField);</span>
+            <span class="bold">textField.selectAll();</span>
+        <span class="bold">}</span>
+ 
+        <span class="bold">@Override</span>
+        <span class="bold">public void cancelEdit() {</span>
+            <span class="bold">super.cancelEdit();</span>
+            <span class="bold">setText((String) getItem());</span>
+            <span class="bold">setGraphic(getTreeItem().getGraphic());</span>
+        <span class="bold">}</span>
+ 
+        <span class="bold">@Override</span>
+        <span class="bold">public void updateItem(String item, boolean empty) {</span>
+            <span class="bold">super.updateItem(item, empty);</span>
+ 
+            <span class="bold">if (empty) {</span>
+                <span class="bold">setText(null);</span>
+                <span class="bold">setGraphic(null);</span>
+            <span class="bold">} else {</span>
+                <span class="bold">if (isEditing()) {</span>
+                    <span class="bold">if (textField != null) {</span>
+                        <span class="bold">textField.setText(getString());</span>
+                    <span class="bold">}</span>
+                    <span class="bold">setText(null);</span>
+                    <span class="bold">setGraphic(textField);</span>
+                <span class="bold">} else {</span>
+                    <span class="bold">setText(getString());</span>
+                    <span class="bold">setGraphic(getTreeItem().getGraphic());</span>
+                <span class="bold">}</span>
+            <span class="bold">}</span>
+        <span class="bold">}</span>
+ 
+        <span class="bold">private void createTextField() {</span>
+            <span class="bold">textField = new TextField(getString());</span>
+            <span class="bold">textField.setOnKeyReleased((KeyEvent t) -&gt; {</span>
+                <span class="bold">if (t.getCode() == KeyCode.ENTER) {</span>
+                    <span class="bold">commitEdit(textField.getText());</span>
+                <span class="bold">} else if (t.getCode() == KeyCode.ESCAPE) {</span>
+                    <span class="bold">cancelEdit();</span>
+                <span class="bold">}</span>
+            <span class="bold">});</span>
+        <span class="bold">}</span>
+ 
+        <span class="bold">private String getString() {</span>
+            <span class="bold">return getItem() == null ? "" : getItem().toString();</span>
+        <span class="bold">}</span>
+    <span class="bold">}</span>
+ 
+    public static class Employee {
+ 
+        private final SimpleStringProperty name;
+        private final SimpleStringProperty department;
+ 
+        private Employee(String name, String department) {
+            this.name = new SimpleStringProperty(name);
+            this.department = new SimpleStringProperty(department);
+        }
+ 
+        public String getName() {
+            return name.get();
+        }
+ 
+        public void setName(String fName) {
+            name.set(fName);
+        }
+ 
+        public String getDepartment() {
+            return department.get();
+        }
+ 
+        public void setDepartment(String fName) {
+            department.set(fName);
+        }
+    }
+}
+
+</pre></div>
+<!-- class="example" -->
+<p>The <code>setCellFactory</code> method called on the <code>treeView</code> object overrides the <code>TreeCell</code> implementation and redefines the tree items as specified in the <code>TextFieldTreeCellImpl</code> class.</p>
+<p>The <code>TextFieldTreeCellImpl</code> class creates a <code>TextField</code> object for each tree item and provides the methods to process editing events.</p>
+<p>Note that you must explicitly call the <code>setEditable(true)</code> method on the tree view to enable editing all its items.</p>
+<p>Compile and run the application in <a href="#BABGHEHF">Example 14-3</a>. Then try to click the employees in the tree and change their names. <a href="#BABIAEJE">Figure 14-4</a> captures the moment of editing a tree item in the IT Support department.</p>
+<div class="figure"><a id="BABIAEJE" name="BABIAEJE" class="anchor"></a><a id="JFXUI387" name="JFXUI387" class="anchor"></a>
+<p class="titleinfigure">Figure 14-4 Changing an Employee Name</p>
+<img width="421" height="342" src="img/tree-view-hr2.png" alt="Description of Figure 14-4 follows" title="Description of Figure 14-4 follows" longdesc="img_text/tree-view-hr2.htm" /><br />
+<a id="sthref125" name="sthref125" href="img_text/tree-view-hr2.htm">Description of "Figure 14-4 Changing an Employee Name"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXUI388" name="JFXUI388" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref126" name="sthref126" class="anchor"></a>
+<h2 class="sect1">Adding New Tree Items on Demand</h2>
+<p>Modify the Tree View Sample application so that a human resources representative can add new employees. Use the bold code lines of <a href="#BABFCCCG">Example 14-4</a> for your reference. These lines add a context menu to the tree items that correspond to the departments. When the Add Employee menu item is selected, the new tree item is added as a leaf to the current department.</p>
+<p>Use the <code>isLeaf</code> method to distinguish between department tree items and employee tree items.</p>
+<div class="example"><a id="BABFCCCG" name="BABFCCCG" class="anchor"></a><a id="JFXUI389" name="JFXUI389" class="anchor"></a>
+<p class="titleinexample">Example 14-4 Adding New Tree Items</p>
+<pre xml:space="preserve" class="oac_no_warn">import java.util.Arrays;
+import java.util.List;
+import javafx.application.Application;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TreeCell;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage; 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.VBox;
+ 
+public class TreeViewSample extends Application {
+ 
+    private final Node rootIcon = 
+        new ImageView(new Image(getClass().getResourceAsStream("root.png")));
+    private final Image depIcon = 
+        new Image(getClass().getResourceAsStream("department.png"));
+    List&lt;Employee&gt; employees = Arrays.&lt;Employee&gt;asList(
+            new Employee("Jacob Smith", "Accounts Department"),
+            new Employee("Isabella Johnson", "Accounts Department"),
+            new Employee("Ethan Williams", "Sales Department"),
+            new Employee("Emma Jones", "Sales Department"),
+            new Employee("Michael Brown", "Sales Department"),
+            new Employee("Anna Black", "Sales Department"),
+            new Employee("Rodger York", "Sales Department"),
+            new Employee("Susan Collins", "Sales Department"),
+            new Employee("Mike Graham", "IT Support"),
+            new Employee("Judy Mayer", "IT Support"),
+            new Employee("Gregory Smith", "IT Support"));
+    TreeItem&lt;String&gt; rootNode = 
+        new TreeItem&lt;&gt;("MyCompany Human Resources", rootIcon);
+ 
+    public static void main(String[] args) {
+        Application.launch(args);
+    }
+ 
+    @Override
+    public void start(Stage stage) {
+        rootNode.setExpanded(true);
+        for (Employee employee : employees) {
+            TreeItem&lt;String&gt; empLeaf = new TreeItem&lt;&gt;(employee.getName());
+            boolean found = false;
+            for (TreeItem&lt;String&gt; depNode : rootNode.getChildren()) {
+                if (depNode.getValue().contentEquals(employee.getDepartment())){
+                    depNode.getChildren().add(empLeaf);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                TreeItem depNode = new TreeItem(employee.getDepartment(), 
+                    new ImageView(depIcon)
+                );
+                rootNode.getChildren().add(depNode);
+                depNode.getChildren().add(empLeaf);
+            }
+        }
+ 
+        stage.setTitle("Tree View Sample");
+        VBox box = new VBox();
+        final Scene scene = new Scene(box, 400, 300);
+        scene.setFill(Color.LIGHTGRAY);
+ 
+        TreeView&lt;String&gt; treeView = new TreeView&lt;&gt;(rootNode);
+        treeView.setEditable(true);
+        treeView.setCellFactory((TreeView&lt;String&gt; p) -&gt; 
+            new TextFieldTreeCellImpl());
+ 
+        box.getChildren().add(treeView);
+        stage.setScene(scene);
+        stage.show();
+    }
+ 
+    private final class TextFieldTreeCellImpl extends TreeCell&lt;String&gt; {
+ 
+        private TextField textField;
+        <span class="bold">private final ContextMenu addMenu = new ContextMenu();</span>
+ 
+        public TextFieldTreeCellImpl() {
+            <span class="bold">MenuItem addMenuItem = new MenuItem("Add Employee");</span>
+            <span class="bold">addMenu.getItems().add(addMenuItem);</span>
+            <span class="bold">addMenuItem.setOnAction((ActionEvent t) -&gt; {</span>
+                <span class="bold">TreeItem newEmployee = </span>
+                    <span class="bold">new TreeItem&lt;&gt;("New Employee");</span>
+                <span class="bold">getTreeItem().getChildren().add(newEmployee);</span>
+            <span class="bold">});</span>
+        }
+ 
+        @Override
+        public void startEdit() {
+            super.startEdit();
+ 
+            if (textField == null) {
+                createTextField();
+            }
+            setText(null);
+            setGraphic(textField);
+            textField.selectAll();
+        }
+ 
+        @Override
+        public void cancelEdit() {
+            super.cancelEdit();
+ 
+            setText((String) getItem());
+            setGraphic(getTreeItem().getGraphic());
+        }
+ 
+        @Override
+        public void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
+ 
+            if (empty) {
+                setText(null);
+                setGraphic(null);
+            } else {
+                if (isEditing()) {
+                    if (textField != null) {
+                        textField.setText(getString());
+                    }
+                    setText(null);
+                    setGraphic(textField);
+                } else {
+                    setText(getString());
+                    setGraphic(getTreeItem().getGraphic());
+                    <span class="bold">if (</span>
+                        <span class="bold">!getTreeItem().isLeaf()&amp;&amp;getTreeItem().getParent()!= null</span>
+                    <span class="bold">){</span>
+                        <span class="bold">setContextMenu(addMenu);</span>
+                    <span class="bold">}</span>
+                }
+            }
+        }
+        
+        private void createTextField() {
+            textField = new TextField(getString());
+            textField.setOnKeyReleased((KeyEvent t) -&gt; {
+                if (t.getCode() == KeyCode.ENTER) {
+                    commitEdit(textField.getText());
+                } else if (t.getCode() == KeyCode.ESCAPE) {
+                    cancelEdit();
+                }
+            });  
+            
+        }
+ 
+        private String getString() {
+            return getItem() == null ? "" : getItem().toString();
+        }
+    }
+ 
+    public static class Employee {
+ 
+        private final SimpleStringProperty name;
+        private final SimpleStringProperty department;
+ 
+        private Employee(String name, String department) {
+            this.name = new SimpleStringProperty(name);
+            this.department = new SimpleStringProperty(department);
+        }
+ 
+        public String getName() {
+            return name.get();
+        }
+ 
+        public void setName(String fName) {
+            name.set(fName);
+        }
+ 
+        public String getDepartment() {
+            return department.get();
+        }
+ 
+        public void setDepartment(String fName) {
+            department.set(fName);
+        }
+    }
+}
+</pre></div>
+<!-- class="example" -->
+<p>Compile and run the application. Then select a department in the tree structure and right-click it. The context menu appears, as shown in <a href="#BABIEBAC">Figure 14-5</a>.</p>
+<div class="figure"><a id="BABIEBAC" name="BABIEBAC" class="anchor"></a><a id="JFXUI390" name="JFXUI390" class="anchor"></a>
+<p class="titleinfigure">Figure 14-5 Context Menu for Adding New Employees</p>
+<img width="420" height="343" src="img/tree-view-hr3.png" alt="Description of Figure 14-5 follows" title="Description of Figure 14-5 follows" longdesc="img_text/tree-view-hr3.htm" /><br />
+<a id="sthref127" name="sthref127" href="img_text/tree-view-hr3.htm">Description of "Figure 14-5 Context Menu for Adding New Employees"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>When you select the Add Employee menu item from the context menu, the new record is added to the current department. <a href="#BABDGDJE">Figure 14-6</a> shows a new tree item added to the Accounts Department.</p>
+<div class="figure"><a id="BABDGDJE" name="BABDGDJE" class="anchor"></a><a id="JFXUI391" name="JFXUI391" class="anchor"></a>
+<p class="titleinfigure">Figure 14-6 Newly Added Employee</p>
+<img width="419" height="344" src="img/tree-view-hr4.png" alt="Description of Figure 14-6 follows" title="Description of Figure 14-6 follows" longdesc="img_text/tree-view-hr4.htm" /><br />
+<a id="sthref128" name="sthref128" href="img_text/tree-view-hr4.htm">Description of "Figure 14-6 Newly Added Employee"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>Because editing is enabled for the tree items, you can change the default "New Employee" value to the appropriate name.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXUI514" name="JFXUI514" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref129" name="sthref129" class="anchor"></a>
+<h2 class="sect1">Using Tree Cell Editors</h2>
+<p>You can use the following tree cell editors available in the API: <code>CheckBoxTreeCell</code>, <code>ChoiceBoxTreeCell</code>, <code>ComboBoxTreeCell</code>, <code>TextFieldTreeCell</code>. There classes extend the <code>TreeCell</code> implementation to render a particular control inside the cell.</p>
+<p><a href="#BABGECJA">Example 14-5</a> demonstrates the use of the <code>CheckBoxTreeCell</code> class in the UI that builds a hierarchical structure of checkboxes.</p>
+<div class="example"><a id="BABGECJA" name="BABGECJA" class="anchor"></a><a id="JFXUI515" name="JFXUI515" class="anchor"></a>
+<p class="titleinexample">Example 14-5 Using the CheckBoxTreeCell Class</p>
+<pre xml:space="preserve" class="oac_no_warn">import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTreeCell;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+ 
+public class TreeViewSample extends Application {
+       
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Tree View Sample");        
+        
+        <span class="bold">CheckBoxTreeItem&lt;String&gt; rootItem =</span> 
+            <span class="bold">new CheckBoxTreeItem&lt;&gt;("View Source Files");</span>
+        <span class="bold">rootItem.setExpanded(true);</span>                  
+      
+        final TreeView tree = new TreeView(rootItem);  
+        tree.setEditable(true);
+        
+        <span class="bold">tree.setCellFactory(CheckBoxTreeCell.&lt;String&gt;forTreeView());</span>    
+        <span class="bold">for (int i = 0; i &lt; 8; i++) {</span>
+            <span class="bold">final CheckBoxTreeItem&lt;String&gt; checkBoxTreeItem =</span> 
+                <span class="bold">new CheckBoxTreeItem&lt;&gt;("Sample" + (i+1));</span>
+                    r<span class="bold">ootItem.getChildren().add(checkBoxTreeItem);</span>   
+        <span class="bold">}</span>
+                       
+        tree.setRoot(rootItem);
+        tree.setShowRoot(true);
+ 
+        StackPane root = new StackPane();
+        root.getChildren().add(tree);
+        primaryStage.setScene(new Scene(root, 300, 250));
+        primaryStage.show();
+    }
+}
+</pre></div>
+<!-- class="example" -->
+<p><a href="#BABGECJA">Example 14-5</a> builds the tree view by using the <code>CheckBoxTreeItem</code> class instead of the TreeItem. The <code>CheckBoxTreeItem</code> class was specifically designed to support the selected, unselected, and indeterminate states in tree structures. A <code>CheckBoxTreeItem</code> instance can be independent or dependent. If a <code>CheckBoxTreeItem</code> instance is independent, any changes to its selection state do not impact its parent and child <code>CheckBoxTreeItem</code> instances. By default, all the <code>ChechBoxTreeItem</code> instances are dependent.</p>
+<p>Compile and run <a href="#BABGECJA">Example 14-5</a>, then select the View Source Files item. You should see the output shown in <a href="#BABFIEFB">Figure 14-7</a>, where all the child items are selected.</p>
+<div class="figure"><a id="BABFIEFB" name="BABFIEFB" class="anchor"></a><a id="JFXUI516" name="JFXUI516" class="anchor"></a>
+<p class="titleinfigure">Figure 14-7 Dependent CheckBoxTreeItem</p>
+<img width="322" height="290" src="img/tree-view-checkbox1.png" alt="Description of Figure 14-7 follows" title="Description of Figure 14-7 follows" longdesc="img_text/tree-view-checkbox1.htm" /><br />
+<a id="sthref130" name="sthref130" href="img_text/tree-view-checkbox1.htm">Description of "Figure 14-7 Dependent CheckBoxTreeItem"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>To make a <code>CheckBoxTreeItem</code> instance independent, use the <code>setIndependent</code> method: <code>rootItem.setIndependent(true);</code>.</p>
+<p>When you run the TreeViewSample application, its behavior should change as shown in <a href="#BABGCIFI">Figure 14-8</a>.</p>
+<div class="figure"><a id="BABGCIFI" name="BABGCIFI" class="anchor"></a><a id="JFXUI517" name="JFXUI517" class="anchor"></a>
+<p class="titleinfigure">Figure 14-8 Independent CheckBoxTreeItem</p>
+<img width="319" height="291" src="img/tree-view-checkbox2.png" alt="Description of Figure 14-8 follows" title="Description of Figure 14-8 follows" longdesc="img_text/tree-view-checkbox2.htm" /><br />
+<a id="sthref131" name="sthref131" href="img_text/tree-view-checkbox2.htm">Description of "Figure 14-8 Independent CheckBoxTreeItem"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>The <code>TreeTableView</code> control provides additional capabilities to present tree structures in table forms. See the <a href="tree-table-view.htm#CJAFBAEG">Tree Table View</a> chapter for more information about these controls.</p>
+<p class="itemizedlisttitle">Related Documentation&nbsp;</p>
+<ul>
+<li>
+<p><a href="../api/javafx/scene/control/TreeView.html"><code>TreeView</code></a></p>
+</li>
+<li>
+<p><a href="../api/javafx/scene/control/TreeItem.html"><code>TreeItem</code></a></p>
+</li>
+<li>
+<p><a href="../api/javafx/scene/control/TreeCell.html"><code>TreeCell</code></a></p>
+</li>
+<li>
+<p><a href="../api/javafx/scene/control/TreeTableView.html"><code>TreeTableView</code></a></p>
+</li>
+<li>
+<p><a href="../api/javafx/scene/control/Cell.html"><code>Cell</code></a></p>
+</li>
+<li>
+<p><a href="../api/javafx/scene/control/TextField.html"><code>TextField</code></a></p>
+</li>
+<li>
+<p><a href="../api/javafx/scene/control/cell/CheckBoxTreeCell.html"><code>CheckBoxTreeCell</code></a></p>
+</li>
+<li>
+<p><a href="../api/javafx/scene/control/CheckBoxTreeItem.html"><code>CheckBoxTreeItem</code></a></p>
+</li>
+<li>
+<p><a href="custom.htm#CACCFEFD">Customization of UI Controls</a></p>
+</li>
+</ul>
+</div>
+<!-- class="sect1" -->
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Working with JavaFX UI Components</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">Audience</a></li>
+        <li><a href="preface.htm#sthref4">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref6">Related Documents</a></li>
+        <li><a href="preface.htm#sthref7">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a href="ui_components.htm#JFXUI101">Part I About This Tutorial</a>
+    <ul>
+    <li><a href="whatsnew.htm#JFXUI781">1 What Is New</a></li>
+</ul>
+</li>
+    <li><a href="ui_controls.htm#JFXUI336">Part II Using JavaFX UI Controls</a>
+    <ul>
+    <li><a href="label.htm#CIHHFIBJ">2 Label</a>
+      <ul>
+        <li><a href="label.htm#sthref10">Creating a Label</a></li>
+        <li><a href="label.htm#sthref12">Setting a Font</a></li>
+        <li><a href="label.htm#sthref13">Wrapping Text</a></li>
+        <li><a href="label.htm#sthref15">Applying Effects</a></li>
+      </ul>
+    </li>
+    <li><a href="button.htm#CJHEEACB">3 Button</a>
+      <ul>
+        <li><a href="button.htm#sthref19">Creating a Button</a></li>
+        <li><a href="button.htm#sthref22">Assigning an Action</a></li>
+        <li><a href="button.htm#sthref23">Applying Effects</a></li>
+        <li><a href="button.htm#sthref25">Styling a Button</a></li>
+      </ul>
+    </li>
+    <li><a href="radio-button.htm#BABBJBDA">4 Radio Button</a>
+      <ul>
+        <li><a href="radio-button.htm#sthref29">Creating a Radio Button</a></li>
+        <li><a href="radio-button.htm#sthref30">Adding Radio Buttons to Groups</a></li>
+        <li><a href="radio-button.htm#sthref32">Processing Events for Radio Buttons</a></li>
+        <li><a href="radio-button.htm#sthref33">Requesting Focus for a Radio Button</a></li>
+      </ul>
+    </li>
+    <li><a href="toggle-button.htm#CACJDICF">5 Toggle Button</a>
+      <ul>
+        <li><a href="toggle-button.htm#sthref38">Creating a Toggle Button</a></li>
+        <li><a href="toggle-button.htm#sthref39">Adding Toggle Buttons to a Group</a></li>
+        <li><a href="toggle-button.htm#sthref41">Setting the Behavior</a></li>
+        <li><a href="toggle-button.htm#sthref43">Styling Toggle Buttons</a></li>
+      </ul>
+    </li>
+    <li><a href="checkbox.htm#CHDFEJCD">6 Checkbox</a>
+      <ul>
+        <li><a href="checkbox.htm#sthref47">Creating Checkboxes</a></li>
+        <li><a href="checkbox.htm#sthref48">Defining a State</a></li>
+        <li><a href="checkbox.htm#sthref50">Setting the Behavior</a></li>
+      </ul>
+    </li>
+    <li><a href="choice-box.htm#BCEDJAEH">7 Choice Box</a>
+      <ul>
+        <li><a href="choice-box.htm#sthref54">Creating a Choice Box</a></li>
+        <li><a href="choice-box.htm#sthref56">Setting the Behavior for a Choice Box</a></li>
+        <li><a href="choice-box.htm#sthref59">Applying a Tooltip</a></li>
+      </ul>
+    </li>
+    <li><a href="text-field.htm#BABBCEIG">8 Text Field</a>
+      <ul>
+        <li><a href="text-field.htm#sthref63">Creating a Text Field</a></li>
+        <li><a href="text-field.htm#sthref64">Building the UI with Text Fields</a></li>
+        <li><a href="text-field.htm#sthref67">Processing Text Field Data</a></li>
+      </ul>
+    </li>
+    <li><a href="password-field.htm#BABIDAGF">9 Password Field</a>
+      <ul>
+        <li><a href="password-field.htm#sthref71">Creating a Password Field</a></li>
+        <li><a href="password-field.htm#sthref73">Evaluating the Password</a></li>
+      </ul>
+    </li>
+    <li><a href="scrollbar.htm#BGBEGJDE">10 Scroll Bar</a>
+      <ul>
+        <li><a href="scrollbar.htm#sthref78">Creating a Scroll Bar</a></li>
+        <li><a href="scrollbar.htm#sthref79">Using a Scroll Bar in Your Application</a></li>
+      </ul>
+    </li>
+    <li><a href="scrollpane.htm#CBBFFBCH">11 Scroll Pane</a>
+      <ul>
+        <li><a href="scrollpane.htm#sthref83">Creating a Scroll Pane</a></li>
+        <li><a href="scrollpane.htm#sthref84">Setting the Scroll Bar Policy for a Scroll Pane</a></li>
+        <li><a href="scrollpane.htm#sthref86">Resizing Components in the Scroll Pane</a></li>
+        <li><a href="scrollpane.htm#sthref89">Sample Application with a Scroll Pane</a></li>
+      </ul>
+    </li>
+    <li><a href="list-view.htm#CEGGEDBF">12 List View</a>
+      <ul>
+        <li><a href="list-view.htm#sthref93">Creating a List View</a></li>
+        <li><a href="list-view.htm#sthref96">Populating a List View with Data</a></li>
+        <li><a href="list-view.htm#sthref98">Customizing the Content of a List View</a></li>
+        <li><a href="list-view.htm#sthref100">Processing the List Item Selection</a></li>
+      </ul>
+    </li>
+    <li><a href="table-view.htm#CJABIEED">13 Table View</a>
+      <ul>
+        <li><a href="table-view.htm#sthref104">Creating a Table</a></li>
+        <li><a href="table-view.htm#sthref107">Defining the Data Model</a></li>
+        <li><a href="table-view.htm#sthref109">Adding New Rows</a></li>
+        <li><a href="table-view.htm#sthref112">Sorting Data in Columns</a></li>
+        <li><a href="table-view.htm#sthref114">Editing Data in the Table</a></li>
+        <li><a href="table-view.htm#sthref117">Adding Maps of Data to the Table</a></li>
+      </ul>
+    </li>
+    <li><a class="selected" href="tree-view.htm#JFXUI377">14 Tree View</a>
+      <ul>
+        <li><a href="tree-view.htm#sthref121">Creating Tree Views</a></li>
+        <li><a href="tree-view.htm#sthref123">Implementing Cell Factories</a></li>
+        <li><a href="tree-view.htm#sthref126">Adding New Tree Items on Demand</a></li>
+        <li><a href="tree-view.htm#sthref129">Using Tree Cell Editors</a></li>
+      </ul>
+    </li>
+    <li><a href="tree-table-view.htm#JFXUI833">15 Tree Table View</a>
+      <ul>
+        <li><a href="tree-table-view.htm#sthref135">Creating a TreeTableView control</a></li>
+        <li><a href="tree-table-view.htm#sthref137">Adding Several Columns</a></li>
+        <li><a href="tree-table-view.htm#sthref139">Altering Visual Appearance</a></li>
+        <li><a href="tree-table-view.htm#sthref142">Managing Selection Mode</a></li>
+      </ul>
+    </li>
+    <li><a href="combo-box.htm#BABEFEJC">16 Combo Box</a>
+      <ul>
+        <li><a href="combo-box.htm#sthref147">Creating Combo Boxes</a></li>
+        <li><a href="combo-box.htm#sthref151">Editable Combo Boxes</a></li>
+        <li><a href="combo-box.htm#sthref154">Applying Cell Factories to Combo Boxes</a></li>
+      </ul>
+    </li>
+    <li><a href="separator.htm#BGBCFDFI">17 Separator</a>
+      <ul>
+        <li><a href="separator.htm#sthref157">Creating a Separator</a></li>
+        <li><a href="separator.htm#sthref159">Adding Separators to the UI of Your Application</a></li>
+        <li><a href="separator.htm#sthref161">Styling Separators</a></li>
+      </ul>
+    </li>
+    <li><a href="slider.htm#CCHFBJCH">18 Slider</a>
+      <ul>
+        <li><a href="slider.htm#sthref165">Creating a Slider</a></li>
+        <li><a href="slider.htm#sthref166">Using Sliders in Graphical Applications</a></li>
+      </ul>
+    </li>
+    <li><a href="progress.htm#CHDDJAJE">19 Progress Bar and Progress Indicator</a>
+      <ul>
+        <li><a href="progress.htm#sthref170">Creating Progress Controls</a></li>
+        <li><a href="progress.htm#sthref172">Indicating Progress in Your User Interface</a></li>
+      </ul>
+    </li>
+    <li><a href="hyperlink.htm#CIHGADBG">20 Hyperlink</a>
+      <ul>
+        <li><a href="hyperlink.htm#sthref176">Creating a Hyperlink</a></li>
+        <li><a href="hyperlink.htm#sthref177">Linking the Local Content</a></li>
+        <li><a href="hyperlink.htm#sthref180">Linking the Remote Content</a></li>
+      </ul>
+    </li>
+    <li><a href="editor.htm#JFXUI346">21 HTML Editor</a>
+      <ul>
+        <li><a href="editor.htm#sthref184">Adding an HTML Editor</a></li>
+        <li><a href="editor.htm#sthref187">Using an HTML Editor to Build the User Interface</a></li>
+        <li><a href="editor.htm#sthref189">Obtaining HTML Content</a></li>
+      </ul>
+    </li>
+    <li><a href="tooltip.htm#BABBIJBJ">22 Tooltip</a>
+      <ul>
+        <li><a href="tooltip.htm#sthref194">Creating a Tooltip</a></li>
+        <li><a href="tooltip.htm#sthref196">Presenting Application Data in Tooltips</a></li>
+      </ul>
+    </li>
+    <li><a href="accordion-titledpane.htm#JFXUI356">23 Titled Pane and Accordion</a>
+      <ul>
+        <li><a href="accordion-titledpane.htm#sthref200">Creating Titled Panes</a></li>
+        <li><a href="accordion-titledpane.htm#sthref203">Adding Titled Panes to an Accordion</a></li>
+        <li><a href="accordion-titledpane.htm#sthref205">Processing Events for an Accordion with Titled Panes</a></li>
+      </ul>
+    </li>
+    <li><a href="menu_controls.htm#JFXUI409">24 Menu</a>
+      <ul>
+        <li><a href="menu_controls.htm#sthref210">Building Menus in JavaFX Applications</a></li>
+        <li><a href="menu_controls.htm#sthref211">Creating a Menu Bar</a></li>
+        <li><a href="menu_controls.htm#sthref213">Adding Menu Items</a></li>
+        <li><a href="menu_controls.htm#sthref216">Creating Submenus</a></li>
+        <li><a href="menu_controls.htm#sthref220">Adding Context Menus</a></li>
+      </ul>
+    </li>
+    <li><a href="color-picker.htm#JFXUI433">25 Color Picker</a>
+      <ul>
+        <li><a href="color-picker.htm#sthref223">Design Overview</a>
+          <ul>
+          <li><a href="color-picker.htm#sthref225">Color Chooser</a></li>
+          <li><a href="color-picker.htm#sthref227">Color Palette</a></li>
+          <li><a href="color-picker.htm#sthref230">Custom Color Dialog Window</a></li>
+          </ul>
+        </li>
+        <li><a href="color-picker.htm#JFXUI445">Using a Color Picker</a></li>
+        <li><a href="color-picker.htm#JFXUI452">Changing the Appearance of a Color Picker</a></li>
+      </ul>
+    </li>
+    <li><a href="date-picker.htm#JFXUI808">26 Date Picker</a>
+      <ul>
+        <li><a href="date-picker.htm#sthref238">Working with Time Data and Date Formats</a></li>
+        <li><a href="date-picker.htm#sthref239">Date Picker Design Overview</a></li>
+        <li><a href="date-picker.htm#sthref241">Adding a Date Picker to an Application UI</a></li>
+        <li><a href="date-picker.htm#sthref244">Customizing the Date Picker</a></li>
+        <li><a href="date-picker.htm#sthref250">Altering the Calendar System</a></li>
+      </ul>
+    </li>
+    <li><a href="pagination.htm#JFXUI459">27 Pagination Control</a>
+      <ul>
+        <li><a href="pagination.htm#sthref254">Creating a Pagination Control</a></li>
+        <li><a href="pagination.htm#sthref257">Implementing Page Factories</a></li>
+        <li><a href="pagination.htm#sthref262">Styling a Pagination Control</a></li>
+      </ul>
+    </li>
+    <li><a href="file-chooser.htm#CCHICECF">28 File Chooser</a>
+      <ul>
+        <li><a href="file-chooser.htm#sthref266">Opening Files</a></li>
+        <li><a href="file-chooser.htm#sthref272">Configuring a File Chooser</a></li>
+        <li><a href="file-chooser.htm#sthref274">Setting Extension Filters</a></li>
+        <li><a href="file-chooser.htm#sthref276">Saving Files</a></li>
+      </ul>
+    </li>
+    <li><a href="custom.htm#JFXUI493">29 Customization of UI Controls</a>
+      <ul>
+        <li><a href="custom.htm#sthref280">Applying CSS</a></li>
+        <li><a href="custom.htm#sthref285">Altering Default Behavior</a></li>
+        <li><a href="custom.htm#sthref288">Implementing Cell Factories</a></li>
+      </ul>
+    </li>
+    <li><a href="embed.htm#JFXUI785">30 UI Controls on the Embedded Platforms</a>
+      <ul>
+        <li><a href="embed.htm#sthref292">Embedded Runtime Features</a>
+          <ul>
+          <li><a href="embed.htm#sthref293">Support for Touch-Enabled Devices</a></li>
+          <li><a href="embed.htm#sthref294">Virtual Keyboard</a></li>
+          </ul>
+        </li>
+        <li><a href="embed.htm#sthref301">Appearance of UI Controls on Embedded Platforms</a>
+          <ul>
+          <li><a href="embed.htm#sthref302">Scrolling Controls</a></li>
+          <li><a href="embed.htm#sthref304">Text Input Controls</a></li>
+          <li><a href="embed.htm#sthref306">Context Menus</a></li>
+          </ul>
+        </li>
+        <li><a href="embed.htm#sthref309">UI Controls Features Available on the Embedded Platforms</a></li>
+        <li><a href="embed.htm#sthref311">UI Controls Features That Are Not Available on Embedded Touch Platforms</a></li>
+        <li><a href="embed.htm#sthref312">Other Features That Are Not Available on Embedded Touch Platforms</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="charts.htm#JFXUI577">Part III Working with JavaFX Charts</a>
+    <ul>
+    <li><a href="pie-chart.htm#CIHFDADD">31 Pie Chart</a>
+      <ul>
+        <li><a href="pie-chart.htm#sthref314">Creating a Pie Chart</a></li>
+        <li><a href="pie-chart.htm#sthref316">Setting a Pie Chart and a Legend</a></li>
+        <li><a href="pie-chart.htm#sthref319">Processing Events for a Pie Chart</a></li>
+      </ul>
+    </li>
+    <li><a href="line-chart.htm#CIHGBCFI">32 Line Chart</a>
+      <ul>
+        <li><a href="line-chart.htm#sthref323">Chart Settings</a></li>
+        <li><a href="line-chart.htm#sthref324">Chart Data</a></li>
+        <li><a href="line-chart.htm#sthref325">Creating a Line Chart</a></li>
+        <li><a href="line-chart.htm#sthref327">Creating Categories for a Line Chart</a></li>
+        <li><a href="line-chart.htm#sthref329">Adding Series to the Line Chart</a></li>
+      </ul>
+    </li>
+    <li><a href="area-chart.htm#CIHCFGBA">33 Area Chart</a>
+      <ul>
+        <li><a href="area-chart.htm#sthref334">Creating an Area Chart</a></li>
+        <li><a href="area-chart.htm#sthref336">Creating a Stacked Area Chart</a></li>
+        <li><a href="area-chart.htm#sthref338">Setting Axis and Tick Properties</a></li>
+        <li><a href="area-chart.htm#sthref342">Adding Negative Values</a></li>
+        <li><a href="area-chart.htm#sthref344">Styling Area Charts</a></li>
+      </ul>
+    </li>
+    <li><a href="bubble-chart.htm#CHDHAFHB">34 Bubble Chart</a>
+      <ul>
+        <li><a href="bubble-chart.htm#sthref348">Creating a Bubble Chart</a></li>
+        <li><a href="bubble-chart.htm#sthref351">Using the Extra Value Property</a></li>
+        <li><a href="bubble-chart.htm#sthref353">Changing the Appearance Visual Setting of the Plot and Tick Marks</a></li>
+      </ul>
+    </li>
+    <li><a href="scatter-chart.htm#CIHDEACI">35 Scatter Chart</a>
+      <ul>
+        <li><a href="scatter-chart.htm#sthref357">Creating a Scatter Chart</a></li>
+        <li><a href="scatter-chart.htm#sthref359">Managing Chart Data</a></li>
+        <li><a href="scatter-chart.htm#sthref361">Adding Effects to Charts</a></li>
+        <li><a href="scatter-chart.htm#sthref363">Changing the Chart Symbol</a></li>
+      </ul>
+    </li>
+    <li><a href="bar-chart.htm#CIHJFHDE">36 Bar Chart</a>
+      <ul>
+        <li><a href="bar-chart.htm#sthref367">Creating a Bar Chart</a></li>
+        <li><a href="bar-chart.htm#sthref369">Horizontal Bar Chart</a></li>
+        <li><a href="bar-chart.htm#sthref371">Creating a Stacked Bar Chart</a></li>
+        <li><a href="bar-chart.htm#sthref374">Animating Data in Charts</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="css_tutorial.htm#JFXUI733">Part IV Skinning JavaFX Applications with CSS</a>
+    <ul>
+    <li><a href="apply-css.htm#JFXUI714">37 Styling UI Controls with CSS</a>
+      <ul>
+        <li><a href="apply-css.htm#sthref378">Default Style Sheet</a></li>
+        <li><a href="apply-css.htm#sthref380">Creating Style Sheets</a></li>
+        <li><a href="apply-css.htm#sthref381">Defining Styles</a>
+          <ul>
+          <li><a href="apply-css.htm#sthref382">Selectors</a></li>
+          <li><a href="apply-css.htm#sthref383">Rules and Properties</a></li>
+          </ul>
+        </li>
+        <li><a href="apply-css.htm#sthref384">Skinning the Scene</a></li>
+        <li><a href="apply-css.htm#sthref385">Skinning Controls</a>
+          <ul>
+          <li><a href="apply-css.htm#sthref386">Overriding Default Styles</a></li>
+          <li><a href="apply-css.htm#sthref388">Creating Class Styles</a></li>
+          <li><a href="apply-css.htm#sthref390">Creating ID Styles</a></li>
+          <li><a href="apply-css.htm#sthref392">Setting Styles in the Code</a></li>
+          </ul>
+        </li>
+        <li><a href="apply-css.htm#sthref394">Additional Resources</a></li>
+      </ul>
+    </li>
+    <li><a href="css-styles.htm#JFXUI672">38 Styling Charts with CSS</a>
+      <ul>
+        <li><a href="css-styles.htm#sthref395">Modifying Basic Chart Elements</a></li>
+        <li><a href="css-styles.htm#sthref401">Altering Colors of the Chart Plot</a></li>
+        <li><a href="css-styles.htm#sthref404">Setting the Axes</a></li>
+        <li><a href="css-styles.htm#sthref407">Setting Chart Colors</a></li>
+        <li><a href="css-styles.htm#sthref413">Changing Chart Symbols</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="text.htm#JFXUI734">Part V Working with Text in JavaFX Applications</a>
+    <ul>
+    <li><a href="text-settings.htm#JFXUI735">39 Using Text in JavaFX</a>
+      <ul>
+        <li><a href="text-settings.htm#sthref417">Introduction</a></li>
+        <li><a href="text-settings.htm#sthref418">Adding Text</a>
+          <ul>
+          <li><a href="text-settings.htm#sthref420">Setting Text Font and Color</a></li>
+          <li><a href="text-settings.htm#sthref422">Making Text Bold or Italic</a></li>
+          <li><a href="text-settings.htm#sthref423">Using Custom Fonts</a></li>
+          <li><a href="text-settings.htm#sthref425">Setting LCD Text Support</a></li>
+          <li><a href="text-settings.htm#sthref426">Rich Text and Bidirectional Support</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="text-effects.htm#JFXUI773">40 Applying Effects to Text</a>
+      <ul>
+        <li><a href="text-effects.htm#sthref429">Perspective Effect</a></li>
+        <li><a href="text-effects.htm#sthref431">Blur Effect</a></li>
+        <li><a href="text-effects.htm#sthref433">Drop Shadow Effect</a></li>
+        <li><a href="text-effects.htm#sthref435">Inner Shadow Effect</a></li>
+        <li><a href="text-effects.htm#sthref437">Reflection</a></li>
+        <li><a href="text-effects.htm#sthref439">Combining Several Effects</a></li>
+        <li><a href="text-effects.htm#sthref441">Application Files</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="samples.htm#sthref444">Part VI Source Code for the UI Components Tutorials</a>
+    <ul>
+    <li><a href="ui_controls_samples.htm#sthref445">A UI Control Samples</a>
+      <ul>
+        <li><a href="ui_controls_samples.htm#JFXUI870">LabelSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI871">ButtonSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI872">RadioButtonSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI873">ToggleButtonSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI874">CheckboxSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI875">ChoiceBoxSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI876">TextFieldSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI877">PasswordField.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI878">ScrollBarSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI879">ScrollPaneSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI880">ListViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI881">TableViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI882">TreeViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI883">TreeTableViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI884">ComboBoxSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI885">SeparatorSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI886">SliderSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI887">ProgressSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI888">HyperlinkSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI889">HyperlinkWebViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI890">HTMLEditorSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI891">TooltipSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI892">TitledPaneSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI893">MenuSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI894">ColorPickerSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI895">DatePickerSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI896">PaginationSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI897">FileChooserSample.java</a></li>
+      </ul>
+    </li>
+    <li><a href="chart_samples.htm#JFXUI898">B Chart Samples</a>
+      <ul>
+        <li><a href="chart_samples.htm#JFXUI900">PieChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI901">LineChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI902">AreaChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI903">BubbleChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI904">ScatterChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI905">BarChartSample.java</a></li>
+      </ul>
+    </li>
+    <li><a href="css_samples.htm#sthref446">C CSS Samples</a>
+      <ul>
+        <li><a href="css_samples.htm#JFXUI908">DownloadButton.java</a></li>
+        <li><a href="css_samples.htm#JFXUI909">DownloadButtonStyle1.css</a></li>
+        <li><a href="css_samples.htm#JFXUI910">DownloadButtonStyle2.css</a></li>
+        <li><a href="css_samples.htm#JFXUI911">StyleStage.java</a></li>
+        <li><a href="css_samples.htm#JFXUI912">UIControlCSS.java</a></li>
+        <li><a href="css_samples.htm#JFXUI913">controlStyle1.css</a></li>
+        <li><a href="css_samples.htm#JFXUI914">controlStyle2.css</a></li>
+      </ul>
+    </li>
+    <li><a href="text_samples.htm#sthref447">D Text Samples</a>
+      <ul>
+        <li><a href="text_samples.htm#JFXUI917">TextEffects.java</a></li>
+        <li><a href="text_samples.htm#JFXUI920">NeonSign.java</a></li>
+      </ul>
+    </li>
+</ul>
+
+</li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="table-view.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a><a class="button" title="Next Page" href="tree-table-view.htm">Next Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2011, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

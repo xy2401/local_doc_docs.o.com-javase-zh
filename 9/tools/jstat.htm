@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>jstat</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="You use the jstat command to monitor JVM statistics. This command is experimental and unsupported." />
+<meta name="dcterms.created" content="2017-10-12T08:04:07Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Tools Reference" />
+<meta name="dcterms.identifier" content="E61612-05" />
+<meta name="dcterms.isVersionOf" content="JSWOR" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="jps.htm" title="Previous" type="text/html" />
+<link rel="Next" href="jstatd.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSWOR.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSWOR.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSWOR.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5"></a> <span id="PAGE" style="display:none;">45/65</span> <!-- End Header -->
+<a id="JSWOR734"></a>
+<h1 id="JSWOR-GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5" class="sect1">jstat</h1>
+<div>
+<p><span>You use the <code class="codeph">jstat</code> command to monitor JVM statistics. This command is experimental and unsupported.</span></p>
+<div class="section">
+<p class="subhead1">Synopsis</p>
+<pre dir="ltr">
+jstat <span class="variable">generalOptions</span>
+</pre>
+<pre dir="ltr">
+jstat -<span class="variable">outputOptions</span> [ -t] [-h<span class="variable">lines</span>] <span class="variable">vmid</span> [<span class="variable">interval</span> [<span class="variable">count</span>] ]
+</pre>
+<dl>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-FB2279CB-E22B-4E1E-927F-D3A1612F85B6"><!-- --></a><code class="codeph"><span class="variable">generalOptions</span></code></dt>
+<dd>
+<p>A single general command-line option. See <a href="jstat.htm#GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__BEHEIDCB">General Options</a>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-181AF784-7F9C-47ED-8597-33909F5165BD"><!-- --></a><code class="codeph"><span class="variable">outputOptions</span></code></dt>
+<dd>
+<p>An option reported by the <code class="codeph">-options</code> option. One or more output options that consist of a single <code class="codeph">statOption</code>, plus any of the <code class="codeph">-t</code>, <code class="codeph">-h</code>, and <code class="codeph">-J</code> options. See <a href="jstat.htm#GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__BEHIGDGJ">Output Options for the jstat Command</a>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-510CCC8D-E748-4F03-B786-CAA6C0CEBD4F"><!-- --></a><code class="codeph">-t</code></dt>
+<dd>
+<p>Displays a time-stamp column as the first column of output. The time stamp is the time since the start time of the target JVM.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-49D4E3DE-A2B8-4157-A373-BA7AD9E2EC8A"><!-- --></a><code class="codeph">-h <span class="variable">n</span></code></dt>
+<dd>
+<p>Displays a column header every <code class="codeph"><span class="variable">n</span></code> samples (output rows), where <code class="codeph"><span class="variable">n</span></code> is a positive integer. The default value is <code class="codeph">0</code>, which displays the column header of the first row of data.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-49F41B59-9E4C-478F-A4EF-BECEC3D62CA5"><!-- --></a><code class="codeph"><span class="variable">vmid</span></code></dt>
+<dd>
+<p>A virtual machine identifier, which is a string that indicates the target JVM. See <a href="jstat.htm#GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__BEHBCGCA">Virtual Machine Identifier</a>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-E959F34D-5CE5-408C-9640-BC39E0BCB0F5"><!-- --></a><code class="codeph"><span class="variable">interval</span></code></dt>
+<dd>
+<p>The sampling interval in the specified units, seconds (s) or milliseconds (ms). Default units are milliseconds. This must be a positive integer. When specified, the <code class="codeph">jstat</code> command produces its output at each interval.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-A890589C-7861-4BD5-8516-3DD93420B9B2"><!-- --></a><code class="codeph"><span class="variable">count</span></code></dt>
+<dd>
+<p>The number of samples to display. The default value is infinity, which causes the <code class="codeph">jstat</code> command to display statistics until the target JVM terminates or the <code class="codeph">jstat</code> command is terminated. This value must be a positive integer.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Description</p>
+<p>The <code class="codeph">jstat</code> command displays performance statistics for an instrumented Java HotSpot VM. The target JVM is identified by its virtual machine identifier, or <code class="codeph">vmid</code> option.</p>
+<p>The <code class="codeph">jstat</code> command supports two types of options, general options and output options. General options cause the <code class="codeph">jstat</code> command to display simple usage and version information. Output options determine the content and format of the statistical output.</p>
+<p>All options and their functionality are subject to change or removal in future releases.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__BEHEIDCB">
+<p class="subhead1">General Options</p>
+<p>If you specify one of the general options, then you can&rsquo;t specify any other option or parameter.</p>
+<dl>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-3DB49DC9-3851-4585-A92D-0D098424F070"><!-- --></a><code class="codeph">-help</code></dt>
+<dd>
+<p>Displays a help message.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-B92EC785-9FA6-4227-8B3B-DDB821530844"><!-- --></a><code class="codeph">-options</code></dt>
+<dd>
+<p>Displays a list of static options. See <a href="jstat.htm#GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__BEHIGDGJ">Output Options for the jstat Command</a>.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__BEHIGDGJ">
+<p class="subhead1">Output Options for the jstat Command</p>
+<p>If you don&rsquo;t specify a general option, then you can specify output options. Output options determine the content and format of the <code class="codeph">jstat</code> command's output, and consist of a single <code class="codeph">statOption</code>, plus any of the other output options (<code class="codeph">-h</code>, <code class="codeph">-t</code>, and <code class="codeph">-J</code>). The <code class="codeph">statOption</code> must come first.</p>
+<p>Output is formatted as a table, with columns that are separated by spaces. A header row with titles describes the columns. Use the <code class="codeph">-h</code> option to set the frequency at which the header is displayed. Column header names are consistent among the different options. In general, if two options provide a column with the same name, then the data source for the two columns is the same.</p>
+<p>Use the <code class="codeph">-t</code> option to display a time-stamp column, labeled Timestamp as the first column of output. The Timestamp column contains the elapsed time, in seconds, since the target JVM started. The resolution of the time stamp is dependent on various factors and is subject to variation due to delayed thread scheduling on heavily loaded systems.</p>
+<p>Use the interval and count parameters to determine how frequently and how many times, respectively, the <code class="codeph">jstat</code> command displays its output.</p>
+<div class="infobox-note" id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-0A9F3212-087E-429F-B58F-826FDCFE8165">
+<p class="notep1">Note:</p>
+<p>Don&rsquo;t write scripts to parse the <code class="codeph">jstat</code> command's output because the format might change in future releases. If you write scripts that parse the <code class="codeph">jstat</code> command output, then expect to modify them for future releases of this tool.</p>
+</div>
+<dl>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-42109A89-5D4B-4B4D-87EE-338607A9E9A2"><!-- --></a><code class="codeph">-statOption</code></dt>
+<dd>
+<p>Determines the statistics information that the <code class="codeph">jstat</code> command displays. The following lists the available options. Use the <code class="codeph">-options</code> general option to display the list of options for a particular platform installation. See <a href="jstat.htm#GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__BEHFAGBI">Stat Options and Output</a>.</p>
+<p><code class="codeph">class</code>: Displays statistics about the behavior of the class loader.</p>
+<p><code class="codeph">compiler</code>: Displays statistics about the behavior of the Java HotSpot VM Just-in-Time compiler.</p>
+<p><code class="codeph">gc</code>: Displays statistics about the behavior of the garbage collected heap.</p>
+<p><code class="codeph">gccapacity</code>: Displays statistics about the capacities of the generations and their corresponding spaces.</p>
+<p><code class="codeph">gccause</code>: Displays a summary about garbage collection statistics (same as <code class="codeph">-gcutil</code>), with the cause of the last and current (when applicable) garbage collection events.</p>
+<p><code class="codeph">gcnew</code>: Displays statistics about the behavior of the new generation.</p>
+<p><code class="codeph">gcnewcapacity</code>: Displays statistics about the sizes of the new generations and their corresponding spaces.</p>
+<p><code class="codeph">gcold</code>: Displays statistics about the behavior of the old generation and metaspace statistics.</p>
+<p><code class="codeph">gcoldcapacity</code>: Displays statistics about the sizes of the old generation.</p>
+<p><code class="codeph">gcmetacapacity</code>: Displays statistics about the sizes of the metaspace.</p>
+<p><code class="codeph">gcutil</code>: Displays a summary about garbage collection statistics.</p>
+<p><code class="codeph">printcompilation</code>: Displays Java HotSpot VM compilation method statistics.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-022BE305-939B-4551-A41B-4769BB29DD0B"><!-- --></a><code class="codeph">-J<span class="variable">javaOption</span></code></dt>
+<dd>
+<p>Passes <code class="codeph">javaOption</code> to the Java application launcher. For example, <code class="codeph">-J-Xms48m</code> sets the startup memory to 48 MB. For a complete list of options, see <a href="java.htm#GUID-3B1CE181-CD30-4178-9602-230B800D4FAE" title="You can use the java command to launch a Java application.">java</a>.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__BEHFAGBI">
+<p class="subhead1">Stat Options and Output</p>
+<p>The following information summarizes the columns that the <code class="codeph">jstat</code> command outputs for each <code class="codeph"><span class="variable">statOption</span></code>.</p>
+<dl>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-C75A8A4F-5004-445A-8C30-36EE672C5BBD"><!-- --></a><code class="codeph">-class <span class="variable">option</span></code></dt>
+<dd>
+<p>Class loader statistics.</p>
+<p><code class="codeph">Loaded</code>: Number of classes loaded.</p>
+<p><code class="codeph">Bytes</code>: Number of KB loaded.</p>
+<p><code class="codeph">Unloaded</code>: Number of classes unloaded.</p>
+<p><code class="codeph">Bytes</code>: Number of KB loaded.</p>
+<p><code class="codeph">Time</code>: Time spent performing class loading and unloading operations.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-F80E462B-1567-4209-B9F5-737A3B4EE808"><!-- --></a><code class="codeph">-compiler <span class="variable">option</span></code></dt>
+<dd>
+<p>Java HotSpot VM Just-in-Time compiler statistics.</p>
+<p><code class="codeph">Compiled</code>: Number of compilation tasks performed.</p>
+<p><code class="codeph">Failed</code>: Number of compilations tasks failed.</p>
+<p><code class="codeph">Invalid</code>: Number of compilation tasks that were invalidated.</p>
+<p><code class="codeph">Time</code>: Time spent performing compilation tasks.</p>
+<p><code class="codeph">FailedType</code>: Compile type of the last failed compilation.</p>
+<p><code class="codeph">FailedMethod</code>: Class name and method of the last failed compilation.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-EAC4F743-FA0C-4918-927F-D8B31BC08741"><!-- --></a><code class="codeph">-gc <span class="variable">option</span></code></dt>
+<dd>
+<p>Garbage collected heap statistics.</p>
+<p><code class="codeph">S0C</code>: Current survivor space 0 capacity (KB).</p>
+<p><code class="codeph">S1C</code>: Current survivor space 1 capacity (KB).</p>
+<p><code class="codeph">S0U</code>: Survivor space 0 utilization (KB).</p>
+<p><code class="codeph">S1U</code>: Survivor space 1 utilization (KB).</p>
+<p><code class="codeph">EC</code>: Current eden space capacity (KB).</p>
+<p><code class="codeph">EU</code>: Eden space utilization (KB).</p>
+<p><code class="codeph">OC</code>: Current old space capacity (KB).</p>
+<p><code class="codeph">OU</code>: Old space utilization (KB).</p>
+<p><code class="codeph">MC</code>: Metaspace capacity (KB).</p>
+<p><code class="codeph">MU</code>: Metaspace utilization (KB).</p>
+<p><code class="codeph">CCSC</code>: Compressed class space capacity (KB).</p>
+<p><code class="codeph">CCSU</code>: Compressed class space used (KB).</p>
+<p><code class="codeph">YGC</code>: Number of young generation garbage collection (GC) events.</p>
+<p><code class="codeph">YGCT</code>: Young generation garbage collection time.</p>
+<p><code class="codeph">FGC</code>: Number of full GC events.</p>
+<p><code class="codeph">FGCT</code>: Full garbage collection time.</p>
+<p><code class="codeph">GCT</code>: Total garbage collection time.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-62377489-F869-4AFD-A145-E76DF328B30B"><!-- --></a><code class="codeph">-gccapacity <span class="variable">option</span></code></dt>
+<dd>
+<p>Memory pool generation and space capacities.</p>
+<p><code class="codeph">NGCMN</code>: Minimum new generation capacity (KB).</p>
+<p><code class="codeph">NGCMX</code>: Maximum new generation capacity (KB).</p>
+<p><code class="codeph">NGC</code>: Current new generation capacity (KB).</p>
+<p><code class="codeph">S0C</code>: Current survivor space 0 capacity (KB).</p>
+<p><code class="codeph">S1C</code>: Current survivor space 1 capacity (KB).</p>
+<p><code class="codeph">EC</code>: Current eden space capacity (KB).</p>
+<p><code class="codeph">OGCMN</code>: Minimum old generation capacity (KB).</p>
+<p><code class="codeph">OGCMX</code>: Maximum old generation capacity (KB).</p>
+<p><code class="codeph">OGC</code>: Current old generation capacity (KB).</p>
+<p><code class="codeph">OC</code>: Current old space capacity (KB).</p>
+<p><code class="codeph">MCMN</code>: Minimum metaspace capacity (KB).</p>
+<p><code class="codeph">MCMX</code>: Maximum metaspace capacity (KB).</p>
+<p><code class="codeph">MC</code>: Metaspace capacity (KB).</p>
+<p><code class="codeph">CCSMN</code>: Compressed class space minimum capacity (KB).</p>
+<p><code class="codeph">CCSMX</code>: Compressed class space maximum capacity (KB).</p>
+<p><code class="codeph">CCSC</code>: Compressed class space capacity (KB).</p>
+<p><code class="codeph">YGC</code>: Number of young generation GC events.</p>
+<p><code class="codeph">FGC</code>: Number of full GC events.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-8B13D54D-E27D-4AF6-AFF3-C163D31CC050"><!-- --></a><code class="codeph">-gccause <span class="variable">option</span></code></dt>
+<dd>
+<p>This option displays the same summary of garbage collection statistics as the <code class="codeph">-gcutil</code> option, but includes the causes of the last garbage collection event and (when applicable), the current garbage collection event. In addition to the columns listed for <code class="codeph">-gcutil</code>, this option adds the following columns:</p>
+<p><code class="codeph">LGCC</code>: Cause of last garbage collection</p>
+<p><code class="codeph">GCC</code>: Cause of current garbage collection</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-83D99BA5-85C7-48CC-9ABC-7E77DE0B0DE3"><!-- --></a><code class="codeph">-gcnew <span class="variable">option</span></code></dt>
+<dd>
+<p>New generation statistics.</p>
+<p><code class="codeph">S0C</code>: Current survivor space 0 capacity (KB).</p>
+<p><code class="codeph">S1C</code>: Current survivor space 1 capacity (KB).</p>
+<p><code class="codeph">S0U</code>: Survivor space 0 utilization (KB).</p>
+<p><code class="codeph">S1U</code>: Survivor space 1 utilization (KB).</p>
+<p><code class="codeph">TT</code>: Tenuring threshold.</p>
+<p><code class="codeph">MTT</code>: Maximum tenuring threshold.</p>
+<p><code class="codeph">DSS</code>: Desired survivor size (KB).</p>
+<p><code class="codeph">EC</code>: Current eden space capacity (KB).</p>
+<p><code class="codeph">EU</code>: Eden space utilization (KB).</p>
+<p><code class="codeph">YGC</code>: Number of young generation GC events.</p>
+<p><code class="codeph">YGCT</code>: Young generation garbage collection time.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-26F15A3E-39FD-413F-965A-F192E562617A"><!-- --></a><code class="codeph">-gcnewcapacity <span class="variable">option</span></code></dt>
+<dd>
+<p>New generation space size statistics.</p>
+<p><code class="codeph">NGCMN</code>: Minimum new generation capacity (KB).</p>
+<p><code class="codeph">NGCMX</code>: Maximum new generation capacity (KB).</p>
+<p><code class="codeph">NGC</code>: Current new generation capacity (KB).</p>
+<p><code class="codeph">S0CMX</code>: Maximum survivor space 0 capacity (KB).</p>
+<p><code class="codeph">S0C</code>: Current survivor space 0 capacity (KB).</p>
+<p><code class="codeph">S1CMX</code>: Maximum survivor space 1 capacity (KB).</p>
+<p><code class="codeph">S1C</code>: Current survivor space 1 capacity (KB).</p>
+<p><code class="codeph">ECMX</code>: Maximum eden space capacity (KB).</p>
+<p><code class="codeph">EC</code>: Current eden space capacity (KB).</p>
+<p><code class="codeph">YGC</code>: Number of young generation GC events.</p>
+<p><code class="codeph">FGC</code>: Number of full GC events.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-CE928C8D-066C-405C-8489-75DAB16A3691"><!-- --></a><code class="codeph">-gcold <span class="variable">option</span></code></dt>
+<dd>
+<p>Old generation size statistics.</p>
+<p><code class="codeph">MC</code>: Metaspace capacity (KB).</p>
+<p><code class="codeph">MU</code>: Metaspace utilization (KB).</p>
+<p><code class="codeph">CCSC</code>: Compressed class space capacity (KB).</p>
+<p><code class="codeph">CCSU</code>: Compressed class space used (KB).</p>
+<p><code class="codeph">OC</code>: Current old space capacity (KB).</p>
+<p><code class="codeph">OU</code>: Old space utilization (KB).</p>
+<p><code class="codeph">YGC</code>: Number of young generation GC events.</p>
+<p><code class="codeph">FGC</code>: Number of full GC events.</p>
+<p><code class="codeph">FGCT</code>: Full garbage collection time.</p>
+<p><code class="codeph">GCT</code>: Total garbage collection time.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-F675D731-3420-406F-88A1-DDB74121DA32"><!-- --></a><code class="codeph">-gcoldcapacity <span class="variable">option</span></code></dt>
+<dd>
+<p>Old generation statistics.</p>
+<p><code class="codeph">OGCMN</code>: Minimum old generation capacity (KB).</p>
+<p><code class="codeph">OGCMX</code>: Maximum old generation capacity (KB).</p>
+<p><code class="codeph">OGC</code>: Current old generation capacity (KB).</p>
+<p><code class="codeph">OC</code>: Current old space capacity (KB).</p>
+<p><code class="codeph">YGC</code>: Number of young generation GC events.</p>
+<p><code class="codeph">FGC</code>: Number of full GC events.</p>
+<p><code class="codeph">FGCT</code>: Full garbage collection time.</p>
+<p><code class="codeph">GCT</code>: Total garbage collection time.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-705BA29B-1598-4397-B843-F995E6DE49E4"><!-- --></a><code class="codeph">-gcmetacapacity <span class="variable">option</span></code></dt>
+<dd>
+<p>Metaspace size statistics.</p>
+<p><code class="codeph">MCMN</code>: Minimum metaspace capacity (KB).</p>
+<p><code class="codeph">MCMX</code>: Maximum metaspace capacity (KB).</p>
+<p><code class="codeph">MC</code>: Metaspace capacity (KB).</p>
+<p><code class="codeph">CCSMN</code>: Compressed class space minimum capacity (KB).</p>
+<p><code class="codeph">CCSMX</code>: Compressed class space maximum capacity (KB).</p>
+<p><code class="codeph">YGC</code>: Number of young generation GC events.</p>
+<p><code class="codeph">FGC</code>: Number of full GC events.</p>
+<p><code class="codeph">FGCT</code>: Full garbage collection time.</p>
+<p><code class="codeph">GCT</code>: Total garbage collection time.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-9BC25E00-4B4C-4C20-B54C-294E8DBE2934"><!-- --></a><code class="codeph">-gcutil <span class="variable">option</span></code></dt>
+<dd>
+<p>Summary of garbage collection statistics.</p>
+<p><code class="codeph">S0</code>: Survivor space 0 utilization as a percentage of the space's current capacity.</p>
+<p><code class="codeph">S1</code>: Survivor space 1 utilization as a percentage of the space's current capacity.</p>
+<p><code class="codeph">E</code>: Eden space utilization as a percentage of the space's current capacity.</p>
+<p><code class="codeph">O</code>: Old space utilization as a percentage of the space's current capacity.</p>
+<p><code class="codeph">M</code>: Metaspace utilization as a percentage of the space's current capacity.</p>
+<p><code class="codeph">CCS</code>: Compressed class space utilization as a percentage.</p>
+<p><code class="codeph">YGC</code>: Number of young generation GC events.</p>
+<p><code class="codeph">YGCT</code>: Young generation garbage collection time.</p>
+<p><code class="codeph">FGC</code>: Number of full GC events.</p>
+<p><code class="codeph">FGCT</code>: Full garbage collection time.</p>
+<p><code class="codeph">GCT</code>: Total garbage collection time.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-0DA425EA-4D9B-41F8-90EB-709670F3D6EA"><!-- --></a><code class="codeph">-printcompilation <span class="variable">option</span></code></dt>
+<dd>
+<p>Java HotSpot VM compiler method statistics.</p>
+<p><code class="codeph">Compiled</code>: Number of compilation tasks performed by the most recently compiled method.</p>
+<p><code class="codeph">Size</code>: Number of bytes of byte code of the most recently compiled method.</p>
+<p><code class="codeph">Type</code>: Compilation type of the most recently compiled method.</p>
+<p><code class="codeph">Method</code>: Class name and method name identifying the most recently compiled method. Class name uses a slash (/) instead of a dot (.) as a name space separator. The method name is the method within the specified class. The format for these two fields is consistent with the HotSpot <code class="codeph">-XX:+PrintCompilation</code> option.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__BEHBCGCA">
+<p class="subhead1">Virtual Machine Identifier</p>
+<p>The syntax of the <code class="codeph">vmid</code> string corresponds to the syntax of a URI:</p>
+<pre dir="ltr">
+[protocol:][//]lvmid[@hostname[:port]/servername]
+</pre>
+<p>The syntax of the <code class="codeph">vmid</code> string corresponds to the syntax of a URI. The <code class="codeph">vmid</code> string can vary from a simple integer that represents a local JVM to a more complex construction that specifies a communications protocol, port number, and other implementation-specific values.</p>
+<dl>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-64C65D8F-BCEA-40BB-85FC-B4EA45785479"><!-- --></a><code class="codeph"><span class="variable">protocol</span></code></dt>
+<dd>
+<p>The communications protocol. If the <code class="codeph"><span class="variable">protocol</span></code> value is omitted and a host name isn&rsquo;t specified, then the default protocol is a platform-specific optimized local protocol. If the <code class="codeph"><span class="variable">protocol</span></code> value is omitted and a host name is specified, then the default protocol is <code class="codeph">rmi</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-A695A83D-BD55-4EC4-A2B8-1A84F33B347C"><!-- --></a><code class="codeph"><span class="variable">lvmid</span></code></dt>
+<dd>
+<p>The local virtual machine identifier for the target JVM. The <code class="codeph">lvmid</code> is a platform-specific value that uniquely identifies a JVM on a system. The <code class="codeph">lvmid</code> is the only required component of a virtual machine identifier. The <code class="codeph">lvmid</code> is typically, but not necessarily, the operating system's process identifier for the target JVM process. You can use the <code class="codeph">jps</code> command to determine the <code class="codeph">lvmid</code>. Also, you can determine the <code class="codeph">lvmid</code> on <span>Oracle Solaris, Linux, and OS X</span> platforms with the <code class="codeph">ps</code> command, and on Windows with the Windows Task Manager.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-8E6C3A50-E323-4C26-BE76-87A3BCB13829"><!-- --></a><code class="codeph"><span class="variable">hostname</span></code></dt>
+<dd>
+<p>A host name or IP address that indicates the target host. If the <code class="codeph"><span class="variable">hostname</span></code> value is omitted, then the target host is the local host.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-3FE34E38-940D-4FDF-907D-3D2269E1AD5E"><!-- --></a><code class="codeph"><span class="variable">port</span></code></dt>
+<dd>
+<p>The default port for communicating with the remote server. If the <code class="codeph"><span class="variable">hostname</span></code> value is omitted or the <code class="codeph"><span class="variable">protocol</span></code> value specifies an optimized, local protocol, then the <code class="codeph"><span class="variable">port</span></code> value is ignored. Otherwise, treatment of the <code class="codeph"><span class="variable">port</span></code> parameter is implementation-specific. For the default <code class="codeph">rmi</code> protocol, the port value indicates the port number for the <code class="codeph">rmiregistry</code> on the remote host. If the <code class="codeph"><span class="variable">port</span></code> value is omitted and the <code class="codeph"><span class="variable">protocol</span></code> value indicates <code class="codeph">rmi</code>, then the default rmiregistry port (1099) is used.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-5F72A7F9-5D5A-4486-8201-E1D1BA8ACCB5__GUID-E5F2FAE4-AFD5-495B-A1FF-70C2373B3340"><!-- --></a><code class="codeph"><span class="variable">servername</span></code></dt>
+<dd>
+<p>The treatment of the <code class="codeph"><span class="variable">servername</span></code> parameter depends on implementation. For the optimized local protocol, this field is ignored. For the <code class="codeph">rmi</code> protocol, it represents the name of the RMI remote object on the remote host.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Examples</p>
+<p>This section presents some examples of monitoring a local JVM with an <code class="codeph"><span class="variable">lvmid</span></code> of 21891.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">The gcutil Option</p>
+<p>This example attaches to lvmid 21891 and takes 7 samples at 250 millisecond intervals and displays the output as specified by the <code class="codeph">-gcutil</code> option.</p>
+<p>The output of this example shows that a young generation collection occurred between the third and fourth sample. The collection took 0.078 seconds and promoted objects from the eden space (E) to the old space (O), resulting in an increase of old space utilization from 66.80% to 68.19%. Before the collection, the survivor space was 97.02% utilized, but after this collection it&rsquo;s 91.03% utilized.</p>
+<pre dir="ltr">
+jstat -gcutil 21891 250 7
+  S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT   
+  0.00  97.02  70.31  66.80  95.52  89.14      7    0.300     0    0.000    0.300
+  0.00  97.02  86.23  66.80  95.52  89.14      7    0.300     0    0.000    0.300
+  0.00  97.02  96.53  66.80  95.52  89.14      7    0.300     0    0.000    0.300
+ 91.03   0.00   1.98  68.19  95.89  91.24      8    0.378     0    0.000    0.378
+ 91.03   0.00  15.82  68.19  95.89  91.24      8    0.378     0    0.000    0.378
+ 91.03   0.00  17.80  68.19  95.89  91.24      8    0.378     0    0.000    0.378
+ 91.03   0.00  17.80  68.19  95.89  91.24      8    0.378     0    0.000    0.378
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Repeat the Column Header String</p>
+<p>This example attaches to lvmid 21891 and takes samples at 250 millisecond intervals and displays the output as specified by <code class="codeph">-gcnew</code> option. In addition, it uses the <code class="codeph">-h3</code> option to output the column header after every 3 lines of data.</p>
+<p>In addition to showing the repeating header string, this example shows that between the second and third samples, a young GC occurred. Its duration was 0.001 seconds. The collection found enough active data that the survivor space 0 utilization (S0U) would have exceeded the desired survivor size (DSS). As a result, objects were promoted to the old generation (not visible in this output), and the tenuring threshold (TT) was lowered from 31 to 2.</p>
+<p>Another collection occurs between the fifth and sixth samples. This collection found very few survivors and returned the tenuring threshold to 31.</p>
+<pre dir="ltr">
+jstat -gcnew -h3 21891 250
+ S0C    S1C    S0U    S1U   TT MTT  DSS      EC       EU     YGC     YGCT
+  64.0   64.0    0.0   31.7 31  31   32.0    512.0    178.6    249    0.203
+  64.0   64.0    0.0   31.7 31  31   32.0    512.0    355.5    249    0.203
+  64.0   64.0   35.4    0.0  2  31   32.0    512.0     21.9    250    0.204
+ S0C    S1C    S0U    S1U   TT MTT  DSS      EC       EU     YGC     YGCT
+  64.0   64.0   35.4    0.0  2  31   32.0    512.0    245.9    250    0.204
+  64.0   64.0   35.4    0.0  2  31   32.0    512.0    421.1    250    0.204
+  64.0   64.0    0.0   19.0 31  31   32.0    512.0     84.4    251    0.204
+ S0C    S1C    S0U    S1U   TT MTT  DSS      EC       EU     YGC     YGCT
+  64.0   64.0    0.0   19.0 31  31   32.0    512.0    306.7    251    0.204
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Include a Time Stamp for Each Sample</p>
+<p>This example attaches to <code class="codeph"><span class="variable">lvmid</span></code> 21891 and takes 3 samples at 250 millisecond intervals. The <code class="codeph">-t</code> option is used to generate a time stamp for each sample in the first column.</p>
+<p>The Timestamp column reports the elapsed time in seconds since the start of the target JVM. In addition, the <code class="codeph">-gcoldcapacity</code> output shows the old generation capacity (OGC) and the old space capacity (OC) increasing as the heap expands to meet allocation or promotion demands. The old generation capacity (OGC) has grown from 11,696 KB to 13,820 KB after the eighty-first full garbage collection (FGC). The maximum capacity of the generation (and space) is 60,544 KB (OGCMX), so it still has room to expand.</p>
+<pre dir="ltr">
+Timestamp      OGCMN    OGCMX     OGC       OC       YGC   FGC    FGCT    GCT
+          150.1   1408.0  60544.0  11696.0  11696.0   194    80    2.874   3.799
+          150.4   1408.0  60544.0  13820.0  13820.0   194    81    2.938   3.863
+          150.7   1408.0  60544.0  13820.0  13820.0   194    81    2.938   3.863
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Monitor Instrumentation for a Remote JVM</p>
+<p>This example attaches to <code class="codeph"><span class="variable">lvmid</span></code> 40496 on the system named <code class="codeph">remote.domain</code> using the <code class="codeph">-gcutil</code> option, with samples taken every second indefinitely.</p>
+<p>The <code class="codeph"><span class="variable">lvmid</span></code> is combined with the name of the remote host to construct a <code class="codeph"><span class="variable">vmid</span></code> of <code class="codeph">40496@remote.domain</code>. This <code class="codeph"><span class="variable">vmid</span></code> results in the use of the <code class="codeph">rmi</code> protocol to communicate to the default <code class="codeph">jstatd</code> server on the remote host. The <code class="codeph">jstatd</code> server is located using the <code class="codeph">rmiregistry</code> command on <code class="codeph">remote.domain</code> that&rsquo;s bound to the default port of the <code class="codeph">rmiregistry</code> command (port 1099).</p>
+<pre dir="ltr">
+jstat -gcutil 40496@remote.domain 1000
+<span class="italic">... output omitted</span>
+</pre></div>
+<!-- class="section" --></div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment179">
+<tr>
+<td class="cellalignment191">
+<table class="cellalignment184">
+<tr>
+<td class="cellalignment183"><a href="jps.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment183"><a href="jstatd.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment193">
+<table class="cellalignment182">
+<tr>
+<td class="cellalignment183"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment183"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment183"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

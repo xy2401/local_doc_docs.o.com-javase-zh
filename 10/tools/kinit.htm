@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>kinit</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="You use the kinit tool and its options to obtain and cache Kerberos ticket-granting tickets." />
+<meta name="dcterms.created" content="2018-03-13T12:23:13Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Tools Reference" />
+<meta name="dcterms.identifier" content="E91146-01" />
+<meta name="dcterms.isVersionOf" content="JSWOR" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="jarsigner.htm" title="Previous" type="text/html" />
+<link rel="Next" href="klist.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSWOR.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-8AA6A058-419A-41D4-A61E-E5E1911E51E6"></a> <span id="PAGE" style="display:none;">21/63</span> <!-- End Header -->
+<a id="JSWOR699"></a>
+<h1 id="JSWOR-GUID-8AA6A058-419A-41D4-A61E-E5E1911E51E6" class="sect1">kinit</h1>
+<div>
+<p><span>You use the <code class="codeph">kinit</code> tool and its options to obtain and cache Kerberos ticket-granting tickets.</span></p>
+<div class="section">
+<p>This tool is similar in functionality to the <code class="codeph">kinit</code> tool that is commonly found in other Kerberos implementations, such as SEAM and MIT Reference implementations. The user must be registered as a principal with the Key Distribution Center (KDC) prior to running <code class="codeph">kinit</code>.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Synopsis</p>
+<p>Initial ticket request:</p>
+<pre dir="ltr">
+ kinit [-A] [-f] [-p] [-c <span class="variable">cache_name</span>] [-l <span class="variable">lifetime</span>] [-r <span class="variable">renewable_time</span>] [[-k [-t <span class="variable">keytab_file_name</span>]] [<span class="variable">principal</span>] [<span class="variable">password</span>]
+</pre>
+<p>Renew a ticket:</p>
+<pre dir="ltr">
+ kinit -R [-c <span class="variable">cachename</span>] [<span class="variable">principal</span>]
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Description</p>
+<p>By default, on Windows, a cache file named <code class="codeph"><span class="variable">USER_HOME</span>\krb5cc_<span class="variable">USER_NAME</span></code> is generated.</p>
+<p>The identifier <code class="codeph"><span class="variable">USER_HOME</span></code> is obtained from the <code class="codeph">java.lang.System</code> property <code class="codeph">user.home</code>. <code class="codeph"><span class="variable">USER_NAME</span></code> is obtained from the <code class="codeph">java.lang.System</code> property <code class="codeph">user.name</code>. If <code class="codeph"><span class="variable">USER_HOME</span></code> is null, the cache file is stored in the current directory from which the program is running. <code class="codeph"><span class="variable">USER_NAME</span></code> is the operating system's login user name. This user name could be different than the user's principal name. For example, on Windows, the cache file could be <code class="codeph">C:\Windows\Users\duke\krb5cc_duke</code>, in which <code class="codeph">duke</code> is the <code class="codeph"><span class="variable">USER_NAME</span></code> and <code class="codeph">C:\Windows\Users\duke</code> is the <code class="codeph"><span class="variable">USER_HOME</span></code>.</p>
+<p>By default, the keytab name is retrieved from the Kerberos configuration file. If the keytab name isn&rsquo;t specified in the Kerberos configuration file, the kinit tool assumes that the name is <code class="codeph"><span class="variable">USER_HOME</span>\krb5.keytab</code></p>
+<p>If you don&rsquo;t specify the password using the <code class="codeph">password</code> option on the command line, the <code class="codeph">kinit</code> tool prompts you for the password.</p>
+<div class="infobox-note" id="GUID-8AA6A058-419A-41D4-A61E-E5E1911E51E6__GUID-6281F603-2497-49D4-814F-095B41ED20EF">
+<p class="notep1">Note:</p>
+<p>The <code class="codeph">password</code> option is provided only for testing purposes. Don&rsquo;t specify your password in a script or provide your password on the command line. Doing so will compromise your password.</p>
+</div>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Commands</p>
+<p>You can specify one of the following commands. After the command, specify the options for it.</p>
+<dl>
+<dt class="dlterm"><a id="GUID-8AA6A058-419A-41D4-A61E-E5E1911E51E6__GUID-4AE82790-4E76-4EEA-8635-55EA760D514D"><!-- --></a><code class="codeph">-A</code></dt>
+<dd>
+<p>Doesn&rsquo;t include addresses.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8AA6A058-419A-41D4-A61E-E5E1911E51E6__GUID-93534CEB-6B00-4570-BBC6-42301B315DC5"><!-- --></a><code class="codeph">-f</code></dt>
+<dd>
+<p>Issues a forwardable ticket.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8AA6A058-419A-41D4-A61E-E5E1911E51E6__GUID-9CCC215B-C7BA-4E21-8C0C-04493D60439D"><!-- --></a><code class="codeph">-p</code></dt>
+<dd>
+<p>Issues a proxiable ticket.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8AA6A058-419A-41D4-A61E-E5E1911E51E6__GUID-7A9D0F9F-A947-45FF-88A7-B6A5FF509D11"><!-- --></a><code class="codeph">-c <span class="variable">cache_name</span></code></dt>
+<dd>
+<p>The cache name (for example, <code class="codeph">FILE:D:\temp\mykrb5cc</code>).</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8AA6A058-419A-41D4-A61E-E5E1911E51E6__GUID-A76BDC1C-8CD6-4789-A05D-DE0AD055140B"><!-- --></a><code class="codeph">-l <span class="variable">lifetime</span></code></dt>
+<dd>
+<p>Sets the lifetime of a ticket.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8AA6A058-419A-41D4-A61E-E5E1911E51E6__GUID-307D6A76-06DE-41E4-B4C1-7C8E47902B8E"><!-- --></a><code class="codeph">-r <span class="variable">renewable_time</span></code></dt>
+<dd>
+<p>Sets the total lifetime that a ticket can be renewed.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8AA6A058-419A-41D4-A61E-E5E1911E51E6__GUID-CDFEE655-89C1-4320-95E5-8FC1DD736940"><!-- --></a><code class="codeph">-R</code></dt>
+<dd>
+<p>Renews a ticket.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8AA6A058-419A-41D4-A61E-E5E1911E51E6__GUID-B7397571-D227-4063-B26B-DC1FAF09E35B"><!-- --></a><code class="codeph">-k</code></dt>
+<dd>
+<p>Uses keytab</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8AA6A058-419A-41D4-A61E-E5E1911E51E6__GUID-D2CBB27A-2783-473E-8CBB-28C991374895"><!-- --></a><code class="codeph">-t <span class="variable">keytab_filename</span></code></dt>
+<dd>
+<p>The keytab name (for example, <code class="codeph">D:\winnt\profiles\duke\krb5.keytab</code>).</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8AA6A058-419A-41D4-A61E-E5E1911E51E6__GUID-86190405-278E-44B5-83EC-06F8659D2C79"><!-- --></a><code class="codeph"><span class="variable">principal</span></code></dt>
+<dd>
+<p>The principal name (for example, <code class="codeph">duke@example.com</code>).</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8AA6A058-419A-41D4-A61E-E5E1911E51E6__GUID-6A949A2B-6945-481B-82EF-8053C2F20BF6"><!-- --></a><code class="codeph"><span class="variable">password</span></code></dt>
+<dd>
+<p>The<code class="codeph"><span class="variable">principal</span></code>&rsquo;s Kerberos password. <span class="bold">Don&rsquo;t specify this on the command line or in a script.</span></p>
+</dd>
+<dt class="dlterm"><a id="GUID-8AA6A058-419A-41D4-A61E-E5E1911E51E6__GUID-2DD93210-ED61-433B-A4D6-3028C6F5E0B5"><!-- --></a><code class="codeph">-help</code></dt>
+<dd>
+<p>Displays instructions.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Examples</p>
+<p>Requests credentials valid for authentication from the current client host, for the default services, storing the credentials cache in the default location (<code class="codeph">C:\Windows\Users\duke\krb5cc_duke</code>):</p>
+<pre dir="ltr">
+kinit duke@example.com
+</pre>
+<p>Requests proxiable credentials for a different principal and store these credentials in a specified file cache:</p>
+<pre dir="ltr">
+kinit -p -c FILE:C:\Windows\Users\duke\credentials\krb5cc_cafebeef
+    cafebeef@example.com
+</pre>
+<p>Requests proxiable and forwardable credentials for a different principal and stores these credentials in a specified file cache:</p>
+<pre dir="ltr">
+kinit -f -p -c FILE:C:\Windows\Users\duke\credentials\krb5cc_cafebeef
+    cafebeef@example.com
+</pre>
+<p>Displays the help menu for the <code class="codeph">kinit</code> tool:</p>
+<pre dir="ltr">
+kinit -help
+</pre></div>
+<!-- class="section" --></div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment186">
+<tr>
+<td class="cellalignment198">
+<table class="cellalignment191">
+<tr>
+<td class="cellalignment190"><a href="jarsigner.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment190"><a href="klist.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment200">
+<table class="cellalignment189">
+<tr>
+<td class="cellalignment190"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment190"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment190"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

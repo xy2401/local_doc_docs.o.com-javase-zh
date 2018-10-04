@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>6 Working with Touch Events (Release 8)</title>
+<meta name="description" content="This topic describes the touch events that enable users to interact with your JavaFX application using a touch screen. Touch points identify each point of contact for a touch.">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXED.pdf">PDF</a> | <a href="../JFXED.epub">ePub</a> | <a href="../JFXED.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Handling Events</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="gestures.htm">Previous Page</a><a class="button" title="Next Page" href="drag_drop_feature.htm">Next Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="CHDHBGJA" name="CHDHBGJA" class="anchor"></a><a id="JFXED192" name="JFXED192" class="anchor"></a>
+<h1 class="chapter"><span class="secnum">6</span> Working with Touch Events</h1>
+<a id="JFXED193" name="JFXED193" class="anchor"></a>
+<p>This topic describes the touch events that enable users to interact with your JavaFX application using a touch screen. Touch points identify each point of contact for a touch. This topic shows you how to identify the touch points and handle touch events to provide sophisticated responses to touch actions.</p>
+<p>A touch action consists of one or more points of contact on a touch screen. The action can be a simple press and release, or a more complicated series of holds and moves between the press and release. A series of events is generated for each point of contact for the duration of the action. In addition to the touch events, mouse events and gesture events are generated. If your JavaFX application does not require a complex response to a touch action, you might prefer to handle the mouse or gesture event instead of the touch event. For more information about handling gesture events, see <a href="gestures.htm#CHDDHFJJ">Working with Events from Touch-Enabled Devices</a>.</p>
+<p>Touch events require a touch screen and the Windows 7 operating system.</p>
+<a id="JFXED194" name="JFXED194" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref65" name="sthref65" class="anchor"></a>
+<h2 class="sect1">Overview of Touch Actions</h2>
+<p>The term touch action refers to the entire scope of a user's touch from the time that contact is made with the touch screen to the time that the touch screen is released by all points of contact. The types of touch events that are generated during a touch action are <code>TOUCH_PRESSED</code>, <code>TOUCH_MOVED</code>, <code>TOUCH_STATIONARY</code>, and <code>TOUCH_RELEASED</code>.</p>
+<p>Each point of contact with the screen is considered a touch point. For each touch point, a touch event is generated. When a touch action contains multiple points of contact, a set of events, which is one event for each touch point, is generated for each state in the touch action.</p>
+<p>See the sections <a href="#CHDEACBC">Touch Points</a>, <a href="#CHDFEFGH">Touch Events</a>, and <a href="#CHDGCFCE">Event Sets</a> for more information about these elements. See <a href="#CHDCJFFB">Touch Events Example</a> for an example of how touch events can be used in a JavaFX application.</p>
+<a id="CHDEACBC" name="CHDEACBC" class="anchor"></a><a id="JFXED195" name="JFXED195" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" -->
+<h3 class="sect2">Touch Points</h3>
+<p>When a user touches a touch screen, a touch point is created for each individual point of contact. A touch point is represented by an instance of the <code>TouchPoint</code> class, and contains information about the location, the state, and the target of the point of contact. The states of a touch point are pressed, moved, stationary, and released.</p>
+<div class="infoboxnotealso">
+<p class="notep1">Tip:</p>
+<p>The number of touch points that are generated might be limited by the touch screen. For example, if the touch screen supports only two points of contact and the user touches the screen with three fingers, only two touch points are generated. For the purposes of this article, it is assumed that the touch screen recognizes all points of contact.</p>
+</div>
+<p>Each touch point has an ID, which is assigned sequentially as touch points are added to the touch action. The ID of a touch point remains the same from the time that contact is made with the touch screen to the time that contact is released. When a point of contact is released, the associated touch point is no longer part of the touch action. For example, if the touch screen is touched with two fingers, the ID assigned to the first touch point is 1 and the ID assigned to the second touch point is 2. If the second finger is removed from the touch screen, only touch point 1 remains as part of the touch action. If another finger is then added to the touch action, the ID assigned to the new touch point is 3, and the touch action has touch points 1 and 3.</p>
+</div>
+<!-- class="sect2" -->
+<a id="CHDFEFGH" name="CHDFEFGH" class="anchor"></a><a id="JFXED196" name="JFXED196" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" -->
+<h3 class="sect2">Touch Events</h3>
+<p>Touch events are generated to track the actions of touch points. A touch event is represented by an instance of the <code>TouchEvent</code> class. Touch events are generated only from touches on a touch screen. Touch events are not generated from a trackpad.</p>
+<p>Touch events are similar to other events, which have a source, target, and event types that further define the action that occurs. The types of touch events are <code>TOUCH_PRESSED</code>, <code>TOUCH_MOVED</code>, <code>TOUCH_STATIONARY</code>, and <code>TOUCH_RELEASED</code>. Multiple <code>TOUCH_MOVED</code> and <code>TOUCH_STATIONARY</code> events can be generated for a touch point, depending on the distance moved and the time that a touch point is held in place. See <a href="processing.htm#CEGJAAFD">Processing Events</a> for basic information about events and how events are processed.</p>
+<p>Touch events also have the following items:</p>
+<ul>
+<li>
+<p>Touch point</p>
+<p>Main touch point that is associated with this event</p>
+</li>
+<li>
+<p>Touch count</p>
+<p>The number of touch points currently associated with the touch action</p>
+</li>
+<li>
+<p>List of touch points</p>
+<p>The set of the touch points currently associated with the touch action</p>
+</li>
+<li>
+<p>Event set ID</p>
+<p>ID of the event set that contains this event</p>
+</li>
+</ul>
+</div>
+<!-- class="sect2" -->
+<a id="CHDGCFCE" name="CHDGCFCE" class="anchor"></a><a id="JFXED197" name="JFXED197" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" -->
+<h3 class="sect2">Event Sets</h3>
+<p>When a touch action has a single point of contact, a single touch event is generated for each state of the action. When a touch action has multiple points of contact, a set of touch events is generated for each state of the action. Each touch event in the set is associated with a different one of the touch points.</p>
+<p>Each set of events has an event set ID. The event set ID increments by one for each set that is generated in response to the touch action. The events in the set can have different event types, depending on the state of the touch point with which it is associated. As points of contact are added or removed during the touch action, the number of events in the event set changes. For example, <a href="#CHDDEGDE">Table 6-1</a> describes the event sets that are generated when a user touches the touch screen with two fingers, moves both fingers, touches the touch screen with a third finger, moves all fingers, and then removes all fingers from the screen.</p>
+<div class="tblformal"><a id="JFXED198" name="JFXED198" class="anchor"></a><a id="sthref66" name="sthref66" class="anchor"></a><a id="CHDDEGDE" name="CHDDEGDE" class="anchor"></a>
+<p class="titleintable">Table 6-1 Event Sets for a Single Touch Action</p>
+<table class="Formal" title="Event Sets for a Single Touch Action" summary="This table shows the event sets that are generated when the user touches the screen as described in the text. The table identifies the event set, the number of events in the event set, and the event type for each event in the event set." dir="ltr" border="1" width="100%" frame="hsides" rules="groups" cellpadding="3" cellspacing="0">
+<col width="17%" />
+<col width="20%" />
+<col width="*" />
+<thead>
+<tr align="left" valign="top">
+<th align="left" valign="bottom" id="r1c1-t3">Event Set ID</th>
+<th align="left" valign="bottom" id="r1c2-t3">Number of Touch Events</th>
+<th align="left" valign="bottom" id="r1c3-t3">Event Type for Each Event</th>
+</tr>
+</thead>
+<tbody>
+<tr align="left" valign="top">
+<td align="left" id="r2c1-t3" headers="r1c1-t3">
+<p>1</p>
+</td>
+<td align="left" headers="r2c1-t3 r1c2-t3">
+<p>1</p>
+</td>
+<td align="left" headers="r2c1-t3 r1c3-t3">
+<p><code>TOUCH_PRESSED</code></p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" id="r3c1-t3" headers="r1c1-t3">
+<p>2</p>
+</td>
+<td align="left" headers="r3c1-t3 r1c2-t3">
+<p>2</p>
+</td>
+<td align="left" headers="r3c1-t3 r1c3-t3">
+<p><code>TOUCH_STATIONARY</code>, <code>TOUCH_PRESSED</code></p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" id="r4c1-t3" headers="r1c1-t3">
+<p>3</p>
+</td>
+<td align="left" headers="r4c1-t3 r1c2-t3">
+<p>2</p>
+</td>
+<td align="left" headers="r4c1-t3 r1c3-t3">
+<p><code>TOUCH_MOVED</code>, <code>TOUCH_MOVED</code></p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" id="r5c1-t3" headers="r1c1-t3">
+<p>4</p>
+</td>
+<td align="left" headers="r5c1-t3 r1c2-t3">
+<p>3</p>
+</td>
+<td align="left" headers="r5c1-t3 r1c3-t3">
+<p><code>TOUCH_STATIONARY</code>, <code>TOUCH_STATIONARY</code>, <code>TOUCH_PRESSED</code></p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" id="r6c1-t3" headers="r1c1-t3">
+<p>5</p>
+</td>
+<td align="left" headers="r6c1-t3 r1c2-t3">
+<p>3</p>
+</td>
+<td align="left" headers="r6c1-t3 r1c3-t3">
+<p><code>TOUCH_MOVED</code>, <code>TOUCH_MOVED</code>, <code>TOUCH_MOVED</code></p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" id="r7c1-t3" headers="r1c1-t3">
+<p>6</p>
+</td>
+<td align="left" headers="r7c1-t3 r1c2-t3">
+<p>3</p>
+</td>
+<td align="left" headers="r7c1-t3 r1c3-t3">
+<p><code>TOUCH_MOVED</code>, <code>TOUCH_MOVED</code>, <code>TOUCH_MOVED</code></p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" id="r8c1-t3" headers="r1c1-t3">
+<p>7</p>
+</td>
+<td align="left" headers="r8c1-t3 r1c2-t3">
+<p>3</p>
+</td>
+<td align="left" headers="r8c1-t3 r1c3-t3">
+<p><code>TOUCH_MOVED</code>, <code>TOUCH_MOVED</code>, <code>TOUCH_MOVED</code></p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" id="r9c1-t3" headers="r1c1-t3">
+<p>8</p>
+</td>
+<td align="left" headers="r9c1-t3 r1c2-t3">
+<p>3</p>
+</td>
+<td align="left" headers="r9c1-t3 r1c3-t3">
+<p><code>TOUCH_RELEASED</code>, <code>TOUCH_STATIONARY</code>, <code>TOUCH_STATIONARY</code></p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" id="r10c1-t3" headers="r1c1-t3">
+<p>9</p>
+</td>
+<td align="left" headers="r10c1-t3 r1c2-t3">
+<p>2</p>
+</td>
+<td align="left" headers="r10c1-t3 r1c3-t3">
+<p><code>TOUCH_RELEASED</code>, <code>TOUCH_STATIONARY</code></p>
+</td>
+</tr>
+<tr align="left" valign="top">
+<td align="left" id="r11c1-t3" headers="r1c1-t3">
+<p>10</p>
+</td>
+<td align="left" headers="r11c1-t3 r1c2-t3">
+<p>1</p>
+</td>
+<td align="left" headers="r11c1-t3 r1c3-t3">
+<p><code>TOUCH_RELEASED</code></p>
+</td>
+</tr>
+</tbody>
+</table>
+<br /></div>
+<!-- class="tblformal" --></div>
+<!-- class="sect2" -->
+<a id="JFXED199" name="JFXED199" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="sthref67" name="sthref67" class="anchor"></a>
+<h3 class="sect2">Touch Point Targets and Touch Event Targets</h3>
+<p>The target of a touch event is the target of the touch point that is associated with the event. The initial target of the touch point is the topmost node at the initial point of contact with the touch screen. If a touch action has multiple points of contact, it is possible for each touch point, and therefore each touch event, to have a different target. This feature enables you to handle each touch point independently of the other touch points. See <a href="#CHDEDIJE">Handling Concurrent Touch Points Independently</a> for an example.</p>
+<p>Typically, all of the events for one touch point are delivered to the same target. However, you can alter the target of subsequent events using the <code>grab()</code> and <code>ungrab()</code> methods for the touch point.</p>
+<p>The <code>grab()</code> method enables the node that is currently processing the event to make itself the target of the touch point. The <code>grab(</code><span class="variable">target</span><code>)</code> method enables another node to be made the target of the touch point. Because events in the event set have access to all of the touch points for the set, it is possible to use the <code>grab()</code> method to direct all subsequent events for the touch action to the same node. The <code>grab()</code> method can also be used to reset the target of a touch point, as shown in <a href="#CHDCGHHH">Changing the Target of a Touch Point</a>.</p>
+<p>The <code>ungrab()</code> method is used to release the touch point from the current target. Subsequent events for the touch action are then sent to the topmost node at the current location of the touch point.</p>
+</div>
+<!-- class="sect2" -->
+<a id="JFXED200" name="JFXED200" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="sthref68" name="sthref68" class="anchor"></a>
+<h3 class="sect2">Additional Events Generated from Touches</h3>
+<p>When a user touches a touch screen, other types of events are generated in addition to touch events:</p>
+<ul>
+<li>
+<p>Mouse events</p>
+<p>Simulated mouse events enable an application to run on a device with a touch screen even if touch events are not handled by the application. Use the <code>isSynthesized()</code> method to determine if the mouse event is from a touch action. See <a href="gestures.htm#CIHHBHED">Handling Mouse Events</a> for an example.</p>
+</li>
+<li>
+<p>Gesture events</p>
+<p>Gesture events are generated for the commonly recognized touch actions of scrolling, swiping, rotating, and zooming. If these are the only types of touch actions that your application must handle, you can handle these gesture events instead of the touch events. See <a href="gestures.htm#CHDDHFJJ">Working with Events from Touch-Enabled Devices</a> for information on gesture events.</p>
+</li>
+</ul>
+</div>
+<!-- class="sect2" --></div>
+<!-- class="sect1" -->
+<a id="CHDCJFFB" name="CHDCJFFB" class="anchor"></a><a id="JFXED201" name="JFXED201" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Touch Events Example</h2>
+<p>The Touch Events example uses four folders to demonstrate the ability to independently handle each touch point in a set. The example also shows how the <code>grab()</code> method can be used to repeatedly jump the circle from one rectangle to another. <a href="#CHDDDACD">Figure 6-1</a> shows the user interface for the example.</p>
+<div class="figure"><a id="CHDDDACD" name="CHDDDACD" class="anchor"></a><a id="JFXED202" name="JFXED202" class="anchor"></a>
+<p class="titleinfigure">Figure 6-1 Touch Events Example</p>
+<img width="666" height="638" src="img/touch_ui.png" alt="Description of Figure 6-1 follows" title="Description of Figure 6-1 follows" longdesc="img_text/touch_ui.htm" /><br />
+<a id="sthref69" name="sthref69" href="img_text/touch_ui.htm">Description of "Figure 6-1 Touch Events Example"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>The Touch Events example is available in the <a href="../sample-apps/TouchEventsExample.zip"><code>TouchEventsExample.zip</code></a> file. Extract the NetBeans project and open it in the NetBeans IDE. To generate touch events, you must run the example on a device with a touch screen.</p>
+<a id="CHDEDIJE" name="CHDEDIJE" class="anchor"></a><a id="JFXED203" name="JFXED203" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" -->
+<h3 class="sect2">Handling Concurrent Touch Points Independently</h3>
+<p>In a typical gesture, the target is the node at the center of all of the points of contact, and only one node is affected by the response to the gesture. By handling each touch point separately, you can affect all of the nodes that are touched.</p>
+<p>In the Touch Events example, you can move each folder by touching the folder and moving your finger. You can move multiple folders at once by touching each folder with a separate finger and moving all fingers.</p>
+<p>Each folder is an instance of the <code>TouchImage</code> class. The <code>TouchImage</code> class creates an image view and adds event handlers for <code>TOUCH_PRESSED</code>, <code>TOUCH_RELEASED</code>, and <code>TOUCH_MOVED</code> events. <a href="#CHDFBAGG">Example 6-1</a> shows the definition of this class.</p>
+<div class="example"><a id="CHDFBAGG" name="CHDFBAGG" class="anchor"></a><a id="JFXED204" name="JFXED204" class="anchor"></a>
+<p class="titleinexample">Example 6-1 TouchImage Class Definition</p>
+<pre xml:space="preserve" class="oac_no_warn">public static class TouchImage extends ImageView {
+    private long touchId = -1;
+    double touchx, touchy;
+
+    public TouchImage(int x, int y, Image img) {
+        super(img);
+        setTranslateX(x);
+        setTranslateY(y);
+        setEffect(new DropShadow(8.0, 4.5, 6.5, Color.DARKSLATEGRAY));
+
+        setOnTouchPressed(new EventHandler&lt;TouchEvent&gt;() {
+            @Override public void handle(TouchEvent event) {
+                if (touchId == -1) {
+                    touchId = event.getTouchPoint().getId();
+                    touchx = event.getTouchPoint().getSceneX() - getTranslateX();
+                    touchy = event.getTouchPoint().getSceneY() - getTranslateY();
+                }
+                event.consume();
+            }
+        });
+
+        setOnTouchReleased(new EventHandler&lt;TouchEvent&gt;() {
+            @Override public void handle(TouchEvent event) {
+                if (event.getTouchPoint().getId() == touchId) {
+                    touchId = -1;
+                }
+                event.consume();
+            }
+        });
+
+        setOnTouchMoved(new EventHandler&lt;TouchEvent&gt;() {
+            @Override public void handle(TouchEvent event) {
+                if (event.getTouchPoint().getId() == touchId) {
+                    setTranslateX(event.getTouchPoint().getSceneX() - touchx);
+                    setTranslateY(event.getTouchPoint().getSceneY() - touchy);
+                }
+                event.consume();
+            }
+        });
+    }
+}
+</pre></div>
+<!-- class="example" -->
+<p>When a folder is touched, a touch point is created for each point of contact and touch events are sent to the folder. The touch ID is used to ensure that a folder responds only once when multiple points of contact are on the folder.</p>
+<p>When a <code>TOUCH_PRESSED</code> event is received, the touch ID is checked to determine if it is a new touch for this folder. If so, the touch ID is set to the ID of the touch point and the location of the touch point is saved.</p>
+<p>When a <code>TOUCH_RELEASED</code> event is received, the touch ID is checked to ensure that it matches the touch point that is being processed. If so, the touch ID is reset to indicate that processing is complete.</p>
+<p>When a <code>TOUCH_MOVED</code> event is received, the touch ID is checked to ensure that it matches the touch point that is being processed. If so, the folder is moved to the new location for the touch point. If the touch ID does not match the touch point, then more than one point of contact is likely on the folder. To avoid responding to multiple movements of the same folder, the event is ignored.</p>
+</div>
+<!-- class="sect2" -->
+<a id="CHDCGHHH" name="CHDCGHHH" class="anchor"></a><a id="JFXED205" name="JFXED205" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" -->
+<h3 class="sect2">Changing the Target of a Touch Point</h3>
+<p>The target of a touch point is typically the same node for the duration of the touch action. However, in some situations, you might want to change the target of a touch point during the touch action.</p>
+<p>In the Touch Events example, the circle moves from one rectangle to another by touching the circle with one finger and a rectangle with a second finger. While the second finger remains on the circle after the jump, lift the first finger and touch a different rectangle to cause the circle to jump again. This action is possible only if you change the target of the second touch point.</p>
+<p>The circle is an instance of the <code>Ball</code> class. The <code>Ball</code> class creates a circle and adds event handlers for the <code>TOUCH_PRESSED</code>, <code>TOUCH_RELEASED</code>, <code>TOUCH_MOVED</code>, and <code>TOUCH_STATIONARY</code> events. The same handler is used for the <code>TOUCH_MOVED</code> and <code>TOUCH_STATIONARY</code> events. <a href="#CHDJBDFF">Example 6-2</a> shows the definition of this class.</p>
+<div class="example"><a id="CHDJBDFF" name="CHDJBDFF" class="anchor"></a><a id="JFXED206" name="JFXED206" class="anchor"></a>
+<p class="titleinexample">Example 6-2 Ball Class Definition</p>
+<pre xml:space="preserve" class="oac_no_warn">private static class Ball extends Circle {
+    double touchx, touchy;
+
+    public Ball(int x, int y) {
+        super(35);
+
+        RadialGradient gradient = new RadialGradient(0.8, -0.5, 0.5, 0.5, 1,
+            true, CycleMethod.NO_CYCLE, new Stop [] {
+                new Stop(0, Color.FIREBRICK),
+                new Stop(1, Color.BLACK)
+            });
+
+        setFill(gradient);
+        setTranslateX(x);
+        setTranslateY(y);
+
+        setOnTouchPressed(new EventHandler&lt;TouchEvent&gt;() {
+            @Override public void handle(TouchEvent event) {
+                if (event.getTouchCount() == 1) {
+                    touchx = event.getTouchPoint().getSceneX() - getTranslateX();
+                    touchy = event.getTouchPoint().getSceneY() - getTranslateY();
+                    setEffect(new Lighting());
+                }
+                event.consume();
+            }
+        });
+
+        setOnTouchReleased(new EventHandler&lt;TouchEvent&gt;() {
+            @Override public void handle(TouchEvent event) {
+                setEffect(null);
+                event.consume();
+            }
+        });
+
+        // Jump if the first finger touched the ball and is either
+        // moving or still, and the second finger touches a rectangle
+        EventHandler&lt;TouchEvent&gt; jumpHandler = new EventHandler&lt;TouchEvent&gt;() {
+            @Override public void handle(TouchEvent event) {
+
+                if (event.getTouchCount() != 2) {
+                    // Ignore if this is not a two-finger touch
+                    return;
+                }
+
+                TouchPoint main = event.getTouchPoint();
+                TouchPoint other = event.getTouchPoints().get(1);
+
+                if (other.getId() == main.getId()) {
+                    // Ignore if the second finger is in the ball and
+                    // the first finger is anywhere else
+                    return;
+                }
+
+                if (other.getState() != TouchPoint.State.PRESSED ||
+                    other.belongsTo(Ball.this) ||
+                    !(other.getTarget() instanceof Rectangle) ){
+                    // Jump only if the second finger was just 
+                    // pressed in a rectangle
+                    return;
+                }
+
+                // Jump now
+                setTranslateX(other.getSceneX() - touchx);
+                setTranslateY(other.getSceneY() - touchy);
+
+                // Grab the destination touch point, which is now inside
+                // the ball, so that jumping can continue without
+                // releasing the finger
+                other.grab();
+
+                // The original touch point is no longer of interest so
+                // call ungrab() to release the target
+                main.ungrab();
+
+                event.consume();
+            }
+        };
+
+        setOnTouchStationary(jumpHandler);
+        setOnTouchMoved(jumpHandler);
+    }
+}
+</pre></div>
+<!-- class="example" -->
+<p>When a <code>TOUCH_PRESSED</code> event is received, the number of touch points is checked to ensure that only the instance of the <code>Ball</code> class is being touched. If so, the location of the touch point is saved, and a lighting effect is added to show that the circle is selected.</p>
+<p>When a <code>TOUCH_RELEASED</code> event is received, the lighting effect is removed to show that the circle is no longer selected.</p>
+<p>When a <code>TOUCH_MOVED</code> or <code>TOUCH_STATIONARY</code> event is received, the following conditions that are required for a jump are checked:</p>
+<ul>
+<li>
+<p>The touch count must be two.</p>
+<p>The touch point that is associated with this event is considered the start point of the jump. The event has access to all of the touch points for the touch action. The second touch point in the set of touch points is considered the end point of the jump.</p>
+</li>
+<li>
+<p>The state of the second touch point is <code>PRESSED</code>.</p>
+<p>The circle is moved only when the second point of contact is made. Any other state for the second touch point is ignored.</p>
+</li>
+<li>
+<p>The target of the second touch point is a rectangle.</p>
+<p>The circle can jump only from rectangle to rectangle, or within a rectangle. If the target of the second touch point is anything else, the circle is not moved.</p>
+</li>
+</ul>
+<p>If the conditions for a jump are met, the circle is jumped to the location of the second touch point. To jump again, the first point of contact is released and a third location is touched, with the expectation that the circle will jump to the third location. However, when the first point of contact is released, the touch point whose target was the circle goes away and now the circle no longer gets touch events. A second jump is not possible without lifting both fingers and starting a new jump.</p>
+<p>To make a second jump possible while keeping the second finger on the circle and touching a new location, the <code>grab()</code> method is used to make the circle the target of the second touch point. After the grab, events for the second touch point are sent to the circle instead of the rectangle that was the original target. The circle can then watch for a new touch point and jump again.</p>
+</div>
+<!-- class="sect2" --></div>
+<!-- class="sect1" -->
+<a id="JFXED207" name="JFXED207" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref70" name="sthref70" class="anchor"></a>
+<h2 class="sect1">Additional Resources</h2>
+<p>See the <a href="../api/javafx/event/package-summary.html">JavaFX API documentation</a> for more information on touch events and touch points.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXED217" name="JFXED217" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref71" name="sthref71" class="anchor"></a>
+<h2 class="sect1">Application Files</h2>
+<p class="itemizedlisttitle">Source Code&nbsp;</p>
+<ul>
+<li>
+<p><code><a href="toucheventsjava.htm#BABECBJD">TouchEvents.java</a></code></p>
+</li>
+</ul>
+<p class="itemizedlisttitle">NetBeans Projects&nbsp;</p>
+<ul>
+<li>
+<p><a href="../sample-apps/TouchEventsExample.zip"><code>TouchEventsExample.zip</code></a></p>
+</li>
+</ul>
+</div>
+<!-- class="sect1" -->
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Handling Events</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">Audience</a></li>
+        <li><a href="preface.htm#sthref4">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref6">Related Documents</a></li>
+        <li><a href="preface.htm#sthref7">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a href="events.htm#sthref8">Part I Handling Events</a>
+    <ul>
+    <li><a href="processing.htm#JFXED118">1 Processing Events</a>
+      <ul>
+        <li><a href="processing.htm#sthref9">Events</a>
+          <ul>
+          <li><a href="processing.htm#JFXED122">Event Types</a></li>
+          <li><a href="processing.htm#sthref12">Event Targets</a></li>
+          </ul>
+        </li>
+        <li><a href="processing.htm#sthref13">Event Delivery Process</a>
+          <ul>
+          <li><a href="processing.htm#JFXED126">Target Selection</a></li>
+          <li><a href="processing.htm#sthref15">Route Construction</a></li>
+          <li><a href="processing.htm#sthref17">Event Capturing Phase</a></li>
+          <li><a href="processing.htm#sthref18">Event Bubbling Phase</a></li>
+          </ul>
+        </li>
+        <li><a href="processing.htm#sthref19">Event Handling</a>
+          <ul>
+          <li><a href="processing.htm#JFXED133">Event Filters</a></li>
+          <li><a href="processing.htm#sthref20">Event Handlers</a></li>
+          <li><a href="processing.htm#sthref21">Consuming of an Event</a></li>
+          </ul>
+        </li>
+        <li><a href="processing.htm#sthref22">Additional Resources</a></li>
+      </ul>
+    </li>
+    <li><a href="convenience_methods.htm#JFXED101">2 Working with Convenience Methods</a>
+      <ul>
+        <li><a href="convenience_methods.htm#sthref23">Using Convenience Methods</a>
+          <ul>
+          <li><a href="convenience_methods.htm#sthref25">Examples for Mouse Events</a></li>
+          <li><a href="convenience_methods.htm#sthref26">Examples for Keyboard Events</a></li>
+          </ul>
+        </li>
+        <li><a href="convenience_methods.htm#sthref27">Additional Resources</a></li>
+      </ul>
+    </li>
+    <li><a href="filters.htm#JFXED137">3 Working with Event Filters</a>
+      <ul>
+        <li><a href="filters.htm#sthref28">Registering and Removing an Event Filter</a></li>
+        <li><a href="filters.htm#sthref29">Using Event Filters</a>
+          <ul>
+          <li><a href="filters.htm#sthref30">Draggable Panels Example</a></li>
+          <li><a href="filters.htm#sthref33">Filters for the Draggable Panels Example</a></li>
+          </ul>
+        </li>
+        <li><a href="filters.htm#sthref34">Additional Resources</a></li>
+        <li><a href="filters.htm#sthref35">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a href="handlers.htm#JFXED149">4 Working with Event Handlers</a>
+      <ul>
+        <li><a href="handlers.htm#sthref38">Registering and Removing an Event Handler</a></li>
+        <li><a href="handlers.htm#sthref39">Using Event Handlers</a>
+          <ul>
+          <li><a href="handlers.htm#sthref40">Keyboard Example</a></li>
+          <li><a href="handlers.htm#sthref43">Handlers for the Keyboard Example</a></li>
+          </ul>
+        </li>
+        <li><a href="handlers.htm#sthref44">Additional Resources</a></li>
+        <li><a href="handlers.htm#sthref45">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a href="gestures.htm#JFXED166">5 Working with Events from Touch-Enabled Devices</a>
+      <ul>
+        <li><a href="gestures.htm#sthref48">Gesture and Touch Events</a>
+          <ul>
+          <li><a href="gestures.htm#sthref50">Targets of Gestures</a></li>
+          <li><a href="gestures.htm#sthref51">Other Events Generated</a></li>
+          </ul>
+        </li>
+        <li><a href="gestures.htm#sthref52">Gesture Events Example</a>
+          <ul>
+          <li><a href="gestures.htm#sthref54">Creating the Shapes</a></li>
+          <li><a href="gestures.htm#JFXED173">Handling the Events</a></li>
+          <li><a href="gestures.htm#sthref60">Managing the Log</a></li>
+          </ul>
+        </li>
+        <li><a href="gestures.htm#sthref61">Additional Resources</a></li>
+        <li><a href="gestures.htm#sthref62">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a class="selected" href="touch_events.htm#JFXED192">6 Working with Touch Events</a>
+      <ul>
+        <li><a href="touch_events.htm#sthref65">Overview of Touch Actions</a>
+          <ul>
+          <li><a href="touch_events.htm#JFXED195">Touch Points</a></li>
+          <li><a href="touch_events.htm#JFXED196">Touch Events</a></li>
+          <li><a href="touch_events.htm#JFXED197">Event Sets</a></li>
+          <li><a href="touch_events.htm#sthref67">Touch Point Targets and Touch Event Targets</a></li>
+          <li><a href="touch_events.htm#sthref68">Additional Events Generated from Touches</a></li>
+          </ul>
+        </li>
+        <li><a href="touch_events.htm#JFXED201">Touch Events Example</a>
+          <ul>
+          <li><a href="touch_events.htm#JFXED203">Handling Concurrent Touch Points Independently</a></li>
+          <li><a href="touch_events.htm#JFXED205">Changing the Target of a Touch Point</a></li>
+          </ul>
+        </li>
+        <li><a href="touch_events.htm#sthref70">Additional Resources</a></li>
+        <li><a href="touch_events.htm#sthref71">Application Files</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="drag_drop_feature.htm#sthref74">Part II Drag-and-Drop Feature in JavaFX Applications</a>
+    <ul>
+    <li><a href="drag-drop.htm#JFXED219">7 Drag-and-Drop Operation</a>
+      <ul>
+        <li><a href="drag-drop.htm#sthref75">Objects and Data Types for Drag-and-Drop Operation</a>
+          <ul>
+          <li><a href="drag-drop.htm#sthref76">Transfer Modes</a></li>
+          </ul>
+        </li>
+        <li><a href="drag-drop.htm#JFXED223">Implementing a Basic Drag-and-Drop Gesture</a>
+          <ul>
+          <li><a href="drag-drop.htm#sthref77">Starting the Drag-and-Drop Gesture on a Source</a></li>
+          <li><a href="drag-drop.htm#sthref78">Handling a DRAG_OVER Event on a Target</a></li>
+          <li><a href="drag-drop.htm#sthref79">Providing Visual Feedback by a Gesture Target</a></li>
+          <li><a href="drag-drop.htm#sthref80">Handling a DRAG_DROPPED Event on a Target</a></li>
+          <li><a href="drag-drop.htm#sthref81">Handling a DRAG_DONE Event on a Source</a></li>
+          <li><a href="drag-drop.htm#sthref82">Dragging Custom Data</a></li>
+          </ul>
+        </li>
+        <li><a href="drag-drop.htm#sthref83">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a href="paper-doll.htm#JFXED260">8 PaperDoll Drag-and-Drop Application</a>
+      <ul>
+        <li><a href="paper-doll.htm#sthref86">Layout of the PaperDoll Application</a></li>
+        <li><a href="paper-doll.htm#sthref88">Organization of the PaperDoll Application</a></li>
+        <li><a href="paper-doll.htm#sthref89">Starting the Drag-And-Drop Operation</a></li>
+        <li><a href="paper-doll.htm#sthref90">Handling the Drop of the Data</a></li>
+        <li><a href="paper-doll.htm#sthref91">Application Files</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="sample-source-code.htm#sthref94">Part III Source Code for the Handling Events Tutorial</a>
+    <ul>
+    <li><a href="draggablepanelsexamplejava.htm#JFXED240">A DraggablePanelsExample.java</a></li>
+    <li><a href="keyboardexamplejava.htm#JFXED244">B KeyboardExample.java</a></li>
+    <li><a href="gestureeventsjava.htm#JFXED248">C GestureEvents.java</a></li>
+    <li><a href="toucheventsjava.htm#JFXED252">D TouchEvents.java</a></li>
+    <li><a href="hellodraganddropjava.htm#JFXED256">E HelloDragAndDrop.java</a></li>
+    <li><a href="paperdolljava.htm#sthref95">F Paper Doll Drag-and-Drop Sample</a>
+      <ul>
+        <li><a href="paperdolljava.htm#JFXED275">PaperDoll.java</a></li>
+        <li><a href="paperdolljava.htm#JFXED278">Cloth.java</a></li>
+        <li><a href="paperdolljava.htm#JFXED281">ClothListBuilder.java</a></li>
+        <li><a href="paperdolljava.htm#JFXED284">Body.java</a></li>
+        <li><a href="paperdolljava.htm#JFXED287">BodyElement.java</a></li>
+      </ul>
+    </li>
+</ul>
+
+</li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="gestures.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a><a class="button" title="Next Page" href="drag_drop_feature.htm">Next Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2011, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

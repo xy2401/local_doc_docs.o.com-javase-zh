@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Enhanced Deprecation</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="The semantics of what deprecation means has been clarified, including whether an API may be removed in the near future." />
+<meta name="dcterms.created" content="2018-03-12T23:55:42Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Core Libraries" />
+<meta name="dcterms.identifier" content="E91241-01" />
+<meta name="dcterms.isVersionOf" content="JSCOR" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;2017, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="serialization-filtering1.htm" title="Previous" type="text/html" />
+<link rel="Next" href="xml-catalog-api1.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSCOR.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-23B13A9E-2727-42DC-B03A-E374B3C4CE96"></a> <span id="PAGE" style="display:none;">6/10</span> <!-- End Header -->
+<h1 id="JSCOR-GUID-23B13A9E-2727-42DC-B03A-E374B3C4CE96" class="sect1"><span class="enumeration_chapter">3</span> Enhanced Deprecation</h1>
+<div>
+<p>The semantics of what deprecation means has been clarified, including whether an API may be removed in the near future.</p>
+<p>If you are a library maintainer, you can take advantage of the updated deprecation syntax to inform users of your library about the status of APIs provided by your library.</p>
+<p>If you are a library or application developer, you can use the <code class="codeph">jdeprscan</code> tool to find uses of deprecated JDK API elements in your applications or libraries.</p>
+<div class="section">
+<p class="subhead1">Topics</p>
+<ul style="list-style-type: disc;">
+<li><a href="enhanced-deprecation1.htm#GUID-BB859EA8-E6F7-4239-9A52-4F1BDE27BB09" title="Deprecation is a notification to library consumers that they should migrate code from a deprecated API.">Deprecation in the JDK</a></li>
+<li><a href="enhanced-deprecation1.htm#GUID-E182DAF6-282B-4C1F-8CCF-0A61008E3F11" title="Deprecating an API requires using two different mechanisms: the @Deprecated annotation and the @deprecated Javadoc tag.">How to Deprecate APIs</a></li>
+<li><a href="enhanced-deprecation1.htm#GUID-97A6BB09-6F7D-4ED0-BF53-22D40757B0B2" title="When an API is deprecated, developers must be notified. The deprecated API may cause problems in your code, or, if it is eventually removed, cause failures at run time.">Notifications and Warnings</a></li>
+<li><a href="enhanced-deprecation1.htm#GUID-F0CD4B54-CD8A-4153-87F9-7E7481F9AAFC" title="jdeprscan is a static analysis tool that reports on an application&rsquo;s use of deprecated JDK API elements. Run jdeprscan to help identify possible issues in compiled class files or jar files.">Running jdeprscan</a></li>
+</ul>
+</div>
+<!-- class="section" --></div>
+<div class="sect2"><a id="GUID-BB859EA8-E6F7-4239-9A52-4F1BDE27BB09"></a>
+<h2 id="JSCOR-GUID-BB859EA8-E6F7-4239-9A52-4F1BDE27BB09" class="sect2">Deprecation in the JDK</h2>
+<div>
+<p>Deprecation is a notification to library consumers that they should migrate code from a deprecated API.</p>
+<div class="p">In the JDK, APIs have been deprecated for widely varying reasons, such as:
+<ul style="list-style-type: disc;">
+<li>
+<p>The API is dangerous (for example, the <span class="apiname">Thread.stop</span> method).</p>
+</li>
+<li>
+<p>There is a simple rename (for example, AWT <span class="apiname">Component.show/hide</span> replaced by <span class="apiname">setVisible</span>).</p>
+</li>
+<li>
+<p>A newer, better API can be used instead.</p>
+</li>
+<li>
+<p>The deprecated API is going to be removed.</p>
+</li>
+</ul>
+</div>
+<p>In prior releases, APIs were deprecated but virtually never removed. Starting with JDK 9, APIs may be marked as deprecated for removal. This indicates that the API is eligible to be removed in the next release of the JDK platform. If your application or library consumes any of these APIs, then you should make a plan to migrate from them soon.</p>
+<p>For a list of deprecated APIs in the current release of the JDK, see the <a href="https://docs.oracle.com/javase/10/docs/api/deprecated-list.html" target="_blank">Deprecated API</a> page in the API specification.</p>
+</div>
+</div>
+<div class="sect2"><a id="GUID-E182DAF6-282B-4C1F-8CCF-0A61008E3F11"></a>
+<h2 id="JSCOR-GUID-E182DAF6-282B-4C1F-8CCF-0A61008E3F11" class="sect2">How to Deprecate APIs</h2>
+<div>
+<p>Deprecating an API requires using two different mechanisms: the <span class="apiname">@Deprecated</span> annotation and the <span class="apiname">@deprecated</span> Javadoc tag.</p>
+<p>The <span class="apiname">@Deprecated</span> annotation marks an API in a way that is recorded in the class file and is available at runtime. This allows various tools, such as <code class="codeph">javac</code> and <code class="codeph">jdeprscan</code>, to detect and flag usage of deprecated APIs. The <span class="apiname">@deprecated</span> Javadoc tag is used in documentation of deprecated APIs, for example, to describe the reason for deprecation, and to suggest alternative APIs.</p>
+<p>Note the capitalization: the annotation starts with an uppercase&nbsp;<span class="italic">D</span> and the Javadoc tag starts with a lowercase&nbsp;<span class="italic">d</span>.</p>
+<div class="section">
+<p class="subhead2">Using the @Deprecated Annotation</p>
+<p>To indicate deprecation, precede the module, class, method, or member declaration with <span class="apiname">@Deprecated</span>. The annotation contains these elements:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="apiname">@Deprecated(since="</span><code class="codeph"><span class="codeinlineitalic">&lt;version&gt;</span></code><span class="apiname">")</span></p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="italic">&lt;version&gt;</span> is the version when the API was deprecated. This is for informational purposes. The default is the empty string (<code class="codeph">"</code><code class="codeph">"</code>).</p>
+</li>
+</ul>
+</li>
+<li>
+<p><span class="apiname">@Deprecated(forRemoval=</span><code class="codeph"><span class="codeinlineitalic">&lt;boolean&gt;</span></code><span class="apiname">)</span></p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="apiname">forRemoval=true</span> indicates that the API is subject to removal in a future release.</p>
+</li>
+<li>
+<p><span class="apiname">forRemoval=false</span> recommends that code should no longer use this API; however, there is no current intent to remove the API. This is the default value.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>For example: <span class="apiname">@Deprecated(since="9", forRemoval=true)</span></p>
+<div class="p">The <span class="apiname">@Deprecated</span> annotation causes the Javadoc-generated documentation to be marked with one of the following, wherever that program element appears:
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold">Deprecated.</span></p>
+</li>
+<li>
+<p><span class="bold">Deprecated, for removal: This API element is subject to removal in a future version.</span></p>
+</li>
+</ul>
+</div>
+<p>The <code class="codeph">javadoc</code> tool generates a page named <code>deprecated-list.html</code> which contains the list of deprecated APIs, and adds a link in the navigation bar to that page.</p>
+<p>The following is a simple example of using the <span class="apiname">@Deprecated</span> annotation from the <span class="apiname">java.lang.Thread</span> class:</p>
+<pre dir="ltr">
+public class Thread implements Runnable {
+        ... 
+        @Deprecated(since="1.2")
+        public final void stop() {
+                ...
+        }
+        ...
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">Semantics of Deprecation</p>
+<p>The two elements of the <span class="apiname">@Deprecated</span> annotation give developers the opportunity to clarify what deprecation means for their exported APIs.</p>
+<div class="p">For the JDK platform:
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="apiname">@Deprecated(forRemoval=true)</span> indicates that the API is eligible to be removed in a future release of the JDK platform.</p>
+</li>
+<li>
+<p><span class="apiname">@Deprecated(since="</span><code class="codeph"><span class="codeinlineitalic">&lt;version&gt;</span></code><span class="apiname">")</span> contains the JDK version string that indicates when the API element was deprecated, for those deprecated in JDK 9 and beyond.</p>
+</li>
+</ul>
+</div>
+<p>If you maintain libraries and produce your own APIs, then you probably use the <span class="apiname">@Deprecated</span> annotation. You should determine and communicate your policy around API removals. For example, if you release a new library every 6 weeks, then you may choose to deprecate an API for removal, but not remove it for several months to give your customers time to migrate.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">Using the @deprecated Javadoc Tag</p>
+<p>Use the <span class="apiname">@deprecated</span> tag in the javadoc comment of any deprecated program element to indicate that it should no longer be used (even though it may continue to work). This tag is valid in all class, method, or field documentation comments. The <span class="apiname">@deprecated</span> tag must be followed by a space or a newline. In the paragraph following the <span class="apiname">@deprecated</span> tag, explain why the item was deprecated, and suggest what to use instead. Mark the text that refers to new versions of the same functionality with an <span class="apiname">@link</span> tag.</p>
+<div class="p">When it encounters an <span class="apiname">@deprecated</span> tag, the <code class="codeph">javadoc</code> tool moves the text following the <span class="apiname">@deprecated</span> tag to the front of the description and precedes it with a warning. For example, this source:
+<pre dir="ltr">
+  /**
+   * ...
+   * @deprecated  This method does not properly convert bytes into
+   * characters.  As of JDK 1.1, the preferred way to do this is via the
+   * {@code String} constructors that take a {@link
+   * java.nio.charset.Charset}, charset name, or that use the platform's
+   * default charset.
+   * ...
+   */
+   @Deprecated(since="1.1")
+   public String(byte ascii[], int hibyte) {
+      ...
+</pre></div>
+<p>generates the following output:</p>
+<pre dir="ltr">
+<a href="https://docs.oracle.com/javase/10/docs/api/java/lang/Deprecated.html" target="_blank">@Deprecated</a>(<a href="https://docs.oracle.com/javase/10/docs/api/java/lang/Deprecated.html#since--" target="_blank">since</a>="1.1")
+public String&#8203;(byte[] ascii, 
+              int hibyte)
+<span class="bold">Deprecated.</span> This method does not properly convert bytes into characters. As of 
+JDK 1.1, the preferred way to do this is via the <span class="bold">String</span> constructors that take a 
+<a href="https://docs.oracle.com/javase/10/docs/api/java/nio/charset/Charset.html" target="_blank">Charset</a>, charset name, or that use the platform's default charset.
+</pre>
+<p>If you use the <span class="apiname">@deprecated</span> Javadoc tag without the corresponding <span class="apiname">@Deprecated</span> annotation, a warning is generated.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-97A6BB09-6F7D-4ED0-BF53-22D40757B0B2"></a>
+<h2 id="JSCOR-GUID-97A6BB09-6F7D-4ED0-BF53-22D40757B0B2" class="sect2">Notifications and Warnings</h2>
+<div>
+<p>When an API is deprecated, developers must be notified. The deprecated API may cause problems in your code, or, if it is eventually removed, cause failures at run time.</p>
+<p>The Java compiler generates warnings about deprecated APIs. There are options to generate more information about warnings, and you can also suppress deprecation warnings.</p>
+<div class="section">
+<p class="subhead2">Compiler Deprecation Warnings</p>
+<p>If the deprecation is <code class="codeph">forRemoval=false</code>, the Java compiler generates an <span class="q">"ordinary deprecation warning"</span>. If the deprecation is <code class="codeph">forRemoval=true</code>, the compiler generates a <span class="q">"removal warning"</span>.</p>
+<p>The two kinds of warnings are controlled by separate <code class="codeph">-Xlint</code> flags: <code class="codeph">-Xlint:deprecation</code> and <code class="codeph">-Xlint:removal</code>. The <code class="codeph">javac -Xlint:removal</code> option is enabled by default, so removal warnings are shown.</p>
+<p>The warnings can also be turned off independently (note the <span class="q">"&ndash;"</span>): <code class="codeph">-Xlint:-deprecation</code> and <code class="codeph">-Xlint:-removal</code>.</p>
+<p>This is an example of an ordinary deprecation warning.</p>
+<pre dir="ltr">
+$ <span class="bold">javac src/example/DeprecationExample.java</span>        
+Note: src/example/DeprecationExample.java uses or overrides a deprecated API.   
+Note: Recompile with -Xlint:deprecation for details.    
+</pre>
+<p>Use the <code class="codeph">javac -Xlint:deprecation</code> option to see what API is deprecated.</p>
+<pre dir="ltr">
+$ <span class="bold">javac -Xlint:deprecation src/example/DeprecationExample.java</span>     
+src/example/DeprecationExample.java:12: warning: [deprecation] getSelectedValues() in JList has been deprecated 
+   Object[] values = jlist.getSelectedValues(); 
+                     ^  
+1 warning       
+</pre>
+<p>Here is an example of a removal warning.</p>
+<pre dir="ltr">
+public class RemovalExample {
+    public static void main(String[] args) {
+        System.runFinalizersOnExit(true);
+    }
+}
+$ <span class="bold">javac RemovalExample.java
+</span>RemovalExample.java:3: warning: [removal] runFinalizersOnExit(boolean) in System 
+has been deprecated and marked for removal
+        System.runFinalizersOnExit(true);
+              ^
+1 warning
+==========
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">Suppressing Deprecation Warnings</p>
+<p>The <code class="codeph">javac -Xlint</code> options control warnings for all files compiled in a particular run of <code class="codeph">javac</code>. You may have identified specific locations in source code that generate warnings that you no longer want to see. You can use the <code class="codeph">@SuppressWarnings</code> annotation to suppress warnings whenever that code is compiled. Place the <code class="codeph">@SuppressWarnings</code> annotation at the declaration of the class, method, field, or local variable that uses a deprecated API.</p>
+<div class="p">The <code class="codeph">@SuppressWarnings</code> options are:
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="apiname">@SuppressWarnings("deprecation")</span> &mdash; Suppresses only the ordinary deprecation warnings.</p>
+</li>
+<li>
+<p><span class="apiname">@SuppressWarnings("removal")</span> &mdash; Suppresses only the removal warnings.</p>
+</li>
+<li>
+<p><span class="apiname">@SuppressWarnings({"deprecation","removal"})</span> &mdash; Suppresses both types of warnings.</p>
+</li>
+</ul>
+</div>
+<p>Here&rsquo;s an example of suppressing a warning.</p>
+<pre dir="ltr">
+   @SuppressWarnings("deprecation")
+   Object[] values = jlist.getSelectedValues();
+</pre>
+<p>With the <code class="codeph">@SuppressWarnings</code> annotation, no warnings are issued for this line, even if warnings are enabled on the command line.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-F0CD4B54-CD8A-4153-87F9-7E7481F9AAFC"></a>
+<h2 id="JSCOR-GUID-F0CD4B54-CD8A-4153-87F9-7E7481F9AAFC" class="sect2">Running jdeprscan</h2>
+<div>
+<p><code class="codeph">jdeprscan</code> is a static analysis tool that reports on an application&rsquo;s use of deprecated JDK API elements. Run <code class="codeph">jdeprscan</code> to help identify possible issues in compiled class files or jar files.</p>
+<p>You can find out about deprecated JDK APIs from the compiler notifications. However, if you don&rsquo;t recompile with every JDK release, or if the warnings were suppressed, or if you depend on third-party libraries that are distributed as binary artifacts, then you should run <code class="codeph">jdeprscan</code>.</p>
+<p>It&rsquo;s important to discover dependencies on deprecated APIs before the APIs are removed from the JDK. If the binary uses an API that is deprecated for removal in the current JDK release, and you don&rsquo;t recompile, then you won&rsquo;t get any notifications. When the API is removed in a future JDK release, then the binary will simply fail at runtime. <code class="codeph">jdeprscan</code> lets you detect such usage now, well before the API is removed.</p>
+<p>For the complete syntax of how to run the tool and how to interpret the output, see <code class="codeph"><a class="olink JSWOR-GUID-2B7588B0-92DB-4A88-88D4-24D183660A62" target="_blank" href="../tools/jdeprscan.htm#JSWOR-GUID-2B7588B0-92DB-4A88-88D4-24D183660A62">jdeprscan</a></code> in the <span><cite>Java Platform, Standard Edition Tools Reference</cite></span>.</p>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment167">
+<tr>
+<td class="cellalignment174">
+<table class="cellalignment172">
+<tr>
+<td class="cellalignment171"><a href="serialization-filtering1.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment171"><a href="xml-catalog-api1.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;2017, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment176">
+<table class="cellalignment170">
+<tr>
+<td class="cellalignment171"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment171"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment171"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

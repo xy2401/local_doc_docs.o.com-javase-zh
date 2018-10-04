@@ -1,0 +1,195 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Attribute Syntax Definitions</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="attribute.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="matching.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Schema</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Attribute Syntax Definitions
+</h2>
+<p>
+<blockquote>
+
+An attribute's syntax specifies the representation of the attribute's
+values.  Examples of attribute syntaxes are Directory String, which
+specifies a case-insensitive character string encoded using the ISO
+10646 character set, and Octet String, which specifies a sequence of
+octets.
+<p>
+In the schema tree, 
+the name <tt>"SyntaxDefinition"</tt> is bound to a flat context containing
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html"><tt>DirContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     objects that represent syntax definitions in the schema. For example, if
+a directory supports the 1.3.6.1.4.1.1466.115.121.1.15 (Directory
+String) syntax, then the 
+<tt>"SyntaxDefinition"</tt> context will have a binding with
+the name <tt>"1.3.6.1.4.1.1466.115.121.1.15"</tt> that is bound to a <TT>DirContext</TT>
+object.
+<P>Each object in the <tt>"SyntaxDefinition"</tt> context has 
+the mandatory and optional attributes listed in the following
+table.
+<BR>&nbsp;
+<CENTER><TABLE BORDER CELLPADDING=3 WIDTH="70%">
+<TR>
+<TH>Attribute Identifier</TH>
+
+<TH>Attribute Value Description</TH>
+</TR>
+
+<TR>
+<TD>NUMERICOID (<FONT COLOR="#CC0000">mandatory</FONT>)</TD>
+
+<TD>Unique object identifier (OID)</TD>
+</TR>
+
+<TR>
+<TD>DESC</TD>
+
+<TD>Description of syntax</TD>
+</TR>
+</TABLE></CENTER>
+
+<P>These attributes correspond to the definition of "SyntaxDescription"
+in <A HREF="http://www.ietf.org/rfc/rfc2252.txt">RFC 2252</A>.
+All the attribute values are represented by the <TT>java.lang.String</TT>
+class.
+
+<h4>Retrieving the Schema of an Attribute Syntax Definition</h4>
+
+To retrieve the schema object of an attribute syntax,
+you look for it in the schema tree.
+For example, you can obtain the schema object that represents the 
+Directory String syntax by using
+the <a href=src/LookupSyntax.java>following code</a>.
+The OID for Directory String is 1.3.6.1.4.1.1466.115.121.1.15.
+<BLOCKQUOTE>
+<PRE>
+// Get the schema tree root
+DirContext schema = ctx.getSchema("");
+
+// Get the schema object for Directory String's syntax
+DirContext dsSchema =
+  (DirContext)schema.lookup("SyntaxDefinition/1.3.6.1.4.1.1466.115.121.1.15");
+</pre></blockquote>
+If you get the attributes of the <tt>dsSchema</tt> schema object, 
+then you will see the following.
+<blockquote><pre>
+NUMERICOID: 1.3.6.1.4.1.1466.115.121.1.15 
+DESC: Directory String
+</pre></blockquote>
+<blockquote>
+<hr>
+<strong>Note:</strong> 
+This example won't work with
+the <a href="http://www.sun.com/">SunONE Directory Server v5.1</a>
+because that server does not publish syntax definitions in the schema.
+<hr>
+</blockquote>
+<p>
+You can use not only <tt>lookup()</tt> 
+to retrieve schema objects from the schema tree, but also
+such methods as
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><tt>list()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    or 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.directory.SearchControls)"><tt>search()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.directory.SearchControls)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+
+<h4>Getting an Attribute's Syntax Definition</h4>
+<p>
+Given an
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attribute.html"><tt>Attribute</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attribute.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   object representing an LDAP attribute, 
+you can get its schema object by invoking
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attribute.html#getAttributeSyntaxDefinition()"><tt>getAttributeSyntaxDefinition()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attribute.html#getAttributeSyntaxDefinition()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    on it.
+For example, to retrieve
+the schema object for the Directory String syntax,
+you first fetch an attribute that uses that syntax (such as
+the <tt>"cn"</tt> attribute) and then invoke <tt>getAttributeSyntaxDefinition()</tt> on it.
+Here's <a href=src/GetSyntax.java>an example</a>.
+<blockquote><pre>
+// Get an attribute that uses that syntax
+Attributes attrs = ctx.getAttributes("cn=Ted Geisel, ou=People",
+    new String[]{"cn"});
+Attribute cnAttr = attrs.get("cn");
+
+// Get its attribute syntax definition
+DirContext dsSyntax = cnAttr.getAttributeSyntaxDefinition();
+</pre></blockquote>
+
+<blockquote>
+<hr>
+<strong>Note:</strong> 
+This example won't work with
+the <a href="http://www.sun.com/">SunONE Directory Server v5.1</a>
+because that server does not publish syntax definitions in the schema.
+<hr>
+</blockquote>
+
+<h4>Creating, Modifying, or Updating an Attribute Syntax Definition</h4>
+
+Dynamically creating, deleting, or modifying attribute syntaxes
+does not make sense.
+Even if the LDAP server allows you to add a syntax to (or delete a syntax from)
+its schema,
+the necessary implementation changes must be done on the LDAP server
+to support the new syntax.
+Most servers support a fixed set of syntaxes. Changing that set 
+programmatically is usually not a supported feature.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="attribute.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="matching.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Schema</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

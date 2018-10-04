@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>The Kerberos 5 GSS-API Mechanism</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../../webdesign/pubs8/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../webdesign/pubs8/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://docs.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>The Kerberos 5 GSS-API Mechanism</h1></div>
+<p><a href="../index.html">(Return to Security Contents)</a></p>
+<!-- Body content copy begins here. This paragraph 
+is introductory stuff.   -->
+<p>This topic describes and lists security features regarding Java Generic Security Services (Java GSS) for Kerberos 5.</p>
+<p>This GSS-API  mechanism is defined by RFC 1964, supplemented with RFC 4121 under the  Official Internet Protocol Standards process. See <a href="http://tools.ietf.org/html/rfc1964" title="RFC 1964">RFC 1964</a> and <a href="http://tools.ietf.org/html/rfc4121" title="RFC 4121">RFC 4121</a>. </p>
+<p>This topic also describes the Object Identifier (OID) for the Kerberos V5 mechanism, in the  Official Internet Protocol Standards process, the encryption types, and the <code>krb5.conf</code> settings supported by Java GSS. </p>
+<p>Note: Java GSS features have been  in each version of Java SE since 1.4.2. </p>
+
+<hr size="3" noshade="noshade" width="100%" />
+<h2>The OID for the Kerberos V5 Mechanism</h2>
+<p> According to RFC 1964 section 1, the OID for Java Generic Security Services (Java GSS) for Kerberos 5 is defined as 1.2.840.113554.1.2.</p>
+<!-- insert new detailed copy here -->
+<h2>Java GSS/Kerberos Supported Encryption Types</h2>
+<p>Each major release of Java SE has added features or additional supported encryption types for GSS/Kerberos. However, support for new encryption types have been included in update editions of Java SE 5 and Java SE 6. </p>
+ <p>The following table lists  the preferred order of encryption types supported in editions of Java up to Java SE 8. </p> 
+  <table width="350" border="1" summary="The Java SE 7 Supported Encryption Types with name and  etype number.">
+  <caption>
+    Java SE 7 Supported Encryption Types
+  </caption>
+  <tr>
+    <th id="h1" scope="col">Name</th>
+    <th id="h2" scope="col">etype Number</th>
+  </tr>
+  <tr>
+    <td headers="h1">aes256-cts</td>
+    <td headers="h2">18</td>
+  </tr>
+  <tr>
+    <td headers="h1">aes128-cts</td>
+    <td headers="h2">17</td>
+  </tr>
+  <tr>
+    <td headers="h1">aes128-cts</td>
+    <td headers="h2">23</td>
+  </tr>
+  <tr>
+    <td headers="h1">des3-cbc-sha1</td>
+    <td headers="h2">16</td>
+  </tr>
+  <tr>
+    <td headers="h1">des-cbc-md5</td>
+    <td headers="h2">3</td>
+  </tr>
+  <tr>
+    <td headers="h1">des-cbc-crc</td>
+    <td headers="h2">1</td>
+  </tr>
+</table>
+<p>Note that <code>des-cbc-crc</code> and <code>dec-cbc-md5</code> are disabled by default in JDK 8. </p>
+<p>A user can restrict the usage of encryption for various purposes in <code>krb5.conf</code>, in the <code>[libdefaults]</code> section.</p>
+<p>For more detailed information about the AES encryption types (AES128 and AES256 and the RC4-HMAC encryption type, see <a href="./jgss-features.html#jgssse6">Java GSS for Java SE 6</a>.</p>
+<p>For more detailed information about the DES and Triple DES encryption types, see <a href="./jgss-features.html#jgssse5">Java GSS for Java SE 5</a> and <a href="./jgss-features.html#tripledes">Support for Triple DES Encryption</a>.</p>
+<h2>Supported krb5.conf Settings</h2>
+<p>In Java SE 7, the following are the supported parameters.</p>
+<pre>
+[libdefaults]
+default_realm
+allow_weak_crypto
+ 
+dns_lookup_kdc
+dns_lookup_realm
+dns_fallback
+ 
+default_checksum
+safe_checksum_type
+ap_req_checksum_type
+default_keytab_name
+ 
+default_tkt_enctypes
+permitted_enctypes
+default_tgs_enctypes
+ 
+no_addresses
+noaddresses
+ 
+renewable
+proxiable
+forwardable
+ 
+kdc_default_options
+clockskew
+ 
+kdc_timeout
+udp_preference_limit
+ 
+[realms]
+  REALM.NAME = {
+    kdc =
+  }
+ 
+[capaths]
+  A = {
+    I = .
+    B = I
+  }
+ 
+[domain_realm]
+  domain=REALM
+</pre>
+<br />
+The following are the defaults for the <code>krb5.conf</code> file parameters.<br />
+<pre>
+no_addresses = true
+noaddresses = true
+dns_fallback = true (false in JDK 6)
+dns_lookup_kdc = true (false in JDK 6)
+dns_lookup_realm = true (false in JDK 6)
+allow_weak_crypto = false (true in JDK 7)
+kdc_timeout = 30000
+max_retries = 3
+udp_preference_limit = -1
+clockskew = 300
+renewable = false
+proxiable = false
+forwardable = false
+</pre>
+<p><!-- Body text ends here -->
+<!-- ============================================================== --></p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

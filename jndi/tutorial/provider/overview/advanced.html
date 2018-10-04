@@ -1,0 +1,220 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Advanced Features</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="optional.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="../ground/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Big Picture</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Advanced Features
+</h2>
+<p>
+<blockquote>
+
+A context implementation must support methods defined in the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><tt>Context</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     interface and subinterfaces in accordance with the JNDI specifications.
+Within that framework, however, a lot of leeway
+exists regarding the features that
+the context implementation supports.
+None of the features discussed in this section involve adding any
+new components. Rather, they involve embellishing a context implementation,
+typically by making existing methods support the feature or by
+adding new methods.
+
+<h4>Federation</h4>
+
+Federation concepts are described in the
+
+<a target="_top" href="../../beyond/fed/index.html">Federation</a> <a target="_top" href="../../beyond/fed/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson.
+Support for federation consists of the following:
+<ul>
+<li>Determining the portion of the input name to process
+<li>Contacting the <em>next naming system</em> (nns) to continue the operation
+</ul>
+The JNDI SPI framework contains methods to assist in the latter.
+<p>
+A context implementation's support of federation is helpful
+but not required. The implementation can be used
+simply for accessing a particular naming/directory service--a
+valid and supported use of the JNDI.
+<p>
+The
+<a target="_top" href="../fed/index.html">Adding Federation Support</a> <a target="_top" href="../fed/index.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>    lesson describes how to add support for federation.
+
+
+<h4>Link Reference Support</h4>
+
+A <a href=../../getStarted/concepts/glossary.html#LINK><em>link reference</em></a>
+is a symbolic link that can span multiple naming systems.
+It is represented by the 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/LinkRef.html"><tt>LinkRef</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/LinkRef.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    class.
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><tt>Context.lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and the resolution portion of all context methods are supposed
+to dereference link references automatically.
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookupLink(javax.naming.Name)"><tt>Context.lookupLink()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookupLink(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   is used to read a link reference.
+
+Link references are described in the
+<a target="_top" href="../../beyond/misc/link.html">Miscellaneous</a> <a target="_top" href="../../beyond/misc/link.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson.
+
+<p>
+A context implementation that does not support binding of link references
+obviously does not have to deal with them.
+One that does support this feature should process the references
+according to the specification. 
+It also should have mechanisms
+in place to catch link loops and/or to limit the number of links that can
+be followed.
+<p>
+The
+<a target="_top" href="../misc/index.html">Miscellaneous</a> <a target="_top" href="../misc/index.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>    lesson describes how to add support for link references.
+
+
+
+<h4>Referral Support</h4>
+
+A <a href=../../getStarted/concepts/glossary.html#REFERRAL><em>referral</em></a>
+is an entity used to redirect a client's request to another server.
+Containing the names and locations of other
+objects,  it is sent by the server to indicate that the information
+that the client has requested can be found at another location (or locations),
+possibly at another server or several servers.
+<p>
+Referrals are used by the LDAP 
+(<A HREF="http://www.ietf.org/rfc/rfc2251.txt">RFC 2251</A>)
+and therefore apply only to LDAP-style directories.
+They are described in detail in the
+
+<a target="_top" href="../../ldap/referral/index.html">Referrals</a> <a href="../../ldap/referral/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson.
+<p>
+The JNDI specifies the environment property
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#REFERRAL"><tt>Context.REFERRAL</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#REFERRAL"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     (<tt>"java.naming.referral"</tt>)
+that an application can use to control how referrals are processed
+by the context implementation.
+A context implementation that supports referrals
+must conform to this specification.
+It also should have mechanisms
+in place to catch referral loops and/or to limit the number of referrals that can
+be followed.
+
+<p>
+The
+<a target="_top" href="../misc/index.html">Miscellaneous</a> <a target="_top" href="../misc/index.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>    lesson describes how to add support for referrals.
+
+
+<h4>Schema Support</h4>
+
+The
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html"><tt>DirContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attribute.html"><tt>Attribute</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attribute.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interfaces contain methods
+that enable programs to retrieve the schema of
+the directory entry/attribute.
+Schema in the LDAP are described in detail in the
+
+<a target="_top" href="../../ldap/schema/index.html">Schema</a> <a href="../../ldap/schema/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson.
+These methods make sense only for a directory context implementations
+that publishes its schema.
+The schema might be read-only or read-write, depending on
+both the context implementation and the underlying directory service.
+To the degree possible, support for schemas should follow the guidelines
+given in the
+<a href=http://java.sun.com/products/jndi/jndi-ldap-gl.html#SCHEMA>Guidelines for LDAP Service Providers</a>.
+<p>
+The
+<a target="_top" href="../dir/index.html">Adding Directory Support</a> <a target="_top" href="../dir/index.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>    lesson describes how to add support for schema.
+
+
+<h4>Event Notification Support</h4>
+
+Event notification support is defined in the
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/package-summary.html"><tt>javax.naming.event</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/package-summary.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    package.
+It is described in detail in the
+<a target="_top" href="../../beyond/event/index.html">Event Notification</a> <a target="_top" href="../../beyond/event/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson.
+<p>
+Support for event notification makes sense primarily for an underlying
+naming and directory service that supports event notification.
+Some context implementations might support this feature for those
+underlying services that do not support event notification, by using 
+techniques such as polling to simulate the effects of notifications.
+<p>
+The
+<a target="_top" href="../misc/index.html">Miscellaneous</a> <a target="_top" href="../misc/index.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>    lesson describes how to add support for events.
+
+
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+<strong>The Big Picture: End of Lesson</strong>
+<p>
+What's next? 
+Now you can:
+<ul>
+<li> <a href=../ground/index.html>Continue</a> on in this trail
+to learn about the ground rules for writing service providers.
+
+</ul>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="optional.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="../ground/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Big Picture</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

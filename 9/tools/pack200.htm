@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>pack200</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="You use the pack200 command to transform a Java Archive (JAR) file into a compressed pack200 file with the Java gzip compressor." />
+<meta name="dcterms.created" content="2017-10-12T08:04:07Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Tools Reference" />
+<meta name="dcterms.identifier" content="E61612-05" />
+<meta name="dcterms.isVersionOf" content="JSWOR" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="java-deployment-tools-and-commands.htm" title="Previous" type="text/html" />
+<link rel="Next" href="unpack200.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSWOR.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSWOR.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSWOR.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B"></a> <span id="PAGE" style="display:none;">37/65</span> <!-- End Header -->
+<a id="JSWOR717"></a>
+<h1 id="JSWOR-GUID-8473A0F8-22C3-4122-9488-9F678E883A0B" class="sect1">pack200</h1>
+<div>
+<p><span>You use the <code class="codeph">pack200</code> command to transform a Java Archive (JAR) file into a compressed pack200 file with the Java gzip compressor.</span></p>
+<div class="section">
+<p class="subhead1">Synopsis</p>
+<pre dir="ltr">
+pack200 [<span class="variable">-opt... | --option=value</span>] <span class="variable">x.pack[.gz]</span> <span class="variable">JAR-file</span>
+</pre>
+<dl>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-8A14FA68-AECD-48E7-AC7B-7985B79DE804"><!-- --></a><code class="codeph"><span class="variable">-opt... | --option=value</span></code></dt>
+<dd>
+<p>Options can be in any order. The last option on the command line or in a properties file supersedes all previously specified options. See <a href="pack200.htm#GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__CHDHACFH">Options for the pack200 Command</a>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-8A1B5885-E701-4BCB-8688-203079247D8E"><!-- --></a><code class="codeph"><span class="variable">x.pack</span>[.gz]</code></dt>
+<dd>
+<p>Name of the output file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-0320A357-3BF7-4AC1-9A94-4401400A0492"><!-- --></a><code class="codeph"><span class="variable">file</span>.jar</code></dt>
+<dd>
+<p>Name of the input file.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Description</p>
+<p>The <code class="codeph">pack200</code> command is a Java application that transforms a JAR file into a compressed <code class="codeph">pack200</code> file with the Java gzip compressor. This command packages a JAR file into a compressed <code class="codeph">pack200</code> file for web deployment. The <code class="codeph">pack200</code> files are highly compressed files that can be directly deployed to save bandwidth and reduce download time.</p>
+<p>Typical usage is shown in the following example, where <code class="codeph">myarchive.pack.gz</code> is produced with the default <code class="codeph">pack200</code> command settings:</p>
+<pre dir="ltr">
+pack200 myarchive.pack.gz myarchive.jar
+</pre>
+<div class="infobox-note" id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-95EA845D-52CB-46D9-97F9-7E86341113E7">
+<p class="notep1">Note:</p>
+<p>This command shouldn&rsquo;t be confused with <code class="codeph">pack</code>. The <code class="codeph">pack</code> and <code class="codeph">pack200</code> commands are separate products. The Java SE API Specification provided with the JDK is the superseding authority, when there are discrepancies.</p>
+</div>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Exit Status</p>
+<p>The following exit values are returned: 0 for successful completion and a number greater than 0 when an error occurs.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__CHDHACFH">
+<p class="subhead1">Options for the pack200 Command</p>
+<p>The <code class="codeph">pack200</code> command has several options to fine-tune and set the compression engine. The typical usage is shown in the following example, where <code class="codeph">myarchive.pack.gz</code> is produced with the default <code class="codeph">pack200</code> command settings:</p>
+<pre dir="ltr">
+pack200 myarchive.pack.gz myarchive.jar
+</pre>
+<dl>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-12D0B3E3-6A46-41E9-BF02-92453A0287AD"><!-- --></a><code class="codeph">-r</code> or <code class="codeph">--repack</code></dt>
+<dd>
+<p>Produces a JAR file by packing and unpacking a JAR file. The resulting file can be used as an input to the <code class="codeph">jarsigner</code> tool. The following example packs and unpacks the <code>myarchive.jar</code> file:</p>
+<pre dir="ltr">
+pack200 --repack myarchive-packer.jar myarchive.jar
+pack200 --repack myarchive.jar
+</pre></dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-D1CBE7BC-C642-4F6B-979F-B4783E4C9176"><!-- --></a><code class="codeph">-g</code> or <code class="codeph">--no-gzip</code></dt>
+<dd>
+<p>Produces a <code class="codeph">pack200</code> file. With this option, a suitable compressor must be used, and the target system must use a corresponding decompresser.</p>
+<pre dir="ltr">
+pack200 --no-gzip myarchive.pack myarchive.jar
+</pre></dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-C17F1777-66AE-4E60-8AD5-62713856D078"><!-- --></a><code class="codeph">--gzip</code></dt>
+<dd>
+<p>(Default) Post-compresses the pack output with <code class="codeph">gzip</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-5ACF006D-43E7-400A-A6AC-985B1A5815CB"><!-- --></a><code class="codeph">-G</code> or <code class="codeph">-&mdash;strip-debug</code></dt>
+<dd>
+<p>Strips debugging attributes from the output. These include <code class="codeph">SourceFile</code>, <code class="codeph">LineNumberTable</code>, <code class="codeph">LocalVariableTable</code> and <code class="codeph">LocalVariableTypeTable</code>. Removing these attributes reduces the size of both downloads and installations, also reduces the usefulness of debuggers.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-9C1435F4-6928-41B3-8FDB-D2939D022E54"><!-- --></a><code class="codeph">--keep-file-order</code></dt>
+<dd>
+<p>Preserves the order of files in the input file. This is the default behavior.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-B69905CD-B5FA-4995-AA93-C4668D6C9D88"><!-- --></a><code class="codeph">-O</code> or <code class="codeph">--no-keep-file-order</code></dt>
+<dd>
+<p>Reorders and transmits all elements. The packer can also remove JAR directory names to reduce the download size. However, certain JAR file optimizations, such as indexing, might not work correctly.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-7FD283B7-4B34-4562-B0EB-4EE11ED19279"><!-- --></a><code class="codeph">-S<span class="variable">N</span></code> or <code class="codeph">--segment-limit=<span class="variable">N</span></code></dt>
+<dd>
+<p>The value is the estimated target size <code class="codeph"><span class="variable">N</span></code> (in bytes) of each archive segment. If a single input file requires more than <code class="codeph"><span class="variable">N</span></code>bytes, then its own archive segment is provided. As a special case, a value of <code class="codeph">-1</code> produces a single large segment with all input files, while a value of 0 produces one segment for each class. Larger archive segments result in less fragmentation and better compression, but processing them requires more memory.</p>
+<p>The size of each segment is estimated by counting the size of each input file to be transmitted in the segment with the size of its name and other transmitted properties.</p>
+<p>The default is -1, which means that the packer creates a single segment output file. In cases where extremely large output files are generated, users are strongly encouraged to use segmenting or break up the input file into smaller JAR file.</p>
+<p>A 10 MB JAR packed without this limit typically packs about 10 percent smaller, but the packer might require a larger Java heap (about 10 times the segment limit).</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-4F390ED9-DB76-4AE6-8910-71FD2183D28D"><!-- --></a><code class="codeph">-E<span class="variable">value</span></code> or <code class="codeph">--effort=<span class="variable">value</span></code></dt>
+<dd>
+<p>If the value is set to a single decimal digit, then the packer uses the indicated amount of effort in compressing the archive. Level 1 might produce somewhat larger size and faster compression speed, while level 9 takes much longer, but can produce better compression. The special value 0 instructs the <code class="codeph">pack200</code> command to copy through the original JAR file directly with no compression. The JSR 200 standard requires any unpacker to understand this special case as a pass-through of the entire archive.</p>
+<p>The default is 5, to invest a modest amount of time to produce reasonable compression.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-1BE872FF-5344-4A1E-9A7A-12302A390B20"><!-- --></a><code class="codeph">-H<span class="variable">value</span></code> or <code class="codeph">--deflate-hint=<span class="variable">value</span></code></dt>
+<dd>
+<p>Overrides the default, which preserves the input information, but can cause the transmitted archive to be larger. The possible values are: <code class="codeph">true</code>, <code class="codeph">false</code>, or <code class="codeph">keep</code>.</p>
+<p>If the <code class="codeph">value</code> is <code class="codeph">true</code> or false, then the <code class="codeph">packer200</code> command sets the deflation hint accordingly in the output archive and doesn&rsquo;t transmit the individual deflation hints of archive elements.</p>
+<p>The <code class="codeph">keep</code> value preserves deflation hints observed in the input JAR. This is the default.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-83BD8A6C-5933-4D8B-BFFB-B4EDEFA6680F"><!-- --></a><code class="codeph">-m<span class="variable">value</span></code> or <code class="codeph">--modification-time=<span class="variable">value</span></code></dt>
+<dd>
+<p>The possible values are <code class="codeph">latest</code> and <code class="codeph">keep</code>.</p>
+<p>If the value is <code class="codeph">latest</code>, then the packer attempts to determine the latest modification time, among all the available entries in the original archive, or the latest modification time of all the available entries in that segment. This single value is transmitted as part of the segment and applied to all the entries in each segment. This can marginally decrease the transmitted size of the archive at the expense of setting all installed files to a single date.</p>
+<p>If the value is <code class="codeph">keep</code>, then modification times observed in the input JAR are preserved. This is the default.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-62C70977-0D7E-4EF5-A0B7-CADE7F4AE27B"><!-- --></a><code class="codeph">-P</code><span class="variable">file</span> or <code class="codeph">--pass-file=<span class="variable">file</span></code></dt>
+<dd>
+<p>Indicates that a file should be passed through bytewise with no compression. By repeating the option, multiple files can be specified. There is no path name transformation, except that the system file separator is replaced by the JAR file separator forward slash (/). The resulting file names must match exactly as strings with their occurrences in the JAR file. If <code class="codeph">file</code> is a directory name, then all files under that directory are passed.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-65B20654-167F-4304-9E6E-430AB4B3BFD2"><!-- --></a><code class="codeph">-U</code> <span class="variable">action</span> or <code class="codeph">--unknown-attribute=<span class="variable">action</span></code></dt>
+<dd>
+<p>Overrides the default behavior, which means that the class file that contains the unknown attribute is passed through with the specified <code class="codeph">action</code>. The possible values for actions are <code class="codeph">error</code>, <code class="codeph">strip</code>, or <code class="codeph">pass</code>.</p>
+<p>If the value is <code class="codeph">error</code>, then the entire <code class="codeph">pack200</code> command operation fails with a suitable explanation.</p>
+<p>If the value is <code class="codeph">strip</code>, then the attribute is dropped. Removing the required Java Virtual Machine (JVM) attributes can cause class loader failures.</p>
+<p>If the value is <code class="codeph">pass</code>, then the entire class is transmitted as though it is a resource.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-28C9687E-3E24-47AF-A193-5DDB468D4583"><!-- --></a><code class="codeph">-C <span class="variable">attribute-name</span>=<span class="variable">layout</span></code> or <code class="codeph">--class-attribute=<span class="variable">attribute-name</span>=<span class="variable">action</span></code></dt>
+<dd>
+<p>(user-defined attribute) See the description for <code class="codeph">&mdash;D<span class="variable">attribute-name</span>=<span class="variable">layout</span></code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-B5772CBF-90C5-49CF-ADBE-34F222818FD3"><!-- --></a><code class="codeph">-F <span class="variable">attribute-name</span>=<span class="variable">layout</span></code> or <code class="codeph">--field-attribute</code>=<span class="variable">attribute-name</span>=<span class="variable">action</span></dt>
+<dd>
+<p>(user-defined attribute) See the description for <code class="codeph">&mdash;D<span class="variable">attribute-name</span>=<span class="variable">layout</span></code></p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-278B4862-B628-415A-ADA5-E382468FD7D7"><!-- --></a><code class="codeph">-M</code><span class="variable">attribute-name</span>=<span class="variable">layout</span> or <code class="codeph">--method-attribute=<span class="variable">attribute-name</span>=<span class="variable">action</span></code></dt>
+<dd>
+<p>(user-defined attribute) See the description for <code class="codeph">&mdash;D<span class="variable">attribute-name</span>=<span class="variable">layout</span></code></p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-90B953AE-329B-48D5-95A7-C4576CC3D7E6"><!-- --></a><code class="codeph">&mdash;D <span class="variable">attribute-name</span>=<span class="variable">layout</span></code> or <code class="codeph">--code-attribute=<span class="variable">attribute-name</span>=<span class="variable">action</span></code></dt>
+<dd>
+<p>(user-defined attribute) The attribute layout can be specified for a class entity, such as <code class="codeph">class-attribute</code>, <code class="codeph">field-attribute</code>, <code class="codeph">method-attribute</code>, and <code class="codeph">code-attribute</code>. The <code class="codeph"><span class="variable">attribute-name</span></code> is the name of the attribute for which the layout or action is being defined. The possible values for <code class="codeph"><span class="variable">action</span></code> are <code class="codeph">some-layout-string</code>, <code class="codeph">error</code>, <code class="codeph">strip</code>, <code class="codeph">pass</code>.</p>
+<p><code class="codeph">some-layout-string</code>: The layout language is defined in the JSR 200 specification, for example: <code class="codeph">--class-attribute=SourceFile=RUH</code>.</p>
+<p>If the value is <code class="codeph">error</code>, then the <code class="codeph">pack200</code> operation fails with an explanation.</p>
+<p>If the value is <code class="codeph">strip</code>, then the attribute is removed from the output. Removing JVM-required attributes can cause class loader failures. For example, <code class="codeph">--class-attribute=CompilationID=pass</code> causes the class file that contains this attribute to be passed through without further action by the packer.</p>
+<p>If the value is <code class="codeph">pass</code>, then the entire class is transmitted as though it&rsquo;s a resource.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-B0C097C6-E720-4617-A454-6B2E51386F68"><!-- --></a><code class="codeph">-f <span class="variable">pack.properties</span></code> or <code class="codeph">--config-file=<span class="variable">pack.properties</span></code></dt>
+<dd>
+<p>Indicates a configuration file, containing Java properties to initialize the packer, can be specified on the command line.</p>
+<pre dir="ltr">
+pack200 -f pack.properties myarchive.pack.gz myarchive.jar
+more pack.properties
+# Generic properties for the packer.
+modification.time=latest
+deflate.hint=false
+keep.file.order=false
+# This option will cause the files bearing new attributes to
+# be reported as an error rather than passed uncompressed.
+unknown.attribute=error
+# Change the segment limit to be unlimited.
+segment.limit=-1
+</pre></dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-C9B78C3C-C54C-4B24-8C3E-F0E3E9AB6FE5"><!-- --></a><code class="codeph">-v</code> or <code class="codeph">--verbose</code></dt>
+<dd>
+<p>Outputs minimal messages. Multiple specification of this option will create more verbose messages.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-2968D218-6E3F-49A5-9163-31FDA6117B1A"><!-- --></a><code class="codeph">-q</code> or <code class="codeph">--quiet</code></dt>
+<dd>
+<p>Specifies quiet operation with no messages.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-6588B6F2-457F-429A-BEDD-2559C60F247E"><!-- --></a><code class="codeph">-l <span class="variable">filename</span></code>or <code class="codeph">--log-file</code>=<span class="italic">filename</span></dt>
+<dd>
+<p>Specifies a log file to output messages.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-091A004D-CED0-42AB-B160-C56AE974C81E"><!-- --></a><code class="codeph">-?</code> , <code class="codeph">-h</code> , or<code class="codeph">--help</code></dt>
+<dd>
+<p>Prints help information about this command.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-35479013-AD74-44FF-86F3-D9172B77C365"><!-- --></a><code class="codeph">-V</code> or <code class="codeph">--version</code></dt>
+<dd>
+<p>Prints version information about this command.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-8473A0F8-22C3-4122-9488-9F678E883A0B__GUID-242A0E0A-1D82-4925-9A05-A5DCED1CB958"><!-- --></a><code class="codeph">-J<span class="variable">option</span></code></dt>
+<dd>
+<p>Passes the specified option to the Java Virtual Machine. For example, <code class="codeph">-J-Xms48m</code> sets the startup memory to 48 MB.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" --></div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment179">
+<tr>
+<td class="cellalignment191">
+<table class="cellalignment184">
+<tr>
+<td class="cellalignment183"><a href="java-deployment-tools-and-commands.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment183"><a href="unpack200.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment193">
+<table class="cellalignment182">
+<tr>
+<td class="cellalignment183"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment183"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment183"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

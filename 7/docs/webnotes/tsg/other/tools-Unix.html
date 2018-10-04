@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Troubleshooting Tools on Solaris OS and Linux for Java SE
+7</title>
+<meta name="collection" content="reference" />
+<link rel="stylesheet" href="/css/default_developer.css" type=
+"text/css" />
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<h2>Troubleshooting Tools on Solaris OS and Linux for Java SE
+7</h2>
+<p><a href="#monitor">Monitoring Tools</a><br />
+<a href="#debug">Debugging Tools</a><br />
+<a href="#script">Scripting Tools</a></p>
+<hr />
+<h3><a name="monitor" id="monitor"></a>Monitoring Tools</h3>
+<h4><a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/visualvm/index.html">
+Java VisualVM</a></h4>
+<p>Java™ VisualVM is a monitoring and profiling tool for
+troubleshooting Java applications. It incorporates various
+technologies, including jvmstat and JMX, as well as CPU and memory
+profiling, to provide one easy-to-use integrated visualization
+tool. Developers can rapidly create their own extensions using a
+public API, and may share them with the community on a central
+repository.</p>
+<ul>
+<li>Display local and remote Java applications.</li>
+<li>Display application configuration and runtime environment.</li>
+<li>Monitor application memory consumption and runtime
+behavior.</li>
+<li>Monitor application threads.</li>
+<li>Profile application performance or analyze memory allocation.
+(Local applications only.)</li>
+<li>Create and display thread dumps.</li>
+<li>Create and browse heap dumps.</li>
+<li>Analyze core dumps.</li>
+<li>Analyze applications offline.</li>
+<li>Get additional plugins contributed by the community.</li>
+<li>Write and share your own plugins.</li>
+</ul>
+<h4><a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jconsole.html">
+JConsole</a></h4>
+<p>Launch a GUI to monitor and manage Java applications and Java
+VMs on a local or remote machine.</p>
+<ul>
+<li>Connection to Java process, host, or JMX agent.</li>
+<li>Graphical overview of CPU usage, heap memory, threads,
+classes.</li>
+<li>Summary of key data, for example, uptime, compilation time,
+objects pending finalization, and more.</li>
+<li>Memory statistics, including garbage collection.</li>
+<li>Request garbage collection.</li>
+<li>Thread statistics.</li>
+<li>Deadlock detection.</li>
+<li>Class statistics.</li>
+<li>Tree structure of all platform and application MBeans.</li>
+<li>Set the value of an MBean attribute.</li>
+<li>Invoke operation on an MBean, for example, perform a heap
+dump.</li>
+<li>Subscribe to notification for an MBean.</li>
+<li>Information about the virtual machine, the compiler, the
+operating system.</li>
+<li>Pass flags to VM on which JConsole is running.</li>
+</ul>
+<h4><a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jps.html">
+jps</a></h4>
+<p>List instrumented Java virtual machines.</p>
+<h4><a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jstat.html">
+jstat</a></h4>
+<p>Display performance statistics for an instrumented Java VM:</p>
+<ul>
+<li>Behavior of the class loader</li>
+<li>Behavior of the HotSpot Just-in-Time compiler, totals and by
+method</li>
+<li>Behavior of the GC heap</li>
+<li>Behavior and sizes of the generation areas</li>
+</ul>
+<h4><a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jstatd.html">
+jstatd</a></h4>
+<ul>
+<li>Monitor for creation and termination of instrumented HotSpot
+Java VMs.</li>
+<li>Provide an interface for remote monitoring tools to attach to
+Java VMs.</li>
+</ul>
+<hr />
+<h3><a name="debug" id="debug"></a>Debugging Tools</h3>
+<h4>HPROF profiler</h4>
+<p>Writes class profiling information to a file or a socket, in
+ASCII or binary.</p>
+<ul>
+<li>Heap allocation profiling.</li>
+<li>Heap dump.</li>
+<li>CPU usage - for threads, methods.</li>
+<li>Monitor contention profiling.</li>
+</ul>
+<p>To invoke the HPROF tool: <tt>java -agentlib:hprof</tt>
+<i>ToBeProfiledClass</i></p>
+<p>To print the complete list of options: <tt>java
+-agentlib:hprof=help</tt></p>
+<h4><a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/solaris/jdb.html">
+jdb</a></h4>
+<p>Launch a simple interactive command-line debugger.</p>
+<ul>
+<li>Display Java objects and primitive values.</li>
+<li>List currently running threads.</li>
+<li>Dump the current thread stack.</li>
+<li>Set breakpoints.</li>
+<li>Step through execution.</li>
+<li>Examine exceptions.</li>
+</ul>
+<h4><a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jhat.html">
+jhat</a></h4>
+<p>Parse a binary heap dump, launch a web browser, and present
+standard queries.</p>
+<ul>
+<li>Execute standard queries, for example, classes, objects, class
+instances, reference chains from object rootset, reachable objects,
+and more.</li>
+<li>Turn on or off object allocation tracking.</li>
+<li>Turn on or off object reference tracking.</li>
+<li>Specify objects to exclude from "reachable objects" query.</li>
+<li>Pass flags to the Java VM on which <tt>jhat</tt> is
+running.</li>
+<li>Develop custom queries with buit-in Object Query Language.</li>
+<li>Compare objects in two dumps.</li>
+</ul>
+<h4><a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jinfo.html">
+jinfo</a></h4>
+<ul>
+<li>Print command line flags and system properties for a running
+process, from a core file, or for a remote debug server.</li>
+<li>Dynamically set, unset, or change the value of certain Java VM
+flags for a process.</li>
+</ul>
+<h4><a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jmap.html">
+jmap</a></h4>
+<ul>
+<li>Print shared object mappings for a process, a core file, or a
+remote debug server.</li>
+<li>Dump the Java heap (all objects or only live objects) of a
+process, a core file, or a remote debug server in binary format to
+a file.</li>
+<li>Force the Java heap dump of a process if the process does not
+respond.</li>
+<li>Print a heap summary for a process, a core file, or a remote
+debug server.</li>
+<li>Print a histogram (all objects or only live objects) of a
+process, a core file, or a remote debug server.</li>
+<li>Print information on objects awaiting finalization.</li>
+<li>Print class loader statistics of the permanent generation.</li>
+<li>Pass flags to the VM.</li>
+</ul>
+<h4><a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jsadebugd.html">
+jsadebugd</a></h4>
+<p>Serviceability Agent Debug Daemon, which acts as debug
+server.</p>
+<ul>
+<li>Attach to a Java process or a core file.</li>
+<li>Remote clients can attach to the server using RMI.</li>
+</ul>
+<h4><a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jstack.html">
+jstack</a></h4>
+<ul>
+<li>Print stack traces of threads for a process, core file, or
+remote debug server</li>
+<li>Print information about concurrent locks for a process, core
+file, or remote debug server</li>
+<li>Force the stack dump for a process if the process does not
+respond</li>
+</ul>
+<hr />
+<h3><a name="script" id="script"></a>Scripting Tools</h3>
+<h4><a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jrunscript.html">
+jrunscript</a></h4>
+<ul>
+<li>Command-line script shell: Evaluate or execute a script in
+interactive or batch mode.</li>
+<li>Pass flag to the VM.</li>
+<li>Set Java system properties.</li>
+</ul>
+<hr />
+</body>
+</html>

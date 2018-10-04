@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Writing Directives</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="This topic examines Compiler Control options and steps for writing directives from those options." />
+<meta name="dcterms.created" content="2017-10-12T08:30:16Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Java Virtual Machine Guide" />
+<meta name="dcterms.identifier" content="E68512-05" />
+<meta name="dcterms.isVersionOf" content="JSJVM" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="compiler-control1.htm" title="Previous" type="text/html" />
+<link rel="Next" href="understanding-directives-better.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSJVM.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSJVM.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSJVM.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-8ABE81D8-FABA-4871-86AA-998112994C44"></a> <span id="PAGE" style="display:none;">6/17</span> <!-- End Header -->
+<h1 id="JSJVM-GUID-8ABE81D8-FABA-4871-86AA-998112994C44" class="sect1">Writing Directives</h1>
+<div>
+<p>This topic examines Compiler Control options and steps for writing directives from those options.</p>
+<div class="section">
+<p class="subhead1">Topics:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="writing-directives.htm#GUID-FF488969-AFCD-48ED-93F5-A49C6C893D39" title="Options are instructions for compilation. Options provide method-context precision. Available options vary by compiler and require specific types of values.">List of Compiler Control Options</a></p>
+</li>
+<li>
+<p><a href="writing-directives.htm#GUID-8D24F71C-00A0-4959-AF10-1E08201B0B69" title="Individual compiler directives are written in a directives file. Only directive files, not individual directives, can be added to the stack of active directives.">Writing a Directives File</a></p>
+</li>
+<li>
+<p><a href="writing-directives.htm#GUID-4191CF8A-8FBB-4DB1-9275-DE438B7EE69A" title="Compiler directives must be written within a directives file. Repeat these steps for each individual compiler directive you want to write in a directives file.">Writing a Compiler Directive</a></p>
+</li>
+<li>
+<p><a href="writing-directives.htm#GUID-EAAA6987-3F98-42FB-A877-C6169B4C71BE" title="A ccstr is a method pattern. It can be written precisely or generalized with wildcard characters. It specifies what best-matching Java code should have accompanying directive options applied, or what Java code should be inlined.">Writing a Method Pattern in a Compiler Directive</a></p>
+</li>
+<li>
+<p><a href="writing-directives.htm#GUID-F9B12DF3-50D7-432F-942C-BD554FF41865" title="The attribute for an inline directive option requires an array of method patterns with special commands prefixed. This indicates which method patterns should or shouldn&rsquo;t inline.">Writing an Inline Directive Option</a></p>
+</li>
+<li>
+<p><a href="writing-directives.htm#GUID-D89AB9B7-B72B-4889-B3F3-4FEABEC783C1" title="The Enable option hides aspects of directives. This option prevents duplication between directives.">Preventing Duplication with the Enable Option</a></p>
+</li>
+</ul>
+</div>
+<!-- class="section" --></div>
+<div class="sect2"><a id="GUID-FF488969-AFCD-48ED-93F5-A49C6C893D39"></a>
+<h2 id="JSJVM-GUID-FF488969-AFCD-48ED-93F5-A49C6C893D39" class="sect2">List of Compiler Control Options</h2>
+<div>
+<p>Options are instructions for compilation. Options provide method-context precision. Available options vary by compiler and require specific types of values.</p>
+<div class="tblformal" id="GUID-FF488969-AFCD-48ED-93F5-A49C6C893D39__COMMONOPTIONS-61F28807">
+<p class="titleintable">Table 2-1 Common Options</p>
+<table class="cellalignment93" title="Common Options" summary="Options applicable to all compilers">
+<thead>
+<tr class="cellalignment82">
+<th class="cellalignment98" id="d1230e83">Option</th>
+<th class="cellalignment98" id="d1230e86">Description</th>
+<th class="cellalignment98" id="d1230e89">Value Type</th>
+<th class="cellalignment98" id="d1230e92">Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e97" headers="d1230e83">
+<p><code class="codeph">Enable</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e97 d1230e86">
+<p>Hides a directive and renders it unmatchable if it is set to <code class="codeph">false</code>. This is useful for preventing option duplication. See <a href="writing-directives.htm#GUID-D89AB9B7-B72B-4889-B3F3-4FEABEC783C1" title="The Enable option hides aspects of directives. This option prevents duplication between directives.">Preventing Duplication with the Enable Option</a>.</p>
+</td>
+<td class="cellalignment99" headers="d1230e97 d1230e89">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e97 d1230e92">
+<p><code class="codeph">true</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e125" headers="d1230e83">
+<p><code class="codeph">Exclude</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e125 d1230e86">
+<p>Excludes methods from compilation.</p>
+</td>
+<td class="cellalignment99" headers="d1230e125 d1230e89">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e125 d1230e92">
+<p><code class="codeph">false</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e141" headers="d1230e83">
+<p><code class="codeph">BreakAtExecute</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e141 d1230e86">
+<p>Sets a breakpoint to stop execution at the beginning of the specified methods when debugging the JVM.</p>
+</td>
+<td class="cellalignment99" headers="d1230e141 d1230e89">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e141 d1230e92">
+<p><code class="codeph">false</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e157" headers="d1230e83">
+<p><code class="codeph">BreakAtCompile</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e157 d1230e86">
+<p>Sets a breakpoint to stop compilation at the beginning of the specified methods when debugging the JVM.</p>
+</td>
+<td class="cellalignment99" headers="d1230e157 d1230e89">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e157 d1230e92">
+<p><code class="codeph">false</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e173" headers="d1230e83">
+<p><code class="codeph">Log</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e173 d1230e86">
+<p>Places only the specified methods in a log. You must first set the command-line option <code class="codeph">-XX:+LogCompilation</code>. The default value <code class="codeph">false</code> places all compiled methods in a log.</p>
+</td>
+<td class="cellalignment99" headers="d1230e173 d1230e89">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e173 d1230e92">
+<p><code class="codeph">false</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e195" headers="d1230e83">
+<p><code class="codeph">PrintAssembly</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e195 d1230e86">
+<p>Prints assembly code for bytecoded and native methods by using the external <code class="codeph">disassembler.so</code> library.</p>
+</td>
+<td class="cellalignment99" headers="d1230e195 d1230e89">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e195 d1230e92">
+<p><code class="codeph">false</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e214" headers="d1230e83">
+<p><code class="codeph">PrintInlining</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e214 d1230e86">
+<p>Prints which methods are inlined, and where.</p>
+</td>
+<td class="cellalignment99" headers="d1230e214 d1230e89">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e214 d1230e92">
+<p><code class="codeph">false</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e230" headers="d1230e83">
+<p><code class="codeph">PrintNMethods</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e230 d1230e86">
+<p>Prints nmethods as they are generated.</p>
+</td>
+<td class="cellalignment99" headers="d1230e230 d1230e89">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e230 d1230e92">
+<p><code class="codeph">false</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e246" headers="d1230e83">
+<p><code class="codeph">BackgroundCompilation</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e246 d1230e86">
+<p>Compiles methods as a background task. Methods run in interpreter mode until the background compilation finishes. The value <code class="codeph">false</code> compiles methods as a foreground task.</p>
+</td>
+<td class="cellalignment99" headers="d1230e246 d1230e89">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e246 d1230e92">
+<p><code class="codeph">true</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e265" headers="d1230e83">
+<p><code class="codeph">ReplayInline</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e265 d1230e86">
+<p>Enables the same <code class="codeph">CIReplay</code> functionality as the corresponding global option, but on a per-method basis.</p>
+</td>
+<td class="cellalignment99" headers="d1230e265 d1230e89">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e265 d1230e92">
+<p><code class="codeph">false</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e284" headers="d1230e83">
+<p><code class="codeph">DumpReplay</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e284 d1230e86">
+<p>Enables the same <code class="codeph">CIReplay</code> functionality as the corresponding global option, but on a per-method basis.</p>
+</td>
+<td class="cellalignment99" headers="d1230e284 d1230e89">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e284 d1230e92">
+<p><code class="codeph">false</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e304" headers="d1230e83">
+<p><code class="codeph">DumpInline</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e304 d1230e86">
+<p>Enables the same <code class="codeph">CIReplay</code> functionality as the corresponding global option, but on a per-method basis.</p>
+</td>
+<td class="cellalignment99" headers="d1230e304 d1230e89">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e304 d1230e92">
+<p><code class="codeph">false</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e323" headers="d1230e83">
+<p><code class="codeph">CompilerDirectivesIgnoreCompileCommands</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e323 d1230e86">
+<p>Disregards all CompileCommands.</p>
+</td>
+<td class="cellalignment99" headers="d1230e323 d1230e89">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e323 d1230e92">
+<p><code class="codeph">false</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e339" headers="d1230e83">
+<p><code class="codeph">DisableIntrinsic</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e339 d1230e86">
+<p>Disables the use of intrinsics based on method-matching criteria.</p>
+</td>
+<td class="cellalignment99" headers="d1230e339 d1230e89">
+<p><code class="codeph">ccstr</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e339 d1230e92">
+<p>No default value.</p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e354" headers="d1230e83">
+<p><code class="codeph">inline</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e354 d1230e86">
+<p>Forces or prevents inlining of a method based on method-matching criteria. See <a href="writing-directives.htm#GUID-F9B12DF3-50D7-432F-942C-BD554FF41865" title="The attribute for an inline directive option requires an array of method patterns with special commands prefixed. This indicates which method patterns should or shouldn&rsquo;t inline.">Writing an Inline Directive Option</a>.</p>
+</td>
+<td class="cellalignment99" headers="d1230e354 d1230e89">
+<p><code class="codeph">ccstr[]</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e354 d1230e92">
+<p>No default value.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<div class="tblformal" id="GUID-FF488969-AFCD-48ED-93F5-A49C6C893D39__C2OPTIONS-61F28E20">
+<p class="titleintable">Table 2-2 C2 Exclusive Options</p>
+<table class="cellalignment93" title="C2 Exclusive Options" summary="Options exclusive to the c2 compiler">
+<thead>
+<tr class="cellalignment82">
+<th class="cellalignment98" id="d1230e389">Option</th>
+<th class="cellalignment98" id="d1230e392">Description</th>
+<th class="cellalignment98" id="d1230e395">Value Type</th>
+<th class="cellalignment98" id="d1230e398">Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e403" headers="d1230e389">
+<p><code class="codeph">BlockLayoutByFrequency</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e403 d1230e392">
+<p>Moves infrequent execution branches from the hot path.</p>
+</td>
+<td class="cellalignment99" headers="d1230e403 d1230e395">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e403 d1230e398">
+<p><code class="codeph">true</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e419" headers="d1230e389">
+<p><code class="codeph">PrintOptoAssembly</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e419 d1230e392">
+<p>Prints generated assembly code after compilation by using the external <code class="codeph">disassembler.so</code> library. This requires a debugging build of the JVM.</p>
+</td>
+<td class="cellalignment99" headers="d1230e419 d1230e395">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e419 d1230e398">
+<p><code class="codeph">false</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e438" headers="d1230e389">
+<p><code class="codeph">PrintIntrinsics</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e438 d1230e392">
+<p>Prints which intrinsic methods are used, and where.</p>
+</td>
+<td class="cellalignment99" headers="d1230e438 d1230e395">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e438 d1230e398">
+<p><code class="codeph">false</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e454" headers="d1230e389">
+<p><code class="codeph">TraceOptoPipelining</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e454 d1230e392">
+<p>Traces pipelining information, similar to the corresponding global option, but on a per-method basis. This is intended for slow and fast debugging builds.</p>
+</td>
+<td class="cellalignment99" headers="d1230e454 d1230e395">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e454 d1230e398">
+<p><code class="codeph">false</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e470" headers="d1230e389">
+<p><code class="codeph">TraceOptoOutput</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e470 d1230e392">
+<p>Traces pipelining information, similar to the corresponding global option, but on a per-method basis. This is intended for slow and fast debugging builds.</p>
+</td>
+<td class="cellalignment99" headers="d1230e470 d1230e395">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e470 d1230e398">
+<p><code class="codeph">false</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e486" headers="d1230e389">
+<p><code class="codeph">TraceSpilling</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e486 d1230e392">
+<p>Traces variable spilling.</p>
+</td>
+<td class="cellalignment99" headers="d1230e486 d1230e395">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e486 d1230e398">
+<p><code class="codeph">false</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e502" headers="d1230e389">
+<p><code class="codeph">Vectorize</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e502 d1230e392">
+<p>Performs calculations in parallel, across vector registers.</p>
+</td>
+<td class="cellalignment99" headers="d1230e502 d1230e395">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e502 d1230e398">
+<p><code class="codeph">false</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e518" headers="d1230e389">
+<p><code class="codeph">VectorizeDebug</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e518 d1230e392">
+<p>Performs calculations in parallel, across vector registers. This requires a debugging build of the JVM.</p>
+</td>
+<td class="cellalignment99" headers="d1230e518 d1230e395">
+<p><code class="codeph">intx</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e518 d1230e398">
+<p><code class="codeph">0</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e534" headers="d1230e389">
+<p><code class="codeph">CloneMapDebug</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e534 d1230e392">
+<p>Enables you to examine the <code class="codeph">CloneMap</code> generated from vectorization. This requires a debugging build of the JVM.</p>
+</td>
+<td class="cellalignment99" headers="d1230e534 d1230e395">
+<p><code class="codeph">bool</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e534 d1230e398">
+<p><code class="codeph">false</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e553" headers="d1230e389">
+<p><code class="codeph">IGVPrintLevel</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e553 d1230e392">
+<p>Specifies the points where the compiler graph is printed in Hotspot&rsquo;s Ideal Graphic Visualizer (IGV). A higher value means higher granularity.</p>
+</td>
+<td class="cellalignment99" headers="d1230e553 d1230e395">
+<p><code class="codeph">intx</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e553 d1230e398">
+<p><code class="codeph">0</code></p>
+</td>
+</tr>
+<tr class="cellalignment82">
+<td class="cellalignment99" id="d1230e569" headers="d1230e389">
+<p><code class="codeph">MaxNodeLimit</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e569 d1230e392">
+<p>Sets the maximum number of nodes to be used during a single method&rsquo;s compilation.</p>
+</td>
+<td class="cellalignment99" headers="d1230e569 d1230e395">
+<p><code class="codeph">intx</code></p>
+</td>
+<td class="cellalignment99" headers="d1230e569 d1230e398">
+<p><code class="codeph">80000</code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<div class="section">
+<p>A <code class="codeph">ccstr</code> value type is a method pattern. See <a href="writing-directives.htm#GUID-EAAA6987-3F98-42FB-A877-C6169B4C71BE" title="A ccstr is a method pattern. It can be written precisely or generalized with wildcard characters. It specifies what best-matching Java code should have accompanying directive options applied, or what Java code should be inlined.">Writing a Method Pattern in a Compiler Directive</a>.</p>
+<p>The default directive supplies default values for compiler options. See <a href="understanding-directives-better.htm#GUID-1011AB83-1C0E-4C4B-B302-4CD487F25C61" title="The default directive is a compiler directive that contains default values for all possible directive options. It is at the bottom of the directives stack and matches every method submitted for compilation.">What Is the Default Directive?</a></p>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-8D24F71C-00A0-4959-AF10-1E08201B0B69"></a>
+<h2 id="JSJVM-GUID-8D24F71C-00A0-4959-AF10-1E08201B0B69" class="sect2">Writing a Directives File</h2>
+<div>
+<p>Individual compiler directives are written in a directives file. Only directive files, not individual directives, can be added to the stack of active directives.</p>
+<ol>
+<li class="stepexpand"><span>Create a file with a <code class="codeph">.json</code> extension. Directive files are written using a subset of JSON syntax with minor additions and deviations.</span></li>
+<li class="stepexpand"><span>Insert the following syntax as a template you can work from:</span>
+<div>
+<pre dir="ltr">
+[  //Array of Directives
+    {   //Directive Block
+        //Directive 1
+    },
+    {   //Directive Block
+        //Directive 2
+    },
+]
+</pre></div>
+<div>
+<p>The components of this template are:</p>
+<div class="p"><span class="bold">Array of Directives</span>:
+<ul style="list-style-type: disc;">
+<li>
+<p>A directives file stores an array of directive blocks, denoted with a pair of brackets (<code class="codeph">[]</code>).</p>
+</li>
+<li>
+<p>The brackets are optional if the file contains only a single directive block.</p>
+</li>
+</ul>
+</div>
+<div class="p"><span class="bold">Directive Block</span>:
+<ul style="list-style-type: disc;">
+<li>
+<p>A block is denoted with a pair of braces (<code class="codeph">{}</code>).</p>
+</li>
+<li>
+<p>A block contains one individual directive.</p>
+</li>
+<li>
+<p>A file can contain any number of directive blocks.</p>
+</li>
+<li>
+<p>Blocks are separated with a comma (<code class="codeph">,</code>).</p>
+</li>
+<li>
+<p>A comma is optional following the final block in the array.</p>
+</li>
+</ul>
+</div>
+<div class="p"><span class="bold">Individual Directive</span>:
+<ul style="list-style-type: disc;">
+<li>
+<p>Each individual directive must exist within a directive block.</p>
+</li>
+<li>
+<p>Files can contain multiple directives when they contain multiple directive blocks.</p>
+</li>
+</ul>
+</div>
+<div class="p"><span class="bold">Comments</span>:
+<ul style="list-style-type: disc;">
+<li>
+<p>Single-line comments are inserted with two slashes (<code class="codeph">//</code>).</p>
+</li>
+<li>
+<p>Multiline comments are not allowed.</p>
+</li>
+</ul>
+</div>
+</div>
+</li>
+<li class="stepexpand"><span>Add or remove directive blocks from the template to match the number of directives you want in the file.</span></li>
+<li class="stepexpand"><span>Fill in each directive block with one compiler directive. See <a href="writing-directives.htm#GUID-4191CF8A-8FBB-4DB1-9275-DE438B7EE69A" title="Compiler directives must be written within a directives file. Repeat these steps for each individual compiler directive you want to write in a directives file.">Writing a Compiler Directive</a>.</span></li>
+<li class="stepexpand"><span>Reorder the directive blocks if necessary. The ordering of directives within a file is significant. Directives written closer to the beginning of the array receive higher priority. For more information, see <a href="commands-work-directive-files.htm#GUID-0BE73FEB-C133-4907-869A-42F9E4646E9D" title="The order directives are written in a file, or added to the stack, is very important. The top-most best-matching directive in the stack receives priority and is applied to code compilation.">How Are Directives Ordered in the Directives Stack?</a> and <a href="understanding-directives-better.htm#GUID-FB010DC3-9E3C-4D19-AEDE-9527DAA1AD7D" title="A directive is applied to code based on a method matching process. Every method submitted for compilation is matched with a directive in the directives stack.">How Are Directives Applied to Code?</a></span></li>
+</ol>
+<div class="example" id="GUID-8D24F71C-00A0-4959-AF10-1E08201B0B69__GUID-ED904FB4-6475-4360-A7C6-0E1D61B5877D">The following is an example of a completed directives file that contains two compiler directives:
+<pre dir="ltr">
+[  //Array of directives
+    {   //Directive Block
+        //Directive 1
+        match: ["java*.*", "oracle*.*"],
+        c1: {
+            Enable: true,
+            Exclude: true,
+            BreakAtExecute: true,
+        },
+        c2: {
+            Enable: false,
+            MaxNodeLimit: 1000,
+        },
+        BreakAtCompile: true,
+        DumpReplay: true,
+    },
+    {   //Directive Block
+        //Directive 2
+        match: ["*Concurrent.*"],
+        c2: {
+            Exclude:true,
+        },
+    },
+]
+</pre></div>
+<!-- class="example" --></div>
+</div>
+<div class="sect2"><a id="GUID-4191CF8A-8FBB-4DB1-9275-DE438B7EE69A"></a>
+<h2 id="JSJVM-GUID-4191CF8A-8FBB-4DB1-9275-DE438B7EE69A" class="sect2">Writing a Compiler Directive</h2>
+<div>
+<p>Compiler directives must be written within a directives file. Repeat these steps for each individual compiler directive you want to write in a directives file.</p>
+<div class="section">An individual compiler directive is written within a directive block in a directives file. See <a href="writing-directives.htm#GUID-8D24F71C-00A0-4959-AF10-1E08201B0B69" title="Individual compiler directives are written in a directives file. Only directive files, not individual directives, can be added to the stack of active directives.">Writing a Directives File</a>.</div>
+<!-- class="section" -->
+<ol>
+<li class="stepexpand"><span>Insert the following block of code, as a template you can work from, to write an individual compiler directive. This block of code is a directive block.</span>
+<div>
+<pre dir="ltr">
+    {
+        match: [],
+        c1: {
+            //c1 directive options
+        },
+        c2: {
+            //c2 directive options
+        },
+        //Directive options applicable to all compilers
+    },
+</pre></div>
+</li>
+<li class="stepexpand"><span>Provide the <code class="codeph">match</code> attribute with an array of method patterns. See <a href="writing-directives.htm#GUID-EAAA6987-3F98-42FB-A877-C6169B4C71BE" title="A ccstr is a method pattern. It can be written precisely or generalized with wildcard characters. It specifies what best-matching Java code should have accompanying directive options applied, or what Java code should be inlined.">Writing a Method Pattern in a Compiler Directive</a>.</span>
+<div>For example:
+<pre dir="ltr">
+        match: ["java*.*", "oracle*.*"],
+</pre></div>
+</li>
+<li class="stepexpand"><span>Provide the <code class="codeph">c1</code> attribute with a block of comma-separated directive options. Ensure that these options are valid for the c1 compiler.</span>
+<div>For example:
+<pre dir="ltr">
+        c1: {
+            Enable: true,
+            Exclude: true,
+            BreakAtExecute: true,
+        },
+</pre></div>
+</li>
+<li class="stepexpand"><span>Provide the <code class="codeph">c2</code> attribute with a block of comma-separated directive options. This block can contain a mix of common and c2 exclusive compiler options.</span>
+<div>For example:
+<pre dir="ltr">
+        c2: {
+            Enable: false,
+            MaxNodeLimit: 1000,
+        },
+</pre></div>
+</li>
+<li class="stepexpand"><span>Provide, at the end of the directive, options you want applicable to all compilers. These options are considered written within the scope of the common block. Options are comma-separated.</span>
+<div>For example:
+<pre dir="ltr">
+        BreakAtCompile: true,
+        DumpReplay: true,
+</pre></div>
+</li>
+<li class="stepexpand"><span>Clean up the file:</span>
+<ol>
+<li><span>Check the ordering and potential duplication of directive options. If there is a conflict, then the last occurrence of an option takes priority. Conflicts most likely occur between the common block and the c1 or c2 blocks, not between c1 and c2 blocks.</span></li>
+<li><span>Avoid writing c2&ndash;exclusive directive options in the common block. Although the common block can accept a mix of common and c2&ndash;exclusive options, it&rsquo;s misleading to structure a directive this way because c2&ndash;exclusive options in the common block have no effect on the c1 compiler. Write c2&ndash;exclusive options within the c2 block instead.</span></li>
+<li><span>If either the <code class="codeph">c1</code> or <code class="codeph">c2</code> attribute has no corresponding directive options, then omit the attribute-value syntax for that compiler.</span></li>
+</ol>
+</li>
+</ol>
+<div class="section">The resulting directive, based on earlier examples, is:
+<pre dir="ltr">
+    {
+        match: ["java*.*", "oracle*.*"],
+        c1: {
+            Enable: true,
+            Exclude: true,
+            BreakAtExecute: true,
+        },
+        c2: {
+            Enable: false,
+            MaxNodeLimit: 1000,
+        },
+        BreakAtCompile: true,
+        DumpReplay: true,
+    },
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<div class="p">The JSON format of directive files allows certain deviations in syntax:
+<ul style="list-style-type: disc;">
+<li>
+<p>Extra trailing commas are optional in arrays and objects.</p>
+</li>
+<li>
+<p>Attributes are strings and are optionally placed within quotation marks.</p>
+</li>
+<li>
+<p>If an array contains only one element, then brackets are optional.</p>
+</li>
+</ul>
+Therefore, a valid example of a compiler directive is:
+<pre dir="ltr">
+    {
+       "match": "*Concurrent.*",
+        c2: {
+            "Exclude": true,
+        }
+    },
+</pre></div>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-EAAA6987-3F98-42FB-A877-C6169B4C71BE"></a>
+<h2 id="JSJVM-GUID-EAAA6987-3F98-42FB-A877-C6169B4C71BE" class="sect2">Writing a Method Pattern in a Compiler Directive</h2>
+<div>
+<p>A <code class="codeph">ccstr</code> is a method pattern. It can be written precisely or generalized with wildcard characters. It specifies what best-matching Java code should have accompanying directive options applied, or what Java code should be inlined.</p>
+<div class="section">To write a method pattern:</div>
+<!-- class="section" -->
+<ol>
+<li class="stepexpand"><span>Fill in the following syntax to format your method pattern: <code class="codeph"><span class="codeinlineitalic">package/class.method(parameter_list)</span></code>. If you&rsquo;re unable to be precise, see Step 2 for ways to generalize a method pattern with wildcard characters.</span>
+<div>An example method pattern that uses this style of formatting is:
+<pre dir="ltr">
+java/lang/String.indexOf()
+</pre></div>
+<div>Other formatting styles are available. This ensures backward compatibility with earlier ways of method matching such as CompileCommand. Valid formatting alternatives for the previous example include:
+<ul style="list-style-type: disc;">
+<li><code class="codeph">java/lang/String.indexOf()</code></li>
+<li><code class="codeph">java/lang/String,indexOf()</code></li>
+<li><code class="codeph">java/lang/String indexOf()</code></li>
+<li><code class="codeph">java.lang.String::indexOf()</code></li>
+</ul>
+You may find the last formatting style preferable because it matches the Hotspot output.</div>
+</li>
+<li class="stepexpand"><span>Insert a wildcard character (<code class="codeph">*</code>) where you need to generalize part of the method pattern.</span>
+<div>The following are valid generalizations of the method pattern example from Step 1:
+<ul style="list-style-type: disc;">
+<li><code class="codeph">java/lang/String.indexOf*</code></li>
+<li><code class="codeph">*lang/String.indexOf*</code></li>
+<li><code class="codeph">*va/lang*.*dex*</code></li>
+<li><code class="codeph">java/lang/String.*</code></li>
+<li><code class="codeph">*.*</code></li>
+</ul>
+</div>
+<div>Increased generalization leads to decreased precision in these examples. This is risky because more Java code becomes a potential match with the method pattern. Therefore, it&rsquo;s important to use the wildcard character (<code class="codeph">*</code>) judiciously.</div>
+</li>
+<li class="stepexpand"><span>Modify the signature portion of the method pattern. Signatures are written according to the Java Specifications. Signature matches must be exact, otherwise a signature defaults to a wildcard character (<code class="codeph">*</code>). Omitted signatures also default to a wildcard character. Signatures themselves cannot contain the wildcard character.</span></li>
+<li class="stepexpand"><strong>Optional:</strong> <span>If you&rsquo;re writing a method pattern to accompany the <code class="codeph">inline</code> directive option, then there are additional characters you must prefix the method pattern with. See <a href="writing-directives.htm#GUID-F9B12DF3-50D7-432F-942C-BD554FF41865" title="The attribute for an inline directive option requires an array of method patterns with special commands prefixed. This indicates which method patterns should or shouldn&rsquo;t inline.">Writing an Inline Directive Option</a>.</span></li>
+</ol>
+</div>
+</div>
+<div class="sect2"><a id="GUID-F9B12DF3-50D7-432F-942C-BD554FF41865"></a>
+<h2 id="JSJVM-GUID-F9B12DF3-50D7-432F-942C-BD554FF41865" class="sect2">Writing an Inline Directive Option</h2>
+<div>
+<p>The attribute for an <code class="codeph">inline</code> directive option requires an array of method patterns with special commands prefixed. This indicates which method patterns should or shouldn&rsquo;t inline.</p>
+<ol>
+<li><span>Write <code class="codeph">inline:</code> in the common block, c1, or c2 block of a directive.</span></li>
+<li><span>Accompany this with an array of carefully ordered method patterns. The prefixed command on the first matching method pattern is executed. The remaining method patterns in the array are ignored.</span></li>
+<li><span>Prefix a <code class="codeph">+</code> to force inlining of any matching Java code.</span></li>
+<li><span>Prefix a <code class="codeph">-</code> to prevent inlining of any matching Java code.</span></li>
+<li><strong>Optional:</strong> <span>If you need inlining behavior applied to multiple method patterns, then repeat these steps to write multiple <code class="codeph">inline</code> statements. Don&rsquo;t write a single array that contains all patterns.</span></li>
+</ol>
+<div class="section">Examples of <code class="codeph">inline</code> directive options are:
+<ul style="list-style-type: disc;">
+<li><code class="codeph">inline: ["+java/lang*.*", "-sun*.*"]</code></li>
+<li><code class="codeph">inline: "+java/lang*.*"</code></li>
+</ul>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-D89AB9B7-B72B-4889-B3F3-4FEABEC783C1"></a>
+<h2 id="JSJVM-GUID-D89AB9B7-B72B-4889-B3F3-4FEABEC783C1" class="sect2">Preventing Duplication with the Enable Option</h2>
+<div>
+<p>The <code class="codeph">Enable</code> option hides aspects of directives. This option prevents duplication between directives.</p>
+<div class="p">Here is an example directives file:
+<pre dir="ltr">
+[
+    {
+        match: ["java*.*"],
+        c1: {
+            BreakAtExecute: true,
+            BreakAtCompile: true,
+            DumpReplay: true,
+            DumpInline: true,
+        },
+        c2: {
+            MaxNodeLimit: 1000,
+        },
+    },
+    {
+        match: ["oracle*.*"],
+        c1: {
+            BreakAtExecute: true,
+            BreakAtCompile: true,
+            DumpReplay: true,
+            DumpInline: true,
+        },
+        c2: {
+            MaxNodeLimit: 2000,
+        },
+    },
+]
+</pre>
+The <code class="codeph">c1</code> attribute of both directives are identical. This undesirable code duplication is resolved with the <code class="codeph">Enable</code> option. <code class="codeph">Enable</code> hides a block directives and renders them unmatchable. This produces the example solution:
+<pre dir="ltr">
+[
+    {
+        match: ["java*.*"],
+        c1: {
+            Enable: false,
+        },
+        c2: {
+            MaxNodeLimit: 1000,
+        },
+    },
+    {
+        match: ["oracle*.*"],
+        c1: {
+            Enable: false,
+        },
+        c2: {
+            MaxNodeLimit: 2000,
+        },
+    },
+    {
+        match: ["java*.*", "oracle*.*"],
+        c1: {
+            BreakAtExecute: true,
+            BreakAtCompile: true,
+            DumpReplay: true,
+            DumpInline: true,
+        },
+        c2: {
+            //Unreachable code
+        },
+    },
+]
+</pre>
+The <code class="codeph">Enable</code> option provides an exception to this rule; the first matching directive is applied to a method&rsquo;s compilation. Any method that would be compiled by <code class="codeph">c1</code> in the first or second directive is now compiled with the <code class="codeph">c1</code> block of the third directive. The <code class="codeph">c2</code> block of the third directive is unreachable because the <code class="codeph">c2</code> blocks in the first and second directive take priority.</div>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment81">
+<tr>
+<td class="cellalignment88">
+<table class="cellalignment86">
+<tr>
+<td class="cellalignment85"><a href="compiler-control1.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment85"><a href="understanding-directives-better.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment90">
+<table class="cellalignment84">
+<tr>
+<td class="cellalignment85"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment85"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment85"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

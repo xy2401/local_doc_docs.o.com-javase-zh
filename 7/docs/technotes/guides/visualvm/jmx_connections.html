@@ -1,0 +1,290 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Java VisualVM</title>
+<meta name="collection" content="reference" />
+<meta http-equiv="content-type" content=
+"text/html; charset=utf-8" />
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<!--stopindex-->
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Java VisualVM - Connecting to JMX Agents Explicitly</h1></div>
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<p>Java Management Extensions (JMX) technology can be used to
+monitor and manage any Java technology-based applications (Java
+applications) that are running in either a local or a remote Java
+Virtual Machine (JVM). Java applications are automatically exposed
+for monitoring and management by JMX agents if they are run on the
+Java platform, Standard Edition (Java SE platform) version 6. If
+the Java applications are running on the Java 2 platform, Standard
+Edition (J2SE platform) 5.0, you can expose them manually for
+monitoring and management by setting the <span class=
+"style1">com.sun.management.jmxremote.*</span> system properties
+when the applications are launched. Setting these system
+properties, or running your applications on version 6 of the Java
+SE platform, enables the platform's <em>out-of-the-box</em>
+monitoring and management capability, automatically enabling the
+platform MBean server in the JVM software, and registering MBeans
+in it that expose the application for management by any
+appropriately configured JMX client application. VisualVM is one
+such JMX client application.</p>
+<p><strong>NOTE</strong>: For a very brief introduction to JMX
+technology, MBeans, the platform MBean server, and how to monitor
+and manage MBeans using Java VisualVM, see the <a href=
+"http://visualvm.java.net/mbeans_tab.html">Java VisualVM MBeans
+Tab</a> page. For an introduction to the Java SE platform's
+out-of-the-box monitoring and management capability, see <a href="http://docs.oracle.com/javase/6/docs/technotes/guides/management/agent.html">
+<em>Monitoring and Management Using JMX Technology</em></a> in the
+<a href="http://docs.oracle.com/javase/6/docs/technotes/guides/management/toc.html">
+Java SE Platform Monitoring and Management Guide</a>.</p>
+<h2>When Are Explicit JMX Connections Necessary?</h2>
+<p>As stated above, Java VisualVM will automatically detect and
+connect to Java applications that are running on version 6 of the
+Java SE platform or that have been started with the correct system
+properties on version 5.0. However, because there are cases in
+which Java VisualVM cannot automatically discover and connect to
+JMX agents that are running in a target Java application, a means
+of creating explicit JMX connections has also been added to Java
+VisualVM.</p>
+<p>The circumstances in which Java VisualVM will not automatically
+discover JMX agents, and thus the Java applications they expose,
+are the following:</p>
+<ul>
+<li>The target application is running on the J2SE 5.0 platform and
+the&nbsp; <span class=
+"style1">-Dcom.sun.management.jmxremote*</span> properties have
+not&nbsp; been specified.</li>
+<li>The target application is running on the same host as Java
+VisualVM but was started by a different user than the one who
+started Java VisualVM. Java VisualVM discovers running applications
+using the <a href="http://docs.oracle.com/javase/6/docs/technotes/tools/share/jps.html"
+class="style1">jps</a> tool, which can only discover Java
+applications started by&nbsp; the same user as the one who starts
+the Java VisualVM tool.</li>
+<li>The target application is running on a remote host where
+<a href="http://docs.oracle.com/javase/6/docs/technotes/tools/share/jstatd.html"
+class="style1">jstatd</a> is not running or is running but was
+started by a different user. The <span class="style1">jstatd</span>
+daemon provides an interface that allows remote monitoring
+applications to connect to Java applications on the host where it
+is running.</li>
+</ul>
+<h2>Making an Explicit JMX Connection</h2>
+<p>Before you can make an explicit JMX connection from Java
+VisualVM to a running application, this application must be started
+with the correct system properties. The system properties in
+question are the following:</p>
+<ul>
+<li><code>com.sun.management.jmxremote.port</code>, to specify the
+port number through which the application will be exposed</li>
+<li><code>com.sun.management.jmxremote.ssl</code>, to specify
+whether secure sockets layer (SSL) encryption will be activated to
+secure the connection to the application</li>
+<li><code>com.sun.management.jmxremote.authenticate</code>, to
+specify whether the connection will be password protected</li>
+</ul>
+<h3>Local JMX Connections</h3>
+<p>This section shows an example of how to connect Java VisualVM to
+a local application via an explicit JMX connection.</p>
+<ol>
+<li>Start a Java application on the J2SE platform version 5.0,
+setting the system properties to enable the Java SE platform's
+out-of-the-box monitoring and management capability, using the
+command shown below:
+<pre>
+java -Dcom.sun.management.jmxremote.port=3333 \
+     -Dcom.sun.management.jmxremote.ssl=false \
+     -Dcom.sun.management.jmxremote.authenticate=false \
+     <em>YourJavaApp</em>
+</pre>
+In the command above, <span class=
+"style1"><em>YourJavaApp</em></span> is launched with the Java SE
+platform's out-of-the-box monitoring and management capability
+configured as follows:
+<ul>
+<li>The application is exposed for monitoring and management via
+port 3333.</li>
+<li>SSL encryption is deactivated.</li>
+<li>Password authentication is deactivated.</li>
+</ul>
+</li>
+<li>Start Java VisualVM on the same machine.</li>
+<li>In Java VisualVM's Applications window, right click on the
+Local machine and select 'Add JMX Connection'.
+<p><img src="images/add-jmx-local.png" alt=
+"Adding a JMX connection to the local host." /></p>
+</li>
+<li>The Add JMX Connection dialog box opens.
+<p><img src="images/add-jmx-connection-dialog.png" alt=
+"The Add JMX Connection dialog." width="438" height="301" /></p>
+<p>The host name <span class="style1">localhost</span> is already
+filled in. You only need to add the port number on which the
+application is exposed for monitoring and management.</p>
+</li>
+<li>Click OK. The JMX connection will appear in the application
+tree, with a special JMX connection icon.
+<p><img src="images/jmx-icon.png" alt=
+"A JMX connection to the local host machine." width="285" height=
+"191" /></p>
+</li>
+<li>Right click on the JMX connection, and select Open. The JVM
+software exposed via the JMX connection can now be monitored and
+managed via Java VisualVM.
+<p><img src="images/jmx-connection-rhpanel.png" alt=
+"Monitoring an application via a JMX connection." width="607"
+height="485" /></p>
+</li>
+</ol>
+<h3>Remote JMX Connections</h3>
+<p>You can also make explicit JMX connections to applications
+running on remote hosts, as explained below:</p>
+<ol>
+<li>Right click anywhere in the blank area under the application
+tree and select Add JMX Connection.
+<p><img src="images/add-jmx-remote.png" alt=
+"Adding a JMX connection to a remote application." width="285"
+height="247" /></p>
+</li>
+<li>Provide the machine name and port number for a running JMX
+agent, that has been started with the appropriate system properties
+to allow remote management. Here the JMX agent has been exposed on
+port 2222 of the machine <span class="style1">curcuma</span>.
+<p><img src="images/add-jmx-remote2.png" alt=
+"Adding a remote JMX connection." width="439" height="300" /></p>
+<p>If you know that the JMX agent has been protected with a
+username and password, enter them in the Add JMX Connection dialog
+and specify whether you want the credentials to be saved so<br />
+that when Java VisualVM restarts it will silently reconnect to the
+JMX agent without prompting the user for the security credentials
+again.</p>
+</li>
+<li>If the JMX connection is secured and you did not provide a
+username and password in the Add JMX Connection dialog, you will be
+prompted to provide a username and password.
+<p><img src="images/security-credentials.png" alt=
+"JMX connector security credentials." width="405" height=
+"167" /></p>
+</li>
+<li>If you know the correct username and password, the JMX
+connection will be established, and the JMX connection will appear
+in the application tree, with a special JMX connection icon.
+<p><img src="images/remote-jmx-icon.png" alt=
+"Remote JMX connection shown in application tree." width="285"
+height="224" /></p>
+</li>
+<li>Right click on the remote JMX connection and select Open. You
+can now monitor and manage remote applications via the JMX
+connection, and manipulate any MBeans that are registered in the
+MBean server exposed by this connection (note that the Java
+VisualVM-MBeans plugin must be installed if you want to access to
+the MBeans tab.)<br />
+<p><img src="images/remote-jmx-mbeans.png" alt=
+"MBeans in a remote MBean server." width="604" height="482" /></p>
+</li>
+</ol>
+<h2>Further Reading About JMX Technology</h2>
+<p>For more information about JMX technology and monitoring and
+management of the Java SE platform, see the following
+documents.</p>
+<ul>
+<li><a href=
+"http://docs.oracle.com/javase/tutorial/jmx/index.html">JMX
+technology trail in the Java Tutorials</a></li>
+<li><a target="_blank" href="http://docs.oracle.com/javase/6/docs/technotes/guides/jmx/index.html">
+JMX technology documentation for the Java SE platform</a></li>
+<li><a target="_blank" href="http://docs.oracle.com/javase/6/docs/technotes/guides/management/">Monitoring
+and Management documentation for the Java SE Platform</a></li>
+</ul>
+<p>&nbsp;</p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

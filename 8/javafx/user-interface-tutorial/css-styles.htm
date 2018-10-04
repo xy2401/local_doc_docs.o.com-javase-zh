@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>38 Styling Charts with CSS (Release 8)</title>
+<meta name="description" content="This chapter explains how to change the default appearance of JavaFX charts by applying Cascading Style Sheets (CSS). Learn how to change a chart color scheme, modify its legend or axes, and alter chart symbols.">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXUI.pdf">PDF</a> | <a href="../JFXUI.epub">ePub</a> | <a href="../JFXUI.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Working with JavaFX UI Components</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="apply-css.htm">Previous Page</a><a class="button" title="Next Page" href="text.htm">Next Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="CIHGIAGE" name="CIHGIAGE" class="anchor"></a><a id="JFXUI672" name="JFXUI672" class="anchor"></a>
+<h1 class="chapter"><span class="secnum">38</span> Styling Charts with CSS</h1>
+<a id="JFXUI673" name="JFXUI673" class="anchor"></a>
+<p>This chapter explains how to change the default appearance of JavaFX charts by applying Cascading Style Sheets (CSS). Learn how to change a chart color scheme, modify its legend or axes, and alter chart symbols.</p>
+<p>All visual elements of JavaFX charts are defined by the modena style sheet. The JavaFX API has a limited set of methods and properties to alter these visual elements. Oracle recommends that you use the chart-specific CSS properties to implement an alternative look and feel for charts in your JavaFX application.</p>
+<p>You can find a complete list of the chart-specific properties in the <a href="../api/javafx/scene/doc-files/cssref.html">JavaFX CSS Reference Guide</a>. When you apply CSS styles to your charts, refer to <a href="css_tutorial.htm#BJECFAFE">Skinning JavaFX Applications with CSS</a> for implementation details.</p>
+<a id="JFXUI674" name="JFXUI674" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref395" name="sthref395" class="anchor"></a>
+<h2 class="sect1">Modifying Basic Chart Elements</h2>
+<p>All JavaFX charts have common properties that can be set though the <code>.chart</code>, <code>.chart-content</code>, <code>.chart-title</code>, and .<code>chart-legend</code> CSS classes. <a href="#CIHIGFGH">Figure 38-1</a> shows the corresponding areas of the chart.</p>
+<div class="figure"><a id="CIHIGFGH" name="CIHIGFGH" class="anchor"></a><a id="JFXUI675" name="JFXUI675" class="anchor"></a>
+<p class="titleinfigure">Figure 38-1 Visual Elements of a Chart</p>
+<img width="553" height="393" src="img/css-chart-elements.png" alt="Description of Figure 38-1 follows" title="Description of Figure 38-1 follows" longdesc="img_text/css-chart-elements.htm" /><br />
+<a id="sthref396" name="sthref396" href="img_text/css-chart-elements.htm">Description of "Figure 38-1 Visual Elements of a Chart"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>You can change and set the following visual characteristics of these elements:</p>
+<ul>
+<li>
+<p>Padding and insets</p>
+</li>
+<li>
+<p>Background color and image</p>
+</li>
+<li>
+<p>Font</p>
+</li>
+<li>
+<p>Text fill color</p>
+</li>
+</ul>
+<p>By default, any chart has 5-pixel padding and its content has 10-pixel padding. You can alter these values by using the <code>-fx-padding</code> properties of the <code>.chart</code> and <code>.chart-content</code> CSS classes as shown in <a href="#CIHIJHFF">Example 38-1</a>.</p>
+<div class="example"><a id="CIHIJHFF" name="CIHIJHFF" class="anchor"></a><a id="JFXUI676" name="JFXUI676" class="anchor"></a>
+<p class="titleinexample">Example 38-1 Set Chart Padding</p>
+<pre xml:space="preserve" class="oac_no_warn">.chart {
+    -fx-padding: 10px;
+}
+.chart-content {
+    -fx-padding: 30px;
+}
+</pre></div>
+<!-- class="example" -->
+<p><a href="#CIHBBHII">Figure 38-2</a> shows the view of the line chart after these styles are applied.</p>
+<div class="figure"><a id="CIHBBHII" name="CIHBBHII" class="anchor"></a><a id="JFXUI677" name="JFXUI677" class="anchor"></a>
+<p class="titleinfigure">Figure 38-2 Setting Chart Top-Level CSS Properties</p>
+<img width="484" height="390" src="img/css-chart-padding.png" alt="Description of Figure 38-2 follows" title="Description of Figure 38-2 follows" longdesc="img_text/css-chart-padding.htm" /><br />
+<a id="sthref397" name="sthref397" href="img_text/css-chart-padding.htm">Description of "Figure 38-2 Setting Chart Top-Level CSS Properties"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>You can define a background color or a background image for the chart. Add the <code>-fx-background-image</code> property as shown in <a href="#CIHHJIGJ">Example 38-2</a>.</p>
+<div class="example"><a id="CIHHJIGJ" name="CIHHJIGJ" class="anchor"></a><a id="JFXUI678" name="JFXUI678" class="anchor"></a>
+<p class="titleinexample">Example 38-2 Setting a Background Image</p>
+<pre xml:space="preserve" class="oac_no_warn">.chart {
+    -fx-padding: 10px;
+    <span class="bold">-fx-background-image: url("icon.png");</span>
+}
+.chart-content {
+    -fx-padding: 30px;
+}
+</pre></div>
+<!-- class="example" -->
+<p>Because the icon is smaller than the line chart, the image is repeated to fill the remaining area. <a href="#CIHCJFDF">Figure 38-3</a> shows line chart when the background image is applied.</p>
+<div class="figure"><a id="CIHCJFDF" name="CIHCJFDF" class="anchor"></a><a id="JFXUI679" name="JFXUI679" class="anchor"></a>
+<p class="titleinfigure">Figure 38-3 Line Chart with a Background Image</p>
+<img width="492" height="392" src="img/css-background.png" alt="Description of Figure 38-3 follows" title="Description of Figure 38-3 follows" longdesc="img_text/css-background.htm" /><br />
+<a id="sthref398" name="sthref398" href="img_text/css-background.htm">Description of "Figure 38-3 Line Chart with a Background Image"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>The chart legend for the line chart shown in <a href="#CIHCJFDF">Figure 38-3</a> has the default look and feel. You can change its appearance by altering the properties defined in the <code>.chart-legend</code> CSS class, as demonstrated in <a href="#CIHHJJHD">Example 38-3</a>.</p>
+<div class="example"><a id="CIHHJJHD" name="CIHHJJHD" class="anchor"></a><a id="JFXUI680" name="JFXUI680" class="anchor"></a>
+<p class="titleinexample">Example 38-3 Setting a Chart Legend</p>
+<pre xml:space="preserve" class="oac_no_warn">.chart {
+    -fx-padding: 10px;
+    -fx-background-image: url("icon.png");
+}
+.chart-content {
+    -fx-padding: 30px;
+    
+}
+<span class="bold">.chart-legend {</span>
+   <span class="bold">-fx-background-color:  transparent;</span>
+   <span class="bold">-fx-padding: 20px;</span>
+<span class="bold">}</span>
+ 
+<span class="bold">.chart-legend-item-symbol</span><span class="bold">{</span>
+   <span class="bold">-fx-background-radius: 0;</span>
+<span class="bold">}</span>
+ 
+<span class="bold">.chart-legend-item{</span>
+    <span class="bold">-fx-text-fill: #191970;</span>
+<span class="bold">}</span>
+</pre></div>
+<!-- class="example" -->
+<p>When you apply these styles, the chart legend is rendered with a transparent background, the labels are painted with dark blue, and the legend symbols change to square, as shown in <a href="#CIHBGBHA">Figure 38-4</a>.</p>
+<div class="figure"><a id="CIHBGBHA" name="CIHBGBHA" class="anchor"></a><a id="JFXUI681" name="JFXUI681" class="anchor"></a>
+<p class="titleinfigure">Figure 38-4 Changing the Chart Legend</p>
+<img width="489" height="395" src="img/css-legend.png" alt="Description of Figure 38-4 follows" title="Description of Figure 38-4 follows" longdesc="img_text/css-legend.htm" /><br />
+<a id="sthref399" name="sthref399" href="img_text/css-legend.htm">Description of "Figure 38-4 Changing the Chart Legend"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>By default, legend symbols look like circles, because they are declared as rounded rectangles with a 5-pixel height, 5-pixel width, and 5-pixel radius. When you explicitly set the radius to 0, the circles turn into squares. You can also define the legend symbol by using the <code>-fx-shape</code> property. For example, the following line creates a triangle by specifying its SVG path: <code>-fx-shape: "M5,0 L10,8 L0,8 Z."</code></p>
+<p>To alter the chart text elements, you should use the corresponding styles as shown in <a href="#BABEAHFD">Example 38-4</a>. The <code>.chart-title</code> class sets the fill color and the font size for the chart title. The <code>.axis-label</code> class define the fill color of the axis label.</p>
+<div class="example"><a id="BABEAHFD" name="BABEAHFD" class="anchor"></a><a id="JFXUI682" name="JFXUI682" class="anchor"></a>
+<p class="titleinexample">Example 38-4 Changing Color of the Text Elements</p>
+<pre xml:space="preserve" class="oac_no_warn">.chart {
+    -fx-padding: 10px;
+    -fx-background-image: url("icon.png");   
+}
+.chart-content {
+    -fx-padding: 30px;    
+}
+ 
+<span class="bold">.chart-title {</span>
+  <span class="bold">-fx-text-fill: #4682b4;</span>
+  <span class="bold">-fx-font-size: 1.6em;</span>
+<span class="bold">}</span>
+ 
+<span class="bold">.axis-label {</span>
+  <span class="bold">-fx-text-fill: #4682b4;</span>
+<span class="bold">}</span>
+ 
+.chart-legend {
+   -fx-background-color:  transparent;
+   -fx-padding: 20px;
+}
+ 
+.chart-legend-item-symbol{
+   -fx-background-radius: 0;
+}
+ 
+.chart-legend-item{
+    -fx-text-fill: #191970;
+}
+</pre></div>
+<!-- class="example" -->
+<p>These modifications result in the appearance shown in <a href="#BABFEDCD">Figure 38-5</a>.</p>
+<div class="figure"><a id="BABFEDCD" name="BABFEDCD" class="anchor"></a><a id="JFXUI683" name="JFXUI683" class="anchor"></a>
+<p class="titleinfigure">Figure 38-5 Line Chart with the Modified Text Elements</p>
+<img width="490" height="393" src="img/css-text.png" alt="Description of Figure 38-5 follows" title="Description of Figure 38-5 follows" longdesc="img_text/css-text.htm" /><br />
+<a id="sthref400" name="sthref400" href="img_text/css-text.htm">Description of "Figure 38-5 Line Chart with the Modified Text Elements"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXUI684" name="JFXUI684" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref401" name="sthref401" class="anchor"></a>
+<h2 class="sect1">Altering Colors of the Chart Plot</h2>
+<p>When you change the default background color of a chart or set an image as a chart background, the changes do not affect the graph itself. As specified in the modena style sheet, the chart plot of a two-axis chart has a light gray background, and its alternative rows are gray. Use the <code>-fx-background-color</code> and <code>-fx-background-image</code> properties of the <code>.chart-plot-background</code> class to set the background for the chart plot. <a href="#CIHEEIDE">Example 38-5</a> defines the background color for the chart plot, the fill color for the alternative rows, and the color of vertical and horizontal grid lines.</p>
+<div class="example"><a id="CIHEEIDE" name="CIHEEIDE" class="anchor"></a><a id="JFXUI685" name="JFXUI685" class="anchor"></a>
+<p class="titleinexample">Example 38-5 Setting a Background Color for a Chart Plot</p>
+<pre xml:space="preserve" class="oac_no_warn">.chart {
+    -fx-padding: 10px;
+    -fx-background-image: url("icon.png");   
+}
+.chart-content {
+    -fx-padding: 30px;    
+}
+ 
+.chart-title {
+  -fx-text-fill: #4682b4;
+  -fx-font-size: 1.6em;
+}
+ 
+.axis-label {
+  -fx-text-fill: #4682b4;
+}
+ 
+.chart-legend {
+   -fx-background-color:  transparent;
+   -fx-padding: 20px;
+}
+ 
+.chart-legend-item-symbol{
+   -fx-background-radius: 0;
+}
+ 
+.chart-legend-item{
+    -fx-text-fill: #191970;
+}
+ 
+<span class="bold">.chart-plot-background {</span>
+    <span class="bold">-fx-background-color: #e2ecfe;</span>
+<span class="bold">}</span>
+<span class="bold">.chart-vertical-grid-lines {</span>
+    <span class="bold">-fx-stroke: #3278fa;</span>
+<span class="bold">}</span>
+<span class="bold">.chart-horizontal-grid-lines {</span>
+    <span class="bold">-fx-stroke: #3278fa;</span>
+<span class="bold">}</span>
+<span class="bold">.chart-alternative-row-fill {</span>
+    <span class="bold">-fx-fill: #99bcfd;</span>
+    <span class="bold">-fx-stroke: transparent;</span>
+    <span class="bold">-fx-stroke-width: 0;</span>
+<span class="bold">}</span>
+</pre></div>
+<!-- class="example" -->
+<p><a href="#CIHCHAGG">Figure 38-6</a> shows the line chart with the modified plot background.</p>
+<div class="figure"><a id="CIHCHAGG" name="CIHCHAGG" class="anchor"></a><a id="JFXUI686" name="JFXUI686" class="anchor"></a>
+<p class="titleinfigure">Figure 38-6 Line Chart with an Alternative Plot Color</p>
+<img width="492" height="386" src="img/css-plot.png" alt="Description of Figure 38-6 follows" title="Description of Figure 38-6 follows" longdesc="img_text/css-plot.htm" /><br />
+<a id="sthref402" name="sthref402" href="img_text/css-plot.htm">Description of "Figure 38-6 Line Chart with an Alternative Plot Color"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>When you design your chart so that its plot has the same background as the other chart areas, set a transparent background for the plot and alternative rows, as shown in <a href="#CIHJIEJA">Example 38-6</a>.</p>
+<div class="example"><a id="CIHJIEJA" name="CIHJIEJA" class="anchor"></a><a id="JFXUI687" name="JFXUI687" class="anchor"></a>
+<p class="titleinexample">Example 38-6 Setting a Transparent Background for the Chart Plot</p>
+<pre xml:space="preserve" class="oac_no_warn">.chart {
+    -fx-padding: 10px;
+    -fx-background-image: url("icon.png");   
+}
+.chart-content {
+    -fx-padding: 30px;    
+}
+ 
+.chart-title {
+  -fx-text-fill: #4682b4;
+  -fx-font-size: 1.6em;
+}
+ 
+.axis-label {
+  -fx-text-fill: #4682b4;
+}
+ 
+.chart-legend {
+   -fx-background-color:  transparent;
+   -fx-padding: 20px;
+}
+ 
+.chart-legend-item-symbol{
+   -fx-background-radius: 0;
+}
+ 
+.chart-legend-item{
+    -fx-text-fill: #191970;
+}
+ 
+.chart-plot-background {
+    <span class="bold">-fx-background-color: transparent;</span>
+}
+.chart-vertical-grid-lines {
+    -fx-stroke: #3278fa;
+}
+.chart-horizontal-grid-lines {
+    -fx-stroke: #3278fa;
+}
+.chart-alternative-row-fill {
+    <span class="bold">-fx-fill: transparent;</span>
+    -fx-stroke: transparent;
+    -fx-stroke-width: 0;
+}
+</pre></div>
+<!-- class="example" -->
+<p>You can make the alternative rows invisible by applying the <code>setAlternativeRowFillVisible(false)</code> method to the chart in the JavaFX application.</p>
+<p>When the transparent background colors are applied, the chart appears as shown in <a href="#CIHDAJAH">Figure 38-7</a>.</p>
+<div class="figure"><a id="CIHDAJAH" name="CIHDAJAH" class="anchor"></a><a id="JFXUI688" name="JFXUI688" class="anchor"></a>
+<p class="titleinfigure">Figure 38-7 Line Chart with a Transparent Plot Background</p>
+<img width="492" height="392" src="img/css-plot2.png" alt="Description of Figure 38-7 follows" title="Description of Figure 38-7 follows" longdesc="img_text/css-plot2.htm" /><br />
+<a id="sthref403" name="sthref403" href="img_text/css-plot2.htm">Description of "Figure 38-7 Line Chart with a Transparent Plot Background "</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXUI689" name="JFXUI689" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref404" name="sthref404" class="anchor"></a>
+<h2 class="sect1">Setting the Axes</h2>
+<p>Although the <code>Axis</code> class provides methods and properties to set the tick marks and labels, you can use the corresponding CSS classes and properties to define the appearance for these chart elements.</p>
+<p>Consider the bubble chart sample described in the <a href="bubble-chart.htm#CIHJHEAF">Bubble Chart</a> chapter. Disable the color set for the tick labels in <a href="bubble-chart.htm#CHDBJFAJ">Example 34-4</a> by either deleting or commenting out the following lines.</p>
+<ul>
+<li>
+<p><code>xAxis.setTickLabelFill(Color.CHOCOLATE);</code></p>
+</li>
+<li>
+<p><code>yAxis.setTickLabelFill(Color.CHOCOLATE)</code><code>;</code></p>
+</li>
+</ul>
+<p>Add the code fragment shown in <a href="#CIHFFFJA">Example 38-7</a> to the CSS file of the application.</p>
+<div class="example"><a id="CIHFFFJA" name="CIHFFFJA" class="anchor"></a><a id="JFXUI690" name="JFXUI690" class="anchor"></a>
+<p class="titleinexample">Example 38-7 Defining Styles for the Chart Axes</p>
+<pre xml:space="preserve" class="oac_no_warn">.axis {
+    -fx-font-size: 1.4em;    
+    -fx-tick-label-fill: #914800;
+    -fx-font-family: Tahoma;
+    -fx-tick-length: 20;
+    -fx-minor-tick-length: 10;
+}
+ 
+.axis-label {
+   -fx-text-fill: #462300; 
+}
+</pre></div>
+<!-- class="example" -->
+<p>This style sheet defines the relative font size, font family, and fill colors for the axis labels and tick labels. It also sets the lengths for the tick marks and minor tick marks. When these styles are applied to the chart, it looks as shown in <a href="#CIHHCJCH">Figure 38-8</a>.</p>
+<div class="figure"><a id="CIHHCJCH" name="CIHHCJCH" class="anchor"></a><a id="JFXUI691" name="JFXUI691" class="anchor"></a>
+<p class="titleinfigure">Figure 38-8 Bubble Chart with the Modified Appearance of Its Axes</p>
+<img width="492" height="392" src="img/css-axis.png" alt="Description of Figure 38-8 follows" title="Description of Figure 38-8 follows" longdesc="img_text/css-axis.htm" /><br />
+<a id="sthref405" name="sthref405" href="img_text/css-axis.htm">Description of "Figure 38-8 Bubble Chart with the Modified Appearance of Its Axes"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p><a href="#CIHFFFJA">Example 38-7</a> changes the default values for the length of tick marks and minor tick marks. You can continue changing their appearance by defining a new color scheme, as shown in <a href="#CIHHGCGE">Example 38-8</a>. This example also sets a 3-pixel width for the basic tick marks, so that they look thicker than minor tick marks.</p>
+<div class="example"><a id="CIHHGCGE" name="CIHHGCGE" class="anchor"></a><a id="JFXUI692" name="JFXUI692" class="anchor"></a>
+<p class="titleinexample">Example 38-8 Altering Colors of Tick Marks and Minor Tick Marks</p>
+<pre xml:space="preserve" class="oac_no_warn">.axis {
+    -fx-font-size: 1.4em;    
+    -fx-tick-label-fill: #914800;
+    -fx-font-family: Tahoma;
+    -fx-tick-length: 20;
+    -fx-minor-tick-length: 10;
+}
+ 
+.axis-label {
+   -fx-text-fill: #462300; 
+}
+ 
+<span class="bold">.axis-tick-mark {</span>
+    <span class="bold">-fx-stroke: #637040</span><span class="bold">;</span>
+    <span class="bold">-fx-stroke-width: 3;</span> 
+<span class="bold">}</span>
+<span class="bold">.axis-minor-tick-mark {</span>
+    <span class="bold">-fx-stroke: #859656;</span>
+<span class="bold">}</span>
+</pre></div>
+<!-- class="example" -->
+<p><a href="#CIHDCDJA">Figure 38-9</a> shows how the axes change when you modify the color and width of the chart tick marks.</p>
+<div class="figure"><a id="CIHDCDJA" name="CIHDCDJA" class="anchor"></a><a id="JFXUI693" name="JFXUI693" class="anchor"></a>
+<p class="titleinfigure">Figure 38-9 Alternative Color Scheme and Width for the Tick Marks</p>
+<img width="484" height="387" src="img/css-tick-mark.png" alt="Description of Figure 38-9 follows" title="Description of Figure 38-9 follows" longdesc="img_text/css-tick-mark.htm" /><br />
+<a id="sthref406" name="sthref406" href="img_text/css-tick-mark.htm">Description of "Figure 38-9 Alternative Color Scheme and Width for the Tick Marks"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXUI694" name="JFXUI694" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref407" name="sthref407" class="anchor"></a>
+<h2 class="sect1">Setting Chart Colors</h2>
+<p>Changing the default colors of the charts is the simple way to provide a unique style for your JavaFX application. This section describes some aspects of setting alternative colors for basic types of charts.</p>
+<p>By default, the modena style sheet defines eight colors of line that correspond to the first eight series of data. When the number of data series added to the line chart exceeds eight, the color of the extra lines is defined in the <code>.chart-series-line</code> CSS class.</p>
+<p>Use the <code>.chart-series-line</code> class and <code>.default-color&lt;x&gt;.chart-series-line</code> classes to change the style of lines. The style defined in <a href="#CIHECGEC">Example 38-9</a> sets new colors for the lines of the three data series, removes the default effects, and specifies a 2-pixel width.</p>
+<div class="example"><a id="CIHECGEC" name="CIHECGEC" class="anchor"></a><a id="JFXUI695" name="JFXUI695" class="anchor"></a>
+<p class="titleinexample">Example 38-9 Setting Alternative Colors for Three Series in a Line Chart</p>
+<pre xml:space="preserve" class="oac_no_warn">.chart-series-line {    
+    -fx-stroke-width: 2px;
+    -fx-effect: null;
+}
+ 
+.default-color0.chart-series-line { -fx-stroke: #e9967a; }
+.default-color1.chart-series-line { -fx-stroke: #f0e68c; }
+.default-color2.chart-series-line { -fx-stroke: #dda0dd; }
+</pre></div>
+<!-- class="example" -->
+<p><a href="#CIHEGJGJ">Figure 38-10</a> shows the line chart after this style has been applied.</p>
+<div class="figure"><a id="CIHEGJGJ" name="CIHEGJGJ" class="anchor"></a><a id="JFXUI696" name="JFXUI696" class="anchor"></a>
+<p class="titleinfigure">Figure 38-10 Line Chart with the Modified Line Colors</p>
+<img width="497" height="395" src="img/css-color-line.png" alt="Description of Figure 38-10 follows" title="Description of Figure 38-10 follows" longdesc="img_text/css-color-line.htm" /><br />
+<a id="sthref408" name="sthref408" href="img_text/css-color-line.htm">Description of "Figure 38-10 Line Chart with the Modified Line Colors"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>Note that the legend still shows the default colors of the chart series. This is because the corresponding changes were not applied to the chart symbols. <a href="#CIHDBIFC">Example 38-10</a> shows how to change the colors of the series in the legend.</p>
+<div class="example"><a id="CIHDBIFC" name="CIHDBIFC" class="anchor"></a><a id="JFXUI697" name="JFXUI697" class="anchor"></a>
+<p class="titleinexample">Example 38-10 Changing Chart Symbol Color</p>
+<pre xml:space="preserve" class="oac_no_warn">.chart-series-line {    
+    -fx-stroke-width: 2px;
+    -fx-effect: null;
+}
+ 
+.default-color0.chart-series-line { -fx-stroke: #e9967a; }
+.default-color1.chart-series-line { -fx-stroke: #f0e68c; }
+.default-color2.chart-series-line { -fx-stroke: #dda0dd; }
+ 
+<span class="bold">.default-color0.chart-line-symbol { -fx-background-color: #e9967a, white; }</span>
+<span class="bold">.default-color1.chart-line-symbol { -fx-background-color: #f0e68c, white; }</span>
+<span class="bold">.default-color2.chart-line-symbol { -fx-background-color: #dda0dd, white; }</span>
+</pre></div>
+<!-- class="example" -->
+<p>Compare <a href="#CIHEGJGJ">Figure 38-10</a> and <a href="#CIHFHDIJ">Figure 38-11</a> to observe the change in the chart legend.</p>
+<div class="figure"><a id="CIHFHDIJ" name="CIHFHDIJ" class="anchor"></a><a id="JFXUI698" name="JFXUI698" class="anchor"></a>
+<p class="titleinfigure">Figure 38-11 Line Chart with the Modified Colors of Its Lines and Proper Legend Symbols</p>
+<img width="491" height="391" src="img/css-color-line2.png" alt="Description of Figure 38-11 follows" title="Description of Figure 38-11 follows" longdesc="img_text/css-color-line2.htm" /><br />
+<a id="sthref409" name="sthref409" href="img_text/css-color-line2.htm">Description of "Figure 38-11 Line Chart with the Modified Colors of Its Lines and Proper Legend Symbols"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>When you change colors in a area chart, consider three graphical components: the area for each data series, the corresponding bounding line, and the chart symbol. By default, the modena styles sheet defines a color scheme for eight series of data, including the colors of their areas, lines, and symbols. The default style also sets the basic color for areas, lines, and symbols of additional series.</p>
+<p><a href="#CIHJIABI">Example 38-11</a> shows how to change the default color scheme for the areas that correspond to three series of data.</p>
+<div class="example"><a id="CIHJIABI" name="CIHJIABI" class="anchor"></a><a id="JFXUI699" name="JFXUI699" class="anchor"></a>
+<p class="titleinexample">Example 38-11 Creating a New Color Scheme for an Area Chart</p>
+<pre xml:space="preserve" class="oac_no_warn">.default-color0.chart-area-symbol { -fx-background-color: #e9967a, #ffa07a; }
+.default-color1.chart-area-symbol { -fx-background-color: #f0e68c, #fffacd; }
+.default-color2.chart-area-symbol { -fx-background-color: #dda0dd, #d8bfd8; }
+ 
+.default-color0.chart-series-area-line { -fx-stroke: #e9967a; }
+.default-color1.chart-series-area-line { -fx-stroke: #f0e68c; }
+.default-color2.chart-series-area-line { -fx-stroke: #dda0dd; }
+ 
+.default-color0.chart-series-area-fill { -fx-fill: #ffa07a<span class="bold">aa</span>}
+.default-color1.chart-series-area-fill { -fx-fill: #fffacd<span class="bold">77</span>; }
+.default-color2.chart-series-area-fill { -fx-fill: #d8bfd8<span class="bold">33</span>; }
+</pre></div>
+<!-- class="example" -->
+<p>Pay attention to the values in bold. These bold characters set new values for area opacity. By default, all areas have an opacity level of 0.17. <a href="#CIHJIABI">Example 38-11</a> reassigns opacity for the areas so that the first area has the lowest opacity level, and the third area has the highest opacity level. Note that the hexadecimal color syntax with alpha is not a standard W3C CSS format. To conform with the W3C requirements, use the <code>rgba</code> CSS function with the fourth parameter as an alpha value. <a href="#CIHHDHCB">Figure 38-12</a> shows how these styles change the chart appearance when they are applied.</p>
+<div class="figure"><a id="CIHHDHCB" name="CIHHDHCB" class="anchor"></a><a id="JFXUI700" name="JFXUI700" class="anchor"></a>
+<p class="titleinfigure">Figure 38-12 Area Chart with an Alternative Color Scheme</p>
+<img width="467" height="342" src="img/css-color-area.png" alt="Description of Figure 38-12 follows" title="Description of Figure 38-12 follows" longdesc="img_text/css-color-area.htm" /><br />
+<a id="sthref410" name="sthref410" href="img_text/css-color-area.htm">Description of "Figure 38-12 Area Chart with an Alternative Color Scheme"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p><a href="#CIHHEDFD">Example 38-12</a> shows the basic style for all bars in the bar chart defined in the modena style sheet. This style creates a linear gradient for the background color and sets the radius so that all bar edges look rounded.</p>
+<div class="example"><a id="CIHHEDFD" name="CIHHEDFD" class="anchor"></a><a id="JFXUI701" name="JFXUI701" class="anchor"></a>
+<p class="titleinexample">Example 38-12 Default Style of the Bar Chart</p>
+<pre xml:space="preserve" class="oac_no_warn">.chart-bar {
+    -fx-bar-fill: #22bad9;
+    -fx-background-color: linear (0%,0%) to (0%,100%) 
+        stops (0%, derive(-fx-bar-fill,-30%)) 
+        (100%, derive(-fx-bar-fill,-40%)),
+        linear (0%,0%) to (0%,100%) 
+        stops (0%, derive(-fx-bar-fill,80%)) 
+        (100%, derive(-fx-bar-fill, 0%)),
+        linear (0%,0%) to (0%,100%) 
+        stops (0%, derive(-fx-bar-fill,30%)) 
+        (100%, derive(-fx-bar-fill,-10%));
+    -fx-background-insets: 0,1,2;
+    -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
+}
+</pre></div>
+<!-- class="example" -->
+<p>The background settings are not limited to colors, gradients, and effects. You can also set background image for each data series. To implement this approach, first simplify the BarChartSample application as shown in <a href="#CIHEGJDG">Example 38-13</a>.</p>
+<div class="example"><a id="CIHEGJDG" name="CIHEGJDG" class="anchor"></a><a id="JFXUI702" name="JFXUI702" class="anchor"></a>
+<p class="titleinexample">Example 38-13 Simplified Bar Chart Sample</p>
+<pre xml:space="preserve" class="oac_no_warn">package barchartsample;
+ 
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.stage.Stage;
+ 
+public class BarChartSample extends Application {
+    
+    final static String austria = "Austria";
+    final static String brazil = "Brazil";
+    final static String france = "France";
+    final static String italy = "Italy";
+    final static String usa = "USA";
+ 
+    @Override
+    public void start(Stage stage) {
+        stage.setTitle("Bar Chart Sample");
+        final CategoryAxis xAxis = new CategoryAxis();
+        final NumberAxis yAxis = new NumberAxis();
+        final BarChart&lt;String, Number&gt; bc =
+                new BarChart&lt;String, Number&gt;(xAxis, yAxis);
+        bc.setTitle("Country Summary");
+        xAxis.setLabel("Country");
+        xAxis.setTickLabelRotation(90);
+        yAxis.setLabel("Value");
+ 
+        XYChart.Series series1 = new XYChart.Series();
+        series1.setName("2003");
+        series1.getData().add(new XYChart.Data(austria, 25601.34));
+        series1.getData().add(new XYChart.Data(brazil, 20148.82));
+        series1.getData().add(new XYChart.Data(france, 10000));
+        series1.getData().add(new XYChart.Data(italy, 35407.15));
+        series1.getData().add(new XYChart.Data(usa, 11000));
+ 
+        Scene scene = new Scene(bc, 400, 600);
+        bc.getData().add(series1);
+        bc.setLegendVisible(false);
+        stage.setScene(scene);
+        scene.getStylesheets().add("barchartsample/Chart.css");
+        stage.show();
+    }
+ 
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
+</pre></div>
+<!-- class="example" -->
+<p>Now define the chart style sheet as shown in <a href="#CIHDEBBF">Example 38-14</a>.</p>
+<div class="example"><a id="CIHDEBBF" name="CIHDEBBF" class="anchor"></a><a id="JFXUI703" name="JFXUI703" class="anchor"></a>
+<p class="titleinexample">Example 38-14 Adding Images to the Bar Background</p>
+<pre xml:space="preserve" class="oac_no_warn">.chart-bar {
+    -fx-background-color: rgba(0,168,355,0.05);
+    -fx-border-color: rgba(0,168,355,0.3) rgba(0,168,355,0.3) 
+        transparent rgba(0,168,355,0.3);
+    -fx-background-radius: 0;
+    -fx-background-position: left center;
+}
+ 
+.data0.chart-bar {
+    -fx-background-image: url("austria.png");
+}
+.data1.chart-bar {
+    -fx-background-image: url("brazil.png");
+}
+.data2.chart-bar {
+    -fx-background-image: url("france.png");
+}
+.data3.chart-bar {
+    -fx-background-image: url("italy.png");
+}
+.data4.chart-bar {
+    -fx-background-image: url("usa.png");
+}
+</pre></div>
+<!-- class="example" -->
+<p>This style sets a background image for each data series and defines the position of the image within the bar. <a href="#CIHJEGFH">Figure 38-13</a> shows how the BarChartSample looks after the new styles are applied.</p>
+<div class="figure"><a id="CIHJEGFH" name="CIHJEGFH" class="anchor"></a><a id="JFXUI704" name="JFXUI704" class="anchor"></a>
+<p class="titleinfigure">Figure 38-13 Using Images to Fill a Bar Chart</p>
+<img width="388" height="588" src="img/css-color-bar.png" alt="Description of Figure 38-13 follows" title="Description of Figure 38-13 follows" longdesc="img_text/css-color-bar.htm" /><br />
+<a id="sthref411" name="sthref411" href="img_text/css-color-bar.htm">Description of "Figure 38-13 Using Images to Fill a Bar Chart"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>When you build pie charts in your JavaFX application, you typically need to set alternative colors for the pie chart slices. You can redefine the default color scheme by setting the <code>.default-color&lt;x&gt;.chart-pie</code> CSS classes. <a href="#CIHEIEHC">Example 38-15</a> implements this task.</p>
+<div class="example"><a id="CIHEIEHC" name="CIHEIEHC" class="anchor"></a><a id="JFXUI705" name="JFXUI705" class="anchor"></a>
+<p class="titleinexample">Example 38-15 Setting Colors of a Pie Chart</p>
+<pre xml:space="preserve" class="oac_no_warn">.default-color0.chart-pie { -fx-pie-color: #ffd700; }
+.default-color1.chart-pie { -fx-pie-color: #ffa500; }
+.default-color2.chart-pie { -fx-pie-color: #860061; }
+.default-color3.chart-pie { -fx-pie-color: #adff2f; }
+.default-color4.chart-pie { -fx-pie-color: #ff5700; }
+ 
+.chart-pie-label-line {
+    -fx-stroke: #8b4513;
+    -fx-fill: #8b4513;
+}
+ 
+.chart-pie-label {
+    -fx-fill: #8b4513;
+    -fx-font-size: 1em;
+} 
+.chart-legend {
+   -fx-background-color:  #fafad2;
+   -fx-stroke: #daa520;
+}
+</pre></div>
+<!-- class="example" -->
+<p>The pie chart colors now resemble the colors of fruit that they represent. Additionally, the style sheet in <a href="#CIHEIEHC">Example 38-15</a> sets alternative colors for the labels and the chart legend. You can observe the new style in <a href="#CIHGGEJA">Figure 38-14</a>.</p>
+<div class="figure"><a id="CIHGGEJA" name="CIHGGEJA" class="anchor"></a><a id="JFXUI706" name="JFXUI706" class="anchor"></a>
+<p class="titleinfigure">Figure 38-14 Pie Chart with the Redefined Colors of Its Slices</p>
+<img width="467" height="400" src="img/css-color-pie.png" alt="Description of Figure 38-14 follows" title="Description of Figure 38-14 follows" longdesc="img_text/css-color-pie.htm" /><br />
+<a id="sthref412" name="sthref412" href="img_text/css-color-pie.htm">Description of "Figure 38-14 Pie Chart with the Redefined Colors of Its Slices"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXUI707" name="JFXUI707" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref413" name="sthref413" class="anchor"></a>
+<h2 class="sect1">Changing Chart Symbols</h2>
+<p>Although symbols to display in the chart legend are defined in the modena style sheet, you can change their appearance by modifying the default color scheme and symbol shape. <a href="#CIHJIABI">Example 38-11</a> changes the colors of the area chart symbols. You can add the following line to change the symbol shape to a square: <code>.chart-area-symbol{-fx-background-radius: 0;}</code>. By default, the background radius is 5 pixels. Changing the background radius to 0, turns the circle into a square. This change applies to all series of data, as shown in <a href="#CIHBFGJG">Figure 38-15</a>.</p>
+<div class="figure"><a id="CIHBFGJG" name="CIHBFGJG" class="anchor"></a><a id="JFXUI708" name="JFXUI708" class="anchor"></a>
+<p class="titleinfigure">Figure 38-15 Area Chart with Modified Chart Symbols</p>
+<img width="527" height="466" src="img/css-symbol-area.png" alt="Description of Figure 38-15 follows" title="Description of Figure 38-15 follows" longdesc="img_text/css-symbol-area.htm" /><br />
+<a id="sthref414" name="sthref414" href="img_text/css-symbol-area.htm">Description of "Figure 38-15 Area Chart with Modified Chart Symbols"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>In scatter charts, all data is represented by set of points. Each data series has its special symbol. By default, the modena style defines seven symbols for seven series of data and the basic symbol that it uses for other data series. <a href="#CIHBJHCB">Example 38-16</a> shows the default styles for the scatter charts.</p>
+<div class="example"><a id="CIHBJHCB" name="CIHBJHCB" class="anchor"></a><a id="JFXUI709" name="JFXUI709" class="anchor"></a>
+<p class="titleinexample">Example 38-16 Styles for a Scatter Chart Defined in the Modena Style Sheet</p>
+<pre xml:space="preserve" class="oac_no_warn">.chart-symbol { /* solid circle */
+    -fx-background-color: CHART_COLOR_1;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+.default-color1.chart-symbol { /* solid square */
+    -fx-background-color: CHART_COLOR_2;
+    -fx-background-radius: 0;
+}
+.default-color2.chart-symbol { /* solid diamond */
+    -fx-background-color: CHART_COLOR_3;
+    -fx-background-radius: 0;
+    -fx-padding: 7px 5px 7px 5px;
+    -fx-shape: "M5,0 L10,9 L5,18 L0,9 Z";
+}
+.default-color3.chart-symbol { /* cross */
+    -fx-background-color: CHART_COLOR_4;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-shape: "M2,0 L5,4 L8,0 L10,0 L10,2 L6,5 L10,8 L10,10 L8,10 L5,6 L2,10 L0,10 L0,8 L4,5 L0,2 L0,0 Z";
+}
+.default-color4.chart-symbol { /* solid triangle */
+    -fx-background-color: CHART_COLOR_5;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-shape: "M5,0 L10,8 L0,8 Z";
+}
+.default-color5.chart-symbol { /* hollow circle */
+    -fx-background-color: CHART_COLOR_6, white;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+.default-color6.chart-symbol { /* hollow square */
+    -fx-background-color: CHART_COLOR_7, white;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 0;
+}
+.default-color7.chart-symbol { /* hollow diamond */
+    -fx-background-color: CHART_COLOR_8, white;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0, 2.5;
+    -fx-padding: 7px 5px 7px 5px;
+    -fx-shape: "M5,0 L10,9 L5,18 L0,9 Z";
+}
+</pre></div>
+<!-- class="example" -->
+<p>You can use these CSS classes and the available CSS properties to change the symbols of scatter charts, or you can invent your own symbols to represent data.</p>
+<p>Use the <code>.default-color1.chart-symbol</code> CSS class to change the default color and shape of the symbol for the second data series as shown in <a href="#CIHJGHFA">Example 38-17</a>.</p>
+<div class="example"><a id="CIHJGHFA" name="CIHJGHFA" class="anchor"></a><a id="JFXUI710" name="JFXUI710" class="anchor"></a>
+<p class="titleinexample">Example 38-17 Redefining the Shape of the Second Series of Data</p>
+<pre xml:space="preserve" class="oac_no_warn">.default-color1.chart-symbol {
+    -fx-background-color: #a9e200;
+    -fx-shape: "M0,4 L2,4 L4,8 L7,0 L9,0 L4,11 Z";
+}
+</pre></div>
+<!-- class="example" -->
+<p>When this style is applied to the scatter chart, as shown in <a href="#CIHGJHGB">Figure 38-16</a>, the points of the second series appear as check marks. The points of other series appear according to the default styles.</p>
+<div class="figure"><a id="CIHGJHGB" name="CIHGJHGB" class="anchor"></a><a id="JFXUI711" name="JFXUI711" class="anchor"></a>
+<p class="titleinfigure">Figure 38-16 Scatter Chart with New Check Mark Symbol to Designate the Second Data Series</p>
+<img width="488" height="396" src="img/css-symbol-scatter2.png" alt="Description of Figure 38-16 follows" title="Description of Figure 38-16 follows" longdesc="img_text/css-symbol-scatter2.htm" /><br />
+<a id="sthref415" name="sthref415" href="img_text/css-symbol-scatter2.htm">Description of "Figure 38-16 Scatter Chart with New Check Mark Symbol to Designate the Second Data Series"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>Use the <code>.chart-symbol</code> class to set a new chart symbol for the all data series in the scatter chart, as shown in <a href="#CIHGAHFF">Example 38-18</a>.</p>
+<div class="example"><a id="CIHGAHFF" name="CIHGAHFF" class="anchor"></a><a id="JFXUI712" name="JFXUI712" class="anchor"></a>
+<p class="titleinexample">Example 38-18 Defining an Alternative Symbol for a Scatter Chart</p>
+<pre xml:space="preserve" class="oac_no_warn">.chart-symbol{ 
+    -fx-shape: "M0,4 L2,4 L4,8 L7,0 L9,0 L4,11 Z";
+}
+</pre></div>
+<!-- class="example" -->
+<p><a href="#CIHEIAGA">Figure 38-17</a> shows a scatter chart with seven series of data. Each series is represented by a check mark of different color. The color of each series is derived from the modena style sheet.</p>
+<div class="figure"><a id="CIHEIAGA" name="CIHEIAGA" class="anchor"></a><a id="JFXUI713" name="JFXUI713" class="anchor"></a>
+<p class="titleinfigure">Figure 38-17 Scatter Chart with a Check Sign as a Chart Symbol</p>
+<img width="492" height="397" src="img/css-symbol-scatter.png" alt="Description of Figure 38-17 follows" title="Description of Figure 38-17 follows" longdesc="img_text/css-symbol-scatter.htm" /><br />
+<a id="sthref416" name="sthref416" href="img_text/css-symbol-scatter.htm">Description of "Figure 38-17 Scatter Chart with a Check Sign as a Chart Symbol"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>In conclusion, when you need to style a chart in your JavaFX application, consider the following steps:</p>
+<ul>
+<li>
+<p>Add a .css file to your JavaFX application.</p>
+</li>
+<li>
+<p>Identify the graphical elements of the chart you need to change.</p>
+</li>
+<li>
+<p>Determine the corresponding CSS classes.</p>
+</li>
+<li>
+<p>Set the properties of the selected CSS classes specifying the values to attain the required appearance.</p>
+</li>
+</ul>
+<p>Refer to <a href="apply-css.htm#CHDGHCDG">Styling UI Controls with CSS</a> for additional information about how to style your JavaFX application with CSS.</p>
+</div>
+<!-- class="sect1" -->
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Working with JavaFX UI Components</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">Audience</a></li>
+        <li><a href="preface.htm#sthref4">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref6">Related Documents</a></li>
+        <li><a href="preface.htm#sthref7">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a href="ui_components.htm#JFXUI101">Part I About This Tutorial</a>
+    <ul>
+    <li><a href="whatsnew.htm#JFXUI781">1 What Is New</a></li>
+</ul>
+</li>
+    <li><a href="ui_controls.htm#JFXUI336">Part II Using JavaFX UI Controls</a>
+    <ul>
+    <li><a href="label.htm#CIHHFIBJ">2 Label</a>
+      <ul>
+        <li><a href="label.htm#sthref10">Creating a Label</a></li>
+        <li><a href="label.htm#sthref12">Setting a Font</a></li>
+        <li><a href="label.htm#sthref13">Wrapping Text</a></li>
+        <li><a href="label.htm#sthref15">Applying Effects</a></li>
+      </ul>
+    </li>
+    <li><a href="button.htm#CJHEEACB">3 Button</a>
+      <ul>
+        <li><a href="button.htm#sthref19">Creating a Button</a></li>
+        <li><a href="button.htm#sthref22">Assigning an Action</a></li>
+        <li><a href="button.htm#sthref23">Applying Effects</a></li>
+        <li><a href="button.htm#sthref25">Styling a Button</a></li>
+      </ul>
+    </li>
+    <li><a href="radio-button.htm#BABBJBDA">4 Radio Button</a>
+      <ul>
+        <li><a href="radio-button.htm#sthref29">Creating a Radio Button</a></li>
+        <li><a href="radio-button.htm#sthref30">Adding Radio Buttons to Groups</a></li>
+        <li><a href="radio-button.htm#sthref32">Processing Events for Radio Buttons</a></li>
+        <li><a href="radio-button.htm#sthref33">Requesting Focus for a Radio Button</a></li>
+      </ul>
+    </li>
+    <li><a href="toggle-button.htm#CACJDICF">5 Toggle Button</a>
+      <ul>
+        <li><a href="toggle-button.htm#sthref38">Creating a Toggle Button</a></li>
+        <li><a href="toggle-button.htm#sthref39">Adding Toggle Buttons to a Group</a></li>
+        <li><a href="toggle-button.htm#sthref41">Setting the Behavior</a></li>
+        <li><a href="toggle-button.htm#sthref43">Styling Toggle Buttons</a></li>
+      </ul>
+    </li>
+    <li><a href="checkbox.htm#CHDFEJCD">6 Checkbox</a>
+      <ul>
+        <li><a href="checkbox.htm#sthref47">Creating Checkboxes</a></li>
+        <li><a href="checkbox.htm#sthref48">Defining a State</a></li>
+        <li><a href="checkbox.htm#sthref50">Setting the Behavior</a></li>
+      </ul>
+    </li>
+    <li><a href="choice-box.htm#BCEDJAEH">7 Choice Box</a>
+      <ul>
+        <li><a href="choice-box.htm#sthref54">Creating a Choice Box</a></li>
+        <li><a href="choice-box.htm#sthref56">Setting the Behavior for a Choice Box</a></li>
+        <li><a href="choice-box.htm#sthref59">Applying a Tooltip</a></li>
+      </ul>
+    </li>
+    <li><a href="text-field.htm#BABBCEIG">8 Text Field</a>
+      <ul>
+        <li><a href="text-field.htm#sthref63">Creating a Text Field</a></li>
+        <li><a href="text-field.htm#sthref64">Building the UI with Text Fields</a></li>
+        <li><a href="text-field.htm#sthref67">Processing Text Field Data</a></li>
+      </ul>
+    </li>
+    <li><a href="password-field.htm#BABIDAGF">9 Password Field</a>
+      <ul>
+        <li><a href="password-field.htm#sthref71">Creating a Password Field</a></li>
+        <li><a href="password-field.htm#sthref73">Evaluating the Password</a></li>
+      </ul>
+    </li>
+    <li><a href="scrollbar.htm#BGBEGJDE">10 Scroll Bar</a>
+      <ul>
+        <li><a href="scrollbar.htm#sthref78">Creating a Scroll Bar</a></li>
+        <li><a href="scrollbar.htm#sthref79">Using a Scroll Bar in Your Application</a></li>
+      </ul>
+    </li>
+    <li><a href="scrollpane.htm#CBBFFBCH">11 Scroll Pane</a>
+      <ul>
+        <li><a href="scrollpane.htm#sthref83">Creating a Scroll Pane</a></li>
+        <li><a href="scrollpane.htm#sthref84">Setting the Scroll Bar Policy for a Scroll Pane</a></li>
+        <li><a href="scrollpane.htm#sthref86">Resizing Components in the Scroll Pane</a></li>
+        <li><a href="scrollpane.htm#sthref89">Sample Application with a Scroll Pane</a></li>
+      </ul>
+    </li>
+    <li><a href="list-view.htm#CEGGEDBF">12 List View</a>
+      <ul>
+        <li><a href="list-view.htm#sthref93">Creating a List View</a></li>
+        <li><a href="list-view.htm#sthref96">Populating a List View with Data</a></li>
+        <li><a href="list-view.htm#sthref98">Customizing the Content of a List View</a></li>
+        <li><a href="list-view.htm#sthref100">Processing the List Item Selection</a></li>
+      </ul>
+    </li>
+    <li><a href="table-view.htm#CJABIEED">13 Table View</a>
+      <ul>
+        <li><a href="table-view.htm#sthref104">Creating a Table</a></li>
+        <li><a href="table-view.htm#sthref107">Defining the Data Model</a></li>
+        <li><a href="table-view.htm#sthref109">Adding New Rows</a></li>
+        <li><a href="table-view.htm#sthref112">Sorting Data in Columns</a></li>
+        <li><a href="table-view.htm#sthref114">Editing Data in the Table</a></li>
+        <li><a href="table-view.htm#sthref117">Adding Maps of Data to the Table</a></li>
+      </ul>
+    </li>
+    <li><a href="tree-view.htm#JFXUI377">14 Tree View</a>
+      <ul>
+        <li><a href="tree-view.htm#sthref121">Creating Tree Views</a></li>
+        <li><a href="tree-view.htm#sthref123">Implementing Cell Factories</a></li>
+        <li><a href="tree-view.htm#sthref126">Adding New Tree Items on Demand</a></li>
+        <li><a href="tree-view.htm#sthref129">Using Tree Cell Editors</a></li>
+      </ul>
+    </li>
+    <li><a href="tree-table-view.htm#JFXUI833">15 Tree Table View</a>
+      <ul>
+        <li><a href="tree-table-view.htm#sthref135">Creating a TreeTableView control</a></li>
+        <li><a href="tree-table-view.htm#sthref137">Adding Several Columns</a></li>
+        <li><a href="tree-table-view.htm#sthref139">Altering Visual Appearance</a></li>
+        <li><a href="tree-table-view.htm#sthref142">Managing Selection Mode</a></li>
+      </ul>
+    </li>
+    <li><a href="combo-box.htm#BABEFEJC">16 Combo Box</a>
+      <ul>
+        <li><a href="combo-box.htm#sthref147">Creating Combo Boxes</a></li>
+        <li><a href="combo-box.htm#sthref151">Editable Combo Boxes</a></li>
+        <li><a href="combo-box.htm#sthref154">Applying Cell Factories to Combo Boxes</a></li>
+      </ul>
+    </li>
+    <li><a href="separator.htm#BGBCFDFI">17 Separator</a>
+      <ul>
+        <li><a href="separator.htm#sthref157">Creating a Separator</a></li>
+        <li><a href="separator.htm#sthref159">Adding Separators to the UI of Your Application</a></li>
+        <li><a href="separator.htm#sthref161">Styling Separators</a></li>
+      </ul>
+    </li>
+    <li><a href="slider.htm#CCHFBJCH">18 Slider</a>
+      <ul>
+        <li><a href="slider.htm#sthref165">Creating a Slider</a></li>
+        <li><a href="slider.htm#sthref166">Using Sliders in Graphical Applications</a></li>
+      </ul>
+    </li>
+    <li><a href="progress.htm#CHDDJAJE">19 Progress Bar and Progress Indicator</a>
+      <ul>
+        <li><a href="progress.htm#sthref170">Creating Progress Controls</a></li>
+        <li><a href="progress.htm#sthref172">Indicating Progress in Your User Interface</a></li>
+      </ul>
+    </li>
+    <li><a href="hyperlink.htm#CIHGADBG">20 Hyperlink</a>
+      <ul>
+        <li><a href="hyperlink.htm#sthref176">Creating a Hyperlink</a></li>
+        <li><a href="hyperlink.htm#sthref177">Linking the Local Content</a></li>
+        <li><a href="hyperlink.htm#sthref180">Linking the Remote Content</a></li>
+      </ul>
+    </li>
+    <li><a href="editor.htm#JFXUI346">21 HTML Editor</a>
+      <ul>
+        <li><a href="editor.htm#sthref184">Adding an HTML Editor</a></li>
+        <li><a href="editor.htm#sthref187">Using an HTML Editor to Build the User Interface</a></li>
+        <li><a href="editor.htm#sthref189">Obtaining HTML Content</a></li>
+      </ul>
+    </li>
+    <li><a href="tooltip.htm#BABBIJBJ">22 Tooltip</a>
+      <ul>
+        <li><a href="tooltip.htm#sthref194">Creating a Tooltip</a></li>
+        <li><a href="tooltip.htm#sthref196">Presenting Application Data in Tooltips</a></li>
+      </ul>
+    </li>
+    <li><a href="accordion-titledpane.htm#JFXUI356">23 Titled Pane and Accordion</a>
+      <ul>
+        <li><a href="accordion-titledpane.htm#sthref200">Creating Titled Panes</a></li>
+        <li><a href="accordion-titledpane.htm#sthref203">Adding Titled Panes to an Accordion</a></li>
+        <li><a href="accordion-titledpane.htm#sthref205">Processing Events for an Accordion with Titled Panes</a></li>
+      </ul>
+    </li>
+    <li><a href="menu_controls.htm#JFXUI409">24 Menu</a>
+      <ul>
+        <li><a href="menu_controls.htm#sthref210">Building Menus in JavaFX Applications</a></li>
+        <li><a href="menu_controls.htm#sthref211">Creating a Menu Bar</a></li>
+        <li><a href="menu_controls.htm#sthref213">Adding Menu Items</a></li>
+        <li><a href="menu_controls.htm#sthref216">Creating Submenus</a></li>
+        <li><a href="menu_controls.htm#sthref220">Adding Context Menus</a></li>
+      </ul>
+    </li>
+    <li><a href="color-picker.htm#JFXUI433">25 Color Picker</a>
+      <ul>
+        <li><a href="color-picker.htm#sthref223">Design Overview</a>
+          <ul>
+          <li><a href="color-picker.htm#sthref225">Color Chooser</a></li>
+          <li><a href="color-picker.htm#sthref227">Color Palette</a></li>
+          <li><a href="color-picker.htm#sthref230">Custom Color Dialog Window</a></li>
+          </ul>
+        </li>
+        <li><a href="color-picker.htm#JFXUI445">Using a Color Picker</a></li>
+        <li><a href="color-picker.htm#JFXUI452">Changing the Appearance of a Color Picker</a></li>
+      </ul>
+    </li>
+    <li><a href="date-picker.htm#JFXUI808">26 Date Picker</a>
+      <ul>
+        <li><a href="date-picker.htm#sthref238">Working with Time Data and Date Formats</a></li>
+        <li><a href="date-picker.htm#sthref239">Date Picker Design Overview</a></li>
+        <li><a href="date-picker.htm#sthref241">Adding a Date Picker to an Application UI</a></li>
+        <li><a href="date-picker.htm#sthref244">Customizing the Date Picker</a></li>
+        <li><a href="date-picker.htm#sthref250">Altering the Calendar System</a></li>
+      </ul>
+    </li>
+    <li><a href="pagination.htm#JFXUI459">27 Pagination Control</a>
+      <ul>
+        <li><a href="pagination.htm#sthref254">Creating a Pagination Control</a></li>
+        <li><a href="pagination.htm#sthref257">Implementing Page Factories</a></li>
+        <li><a href="pagination.htm#sthref262">Styling a Pagination Control</a></li>
+      </ul>
+    </li>
+    <li><a href="file-chooser.htm#CCHICECF">28 File Chooser</a>
+      <ul>
+        <li><a href="file-chooser.htm#sthref266">Opening Files</a></li>
+        <li><a href="file-chooser.htm#sthref272">Configuring a File Chooser</a></li>
+        <li><a href="file-chooser.htm#sthref274">Setting Extension Filters</a></li>
+        <li><a href="file-chooser.htm#sthref276">Saving Files</a></li>
+      </ul>
+    </li>
+    <li><a href="custom.htm#JFXUI493">29 Customization of UI Controls</a>
+      <ul>
+        <li><a href="custom.htm#sthref280">Applying CSS</a></li>
+        <li><a href="custom.htm#sthref285">Altering Default Behavior</a></li>
+        <li><a href="custom.htm#sthref288">Implementing Cell Factories</a></li>
+      </ul>
+    </li>
+    <li><a href="embed.htm#JFXUI785">30 UI Controls on the Embedded Platforms</a>
+      <ul>
+        <li><a href="embed.htm#sthref292">Embedded Runtime Features</a>
+          <ul>
+          <li><a href="embed.htm#sthref293">Support for Touch-Enabled Devices</a></li>
+          <li><a href="embed.htm#sthref294">Virtual Keyboard</a></li>
+          </ul>
+        </li>
+        <li><a href="embed.htm#sthref301">Appearance of UI Controls on Embedded Platforms</a>
+          <ul>
+          <li><a href="embed.htm#sthref302">Scrolling Controls</a></li>
+          <li><a href="embed.htm#sthref304">Text Input Controls</a></li>
+          <li><a href="embed.htm#sthref306">Context Menus</a></li>
+          </ul>
+        </li>
+        <li><a href="embed.htm#sthref309">UI Controls Features Available on the Embedded Platforms</a></li>
+        <li><a href="embed.htm#sthref311">UI Controls Features That Are Not Available on Embedded Touch Platforms</a></li>
+        <li><a href="embed.htm#sthref312">Other Features That Are Not Available on Embedded Touch Platforms</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="charts.htm#JFXUI577">Part III Working with JavaFX Charts</a>
+    <ul>
+    <li><a href="pie-chart.htm#CIHFDADD">31 Pie Chart</a>
+      <ul>
+        <li><a href="pie-chart.htm#sthref314">Creating a Pie Chart</a></li>
+        <li><a href="pie-chart.htm#sthref316">Setting a Pie Chart and a Legend</a></li>
+        <li><a href="pie-chart.htm#sthref319">Processing Events for a Pie Chart</a></li>
+      </ul>
+    </li>
+    <li><a href="line-chart.htm#CIHGBCFI">32 Line Chart</a>
+      <ul>
+        <li><a href="line-chart.htm#sthref323">Chart Settings</a></li>
+        <li><a href="line-chart.htm#sthref324">Chart Data</a></li>
+        <li><a href="line-chart.htm#sthref325">Creating a Line Chart</a></li>
+        <li><a href="line-chart.htm#sthref327">Creating Categories for a Line Chart</a></li>
+        <li><a href="line-chart.htm#sthref329">Adding Series to the Line Chart</a></li>
+      </ul>
+    </li>
+    <li><a href="area-chart.htm#CIHCFGBA">33 Area Chart</a>
+      <ul>
+        <li><a href="area-chart.htm#sthref334">Creating an Area Chart</a></li>
+        <li><a href="area-chart.htm#sthref336">Creating a Stacked Area Chart</a></li>
+        <li><a href="area-chart.htm#sthref338">Setting Axis and Tick Properties</a></li>
+        <li><a href="area-chart.htm#sthref342">Adding Negative Values</a></li>
+        <li><a href="area-chart.htm#sthref344">Styling Area Charts</a></li>
+      </ul>
+    </li>
+    <li><a href="bubble-chart.htm#CHDHAFHB">34 Bubble Chart</a>
+      <ul>
+        <li><a href="bubble-chart.htm#sthref348">Creating a Bubble Chart</a></li>
+        <li><a href="bubble-chart.htm#sthref351">Using the Extra Value Property</a></li>
+        <li><a href="bubble-chart.htm#sthref353">Changing the Appearance Visual Setting of the Plot and Tick Marks</a></li>
+      </ul>
+    </li>
+    <li><a href="scatter-chart.htm#CIHDEACI">35 Scatter Chart</a>
+      <ul>
+        <li><a href="scatter-chart.htm#sthref357">Creating a Scatter Chart</a></li>
+        <li><a href="scatter-chart.htm#sthref359">Managing Chart Data</a></li>
+        <li><a href="scatter-chart.htm#sthref361">Adding Effects to Charts</a></li>
+        <li><a href="scatter-chart.htm#sthref363">Changing the Chart Symbol</a></li>
+      </ul>
+    </li>
+    <li><a href="bar-chart.htm#CIHJFHDE">36 Bar Chart</a>
+      <ul>
+        <li><a href="bar-chart.htm#sthref367">Creating a Bar Chart</a></li>
+        <li><a href="bar-chart.htm#sthref369">Horizontal Bar Chart</a></li>
+        <li><a href="bar-chart.htm#sthref371">Creating a Stacked Bar Chart</a></li>
+        <li><a href="bar-chart.htm#sthref374">Animating Data in Charts</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="css_tutorial.htm#JFXUI733">Part IV Skinning JavaFX Applications with CSS</a>
+    <ul>
+    <li><a href="apply-css.htm#JFXUI714">37 Styling UI Controls with CSS</a>
+      <ul>
+        <li><a href="apply-css.htm#sthref378">Default Style Sheet</a></li>
+        <li><a href="apply-css.htm#sthref380">Creating Style Sheets</a></li>
+        <li><a href="apply-css.htm#sthref381">Defining Styles</a>
+          <ul>
+          <li><a href="apply-css.htm#sthref382">Selectors</a></li>
+          <li><a href="apply-css.htm#sthref383">Rules and Properties</a></li>
+          </ul>
+        </li>
+        <li><a href="apply-css.htm#sthref384">Skinning the Scene</a></li>
+        <li><a href="apply-css.htm#sthref385">Skinning Controls</a>
+          <ul>
+          <li><a href="apply-css.htm#sthref386">Overriding Default Styles</a></li>
+          <li><a href="apply-css.htm#sthref388">Creating Class Styles</a></li>
+          <li><a href="apply-css.htm#sthref390">Creating ID Styles</a></li>
+          <li><a href="apply-css.htm#sthref392">Setting Styles in the Code</a></li>
+          </ul>
+        </li>
+        <li><a href="apply-css.htm#sthref394">Additional Resources</a></li>
+      </ul>
+    </li>
+    <li><a class="selected" href="css-styles.htm#JFXUI672">38 Styling Charts with CSS</a>
+      <ul>
+        <li><a href="css-styles.htm#sthref395">Modifying Basic Chart Elements</a></li>
+        <li><a href="css-styles.htm#sthref401">Altering Colors of the Chart Plot</a></li>
+        <li><a href="css-styles.htm#sthref404">Setting the Axes</a></li>
+        <li><a href="css-styles.htm#sthref407">Setting Chart Colors</a></li>
+        <li><a href="css-styles.htm#sthref413">Changing Chart Symbols</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="text.htm#JFXUI734">Part V Working with Text in JavaFX Applications</a>
+    <ul>
+    <li><a href="text-settings.htm#JFXUI735">39 Using Text in JavaFX</a>
+      <ul>
+        <li><a href="text-settings.htm#sthref417">Introduction</a></li>
+        <li><a href="text-settings.htm#sthref418">Adding Text</a>
+          <ul>
+          <li><a href="text-settings.htm#sthref420">Setting Text Font and Color</a></li>
+          <li><a href="text-settings.htm#sthref422">Making Text Bold or Italic</a></li>
+          <li><a href="text-settings.htm#sthref423">Using Custom Fonts</a></li>
+          <li><a href="text-settings.htm#sthref425">Setting LCD Text Support</a></li>
+          <li><a href="text-settings.htm#sthref426">Rich Text and Bidirectional Support</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="text-effects.htm#JFXUI773">40 Applying Effects to Text</a>
+      <ul>
+        <li><a href="text-effects.htm#sthref429">Perspective Effect</a></li>
+        <li><a href="text-effects.htm#sthref431">Blur Effect</a></li>
+        <li><a href="text-effects.htm#sthref433">Drop Shadow Effect</a></li>
+        <li><a href="text-effects.htm#sthref435">Inner Shadow Effect</a></li>
+        <li><a href="text-effects.htm#sthref437">Reflection</a></li>
+        <li><a href="text-effects.htm#sthref439">Combining Several Effects</a></li>
+        <li><a href="text-effects.htm#sthref441">Application Files</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="samples.htm#sthref444">Part VI Source Code for the UI Components Tutorials</a>
+    <ul>
+    <li><a href="ui_controls_samples.htm#sthref445">A UI Control Samples</a>
+      <ul>
+        <li><a href="ui_controls_samples.htm#JFXUI870">LabelSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI871">ButtonSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI872">RadioButtonSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI873">ToggleButtonSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI874">CheckboxSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI875">ChoiceBoxSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI876">TextFieldSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI877">PasswordField.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI878">ScrollBarSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI879">ScrollPaneSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI880">ListViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI881">TableViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI882">TreeViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI883">TreeTableViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI884">ComboBoxSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI885">SeparatorSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI886">SliderSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI887">ProgressSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI888">HyperlinkSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI889">HyperlinkWebViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI890">HTMLEditorSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI891">TooltipSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI892">TitledPaneSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI893">MenuSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI894">ColorPickerSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI895">DatePickerSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI896">PaginationSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI897">FileChooserSample.java</a></li>
+      </ul>
+    </li>
+    <li><a href="chart_samples.htm#JFXUI898">B Chart Samples</a>
+      <ul>
+        <li><a href="chart_samples.htm#JFXUI900">PieChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI901">LineChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI902">AreaChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI903">BubbleChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI904">ScatterChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI905">BarChartSample.java</a></li>
+      </ul>
+    </li>
+    <li><a href="css_samples.htm#sthref446">C CSS Samples</a>
+      <ul>
+        <li><a href="css_samples.htm#JFXUI908">DownloadButton.java</a></li>
+        <li><a href="css_samples.htm#JFXUI909">DownloadButtonStyle1.css</a></li>
+        <li><a href="css_samples.htm#JFXUI910">DownloadButtonStyle2.css</a></li>
+        <li><a href="css_samples.htm#JFXUI911">StyleStage.java</a></li>
+        <li><a href="css_samples.htm#JFXUI912">UIControlCSS.java</a></li>
+        <li><a href="css_samples.htm#JFXUI913">controlStyle1.css</a></li>
+        <li><a href="css_samples.htm#JFXUI914">controlStyle2.css</a></li>
+      </ul>
+    </li>
+    <li><a href="text_samples.htm#sthref447">D Text Samples</a>
+      <ul>
+        <li><a href="text_samples.htm#JFXUI917">TextEffects.java</a></li>
+        <li><a href="text_samples.htm#JFXUI920">NeonSign.java</a></li>
+      </ul>
+    </li>
+</ul>
+
+</li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="apply-css.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a><a class="button" title="Next Page" href="text.htm">Next Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2011, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

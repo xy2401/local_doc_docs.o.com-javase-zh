@@ -1,0 +1,271 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Context Request Controls</title>
+<meta name="collection" content="learning">
+
+                    <script>var w=window;if(w.performance||w.mozPerformance||w.msPerformance||w.webkitPerformance){var d=document;AKSB=w.AKSB||{},AKSB.q=AKSB.q||[],AKSB.mark=AKSB.mark||function(e,_){AKSB.q.push(["mark",e,_||(new Date).getTime()])},AKSB.measure=AKSB.measure||function(e,_,t){AKSB.q.push(["measure",e,_,t||(new Date).getTime()])},AKSB.done=AKSB.done||function(e){AKSB.q.push(["done",e])},AKSB.mark("firstbyte",(new Date).getTime()),AKSB.prof={custid:"322179",ustr:"",originlat:"0",clientrtt:"1",ghostip:"23.212.3.15",ipv6:false,pct:"10",clientip:"45.78.37.67",requestid:"2a85ee4f",region:"32996",protocol:"",blver:14,akM:"dsca",akN:"ae",akTT:"O",akTX:"1",akTI:"2a85ee4f",ai:"206465",ra:"false",pmgn:"",pmgi:"",pmp:"",qc:""},function(e){var _=d.createElement("script");_.async="async",_.src=e;var t=d.getElementsByTagName("script"),t=t[t.length-1];t.parentNode.insertBefore(_,t)}(("https:"===d.location.protocol?"https:":"http:")+"//ds-aksb-a.akamaihd.net/aksb.min.js")}</script>
+                    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="request.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="connect.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Controls and Extensions</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Context Request Controls
+</h2>
+<p>
+<blockquote>
+
+You can associate request controls to be sent along with
+LDAP requests emitted by <tt>Context</tt> methods by using
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#setRequestControls(javax.naming.ldap.Control[])"><tt>LdapContext.setRequestControls()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#setRequestControls(javax.naming.ldap.Control[])"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. 
+For example, 
+you can set the context's request controls to include a control
+that tells the server to sort the results of
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><tt>Context.list()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, javax.naming.directory.Attributes)"><tt>DirContext.search()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, assuming that the LDAP server supports
+<a href="http://www.ietf.org/rfc/rfc2891.txt">server-side sorting</a>, as shown in
+<a href=src/SetRequest.java>this example</a>.
+<blockquote><pre>
+// Create the initial context with no connection request controls
+LdapContext ctx = new InitialLdapContext(env, null);
+
+// Create the critical Sort control that sorts based on "cn"
+Control[] ctxCtls = new Control[]{
+    new SortControl(new String[]{"cn"}, Control.CRITICAL)
+};
+
+// Set the context's request controls to be ctxCtls
+ctx.setRequestControls(ctxCtls);
+
+// Perform the list, will sort by cn
+NamingEnumeration answer = ctx.list("");
+</pre></blockquote>
+<p> Once set, the controls remain in effect for the 
+<tt>Context</tt> instance
+until they are replaced by the arguments to
+another call to <tt>setRequestControls()</tt>.
+Next,
+after doing the list, you can perform a search by using the same
+<tt>Context</tt> instance;
+the results will still be sorted by the <tt>"cn"</tt> attribute.
+<blockquote><pre>
+// Perform the search, which will still sort by "cn"
+// because context request controls are still in effect
+answer = ctx.search("ou=People", "(cn=*)", null);
+</pre></blockquote>
+<p>
+To tell a <tt>Context</tt> instance not to use any request controls, supply <tt>null</tt>
+as the argument to <tt>setRequestControls()</tt>.
+<blockquote><pre>
+// Set the context's request controls to be nothing
+ctx.setRequestControls(null);
+</pre></blockquote>
+
+<h4>Finding Out the Context Request Controls That Are in Effect</h4>
+
+To find out the request controls that are in effect for a context, you use
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#getRequestControls()"><tt>LdapContext.getRequestControls()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#getRequestControls()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+Here is an example that sets the request controls to be a Sort control
+and then checks the controls by using <tt>getRequestControls()</tt>.
+<blockquote><pre>
+// Set the context's request controls to be ctxCtls
+ctx.setRequestControls(ctxCtls);
+
+// Check the controls that are in effect for context
+Control[] reqCtls = ctx.getRequestControls();
+if (reqCtls != null) {
+    for (int i = 0; i &lt; reqCtls.length; i++) {
+        System.out.println(reqCtls[i]);
+    }
+}
+</pre></blockquote>
+Here is the output produced by this example.
+<blockquote><pre>
+com.sun.jndi.ldap.ctl.SortControl@1fa4d711
+com.sun.jndi.ldap.ManageReferralControl@1fa4d59d
+</pre></blockquote>
+This output shows both the control that
+was added (the Sort control) as well as a
+<a href=../referral/jndi.html#MANAGE>Manage Referral</a> control
+that the LDAP provider sends when referrals are being ignored
+(that is, the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#REFERRAL"><tt>Context.REFERRAL</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#REFERRAL"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    environment property is unset or was set to <tt>"ignore"</tt>).
+To stop the LDAP provider from sending this control, you must
+set the <tt>Context.REFERRAL</tt> property to <tt>"throw"</tt> or
+<tt>"follow"</tt>.
+See the
+<a target="_top" href="../referral/index.html">Referrals</a> <a href="../referral/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson for details.
+
+<h4>Scope</h4>
+
+A context's request controls remain in effect for all operations
+on the <tt>Context</tt> instance. However, unlike environment properties,
+a context's request controls are <em>not</em> inherited
+by contexts derived from this context. For example, if you perform
+a 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><tt>Context.lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a> and get back a context, then that context has no request controls.
+You must always explicitly set a
+context's request controls by using
+<tt>setRequestControls()</tt>, except when 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#newInstance(javax.naming.ldap.Control[])"><tt>LdapContext.newInstance()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#newInstance(javax.naming.ldap.Control[])"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    is used, as explained next.
+
+<h4>Multithreaded Programming</h4>
+
+Having a context's request controls in effect for all methods
+invoked on the context poses a bit of a challenge to
+multiple threads sharing a context handle.
+As always (independent of controls), such threads
+must synchronize their access to the context. In addition,
+they must ensure that the context has the right request controls set.
+<p>
+For example, to ensure that
+a method is executed with the right request controls, you might
+have code that looks as follows.
+<blockquote><pre>
+synchronized(ctx) {
+    // Set the context's request controls to be myCtls
+    ctx.setRequestControls(myCtls);
+
+    // Perform the list by using the control
+    NamingEnumeration answer = ctx.list("");
+
+    // Do something useful with the answer
+
+    // Get any response controls
+    respCtls = ctx.getResponseControls();
+}
+</pre></blockquote>
+This is cumbersome if you want a thread to have request controls that persist
+across multiple operations.
+Instead of doing this, you can use
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#newInstance(javax.naming.ldap.Control[])"><tt>LdapContext.newInstance()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#newInstance(javax.naming.ldap.Control[])"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. This method allows you to create a clone of the existing 
+<tt>Context</tt>
+instance, with the request controls initialized to those supplied in the argument.
+<blockquote><pre>
+// Create a clone with the request controls set to newCtls
+LdapContext cloneCtx = ctx.newInstance(newCtls);
+</pre></blockquote>
+When you subsequently update the clone's request controls, 
+the updates won't affect the original context, and vice versa.
+Where appropriate and possible, the clone will share resources with 
+the original context, such as the underlying connection to the LDAP server.
+<p>
+Here is <a href=src/NewInstance.java>an example</a> that uses
+<tt>newInstance()</tt> to create a clone of a context and initializes
+the clone with a Sort control. It then performs a search
+in each context. The results from the clone are sorted,
+whereas those from the
+original are not.
+<blockquote><pre>
+// Create the initial context with no connection request controls
+LdapContext ctx = new InitialLdapContext(env, null);
+
+// Create the critical Sort that sorts based on "cn"
+Control[] ctxCtls = new Control[]{
+    new SortControl(new String[]{"cn"}, Control.CRITICAL)
+};
+
+// Create a clone with request controls set to ctxCtls
+LdapContext cloneCtx = ctx.newInstance(ctxCtls);
+
+// Perform the search by using the original context
+NamingEnumeration answer = ctx.search("", "(cn=*)", null);
+
+// Enumerate the answers (not sorted)
+System.out.println("-----&gt; Unsorted");
+while (answer.hasMore()) {
+    System.out.println(((SearchResult)answer.next()).getName());
+}
+
+// Perform the search by using a clone context; sort by "cn"
+answer = cloneCtx.search("", "(cn=*)", null);
+
+System.out.println("-----&gt; Sorted");
+// Enumerate the answers (sorted)
+while (answer.hasMore()) {
+    System.out.println(((SearchResult)answer.next()).getName());
+}
+</blockquote></pre>
+Here is the output produced by the example.
+<blockquote><pre>
+# java NewInstance
+-----&gt; Unsorted
+cn=Button
+cn=Choice
+cn=CheckboxGroup
+cn=TextField
+cn=CorbaHello
+cn=RemoteHello
+cn=RefHello
+cn=Custom
+cn=John Smith
+-----&gt; Sorted
+cn=Button
+cn=CheckboxGroup
+cn=Choice
+cn=CorbaHello
+cn=Custom
+cn=John Smith
+cn=RefHello
+cn=RemoteHello
+cn=TextField
+</pre></blockquote>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="request.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="connect.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Controls and Extensions</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

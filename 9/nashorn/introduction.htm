@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Introduction to the Nashorn Engine</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="This section provides introductory information about the Nashorn engine and how it can be used to interpret JavaScript code in a Java application or from the command line." />
+<meta name="dcterms.created" content="2017-09-14T18:35:56Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Nashorn User's Guide" />
+<meta name="dcterms.identifier" content="E76295-02" />
+<meta name="dcterms.isVersionOf" content="JSNUG" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;2014, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="preface.htm" title="Previous" type="text/html" />
+<link rel="Next" href="nashorn-java-api.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSNUG.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSNUG.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSNUG.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-89EC58B9-A26D-45FD-84B1-AD7FEF1B2928"></a> <span id="PAGE" style="display:none;">4/8</span> <!-- End Header -->
+<a id="JSNUG137"></a><a id="JSNUG136"></a>
+<h1 id="JSNUG-GUID-89EC58B9-A26D-45FD-84B1-AD7FEF1B2928" class="sect1"><span class="enumeration_chapter">1</span> Introduction to the Nashorn Engine</h1>
+<div>
+<div><span>This section provides introductory information about the Nashorn engine and how it can be used to interpret JavaScript code in a Java application or from the command line.</span></div>
+<p>The Nashorn engine is an implementation of the <a href="http://www.ecma-international.org/publications/standards/Ecma-262.html" target="_blank">ECMAScript Edition 5.1 Language Specification</a>. It also implements many new features introduced in <a href="http://www.ecma-international.org/ecma-262/6.0/" target="_blank">ECMAScript 6</a> including template strings; <code class="codeph">let</code>, <code class="codeph">const</code>, and block scope; iterators and <code class="codeph">for..of</code> loops; <code class="codeph">Map</code>, <code class="codeph">Set</code>, <code class="codeph">WeakMap</code>, and <code class="codeph">WeakSet</code> data types; symbols; and binary and octal literals.</p>
+<p>It was fully developed in the Java language as part of the <a href="http://openjdk.java.net/projects/nashorn/" target="_blank">Nashorn Project</a>. The code is based on the new features of the <a href="http://openjdk.java.net/projects/mlvm/" target="_blank">Da Vinci Machine</a>, which is the reference implementation of <a href="http://jcp.org/en/jsr/detail?id=292" target="_blank">Java Specification Request (JSR) 292: Supporting Dynamically Typed Languages on the Java Platform</a>.</p>
+<p>The Nashorn engine is included in the Java SE Development Kit (JDK). You can invoke Nashorn from a Java application using the Java Scripting API to interpret embedded scripts, or you can pass the script to the <a class="olink JSWOR-GUID-0F3625BB-9E0E-46C3-8FF1-CEFDD91EDF85" target="_blank" href="../tools/jjs.htm#JSWOR-GUID-0F3625BB-9E0E-46C3-8FF1-CEFDD91EDF85"><code class="codeph">jjs</code></a> or <a class="olink JSWOR-GUID-2F661186-F3FD-4B20-8E7A-9FB289B753FC" target="_blank" href="../tools/jrunscript.htm#JSWOR-GUID-2F661186-F3FD-4B20-8E7A-9FB289B753FC"><code class="codeph">jrunscript</code></a> tool.</p>
+<div class="infobox-note" id="GUID-89EC58B9-A26D-45FD-84B1-AD7FEF1B2928__GUID-F4B45670-2ABA-4245-A108-D597A0964E6E">
+<p class="notep1">Note:</p>
+<p>Nashorn is the only JavaScript engine included in the JDK. However, you can use any script engine compliant with <a href="http://jcp.org/en/jsr/detail?id=223" target="_blank">JSR 223: Scripting for the Java Platform</a> or implement your own; see <a class="olink JSJSG-GUID-76E11DD9-C7A4-4232-AF57-6B6A0535BB60" target="_blank" href="../scripting/scripting-languages-and-java.htm#JSJSG-GUID-76E11DD9-C7A4-4232-AF57-6B6A0535BB60">Scripting Languages and Java</a> in <span><cite>Java Platform, Standard Edition Java Scripting Programmer's Guide</cite></span>.</p>
+</div>
+<div class="section">
+<p class="subhead1">Topics</p>
+<ul style="list-style-type: disc;">
+<li><a href="introduction.htm#GUID-E2EAE792-B83D-40EB-92CD-583F6DBAB9A1">Invoking Nashorn from Java Code</a></li>
+<li><a href="introduction.htm#GUID-B3302ADF-39F0-47A7-A029-961A174796AE">Invoking Nashorn from the Command Line</a></li>
+<li><a href="introduction.htm#GUID-D5F67FED-5A48-46B9-8CE1-55DAFB796810" title="The Nashorn parser API enables applications, in particular IDEs and server-side frameworks, to parse and analyze ECMAScript code.">Nashorn Parser API</a></li>
+</ul>
+</div>
+<!-- class="section" --></div>
+<a id="JSNUG139"></a><a id="JSNUG138"></a>
+<div class="props_rev_3"><a id="GUID-E2EAE792-B83D-40EB-92CD-583F6DBAB9A1"></a>
+<h2 id="JSNUG-GUID-E2EAE792-B83D-40EB-92CD-583F6DBAB9A1" class="sect2">Invoking Nashorn from Java Code</h2>
+<div>
+<div class="section">
+<p>To invoke Nashorn in your Java application, create an instance of the Nashorn engine using the Java Scripting API.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">To get an instance of the Nashorn engine:</p>
+<ol>
+<li>
+<p>Import the <a href="http://docs.oracle.com/javase/9/docs/api/javax/script/package-summary.html" target="_blank"><span class="apiname">javax.script</span></a> package.</p>
+<p>The Java Scripting API is composed of classes and interfaces in this package.</p>
+</li>
+<li>
+<p>Create a <code class="codeph">ScriptEngineManager</code> object.</p>
+<p>The <code class="codeph">ScriptEngineManager</code> class is the starting point for the Java Scripting API. A <code class="codeph">ScriptEngineManager</code> object is used to instantiate <code class="codeph">ScriptEngine</code> objects and maintain global variable values shared by them.</p>
+</li>
+<li>
+<p>Get a <code class="codeph">ScriptEngine</code> object from the manager using the <code class="codeph">getEngineByName()</code> method.</p>
+<p>This method takes one <code class="codeph">String</code> argument with the name of the script engine. To get an instance of the Nashorn engine, pass in <code class="codeph">"nashorn"</code>. Alternatively, you can use any of the following: <code class="codeph">"Nashorn"</code>, <code class="codeph">"javascript"</code>, <code class="codeph">"JavaScript"</code>, <code class="codeph">"js"</code>, <code class="codeph">"JS"</code>, <code class="codeph">"ecmascript"</code>, <code class="codeph">"ECMAScript"</code>.</p>
+</li>
+</ol>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p>After you have the Nashorn engine instance, you can use it to evaluate statements and script files, set variables, and so on. The following example, <code>EvalScript.java</code>, provides simple Java application code that evaluates a <code class="codeph">print("Hello, World!");</code> statement using Nashorn.</p>
+<pre dir="ltr">
+import javax.script.*;
+
+public class EvalScript {
+    public static void main(String[] args) throws Exception {
+        // create a script engine manager
+        ScriptEngineManager factory = new ScriptEngineManager();
+        // create a Nashorn script engine
+        ScriptEngine engine = factory.getEngineByName("nashorn");
+        // evaluate JavaScript statement
+        try {
+            engine.eval("print('Hello, World!');");
+        } catch (final ScriptException se) { se.printStackTrace(); }
+    }
+}
+</pre>
+<div class="infobox-note" id="GUID-E2EAE792-B83D-40EB-92CD-583F6DBAB9A1__GUID-35FA94C1-2A97-4D79-B91D-7D79D553B966">
+<p class="notep1">Note:</p>
+<p>The <code class="codeph">eval()</code> method throws a <code class="codeph">ScriptException</code> that must be handled properly.</p>
+</div>
+<p><a class="olink JSJSG-GUID-9E09719F-164D-4380-A585-72F53D9C5AFB" target="_blank" href="../scripting/java-scripting-api.htm#JSJSG-GUID-9E09719F-164D-4380-A585-72F53D9C5AFB">Java Scripting API Examples with Java Classes</a> in <span><cite>Java Platform, Standard Edition Java Scripting Programmer's Guide</cite></span> demonstrates how to use scripts in Java code.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<a id="JSNUG140"></a>
+<div class="props_rev_3"><a id="GUID-B3302ADF-39F0-47A7-A029-961A174796AE"></a>
+<h2 id="JSNUG-GUID-B3302ADF-39F0-47A7-A029-961A174796AE" class="sect2">Invoking Nashorn from the Command Line</h2>
+<div>
+<p>There are two command-line tools that can be used to invoke the Nashorn engine:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a class="olink JSWOR-GUID-2F661186-F3FD-4B20-8E7A-9FB289B753FC" target="_blank" href="../tools/jrunscript.htm#JSWOR-GUID-2F661186-F3FD-4B20-8E7A-9FB289B753FC"><code class="codeph">jrunscript</code></a></p>
+<p>This is a generic command that invokes any available script engine compliant with JSR 223. By default, without any options, <code class="codeph">jrunscript</code> invokes the Nashorn engine, because it is the default script engine in the JDK.</p>
+</li>
+<li>
+<p><a class="olink JSWOR-GUID-0F3625BB-9E0E-46C3-8FF1-CEFDD91EDF85" target="_blank" href="../tools/jjs.htm#JSWOR-GUID-0F3625BB-9E0E-46C3-8FF1-CEFDD91EDF85"><code class="codeph">jjs</code></a></p>
+<p>This is the recommended tool, created specifically for Nashorn. To evaluate a script file using Nashorn, pass the name of the script file to the <code class="codeph">jjs</code> tool. To launch an interactive shell that interprets statements passed in using standard input, start the <code class="codeph">jjs</code> tool without specifying any script files.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2"><a id="GUID-D5F67FED-5A48-46B9-8CE1-55DAFB796810"></a>
+<h2 id="JSNUG-GUID-D5F67FED-5A48-46B9-8CE1-55DAFB796810" class="sect2">Nashorn Parser API</h2>
+<div>
+<p>The Nashorn parser API enables applications, in particular IDEs and server-side frameworks, to parse and analyze ECMAScript code.</p>
+<p>Parse ECMAScript code from a string, URL, or file with methods from the <a href="https://docs.oracle.com/javase/9/docs/api/jdk/nashorn/api/tree/Parser.html" target="_blank"><span class="apiname">Parser</span></a> class. These methods return an instance of <a href="https://docs.oracle.com/javase/9/docs/api/jdk/nashorn/api/tree/CompilationUnitTree.html" target="_blank"><span class="apiname">CompilationUnitTree</span></a>, which represents ECMAScript code as an abstract syntax tree. The package <a href="https://docs.oracle.com/javase/9/docs/api/jdk/nashorn/api/tree/package-summary.html" target="_blank"><span class="apiname">jdk.nashorn.api.tree</span></a> contains the Nashorn parser API.</p>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment536">
+<tr>
+<td class="cellalignment543">
+<table class="cellalignment541">
+<tr>
+<td class="cellalignment540"><a href="preface.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment540"><a href="nashorn-java-api.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;2014, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment545">
+<table class="cellalignment539">
+<tr>
+<td class="cellalignment540"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment540"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment540"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

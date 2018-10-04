@@ -1,0 +1,165 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Update Methods</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="list.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="parser.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Essential Components</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Update Methods
+</h2>
+<p>
+<blockquote>
+
+A context is updated by using the following operations:
+
+<ul>
+<li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><tt>bind(Name name, Object obj)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#rebind(javax.naming.Name, java.lang.Object)"><tt>rebind(Name name, Object obj)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#rebind(javax.naming.Name, java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#unbind(javax.naming.Name)"><tt>unbind(Name name)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#unbind(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#rename(javax.naming.Name, javax.naming.Name)"><tt>rename(Name oldname, Name newname)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#rename(javax.naming.Name, javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#createSubcontext(javax.naming.Name)"><tt>createSubcontext(Name name)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#createSubcontext(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#destroySubcontext(javax.naming.Name)"><tt>destroySubcontext(Name name)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#destroySubcontext(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></ul>
+
+Whether these methods are supported and how they are supported  depend
+on the underlying naming/directory service.
+An actual context implementation would update the underlying naming/directory
+service.
+A context implementation for a read-only service, for example,
+would not support any of these methods.
+One for a flat namespace, such as
+<a href=src/FlatCtx.java>the flat namespace example</a> 
+would not support <tt>createSubcontext()</tt> and <tt>destroySubcontext()</tt>.
+<blockquote>
+<hr>
+<strong>Implementation Tip:</strong>
+<tt>bind()</tt> and <tt>rebind()</tt> can accept <tt>null</tt>
+as the object parameter if the context implementation supports only
+adding a name to the namespace without an associated object.
+<hr>
+</blockquote>
+<p>
+In <a href=src/FlatCtx.java>the flat namespace example</a>, 
+<tt>bind()</tt>, <tt>rebind()</tt>,
+and <tt>unbind()</tt> are implemented much like <tt>lookup()</tt>,
+except that
+these methods update the internal data structure instead of 
+read from it.
+Here is the definition of <tt>rebind()</tt>.
+<blockquote><pre>
+public void rebind(Name name, Object obj) throws NamingException {
+    if (name.isEmpty()) {
+        throw new InvalidNameException("Cannot bind empty name");
+    }
+
+    // Extract the components that belong to this namespace
+    String nm = getMyComponents(name);
+
+    // Add the object to the internal hash table
+    bindings.put(nm, obj);
+}
+</pre></blockquote>
+
+<h4>Rename</h4>
+
+<tt>rename()</tt> allows you to rename across 
+<em>different</em> contexts.
+An actual context implementation could have problems supporting this
+fully because the underlying naming/directory service might not support
+this feature. Some services might support only renaming within the
+<em>same</em> context. 
+In that case, the error might be indicated by the service itself and 
+would result in a service-specific exception;
+or, the context implementation might detect the problem and throw an
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/OperationNotSupportedException.html"><tt>OperationNotSupportedException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/OperationNotSupportedException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<p>
+Here is the definition of <tt>rename()</tt> from the simple
+<a href=src/FlatCtx.java>flat namespace example</a>.
+<blockquote><pre>
+public void rename(Name oldname, Name newname) throws NamingException {
+    if (oldname.isEmpty() || newname.isEmpty()) {
+        throw new InvalidNameException("Cannot rename empty name");
+    }
+
+    // Extract the components that belong to this namespace
+    String oldnm = getMyComponents(oldname);
+    String newnm = getMyComponents(newname);
+
+    // Check whether the new name exists
+    if (bindings.get(newnm) != null) {
+        throw new NameAlreadyBoundException(newname.toString() +
+                                            " is already bound");
+    }
+
+    // Check whether the old name is bound
+    Object oldBinding = bindings.remove(oldnm);
+    if (oldBinding == null) {
+        throw new NameNotFoundException(oldname.toString() + " not bound");
+    }
+
+    bindings.put(newnm, oldBinding);
+}
+</blockquote></pre>
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="list.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="parser.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Essential Components</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

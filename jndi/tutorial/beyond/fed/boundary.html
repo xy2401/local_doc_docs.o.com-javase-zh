@@ -1,0 +1,218 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Naming System Boundaries</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="current.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=bottom border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Federation</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Naming System Boundaries
+</h2>
+<p>
+<blockquote>
+
+The
+<a target="_top" href="../names/composite.html">What's in a Name?</a> <a target="_top" href="../names/composite.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>   lesson explains in detail how to use a composite name to express a
+name that spans multiple naming systems.
+This section explains how a service provider determines which components
+of the composite name to process and which to pass on.
+In effect, the service provider needs to determine the
+<em>naming system boundary</em> that separates its components
+from those of its (downstream) neighbor.
+
+
+<h4>Strong and Weak Separation</h4>
+<p>
+The example in the
+<a target="_top" href="../names/composite.html">What's in a Name?</a> <a target="_top" href="../names/composite.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>   lesson has the following composite name:
+<blockquote><pre>
+cn=homedir,cn=Jon Ruiz,ou=People/tutorial/report.txt
+</pre></blockquote>
+This composite name has three components: 
+<blockquote><pre>
+cn=homedir,cn=Jon Ruiz,ou=People
+tutorial
+report.txt
+</pre></blockquote>
+The first component belongs to the LDAP naming system, and the second
+two belong to the (UNIX) file system. As
+this example shows, a composite name can have multiple
+(possibly consecutive) components from the same naming system
+(<tt>"tutorial"</tt> and <tt>"report.txt"</tt> are both from the file
+system), but one component cannot span more than one
+naming system.
+So, the correspondence between
+the composite name component separator--the forward slash character (<tt>/</tt>)--and
+naming system boundaries might not be one-to-one.
+<p>
+In this lesson, service providers are categorized
+by whether they treat
+the composite name component separator as a naming system boundary.
+Those that do support <em>strong separation</em>,  and those that don't support <em>weak separation</em>.
+<ul>
+<li>
+A provider that supports 
+strong separation processes a composite name 
+by consuming the leading
+component of the name and leaving the remaining components for
+other naming systems.
+<li>
+A provider that supports weak separation does not
+necessarily treat the separator as a naming system
+boundary. When processing a composite name, it consumes
+as many leading components as appropriate for the underlying naming system.
+</ul>
+<p>
+
+The primary factor for determining whether a provider supports strong
+or weak separation is the syntax of the underlying naming system.  If
+that system has a flat namespace or a
+hierarchical namespace with a compound name component separator that
+does not conflict with the composite name component separator, 
+then the
+corresponding service provider will support strong separation.
+Otherwise, the provider most likely will support weak
+separation.  Of course, it can get around the syntax
+conflict issue and support strong separation by requiring that any
+compound name component separator be escaped or quoted.
+This requirement might be inconvenient for users of that provider
+but it might be the only way by
+which some providers can support federation.
+(See later in this lesson.)
+
+<p>
+Service providers that support strong separation include those
+for the LDAP, the Windows file system, and the RMI registry.
+The LDAP naming system is hierarchical and has the comma character ("<tt>,</tt>")
+as its compound name component separator.
+The Windows file system is hierarchical and has the backslash character
+("<tt>\</tt>") as the separator.
+Neither of these separators
+conflicts with the composite name component separator.
+The RMI registry namespace is a flat namespace.
+Service providers that support weak separation include
+those for the COS naming service and the UNIX file system.
+
+<h4>Conditions for Supporting Weak Separation</h4>
+
+Weak separation is convenient because it makes composite names look cleaner
+(fewer quotation marks or escapes are required). 
+Also, this allows users to be less cognizant
+of naming system boundaries.
+However, not all service providers can support weak separation.
+Certain restrictions may force a provider to
+support strong separation.
+For example,
+if the namespace syntax is hierarchical and uses
+the forward slash character ("<tt>/</tt>") as its separator but names
+are arranged right to left, then the provider cannot use weak separation.
+This is because
+the conflicting direction prevents any sensible determination
+of naming system boundaries.
+<p>
+If the naming system is terminal (components from that naming system
+can appear only at the end of a composite name), then the service provider
+can support weak separation.
+For example, suppose that a spreadsheet application's namespace has a
+left-to-right syntax and uses the forward slash character as the
+component separator. Suppose also that it names spreadsheet cells
+that will always be terminal; that is, things will not be
+named relative
+to a spreadsheet cell. In this case, the service provider for
+the spreadsheet naming system can support weak separation.
+Given a composite name, it will consume all of its components.
+<p>
+If the naming system is nonterminal but the service provider can determine
+the naming system boundary syntactically, then it
+can support weak separation.
+In this case, the service provider would use a syntactic rule to determine
+how many components from a composite name to consume.
+For example, the compound name components from the naming system might
+have a distinguishing characteristic that allows the provider
+to select the components. 
+<p>
+As a specific example, a DCE X.500
+name looks like this:
+<blockquote><pre>
+c=us/o=wiz/ou=people
+</pre></blockquote>
+A provider for this naming system can support weak separation
+by looking for components that have a key/value pair separated
+by an equals character ("<tt>=</tt>").
+It will, however, restrict the types of
+naming systems that can be federated directly beyond its
+naming system.
+In the previous example, a naming system
+that has names that consist of key/value pairs separated by an equals character cannot be federated.
+<p>
+If the naming system is nonterminal but the service provider can determine
+the naming system boundary dynamically, then it can support
+weak separation.
+The underlying naming system must be able to return residual 
+unresolved components of names.
+To determine which components to consume, the provider 
+will resolve
+the entire composite name and, based on the result of 
+the resolution,
+use any residual to determine what is not in its naming system.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="current.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=top border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Federation</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Javadoc</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="The javadoc tool is a program that reads a collection of source files into an internal form." />
+<meta name="dcterms.created" content="2017-09-14T06:45:33Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Javadoc Guide" />
+<meta name="dcterms.identifier" content="E75727-02" />
+<meta name="dcterms.isVersionOf" content="JSJAV" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;2014, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="preface.htm" title="Previous" type="text/html" />
+<link rel="Next" href="source-files.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSJAV.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSJAV.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSJAV.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns">
+<a id="BEGIN" name="BEGIN"></a>
+<span id="PAGE" style="display:none;">4/6</span> <!-- End Header --><a id="GUID-7A344353-3BBF-45C4-8B28-15025DDCC643"></a>
+<h1 id="JSJAV-GUID-7A344353-3BBF-45C4-8B28-15025DDCC643" class="sect1"><span class="enumeration_chapter">1</span> Javadoc</h1>
+<div>
+<p>The <code class="codeph">javadoc</code> tool is a program that reads a collection of source files into an internal form.</p>
+<p>The structure is: <code class="codeph">(source-files)-&gt;[javadoc-tool:doclet]-&gt;(generated files)</code>.</p>
+<p>The <a href="javadoc-command.htm#GUID-C27CE557-E5C6-4688-9FA5-9E9DE886A569" title="You use the javadoc tool and its options to generate HTML pages of API documentation from Java source files.">Javadoc doclet</a> is like a pluggable back end that analyzes this internal form with some goal in mind. It can generate HTML, MIF, or XML files, depending on the doclet.</p>
+<p>The content of the generated files is specific to the doclet. The standard doclet generates HTML documentation, but a different doclet, for example, could generate a report of misspelled words or grammatical errors.</p>
+<p>If you specify a doclet other than the standard doclet, then the descriptions in this guide might not apply to the operation of that doclet or the files (if any) that are generated.</p>
+<p>To use the <code class="codeph">javadoc</code> tool, you must:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Write source code, containing documentation comments. Documentation comments are formatted in HTML and are interspersed with the <code class="codeph">javadoc</code> tool.</p>
+</li>
+<li>
+<p>Run the <code class="codeph">javadoc</code> tool. You need to specify a doclet to analyze the documentation comments and any other special tags. However, if you don&rsquo;t specify any doclet, by default, the <a href="javadoc-command.htm#GUID-F9E5D57D-5A94-4043-A010-B24511A7BAB2" title="The Standard Doclet is the doclet provided by Oracle that produces Javadoc's default HTML-formatted API output.">Standard Doclet</a> is included. You specify a number of command-line options, some of which are directed at the <code class="codeph">javadoc</code> tool itself, and some of which are specific to the selected doclet.&nbsp;The command-line help shows and distinguishes the options for the tool that apply to the currently selected doclet. When the standard doclet is used, the output generated by the standard doclet consists of a series of HTML pages. If you specify a different doclet, then the operation of that doclet and what files (if any) are generated may or may not be equivalent to the standard doclet described in this guide.</p>
+</li>
+</ul>
+</div>
+<div class="sect2"><a id="GUID-9E6AB571-AB0F-4279-9BBF-C0AF83345BF0"></a>
+<h2 id="JSJAV-GUID-9E6AB571-AB0F-4279-9BBF-C0AF83345BF0" class="sect2">Javadoc Features</h2>
+<div>
+<p>Javadoc features include the following: Javadoc search, support for generating HTML5 output, support for documentation comments in module systems, and simplified Doclet API.</p>
+<div class="section">
+<p class="subhead2">Search</p>
+<p>The <code class="codeph">javadoc</code> tool runs the doclet that may generate output. The standard doclet generates output that lets you search the generated documentation. A search box is available on the generated APIs and provides the following:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>You can search&nbsp;for elements and additional key phrases defined in the API</p>
+</li>
+<li>
+<div class="p">Results, including results that exactly match the entered characters followed by results that contains the entered characters anywhere in the string. Multiple results are displayed as simple scrolling lists below the search box. Results are categorized as follows, for easier classification and appropriate user selection:
+<ul style="list-style-type: disc;">
+<li>
+<p>Modules</p>
+</li>
+<li>
+<p>Packages</p>
+</li>
+<li>
+<p>Types</p>
+</li>
+<li>
+<p>Members</p>
+</li>
+<li>
+<p>Search Tags</p>
+</li>
+</ul>
+Multiple results with different program element names are displayed if the search term or a phrase is inherited using the <code class="codeph">@inheritDoc</code> tag.</div>
+</li>
+<li>
+<p>Page redirection based on user selection.</p>
+</li>
+</ul>
+<p>You can search for the following:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold">Declared names of modules, packages, types, and members</span>: Because methods can be overloaded, the simple names of method parameter types are also indexed and can be searched for. The method parameter names can&rsquo;t be indexed.</p>
+</li>
+<li>
+<p><span class="bold">A search term or a phrase indexed using a new inline tag, <code class="codeph">@index</code></span>: Other inline tags cannot be nested inside <code class="codeph">@index</code>. You can only search a phrase or search term marked with <code class="codeph">@index</code> within a declaration's <code class="codeph">javadoc</code> comment. For example, the domain-specific term <code class="codeph">ulps</code> is used throughout the <code class="codeph">java.lang.Math</code> class, but doesn't appear in any class or method declaration names. To help users of the Math API, the API designer could tag various occurrences of <code class="codeph">ulps</code> in a class-level <code class="codeph">javadoc</code> comment or a method-level <code class="codeph">javadoc</code> comment. Tagging is achieved using <code class="codeph">{@index ulps}</code>. The term <code class="codeph">ulps</code> is indexed by the <code class="codeph">javadoc</code> tool.</p>
+</li>
+</ul>
+</div>
+<div class="section">
+<p class="subhead2">Module System</p>
+<p>The <code class="codeph">javadoc</code> tool supports documentation comments in module declarations. Some Javadoc command-line options enable you to specify the set of modules to document and generate a new summary page for any modules being documented. It has new command-line options to configure the set of modules to be documented and generates a new summary page for any modules being documented. See <a href="javadoc-command.htm#GUID-3051737B-FFF9-45F9-85D1-5F07D6703592__CHDCIBFC">javadoc Doclet Options</a>.</p>
+</div>
+<div class="section">
+<p class="subhead2">HTML 5 Support</p>
+<p>You can generated HTML5 output. To get fully-compliant HTML5 output, ensure that any HTML content provided in documentation comments are compliant with HTML5.</p>
+</div>
+<div class="section">
+<p class="subhead2">Simplified Doclet API</p>
+<p>The Doclet API uses powerful APIs that can better represent all the language features. See <a href="javadoc-command.htm#GUID-04BFA924-7C45-4E9C-91D1-0B77D97E65AB__CHDHDFBE">Standard Doclet Options</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment143">
+<tr>
+<td class="cellalignment150">
+<table class="cellalignment153">
+<tr>
+<td class="cellalignment147"><a href="preface.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment147"><a href="source-files.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;2014, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment152">
+<table class="cellalignment146">
+<tr>
+<td class="cellalignment147"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment147"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment147"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+</body>
+</html>

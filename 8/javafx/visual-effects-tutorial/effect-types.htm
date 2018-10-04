@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>5 Applying Effects (Release 8)</title>
+<meta name="description" content="This tutorial describes how to use visual effects to enhance the look of your JavaFX application.">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXTE.pdf">PDF</a> | <a href="../JFXTE.epub">ePub</a> | <a href="../JFXTE.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Transformations, Animations, and Visual Effects</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="visual_effects.htm">Previous Page</a><a class="button" title="Next Page" href="sample-source-code.htm">Next Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="BEBDDHCA" name="BEBDDHCA" class="anchor"></a><a id="JFXTE192" name="JFXTE192" class="anchor"></a>
+<h1 class="chapter"><span class="secnum">5</span> Applying Effects</h1>
+<a id="JFXTE236" name="JFXTE236" class="anchor"></a>
+<p>This tutorial describes how to use visual effects to enhance the look of your JavaFX application.</p>
+<p>All effects are located in the <code>javafx.scene.effect</code> package and are subclasses of the <code>Effect</code> class. For more information about particular classes, methods, or additional features, see the API documentation.</p>
+<a id="CIHDGIHF" name="CIHDGIHF" class="anchor"></a><a id="JFXTE237" name="JFXTE237" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Blend Effect</h2>
+<p>Blend is an effect that combines two inputs together using one of the predefined blending modes.</p>
+<p>In the case of a node blending (<code>node.setBlendMode()</code>), the two inputs are:</p>
+<ul>
+<li>
+<p>The node being rendered (a top input)</p>
+</li>
+<li>
+<p>Everything underneath the node (a bottom input)</p>
+</li>
+</ul>
+<p>The determination of the bottom input is based on the following rules:</p>
+<ul>
+<li>
+<p>All lower Z-order siblings in the same group are included.</p>
+</li>
+<li>
+<p>If the group has a defined blend mode, then the process stops, and the bottom input is defined.</p>
+</li>
+<li>
+<p>If the group has the default blend mode, then everything underneath the group is included, recursively using this same rule.</p>
+</li>
+<li>
+<p>If the process recursively gets back to the root node, then the background paint of the scene is included.</p>
+</li>
+</ul>
+<div class="infoboxnote">
+<p class="notep1">Note:</p>
+<p>If the background paint of the scene, which is usually an opaque color, is included in the bottom input, then the <code>SRC_ATOP</code> mode renders on a completely opaque bottom source and has no effect. In this case, the <code>SRC_ATOP</code> mode is equivalent to <code>SRC_OVER</code>.</p>
+</div>
+<p>A blending mode defines the manner in which the objects are mixed together. For example, in <a href="#BEBEHGFH">Figure 5-1</a>, you can see examples of some blending modes applied to a circle that is grouped with a square.</p>
+<div class="figure"><a id="BEBEHGFH" name="BEBEHGFH" class="anchor"></a><a id="JFXTE193" name="JFXTE193" class="anchor"></a>
+<p class="titleinfigure">Figure 5-1 Different Blending Modes</p>
+<img width="400" height="278" src="img/blend_examples.png" alt="Description of Figure 5-1 follows" title="Description of Figure 5-1 follows" longdesc="img_text/blend_examples.htm" /><br />
+<a id="sthref56" name="sthref56" href="img_text/blend_examples.htm">Description of "Figure 5-1 Different Blending Modes"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p><a href="#BEBIDCBD">Example 5-1</a> shows a code snippet for the blend effect in the sample application.</p>
+<div class="example"><a id="BEBIDCBD" name="BEBIDCBD" class="anchor"></a><a id="JFXTE195" name="JFXTE195" class="anchor"></a>
+<p class="titleinexample">Example 5-1 Blend Effect</p>
+<pre xml:space="preserve" class="oac_no_warn">static Node blendMode() {
+        Rectangle r = new Rectangle();
+        r.setX(590);
+        r.setY(50);
+        r.setWidth(50);
+        r.setHeight(50);
+        r.setFill(Color.BLUE);
+ 
+        Circle c = new Circle();
+        c.setFill(Color.RED);
+        c.setCenterX(590);
+        c.setCenterY(50);
+        c.setRadius(25);
+        c.setBlendMode(BlendMode.SRC_ATOP);
+ 
+        Group g = new Group();
+        g.setBlendMode(BlendMode.SRC_OVER);
+        g.getChildren().add(r);
+        g.getChildren().add(c);
+        return g;
+    }
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect1" -->
+<a id="CIHHABED" name="CIHHABED" class="anchor"></a><a id="JFXTE238" name="JFXTE238" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Bloom Effect</h2>
+<p>The bloom effect makes brighter portions an image appear to glow, based on a configurable threshold. The threshold varies from 0.0 to 1.0. By default, the threshold is set to 0.3.</p>
+<p><a href="#BABDBABA">Figure 5-2</a> shows the bloom effect at the default threshold and at a threshold of 1.0.</p>
+<div class="figure"><a id="BABDBABA" name="BABDBABA" class="anchor"></a><a id="JFXTE197" name="JFXTE197" class="anchor"></a>
+<p class="titleinfigure">Figure 5-2 Bloom Effect</p>
+<img width="480" height="220" src="img/bloom.jpg" alt="Description of Figure 5-2 follows" title="Description of Figure 5-2 follows" longdesc="img_text/bloom.htm" /><br />
+<a id="sthref57" name="sthref57" href="img_text/bloom.htm">Description of "Figure 5-2 Bloom Effect"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p><a href="#CIHJGFCA">Example 5-2</a> shows a code snippet from the sample application that is using the bloom effect.</p>
+<div class="example"><a id="CIHJGFCA" name="CIHJGFCA" class="anchor"></a><a id="JFXTE239" name="JFXTE239" class="anchor"></a>
+<p class="titleinexample">Example 5-2 Bloom Example</p>
+<pre xml:space="preserve" class="oac_no_warn">static Node bloom() {
+        Group g = new Group();
+ 
+        Rectangle r = new Rectangle();
+        r.setX(10);
+        r.setY(10);
+        r.setWidth(160);
+        r.setHeight(80);
+        r.setFill(Color.DARKBLUE);
+ 
+        Text t = new Text();
+        t.setText("Bloom!");
+        t.setFill(Color.YELLOW);
+        t.setFont(Font.font("null", FontWeight.BOLD, 36));
+        t.setX(25);
+        t.setY(65);
+ 
+        g.setCache(true);
+        //g.setEffect(new Bloom());
+        Bloom bloom = new Bloom();
+        bloom.setThreshold(1.0);
+        g.setEffect(bloom);
+        g.getChildren().add(r);
+        g.getChildren().add(t);
+        g.setTranslateX(350);
+        return g;
+    }
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect1" -->
+<a id="CIHCJJIG" name="CIHCJJIG" class="anchor"></a><a id="JFXTE240" name="JFXTE240" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Blur Effects</h2>
+<p>Blurring are common effects that can be used to provide more focus to selected objects. With JavaFX you can apply a boxblur, a motion blur, or a gaussian blur.</p>
+<a id="JFXTE241" name="JFXTE241" class="anchor"></a>
+<div class="sect2"><a id="sthref58" name="sthref58" class="anchor"></a>
+<h3 class="sect2">BoxBlur</h3>
+<p>The BoxBlur is a blur effect that uses a simple box filter kernel, with separately configurable sizes in both dimensions that control the amount of blur applied to an object, and an <code>Iterations</code> parameter that controls the quality of the resulting blur.</p>
+<p><a href="#CIHGHDJI">Figure 5-3</a> shows two samples of blurred text.</p>
+<div class="figure"><a id="CIHGHDJI" name="CIHGHDJI" class="anchor"></a><a id="JFXTE242" name="JFXTE242" class="anchor"></a>
+<p class="titleinfigure">Figure 5-3 BoxBlur Effect</p>
+<img width="400" height="160" src="img/boxblur.jpg" alt="Description of Figure 5-3 follows" title="Description of Figure 5-3 follows" longdesc="img_text/boxblur.htm" /><br />
+<a id="sthref59" name="sthref59" href="img_text/boxblur.htm">Description of "Figure 5-3 BoxBlur Effect"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p><a href="#CIHCJDIF">Example 5-3</a> is a code snippet that uses the BoxBlur effect.</p>
+<div class="example"><a id="CIHCJDIF" name="CIHCJDIF" class="anchor"></a><a id="JFXTE243" name="JFXTE243" class="anchor"></a>
+<p class="titleinexample">Example 5-3 BoxBlur Example</p>
+<pre xml:space="preserve" class="oac_no_warn">static Node boxBlur() {
+        Text t = new Text();
+        t.setText("Blurry Text!");
+        t.setFill(Color.RED);
+        t.setFont(Font.font("null", FontWeight.BOLD, 36));
+        t.setX(10);
+        t.setY(40);
+ 
+        BoxBlur bb = new BoxBlur();
+        bb.setWidth(5);
+        bb.setHeight(5);
+        bb.setIterations(3);
+ 
+        t.setEffect(bb);
+        t.setTranslateX(300);
+        t.setTranslateY(100);
+ 
+        return t;
+    }
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect2" -->
+<a id="JFXTE244" name="JFXTE244" class="anchor"></a>
+<div class="sect2"><a id="sthref60" name="sthref60" class="anchor"></a>
+<h3 class="sect2">Motion Blur</h3>
+<p>A motion blur effect uses a Gaussian blur, with a configurable radius and angle to create the effect of a moving object.</p>
+<p><a href="#CIHEGJHA">Figure 5-4</a> shows the effect of the motion blur on a text.</p>
+<div class="figure"><a id="CIHEGJHA" name="CIHEGJHA" class="anchor"></a><a id="JFXTE245" name="JFXTE245" class="anchor"></a>
+<p class="titleinfigure">Figure 5-4 Motion Blur Effect</p>
+<img width="400" height="90" src="img/motionblur.jpg" alt="Description of Figure 5-4 follows" title="Description of Figure 5-4 follows" longdesc="img_text/motionblur.htm" /><br />
+<a id="sthref61" name="sthref61" href="img_text/motionblur.htm">Description of "Figure 5-4 Motion Blur Effect"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p><a href="#CIHFGGIG">Example 5-4</a> shows a code snippet that creates a motion blur effect with radius set to 15 and angle set to 45 in the sample application.</p>
+<div class="example"><a id="CIHFGGIG" name="CIHFGGIG" class="anchor"></a><a id="JFXTE246" name="JFXTE246" class="anchor"></a>
+<p class="titleinexample">Example 5-4 Motion Blur Example</p>
+<pre xml:space="preserve" class="oac_no_warn">static Node motionBlur() {
+        Text t = new Text();
+        t.setX(20.0f);
+        t.setY(80.0f);
+        t.setText("Motion Blur");
+        t.setFill(Color.RED);
+        t.setFont(Font.font("null", FontWeight.BOLD, 60));
+ 
+        MotionBlur mb = new MotionBlur();
+        mb.setRadius(15.0f);
+        mb.setAngle(45.0f);
+ 
+        t.setEffect(mb);
+ 
+        t.setTranslateX(300);
+        t.setTranslateY(150);
+ 
+        return t;
+    }
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect2" -->
+<a id="JFXTE247" name="JFXTE247" class="anchor"></a>
+<div class="sect2"><a id="sthref62" name="sthref62" class="anchor"></a>
+<h3 class="sect2">Gaussian Blur</h3>
+<p>The Gaussian blur is an effect that uses a Gaussian algorithm with a configurable radius to blur objects.</p>
+<p><a href="#CIHFGDCF">Figure 5-5</a> shows the effect of the Gaussian blur on a text.</p>
+<div class="figure"><a id="CIHFGDCF" name="CIHFGDCF" class="anchor"></a><a id="JFXTE248" name="JFXTE248" class="anchor"></a>
+<p class="titleinfigure">Figure 5-5 Gaussian Blur</p>
+<img width="256" height="65" src="img/gaussianblur.jpg" alt="Description of Figure 5-5 follows" title="Description of Figure 5-5 follows" longdesc="img_text/gaussianblur.htm" /><br />
+<a id="sthref63" name="sthref63" href="img_text/gaussianblur.htm">Description of "Figure 5-5 Gaussian Blur"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p><a href="#CIHIBBIB">Example 5-5</a> shows a code snippet that blurs the text using Gaussian blur effect.</p>
+<div class="example"><a id="CIHIBBIB" name="CIHIBBIB" class="anchor"></a><a id="JFXTE249" name="JFXTE249" class="anchor"></a>
+<p class="titleinexample">Example 5-5 Gaussian Blur</p>
+<pre xml:space="preserve" class="oac_no_warn">static Node gaussianBlur() {
+        Text t2 = new Text();
+        t2.setX(10.0f);
+        t2.setY(140.0f);
+        t2.setCache(true);
+        t2.setText("Gaussian Blur");
+        t2.setFill(Color.RED);
+        t2.setFont(Font.font("null", FontWeight.BOLD, 36));
+        t2.setEffect(new GaussianBlur());
+        return t2;
+    }
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect2" --></div>
+<!-- class="sect1" -->
+<a id="CIHJJGIF" name="CIHJJGIF" class="anchor"></a><a id="JFXTE250" name="JFXTE250" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Drop Shadow Effect</h2>
+<p>A drop shadow is an effect that renders a shadow of the content to which it is applied. You can specify the color, the radius, the offset, and some other parameters of the shadow.</p>
+<p><a href="#CIHEAJAH">Figure 5-6</a> shows the shadow effect on different objects.</p>
+<div class="figure"><a id="CIHEAJAH" name="CIHEAJAH" class="anchor"></a><a id="JFXTE251" name="JFXTE251" class="anchor"></a>
+<p class="titleinfigure">Figure 5-6 Drop Shadow Example</p>
+<img width="429" height="134" src="img/effect.jpg" alt="Description of Figure 5-6 follows" title="Description of Figure 5-6 follows" longdesc="img_text/effect.htm" /><br />
+<a id="sthref64" name="sthref64" href="img_text/effect.htm">Description of "Figure 5-6 Drop Shadow Example"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p><a href="#CIHBBIIE">Example 5-6</a> shows how to create a drop shadow on text and a circle.</p>
+<div class="example"><a id="CIHBBIIE" name="CIHBBIIE" class="anchor"></a><a id="JFXTE252" name="JFXTE252" class="anchor"></a>
+<p class="titleinexample">Example 5-6 Text and Circle With Shadows</p>
+<pre xml:space="preserve" class="oac_no_warn">import javafx.collections.ObservableList;
+import javafx.application.Application;
+import javafx.scene.*;
+import javafx.stage.*;
+import javafx.scene.shape.*;
+import javafx.scene.effect.*;
+import javafx.scene.paint.*;
+import javafx.scene.text.*;
+ 
+public class HelloEffects extends Application {
+ 
+    Stage stage;
+    Scene scene;
+
+    @Override 
+    public void start(Stage stage) {
+        stage.show();
+
+        scene = new Scene(new Group(), 840, 680);
+        ObservableList&lt;Node&gt; content = ((Group)scene.getRoot()).getChildren();
+ 
+        content.add(dropShadow());        
+        stage.setScene(scene);
+    }
+
+    static Node dropShadow() {
+        Group g = new Group();
+ 
+        DropShadow ds = new DropShadow();
+        ds.setOffsetY(3.0);
+        ds.setOffsetX(3.0);
+        ds.setColor(Color.GRAY);
+ 
+        Text t = new Text();
+        t.setEffect(ds);
+        t.setCache(true);
+        t.setX(20.0f);
+        t.setY(70.0f);
+        t.setFill(Color.RED);
+        t.setText("JavaFX drop shadow effect");
+        t.setFont(Font.font("null", FontWeight.BOLD, 32));
+ 
+        DropShadow ds1 = new DropShadow();
+        ds1.setOffsetY(4.0f);
+        ds1.setOffsetX(4.0f);
+        ds1.setColor(Color.CORAL);
+ 
+        Circle c = new Circle();
+        c.setEffect(ds1);
+        c.setCenterX(50.0f);
+        c.setCenterY(325.0f);
+        c.setRadius(30.0f);
+        c.setFill(Color.RED);
+        c.setCache(true);
+ 
+        g.getChildren().add(t);
+        g.getChildren().add(c);
+        return g;
+    }
+    public static void main(String[] args) {
+        Application.launch(args);
+    }
+}
+</pre></div>
+<!-- class="example" -->
+<div class="infoboxnotealso">
+<p class="notep1">Tip:</p>
+<ul>
+<li>
+<p>Making the drop shadow too wide gives the element the look of heaviness. The color of the shadow should be realistic, usually a few shades lighter than the background color.</p>
+</li>
+<li>
+<p>If you have multiple objects with drop shadows, orient the drop shadow the same for all of the objects. A drop shadow gives the appearance of a light coming from one direction and casting a shadow on objects.</p>
+</li>
+</ul>
+</div>
+</div>
+<!-- class="sect1" -->
+<a id="CIHEFCGC" name="CIHEFCGC" class="anchor"></a><a id="JFXTE253" name="JFXTE253" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Inner Shadow Effect</h2>
+<p>An inner shadow is an effect that renders a shadow inside the edges of the given content with the specified color, radius, and offset.</p>
+<p><a href="#CIHIABAH">Figure 5-7</a> shows plain text and the same text with the inner shadow effect applied.</p>
+<div class="figure"><a id="CIHIABAH" name="CIHIABAH" class="anchor"></a><a id="JFXTE254" name="JFXTE254" class="anchor"></a>
+<p class="titleinfigure">Figure 5-7 Inner Shadow</p>
+<img width="550" height="201" src="img/inner.jpg" alt="Description of Figure 5-7 follows" title="Description of Figure 5-7 follows" longdesc="img_text/inner.htm" /><br />
+<a id="sthref65" name="sthref65" href="img_text/inner.htm">Description of "Figure 5-7 Inner Shadow"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p><a href="#CIHIJBCF">Example 5-7</a> shows how to create an inner shadow on text.</p>
+<div class="example"><a id="CIHIJBCF" name="CIHIJBCF" class="anchor"></a><a id="JFXTE255" name="JFXTE255" class="anchor"></a>
+<p class="titleinexample">Example 5-7 Inner Shadow</p>
+<pre xml:space="preserve" class="oac_no_warn">static Node innerShadow() {
+        InnerShadow is = new InnerShadow();
+        is.setOffsetX(2.0f);
+        is.setOffsetY(2.0f);
+ 
+        Text t = new Text();
+        t.setEffect(is);
+        t.setX(20);
+        t.setY(100);
+        t.setText("Inner Shadow");
+        t.setFill(Color.RED);
+        t.setFont(Font.font("null", FontWeight.BOLD, 80));
+ 
+        t.setTranslateX(300);
+        t.setTranslateY(300);
+ 
+        return t;
+    }
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect1" -->
+<a id="CIHEHJFG" name="CIHEHJFG" class="anchor"></a><a id="JFXTE256" name="JFXTE256" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Reflection</h2>
+<p>Reflection is an effect that renders a reflected version of the object below the actual object.</p>
+<div class="infoboxnote">
+<p class="notep1">Note:</p>
+<p>The reflection of a node with a reflection effect will not respond to mouse events or the containment methods on the node.</p>
+</div>
+<p><a href="#CIHDBFFG">Figure 5-8</a> shows a reflection applied to text. Use the <code>setFraction</code> method to specify the amount of visible reflection.</p>
+<div class="figure"><a id="CIHDBFFG" name="CIHDBFFG" class="anchor"></a><a id="JFXTE257" name="JFXTE257" class="anchor"></a>
+<p class="titleinfigure">Figure 5-8 Reflection Effect</p>
+<img width="319" height="78" src="img/reflection.jpg" alt="Description of Figure 5-8 follows" title="Description of Figure 5-8 follows" longdesc="img_text/reflection.htm" /><br />
+<a id="sthref66" name="sthref66" href="img_text/reflection.htm">Description of "Figure 5-8 Reflection Effect"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p><a href="#CIHIAJGF">Example 5-8</a> shows how to create the reflection effect on text.</p>
+<div class="example"><a id="CIHIAJGF" name="CIHIAJGF" class="anchor"></a><a id="JFXTE258" name="JFXTE258" class="anchor"></a>
+<p class="titleinexample">Example 5-8 Text With Reflection</p>
+<pre xml:space="preserve" class="oac_no_warn">import javafx.scene.text.*;
+import javafx.scene.paint.*;
+import javafx.scene.effect.*;
+public class HelloEffects extends Application {
+ 
+    Stage stage;
+    Scene scene;
+
+    @Override public void start(Stage stage) {
+        stage.show();
+ 
+        scene = new Scene(new Group(), 840, 680);
+        ObservableList&lt;Node&gt; content = ((Group)scene.getRoot()).getChildren();
+        content.add(reflection());
+        stage.setScene(scene);
+    }
+    static Node reflection() {
+        Text t = new Text();
+        t.setX(10.0f);
+        t.setY(50.0f);
+        t.setCache(true);
+        t.setText("Reflection in JavaFX...");
+        t.setFill(Color.RED);
+        t.setFont(Font.font("null", FontWeight.BOLD, 30));
+ 
+        Reflection r = new Reflection();
+        r.setFraction(0.9);
+ 
+        t.setEffect(r);
+ 
+        t.setTranslateY(400);
+        return t;
+    }
+    public static void main(String[] args) {
+        Application.launch(args);
+    }
+}
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect1" -->
+<a id="CIHCIAGG" name="CIHCIAGG" class="anchor"></a><a id="JFXTE259" name="JFXTE259" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Lighting Effect</h2>
+<p>The lighting effect simulates a light source shining on the given content, which can be used to give flat objects a more realistic three-dimensional appearance.</p>
+<p><a href="#CIHEEBEE">Figure 5-9</a> shows the lighting effect on text.</p>
+<div class="figure"><a id="CIHEEBEE" name="CIHEEBEE" class="anchor"></a><a id="JFXTE260" name="JFXTE260" class="anchor"></a>
+<p class="titleinfigure">Figure 5-9 Lighting Effect</p>
+<img width="306" height="161" src="img/lighting.jpg" alt="Description of Figure 5-9 follows" title="Description of Figure 5-9 follows" longdesc="img_text/lighting.htm" /><br />
+<a id="sthref67" name="sthref67" href="img_text/lighting.htm">Description of "Figure 5-9 Lighting Effect"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p><a href="#CIHGEEBB">Example 5-9</a> shows how to create a lighting effect on text.</p>
+<div class="example"><a id="CIHGEEBB" name="CIHGEEBB" class="anchor"></a><a id="JFXTE261" name="JFXTE261" class="anchor"></a>
+<p class="titleinexample">Example 5-9 Text with Applied Lighting Effect</p>
+<pre xml:space="preserve" class="oac_no_warn">import javafx.application.Application;
+import javafx.collections.ObservableList;
+import javafx.geometry.VPos;
+import javafx.scene.effect.Light.Distant;
+import javafx.scene.*;
+import javafx.stage.*;
+import javafx.scene.shape.*;
+import javafx.scene.effect.*;
+import javafx.scene.paint.*;
+import javafx.scene.text.*;
+ 
+public class HelloEffects extends Application {
+    Stage stage;
+    Scene scene;
+
+    @Override public void start(Stage stage) {
+        stage.show();
+ 
+        scene = new Scene(new Group());
+        ObservableList&lt;Node&gt; content = ((Group)scene.getRoot()).getChildren();
+
+        content.add(lighting());
+        stage.setScene(scene);    }
+    static Node lighting() {
+        Distant light = new Distant();
+        light.setAzimuth(-135.0f);
+ 
+        Lighting l = new Lighting();
+        l.setLight(light);
+        l.setSurfaceScale(5.0f);
+ 
+        Text t = new Text();
+        t.setText("JavaFX"+"\n"+"Lighting!");
+        t.setFill(Color.RED);
+        t.setFont(Font.font("null", FontWeight.BOLD, 70));
+        t.setX(10.0f);
+        t.setY(10.0f);
+        t.setTextOrigin(VPos.TOP);
+ 
+        t.setEffect(l);
+ 
+        t.setTranslateX(0);
+        t.setTranslateY(320);
+ 
+        return t;
+    }
+    public static void main(String[] args) {
+        Application.launch(args);
+    }
+}
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect1" -->
+<a id="CIHFAJCI" name="CIHFAJCI" class="anchor"></a><a id="JFXTE262" name="JFXTE262" class="anchor"></a>
+<div class="sect1">
+<h2 class="sect1">Perspective Effect</h2>
+<p>The perspective effect creates a three-dimensional effect of otherwise two-dimensional object.</p>
+<p><a href="#CIHJGCDC">Figure 5-10</a> shows the perspective effect.</p>
+<div class="figure"><a id="CIHJGCDC" name="CIHJGCDC" class="anchor"></a><a id="JFXTE263" name="JFXTE263" class="anchor"></a>
+<p class="titleinfigure">Figure 5-10 Perspective Effect</p>
+<img width="214" height="97" src="img/perspective.jpg" alt="Description of Figure 5-10 follows" title="Description of Figure 5-10 follows" longdesc="img_text/perspective.htm" /><br />
+<a id="sthref68" name="sthref68" href="img_text/perspective.htm">Description of "Figure 5-10 Perspective Effect"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>A perspective transformation can map any square to another square, while preserving the straightness of the lines. Unlike affine transformations, the parallelism of lines in the source is not necessarily preserved in the output.</p>
+<div class="infoboxnote">
+<p class="notep1">Note:</p>
+<p>This effect does not adjust the coordinates of input events or any methods that measure containment on a node. Mouse clicking and the containment methods are undefined if a perspective effect is applied to a node.</p>
+</div>
+<p><a href="#CIHHCDED">Example 5-10</a> is a code snippet from the sample application that shows how to create a perspective effect.</p>
+<div class="example"><a id="CIHHCDED" name="CIHHCDED" class="anchor"></a><a id="JFXTE264" name="JFXTE264" class="anchor"></a>
+<p class="titleinexample">Example 5-10 Perspective Effect</p>
+<pre xml:space="preserve" class="oac_no_warn">static Node perspective() {
+        Group g = new Group();
+        PerspectiveTransform pt = new PerspectiveTransform();
+        pt.setUlx(10.0f);
+        pt.setUly(10.0f);
+        pt.setUrx(210.0f);
+        pt.setUry(40.0f);
+        pt.setLrx(210.0f);
+        pt.setLry(60.0f);
+        pt.setLlx(10.0f);
+        pt.setLly(90.0f);
+ 
+        g.setEffect(pt);
+        g.setCache(true);
+ 
+        Rectangle r = new Rectangle();
+        r.setX(10.0f);
+        r.setY(10.0f);
+        r.setWidth(280.0f);
+        r.setHeight(80.0f);
+        r.setFill(Color.DARKBLUE);
+ 
+        Text t = new Text();
+        t.setX(20.0f);
+        t.setY(65.0f);
+        t.setText("Perspective");
+        t.setFill(Color.RED);
+        t.setFont(Font.font("null", FontWeight.BOLD, 36));
+ 
+        g.getChildren().add(r);
+        g.getChildren().add(t);
+        return g;
+    }
+</pre></div>
+<!-- class="example" -->
+<p><a href="#CIHFDJBD">Figure 5-11</a> shows which coordinates affect the resulting image.</p>
+<div class="figure"><a id="CIHFDJBD" name="CIHFDJBD" class="anchor"></a><a id="JFXTE265" name="JFXTE265" class="anchor"></a>
+<p class="titleinfigure">Figure 5-11 Coordinates for Perspective Effect</p>
+<img width="380" height="260" src="img/perspective_expl.jpg" alt="Description of Figure 5-11 follows" title="Description of Figure 5-11 follows" longdesc="img_text/perspective_expl.htm" /><br />
+<a id="sthref69" name="sthref69" href="img_text/perspective_expl.htm">Description of "Figure 5-11 Coordinates for Perspective Effect"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="CIHIEDAC" name="CIHIEDAC" class="anchor"></a><a id="JFXTE266" name="JFXTE266" class="anchor"></a>
+<div class="sect1">
+<h2 class="sect1">Creating a Chain of Effects</h2>
+<p>Some of the effects have an input property that you can use to create a chain of effects. The chain of effects can be a tree-like structure, because some effects have two inputs and some do not have any.</p>
+<p>In <a href="#CIHDIAEH">Figure 5-12</a> the reflection effect is used as an input for the drop shadow effect, which means that first the rectangle is reflected by the reflection effect and then the drop shadow effect is applied to the result.</p>
+<div class="figure"><a id="CIHDIAEH" name="CIHDIAEH" class="anchor"></a><a id="JFXTE267" name="JFXTE267" class="anchor"></a>
+<p class="titleinfigure">Figure 5-12 Shadow and Reflection</p>
+<img width="470" height="227" src="img/chain.jpg" alt="Description of Figure 5-12 follows" title="Description of Figure 5-12 follows" longdesc="img_text/chain.htm" /><br />
+<a id="sthref70" name="sthref70" href="img_text/chain.htm">Description of "Figure 5-12 Shadow and Reflection"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<div class="example"><a id="JFXTE268" name="JFXTE268" class="anchor"></a><a id="sthref71" name="sthref71" class="anchor"></a>
+<p class="titleinexample">Example 5-11 Rectangle with a Shadow and Reflection Sequentially Applied</p>
+<pre xml:space="preserve" class="oac_no_warn">import javafx.application.Application;
+import javafx.collections.ObservableList;
+import javafx.scene.*;
+import javafx.stage.*;
+import javafx.scene.shape.*;
+import javafx.scene.effect.*;
+import javafx.scene.paint.*;
+import javafx.scene.text.*;
+ 
+public class HelloEffects extends Application {
+ 
+    Stage stage;
+    Scene scene;
+
+    @Override public void start(Stage stage) {
+        stage.show();
+ 
+        scene = new Scene(new Group());
+        ObservableList&lt;Node&gt; content = ((Group)scene.getRoot()).getChildren();
+ 
+        content.add(chainEffects());
+        stage.setScene(scene);
+    }
+    static Node chainEffects() {
+        
+        Rectangle rect = new Rectangle();
+        rect.setFill(Color.RED);
+        rect.setWidth(200);
+        rect.setHeight(100);
+        rect.setX(20.0f);
+        rect.setY(20.0f);
+ 
+        DropShadow ds = new DropShadow();
+        ds.setOffsetY(5.0);
+        ds.setOffsetX(5.0);
+        ds.setColor(Color.GRAY);
+        
+        
+        Reflection reflection = new Reflection();
+ 
+        ds.setInput(reflection);    
+        rect.setEffect(ds);
+ 
+        return rect;
+    }
+    public static void main(String[] args) {
+        Application.launch(args);
+    }
+}
+</pre></div>
+<!-- class="example" -->
+<div class="infoboxnote">
+<p class="notep1">Note:</p>
+<p>If you change the last two lines in the <code>chainEffects()</code>method to <code>reflection.setInput(ds);</code> and <code>rect.setEffect(reflection);</code>, first the drop shadow will be applied to the rectangle, and then the result will be reflected by the reflection effect.</p>
+</div>
+<p>For more information about particular classes, methods, or additional features, see the API documentation.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXTE269" name="JFXTE269" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref72" name="sthref72" class="anchor"></a>
+<h2 class="sect1">Application Files</h2>
+<p class="itemizedlisttitle">NetBeans Projects&nbsp;</p>
+<ul>
+<li>
+<p><a href="../sample-apps/visual_effects.zip"><code>visual_effects.zip</code></a></p>
+</li>
+</ul>
+</div>
+<!-- class="sect1" -->
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Transformations, Animations, and Visual Effects</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">About This Document</a></li>
+        <li><a href="preface.htm#sthref4">Audience</a></li>
+        <li><a href="preface.htm#sthref5">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref7">Related Documents</a></li>
+        <li><a href="preface.htm#sthref8">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a href="transforms.htm#CHDGCBAH">Part I Applying Transformations in JavaFX</a>
+    <ul>
+    <li><a href="transformations-intro.htm#JFXTE216">1 Transformations Overview</a>
+      <ul>
+        <li><a href="transformations-intro.htm#sthref9">Introducing Transformations</a></li>
+      </ul>
+    </li>
+    <li><a href="transformation-types.htm#JFXTE101">2 Transformation Types and Examples</a>
+      <ul>
+        <li><a href="transformation-types.htm#sthref12">Translation</a></li>
+        <li><a href="transformation-types.htm#sthref13">Rotation</a></li>
+        <li><a href="transformation-types.htm#sthref14">Scaling</a></li>
+        <li><a href="transformation-types.htm#sthref15">Shearing</a></li>
+        <li><a href="transformation-types.htm#sthref18">Multiple Transformations</a></li>
+        <li><a href="transformation-types.htm#sthref19">Application Files</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="animations.htm#CHDHICAE">Part II Creating Transitions and Timeline Animations</a>
+    <ul>
+    <li><a href="basics.htm#CIHFGFED">3 Animation Basics</a>
+      <ul>
+        <li><a href="basics.htm#BEIIJJJB">Transitions</a>
+          <ul>
+          <li><a href="basics.htm#sthref22">Fade Transition</a></li>
+          <li><a href="basics.htm#sthref23">Path Transition</a></li>
+          <li><a href="basics.htm#JFXTE108">Parallel Transition</a></li>
+          <li><a href="basics.htm#JFXTE111">Sequential Transition</a></li>
+          </ul>
+        </li>
+        <li><a href="basics.htm#BEIIDFJC">Timeline Animation</a>
+          <ul>
+          <li><a href="basics.htm#sthref28">Basic Timeline Animation</a></li>
+          <li><a href="basics.htm#sthref31">Timeline Events</a></li>
+          </ul>
+        </li>
+        <li><a href="basics.htm#BEIEBEIB">Interpolators</a>
+          <ul>
+          <li><a href="basics.htm#sthref32">Built-in Interpolators</a></li>
+          <li><a href="basics.htm#sthref33">Custom Interpolators</a></li>
+          </ul>
+        </li>
+        <li><a href="basics.htm#sthref34">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a href="tree-animation.htm#CACCEGFG">4 Tree Animation Example</a>
+      <ul>
+        <li><a href="tree-animation.htm#sthref37">Project and Elements</a></li>
+        <li><a href="tree-animation.htm#sthref40">Grass</a>
+          <ul>
+          <li><a href="tree-animation.htm#sthref41">Creating Grass</a></li>
+          <li><a href="tree-animation.htm#sthref44">Creating Timeline Animation for Grass Movement</a></li>
+          </ul>
+        </li>
+        <li><a href="tree-animation.htm#sthref46">Tree</a>
+          <ul>
+          <li><a href="tree-animation.htm#sthref48">Branches</a></li>
+          <li><a href="tree-animation.htm#sthref49">Leaves and Flowers</a></li>
+          <li><a href="tree-animation.htm#sthref50">Animating Tree Elements</a></li>
+          </ul>
+        </li>
+        <li><a href="tree-animation.htm#sthref54">Application Files</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="visual_effects.htm#BABEIJGH">Part III Creating Visual Effects</a>
+    <ul>
+    <li><a class="selected" href="effect-types.htm#JFXTE192">5 Applying Effects</a>
+      <ul>
+        <li><a href="effect-types.htm#JFXTE237">Blend Effect</a></li>
+        <li><a href="effect-types.htm#JFXTE238">Bloom Effect</a></li>
+        <li><a href="effect-types.htm#JFXTE240">Blur Effects</a>
+          <ul>
+          <li><a href="effect-types.htm#sthref58">BoxBlur</a></li>
+          <li><a href="effect-types.htm#sthref60">Motion Blur</a></li>
+          <li><a href="effect-types.htm#sthref62">Gaussian Blur</a></li>
+          </ul>
+        </li>
+        <li><a href="effect-types.htm#JFXTE250">Drop Shadow Effect</a></li>
+        <li><a href="effect-types.htm#JFXTE253">Inner Shadow Effect</a></li>
+        <li><a href="effect-types.htm#JFXTE256">Reflection</a></li>
+        <li><a href="effect-types.htm#JFXTE259">Lighting Effect</a></li>
+        <li><a href="effect-types.htm#JFXTE262">Perspective Effect</a></li>
+        <li><a href="effect-types.htm#JFXTE266">Creating a Chain of Effects</a></li>
+        <li><a href="effect-types.htm#sthref72">Application Files</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="sample-source-code.htm#JFXTE231">Part IV Source Code for the Transformations, Animations, and Visual Effects Tutorial</a>
+    <ul>
+    <li><a href="xylophonejava.htm#JFXTE270">A Xylophone.java</a></li>
+</ul>
+
+</li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="visual_effects.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a><a class="button" title="Next Page" href="sample-source-code.htm">Next Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2011, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

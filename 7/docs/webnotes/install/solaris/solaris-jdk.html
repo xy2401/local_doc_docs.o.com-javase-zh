@@ -1,0 +1,532 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Oracle Solaris OS Install (JDK)</title>
+<meta name="Title" content="JDK 7 Installation on the Oracle Solaris OS" />
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<hr />
+<div class="smallpagetitle"><h1>JDK 7 Installation on the Oracle Solaris Operating System</h1></div>
+<p>See <a href="../index.html">JDK 7 and JRE 7 Installation
+Guide</a> for general information about installing JDK 7 and JRE 7.</p>
+<p>For information on enhancements to JDK 7 that relate to the installer, see <a href="../enhancements-7.html#solaris">Installer Enhancements in JDK 7</a>.</p>
+
+<h2>Contents</h2>
+
+<ul>
+  <li><a href="#requirements">System Requirements</a></li>
+  <li><a href="#install-ips">JDK 7 Installation Instructions for Oracle Solaris 11 using IPS Packages</a></li>
+  <li><a href="#install">Manual JDK 7 Installation Instructions</a>
+    <ul>
+      <li><a href="#install-archive">Installation of Oracle Solaris JDK Archive
+Binaries (<code>.tar.gz</code>)</a></li>
+      <li><a href="#install-svr4">Installation of Oracle Solaris SVR4 Packages
+(<code>tar.Z</code>)</a></li>
+    </ul>
+  </li>
+  <li><a href="#plugin">Java Plug-in Browser Registration
+Instructions</a></li>
+  <li><a href="#jws">Java Web Start Installation Notes</a></li>
+  <li><a href="#notes">General Installation Notes</a>
+    <ul>
+      <li><a href="#default">Selecting the Default Java Platform</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2><a name="requirements" id="requirements"></a>System Requirements</h2>
+
+<p>This version of the JDK is supported on the Oracle Solaris 10 Update 9 or later OS, Oracle Solaris 11 Express OS, and Oracle Solaris 11 OS. For supported processors and browsers, see <a href=
+"http://www.oracle.com/technetwork/java/javase/config-417990.html">
+Oracle JDK 7 and JRE 7 Certified System Configurations</a>.</p>
+
+<h2><a id="install-ips" name="install-ips">JDK 7 Installation Instructions for Oracle Solaris 11 using IPS packages</a></h2>
+
+<p>To install JDK 7 on Oracle Solaris 11, install the <tt>jdk-7</tt> package:</p>
+
+<ol>
+<li><p>Make sure the <tt>jdk-7</tt> package is available from your IPS publisher.</p>
+<pre>
+$ pkg list -a jdk-7
+
+NAME (PUBLISHER)        VERSION                    IFO
+developer/java/jdk-7    1.7.0.0-0.173.0.0.0.0.0    ---
+</pre>
+<p>If you see an "i" in the I column, then the package is already installed.</p>
+
+<p>This package is available from the <tt>solaris</tt> publisher at <tt>pkg.oracle.com</tt> and also from other publisher origins. If you see a message that no such package is found, use the <tt>pkg publisher</tt> command to check your publisher origin and contact your system administrator or Oracle Support representative.</p></li>
+
+<li><p>Make sure you have permission to install IPS packages.</p>
+
+<ul>
+<li><p>Use the profiles command to list the rights profiles that are assigned to you.  If you have the Software Installation rights profile, you can use the <tt>pfexec</tt> command to install and update packages.</p>
+<pre>
+$ pfexec pkg install jdk-7
+</pre>
+<p>Other rights profiles also provide installation privilege, such as System Administrator rights profile.</p></li>
+
+<li><p>Depending on the security policy at your site, you might be able to use the <tt>sudo</tt> command with your user password to execute a privileged command.</p>
+<pre>
+$ sudo pkg install jdk-7
+</pre>
+</li>
+
+<li><p>Use the <tt>roles</tt> command to list the roles that are assigned to you.  If you have the <tt>root</tt> role, you can use the <tt>su</tt> command with the root password to assume the root role.</p>
+<pre>
+# pkg install jdk-7
+</pre>
+</li>
+
+</ul>
+
+</li>
+
+</ol>
+
+<h2><a id="install" name="install"></a>Manual JDK 7 Installation
+Instructions</h2>
+
+<p>The following table lists the options available for downloading
+the JDK 7 release on the Oracle Solaris platform. The link in the first
+column takes you to the instructions for that version.</p>
+
+<table border="1" summary=
+"download files for JDK 7 on the Oracle Solaris platform">
+
+<tr>
+<th>Download File(s)</th>
+<th>Architecture</th>
+<th>Who Can Install</th>
+</tr>
+<tr>
+<td><a href="#install-archive">jdk-7u<em>&lt;version&gt;</em>-solaris-sparc.tar.gz<br />
+jdk-7u<em>&lt;version&gt;</em>-solaris-sparcv9.tar.gz</a></td>
+<td>64-bit SPARC</td>
+<td>anyone</td>
+</tr>
+<tr>
+<td><a href="#install-archive">jdk-7u<em>&lt;version&gt;</em>-solaris-i586.tar.gz<br />
+jdk-7u<em>&lt;version&gt;</em>-solaris-x64.tar.gz</a></td>
+<td>64-bit x64, EM64T</td>
+<td>anyone</td>
+</tr>
+<tr>
+<td><a href="#install-archive">jdk-7u<em>&lt;version&gt;</em>-solaris-i586.tar.gz</a></td>
+<td>32-bit x64, EM64T</td>
+<td>anyone</td>
+</tr>
+<tr>
+<td><a href="#install-svr4">jdk-7u<em>&lt;version&gt;</em>-solaris-sparc.tar.Z<br />
+jdk-7u<em>&lt;version&gt;</em>-solaris-sparcv9.tar.Z</a></td>
+<td>64-bit SPARC</td>
+<td>root</td>
+</tr>
+<tr>
+<td><a href="#install-svr4">jdk-7u<em>&lt;version&gt;</em>-solaris-i586.tar.Z<br />
+jdk-7u<em>&lt;version&gt;</em>-solaris-x64.tar.Z</a></td>
+<td>64-bit x64, EM64T</td>
+<td>root</td>
+</tr>
+<tr>
+<td><a href="#install-svr4">jdk-7u<em>&lt;version&gt;</em>-solaris-i586.tar.Z</a></td>
+<td>32-bit x64, EM64T</td>
+<td>root</td>
+</tr>
+</table>
+<p>Manual installation can be performed using either of the following:</p>
+<ul>
+<li><a href="#install-archive">Installation of Oracle Solaris JDK Archive Binaries (<code>.tar.gz</code>)</a> allows you to install a private version of the JDK for the current user into any location, without affecting other JDK installations. However, it may involve manual steps to get some of the features to work (for example, the <code>-version:</code><i>release</i> option of the <code>java</code> command which allows you to specify the release to be used to run the specified class requires the correct path to the JDK release under /usr/jdk).</li>
+<li><a href="#install-svr4">Installation of Oracle Solaris SVR4 Packages
+(<code>.tar.Z</code>)</a> allows you to perform a system-wide installation of the JDK for all users, and requires root access. Note that this is a legacy install option with the recommended approach being the use of the <a href="#install-ips">IPS framework</a> for installing the JDK.</li>
+</ul>
+
+<p><strong>Note:</strong> For any text on this page containing the following
+notation, you must substitute the appropriate JDK update version number
+for the notation.</p>
+
+<pre>
+    <em>&lt;version&gt;</em>
+</pre>
+
+<p>For example, if you are installing update JDK 7 update release 1,
+the following string representing the name of the bundle:</p>
+
+<pre>
+    jdk-7u<em><strong>&lt;version&gt;</strong></em>-solaris-sparc.tar.gz
+</pre>
+<p>would become:</p>
+<pre>
+    jdk-7<strong>u1</strong>-solaris-sparc.tar.gz
+</pre>
+<p>Note that, as in the preceding example,
+the <em>&lt;version&gt;</em> number is sometimes
+preceded with the letter <code>u</code>, for example, <code>7u1</code>,
+and sometimes it is preceded with an underscore, for example,
+<code>jdk1.7.0_01</code>.</p>
+<hr />
+<h3><a id="install-archive" name="install-archive"></a>
+Installation of Oracle Solaris Archive Binaries
+(<code>.tar.gz</code>)</h3>
+
+<p>You can install a JDK archive binary in any location that you
+can write to. It will not displace the system version of the Java
+platform provided by the Oracle Solaris OS. These instructions install a
+private version of the JDK.</p>
+
+<p>Installing the JDK on a 64-bit system that allows a 32-bit JVM
+is a two-step process: first install the 32-bit JDK and then
+install the additional support for 64-bit operations. The file
+names are as follows:</p>
+
+<p><strong>On SPARC processors</strong>:</p>
+<pre>
+    jdk-7u<em>&lt;version&gt;</em>-solaris-sparc.tar.gz     (32-bit)
+    jdk-7u<em>&lt;version&gt;</em>-solaris-sparcv9.tar.gz   (64-bit)
+</pre>
+<p><strong>On x64/EM64T processors</strong>:</p>
+<pre>
+    jdk-7u<em>&lt;version&gt;</em>-solaris-i586.tar.gz     (32-bit)
+    jdk-7u<em>&lt;version&gt;</em>-solaris-x64.tar.gz      (64-bit)
+</pre>
+<p>If you are running a 32-bit version of Oracle Solaris, you only need
+to download and install the 32-bit version. <a id="check" name=
+"check"></a></p>
+
+<p><strong>1. Download the bundles</strong> or bundle, if you are
+installing only the 32-bit version of Oracle Solaris. Before the file can
+be downloaded, you must accept the license agreement. The archive
+binaries can be installed by anyone in any location that you can
+write to.</p>
+
+<p>The <code>.tar.gz</code> archive file (also called a
+<code>tarball</code>) is a file that can be simultaneously
+uncompressed and extracted in one step.</p>
+
+<p><strong>2. Change directory</strong> to the location where you
+would like the JDK to be installed. Move the <code>.tar.gz</code>
+archive binaries to the current directory.</p>
+
+<p><strong>3. Unpack the tarball and install the JDK.</strong></p>
+
+<p>The following steps can be performed in either order.</p>
+
+<p><strong>On SPARC processors:</strong></p>
+
+<pre>
+    % gzip -dc jdk-7u<em>&lt;version&gt;</em>-solaris-sparc.tar.gz | tar xf -
+    % gzip -dc jdk-7u<em>&lt;version&gt;</em>-solaris-sparcv9.tar.gz | tar xf -
+</pre>
+<p><strong>On x64/EM64T processors:</strong></p>
+<pre>
+    % gzip -dc jdk-7u<em>&lt;version&gt;</em>-solaris-i586.tar.gz | tar xf -
+    % gzip -dc jdk-7u<em>&lt;version&gt;</em>-solaris-x64.tar.gz | tar xf -
+</pre>
+
+<p>The JDK is installed in a directory called
+<code>jdk1.7.0<em>_&lt;version&gt;</em></code> in the current directory.
+For example, for the JDK 7 update 1 release, the directory would be
+named: <code>jdk1.7.0_01</code>.</p>
+
+<p>The supplemental files for 64-bit support are installed in
+directories named for the machine architecture model, which are
+added at several locations within the same
+<code>jdk1.7.0<em>_&lt;version&gt;</em></code> directory where the
+32-bit JDK was installed.
+For example, on SPARC processors the 64-bit Java VM Library file
+(<code>libjvm.so</code>) is stored in the
+<code>jdk1.7.0<em>_&lt;version&gt;</em>/jre/lib/sparcv9/server</code>
+directory, whereas the version for x64/EM64T is stored in the
+<code>jdk1.7.0<em>_&lt;version&gt;</em>/jre/lib/amd64/server</code> directory.</p>
+
+<p>The JDK documentation is a separate download. See <a href=
+"http://www.oracle.com/technetwork/java/javase/downloads/index.html#docs">
+Java SE Downloads</a> for more information.</p>
+
+<hr />
+<h3><a id="install-svr4" name="install-svr4"></a>Installation of
+Oracle Solaris SVR4 Packages (<code>.tar.Z</code>)</h3>
+
+<p>Use these instructions if you want to use the
+<code>pkgadd</code> utility to install the JDK. This version allows
+all users on your system to access Java.</p>
+
+<p>If you do not have root access to your Oracle Solaris system, you can
+use the <a href="#install-archive">Oracle Solaris <code>.tar.gz</code>
+archive binaries</a> to install a private copy of the JDK.</p>
+
+<p>Installing the JDK on a 64-bit system that allows a 32-bit JVM
+is a two-step process: first install the 32-bit JDK and then
+install the additional support for 64-bit operations. The file
+names are as follows:</p>
+
+<p><strong>On SPARC processors</strong>:</p>
+<pre>
+    jdk-7u<em>&lt;version&gt;</em>-solaris-sparc.tar.Z      (32-bit)
+    jdk-7u<em>&lt;version&gt;</em>-solaris-sparcv9.tar.Z    (64-bit)
+</pre>
+<p><strong>On x64/EM64T processors</strong>:</p>
+<pre>
+    jdk-7u<em>&lt;version&gt;</em>-solaris-i586.tar.Z      (32-bit)
+    jdk-7u<em>&lt;version&gt;</em>-solaris-x64.tar.Z       (64-bit)
+</pre>
+<p>If you are installing a 32-bit version of Oracle Solaris, you only need
+to download and install the 32-bit version.</p>
+
+<p><strong>1. Download the bundles</strong> or bundle, if you are
+installing only the 32-bit version of Oracle Solaris. Before the file can
+be downloaded, you must accept the license agreement.</p>
+
+<p>It is best to create a new directory to save the download
+bundles to, as the next step will extract several directories and
+files into this directory.</p>
+
+<p><strong>2. Extract the contents</strong> of the 32-bit versions
+and the 64-bit versions of the compressed tar files:</p>
+
+<p><strong>On SPARC processors:</strong></p>
+<pre>
+    % zcat jdk-7u<em>&lt;version&gt;</em>-solaris-sparc.tar.Z | tar xf -
+    % zcat jdk-7u<em>&lt;version&gt;</em>-solaris-sparcv9.tar.Z | tar xf -
+</pre>
+<p><strong>On x64/EM64T processors:</strong></p>
+<pre>
+    % zcat jdk-7u<em>&lt;version&gt;</em>-solaris-i586.tar.Z | tar xf -
+    % zcat jdk-7u<em>&lt;version&gt;</em>-solaris-x64.tar.Z | tar xf -
+</pre>
+
+<p>The first command creates a number of directories
+(<code>SUNWj7rt</code>, <code>SUNWj7dev</code>,
+<code>SUNWj7cfg</code>, <code>SUNWj7man</code>, and <code>SUNWj7jmp</code>) plus a few files in the current
+directory.</p>
+
+<p>The second command creates several directories
+(<tt>SUNWj7rtx</tt> and <tt>SUNWj7dvx</tt>) in
+the current directory, which contain 64-bit support for the
+JDK.</p>
+
+<p><strong>3. Assume the root role</strong>. You can use the
+<code>roles(1)</code> command to determine whether you are able to
+assume the root role.</p>
+
+<p><strong>4. Uninstall any earlier installation of the JDK
+packages.</strong></p>
+
+<p>If your machine has an earlier 32-bit or 64-bit version of
+the JDK installed in the default location
+(<tt>/usr/jdk/jdk1.<em>&lt;major version&gt;</em>.0<em>_&lt;minor
+version&gt;</em></tt>), you must uninstall it before installing a
+later version at that location.</p>
+
+<p>You can skip this step if you intend to install the JDK in a
+non-default location. For more details, see <a href=
+"#default">Selecting the Default Java Platform</a>.</p>
+
+<p><a id="pkgadd" name="pkgadd"></a> <strong>5. Run the
+<code>pkgadd</code> command</strong> to install the 32-bit and
+64-bit packages.</p>
+<pre>
+    # pkgadd -d . SUNWj7rt SUNWj7dev SUNWj7cfg SUNWj7man                  
+    # pkgadd -d . SUNWj7rtx SUNWj7dvx
+</pre>
+<p>The first command installs the JDK into
+<code>/usr/jdk/jdk1.7.0<em>_&lt;version&gt;</em></code>.</p>
+
+<p>The second command installs the files for 64-bit support into
+the JDK
+installation at <tt>/usr/jdk/jdk1.7.0<em>_&lt;version&gt;</em></tt>.</p>
+
+<p>See the <code>pkgadd(1)</code> and <code>admin(4)</code> man
+pages for information on installing the JDK in a non-default
+location.</p>
+
+<p><strong>6. For Japanese users: Install man pages.</strong></p>
+
+<p>If your machine has an earlier version of the Japanese man pages
+already
+installed in <code>usr/jdk/jdk1.7.0<em>_&lt;version&gt;</em></code>,
+you must uninstall that
+package before installing this version of the Japanese man pages at
+that location. Remove that package by running:</p>
+<pre>
+    # pkgrm SUNWj7jmp
+</pre>
+<p>Then run the <code>pkgadd</code> command to install the new
+Japanese man page package.</p>
+<pre>
+    # pkgadd -d . SUNWj7jmp
+</pre>
+<p><strong>7. To save space, delete the tar files and extracted SUNW*
+directories.</strong></p>
+
+<p><strong>8. Exit the root role.</strong> No
+need to reboot.</p>
+<hr />
+<h2><a name="plugin" id="plugin"></a> Java Plug-in Browser
+Registration Instructions</h2>
+
+<p>You must register the Java Plug-in component with Firefox for the
+Plug-in to work. Instructions to do this can be found at <a href=
+"solaris-plugin-install.html">Manual Installation and Registration
+of Java Plug-in for Oracle Solaris</a>.</p>
+
+<p>Java Plug-in is supported for the browsers listed in <a href=
+"http://www.oracle.com/technetwork/java/javase/config-417990.html#browsers">
+JDK 7 and JRE 7 Certified System Configurations</a>.</p>
+
+<p>If you are using a non-supported browser, check your browser
+documentation for details on registering the Java Plug-in.</p>
+
+<hr />
+<h2><a name="jws" id="jws"></a> Java Web Start Installation
+Notes</h2>
+
+<p>This JDK release includes Java Web Start; Java Web Start is
+automatically installed with the JDK. But note the following:</p>
+<ul>
+
+<li><strong>Upgrading from Previous Versions:</strong> This new
+release will overwrite previous installations and automatically
+update browsers to use this new release. The configuration files
+and program files folder used by Java Web Start have changed, but
+all your settings will remain intact after the upgrade, since Java
+Web Start will translate your settings to the new form.</li>
+
+<li><strong><code>pkgadd</code> utility use:</strong> (1) If you
+use the <code>pkgadd</code> utility to install the Oracle Solaris packages
+for the JDK, a symbolic link for <code>../java/bin/javaws</code> is
+created in <code>/usr/bin</code>. (2) If you have a previous
+release of Java Web Start installed and you want the latest version
+to run instead, edit the <code>$HOME/.mailcap</code> file so that
+it is identical to <code>/etc/.mailcap</code>. If you want the
+older version of Java Web Start to run, do not edit
+<code>$HOME/.mailcap.</code></li>
+</ul>
+<hr />
+
+<h2><a name="notes" id="notes"></a> General Installation Notes</h2>
+
+<p>The following are general notes about the installation.</p>
+
+<a name="default" id="default"></a>
+<h3>Selecting the Default Java Platform</h3>
+
+<p>This section describes how the default Java platform is selected
+when running the Oracle Solaris SVR4 package installation (via the
+<code>pkgadd</code> command) of the JDK.</p>
+
+<p><strong>The Default Java Platform</strong> - Several versions of
+the Java platform can be present simultaneously on a Oracle Solaris system
+(using the default Oracle Solaris package installations), but only one can
+be the &quot;default&quot; Java platform. The default Java platform
+is defined by the directory that the
+<code><strong>/usr/java</strong></code> symbolic link points to. To
+determine the default version of the <code>java</code> executable,
+run:</p>
+
+<pre>
+    % /usr/java/bin/java -fullversion
+</pre>
+
+<p>The <code>/usr/java</code> symbolic link can change the default
+Java platform because there are symbolic links in
+<code>/usr/bin</code> (also known as <code>/bin</code>) that use
+it. (For example, the <code>/usr/bin/java</code> link refers to
+<code>/usr/java/bin/java</code>, which is the Java Runtime
+Environment). Many Java applications are compatible with later
+versions of the Java platform, but some applications might be less
+compatible.</p>
+
+<p><strong>PATH Setting</strong> - The default Java is linked
+through <code>/usr/bin</code>, such as <code>/usr/bin/java</code>.
+If this is in the path before another version of Java is in the
+path, then that will be the version of Java run from the command
+line or from any other tool that uses the PATH environment variable
+to locate Java.</p>
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2017, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

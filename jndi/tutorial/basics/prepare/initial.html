@@ -1,0 +1,221 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>The Initial Context</title>
+<meta name="collection" content="learning">
+
+                    <script>var w=window;if(w.performance||w.mozPerformance||w.msPerformance||w.webkitPerformance){var d=document;AKSB=w.AKSB||{},AKSB.q=AKSB.q||[],AKSB.mark=AKSB.mark||function(e,_){AKSB.q.push(["mark",e,_||(new Date).getTime()])},AKSB.measure=AKSB.measure||function(e,_,t){AKSB.q.push(["measure",e,_,t||(new Date).getTime()])},AKSB.done=AKSB.done||function(e){AKSB.q.push(["done",e])},AKSB.mark("firstbyte",(new Date).getTime()),AKSB.prof={custid:"322179",ustr:"",originlat:"0",clientrtt:"2",ghostip:"23.212.3.15",ipv6:false,pct:"10",clientip:"45.78.37.67",requestid:"2a85900a",region:"32996",protocol:"",blver:14,akM:"dsca",akN:"ae",akTT:"O",akTX:"1",akTI:"2a85900a",ai:"206465",ra:"false",pmgn:"",pmgi:"",pmp:"",qc:""},function(e){var _=d.createElement("script");_.async="async",_.src=e;var t=d.getElementsByTagName("script"),t=t[t.length-1];t.parentNode.insertBefore(_,t)}(("https:"===d.location.protocol?"https:":"http:")+"//ds-aksb-a.akamaihd.net/aksb.min.js")}</script>
+                    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="exception.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="names.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/basicsHeader.gif" width=26 height=26 align=bottom border=0 alt="The Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Preparations</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    The Initial Context
+</h2>
+<p>
+<blockquote>
+
+Before performing any operation on a naming or directory service,
+you need to acquire an 
+<em><a href=../../getStarted/concepts/glossary.html#IC>initial context</a></em>--the
+starting point into the namespace.
+This is because all methods on naming and directory services
+are performed relative to some context.
+To get an initial context, you must follow these steps.
+<ol>
+<li>Select the service provider of the 
+corresponding service you want to access.
+<li>Specify any configuration 
+that the initial context needs.
+<li>Call the 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html#constructor_detail><tt>InitialContext</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html#constructor_detail><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     constructor.
+</ol>
+
+<h4>Select the Service Provider for the Initial Context</h4>
+
+You can specify the service provider to use for the initial context
+by creating a set of <em>environment properties</em> (a <tt>Hashtable</tt>) 
+and adding the name of the service provider class to it.
+Environment properties are described in detail in the
+
+<a target="_top" href="../../beyond/index.html">Beyond the Basics</a> <a target="_top" href="../../beyond/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>     trail.
+
+<p>
+For example, if you are using the LDAP service provider from Sun Microsystems,
+then your code would look like the following.
+
+<blockquote>
+<pre>
+Hashtable env = new Hashtable();
+env.put(Context.INITIAL_CONTEXT_FACTORY, 
+	"com.sun.jndi.ldap.LdapCtxFactory");
+</pre>
+</blockquote>
+
+To specify the file system service provider from Sun Microsystems,
+you would write code that looks like the following.
+
+<blockquote>
+<pre>
+Hashtable env = new Hashtable();
+env.put(Context.INITIAL_CONTEXT_FACTORY, 
+	"com.sun.jndi.fscontext.RefFSContextFactory");
+</pre>
+</blockquote>
+
+You can also use 
+<em>system properties</em> 
+to specify the service provider to use.
+See the
+
+<a target="_top" href="../../beyond/index.html">Beyond the Basics</a> <a target="_top" href="../../beyond/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>     trail for details.
+
+<h4>Supply the Information Needed by the Initial Context</h4>
+
+Clients of different directories might need various information
+for contacting the directory.
+For example, you might need to specify on which machine the server is running
+and what information is needed to identify the user to the directory.
+Such information is passed to the service provider via
+environment properties.
+The JNDI specifies some generic environment properties that service
+providers can use.
+Your service provider documentation will give details on the
+information required for these properties.
+
+<p>
+For example, suppose that the program is using the LDAP service provider.
+This provider requires that the program specify the location of the LDAP
+server, as well as user identity information.
+To provide this information, 
+you would write code that looks as follows.
+
+<blockquote>
+<pre>
+env.put(Context.PROVIDER_URL, "ldap://ldap.wiz.com:389");
+env.put(Context.SECURITY_PRINCIPAL, "joeuser");
+env.put(Context.SECURITY_CREDENTIALS, "joepassword");
+</pre>
+</blockquote>
+
+This tutorial uses the file system and LDAP service providers from
+Sun Microsystems. 
+
+For the examples that use the file system, supply as the
+provider URL the URL corresponding to the path that you gave to the 
+<a href=content.html#FS><tt>Setup</tt> program</a>.
+For example, if you used the directory <tt>/tmp/tutorial</tt> in the
+<tt>Setup</tt> program, your code would look as follows.
+
+<blockquote>
+<pre>
+env.put(Context.PROVIDER_URL, "file:/tmp/tutorial/");
+</pre>
+</blockquote>
+
+The examples that use the LDAP assume that a server has been set up
+on the local machine at port 389 with the root-distinguished name of
+<tt>"o=JNDITutorial"</tt> and that no authentication is required for
+updating the directory. They include the following code for
+setting up the environment.
+<blockquote>
+<pre>
+env.put(Context.PROVIDER_URL, "ldap://localhost:389/o=JNDITutorial");
+</pre>
+</blockquote>
+
+If you are using a directory that is set up differently,
+then you will need to set up these environment properties accordingly.
+For example, if the directory is running on another machine, then you
+will need to replace <tt>"localhost"</tt> with the name of that machine.
+
+<h4>Creating the Initial Context</h4>
+
+You are now ready to create the initial context.
+To do that, you pass to the 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html#constructor_detail><tt>InitialContext</tt> constructor</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html#constructor_detail><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     the environment properties that you created previously:
+
+<blockquote>
+<pre>
+Context ctx = new InitialContext(env);
+</pre>
+</blockquote>
+
+<p>
+Now that you have a reference to a 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html><tt>Context</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     object,
+you can begin to access the naming service.
+
+<p>
+To perform directory operations, you need to use an 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InitialDirContext.html><tt>InitialDirContext</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InitialDirContext.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. To do that, use one of its 
+
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InitialDirContext.html#constructor_detail>constructors</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InitialDirContext.html#constructor_detail><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>:
+<blockquote>
+<pre>
+DirContext ctx = new InitialDirContext(env);
+</pre>
+</blockquote>
+
+<p>
+This statement returns a reference to a 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html><tt>DirContext</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     object for performing directory operations.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="exception.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="names.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/basicsHeader.gif" width=26 height=26 align=top border=0 alt="The Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Preparations</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Controls and Extensions</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="../schema/example.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="controls.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="../TOC.html"><strong><em>Contents</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+<h1>
+     Controls and Extensions
+</h1>
+<p>
+<blockquote>
+
+The LDAP v3 was designed with extensibility in mind.
+It is extensible in two ways: by using 
+<a href=../../getStarted/concepts/glossary.html#CTL>controls</a>
+and by using
+<a href=../../getStarted/concepts/glossary.html#EXT>extensions</a>.
+
+<h4>Controls</h4>
+
+The LDAP v3 allows the behavior
+of any operation to be modified through the use of <em>controls</em>.
+Any number of controls may be sent along with an LDAP
+request, and any number of controls may be returned with its
+results.  For example, you can send a Sort control along with a
+"search" operation that tells the server to sort the results of the
+search according to the <tt>"name"</tt> attribute.  
+Controls can be standard or proprietary.
+<p>
+The <a href=controls.html>Controls sections</a> of this lesson
+describe controls in detail and gives examples of how to use
+some of the more popular controls.
+
+<h4>Extensions</h4>
+
+In addition to the repertoire of predefined operations, such as
+"search" and "modify," the LDAP v3 defines an
+<em>"extended" operation</em>.  The "extended" operation takes 
+a request as the argument and returns a response. 
+The request contains an identifier that
+identifies the request and the arguments of the request, and
+the response contains the results of performing the request.  
+The pair of extended operation request/response is called an
+<em>extension</em>.  For example, an extension is possible
+for Start
+TLS, which is a request for the client to the server to activate the
+TLS protocol. These extensions can be standard (defined by the
+LDAP community) or proprietary (defined by a particular directory
+vendor).
+The <a href=extensions.html>Extensions section</a> of this lesson
+describes extensions in more detail.
+
+<h4>The <tt>javax.naming.ldap</tt> Package</h4>
+
+
+Controls and extensions are supported by classes and interfaces in the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/package-summary.html"><tt>javax.naming.ldap</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/package-summary.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    package.
+The
+core interface in this package is 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html"><tt>LdapContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, which defines methods
+on a context for performing "extended" operations and handling controls.
+The rest of the package contains classes and interfaces for representing
+controls and extensions.
+
+<blockquote>
+<hr>
+<strong>Software Requirements:</strong>
+When using the controls examples in this lesson,
+you need the <tt>ldapbp.jar</tt> archive file
+in addition to the software requirements listed in the 
+<a target="_top" href="../../basics/prepare/software.html">Preparations</a> <a href="../../basics/prepare/software.html"><img src="../../jndiimages/basicsIcon.gif" width=20 height=20 border=0 alt="(in the Basics trail)"></a>     lesson. 
+This file can be downloaded as part of the 
+LDAP service provider from
+the <a href=http://java.sun.com/products/jndi/#download>JNDI Web site</a>.
+<p>
+When using the
+<a href="http://www.ietf.org/rfc/rfc2830.txt">Start TLS</a>
+extension examples in this lesson,
+you need the Java 2 SDK, v1.4.
+<p>
+<strong>Server Requirements:</strong>
+The examples in this lesson depend on server support for certain
+features. Specifically, they use the
+<a href="http://www.ietf.org/rfc/rfc2891.txt">Sort</a> control,
+the
+<a href="https://datatracker.ietf.org/doc/draft-ietf-ldapext-ldapv3-vlv/">Virtual List View</a>
+control, and the
+<a href="http://www.ietf.org/rfc/rfc2830.txt">Start TLS</a> extension.
+The <a href=http://www.sun.com/>SunONE Directory Server v5</a>
+supports all of these features, although it supports
+the Virtual List View control only
+for authenticated clients. 
+</blockquote>
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="../schema/example.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="controls.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="../TOC.html"><strong><em>Contents</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

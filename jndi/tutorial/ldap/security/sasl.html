@@ -1,0 +1,535 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>SASL Authentication</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="simple.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="digest.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Security</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    SASL Authentication
+</h2>
+<p>
+<blockquote>
+
+<blockquote>
+<hr>
+<strong>Software Requirement:</strong>
+In versions of the LDAP provider prior to the <a href=http://java.sun.com/j2se/1.4>Java 2 SDK, v1.4</a>,
+to run these examples,
+you need to install the <tt>ldapbp.jar</tt> and <tt>jaas.jar</tt> archive files
+in addition to the software requirements listed in the 
+<a target="_top" href="../../basics/prepare/software.html">Preparations</a> <a href="../../basics/prepare/software.html"><img src="../../jndiimages/basicsIcon.gif" width=20 height=20 border=0 alt="(in the Basics trail)"></a>     lesson. 
+These can be downloaded as part of the 
+LDAP service provider from
+the <a href=http://java.sun.com/products/jndi/#download>JNDI Web site</a>.
+<hr>
+</blockquote>
+
+The LDAP v3 protocol uses the 
+<A HREF="http://www.ietf.org/rfc/rfc2222.txt">SASL</A>
+to support <em>pluggable</em> authentication.
+This means that the LDAP client and server can be configured
+to negotiate and use possibly nonstandard and/or customized mechanisms
+for authentication, depending on the level of protection
+desired by the client and the server.
+The LDAP v2 protocol does not support the SASL.
+<p>
+Several SASL mechanisms are currently defined:
+<ul>
+<li>Anonymous (<A HREF="http://www.ietf.org/rfc/rfc2245.txt">RFC 2245</a>)
+<li>CRAM-MD5 (<A HREF="http://www.ietf.org/rfc/rfc2195.txt">RFC 2195</a>)
+<li>Digest-MD5 
+(<a href="http://www.ietf.org/rfc/rfc2831.txt">RFC 2831</a>)
+<li>External (<A HREF="http://www.ietf.org/rfc/rfc2222.txt">RFC 2222</A>)
+<li>Kerberos V4 (<A HREF="http://www.ietf.org/rfc/rfc2222.txt">RFC 2222</A>)
+<li>Kerberos V5 (<A HREF="http://www.ietf.org/rfc/rfc2222.txt">RFC 2222</A>)
+<li>SecurID (<a href="http://www.ietf.org/rfc/rfc2808.txt">RFC 2808</a>)
+<li>Secure Remote Password
+(<a href="http://tools.ietf.org/html/rfc5054">Using the Secure Remote Password (SRP) Protocol for TLS Authentication</a>)
+<li>S/Key (<A HREF="http://www.ietf.org/rfc/rfc2222.txt">RFC 2222</A>)
+<li>X.509 (<a href="http://tools.ietf.org/html/draft-ietf-ldapext-x509-sasl-03">draft-ietf-ldapext-x509-sasl-03</a>)
+</ul>
+
+<h4>SASL Mechanisms Supported by LDAP Servers</h4>
+
+Of the mechanisms on the previous list, popular LDAP servers (such as those from 
+<a href=http://www.sun.com>Sun</a>,
+<a href=http://www.openldap.com>OpenLDAP</a>,
+and 
+<a href=http://www.microsoft.com>Microsoft</a>)
+support External, Digest-MD5, and Kerberos V5.
+<a href="http://www.ietf.org/rfc/rfc2829.txt">RFC 2829</a> proposes the use of Digest-MD5 
+as the mandatory default mechanism for LDAP v3 servers.
+<p>
+Here is a <a href=src/ServerSasl.java>simple program</a> for finding
+out the list of SASL mechanisms that an LDAP server supports.
+<blockquote><pre>
+// Create initial context
+DirContext ctx = new InitialDirContext();
+
+// Read supportedSASLMechanisms from root DSE
+Attributes attrs = ctx.getAttributes(
+    "ldap://localhost:389", new String[]{"supportedSASLMechanisms"});
+</pre></blockquote>
+Here is the output produced by running this program
+against a server that supports the External SASL mechanism.
+<blockquote><pre>
+{supportedsaslmechanisms=supportedSASLMechanisms: EXTERNAL}
+</pre></blockquote>
+
+<h4>Specifying the Authentication Mechanism</h4>
+<p>
+To use a particular SASL mechanism, you specify its 
+Internet Assigned Numbers Authority (IANA)-registered 
+mechanism name in the
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_AUTHENTICATION><tt>Context.SECURITY_AUTHENTICATION</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_AUTHENTICATION><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    environment property.
+You can also specify a list of mechanisms
+for the LDAP provider to try.
+This is done
+by specifying an ordered list of space-separated mechanism names.
+The LDAP provider will use the first
+mechanism for which it finds an implementation.
+<p>
+Here's an example that asks the LDAP provider to try to get
+the implementation for the
+DIGEST-MD5 mechanism and if that's not available,
+use the one for GSSAPI.
+
+<blockquote><pre>
+env.put(Context.SECURITY_AUTHENTICATION, "DIGEST-MD5 GSSAPI");
+</pre></blockquote>
+
+You might get this list of authentication mechanisms from
+the user of your application. Or you might get it
+by asking the LDAP server, via a call similar to that shown previously.
+The LDAP provider itself does not consult the server for this
+information. It simply attempts to locate and use the implementation
+of the specified mechanisms.
+<p>
+The LDAP provider in <a href=http://java.sun.com/j2se/1.4>Java 2 SDK, v1.4</a> 
+has built-in support for the
+External, Digest-MD5, and GSSAPI (Kerberos v5) SASL mechanisms.
+Older versions of the LDAP provider have built-in support for the
+CRAM-MD5 and External SASL mechanisms.
+You can add support for additional mechanisms. See the
+<a href=mechanism.html>Using Arbitrary SASL Mechanisms</a> section.
+
+<h4>Using Policies to Filter the Selection of Authentication Mechanisms</h4>
+
+The previous example that showed how to select an authentication
+mechanism can be refined by specifying policies that restrict the
+selection of authentication mechanisms. This can be used by an
+application or system to specify general characteristics of
+the acceptable authentication mechanisms without explicitly naming them,
+and allows the list of explicit mechanism names to be supplied orthogonally.
+<p>
+Here is a list of environment properties used to filter the selection of 
+authentication mechanisms. 
+Each property's value is either <tt>"true"</tt> or <tt>"false"</tt>.
+If a property is absent, then the resulting mechanism
+need not have that characteristic (that is, the value is effectively 
+<tt>"false"</tt>).
+
+<ol>
+
+<li><dl>
+<dt>
+<tt>javax.security.sasl.policy.forward</tt>
+<dd>
+Specifies
+that the selected SASL mechanism must support forward secrecy between sessions.
+This means that breaking into one session will not automatically
+provide information for breaking into future sessions. 
+</dd>
+</dl>
+
+<li><dl>
+<dt>
+<tt>javax.security.sasl.policy.credentials</tt>
+<dd>
+Specifies
+that the selected SASL mechanism must require client credentials.
+</dd>
+</dl>
+
+<li><dl>
+<dt>
+<tt>javax.security.sasl.policy.noplaintext</tt>
+<dd>
+Specifies
+that the selected SASL mechanism must not be susceptible to
+simple plain passive attacks.
+</dd>
+</dl>
+
+<li><dl>
+<dt>
+<tt>javax.security.sasl.policy.noactive</tt>
+<dd>
+Specifies
+that the selected SASL mechanism must not be susceptible to
+active (non-dictionary) attacks. The mechanism might require
+mutual authentication as a way to prevent active attacks.
+</dd>
+</dl>
+
+<li><dl>
+<dt>
+<tt>javax.security.sasl.policy.nodictionary</tt>
+<dd>
+Specifies that the selected SASL mechanism must not be susceptible to
+passive dictionary attacks.
+</dd>
+</dl>
+
+<li><dl>
+<dt>
+<tt>javax.security.sasl.policy.noanonymous</tt>
+<dd>
+Specifies that the selected SASL mechanism must not accept
+anonymous logins.
+</dd>
+</dl>
+</ol>
+
+Here is a table that shows the characteristics of the
+various SASL mechanisms as described by the policy properties.
+The numbers in the table headings identify the policy properties.
+A check mark indicates that the mechanism exhibits that characteristic.
+<p>
+<center><table border cellpadding=3 width="70%">
+<tr>
+<th>Mechanism/Policy</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+
+<tr>
+<td>EXTERNAL</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><center><img src=../../jndiimages/checkmark.gif alt="true"></center></td>
+<td><center><img src=../../jndiimages/checkmark.gif alt="true"></center></td>
+<td><center><img src=../../jndiimages/checkmark.gif alt="true"></center></td>
+<td>&nbsp;</td>
+</tr>
+
+<tr>
+<td>GSSAPI (Kerberos v5)</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><center><img src=../../jndiimages/checkmark.gif alt="true"></center></td>
+<td><center><img src=../../jndiimages/checkmark.gif alt="true"></center></td>
+<td>&nbsp;</td>
+<td><center><img src=../../jndiimages/checkmark.gif alt="true"></center></td>
+</tr>
+
+<tr>
+<td>DIGEST-MD5</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><center><img src=../../jndiimages/checkmark.gif alt="true"></center></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><center><img src=../../jndiimages/checkmark.gif alt="true"></center></td>
+</tr>
+
+<tr>
+<td>CRAM-MD5</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><center><img src=../../jndiimages/checkmark.gif alt="true"></center></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><center><img src=../../jndiimages/checkmark.gif alt="true"></center></td>
+</tr>
+
+<tr>
+<td>PLAIN</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><center><img src=../../jndiimages/checkmark.gif alt="true"></center></td>
+</tr>
+
+<tr>
+<td>ANONYMOUS</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><center><img src=../../jndiimages/checkmark.gif alt="true"></center></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+
+</table>
+</center>
+
+
+<p>
+Here is a modification of the previous example.
+
+<blockquote><pre>
+env.put("javax.security.sasl.policy.noactive", "true");
+env.put(Context.SECURITY_AUTHENTICATION, "DIGEST-MD5 GSSAPI");
+</pre></blockquote>
+<p>
+By adding the policy environment property, the DIGEST-MD5 mechanism
+will not be selected even if its implementation is available because
+the <tt>"javax.security.sasl.policy.noactive"</tt> property prohibits it
+from being selected.
+
+<p>
+
+
+<h4>Specifying the "Bind" Distinguished Name</h4>
+
+SASL authentication consists of the client and the server exchanging
+SASL messages embedded inside LDAP "bind" requests and responses.  The
+"bind" request contains a name field, which is the DN of the directory
+object that the client wishes to authenticate as.  For SASL
+authentication, the authentication identity, which might not even be a DN,
+is typically embedded within the credentials that are exchanged with the server.
+The name field is therefore left unset for SASL authentication.
+
+<h4>Specifying Input for the Authentication Mechanism</h4>
+Some mechanisms, such as External, require no additional
+input--the mechanism name alone is sufficient for the authentication
+to proceed.
+The <a href=ssl.html#EXTERNAL>External example</a> shows how to use
+the External SASL mechanism.
+
+<p>
+Most other mechanisms require some additional input.
+Depending on the mechanism, the type of input might vary. 
+Following are some common inputs required by mechanisms.
+<ul>
+<li><b>Authentication id</b>. The identity of the entity 
+performing the authentication. 
+ 
+<li><b>Authorization id</b>. The identity of the entity
+for which access control checks should be made if the authentication
+succeeds.
+<li><b>Authentication credentials</b>. For example, a password or a key.
+</ul>
+The authentication and authorization ids might differ
+if the program (such as a proxy server) is authenticating on behalf
+of another entity.
+The authentication id is specified by using the
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_PRINCIPAL><tt>Context.SECURITY_PRINCIPAL</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_PRINCIPAL><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    environment property.
+It is of type <tt>java.lang.String</tt>.
+<p>
+The password/key of the authentication id is specified by using the
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_CREDENTIALS><tt>Context.SECURITY_CREDENTIALS</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_CREDENTIALS><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    environment property.
+It is of type <tt>java.lang.String</tt>, <tt>char</tt> array (<tt>char[]</tt>),
+or <tt>byte</tt> array (<tt>byte[]</tt>).
+If the password is a <tt>byte</tt> array, then it is transformed into a <tt>char</tt>
+array by using an UTF-8 encoding.
+<a name=authzid></a>
+<p>
+If the 
+<tt>"java.naming.security.sasl.authorizationId"</tt>
+property has been set, then its value is used as the authorization ID.
+Its value must be of type <tt>java.lang.String</tt>.
+By default, the empty string is used as the authorization ID, which
+directs the server to derive an authorization ID from the
+client's authentication credentials.
+<p>
+The <a href=digest.html>Digest-MD5 example</a> shows how to use the
+<tt>Context.SECURITY_PRINCIPAL</tt> and <tt>Context.SECURITY_CREDENTIALS</tt>
+properties for Digest-MD5 authentication.
+<p>
+If a mechanism requires input other than those already described,
+then you need to define a <em>callback</em> object for the mechanism
+to use. See the <a href=callback.html>Callback</a> section
+for an example of how to do this.
+
+<a name=qop></a>
+<h4>Specifying the Quality of Protection</h4>
+
+In additional to authentication, some SASL mechanisms support
+integrity and privacy protection of the communication channel after
+successful authentication. With integrity protection, subsequent LDAP
+requests and responses are protected against tampering.  With privacy
+protection, subsequent LDAP requests and responses are encrypted and
+therefore protected against unintended monitoring. Privacy protection
+automatically entails integrity protection. These different types of
+protection are referred to as the <em>quality of protection</em> (qop).  It
+is negotiated between the client and server during the authentication
+phase of the SASL exchange.
+If the client and server cannot negotiate a common qop, then the SASL
+authentication fails.
+
+<p>
+You use the
+<tt>"javax.security.sasl.qop"</tt> environment property to specify
+the client's preferred qop.
+The value of this property is a comma-separated list of qop values,
+the order of which specifies the preference order. 
+There are three possible qop values, as listed in the following table.
+<p>
+<center><table border cellpadding=3 width="70%">
+<tr>
+<th>Token</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>
+<tt>auth</tt>
+</td>
+<td>
+Authentication only
+</td>
+</tr>
+
+<tr>
+<td>
+<tt>auth-int</tt>
+</td>
+<td>
+Authentication with integrity protection
+</td>
+</tr>
+
+<tr>
+<td>
+<tt>auth-conf</tt>
+</td>
+<td>
+Authentication with integrity and privacy protection
+</td>
+</tr>
+</table>
+</center>
+
+<p>
+If you do not specify this property, it defaults to <tt>"auth"</tt>.
+This property is ignored by SASL mechanisms that support authentication only. 
+See the <a href=src/DigestIntegrity.java>Digest-MD5 integrity example</a>
+for an example of how to set the qop.
+<p>
+
+<a name=strength></a>
+<h4>Specifying the Encryption Strength for Privacy Protection</h4>
+
+Some SASL mechanisms support the use of different privacy
+<em>protection strengths</em>--that is, different ciphers and
+key lengths used for encryption.  The protection strength determines how easily
+the encryption code can be cracked.  The Java SASL API broadly
+categorizes privacy protection strengths into low, medium, and high.
+The mapping of these categories into specific ciphers and
+key lengths are SASL mechanism-specific.  The ciphers, key lengths or
+other means of strength specification are negotiated between the
+client and server during the authentication phase of the SASL
+exchange.
+If the client and server cannot negotiate a common strength, then the SASL
+authentication fails.
+
+<p> You use the <tt>"javax.security.sasl.strength"</tt> environment
+property to specify the client's preferred privacy protection
+strength.  The value of this property is a comma-separated list of
+strength values, the order of which specifies the preference order.
+The three possible strength values are <tt>"low"</tt>,
+<tt>"medium"</tt>, and <tt>"high"</tt>.  If you do not specify this property,
+then it defaults to <tt>"high,medium,low"</tt>.
+This property is ignored by SASL mechanisms
+that do not support privacy protection. 
+See the <a href=src/DigestPrivacy.java>Digest-MD5 strength example</a>
+for an example of how to set the strength. 
+
+<a name=maxbuf></a>
+<h4>Specifying the Maximum Receive Buffer Size</h4>
+
+If a client is using a SASL mechanism that supports integrity or 
+privacy protection, then it must negotiate with the server their
+respective receive buffer sizes.
+<p>
+You use the <tt>"javax.security.sasl.maxbuffer"</tt> environment property
+to specify the client's maximum receive buffer size.
+The value of this property is the string representation of an integer that
+specifies the maximum size of the receive buffer in bytes. 
+If you do not specify this property, it defaults to a SASL mechanism-specific
+size.
+This property is ignored by SASL mechanisms that do not support
+integrity or privacy protection.
+See the <a href=src/DigestBuffer.java>Digest-MD5 buffer example</a>
+for an example of how to set the maximum receive buffer size. 
+
+
+<a name=mutual></a>
+<h4>Specifying Mutual Authentication</h4>
+
+When you think of authentication, you typically think of the process
+by which you verify your identity to the LDAP server.
+For some applications, it is equally important that 
+the LDAP server's identity be verified. 
+The process by which both parties participating in the exchange 
+authenticate each other is referred to as
+<em>mutual authentication</em>.
+<p>
+You use the <tt>"javax.security.sasl.server.authentication"</tt>
+environment property to indicate that you want mutual authentication.
+The value of this property is either <tt>"true"</tt> or <tt>"false"</tt>; 
+<tt>"true"</tt> means mutual authentication is required.
+If you do not specify this property, it defaults to <tt>"false"</tt>.
+This property is ignored by SASL mechanisms that do not support
+mutual authentication.
+See the <a href=src/Mutual.java>GSSAPI mutual authentication example</a>
+for an example of how to specify mutual authentication.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="simple.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="digest.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Security</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

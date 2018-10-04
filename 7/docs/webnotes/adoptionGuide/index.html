@@ -1,0 +1,789 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>JDK 7 Adoption Guide</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>JDK 7 Adoption Guide</h1></div>
+<p>With the release of JDK 7, the Java Language continues to
+evolve. New language features make it possible to write tighter,
+more robust code. Functionality that was previously difficult to
+implement is now made easier. This guide shows, in some detail, why
+you should consider migrating from JDK 6 to JDK 7.</p>
+<p>In addition to this guide, there are two documents that you
+should be aware of when migrating to the JDK 7 release.</p>
+<ul>
+<li><a href=
+"http://www.oracle.com/technetwork/java/javase/jdk7-relnotes-418459.html">
+Java SE 7 Features and Enhancements</a></li>
+<li><a href=
+"http://www.oracle.com/technetwork/java/javase/compatibility-417013.html">
+Java SE 7 and JDK 7 Compatibility</a></li>
+</ul>
+<p>These pages are available through the <a href=
+"http://www.oracle.com/technetwork/java/javase/jdk7-relnotes-429209.html">
+JDK 7 Release Notes</a>. For the most part, the information in
+those documents is not duplicated here.</p>
+<p>This document covers the following areas:</p>
+<ul>
+<li><a href="#lang">Java Language Enhancements</a></li>
+<li><a href="#loaders">Class Loaders</a></li>
+<li><a href="#concurrency">Concurrency</a></li>
+<li><a href="#security">Security</a></li>
+<li><a href="#io">I/O and NIO</a></li>
+<li><a href="#network">Networking</a></li>
+<li><a href="#i18n">Internationalization</a></li>
+<li><a href="#swing">Swing &amp; Java 2D Enhancements</a></li>
+<li><a href="#jdbc">JDBC Enhancements</a></li>
+<li><a href="#javadb">Java DB Enhancements</a></li>
+<li><a href="#xml">Java XML Technology Enhancements</a></li>
+<li><a href="#deploy">Deployment Enhancements</a></li>
+<li><a href="#jvm">Java Virtual Machine (JVM)</a></li>
+</ul>
+<hr />
+<h2><a name="lang" id="lang">Java Language Enhancements</a></h2>
+<hr />
+<p>Most of the Java Language Enhancements introduced in JDK 7 were
+a result of JSR 334, supported by <a href=
+"http://openjdk.java.net/projects/coin/" target="_blank">OpenJDK
+Project Coin</a>. The primary goal of this effort was to introduce
+language changes that support writing cleaner, more robust
+code.</p>
+<p>If you use an IDE to develop your applications, it can help
+migrate existing code. The NetBeans, Eclipse, and IntelliJ IDEs are
+all shipping versions that support the Coin features.</p>
+<p>The following list details the specific enhancements.</p>
+<h3>Performing a <tt>switch</tt> statement on a string</h3>
+<p>Prior to JDK 7, it was not possible to perform a
+<code>switch</code> on a <code>String</code> object. To achieve
+this functionality, you had to use <code>if-then-else</code>
+statements. The ability to switch on a string is now supported and
+produces more efficient bytecode than an <code>if-then-else</code>
+statement. For more information, see <a href=
+"http://download.oracle.com/javase/tutorial/java/nutsandbolts/switch.html">
+The switch Statement</a> (Java Tutorial) and <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/language/strings-switch.html">
+Strings in switch Statements</a> (JDK 7 Guides).</p>
+<h3>Writing code with less potential for leaks</h3>
+<p>Before JDK 7, any resources that were opened in a
+<code>try</code> statement (also called a
+<code>try-catch-finally</code> statement) had to be manually
+closed, usually in a <tt>finally</tt> block. As of JDK 7, the
+<code>try</code>-with-resources statement ensures that any
+resources declared in the <code>try</code> statement will be closed
+automatically. If multiple resource variables are declared in the
+<code>try</code> statement, they are closed in the reverse order
+that they are declared. For more information, see <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/language/try-with-resources.html">
+The <tt>try</tt>-with-resources Statement</a> (JDK 7 Guides) and
+<a href=
+"http://download.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html">
+The <tt>try</tt>-with-resources Statement</a> (Java Tutorial).</p>
+<h3>Catching multiple exceptions</h3>
+<p>Historically, catching multiple exceptions results in a
+<tt>catch</tt> block for each exception, with each block containing
+a variable with the type of that particular exception. In many
+cases, these <tt>catch</tt> blocks contained identical code that
+referenced the specified exception variable. It was difficult to
+write a common method to handle this duplicated code because the
+exception variables had different types.</p>
+<pre>
+try {
+    Path fp = path.toRealPath(true);
+} catch (NoSuchFileException x) {
+    System.err.format("%s: no such file or directory%n", path);
+    ...
+} catch (IOException x) {
+    System.err.format("%s%n", x);
+    ...
+}
+</pre>
+<p>As of JDK 7, you can catch multiple exceptions in the same
+<tt>catch</tt> block using the <code>|</code> symbol.</p>
+<pre>
+try {
+    Path fp = path.toRealPath(true);
+} catch (NoSuchFileException | IOException x) {
+    System.err.format("%s: no such file or directory%n", path);
+    ...
+}
+</pre>
+<p>For more information, see <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/language/catch-multiple.html#multiple">
+Handling More Than One Type of Exception</a> (JDK 7 Guides) and
+<a href=
+"http://download.oracle.com/javase/tutorial/essential/exceptions/catch.html">
+The catch Blocks</a> (Java Tutorial).</p>
+<h3>More precise re-throw of an exception</h3>
+<p>Before JDK 7, re-throwing an exception in a <tt>catch</tt> block
+did not indicate the actual exceptions possible from the
+<tt>try</tt> block. Also, you could not change the type of
+exception thrown in the <tt>catch</tt> block without changing the
+method signature. As of JDK 7, the semantics for catching and
+throwing exceptions has been refined. If you catch an exception of
+some type, and do not assign to the exception variable, the
+compiler will copy over the checked exception type that can be
+thrown from the <tt>try</tt> block. It is as if you are re-throwing
+all the exceptions possible from the <tt>try</tt> block (provided
+that you don't re-assign the exception variable). For example, the
+following code is legal in JDK 7:</p>
+<pre>
+JarFile retrieve(URL url) <strong>throws IOException</strong> {
+    Path temp = Files.createTempFile("jar_cache", null);
+    try (InputStream in = url.openStream()) {
+        Files.copy(in, temp, REPLACE_EXISTING);
+        return new JarFile(temp.toFile());
+    } <strong>catch (Throwable t)</strong> {
+        Files.delete(temp);
+        <strong>throw t</strong>;
+    }
+}
+</pre>
+<p>In this case, the compiler knows that the only possible
+exception type is an <tt>IOException</tt> because that is what
+<tt>Files.copy</tt> can throw. For more information, see <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/language/catch-multiple.html#rethrow">
+Rethrowing Exceptions with More Inclusive Type Checking</a> (JDK 7
+Guides).</p>
+<h3>Diamond syntax for more concise <tt>new</tt> expressions</h3>
+<p>Historically, you had to specify type arguments for a generic
+class in a <tt>new</tt> expression. As of JDK 7, you can replace
+the type arguments with the diamond notation, (<tt>&lt;&gt;</tt>),
+to take advantage of automatic type inference. The resulting code
+is functionally identical, but more concise and easier to read. For
+more information, see <a href=
+"http://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">
+Type Inference and Instantiation of Generic Classes</a> (Java
+Tutorial), and <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/language/type-inference-generic-instance-creation.html">
+Type Inference for Generic Instance Creation</a> (JDK 7
+Guides).</p>
+<hr />
+<h2><a name="loaders" id="loaders">Class Loaders</a></h2>
+<hr />
+<h3>Multithreaded class loading</h3>
+<p>Prior to JDK 7, certain types of custom class loaders were prone
+to deadlock. In JDK 7, the locking mechanism has been modified to
+avoid deadlock. For more information, see <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/lang/cl-mt.html">
+Multithreaded Custom Class Loaders in Java SE 7</a> (JDK 7
+Guides).</p>
+<hr />
+<h2><a name="concurrency" id="concurrency">Concurrency</a></h2>
+<hr />
+<h3>More scalable code using fork/join framework on multiple
+processors</h3>
+<p>Introduced in the JDK 7 release, the <tt>fork/join</tt>
+framework uses the <tt>ExecutorService</tt> interface and allows
+you to recursively break down work to better utilize multiple
+processors. For more information, see <a href=
+"http://download.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html">
+Fork/Join</a> (Java Tutorial). Also, the
+<tt><em>&lt;Java_home&gt;</em>/sample/forkjoin</tt> directory in
+the JDK download bundle contains samples that demonstrate the
+fork/join framework.</p>
+<h3>Convenience class for generating random numbers from multiple
+threads</h3>
+<p>The <tt>java.util.concurrent.ThreadLocalRandom</tt> class has
+been added to make it easy to generate random numbers in
+applications that require random numbers from multiple threads, or
+from the fork/join mechanism.</p>
+<p>The use of existing random number generator classes often ends
+up unwittingly being the source of contention between threads,
+biasing benchmark results. This new mechanism results in less
+contention and better performance. For more information, see
+<a href=
+"http://download.oracle.com/javase/tutorial/essential/concurrency/threadlocalrandom.html">
+Concurrent Random Numbers</a> (Java Tutorial).</p>
+<hr />
+<h2><a name="security" id="security">Security</a></h2>
+<hr />
+<p>The JDK 7 release incorporates many new security enhancements.
+The following list shows some of these new features.</p>
+<h3>Elliptic Curve Cryptography (ECC)</h3>
+<p>A new native provider has been added to the JDK 7 release that
+provides several ECC-based algorithms (ECDSA/ECDH). Having an ECC
+provider also enables ECC-based JSSE ciphersuites on all platforms.
+Previously, only platforms with a native PKCS11 ECC implementation
+(e.g. Solaris) could use ECC-based ciphersuites out of the box. For
+more information, see <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/security/SunProviders.html#SunEC">
+SunEC Provider's Supported Algorithms</a> in the <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/security/SunProviders.html">
+Java Cryptography Architecture Oracle Providers Documentation</a>
+(JDK 7 Guides).</p>
+<h3>CertPath and TLS algorithm disabling</h3>
+<p>Weak cryptographic algorithms can now be disabled. The JDK 7
+release provides a mechanism for denying the use of specific
+algorithms in certification path processing and TLS handshaking.
+For example, the MD2 digest algorithm is no longer considered
+secure. For more information, see <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/security/certpath/CertPathProgGuide.html#AppD">
+Appendix D: Disabling Cryptographic Algorithms</a>.</p>
+<h3>Support for TLS 1.1</h3>
+<p>The SunJSSE provider now supports TLS 1.1 as described in
+<a href="http://www.ietf.org/rfc/rfc4346.txt">RFC 4346</a>. The
+most important update is protection against cipher block chaining
+(CBC) attacks.</p>
+<h3>Support for TLS 1.2</h3>
+<p>The SunJSSE provider now supports TLS 1.2 as described in
+<a href="http://www.ietf.org/rfc/rfc5246.txt">RFC 5246</a>. Among
+other things, it specifies different internal hashing algorithms,
+adds new cipher suites, and contains improved flexibility,
+particularly for negotiation of cryptographic algorithms.</p>
+<h3>TLS renegotiation</h3>
+<p>As of JDK 7, Java SE supports <a href=
+"http://www.ietf.org/rfc/rfc5746.txt">RFC 5746</a>, which fixes a
+renegotiation issue in the TLS protocol. For more information, see
+<a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/security/jsse/JSSERefGuide.html#tlsRenegotiation">
+Transport Layer Security (TLS) Renegotiation Issue</a> (JDK 7
+Guides).</p>
+<h3>Connection-sensitive trust management</h3>
+<p>Both trust managers and key managers now have the ability to
+examine parameters of the TLS connection, specifically the
+<tt>SSLSession</tt> under construction, during the handshake. For
+example, a trust manager might restrict the types of certificates
+used based on the list of valid signature algorithms.</p>
+<h3>Tighter checking of EncryptedPreMasterSecret version
+numbers</h3>
+<p>The JDK 7 release tightens version number checking during TLS
+1.1 and TLS 1.2 handshaking. For more information, see the <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/security/jsse/JSSERefGuide.html#premasterChecking">
+JSSE Reference Guide</a> (JDK 7 Guides).</p>
+<h3>Server name indication (SNI) for JSSE client</h3>
+<p>The JDK 7 release supports the Server Name Indication (SNI)
+extension in the JSSE client. SNI, described in <a href=
+"http://www.ietf.org/rfc/rfc4366.txt">RFC 4366</a> enables TLS
+clients to connect to virtual servers.</p>
+<h3>SSLv2Hello disabled by default on clients</h3>
+<p>As of the JDK 7 release, SSLv2Hello is removed from the
+default-enabled client protocol list.</p>
+<h3>NTLM is supported</h3>
+<p>The NTLM authentication protocol is now supported as a SASL
+mechanism on both the client and server side. Only the
+authentication layer is implemented, and there is no privacy or
+integration protection in communication.</p>
+<h3>Use of keytab file</h3>
+<p>Java now reads a keytab file whenever that keytab file changes.
+The file can be empty or non-existent when the application that
+uses the file is started.</p>
+<h3>JGSS default configuration file</h3>
+<p>A default configuration file is now provided for JGSS with
+default krb5.conf settings for Windows and *nix systems. This makes
+deploying a JGSS/krb5 program very easy, especially for deploying
+Java applets.</p>
+<hr />
+<h2><a name="io" id="io">IO and NIO</a></h2>
+<hr />
+<p>The file I/O mechanism was completely reworked in the JDK 7
+release. The previous mechanism, built around the
+<tt>java.io.File</tt> class, is still available, but the new
+mechanism, built around the <tt>java.nio.Path</tt> and
+<tt>java.nio.Files</tt> classes, offers more robust file I/O and
+much greater functionality.</p>
+<p>For those unable to migrate to the NIO.2 file I/O at this time,
+JDK 7 offers a bridge from the older API so that the new API can be
+used. For more information on the <tt>Files.toPath</tt> method and
+other legacy considerations, see <a href=
+"http://download.oracle.com/javase/tutorial/essential/io/legacy.html">
+Legacy File I/O Code</a> (Java Tutorial).</p>
+<p>The following list highlights the improved functionality offered
+by the <tt>java.nio</tt> package.</p>
+<h3>More comprehensive support for file metadata</h3>
+<p>Part of the new file I/O mechanism is the
+<tt>java.nio.file.attribute</tt> package &ndash; this package
+provides powerful support for file metadata. This package includes
+support for accessing file permissions, the file's owner, and
+security attributes. Accessing a file's metadata is implemented in
+an efficient manner. If you want to define your own metadata, you
+can use the <tt>UserDefinedFileAttributeView</tt> interface. For
+more information, see <a href=
+"http://download.oracle.com/javase/tutorial/essential/io/fileAttr.html">
+Managing Metadata (File and File Store Attributes</a> (Java
+Tutorial).</p>
+<h3>Support for symbolic links</h3>
+<p>In the past, there was no real support for symbolic links. For
+example, it was not previously possible to write reliable code to
+recursively walk a file tree and respond appropriately when the
+file system contained circular symbolic links. As of JDK 7,
+symbolic link support is build in - the <tt>Path</tt> and
+<tt>Files</tt> classes are "link aware." You determine how you want
+to handle symbolic links, and how to handle those error cases where
+circular links exist. For more information, see <a href=
+"http://download.oracle.com/javase/tutorial/essential/io/links.html">
+Links, Symbolic or Otherwise</a> (Java Tutorial).</p>
+<h3>Scalable file I/O support</h3>
+<p>Many of the <tt>java.io.file</tt> methods did not scale.
+Requesting a large directory listing over a server could result in
+a hang. Large directories could also cause memory resource
+problems, resulting in a denial of service. The new file I/O
+package is implemented so that it works regardless of the file
+system's size.</p>
+<h3>Behavior is now consistent across platforms</h3>
+<p>Historically, some methods did not work the same across
+platforms. For example, the <tt>java.io.File.renameTo</tt> method
+behaved differently on different platforms. This type of
+inconsistency has been eliminated in the new
+<tt>java.nio.Files</tt> file I/O APIs.</p>
+<h3>Support for walking the file tree</h3>
+<p>The new <tt>FileVisitor</tt> API provides easy-to-implement
+support for recursively walking the file tree. This functionality
+allows you to examine, modify, or delete files or directories in
+the file system. For more information, see <a href=
+"http://download.oracle.com/javase/tutorial/essential/io/walk.html">
+Walking the File Tree</a> (Java Tutorial).</p>
+<h3>Searching the file system</h3>
+<p>The <tt>PathMatcher</tt> API provides programmatic support for
+finding files on the file system. You can use the provided "glob"
+syntax, regular expressions, or define your own matching code. For
+more information, see <a href=
+"http://download.oracle.com/javase/tutorial/essential/io/find.html">
+Finding Files</a> (Java Tutorial).</p>
+<h3>Watching a directory for changes</h3>
+<p>The <tt>Watch Service</tt> api allows you to register a
+directory for file change notifications. An application can
+register for creation, deletion, or modification events. This
+feature can be implemented using the <tt>FileVisitor</tt> API to
+recursively watch an entire file tree for changes. For more
+information, see <a href=
+"http://download.oracle.com/javase/tutorial/essential/io/notification.html">
+Watching a Directory for Changes</a> (Java Tutorial).</p>
+<hr />
+<h2><a name="network" id="network">Networking</a></h2>
+<hr />
+<h3>Supporting updated implementations of libraries from a JAR
+file</h3>
+<p>Prior to the JDK 7 release, if a jar file was updated, it was
+difficult to ensure that the latest was being used by an
+application. New in JDK 7, the <tt>URLClassLoader.close()</tt>
+method eliminates the problem of supporting an updated
+implementation of classes and resources loaded from JAR files. For
+more information, see <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/net/ClassLoader.html">
+Closing a URLClassLoader</a> (JDK 7 Guides).</p>
+<h3>Infiniband support</h3>
+<p>The new Sockets Direct Protocol (sdp) supports high throughput,
+streamed connections over Infiniband fabric. SDP is supported only
+on Solaris and Linux. For more information, see <a href=
+"http://download.oracle.com/javase/tutorial/sdp/sockets/index.html">
+Understanding the Sockets Direct Protocol</a> (Java Tutorial).</p>
+<hr />
+<h2><a name="i18n" id="i18n">Internationalization</a></h2>
+<hr />
+<h3>Ability to use Unicode 6.0.0</h3>
+<p>The JDK 7 release supports the Unicode 6.0.0 standard, which
+added support for over 10,000 additional characters, as well as
+support for properties and data files. The Java Tutorial has a new
+section that discusses <a href=
+"http://download.oracle.com/javase/tutorial/i18n/text/unicode.html">
+Unicode</a>.</p>
+<h3>Extensible support for ISO 4217 currency codes</h3>
+<p>Currencies are identified by their <a href=
+"http://www.iso.org/iso/en/prods-services/popstds/currencycodes.html">
+ISO 4217 codes</a>. The JDK 7 release makes it possible to
+accommodate new currencies without requiring a new release of the
+JDK. For more information, see <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/intl/enhancements.7.html">
+Extensible Support for ISO 4217 Currency Codes</a> (JDK 7
+Guides).</p>
+<h3>Category locale support</h3>
+<p>The default locale can be independently set for two types of
+uses: the <em>format</em> setting is used for formatting resources,
+and the <em>display</em> setting is used in menus and dialogs.
+Programmatic support so that these locale types can be set
+independently. On Windows, these default values are initialized
+according to the "Standards and Formats" and "Display Language"
+settins in the control panel. For more information, see <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/intl/enhancements.7.html">
+Category Locale Support</a> (JDK 7 Guides).</p>
+<h3>Updated <tt>Locale</tt> support</h3>
+<p>The <tt>Locale</tt> class has been updated. There is new support
+for industry standards, such as IETF BCP 47 (Tags for Identifying
+Languages) and UTS#35 (Unicode Locale Data Markup Language). A
+<tt>Locale.Builder</tt> convenience class has been added to make it
+easier to create a <tt>Locale</tt> object. The ability to add
+user-defined extensions to a locale, for example to specify the
+linux platform, or a particular release. For information on other
+updates, see <a href=
+"http://download.oracle.com/javase/tutorial/i18n/locale/create.html">
+Creating a Locale</a> and <a href=
+"http://download.oracle.com/javase/tutorial/i18n/locale/extensions.html">
+BCP 47 Extensions</a> lessons in the Java Tutorial.</p>
+<h3>New support for shaping numeric characters</h3>
+<p>The <tt>NumericShaper</tt> class, used to convert Latin-1 digits
+to other Unicode decimal digits, has been enhanced to make it
+easier to shape digits. For more information, see <a href=
+"http://download.oracle.com/javase/tutorial/i18n/text/shapedDigits.html">
+Converting Latin Digits to Other Unicode Digits</a> (Java
+Tutorial).</p>
+<h3>Unicode 6.0 support in the regular expression API</h3>
+<p>In the JDK 7 release, the regular expression pattern matching
+functionality has been expanded to support Unicode 6.0. For more
+information, see <a href=
+"http://download.oracle.com/javase/tutorial/essential/regex/unicode.html">
+Unicode Support</a> (Java Tutorial).</p>
+<hr />
+<h2><a name="swing" id="swing">Swing &amp; Java 2D
+Enhancements</a></h2>
+<hr />
+<h3>Ability to change how components are drawn and how they respond
+to events</h3>
+<p>The new <tt>JLayer</tt> class provides a powerful framework so
+that you can change the look of a component and how it behaves. For
+example, you can use JLayer (and related) classes to create an
+animated wait indicator over a panel. You can use it to visually
+indicate when a text field contains valid data. You can make a
+panel ignore, temporarily, all mouse clicks outside of its borders.
+For more information, see <a href=
+"http://download.oracle.com/javase/tutorial/uiswing/misc/jlayer.html">
+How to Decorate Components with JLayer</a> (Java Tutorial) and
+<a href="http://www.youtube.com/watch?v=6mQYsWCkx4g">Using JLayer
+in Swing Applications</a> (YouTube video).</p>
+<h3>Updating the Swing look and feel</h3>
+<p>A new look and feel for Swing, called Nimbus, has moved from
+<code>com.sun.java.swing</code> to the standard API namespace,
+<code>javax.swing</code>. The Nimbus look and feel is not enabled
+by default. For more information, see <a href=
+"http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/nimbus.html">
+Nimbus Look and Feel</a> (Java Tutorial).</p>
+<h3>Mixing heavyweight and lightweight components</h3>
+<p>Prior to JDK 7, mixing heavyweight (AWT) and lightweight (Swing)
+components in the same container has been problematic. As of JDK 7,
+this can be easily accomplished. For more information, see <a href=
+"http://www.oracle.com/technetwork/articles/java/mixing-components-433992.html">
+Mixing Heavyweight and Lightweight Components</a> (OTN
+article).</p>
+<h3>Creating shaped and translucent windows</h3>
+<p>The JDK 7 release supports creating windows with transparency
+(both uniform and per-pixel transparency) and also non-rectangular
+windows. For more information, see <a href=
+"http://download.oracle.com/javase/tutorial/uiswing/misc/trans_shaped_windows.html">
+How to Create Translucent and Shaped Windows</a> (Java
+Tutorial).</p>
+<h3>Improved 2D rendering</h3>
+<p>Introduced in JDK 7, a new XRender-based Java 2D rendering
+pipeline is provided for modern X11-based desktops. This pipeline,
+which offers improved graphics performance, is disabled by default,
+but may be enabled via the command line property
+<tt>-Dsun.java2d.xrender=true</tt>. Older X11 configurations may
+not be able to support XRender. For more information, see <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/2d/flags.html#xrender">
+System Properties for Java 2D Technology</a> (JDK 7 Guides).</p>
+<h3>Support for OpenType/CFF fonts</h3>
+<p>As of JDK 7, installed OpenType/CFF fonts are enumerated and
+displayed through methods such as <a href=
+"http://download.oracle.com/javase/7/docs/api/java/awt/GraphicsEnvironment.html#getAvailableFontFamilyNames()">
+<tt>GraphicsEnvironment.getAvailableFontFamilyNames</tt></a>. These
+fonts are also recognized by the <a href=
+"http://download.oracle.com/javase/7/docs/api/java/awt/Font.html#createFont(int,%20java.io.InputStream)">
+<tt>Font.createFont</tt></a> method.</p>
+<h3>Support for Tibetan script</h3>
+<p>New in JDK 7 is text rendering support of the Tibetan
+script.</p>
+<h3>Support for Linux and Solaris 11 fonts</h3>
+<p>Historically, the logical fonts for the JDK were statically
+specified in a <tt>fontconfig.properties</tt> file. However, on the
+various implementations of Linux, there is no consistency in the
+presence of fonts. So, without custom files, Asian (CJK) text, etc,
+would not be rendered. In JDK 7, on Linux, and for Solaris 11, in
+the absence of a customized <tt>fontconfig.properties</tt> file for
+the OS version, the default behavior is to use the system
+<tt>libfontconfig</tt> to select fonts to use for the logical
+fonts. In this case, the logical fonts will reflect the fonts used
+by the Gnome/KDE desktop applications which use the same platform
+library. For more information, see <a href=
+"http://www.fontconfig.org/">Fontconfig</a> on <a href=
+"http://www.freedesktop.org">freedesktop.org</a>.</p>
+<h3>Providing HSL color selection</h3>
+<p>An HSV tab has been added to the <a href=
+"http://download.oracle.com/javase/7/docs/api/javax/swing/JColorChooser.html">
+<tt>JColorChooser</tt></a> class. This feature allows users to
+select colors using the Hue-Saturation-Luminance (HSL) color model
+and is available automatically in JDK 7.</p>
+<hr />
+<h2><a name="jdbc" id="jdbc">JDBC Enhancements</a></h2>
+<hr />
+<p><a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/jdbc/jdbc_41.html">
+JDBC 4.1</a> clarifies the behavior of old methods and introduces
+new methods on the <tt>java.sql</tt> and <tt>javax.sql</tt>
+interfaces. For more information on the JDBC 4.1 updates, see
+<a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/jdbc/jdbc_41.html">
+JDBC 4.1</a> (JDK 7 Guides).</p>
+<h3>RowSet 1.1</h3>
+<p>The JDK 7 release introduces the <tt>RowSetFactory</tt>
+interface and the <tt>RowSetProvider</tt> class, which enables you
+to create all types of row sets supported by your JDBC driver. For
+more information, see <a href=
+"http://download.oracle.com/javase/tutorial/jdbc/basics/jdbcrowset.html">
+Using JdbcRowSet Objects</a> (Java Tutorial).</p>
+<h3>Use of <tt>try</tt>-with-resources</h3>
+<p>The updated JDBC package enables use of the JDK 7
+<tt>try</tt>-with-resources statement. Resources of type
+<tt>Connection</tt>, <tt>ResultSet</tt>, and <tt>Statement</tt> are
+now automatically closed when used in conjunction with this
+statement. For more information on <tt>try</tt>-with-resources, see
+<a href=
+"http://download.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html">
+The <tt>try</tt>-with-resources Statement</a> (Java Tutorial).</p>
+<hr />
+<h2><a name="javadb" id="javadb">Java DB Enhancements</a></h2>
+<hr />
+<p>The version of Java DB bundled with JDK 7 introduces many
+improvements over the version bundled with JDK 6. New features
+include:</p>
+<h3>Definer's rights</h3>
+<p>Procedures and functions can now run with their creators'
+privileges, rather than with the current user's permissions.</p>
+<h3>BOOLEAN data type</h3>
+<p><tt>BOOLEAN</tt> is now a legal data type for columns, routine
+arguments, and function return values.</p>
+<h3>Table truncation</h3>
+<p>A new <tt>TRUNCATE TABLE</tt> command drops all rows in a table
+quickly.</p>
+<h3>Query plan browsing</h3>
+<p>A new <tt>PlanExporter</tt> tool helps developers visualize
+query plans better.</p>
+<h3>Unicode database names</h3>
+<p>Remote clients can now use database names which include Unicode
+characters outside of the ASCII codeset.</p>
+<h3>Automatic calculation of index statistics</h3>
+<p>Java DB automatically refreshes statistics to help it pick
+better query plans.</p>
+<h3>Improved interrupt handling</h3>
+<p>Interrupting connection threads no longer crashes the Java DB
+engine.</p>
+<h3>MAX optimization</h3>
+<p>On indexed tables, <tt>MAX</tt> queries run faster in more
+cases.</p>
+<h3>XML operator portability</h3>
+<p>The <tt>xmlparse</tt> and <tt>xmlserialize</tt> operators work
+out-of-the-box on more platforms.</p>
+<hr />
+<h2><a name="xml" id="xml">Java XML Technology
+Enhancements</a></h2>
+<hr />
+<p>As of the JDK 7 release, several XML technologies were folded
+into the Java SE platform and the supported versions of those
+technologies updated.</p>
+<h3>Java API for XML Processing (JAXP)</h3>
+<p>The JDK 7 release now supports JAXP 1.4.5. There have been many
+bug fixes and some improvements over the previous version of JAXP,
+particularly in the areas of conformance, security, and
+performance. The specification is still JAXP 1.4, however StAX has
+been upgraded to StAX 1.2 in accordance with the JSR 173
+Maintenance Review 3. For more information, see <a href=
+"http://jaxp.java.net/1.4/1.4.5/ReleaseNotes.html">JAXP 1.4.5
+Release Notes</a> and the <a href=
+"http://jaxp.java.net/1.4/1.4.5/changelog.html">JAXP 1.4.5 Change
+log</a>.</p>
+<h3>Java Architecture for XML Binding (JAXB)</h3>
+<p>JDK 7 now supports JAXB 2.2.3. For more information, see the
+<a href=
+"http://jaxb.java.net/nonav/2.2.3u1/docs/changelog2.html">JAXB
+Change log</a> for JAXB RI 2.2 and above.</p>
+<h3>Java API for XML Web Services (JAX-WS)</h3>
+<p>JDK 7 now supports JAX-WS 2.2.4. For more information, see the
+<a href="http://jax-ws.java.net/">JAX-WS Change log</a> for JAX-WS
+RI 2.2 and above.</p>
+<hr />
+<h2><a name="deploy" id="deploy">Deployment Enhancements</a></h2>
+<hr />
+<h3>Ability to load applet in a single network request</h3>
+<p>To load a web page containing an applet, the JNLP file and the
+jar file (at a minimum) has to be loaded. Introduced in the JDK 7
+release, a copy of the JNLP file can be cached in the HTML page.
+This reduces the minimum number of network requests that are needed
+to start the applet and the applet is quicker to launch. For more
+information, see <a href=
+"http://download.oracle.com/javase/tutorial/deployment/deploymentInDepth/embeddingJNLPFileInWebPage.html">
+Embedding JNLP File in Applet Tag</a> (Java Tutorial).</p>
+<h3>Attempt to access applet from JavaScript may block if applet is
+not yet initialized</h3>
+<p>Most browsers use single-threaded JavaScript engines so, when
+the applet is accessed before the applet's <tt>init</tt> method has
+completed, it appears that the host page, and the browser, are
+frozen. Prior to JDK 7, there was no easy way to check if the
+applet was ready to be accessed. Introduced in JDK 7 is an applet
+<tt>status</tt> property. You can check the applet's
+<tt>status</tt> anytime to determine whether it is ready to accept
+requests. Alternatively, you can use callback functions to receive
+notification when an applet is ready. This feature mitigates the
+blocking behavior of the <a href=
+"http://download.oracle.com/javase/7/docs/api/java/applet/Applet.html#isActive%28%29">
+<tt>isActive()</tt></a> api and does not rely on waiting for the
+applet's <tt>init</tt> method to complete before providing a
+status. This feature is enabled by setting the
+<tt>java_status_events</tt> parameter to <tt>true</tt>. For more
+information, see <a href=
+"http://download.oracle.com/javase/tutorial/deployment/applet/appletStatus.html">
+Handling Initialization Status With Event Handlers</a> (Java
+Tutorial).</p>
+<h3>Codebase in webstart JNLP file can be optional with Deployment
+toolkit</h3>
+<p>Prior to JDK 7, moving a JNLP application to another location
+required editing the <tt>codebase</tt> value in the JNLP file. This
+was especially complicated for signed JNLP files that are embedded
+into jar files. As of JDK 7, if you deploy a JNLP webstart
+application via the Deployment toolkit APIs, it is possible to omit
+specifying the <tt>codebase</tt> in the JNLP file. Therefore, if
+you move the JNLP file to a new location, you no longer have to
+edit the file to embed that new location. For more information, see
+<a href=
+"http://download.oracle.com/javase/tutorial/deployment/deploymentInDepth/deployingWithoutCodebase.html">
+Deploying Without Codebase</a> (Java Tutorial).</p>
+<h3>Ability to partially sign a JNLP file</h3>
+<p>A signed JNLP file is used to ensure than an application launch
+descriptor can not be modified externally. Before JDK 7, a signed
+JNLP file had to match the external bootstrap copy exactly. That
+made it difficult to redistribute an application or tune its
+deployment without rebuilding it. Now the developer can use a
+template to define what parts of an external JNLP file may differ
+from one embedded into a jar file.</p>
+<h3>Targeting resources to a particular version of the OS</h3>
+<p>Prior to JDK 7, it was possible to target a resource to a
+particular "family" of operating systems, such as
+<tt>os="linux"</tt>. This feature is now more finely grained, so
+that a particular version of the OS can be specified. For example,
+<tt>os="Windows\ Vista Windows\ 7"</tt>. For more information, see
+the <tt>os</tt> attribute for the <tt>information</tt> and
+<tt>resources</tt> elements in <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/javaws/developersguide/syntax.html">
+JNLP File Syntax</a> (JDK 7 Guides).</p>
+<h3>Defining the install preferences of an application</h3>
+<p>In the JDK 7 release, an <tt>install</tt> attribute for the
+<tt>shortcut</tt> element has been added. You can use this optional
+attribute to specify the application's preference for being
+considered "installed." On Windows, this determines if the
+application appears in the Add or Remove Programs panel. For more
+information, see <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/javaws/developersguide/syntax.html">
+JNLP File Syntax</a> (JDK 7 Guides).</p>
+<h3>Better control over applet decoration settings</h3>
+<p>Before the JDK 7 release, an applet launched from a desktop
+shortcut was always decorated, but the same applet, when dragged
+out of the browser, was always undecorated. As of JDK 7, this
+behavior can be specified in the JNLP file and the same settings
+will be used both for drag out and a shortcut launch. The default
+behavior does not change. For more information, see <a href=
+"http://download.oracle.com/javase/tutorial/deployment/applet/draggableApplet.html#decoration">
+Requesting and Customizing Applet Decoration</a> (Java
+Tutorial).</p>
+<hr />
+<h2><a name="jvm" id="jvm">Java Virtual Machine (JVM)</a></h2>
+<hr />
+<h3>Java virtual machine support for non-Java languages</h3>
+<p>The JDK 7 release introduces a new JVM instruction that
+simplifies the implementation of dynamically-typed programming
+languages on the JVM. For more information, see <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/vm/multiple-language-support.html">
+Java Virtual Machine Support for Non-Java Languages</a> (JDK 7
+Guides) and <a href=
+"http://www.oracle.com/technetwork/articles/javase/dyntypelang-142348.html">
+New JDK 7 Feature: Support for Dynamically Typed Languages in the
+Java Virtual Machine</a> (OTN article).</p>
+<h3>Garbage-first collector</h3>
+<p>The Garbage-first collector is a server-style garbage collector
+that, in JDK 7, replaces the Concurrent Mark-Sweep Collector (CMS).
+For more information, see <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/vm/G1.html">
+Garbage-First Collector</a> (JDK 7 Guides).</p>
+<h3>Java HotSpot virtual machine performance enhancements</h3>
+<p>The JDK 7 release includes many Java HotSpot performance
+enhancements, such as tiered compilation, compressed Oops, and
+escape analysis. For more information, see <a href=
+"http://download.oracle.com/javase/7/docs/technotes/guides/vm/performance-enhancements-7.html">
+Java HotSpot Virtual Machine Performance Enhancements</a> (JDK 7
+Guides).</p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../legal/cpyr.html">Copyright &#169;</a> 1993, 2014, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

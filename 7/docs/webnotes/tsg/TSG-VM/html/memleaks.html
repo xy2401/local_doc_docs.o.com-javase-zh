@@ -1,0 +1,914 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<!-- GenHTML revision 23965-->
+<meta http-equiv="Content-type" content=
+"text/html; charset=utf-8" />
+<title>Troubleshooting Memory Leaks - Troubleshooting Guide for
+HotSpot VM</title>
+<meta http-equiv="content-language" content="en-US" />
+<meta name="robots" content="index,follow" />
+<meta name="language" content="en" />
+<meta name="collection" content="reference" />
+<meta name="keywords" content="" />
+<meta name="description" content=
+"This document is a guide to help troubleshoot problems that might arise with applications that are developed using the release of Java Platform, Standard Edition Development Kit 7 (JDK 7). In particular, this guide addresses possible problems between the applications and the Java HotSpot virtual machine. The document provides a description of the tools, command line options, and other help in analyzing a problem. The document also provides guidance on how to approach some general issues such as a crash, hang, or memory resource issues. Finally, the document provides direction for data collection and bug report preparation." />
+<meta name="date" content="2008-11-01" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/default.css" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/pagelayout.css" />
+<link rel="alternate stylesheet" type="text/css" title="print"
+href="css/print.css" />
+<script type="text/javascript">
+//<![CDATA[
+function setActiveStyleSheet(title) {
+  var i, a, main;
+  for (i=0; (a = document.getElementsByTagName("link")[i]); i++) {
+         if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+                a.disabled = true;
+                if(a.getAttribute("title") == title) a.disabled = false;
+         }
+  }
+}
+
+function ClearDefault(Element) {
+   if (Element.defaultValue == Element.value) {
+        Element.value = ""
+        Element.style.cssText = "font-weight: bold; color: #00000"
+   }
+}
+
+//]]>
+</script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<div class="MastheadPane">
+<table class="MastheadTable" summary="Menu table" width="100%">
+<tr class="closeprintview">
+<td align="right"><a href="#" onclick=
+"setActiveStyleSheet('screen')">Exit Print View</a></td>
+</tr>
+<tr class="titlebar">
+<td>
+<h4 class="contentpage-doctitle"><a href="toc.html">Troubleshooting
+Guide for HotSpot VM</a></h4>
+</td>
+<td class="smallLogo"><a href="http://www.oracle.com"><img src=
+"graphics/smallOracleLogo.gif" alt="Logo" /></a></td>
+</tr>
+</table>
+</div>
+<div class="ButtonPane">
+<table class="pagecontrol" summary="Page Control">
+<tr>
+<td class="pagebuttons"><a href="#" onclick=
+"setActiveStyleSheet('print')"><img height="46" width="40" border=
+"0" src="graphics/print.gif" alt="Print View" title=
+"Print View" /></a></td>
+<td class="pagebreadcrumb"></td>
+<td class="pagenavlinks"><a href="tooldescr.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="crashes.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+<div class="TOCPane">
+<p class="toc level1"><a href="docinfo.html">Document
+Information</a></p>
+<p class="toc level1 tocsp"><a href="preface.html">Preface</a></p>
+<p class="toc level1 tocsp"><a href=
+"tools.html">1.&#160;&#160;Diagnostic Tools and Options</a></p>
+<p class="toc level1 tocsp"><a href=
+"tooldescr.html">2.&#160;&#160;Detailed Tool Descriptions</a></p>
+<div id="scrolltoc" class="onpage">
+<p class="toc level1 tocsp"><a href=
+"">3.&#160;&#160;Troubleshooting Memory Leaks</a></p>
+<p class="toc level2"><a href="#gbywc">3.1 Meaning of
+<tt>OutOfMemoryError</tt></a></p>
+<p class="toc level3"><a href="#gbyvh">3.1.1 Detail Message:
+<tt>Java heap space</tt></a></p>
+<p class="toc level3"><a href="#gbyuu">3.1.2 Detail Message:
+<tt>PermGen space</tt></a></p>
+<p class="toc level3"><a href="#gbyvi">3.1.3 Detail Message:
+<tt>Requested array size exceeds VM limit</tt></a></p>
+<p class="toc level3"><a href="#gbyvj">3.1.4 Detail Message:
+<tt>request &#60;size&gt; bytes for &#60;reason&gt;. Out of swap
+space?</tt></a></p>
+<p class="toc level3"><a href="#gbyvb">3.1.5 Detail Message:
+<tt>&#60;reason&gt; &#60;stack trace&gt; (Native
+method)</tt></a></p>
+<p class="toc level2 tocsp"><a href="#gbyvp">3.2 Crash Instead of
+<tt>OutOfMemoryError</tt></a></p>
+<p class="toc level2"><a href="#gbywf">3.3 Diagnosing Leaks in Java
+Language Code</a></p>
+<p class="toc level3"><a href="#gbywh">3.3.1 NetBeans
+Profiler</a></p>
+<p class="toc level3"><a href="#gbywe">3.3.2 Using the
+<tt>jhat</tt> Utility</a></p>
+<p class="toc level3"><a href="#gcaql">3.3.3 Creating a Heap
+Dump</a></p>
+<p class="toc level4"><a href="#gdyth">3.3.3.1 HPROF
+Profiler</a></p>
+<p class="toc level4"><a href="#gdysp">3.3.3.2 <tt>jmap</tt>
+Utility</a></p>
+<p class="toc level4"><a href="#gdyta">3.3.3.3 JConsole
+Utility</a></p>
+<p class="toc level4"><a href="#gdyrr">3.3.3.4
+<tt>-XX:+HeapDumpOnOutOfMemoryError</tt> Command-line
+Option</a></p>
+<p class="toc level3 tocsp"><a href="#gbyvz">3.3.4 Obtaining a Heap
+Histogram on a Running Process</a></p>
+<p class="toc level3"><a href="#gbywi">3.3.5 Obtaining a Heap
+Histogram at OutOfMemoryError</a></p>
+<p class="toc level3"><a href="#gbywm">3.3.6 Monitoring the Number
+of Objects Pending Finalization</a></p>
+<p class="toc level3"><a href="#gbyvs">3.3.7 Third Party Memory
+Debuggers</a></p>
+<p class="toc level2 tocsp"><a href="#gbyvk">3.4 Diagnosing Leaks
+in Native Code</a></p>
+<p class="toc level3"><a href="#gcaqm">3.4.1 Tracking All Memory
+Allocation and Free Calls</a></p>
+<p class="toc level3"><a href="#gcaqu">3.4.2 Tracking Memory
+Allocation in a JNI Library</a></p>
+<p class="toc level3"><a href="#gcaqr">3.4.3 Tracking Memory
+Allocation With OS Support</a></p>
+<p class="toc level3"><a href="#gbyza">3.4.4 Using <tt>dbx</tt> to
+Find Leaks</a></p>
+<p class="toc level3"><a href="#gbyzn">3.4.5 Using <tt>libumem</tt>
+to Find Leaks</a></p>
+</div>
+<p class="toc level1 tocsp"><a href=
+"crashes.html">4.&#160;&#160;Troubleshooting System Crashes</a></p>
+<p class="toc level1 tocsp"><a href=
+"hangloop.html">5.&#160;&#160;Troubleshooting Hanging or Looping
+Processes</a></p>
+<p class="toc level1 tocsp"><a href=
+"signals.html">6.&#160;&#160;Integrating Signal and Exception
+Handling</a></p>
+<p class="toc level1 tocsp"><a href=
+"bugreports.html">7.&#160;&#160;Submitting Bug Reports</a></p>
+<p class="toc level1 tocsp"><a href=
+"envvars.html">A.&#160;&#160;Environment Variables and System
+Properties</a></p>
+<p class="toc level1 tocsp"><a href=
+"clopts.html">B.&#160;&#160;Command-Line Options</a></p>
+<p class="toc level1 tocsp"><a href=
+"felog.html">C.&#160;&#160;Fatal Error Log</a></p>
+<p class="toc level1 tocsp"><a href=
+"tools-by-rel.html">D.&#160;&#160;Summary of Tools in This
+Release</a></p>
+</div>
+<div class="ContentPane"><a name="memleaks" id=
+"memleaks"></a>Chapter&#160;3
+<h2>Troubleshooting Memory Leaks</h2>
+<p>If your application's execution time becomes longer and longer,
+or if the operating system seems to be performing slower and
+slower, this could be an indication of a memory leak. In other
+words, virtual memory is being allocated but is not being returned
+when it is no longer needed. Eventually the application or the
+system runs out of memory, and the application terminates
+abnormally.</p>
+<p>This chapter provides some suggestions on diagnosing problems
+involving possible memory leaks.</p>
+<a name="gbywc" id="gbywc"></a>
+<h3>3.1 Meaning of <tt>OutOfMemoryError</tt></h3>
+<p>One common indication of a memory leak is the
+<tt>java.lang.OutOfMemoryError</tt> error. This error is thrown
+when there is insufficient space to allocate an object in the Java
+heap or in a particular area of the heap. The garbage collector
+cannot make any further space available to accommodate a new
+object, and the heap cannot be expanded further.</p>
+<p>When the <tt>java.lang.OutOfMemoryError</tt> error is thrown, a
+stack trace is printed also.</p>
+<p>A <tt>java.lang.OutOfMemoryError</tt> can also be thrown by
+native library code when a native allocation cannot be satisfied,
+for example, if swap space is low.</p>
+<p>An early step to diagnose an <tt>OutOfMemoryError</tt> is to
+determine what the error means. Does it mean that the Java heap is
+full, or does it mean that the native heap is full? To help you
+answer this question, the following subsections explain some of the
+possible error messages, with reference to the detail part of the
+message:</p>
+<ul>
+<li>
+<p><tt>Exception in thread "main": java.lang.OutOfMemoryError: Java
+heap space</tt></p>
+<p>See <img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbyvh">3.1.1 Detail Message: <tt>Java heap space</tt></a>.</p>
+</li>
+<li>
+<p><tt>Exception in thread "main": java.lang.OutOfMemoryError:
+PermGen space</tt></p>
+<p>See <img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbyuu">3.1.2 Detail Message: <tt>PermGen space</tt></a>.</p>
+</li>
+<li>
+<p><tt>Exception in thread "main": java.lang.OutOfMemoryError:
+Requested array size exceeds VM limit</tt></p>
+<p>See <img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbyvi">3.1.3 Detail Message: <tt>Requested array size exceeds VM
+limit</tt></a>.</p>
+</li>
+<li>
+<p><tt>Exception in thread "main": java.lang.OutOfMemoryError:
+request &#60;size&gt; bytes for &#60;reason&gt;. Out of swap
+space?</tt></p>
+<p>See <img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbyvj">3.1.4 Detail Message: <tt>request &#60;size&gt; bytes for
+&#60;reason&gt;. Out of swap space?</tt></a>.</p>
+</li>
+<li>
+<p><tt>Exception in thread "main": java.lang.OutOfMemoryError:
+&#60;reason&gt; &#60;stack trace&gt; (Native method)</tt></p>
+<p>See <img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbyvb">3.1.5 Detail Message: <tt>&#60;reason&gt; &#60;stack
+trace&gt; (Native method)</tt></a>.</p>
+</li>
+</ul>
+<a name="gbyvh" id="gbyvh"></a>
+<h4>3.1.1 Detail Message: <tt>Java heap space</tt></h4>
+<p>The detail message <tt>Java heap space</tt> indicates that an
+object could not be allocated in the Java heap. This error does not
+necessarily imply a memory leak. The problem can be as simple as a
+configuration issue, where the specified heap size (or the default
+size, if not specified) is insufficient for the application.</p>
+<p>In other cases, and in particular for a long-lived application,
+the message might be an indication that the application is
+unintentionally holding references to objects, and this prevents
+the objects from being garbage collected. This is the Java language
+equivalent of a memory leak. Note that APIs that are called by an
+application could also be unintentionally holding object
+references.</p>
+<p>One other potential source of <tt>OutOfMemoryError</tt> arises
+with applications that make excessive use of finalizers. If a class
+has a finalize method, then objects of that type do not have their
+space reclaimed at garbage collection time. Instead, after garbage
+collection the objects are queued for finalization, which occurs at
+a later time. In the Sun implementation, finalizers are executed by
+a daemon thread that services the finalization queue. If the
+finalizer thread cannot keep up with the finalization queue, then
+the Java heap could fill up and <tt>OutOfMemoryError</tt> would be
+thrown. One scenario that can cause this situation is when an
+application creates high-priority threads that cause the
+finalization queue to increase at a rate that is faster than the
+rate at which the finalizer thread is servicing that queue. Section
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbywm">3.3.6 Monitoring the Number of Objects Pending
+Finalization</a> discusses how to monitor objects for which
+finalization is pending.</p>
+<a name="gbyuu" id="gbyuu"></a>
+<h4>3.1.2 Detail Message: <tt>PermGen space</tt></h4>
+<p>The detail message <tt>PermGen space</tt> indicates that the
+permanent generation is full. The permanent generation is the area
+of the heap where class and method objects are stored. If an
+application loads a very large number of classes, then the size of
+the permanent generation might need to be increased using the
+<tt>-XX:MaxPermSize</tt> option.</p>
+<p>Interned <tt>java.lang.String</tt> objects are no longer stored
+in the permanent generation. The <tt>java.lang.String</tt> class
+maintains a pool of strings. When the <tt>intern</tt> method is
+invoked, the method checks the pool to see if an equal string is
+already in the pool. If there is, then the <tt>intern</tt> method
+returns it; otherwise it adds the string to the pool. In more
+precise terms, the <tt>java.lang.String.intern</tt> method is used
+to obtain the canonical representation of the string; the result is
+a reference to the same class instance that would be returned if
+that string appeared as a literal.</p>
+<p>When this kind of error occurs, the text
+<tt>ClassLoader.defineClass</tt> might appear near the top of the
+stack trace that is printed.</p>
+<p>The <tt>jmap -permgen</tt> command prints statistics for the
+objects in the permanent generation and also information about
+internalized String instances. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gblmm">2.7.4
+Getting Information on the Permanent Generation</a>.</p>
+<a name="gbyvi" id="gbyvi"></a>
+<h4>3.1.3 Detail Message: <tt>Requested array size exceeds VM
+limit</tt></h4>
+<p>The detail message <tt>Requested array size exceeds VM
+limit</tt> indicates that the application (or APIs used by that
+application) attempted to allocate an array that is larger than the
+heap size. For example, if an application attempts to allocate an
+array of 512MB but the maximum heap size is 256MB then
+<tt>OutOfMemoryError</tt> will be thrown with the reason
+<tt>Requested array size exceeds VM limit</tt>. In most cases the
+problem is either a configuration issue (heap size too small), or a
+bug that results in an application attempting to create a huge
+array, for example, when the number of elements in the array are
+computed using an algorithm that computes an incorrect size.</p>
+<a name="gbyvj" id="gbyvj"></a>
+<h4>3.1.4 Detail Message: <tt>request &#60;size&gt; bytes for
+&#60;reason&gt;. Out of swap space?</tt></h4>
+<p>The detail message <tt>request &#60;size&gt; bytes for
+&#60;reason&gt;. Out of swap space?</tt> appears to be an
+<tt>OutOfMemoryError</tt>. However, the HotSpot VM code reports
+this apparent exception when an allocation from the native heap
+failed and the native heap might be close to exhaustion. The
+message indicates the size (in bytes) of the request that failed
+and the reason for the memory request. In most cases the
+<tt>&#60;reason&gt;</tt> part of the message is the name of a
+source module reporting the allocation failure, although in some
+cases it indicates a reason.</p>
+<p>When this error message is thrown, the VM invokes the fatal
+error handling mechanism, that is, it generates a fatal error log
+file, which contains useful information about the thread, process,
+and system at the time of the crash. In the case of native heap
+exhaustion, the heap memory and memory map information in the log
+can be useful. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="felog.html">Appendix&#160;C,
+Fatal Error Log</a> for detailed information about this file.</p>
+<p>If this type of <tt>OutOfMemoryError</tt> is thrown, you might
+need to use troubleshooting utilities on the operating system to
+diagnose the issue further. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gbmoy">2.16
+Operating-System-Specific Tools</a>.</p>
+<p>The problem might not be related to the application, for
+example:</p>
+<ul>
+<li>
+<p>The operating system is configured with insufficient swap
+space.</p>
+</li>
+<li>
+<p>Another process on the system is consuming all memory
+resources.</p>
+</li>
+</ul>
+<p>If neither of the above issues is the cause, then it is possible
+that the application failed due to a native leak, for example, if
+application or library code is continuously allocating memory but
+is not releasing it to the operating system.</p>
+<a name="gbyvb" id="gbyvb"></a>
+<h4>3.1.5 Detail Message: <tt>&#60;reason&gt; &#60;stack trace&gt;
+(Native method)</tt></h4>
+<p>If the detail part of the error message is <tt>&#60;reason&gt;
+&#60;stack trace&gt; (Native method)</tt> and a stack trace is
+printed in which the top frame is a native method, then this is an
+indication that a native method has encountered an allocation
+failure. The difference between this and the previous message is
+that the allocation failure was detected in a JNI or native method
+rather than in Java VM code.</p>
+<p>If this type of <tt>OutOfMemoryError</tt> is thrown, you might
+need to use utilities on the operating system to further diagnose
+the issue. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gbmoy">2.16
+Operating-System-Specific Tools</a>.</p>
+<a name="gbyvp" id="gbyvp"></a>
+<h3>3.2 Crash Instead of <tt>OutOfMemoryError</tt></h3>
+<p>Sometimes an application crashes soon after an allocation from
+the native heap fails. This occurs with native code that does not
+check for errors returned by memory allocation functions.</p>
+<p>For example, the <tt>malloc</tt> system call returns NULL if
+there is no memory available. If the return from <tt>malloc</tt> is
+not checked, then the application might crash when it attempts to
+access an invalid memory location. Depending on the circumstances,
+this type of issue can be difficult to locate.</p>
+<p>However, in some cases the information from the fatal error log
+or the crash dump might be sufficient to diagnose this issue. The
+fatal error log is covered in detail in <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="felog.html">Appendix&#160;C,
+Fatal Error Log</a>. If the cause of a crash is determined to be
+the failure to check an allocation failure, then the reason for the
+allocation failure must be examined. As with any other native heap
+issue, the system might be configured with insufficient swap space,
+another process on the system might be consuming all memory
+resources, or there might be a leak in the application (or in the
+APIs that it calls) that causes the system to run out of
+memory.</p>
+<a name="gbywf" id="gbywf"></a>
+<h3>3.3 Diagnosing Leaks in Java Language Code</h3>
+<p>Diagnosing leaks in Java language code can be a difficult task.
+In most cases it requires very detailed knowledge of the
+application. In addition the process is often iterative and
+lengthy. This section provides the following subsections:</p>
+<ul>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbywh">3.3.1 NetBeans Profiler</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbywe">3.3.2 Using the <tt>jhat</tt> Utility</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gcaql">3.3.3 Creating a Heap Dump</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbyvz">3.3.4 Obtaining a Heap Histogram on a Running
+Process</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbywi">3.3.5 Obtaining a Heap Histogram at
+OutOfMemoryError</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbywm">3.3.6 Monitoring the Number of Objects Pending
+Finalization</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbyvs">3.3.7 Third Party Memory Debuggers</a></p>
+</li>
+</ul>
+<a name="gbywh" id="gbywh"></a>
+<h4>3.3.1 NetBeans Profiler</h4>
+<p>The NetBeans Profiler (previously known as <tt>JFluid</tt>) is
+an excellent profiler, which can locate memory leaks very quickly.
+Most commercial memory leak debugging tools can often take a long
+time to locate a leak in a large application. The NetBeans
+Profiler, however, uses the pattern of memory allocations and
+reclamations that such objects typically demonstrate. This process
+includes also the lack of memory reclamations. The profiler can
+check where these objects were allocated, which in many cases is
+sufficient to identify the root cause of the leak.</p>
+<p>More details can be found at <a href=
+"http://profiler.netbeans.org">http://profiler.netbeans.org</a>.</p>
+<a name="gbywe" id="gbywe"></a>
+<h4>3.3.2 Using the <tt>jhat</tt> Utility</h4>
+<p>The <tt>jhat</tt> utility (see <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gblfj">2.5
+<tt>jhat</tt> Utility</a>) is useful when debugging unintentional
+object retention (or memory leaks). It provides a way to browse an
+object dump, view all reachable objects in the heap, and understand
+which references are keeping an object alive.</p>
+<p>To use <tt>jhat</tt> you must obtain one or more heap dumps of
+the running application, and the dumps must be in binary format.
+Once the dump file is created, it can be used as input to
+<tt>jhat</tt>, as described in <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gblfj">2.5
+<tt>jhat</tt> Utility</a>.</p>
+<a name="gcaql" id="gcaql"></a>
+<h4>3.3.3 Creating a Heap Dump</h4>
+<p>A heap dump provides detailed information on the allocation of
+heap memory. The following sections describe several ways to
+produce a heap dump:</p>
+<ul>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdyth">3.3.3.1 HPROF Profiler</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdysp">3.3.3.2 <tt>jmap</tt> Utility</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdyta">3.3.3.3 JConsole Utility</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdyrr">3.3.3.4 <tt>-XX:+HeapDumpOnOutOfMemoryError</tt>
+Command-line Option</a></p>
+</li>
+</ul>
+<a name="gdyth" id="gdyth"></a>
+<h5>3.3.3.1 HPROF Profiler</h5>
+<p>The HPROF profiler agent can create a heap dump while the
+application is executing. The following is an example of the
+command line:</p>
+<pre>
+$ <b>java -agentlib:hprof=file=snapshot.hprof,format=b</b> <var>application</var>
+</pre>
+<p>If the VM is embedded or is not started using a command line
+launcher that allows additional options to be provided, then it
+might be possible to use the <tt>JAVA_TOOLS_OPTIONS</tt>
+environment variable so that the <tt>-agentlib</tt> option is
+automatically added to the command line. See <img class="linkicon"
+src="graphics/linkicon.gif" /><a href="envvars.html#gbmsy">A.2
+<tt>JAVA_TOOL_OPTIONS</tt> Environment Variable</a> for further
+information on this environment variable.</p>
+<p>Once the application is running with HPROF, a heap dump is
+created by pressing Ctrl-\ or Ctrl-Break (depending on the
+platform) on the application console. An alternative approach on
+Solaris OS and Linux is to send a QUIT signal with the <tt>kill
+-QUIT</tt> <var>pid</var> command. When the signal is received, a
+heap dump is created; in the above example the file
+<tt>snapshot.hprof</tt> is created.</p>
+<p>The heap dump file contains all the primitive data and stack
+traces.</p>
+<p>A dump file can contain multiple heap dumps. If Ctrl-\ or
+Ctrl-Break is pressed a number of times then the subsequent dumps
+are appended to the file. The <tt>jhat</tt> utility uses the
+<tt>#</tt><var>n</var> syntax to distinguish the dumps, where
+<var>n</var> is the dump number.</p>
+<a name="gdysp" id="gdysp"></a>
+<h5>3.3.3.2 <tt>jmap</tt> Utility</h5>
+<p>A heap dump can also be obtained using the <tt>jmap</tt> utility
+(see <img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gbdid">2.7 <tt>jmap</tt> Utility</a>). The
+following is an example of the command line:</p>
+<pre>
+$ <b>jmap -dump:format=b,file=snapshot.jmap</b> <var>process-pid</var>
+</pre>
+<p>Regardless of how the Java VM was started, the <tt>jmap</tt>
+tool will produce a head dump snapshot, in the above example in a
+file called <tt>snapshot.jmap</tt>. The <tt>jmap</tt> output files
+should contain all the primitive data, but will not include any
+stack traces showing where the objects have been created.</p>
+<a name="gdyta" id="gdyta"></a>
+<h5>3.3.3.3 JConsole Utility</h5>
+<p>Another way to obtain a heap dump is with the JConsole utility.
+In the MBeans tab, select the <tt>HotSpotDiagnostic</tt> MBean,
+then the Operations display, and choose the <tt>dumpHeap</tt>
+operation.</p>
+<a name="gdyrr" id="gdyrr"></a>
+<h5>3.3.3.4 <tt>-XX:+HeapDumpOnOutOfMemoryError</tt> Command-line
+Option</h5>
+<p>If you specify the <tt>-XX:+HeapDumpOnOutOfMemoryError</tt>
+command-line option, and if an <tt>OutOfMemoryError</tt> is thrown,
+the VM generates a heap dump.</p>
+<a name="gbyvz" id="gbyvz"></a>
+<h4>3.3.4 Obtaining a Heap Histogram on a Running Process</h4>
+<p>You can try to quickly narrow down a memory leak by examining a
+heap histogram. This information can be obtained in several
+ways:</p>
+<ul>
+<li>
+<p>A heap histogram can be obtained from a running process using
+the command <tt>jmap -histo</tt> <var>pid</var>. The output shows
+the total size and instance count for each class type in the heap.
+If a sequence of histograms is obtained (for example, every 2
+minutes), then you might be able to observe a trend that can lead
+to further analysis.</p>
+</li>
+<li>
+<p>On Solaris OS and Linux, the <tt>jmap</tt> utility can also
+provide a histogram from a core file.</p>
+</li>
+<li>
+<p>If the Java process is started with the
+<tt>-XX:+PrintClassHistogram</tt> command-line option, then the
+Ctrl-Break handler will produce a heap histogram.</p>
+</li>
+</ul>
+<a name="gbywi" id="gbywi"></a>
+<h4>3.3.5 Obtaining a Heap Histogram at OutOfMemoryError</h4>
+<p>If you specify the <tt>-XX:+HeapDumpOnOutOfMemoryError</tt>
+command-line option, and if an <tt>OutOfMemoryError</tt> is thrown,
+the VM generates a heap dump. You can then use the <tt>jmap</tt>
+utility to obtain a histogram from the heap dump.</p>
+<p>If a core file is produced when the <tt>OutOfMemoryError</tt> is
+thrown, you can execute <tt>jmap</tt> on the core file to get a
+histogram, as in the following example.</p>
+<pre>
+$ <b>jmap -histo \ /java/re/javase/6/latest/binaries/solaris-sparc/bin/java core.27421</b>
+
+Attaching to core core.27421 from executable 
+/java/re/javase/6/latest/binaries/solaris-sparc/bin/java, please wait...
+Debugger attached successfully.
+Server compiler detected.
+JVM version is 1.6.0-beta-b63
+Iterating over heap. This may take a while...
+Heap traversal took 8.902 seconds.
+
+Object Histogram:
+ 
+Size      Count   Class description
+-------------------------------------------------------
+86683872  3611828 java.lang.String
+20979136  204     java.lang.Object[]
+403728    4225    * ConstMethodKlass
+306608    4225    * MethodKlass
+220032    6094    * SymbolKlass
+152960    294     * ConstantPoolKlass
+108512    277     * ConstantPoolCacheKlass
+104928    294     * InstanceKlassKlass
+68024     362     byte[]
+65600     559     char[]
+31592     359     java.lang.Class
+27176     462     java.lang.Object[]
+25384     423     short[]
+17192     307     int[]
+:
+</pre>
+<p>The example shows that the <tt>OutOfMemoryError</tt> is caused
+by the number of <tt>java.lang.String</tt> objects (3611828
+instances in the heap). Without further analysis it is not clear
+where the strings are allocated. However, the information is still
+useful and the investigation can continue with tools such as
+<tt>HPROF</tt> or <tt>jhat</tt> to find out where the strings are
+allocated, as well as what references are keeping them alive and
+preventing them from being garbage collected.</p>
+<a name="gbywm" id="gbywm"></a>
+<h4>3.3.6 Monitoring the Number of Objects Pending
+Finalization</h4>
+<p>As noted in <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="#gbyvh">3.1.1 Detail Message:
+<tt>Java heap space</tt></a>, excessive use of finalizers can be
+the cause of <tt>OutOfMemoryError</tt>. You have several options
+for monitoring the number of objects that are pending
+finalization.</p>
+<ul>
+<li>
+<p>The JConsole management tool (see <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gblfi">2.3
+JConsole Utility</a>) can be used to monitor the number of objects
+that are pending finalization. This tool reports the pending
+finalization count in the memory statistics on the
+&#8220;Summary&#8221; tab pane. The count is approximate but it can
+be used to characterize an application and understand if it relies
+a lot on finalization.</p>
+</li>
+<li>
+<p>On Solaris OS and Linux, the <tt>jmap -finalizerinfo</tt> option
+prints information on objects awaiting finalization.</p>
+</li>
+<li>
+<p>An application can report the approximate number of objects
+pending finalization using the
+<tt>getObjectPendingFinalizationCount</tt> method in the
+<tt>java.lang.management.MemoryMXBean</tt> class. Links to the API
+documentation and example code can be found in <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gbmmt">2.17 Developing Diagnostic Tools</a>. The
+example code can easily be extended to include the reporting of the
+pending finalization count.</p>
+</li>
+</ul>
+<a name="gbyvs" id="gbyvs"></a>
+<h4>3.3.7 Third Party Memory Debuggers</h4>
+<p>In addition to the tools mentioned in the previous chapters,
+there are a large number of third-party memory debuggers available.
+JProbe from Quest Software, and OptimizeIt from Borland are two
+examples of commercial tools with memory debugging capability.
+There are many others and no specific product is recommended.</p>
+<a name="gbyvk" id="gbyvk"></a>
+<h3>3.4 Diagnosing Leaks in Native Code</h3>
+<p>Several techniques can be used to find and isolate native code
+memory leaks. In general there is no single ideal solution for all
+platforms.</p>
+<a name="gcaqm" id="gcaqm"></a>
+<h4>3.4.1 Tracking All Memory Allocation and Free Calls</h4>
+<p>A very common practice is to track all allocation and free calls
+of the native allocations. This can be a fairly simple process or a
+very sophisticated one. Many products over the years have been
+built up around the tracking of native heap allocations and the use
+of that memory.</p>
+<p>Tools like Purify and Sun's <tt>dbx</tt> Run Time Checking (see
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbyza">3.4.4 Using <tt>dbx</tt> to Find Leaks</a>) functionality
+can be used to find these leaks in normal native code situations
+and also find any access to native heap memory that represents
+assignments to uninitialized memory or accesses to freed
+memory.</p>
+<p>Not all these types of tools will work with Java applications
+that use native code, and usually these tools are
+platform-specific. Since the virtual machine dynamically creates
+code at runtime, these tools can wrongly interpret the code and
+fail to run at all, or give false information. Check with your tool
+vendor to make sure the version of the tool works with the version
+of the virtual machine you are using.</p>
+<p>Many simple and portable native memory leak detecting examples
+can be found at <a href=
+"http://sourceforge.net/">http://sourceforge.net/</a>. Most of
+these libraries and tools assume that you can recompile or edit the
+source of the application and place wrapper functions over the
+allocation functions. The more powerful of these tools allow you to
+run your application unchanged by interposing over these allocation
+functions dynamically. This is the case with the library
+<tt>libumem.so</tt>, starting with Solaris 9 OS update 3; see
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbyzn">3.4.5 Using <tt>libumem</tt> to Find Leaks</a>.</p>
+<a name="gcaqu" id="gcaqu"></a>
+<h4>3.4.2 Tracking Memory Allocation in a JNI Library</h4>
+<p>If you write a JNI library, it would probably be wise to create
+some kind of localized way to make sure your library does not leak
+memory, using a simple wrapper approach.</p>
+<p>The following procedure is an easy localized allocation tracking
+approach for a JNI library. First, define the following lines in
+all source files:</p>
+<pre>
+#include &#60;stdlib.h&gt;
+#define malloc(n) debug_malloc(n, __FILE__, __LINE__)
+#define free(p) debug_free(p, __FILE__, __LINE__)
+</pre>
+<p>Then you can use the following functions to watch for leaks.</p>
+<pre>
+/* Total bytes allocated */
+static int total_allocated;
+/* Memory alignment is important */
+typedef union { double d; struct {size_t n; char *file; int line;} s; } Site;
+void *
+debug_malloc(size_t n, char *file, int line) 
+{ 
+    char *rp;
+    rp = (char*)malloc(sizeof(Site)+n); 
+    total_allocated += n; 
+    ((Site*)rp)-&gt;s.n = n;
+    ((Site*)rp)-&gt;s.file = file;
+    ((Site*)rp)-&gt;s.line = line;
+    return (void*)(rp + sizeof(Site));
+}
+void 
+debug_free(void *p, char *file, int line)
+{
+    char *rp;
+    rp = ((char*)p) - sizeof(Site);
+    total_allocated -= ((Site*)rp)-&gt;s.n;
+    free(rp);
+}
+</pre>
+<p>The JNI library would then need to periodically (or at shutdown)
+check the value of the <tt>total_allocated</tt> variable to make
+sure that it made sense. The above code could also be expanded to
+save in a linked list the allocations that remained and report
+where the leaked memory was allocated. This is a localized and
+portable way to track memory allocations in a single set of
+sources. You would need to make sure that <tt>debug_free()</tt> was
+called only with a pointer that came from <tt>debug_malloc()</tt>,
+and you would also need to create similar functions for
+<tt>realloc()</tt>, <tt>calloc()</tt>, <tt>strdup()</tt>, and so
+forth, if they were used.</p>
+<p>A more global way to look for native heap memory leaks would
+involve interposition of the library calls for the entire
+process.</p>
+<a name="gcaqr" id="gcaqr"></a>
+<h4>3.4.3 Tracking Memory Allocation With OS Support</h4>
+<p>Most operating systems include some form of global allocation
+tracking support.</p>
+<ul>
+<li>
+<p>On Windows, go to <a href=
+"http://msdn.microsoft.com/library/default.asp">http://msdn.microsoft.com/library/default.asp</a>
+and search for debug support. The Microsoft C++ compiler has the
+<tt>/Md</tt> and <tt>/Mdd</tt> compiler options that will
+automatically include extra support for tracking memory
+allocations.</p>
+</li>
+<li>
+<p>Linux systems have tools such as <tt>mtrace</tt> and
+<tt>libnjamd</tt> to help in dealing with allocation tracking.</p>
+</li>
+<li>
+<p>Solaris Operating Systems provide the <tt>watchmalloc</tt> tool.
+Solaris 9 OS update 3 started providing the <tt>libumem</tt> tool
+(see <img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbyzn">3.4.5 Using <tt>libumem</tt> to Find Leaks</a>).</p>
+</li>
+</ul>
+<a name="gbyza" id="gbyza"></a>
+<h4>3.4.4 Using <tt>dbx</tt> to Find Leaks</h4>
+<p>The Sun debugger <tt>dbx</tt> includes the Run Time Checking
+(RTC) functionality, which can find leaks. The <tt>dbx</tt>
+debugger is also available on Linux.</p>
+<p>Below is a sample <tt>dbx</tt> session.</p>
+<pre>
+$ <b>dbx ${java_home}/bin/java</b>
+Reading java
+Reading ld.so.1
+Reading libthread.so.1
+Reading libdl.so.1
+Reading libc.so.1
+(dbx) <b>dbxenv rtc_inherit on</b>
+(dbx) <b>check -leaks</b>
+leaks checking - ON
+(dbx) <b>run HelloWorld</b>
+Running: java HelloWorld 
+(process id 15426)
+Reading rtcapihook.so
+Reading rtcaudit.so
+Reading libmapmalloc.so.1
+Reading libgen.so.1
+Reading libm.so.2
+Reading rtcboot.so
+Reading librtc.so
+RTC: Enabling Error Checking...
+RTC: Running program...
+dbx: process 15426 about to exec("/net/bonsai.sfbay/export/home2/user/ws/j2se/build/solaris-i586/bin/java")
+dbx: program "/net/bonsai.sfbay/export/home2/user/ws/j2se/build/solaris-i586/bin/java"
+just exec'ed
+dbx: to go back to the original program use "debug $oprog"
+RTC: Enabling Error Checking...
+RTC: Running program...
+t@1 (l@1) stopped in main at 0x0805136d
+0x0805136d: main       :        pushl    %ebp
+(dbx) <b>when dlopen libjvm { suppress all in libjvm.so; }</b>
+(2) when dlopen libjvm { suppress all in libjvm.so; }  
+(dbx) <b>when dlopen libjava { suppress all in libjava.so; }</b>
+(3) when dlopen libjava { suppress all in libjava.so; }  
+(dbx) cont                                             
+Reading libjvm.so
+Reading libsocket.so.1
+Reading libsched.so.1
+Reading libCrun.so.1
+Reading libm.so.1
+Reading libnsl.so.1
+Reading libmd5.so.1
+Reading libmp.so.2
+Reading libhpi.so
+Reading libverify.so
+Reading libjava.so
+Reading libzip.so
+Reading en_US.ISO8859-1.so.3
+hello world
+hello world
+Checking for memory leaks...
+
+Actual leaks report    (actual leaks:           27  total size:      46851 bytes)
+
+  Total     Num of  Leaked     Allocation call stack
+  Size      Blocks  Block
+                    Address
+==========  ====== =========== =======================================
+     44376       4      -      calloc &#60; zcalloc 
+      1072       1  0x8151c70  _nss_XbyY_buf_alloc &#60; get_pwbuf &#60; _getpwuid &#60;
+                               GetJavaProperties &#60; Java_java_lang_System_initProperties &#60;
+                               0xa740a89a&#60; 0xa7402a14&#60; 0xa74001fc
+       814       1  0x8072518  MemAlloc &#60; CreateExecutionEnvironment &#60; main 
+       280      10      -      operator new &#60; Thread::Thread 
+       102       1  0x8072498  _strdup &#60; CreateExecutionEnvironment &#60; main 
+        56       1  0x81697f0  calloc &#60; Java_java_util_zip_Inflater_init &#60; 0xa740a89a&#60;
+                               0xa7402a6a&#60; 0xa7402aeb&#60; 0xa7402a14&#60; 0xa7402a14&#60; 0xa7402a14
+        41       1  0x8072bd8  main 
+        30       1  0x8072c58  SetJavaCommandLineProp &#60; main 
+        16       1  0x806f180  _setlocale &#60; GetJavaProperties &#60;
+                               Java_java_lang_System_initProperties &#60; 0xa740a89a&#60; 0xa7402a14&#60;
+                               0xa74001fc&#60; JavaCalls::call_helper &#60; os::os_exception_wrapper 
+        12       1  0x806f2e8  operator new &#60; instanceKlass::add_dependent_nmethod &#60;
+                               nmethod::new_nmethod &#60; ciEnv::register_method &#60;
+                               Compile::Compile #Nvariant 1 &#60; C2Compiler::compile_method &#60;
+                               CompileBroker::invoke_compiler_on_method &#60;
+                               CompileBroker::compiler_thread_loop 
+        12       1  0x806ee60  CheckJvmType &#60; CreateExecutionEnvironment &#60; main 
+        12       1  0x806ede8  MemAlloc &#60; CreateExecutionEnvironment &#60; main 
+        12       1  0x806edc0  main 
+         8       1  0x8071cb8  _strdup &#60; ReadKnownVMs &#60; CreateExecutionEnvironment &#60; main 
+         8       1  0x8071cf8  _strdup &#60; ReadKnownVMs &#60; CreateExecutionEnvironment &#60; main 
+</pre>
+<p>The output shows that the <tt>dbx</tt> debugger reports memory
+leaks if memory is not freed at the time the process is about to
+exit. However, memory that is allocated at initialization time and
+needed for the life of the process is often never freed in native
+code. Therefore, in such cases the <tt>dbx</tt> debugger can report
+memory leaks that are not leaks in reality.</p>
+<p>Note that the example used two <tt>suppress</tt> commands to
+suppress the leaks reported in the virtual machine
+(<tt>libjvm.so</tt>) and the Java support library
+(<tt>libjava.so</tt>).</p>
+<a name="gbyzn" id="gbyzn"></a>
+<h4>3.4.5 Using <tt>libumem</tt> to Find Leaks</h4>
+<p>Starting with Solaris 9 OS update 3, the <tt>libumem.so</tt>
+library and the modular debugger (<tt>mdb</tt>) can be used to
+debug memory leaks. Before using <tt>libumem</tt>, you must preload
+the <tt>libumem</tt> library and set an environment variable as
+follows:</p>
+<pre>
+$ <b>LD_PRELOAD=libumem.so</b>
+$ <b>export LD_PRELOAD</b>
+
+$ <b>UMEM_DEBUG=default</b>
+$ <b>export UMEM_DEBUG</b>
+</pre>
+<p>Now, run the Java application but stop it before it exits. The
+following example uses <tt>truss</tt> to stop the process when it
+calls the <tt>_exit</tt> system call:</p>
+<pre>
+$ <b>truss -f -T _exit java MainClass</b> <var>arguments</var>
+</pre>
+<p>At this point you can attach the <tt>mdb</tt> debugger, as
+follows:</p>
+<pre>
+$ <b>mdb -p</b> <var>pid</var>
+&gt;::findleaks
+</pre>
+<p>The <tt>::findleaks</tt> command is the <tt>mdb</tt> command to
+find memory leaks. If a leak is found, the <tt>findleaks</tt>
+command prints the address of the allocation call, buffer address,
+and nearest symbol.</p>
+<p>It is also possible to get the stack trace for the allocation
+which resulted in the memory leak by dumping the <tt>bufctl</tt>
+structure. The address of this structure can be obtained from the
+output of the <tt>::findleaks</tt> command. The description of the
+commands to perform these functions, as well as more information on
+using <tt>libumem</tt> to identify memory managements bugs, is
+located at the following address: <a href=
+"http://download.oracle.com/docs/cd/E19424-01/820-4814/geogv/index.html">
+http://download.oracle.com/docs/cd/E19424-01/820-4814/geogv/index.html</a>.</p>
+</div>
+<div class="BottomPageControlPane">
+<table class="pagecontrol">
+<tr>
+<td>
+<div class="pagefooterlinks">Copyright &#169;1995, 2011, Oracle
+and/or its affiliates. All rights reserved. <a href=
+"docinfo.html">Legal Notices</a></div>
+</td>
+<td class="pagenavlinks"><a href="tooldescr.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="crashes.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+</body>
+</html>

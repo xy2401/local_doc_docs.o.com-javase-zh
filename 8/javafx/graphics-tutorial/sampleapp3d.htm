@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>8 Building a 3D Sample Application (Release 8)</title>
+<meta name="description" content="This chapter provides the steps to build a simple application, MoleculeSampleApp, that uses some of the JavaFX 3D graphic features that were discussed earlier in this document.">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXGR.pdf">PDF</a> | <a href="../JFXGR.epub">ePub</a> | <a href="../JFXGR.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Working with JavaFX Graphics</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="picking.htm">Previous Page</a><a class="button" title="Next Page" href="javafx-canvas.htm">Next Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="CJAHFAF" name="CJAHFAF" class="anchor"></a><a id="JFXGR109" name="JFXGR109" class="anchor"></a>
+<h1 class="chapter"><span class="secnum">8</span> Building a 3D Sample Application</h1>
+<a id="JFXGR187" name="JFXGR187" class="anchor"></a>
+<p>This chapter provides the steps to build a simple application, MoleculeSampleApp, that uses some of the JavaFX 3D graphic features that were discussed earlier in this document.</p>
+<p>The steps in this tutorial chapter use the NetBeans 7.4 IDE to help you develop the MoleculseSampleApp application.</p>
+<p>The following file and appendix sections are included for this tutorial:</p>
+<ul>
+<li>
+<p><a href="../sample-apps/MoleculeSampleApp.zip">MoleculeSampleApp.zip</a> - the completed NetBeans project for the MoleculeSampleApp application.</p>
+</li>
+<li>
+<p><a href="sampleapp3d-code.htm#CJAGGIFG">Xform.java</a> - method that declares the Xform class.</p>
+</li>
+<li>
+<p><a href="sampleapp3d-code.htm#CJAJCEHH">buildMolecule()</a> - creates the 3D water molecule object.</p>
+</li>
+<li>
+<p><a href="sampleapp3d-code.htm#CJAFJADF">handleMouse()</a> and <a href="sampleapp3d-code.htm#CJAECEJI">handleKeyboard()</a> - allow you to use the mouse and keyboard to manipulate the camera's view in the scene.</p>
+</li>
+</ul>
+<p>This chapter contains the following sections.</p>
+<ul>
+<li>
+<p><a href="#BABJGGFJ">Prepare for this Tutorial</a></p>
+</li>
+<li>
+<p><a href="#BABBGGFH">Create the Project</a></p>
+</li>
+<li>
+<p><a href="#BABCIEJE">Create the Scene</a></p>
+</li>
+<li>
+<p><a href="#BABIJIAJ">Set Up the Camera</a></p>
+</li>
+<li>
+<p><a href="#BABCGEAJ">Build the Axes</a></p>
+</li>
+<li>
+<p><a href="#BABDAIAC">Build the Molecule</a></p>
+</li>
+<li>
+<p><a href="#BABBCECE">Add Camera Viewing Controls</a></p>
+</li>
+</ul>
+<a id="BABJGGFJ" name="BABJGGFJ" class="anchor"></a><a id="JFXGR270" name="JFXGR270" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Prepare for this Tutorial</h2>
+<p>Use the following requirement and recommendation before continuing with this tutorial:</p>
+<ol>
+<li>
+<p><span class="bold">(Required) Ensure that your system meets the system requirements listed in the</span> Certified System Configurations page, which is linked from the Java SE download page at <code><a target="_blank" href="http://www.oracle.com/technetwork/java/javase/downloads/">http://www.oracle.com/technetwork/java/javase/downloads/</a></code>.</p>
+<p>The JavaFX Graphics Support section provides a list of graphics cards that support the JavaFX 3D feature. A supported graphics card is required to successfully run the finished JavaFX 3D sample application you build in this tutorial.</p>
+</li>
+<li>
+<p><span class="bold">(Recommended)</span> <a target="_blank" href="https://netbeans.org/downloads/">Download and install NetBeans IDE 7.4</a>. It is used in this tutorial to build the JavaFX 3D sample application.</p>
+</li>
+</ol>
+</div>
+<!-- class="sect1" -->
+<a id="BABBGGFH" name="BABBGGFH" class="anchor"></a><a id="JFXGR188" name="JFXGR188" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Create the Project</h2>
+<p>Use NetBeans IDE 7.4 and the following steps to create the <code>MoleculeSampleApp</code> JavaFX project.</p>
+<ol>
+<li>
+<p>From the NetBeans IDE <span class="bold">File</span> menu, choose <span class="bold">New Project.</span></p>
+</li>
+<li>
+<p>In the New Project wizard, choose the <span class="bold">JavaFX</span> application category and <span class="bold">JavaFX Application</span> project. Click <span class="bold">Next</span>.</p>
+</li>
+<li>
+<p>Type <span class="bold">MoleculeSampleApp</span> for the Project Name. Enter the path for the <span class="bold">Path Location</span> text field or click <span class="bold">Browse</span> to navigate to the folder you want to use for this project.</p>
+</li>
+<li>
+<p>Click <span class="bold">Finish</span>.</p>
+<p>When you create a JavaFX project, NetBeans IDE provides a Hello World source code template as a starting point. You will replace that template source code in the next sections.</p>
+</li>
+</ol>
+</div>
+<!-- class="sect1" -->
+<a id="BABCIEJE" name="BABCIEJE" class="anchor"></a><a id="JFXGR189" name="JFXGR189" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Create the Scene</h2>
+<p>Create the scene that will hold your molecule UI layout.</p>
+<ol>
+<li>
+<p>First, copy the contents of <a href="sampleapp3d-code.htm#CJAGGIFG">Xform.java</a> and save it to a file <code>Xform.java</code> file in the <code>moleculesampleapp</code> source folder of the moleculesampleapp project.</p>
+<p>This file contains the source code for the Xform sub-class that is derived from the Group class. Using the Xform node prevents the automatic recalculation of the position of a group node's pivot when the children of the group node is changed in a 3D UI layout. The Xform node allows you to add your own types of transforms and rotation. The file contains a translation component, three rotation components, and a scale component. Having the three rotation components is helpful when changing rotation values frequently, such as in changing the angle of the camera in the scene.</p>
+</li>
+<li>
+<p>If not already opened in the IDE editor, open the <code>MoleculeSampleApp.java</code> file that was created with the project creation. Replace the import statements at the top of the file with the import statements shown in <a href="#BABCAEEC">Example 8-1</a>.</p>
+<div class="example"><a id="BABCAEEC" name="BABCAEEC" class="anchor"></a><a id="JFXGR190" name="JFXGR190" class="anchor"></a>
+<p class="titleinexample">Example 8-1 Replacement Import Statements</p>
+<pre xml:space="preserve" class="oac_no_warn">import javafx.application.Application;
+import javafx.scene.*;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>Replace the rest of the body of the code in <code>MoleculeSampleApp.java</code> with the lines of code shown in <a href="#BABFJCIG">Example 8-2</a>. The code creates a new scene graph with an Xform as its node.</p>
+<div class="example"><a id="BABFJCIG" name="BABFJCIG" class="anchor"></a><a id="JFXGR191" name="JFXGR191" class="anchor"></a>
+<p class="titleinexample">Example 8-2 Replacement Body of Code</p>
+<pre xml:space="preserve" class="oac_no_warn">/**
+ * MoleculeSampleApp
+ */
+public class MoleculeSampleApp extends Application {
+ 
+    final Group root = new Group();
+    final Xform world = new Xform();
+ 
+    @Override
+    public void start(Stage primaryStage) {
+ 
+        Scene scene = new Scene(root, 1024, 768, true);
+        scene.setFill(Color.GREY);
+ 
+        primaryStage.setTitle("Molecule Sample Application");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+ 
+    }
+ 
+    /**
+     * The main() method is ignored in correctly deployed JavaFX 
+     * application. main() serves only as fallback in case the 
+     * application can not be launched through deployment artifacts, 
+     * e.g., in IDEs with limited FX support. NetBeans ignores main().
+     *
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>Press <span class="bold">Ctrl+S</span> to save the file.</p>
+</li>
+</ol>
+</div>
+<!-- class="sect1" -->
+<a id="BABIJIAJ" name="BABIJIAJ" class="anchor"></a><a id="JFXGR192" name="JFXGR192" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Set Up the Camera</h2>
+<p>Set up the camera in a hierarchy of Group class with Xform instances. Perform the translation and rotation on the camera to change its default location.</p>
+<ol>
+<li>
+<p>Add the following lines of code, shown in bold below, so that they appear after the declaration statement for the <code>world</code> object, as shown in <a href="#BABGCDCC">Example 8-3</a>.</p>
+<p>These lines of code create an instance of a <code>perspectiveCamera</code> and three instances of the public class <code>Xform</code>, which extends the <code>Group</code> class. The Xform class is defined in the <code>Xform.java</code> file you added to your NetBeans project in the previous section of this document.</p>
+<div class="example"><a id="BABGCDCC" name="BABGCDCC" class="anchor"></a><a id="JFXGR194" name="JFXGR194" class="anchor"></a>
+<p class="titleinexample">Example 8-3 Add Variables for the Camera</p>
+<pre xml:space="preserve" class="oac_no_warn">final Group root = new Group();
+    final Xform world = new Xform();
+<span class="bold">    final PerspectiveCamera camera = new PerspectiveCamera(true);</span>
+    <span class="bold">final Xform cameraXform = new Xform();</span>
+    <span class="bold">final Xform cameraXform2 = new Xform();</span>
+    <span class="bold">final Xform cameraXform3 = new Xform();</span>
+    <span class="bold">private static final double CAMERA_INITIAL_DISTANCE = -450;</span>
+    private static final double CAMERA_INITIAL_X_ANGLE = 70.0;
+    private static final double CAMERA_INITIAL_Y_ANGLE = 320.0;
+    private static final double CAMERA_NEAR_CLIP = 0.1;
+    private static final double CAMERA_FAR_CLIP = 10000.0;
+    
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>Copy the lines of code for the <code>buildCamera()</code> method, shown in <a href="#BABCHCGI">Example 8-4</a>. Add them right after the lines for variable declarations.</p>
+<p>The <code>buildCamera()</code> method sets the camera to have the view upside down instead of the default JavaFX 2D Y-down. So the scene is viewed as a Y-up (Y-axis pointing up) scene.</p>
+<div class="example"><a id="BABCHCGI" name="BABCHCGI" class="anchor"></a><a id="JFXGR195" name="JFXGR195" class="anchor"></a>
+<p class="titleinexample">Example 8-4 Add the buildCamera() Method</p>
+<pre xml:space="preserve" class="oac_no_warn">private void buildCamera() {
+        root.getChildren().add(cameraXform);
+        cameraXform.getChildren().add(cameraXform2);
+        cameraXform2.getChildren().add(cameraXform3);
+        cameraXform3.getChildren().add(camera);
+        cameraXform3.setRotateZ(180.0);
+ 
+        camera.setNearClip(CAMERA_NEAR_CLIP);
+        camera.setFarClip(CAMERA_FAR_CLIP);
+        camera.setTranslateZ(CAMERA_INITIAL_DISTANCE);
+        cameraXform.ry.setAngle(CAMERA_INITIAL_Y_ANGLE);
+        cameraXform.rx.setAngle(CAMERA_INITIAL_X_ANGLE);
+    }
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>In the <code>start()</code> method, add the call to the <code>buildCamera()</code> so that it appears as shown in bold in <a href="#BABIDDAD">Example 8-5</a></p>
+<div class="example"><a id="BABIDDAD" name="BABIDDAD" class="anchor"></a><a id="JFXGR196" name="JFXGR196" class="anchor"></a>
+<p class="titleinexample">Example 8-5 Add Method Call to buildCamera()</p>
+<pre xml:space="preserve" class="oac_no_warn">public void start(Stage primaryStage) {
+
+        <span class="bold">buildCamera();</span>
+        
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>Set the camera in the scene by copying the line of code shown in bold in <a href="#BABCFHAB">Example 8-6</a> and adding it to the end of the <code>start()</code> method.</p>
+<div class="example"><a id="BABCFHAB" name="BABCFHAB" class="anchor"></a><a id="JFXGR197" name="JFXGR197" class="anchor"></a>
+<p class="titleinexample">Example 8-6 Set the Camera in the Scene</p>
+<pre xml:space="preserve" class="oac_no_warn">primaryStage.show();
+        <span class="bold">scene.setCamera(camera);</span>
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>Save the file with <span class="bold">Ctrl+S</span>.</p>
+</li>
+</ol>
+</div>
+<!-- class="sect1" -->
+<a id="BABCGEAJ" name="BABCGEAJ" class="anchor"></a><a id="JFXGR198" name="JFXGR198" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Build the Axes</h2>
+<p>Add the 3D axes that you will use to build this molecule. The Box class is used to create the axes and the PhongMaterial is used to set the specular and diffused colors. By default in JavaFX, the Y-axis is down.</p>
+<p>Per the usual convention, the X-axis is shown in the color red, Y-axis is shown in green, and Z-axis in blue.</p>
+<ol>
+<li>
+<p>Add the following import statements shown in <a href="#BABGCCDD">Example 8-7</a> to the top of the source file.</p>
+<div class="example"><a id="BABGCCDD" name="BABGCCDD" class="anchor"></a><a id="JFXGR201" name="JFXGR201" class="anchor"></a>
+<p class="titleinexample">Example 8-7 Add Two Additional Import Statements</p>
+<pre xml:space="preserve" class="oac_no_warn">import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.Box;
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>Add the following variable declaration statement, shown in <a href="#BABBGAHE">Example 8-8</a>.</p>
+<div class="example"><a id="BABBGAHE" name="BABBGAHE" class="anchor"></a><a id="JFXGR271" name="JFXGR271" class="anchor"></a>
+<p class="titleinexample">Example 8-8 Add a Variable for the Axes</p>
+<pre xml:space="preserve" class="oac_no_warn">private static final double AXIS_LENGTH = 250.0;
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>Copy the following declaration shown in bold in <a href="#BABBIEAC">Example 8-9</a> and add it to just after the line where <code>root</code> is declared.</p>
+<div class="example"><a id="BABBIEAC" name="BABBIEAC" class="anchor"></a><a id="JFXGR199" name="JFXGR199" class="anchor"></a>
+<p class="titleinexample">Example 8-9 Create the axisGroup</p>
+<pre xml:space="preserve" class="oac_no_warn">final Group root = new Group();
+<span class="bold">final Xform axisGroup = new Xform();</span>
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>Add the <code>buildAxes()</code> method shown in <a href="#BABBIEAI">Example 8-10</a> to after the <code>buildCamera()</code> method.</p>
+<div class="example"><a id="BABBIEAI" name="BABBIEAI" class="anchor"></a><a id="JFXGR200" name="JFXGR200" class="anchor"></a>
+<p class="titleinexample">Example 8-10 Add buildAxes() Method</p>
+<pre xml:space="preserve" class="oac_no_warn">private void buildAxes() {
+        final PhongMaterial redMaterial = new PhongMaterial();
+        redMaterial.setDiffuseColor(Color.DARKRED);
+        redMaterial.setSpecularColor(Color.RED);
+ 
+        final PhongMaterial greenMaterial = new PhongMaterial();
+        greenMaterial.setDiffuseColor(Color.DARKGREEN);
+        greenMaterial.setSpecularColor(Color.GREEN);
+ 
+        final PhongMaterial blueMaterial = new PhongMaterial();
+        blueMaterial.setDiffuseColor(Color.DARKBLUE);
+        blueMaterial.setSpecularColor(Color.BLUE);
+ 
+        final Box xAxis = new Box(AXIS_LENGTH, 1, 1);
+        final Box yAxis = new Box(1, AXIS_LENGTH, 1);
+        final Box zAxis = new Box(1, 1, AXIS_LENGTH);
+        
+        xAxis.setMaterial(redMaterial);
+        yAxis.setMaterial(greenMaterial);
+        zAxis.setMaterial(blueMaterial);
+ 
+        axisGroup.getChildren().addAll(xAxis, yAxis, zAxis);
+        axisGroup.setVisible(true);
+        world.getChildren().addAll(axisGroup);
+    }
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>Add the call to <code>buildAxes()</code> method, as shown in bold in <a href="#BABJCFEJ">Example 8-11</a>.</p>
+<div class="example"><a id="BABJCFEJ" name="BABJCFEJ" class="anchor"></a><a id="JFXGR202" name="JFXGR202" class="anchor"></a>
+<p class="titleinexample">Example 8-11 Add Call to buildAxes() Method</p>
+<pre xml:space="preserve" class="oac_no_warn">buildCamera();
+        <span class="bold">buildAxes();</span>
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>Compile and run the project by right-clicking the <span class="bold">MoleculeSampleApp</span> node in the project window and choose <span class="bold">Run</span>. A window appears with the 3D axes, as shown in <a href="#BABJJEDA">Figure 8-1</a>.</p>
+<div class="figure"><a id="BABJJEDA" name="BABJJEDA" class="anchor"></a><a id="JFXGR203" name="JFXGR203" class="anchor"></a>
+<p class="titleinfigure">Figure 8-1 The 3D Axes</p>
+<img width="490" height="380" src="img/show-axes.gif" alt="Description of Figure 8-1 follows" title="Description of Figure 8-1 follows" longdesc="img_text/show-axes.htm" /><br />
+<a id="sthref25" name="sthref25" href="img_text/show-axes.htm">Description of "Figure 8-1 The 3D Axes"</a><br />
+<br /></div>
+<!-- class="figure" --></li>
+</ol>
+</div>
+<!-- class="sect1" -->
+<a id="BABDAIAC" name="BABDAIAC" class="anchor"></a><a id="JFXGR204" name="JFXGR204" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Build the Molecule</h2>
+<p>In this section, you build the molecule UI. This is where you use the Xform class and 3D features, such as PhongMaterial, Sphere, and Cylinder. The Xform class is also used.</p>
+<ol>
+<li>
+<p>To declare the moleculeGroup Xform, copy the line of code shown in bold in <a href="#BABHDJID">Example 8-12</a>. Paste it after the <code>axisGroup</code> variable.</p>
+<div class="example"><a id="BABHDJID" name="BABHDJID" class="anchor"></a><a id="JFXGR205" name="JFXGR205" class="anchor"></a>
+<p class="titleinexample">Example 8-12 Declare the moleculeGroup Xform</p>
+<pre xml:space="preserve" class="oac_no_warn">final Xform axisGroup = new Xform();
+<span class="bold"> final Xform moleculeGroup = new Xform();</span>
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>Add the following import statements for the classes used in the buildMolecule() method:</p>
+<div class="example"><a id="JFXGR272" name="JFXGR272" class="anchor"></a><a id="sthref26" name="sthref26" class="anchor"></a>
+<p class="titleinexample">Example 8-13 Add Import Statements for build Molecule()</p>
+<pre xml:space="preserve" class="oac_no_warn">import javafx.scene.shape.Cylinder;
+    import javafx.scene.shape.Sphere;
+    import javafx.scene.transform.Rotate;
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>Add the following statement, shown in bold, for the HYDROGEN_ANGLE variable used in the buildMolecule() method:</p>
+<div class="example"><a id="JFXGR206" name="JFXGR206" class="anchor"></a><a id="sthref27" name="sthref27" class="anchor"></a>
+<p class="titleinexample">Example 8-14 Add Import Statements for build Molecule()</p>
+<pre xml:space="preserve" class="oac_no_warn">private static final double AXIS_LENGTH = 250.0;
+    <span class="bold">private static final double HYDROGEN_ANGLE = 104.5;</span>
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>Copy the body of code for the <a href="sampleapp3d-code.htm#CJAJCEHH">buildMolecule()</a> method and paste it after the <code>buildAxes()</code> method in the <code>MoleculeSampleApp.java</code> file.</p>
+</li>
+<li>
+<p>In the <code>start()</code> method, add the call to the <code>buildMolecule()</code> method so that it appears as shown in bold in <a href="#BABFBAAD">Example 8-15</a>.</p>
+<div class="example"><a id="BABFBAAD" name="BABFBAAD" class="anchor"></a><a id="JFXGR207" name="JFXGR207" class="anchor"></a>
+<p class="titleinexample">Example 8-15 Add the Call to the buildMolecule() Method</p>
+<pre xml:space="preserve" class="oac_no_warn">buildCamera();
+buildAxes();
+<span class="bold">buildMolecule();</span>
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>Now run the project and you should see something similar to <a href="#BABFECBF">Figure 8-2</a>.</p>
+<div class="figure"><a id="BABFECBF" name="BABFECBF" class="anchor"></a><a id="JFXGR208" name="JFXGR208" class="anchor"></a>
+<p class="titleinfigure">Figure 8-2 The Water Molecule 3DModel</p>
+<img width="490" height="380" src="img/show-molecule.gif" alt="Description of Figure 8-2 follows" title="Description of Figure 8-2 follows" longdesc="img_text/show-molecule.htm" /><br />
+<a id="sthref28" name="sthref28" href="img_text/show-molecule.htm">Description of "Figure 8-2 The Water Molecule 3DModel"</a><br />
+<br /></div>
+<!-- class="figure" --></li>
+<li>
+<p>Turn off the visibility of the axes by modifying the <code>visible</code> property to <code>false</code>, as shown in <a href="#BABEDDHD">Example 8-16</a>. Run the MoleculeSampleApp again to see the running application without the axes shown.</p>
+<div class="example"><a id="BABEDDHD" name="BABEDDHD" class="anchor"></a><a id="JFXGR273" name="JFXGR273" class="anchor"></a>
+<p class="titleinexample">Example 8-16 Set visible Property to false</p>
+<pre xml:space="preserve" class="oac_no_warn">axisGroup.setVisible(false);
+</pre></div>
+<!-- class="example" --></li>
+</ol>
+</div>
+<!-- class="sect1" -->
+<a id="BABBCECE" name="BABBCECE" class="anchor"></a><a id="JFXGR209" name="JFXGR209" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Add Camera Viewing Controls</h2>
+<p>The <code>handleMouse()</code> and <code>handleKeyboard()</code> methods allow you to see the different camera views. The source has been provided for you to demonstrate the use of the mouse and the keyboard keys to manipulate the camera's view in the scene.</p>
+<ol>
+<li>
+<p>Add the declaration for variables that are used in the <code>handleMouse()</code> and <code>handleKeyboard()</code> source code you are about to add. Copy the code shown in <a href="#BABHJEHG">Example 8-17</a> and paste after the line for the HYDROGEN_ANGLE declaration.</p>
+<div class="example"><a id="BABHJEHG" name="BABHJEHG" class="anchor"></a><a id="JFXGR210" name="JFXGR210" class="anchor"></a>
+<p class="titleinexample">Example 8-17 Add Variables Used</p>
+<pre xml:space="preserve" class="oac_no_warn">private static final double CONTROL_MULTIPLIER = 0.1;    private static final double SHIFT_MULTIPLIER = 10.0;    private static final double MOUSE_SPEED = 0.1;    private static final double ROTATION_SPEED = 2.0;    private static final double TRACK_SPEED = 0.3;
+        
+    double mousePosX;
+    double mousePosY;
+    double mouseOldX;
+    double mouseOldY;
+    double mouseDeltaX;
+    double mouseDeltaY;
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>Copy the import statements used in the <code>handleMouse()</code> and <code>handleKeyboard()</code> methods, as shown in <a href="#BABHFBBF">Example 8-18</a>. Paste them at the top of the <code>MoleculeSampleApp.java</code> file.</p>
+<div class="example"><a id="BABHFBBF" name="BABHFBBF" class="anchor"></a><a id="JFXGR211" name="JFXGR211" class="anchor"></a>
+<p class="titleinexample">Example 8-18 Add the Import Statements</p>
+<pre xml:space="preserve" class="oac_no_warn">import javafx.event.EventHandler;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>Copy the lines of code for the <a href="sampleapp3d-code.htm#CJAFJADF">handleMouse()</a> and the <a href="sampleapp3d-code.htm#CJAECEJI">handleKeyboard()</a> methods from the <a href="sampleapp3d-code.htm#CACJAFED">3D MoleculeSampleApp Code</a> Appendix. Add them after the <code>buildMolecule()</code> method in the <code>MoleculeSampleApp.java</code> file.</p>
+</li>
+<li>
+<p>In the <code>start()</code> method, add the calls to the <code>handleKeyboard()</code> and <code>handleMouse()</code> methods that you just added. Copy the lines of code shown in bold in <a href="#BABEEBAH">Example 8-19</a> and paste them after the <code>scene.setFill(Color.GREY)</code> line.</p>
+<div class="example"><a id="BABEEBAH" name="BABEEBAH" class="anchor"></a><a id="JFXGR212" name="JFXGR212" class="anchor"></a>
+<p class="titleinexample">Example 8-19 Add Method Calls</p>
+<pre xml:space="preserve" class="oac_no_warn">Scene scene = new Scene(root, 1024, 768, true);
+        scene.setFill(Color.GREY);
+        <span class="bold">handleKeyboard(scene, world);</span>
+        <span class="bold">handleMouse(scene, world);</span>
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>Save the file.</p>
+</li>
+<li>
+<p>Compile and run the project. Use the following mouse or keyboard strokes to get the different views.</p>
+<ul>
+<li>
+<p>Hold the left mouse button and drag the mouse right or left and up or down to rotate the camera view of the model around the axes.</p>
+</li>
+<li>
+<p>Hold the right mouse button and drag the mouse to the left to move camera view away from the model. Drag the mouse to the right to move the camera view closer to the molecule model.</p>
+</li>
+<li>
+<p>Press Ctrl+Z to return the model to its initial position.</p>
+</li>
+<li>
+<p>Press Ctrl+V to show and hide the molecule from view.</p>
+</li>
+<li>
+<p>Press Ctrl+X to show and hide the axes.</p>
+</li>
+</ul>
+</li>
+</ol>
+</div>
+<!-- class="sect1" -->
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Working with JavaFX Graphics</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">About This Tutorial</a></li>
+        <li><a href="preface.htm#sthref4">Audience</a></li>
+        <li><a href="preface.htm#sthref5">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref7">Related Documents</a></li>
+        <li><a href="preface.htm#sthref8">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a href="javafx-3d-graphics.htm#CHDGHHEJ">Part I Getting Started with JavaFX 3D Graphics</a>
+    <ul>
+    <li><a href="overview-3d.htm#JFXGR102">1 Overview</a>
+      <ul>
+        <li><a href="overview-3d.htm#sthref9">Sample of 3D Graphics Use Cases</a></li>
+        <li><a href="overview-3d.htm#sthref11">3D Feature in JavaFX 2.x Releases</a></li>
+      </ul>
+    </li>
+    <li><a href="shape3d.htm#JFXGR103">2 Shape3D</a>
+      <ul>
+        <li><a href="shape3d.htm#JFXGR160">Pre-defined Shapes</a></li>
+        <li><a href="shape3d.htm#JFXGR163">User-Defined Shapes</a></li>
+      </ul>
+    </li>
+    <li><a href="camera.htm#JFXGR104">3 Camera</a>
+      <ul>
+        <li><a href="camera.htm#sthref13">Perspective Camera</a>
+          <ul>
+          <li><a href="camera.htm#sthref14">Field of View</a></li>
+          <li><a href="camera.htm#sthref15">Clipping Planes</a></li>
+          <li><a href="camera.htm#sthref16">Y-down versus Y-up</a></li>
+          <li><a href="camera.htm#sthref17">Sample Code Using PerspectiveCamera</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="subscene.htm#JFXGR105">4 SubScene</a>
+      <ul>
+        <li><a href="subscene.htm#sthref18">Creating a SubScene</a></li>
+        <li><a href="subscene.htm#sthref19">Sample Use of SubScene</a></li>
+      </ul>
+    </li>
+    <li><a href="light.htm#JFXGR106">5 Light</a>
+      <ul>
+        <li><a href="light.htm#sthref20">Creating and Using Light</a></li>
+      </ul>
+    </li>
+    <li><a href="material.htm#JFXGR107">6 Material</a></li>
+    <li><a href="picking.htm#JFXGR108">7 Picking</a>
+      <ul>
+        <li><a href="picking.htm#sthref21">Creating a PickResult Object</a></li>
+        <li><a href="picking.htm#sthref22">Methods for the PickResult Object</a></li>
+        <li><a href="picking.htm#sthref24">Sample Use of PickResult</a></li>
+      </ul>
+    </li>
+    <li><a class="selected" href="sampleapp3d.htm#JFXGR109">8 Building a 3D Sample Application</a>
+      <ul>
+        <li><a href="sampleapp3d.htm#JFXGR270">Prepare for this Tutorial</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR188">Create the Project</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR189">Create the Scene</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR192">Set Up the Camera</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR198">Build the Axes</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR204">Build the Molecule</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR209">Add Camera Viewing Controls</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="javafx-canvas.htm#sthref29">Part II JavaFX Canvas</a>
+    <ul>
+    <li><a href="canvas.htm#JFXGR214">9 Working with the Canvas API</a>
+      <ul>
+        <li><a href="canvas.htm#sthref30">Overview</a></li>
+        <li><a href="canvas.htm#sthref31">Drawing Basic Shapes</a></li>
+        <li><a href="canvas.htm#sthref33">Applying Gradients and Shadows</a></li>
+        <li><a href="canvas.htm#sthref38">Interacting with the User</a></li>
+        <li><a href="canvas.htm#sthref42">Creating a Simple Layer System</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="javafx-image-ops.htm#sthref49">Part III JavaFX Image Ops</a>
+    <ul>
+    <li><a href="image_ops.htm#JFXGR238">10 Using the Image Ops API</a>
+      <ul>
+        <li><a href="image_ops.htm#sthref50">Overview of the Image Ops API</a></li>
+        <li><a href="image_ops.htm#sthref51">Reading Pixels From Images</a></li>
+        <li><a href="image_ops.htm#sthref55">Writing Pixels to Images</a></li>
+        <li><a href="image_ops.htm#sthref58">Writing Images with Byte Arrays and PixelFormats</a></li>
+        <li><a href="image_ops.htm#sthref63">Creating a Snapshot</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="samples-appendix.htm#JFXGR274">Part IV Source Code for the Graphics Tutorials</a>
+    <ul>
+    <li><a href="msaaapp-code.htm#JFXGR277">A MSAAApp Code</a>
+      <ul>
+        <li><a href="msaaapp-code.htm#JFXGR279">MSAAApp.java</a></li>
+      </ul>
+    </li>
+    <li><a href="sampleapp3d-code.htm#JFXGR280">B 3D MoleculeSampleApp Code</a>
+      <ul>
+        <li><a href="sampleapp3d-code.htm#JFXGR282">Xform.java</a></li>
+        <li><a href="sampleapp3d-code.htm#JFXGR283">buildMolecule()</a></li>
+        <li><a href="sampleapp3d-code.htm#JFXGR284">handleMouse()</a></li>
+        <li><a href="sampleapp3d-code.htm#JFXGR285">handleKeyboard()</a></li>
+      </ul>
+    </li>
+</ul>
+
+</li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="picking.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a><a class="button" title="Next Page" href="javafx-canvas.htm">Next Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2008, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

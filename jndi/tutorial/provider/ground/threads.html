@@ -1,0 +1,175 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Threads and Synchronization</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="names.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="security.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Ground Rules</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Threads and Synchronization
+</h2>
+<p>
+<blockquote>
+
+Threads and synchronization are discussed in the
+
+<a target="_top" href="../../beyond/misc/sync.html">Miscellaneous</a> <a target="_top" href="../../beyond/misc/sync.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson.
+This section discusses in general the issues that
+a service provider developer should be aware of
+regarding multithreaded access
+and the use of threads in service providers.
+
+<h4>Context Implementations</h4>
+
+The JNDI defines the 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><tt>Context</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   interface and subinterfaces to which a service provider must implement.
+Thread-safety with respect to concurrent access
+is an implementation issue. However, the JNDI does make some
+common sense recommendations on what the API user and service provider should
+expect.
+<ul>
+<li>
+Access to a single <tt>Context</tt> instance must be synchronized.
+<li>
+Access to separate <tt>Context</tt> instances need not be synchronized,
+even when the separate <tt>Context</tt> instances are seemingly related.
+</ul>
+The first rule means that the service provider need not worry
+about protecting access to resources used by a single 
+<tt>Context</tt> instance
+against concurrent multithreaded access.
+Callers are responsible for synchronizing their accesses among themselves.
+This rule allows context implementations to be optimized for their
+most common thread usage mode.
+<p>
+The second rule reminds service provider writers that
+when <tt>Context</tt> instances from the same context implementation
+share resources, those resources must be protected against concurrent access.
+For example, multiple <tt>Context</tt> instances commonly
+share the same underlying network connection. The network connection
+in this example would need to be protected against concurrent access.
+This rule is motivated by the fact that
+the callers cannot be expected to be aware of any underlying
+relationship between different <tt>Context</tt> instances and surely
+cannot be expected to synchronize access to different 
+<tt>Context</tt> instances.
+Therefore the service provider must ensure that different
+<tt>Context</tt> instances behave as individual, independent entities and hide
+any implementation relationships.
+
+<h4>Factory Implementations</h4>
+
+An object that implements any of the following interfaces and abstract classes
+(and their subinterfaces) should be reentrant.
+That is, multiple threads should be able to invoke
+methods on a single instance of a factory concurrently.
+<ul>
+<li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/InitialContextFactory.html"><tt>InitialContextFactory</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/InitialContextFactory.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/ObjectFactory.html"><tt>ObjectFactory</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/ObjectFactory.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/StateFactory.html"><tt>StateFactory</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/StateFactory.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><li>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/ControlFactory.html"><tt>ControlFactory</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/ControlFactory.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></ul>
+
+Most factories are stateless, so this reentrancy
+requirement really is not much of an imposition on the implementation.
+
+<h4>Use of Threads</h4>
+
+Threads are a useful tool for building system software such as a
+context implementation, especially when
+the implementation needs to deal with the network.
+In fact, threads are indispensable
+if a context implementation is to support event notification as described
+in the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/package-summary.html"><tt>javax.naming.event</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/package-summary.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    package
+(see the
+<a target="_top" href="../../beyond/event/index.html">Event Notification</a> <a target="_top" href="../../beyond/event/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a> lesson).
+
+<p>
+You may use threads when building components of a service provider.
+However, be aware that the
+<a href=http://java.sun.com/j2ee>Java 2 Platform, Enterprise Edition</a>,
+restricts components such as
+<a href=http://java.sun.com/products/ejb>Enterprise JavaBeans</a>
+from creating threads.
+This restriction means that if your service provider needs to create
+threads, then it should do so inside of a <tt>doPrivileged</tt> block.
+This allows the component's container to grant permission to the
+service provider for thread creation without granting the
+permission to the component.
+<p>
+Here is an example of a utility method for performing the thread
+creation inside of a <tt>doPrivileged</tt> block.
+<blockquote><pre>
+private Thread createThread(final Runnable r) {
+    return (Thread) AccessController.doPrivileged(
+        new PrivilegedAction() {
+            public Object run() {
+  	        return new Thread(r);
+	    }
+	}
+    );
+}
+</blockquote></pre>
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="names.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="security.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Ground Rules</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Scripting Languages and Java</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="This section describes the characteristics of scripting languages and how they can be used by Java programmers." />
+<meta name="dcterms.created" content="2017-09-14T18:11:26Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Java Scripting Programmer's Guide" />
+<meta name="dcterms.identifier" content="E61650-02" />
+<meta name="dcterms.isVersionOf" content="JSJSG" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;2015, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="preface.htm" title="Previous" type="text/html" />
+<link rel="Next" href="java-scripting-api.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSJSG.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSJSG.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSJSG.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-76E11DD9-C7A4-4232-AF57-6B6A0535BB60"></a> <span id="PAGE" style="display:none;">4/6</span> <!-- End Header -->
+<a id="JSJSG108"></a><a id="JSJSG107"></a>
+<h1 id="JSJSG-GUID-76E11DD9-C7A4-4232-AF57-6B6A0535BB60" class="sect1"><span class="enumeration_chapter">1</span> Scripting Languages and Java</h1>
+<div>
+<div><span>This section describes the characteristics of scripting languages and how they can be used by Java programmers.</span></div>
+<p>Scripting languages are programming languages that support the ability to write scripts. Unlike source files for other programming languages that must be compiled into bytecode before you run them, scripts are evaluated by a runtime environment (in this case, by a script engine) directly.</p>
+<p>Most scripting languages are dynamically typed. This enables you to create new variables without declaring the variable type (the interpreter assigns the type based on the type of the object associated with the variable), and you can reuse the same variable for objects of different types (type conversion is performed automatically).</p>
+<p>Scripting languages generally have simple syntax; they allow complex tasks to be performed in relatively few steps.</p>
+<p>Although scripting languages are usually interpreted at runtime, they can be compiled into Java bytecode that can then be executed on the Java Virtual Machine (JVM). Scripting languages can be faster and easier to use for certain problems, so it is sometimes chosen by developers of Java applications. However, if you write your Java application in a scripting language, then you lose the benefits of the Java language (such as type safety and access to the class library).</p>
+<p><a href="https://jcp.org/en/jsr/detail?id=223" target="_blank">Java Specification Request (JSR) 223: Scripting for the Java Platform</a> addresses the issue of integrating Java and scripting languages. It defines a standard framework and application programming interface (API) to embed scripts in your Java applications and access Java objects from scripts.</p>
+<p>By embedding scripts in your Java code, you can customize and extend the Java application. For example, you can have configuration parameters, business logic, math expressions, and other external parts written as scripts. When developing your Java application, you do not need to choose the scripting language. If you write your application with the Java Scripting API (defined by JSR 223), then users can write scripts in any language compliant with JSR 223. See <a href="java-scripting-api.htm#GUID-C4A6EB7C-0AEA-45EC-8662-099BDEFC361A" title="This section introduces the Java Scripting API and describes how the Java Scripting API (defined by JSR 223) is used to embed scripts in your Java applications. It also provides a number of examples with Java classes, which demonstrate the features of the Java Scripting API.">The Java Scripting API</a>.</p>
+<p>When writing a script in a language compliant with JSR 223, you have access to the entire standard Java library. See <a href="using-java-scripts.htm#GUID-AB5FB8B1-AEE4-4ECE-9ECE-06E1A66F0291" title="This section describes how to access Java classes and interfaces from scripts.">Using Java from Scripts</a>.</p>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment22">
+<tr>
+<td class="cellalignment29">
+<table class="cellalignment33">
+<tr>
+<td class="cellalignment26"><a href="preface.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment26"><a href="java-scripting-api.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;2015, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment31">
+<table class="cellalignment32">
+<tr>
+<td class="cellalignment26"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment26"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment26"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

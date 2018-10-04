@@ -1,0 +1,166 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Request Controls</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="context.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Controls and Extensions</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Request Controls
+</h2>
+<p>
+<blockquote>
+
+A request control is sent by a client to modify or augment an LDAP operation.
+You can use a control either to send more information to the server than
+is allowed by the operation's request 
+or to modify the behavior of the operation altogether.
+<p>
+Request controls come in two types:
+<ul>
+<li>Those that affect how a connection is created
+<li>Those that affect context methods
+</ul>
+
+The former is used when a connection needs to be established or
+re-established with an LDAP server. The latter is used when all other
+LDAP operations are sent to the LDAP server.  
+<p>
+These two types of request controls must be differentiated
+because the
+JNDI is a high-level API that does not deal directly with
+connections.  It is the job of the service provider to do any necessary
+connection management. Consequently, a single
+connection may be shared by multiple 
+<tt>Context</tt> instances, and a service provider may
+use its own algorithms so as to conserve connection and network
+usage. Thus, when a method is invoked on the
+<tt>Context</tt> instance, the service
+provider might need to do some connection management in addition to
+performing the corresponding LDAP operations. For connection management,
+it uses the <a href=connect.html><em>connection request controls</em></a>, 
+and for the normal
+LDAP operations, it uses the 
+<a href=context.html><em>context request controls</em></a>.
+<p>Unless explicitly qualified, the term 
+<em>request controls</em> is meant here to mean
+context request controls.
+
+<h4>Controls Supported by LDAP Servers</h4>
+
+Support for specific controls is LDAP server-dependent.
+Eventually, when controls are standardized, LDAP servers might
+support a set of popular controls.
+However, some controls still might be proprietary
+and vendor-specific.
+
+<p>
+Here is a <a href=src/ServerCtls.java>simple program</a> for finding
+out the list of controls that an LDAP server supports.
+<blockquote><pre>
+// Create the initial context
+DirContext ctx = new InitialDirContext();
+
+// Read the supportedcontrol from the root DSE
+Attributes attrs = ctx.getAttributes(
+    "ldap://localhost:389", new String[]{"supportedcontrol"});
+</pre></blockquote>
+
+Here is the output produced by running this program against an LDAP server.
+<blockquote><pre>
+{supportedcontrol=supportedcontrol: 
+  2.16.840.1.113730.3.4.2, 
+  2.16.840.1.113730.3.4.3, 
+  2.16.840.1.113730.3.4.4, 
+  2.16.840.1.113730.3.4.5, 
+  1.2.840.113556.1.4.473, 
+  2.16.840.1.113730.3.4.9, 
+  2.16.840.1.113730.3.4.12
+}
+</pre></blockquote>
+
+<h4>Implementations</h4>
+
+The
+
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/Control.html><tt>Control</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/Control.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interface is generic for all request and response controls.
+Typically, you will deal with implementation classes that implement
+this interface rather than directly use the methods in this interface.
+Such implementation classes typically have type-friendly constructors
+and accessor methods.
+For example, Sun provides classes that implement some popular controls,
+such as the 
+<a href=http://www.ietf.org/rfc/rfc2696.txt>Paged Results</a> control. 
+This allows you to retrieve
+the results of an LDAP "search" operation in <em>pages</em>.
+To create a Paged Results control, you use its constructor,
+<tt>PagedResultsControl</tt>, as follows.
+<blockquote><pre>
+// Specify a page size of 20
+Control prctl = new PagedResultsControl(20);
+</pre></blockquote>
+
+The next few pages offer other examples of
+how to construct and use controls.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="context.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Controls and Extensions</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>
+

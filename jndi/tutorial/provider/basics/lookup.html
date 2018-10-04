@@ -1,0 +1,123 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Lookup Methods</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="names.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="list.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Essential Components</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Lookup Methods
+</h2>
+<p>
+<blockquote>
+
+<a href=src/FlatCtx.java>The flat namespace example</a> uses in-memory storage;
+it does not support persistence. Whether a context implementation supports
+persistence typically is determined by the underlying naming/directory service
+or the requirements of the service provider.
+<p>
+Here is the implementation of
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><tt>lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<blockquote><pre>
+public Object lookup(Name name) throws NamingException {
+    if (name.isEmpty()) {
+        // Ask to look up this context itself; create and return
+        // a new instance that has its own independent environment.
+        return (createCtx(myEnv));
+    } 
+
+    // Extract the components that belong to this namespace
+    String nm = getMyComponents(name);
+
+    // Find the object in the internal hash table
+    Object answer = bindings.get(nm);
+    if (answer == null) {
+        throw new NameNotFoundException(name + " not found");
+    }
+    return answer;
+}
+</pre></blockquote>
+According to the JNDI specification, a <tt>lookup()</tt> of the empty
+name should return a copy of the context itself.
+After extracting the component that belongs to this context's namespace,
+the implementation proceeds to find the named binding from its
+internal data structure--a hash table. If it is not found, 
+then it throws a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameNotFoundException.html"><tt>NameNotFoundException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameNotFoundException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+In an actual implementation,
+you would access the underlying naming/directory service
+instead of accessing a hash table.
+<p>
+This example does not support 
+<a href=../../getStarted/concepts/glossary.html#LINK>link references</a>, so this method does not look for
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/LinkRef.html"><tt>LinkRef</tt>s</a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/LinkRef.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>  or treat them specially.
+
+<h4>LookupLink</h4>
+
+This example's definition of 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookupLink(javax.naming.Name)"><tt>lookupLink()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookupLink(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    is the same as its definition of <tt>lookup()</tt>.
+This example does not support link references.
+See the
+<a target="_top" href="../misc/link.html">Miscellaneous</a> <a target="_top" href="../misc/link.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>    lesson for a description of how to support link references.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="names.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="list.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Essential Components</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

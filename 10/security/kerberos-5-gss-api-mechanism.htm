@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>The Kerberos 5 GSS-API Mechanism</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="This section describes and lists security features regarding Java Generic Security Services (Java GSS) for Kerberos 5. It also describes the Object Identifier (OID) for the Kerberos V5 mechanism, the encryption types, and the krb5.conf settings supported by Java GSS." />
+<meta name="dcterms.created" content="2018-03-13T07:25:33Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Security Developer&rsquo;s Guide" />
+<meta name="dcterms.identifier" content="E91076-01" />
+<meta name="dcterms.isVersionOf" content="JSSEC" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="appendix-setting-kerberos-accounts.htm" title="Previous" type="text/html" />
+<link rel="Next" href="java-secure-socket-extension-jsse-reference-guide.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSSEC.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-23D30A4B-CC38-45ED-83D5-C59ABB72762E"></a> <span id="PAGE" style="display:none;">44/59</span> <!-- End Header -->
+<h1 id="JSSEC-GUID-23D30A4B-CC38-45ED-83D5-C59ABB72762E" class="sect1">The Kerberos 5 GSS-API Mechanism</h1>
+<div>
+<p>This section describes and lists security features regarding Java Generic Security Services (Java GSS) for Kerberos 5. It also describes the Object Identifier (OID) for the Kerberos V5 mechanism, the encryption types, and the <code class="codeph">krb5.conf</code> settings supported by Java GSS.</p>
+<div class="section">
+<p>The Generic Security Services Application Program Interface (GSS-API) mechanism is defined by <a href="http://tools.ietf.org/html/rfc1964" target="_blank">RFC 1964</a> and supplemented with <a href="http://tools.ietf.org/html/rfc4121" target="_blank">RFC 4121</a> under the Internet Standards process.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">The OID for the Kerberos V5 Mechanism</p>
+<p>According to RFC 1964 section 1, the OID for Java Generic Security Services (Java GSS) for Kerberos 5 is defined as 1.2.840.113554.1.2.2; see also <a href="https://docs.oracle.com/javase/10/docs/specs/security/standard-names.html#gssapi-mechanisms" target="_blank">GSSAPI Mechanisms</a> in <cite>Java Security Standard Algorithm Names</cite>.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Java GSS/Kerberos Supported Encryption Types</p>
+<p>The following table lists the preferred order of Java GSS/Kerberos supported encryption types.</p>
+<div class="tblformal" id="GUID-23D30A4B-CC38-45ED-83D5-C59ABB72762E__GUID-32156CE3-DB74-499F-BC7D-BC765B0D851D">
+<p class="titleintable">Table 7-1 Java GSS/Kerberos Supported Encryption Types</p>
+<table class="cellalignment466" title=" Java GSS/Kerberos Supported Encryption Types" summary="Preferred order of Java GSS/Kerberos supported encryption types">
+<thead>
+<tr class="cellalignment456">
+<th class="cellalignment467" rowspan="1" colspan="1" id="d107707e48">Name</th>
+<th class="cellalignment467" rowspan="1" colspan="1" id="d107707e50">etype Number</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d107707e54" headers="d107707e48">aes256-cts</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d107707e54 d107707e50">18</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d107707e59" headers="d107707e48">aes128-cts</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d107707e59 d107707e50">17</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d107707e64" headers="d107707e48">rc4-hmac</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d107707e64 d107707e50">23</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d107707e69" headers="d107707e48">des3-cbc-sha1</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d107707e69 d107707e50">16</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d107707e74" headers="d107707e48">des-cbc-md5</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d107707e74 d107707e50">3</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d107707e79" headers="d107707e48">des-cbc-crc</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d107707e79 d107707e50">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<div class="infobox-note" id="GUID-23D30A4B-CC38-45ED-83D5-C59ABB72762E__GUID-DB77CB65-36AB-4098-AD4A-3E4D99F886CF">
+<p class="notep1">Note:</p>
+The AES-256 encryption type is enabled by default. The DES-based encryption types, including <code class="codeph">des-cbc-crc</code> and <code class="codeph">dec-cbc-md5</code>, are disabled by default.</div>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p>A user can restrict the usage of encryption for various purposes in <code class="codeph">krb5.conf</code>, in the <code class="codeph">[libdefaults]</code> section.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Supported krb5.conf Settings</p>
+<p>The following parameters are supported:</p>
+<pre dir="ltr">
+include FILENAME
+includedir DIRNAME
+
+[libdefaults]
+default_realm
+allow_weak_crypto
+ 
+dns_lookup_kdc
+dns_lookup_realm
+dns_fallback
+ 
+default_checksum
+safe_checksum_type
+ap_req_checksum_type
+default_keytab_name
+ 
+default_tkt_enctypes
+permitted_enctypes
+default_tgs_enctypes
+ 
+no_addresses
+noaddresses
+ 
+renewable
+proxiable
+forwardable
+ 
+kdc_default_options
+clockskew
+ 
+kdc_timeout
+udp_preference_limit
+
+max_retries
+renew_lifetime
+ticket_lifetime
+ 
+[realms]
+  REALM.NAME = {
+      kdc
+      kdc_timeout
+      udp_preference_limit
+      max_retries
+  }
+ 
+[capaths]
+  A = {
+    I = .
+    B = I
+  }
+ 
+[domain_realm]
+  domain=REALM
+</pre>
+<p>The following are the defaults for the <code class="codeph">krb5.conf</code> file parameters:</p>
+<pre dir="ltr">
+no_addresses = true
+noaddresses = true
+dns_lookup_kdc = true 
+dns_lookup_realm = false
+allow_weak_crypto = false
+kdc_timeout = 30s
+max_retries = 3
+udp_preference_limit = 1465
+clockskew = 300
+renewable = false
+proxiable = false
+forwardable = false
+</pre></div>
+<!-- class="section" --></div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment455">
+<tr>
+<td class="cellalignment462">
+<table class="cellalignment460">
+<tr>
+<td class="cellalignment459"><a href="appendix-setting-kerberos-accounts.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment459"><a href="java-secure-socket-extension-jsse-reference-guide.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment464">
+<table class="cellalignment458">
+<tr>
+<td class="cellalignment459"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment459"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment459"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

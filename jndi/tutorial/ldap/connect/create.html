@@ -1,0 +1,317 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Connection Creation</title>
+<meta name="collection" content="learning">
+
+                    <script>var w=window;if(w.performance||w.mozPerformance||w.msPerformance||w.webkitPerformance){var d=document;AKSB=w.AKSB||{},AKSB.q=AKSB.q||[],AKSB.mark=AKSB.mark||function(e,_){AKSB.q.push(["mark",e,_||(new Date).getTime()])},AKSB.measure=AKSB.measure||function(e,_,t){AKSB.q.push(["measure",e,_,t||(new Date).getTime()])},AKSB.done=AKSB.done||function(e){AKSB.q.push(["done",e])},AKSB.mark("firstbyte",(new Date).getTime()),AKSB.prof={custid:"322179",ustr:"",originlat:"0",clientrtt:"1",ghostip:"23.212.3.15",ipv6:false,pct:"10",clientip:"45.78.37.67",requestid:"2a85f224",region:"32996",protocol:"",blver:14,akM:"dsca",akN:"ae",akTT:"O",akTX:"1",akTI:"2a85f224",ai:"206465",ra:"false",pmgn:"",pmgi:"",pmp:"",qc:""},function(e){var _=d.createElement("script");_.async="async",_.src=e;var t=d.getElementsByTagName("script"),t=t[t.length-1];t.parentNode.insertBefore(_,t)}(("https:"===d.location.protocol?"https:":"http:")+"//ds-aksb-a.akamaihd.net/aksb.min.js")}</script>
+                    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="close.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Connections</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Connection Creation
+</h2>
+<p>
+<blockquote>
+
+There are several ways in which a connection is created. The most
+common way is from the creation of an initial context.
+When you create an 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html"><tt>InitialContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>,
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InitialDirContext.html"><tt>InitialDirContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InitialDirContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, or
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/InitialLdapContext.html"><tt>InitialLdapContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/InitialLdapContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   by using the LDAP service provider, a connection is set up immediately with
+the target LDAP server named in the 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#PROVIDER_URL"><tt>Context.PROVIDER_URL</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#PROVIDER_URL"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   property.
+Each time an initial context is created, a new LDAP
+connection is created.
+See the <a href=pool.html>Connection Pooling</a> section for information on
+how to change this behavior.
+<p>
+If the property value contains more than one URL, then each URL is tried
+in turn until one is used to create a successful connection.
+The property value is then updated to be the successful URL.
+See the 
+<a target="_top" href="../misc/url.html#MULTI">LDAP & LDAPS URLS</a> <a href="../misc/url.html#MULTI"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    section for an example of how to create an initial context using
+a list of URLs.
+
+<!--
+<blockquote>
+<hr>
+<strong>Note:</strong>
+Multiple URLs are supported
+only in the <a href=http://java.sun.com/j2se/1.4.1>Java 2 SDK, v1.4.1</a>
+and later releases. 
+<hr>
+</blockquote>
+-->
+
+
+<p>
+There are three other direct ways in which a connection is
+created.  The first way is by passing a URL as the name argument to
+the initial context.  When an LDAP or LDAPS URL is pass as a name
+parameter to the initial context, the information in the URL is used
+to create a new connection to the LDAP server, regardless of whether
+the initial context instance itself has a connection to an LDAP
+server. In fact, the initial context might not be connected to any
+server. See the
+
+<a target="_top" href="../../beyond/url/initctx.html">URLs</a> <a target="_top" href="../../beyond/url/initctx.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson for more information on how URLs are used as names.
+<p>
+Another way that a connection is created is by use of a <tt>Reference</tt>.
+When a 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html><tt>Reference</tt> </a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>  containing an LDAP or LDAPS URL is passed to
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/NamingManager.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable)"><tt>NamingManager.getObjectInstance()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/NamingManager.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    or
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable, javax.naming.directory.Attributes)"><tt>DirectoryManager.getObjectInstance()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, a new connection is created using information specified in the URL.
+<p>
+Finally, when a referral is followed manually or automatically, the information in
+the referral is used to create a new connection.
+See the 
+<a target="_top" href="../referral/index.html">Referrals</a> <a href="../referral/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>   lesson for information on referrals.
+
+<a name=SHARE></a><h4>Shared Connections</h4>
+
+<tt>Context</tt> instances and 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html"><tt>NamingEnumeration</tt>s</a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     that are derived from one <tt>Context</tt> instance
+share the same connection until changes to one of the
+<tt>Context</tt> instances make sharing no longer possible.
+For example, if you invoke
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><tt>Context.lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>,
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#listBindings(javax.naming.Name)"><tt>Context.listBindings()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#listBindings(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    or
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.directory.SearchControls)"><tt>DirContext.search()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.directory.SearchControls)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    from the initial context and get back other <tt>Context</tt> instances, 
+then all of those <tt>Context</tt> instances will share the same connection.
+<p>
+Here is <a href=src/Shared.java>an example</a>.
+<blockquote><pre>
+// Create initial context
+DirContext ctx = new InitialDirContext(env);
+
+// Get a copy of the same context
+Context ctx2 = (Context)ctx.lookup("");
+
+// Get a child context
+Context ctx3 = (Context) ctx.lookup("ou=NewHires");
+</pre></blockquote>
+In this example, <tt>ctx</tt>, <tt>ctx2</tt>, and <tt>ctx3</tt>
+will share the same connection.
+<p>
+Sharing is done regardless of how the <tt>Context</tt> instance came
+into existence. For example, a <tt>Context</tt> instance obtained by following
+a referral will share the same connection as the referral.
+
+<p>
+When you change a <tt>Context</tt> instance's environment properties 
+that are related to 
+a connection,
+such as the principal name or credentials of the user, the <tt>Context</tt>
+instance on which you make these changes will get its own connection
+(if the connection is shared). <tt>Context</tt> instances that are derived
+from this <tt>Context</tt> instance in the future will share this new connection.
+<tt>Context</tt> instances that previously shared the old connection
+are not affected (that is, they continue to use the old connection).
+<p>
+Here is <a href=src/NewConn.java>an example</a> that uses two connections.
+<blockquote><pre>
+// Create initial context (first connection)
+DirContext ctx = new InitialDirContext(env);
+
+// Get a copy of the same context
+DirContext ctx2 = (DirContext)ctx.lookup("");
+
+// Change authentication properties in ctx2
+ctx2.addToEnvironment(Context.SECURITY_PRINCIPAL, 
+    "cn=C. User, ou=NewHires, o=JNDITutorial");
+ctx2.addToEnvironment(Context.SECURITY_CREDENTIALS, "mysecret");
+
+// Method on ctx2 will use new connection
+System.out.println(ctx2.getAttributes("ou=NewHires"));
+</pre></blockquote>
+<tt>ctx2</tt> initially shares the same connection with <tt>ctx</tt>.
+But when its principal and password properties are changed,
+it can no longer use <tt>ctx</tt>'s connection.
+The LDAP provider will automatically create a new connection for
+<tt>ctx2</tt>.
+<p>
+Similarly, if you use
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#reconnect(javax.naming.ldap.Control[])"><tt>LdapContext.reconnect()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#reconnect(javax.naming.ldap.Control[])"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>  to change the <tt>Context</tt> instance's connection controls,
+the <tt>Context</tt> instance will get its own connection 
+if the connection was being shared.
+
+<p>
+
+If the <tt>Context</tt> instance's connection was not being shared
+(i.e., no <tt>Context</tt>s have been derived from it),
+then changes to its environment or connection controls will not cause
+a new connection to be created.  Instead, any changes relevant to the
+connection will be applied to the existing connection.
+
+<a name=TIMEOUT><h4>Creation Timeouts</h4></a>
+
+Not all connection creations are successful.  If the LDAP provider
+cannot establish a connection within a certain timeout period, it
+aborts the connection attempt. By default, this timeout period is the
+network (TCP) timeout value, which is in the order of a few minutes.
+To change the timeout period, you use the
+<tt>"com.sun.jndi.ldap.connect.timeout"</tt> environment property.
+The value of this property is  the string representation of an integer
+representing the connection timeout in milliseconds.
+<p>
+Here is <a href=src/Timeout.java>an example</a>.
+
+<blockquote><pre>
+// Set up environment for creating initial context
+Hashtable env = new Hashtable(11);
+env.put(Context.INITIAL_CONTEXT_FACTORY, 
+    "com.sun.jndi.ldap.LdapCtxFactory");
+env.put(Context.PROVIDER_URL, "ldap://localhost:389/o=JNDITutorial");
+
+// Specify timeout to be 5 seconds
+env.put("com.sun.jndi.ldap.connect.timeout", "5000");
+
+// Create initial context
+DirContext ctx = new InitialDirContext(env);
+
+// do something useful with ctx
+</pre></blockquote>
+
+In this example, if a connection cannot be created within 5 seconds,
+an exception will be thrown.
+<p>
+If the <tt>Context.PROVIDER_URL</tt> property contains more than one
+URL, the provider will use the timeout for each URL.  For
+example, if there are 3 URLs and the timeout has been specified to be
+5 seconds, then the provider will wait for a maximum of 15 seconds in
+total.
+<p>
+See the <a href=pool.html#TIMEOUT>Connection Pooling</a> section
+for information on how this property affects connection pooling.
+
+<blockquote>
+<hr>
+<strong>Note:</strong> On systems earlier than the Java 2 SDK, v 1.4, this
+property is ignored because there is no support in the SDK for
+connection creation timeouts.
+<hr>
+</blockquote>
+
+<a name=AUTO><h4>Automatic Discovery of LDAP Servers</h4></a>
+
+Unlike the examples in this tutorial, you usually do not hardwire
+hostname and port information into your JNDI program. The program
+usually reads such information from a configuration file or user
+input.  In some environments, such as the Windows 2000 networks,
+information about LDAP servers are published in the DNS. In such
+environments, the JNDI program has the additional option of using the
+information in the DNS instead of from configuration files or
+users. This use of information from DNS to locate LDAP servers is
+called <em>service location</em> or <em>service discovery</em>; 
+LDAP is but one type of service that can be located in this way.
+
+<p> 
+
+The LDAP service provider supports LDAP service discovery.  If the
+LDAP service provider is given an LDAP or LDAPS URL that contains only
+a distinguished name, (that is, no hostname or port number), it will
+use the distinguished name to find information about the LDAP server(s) 
+in the DNS. Here is <a href=src/Discover.java>an example</a>.
+<blockquote><pre>
+// Set up environment for creating initial context
+Hashtable env = new Hashtable(11);
+env.put(Context.INITIAL_CONTEXT_FACTORY, 
+    "com.sun.jndi.ldap.LdapCtxFactory");
+
+// Omit server and port number when specifying URL
+env.put(Context.PROVIDER_URL, 
+    "ldap:///o=JNDITutorial,dc=example,dc=com");
+
+// Create initial context
+DirContext ctx = new InitialDirContext(env);
+
+// do something useful with ctx
+</pre></blockquote>
+
+This example uses the distinguished name
+<tt>o=JNDITutorial,dc=example,dc=com</tt>.  The LDAP service provider
+uses the <tt>dc</tt> components to construct the DNS domain name,
+<tt>example.com</tt>. It then looks for LDAP service records for
+the DNS domain <tt>example.com</tt>. If records for more than one server
+are found, it will order the servers according to the weight
+information in the records and then try each in order.  The algorithms
+of how the domain name is determined and the ordering of servers are
+described in the Internet draft 
+<a href="http://tools.ietf.org/html/draft-ietf-ldapext-locate-08">
+draft-ietf-ldapext-locate-08.txt</a>
+and <a href="http://www.ietf.org/rfc/rfc2782.txt">RFC 2782</a>.
+<p>
+For locating the service records of the LDAP service,
+the LDAP service provider uses the DNS service
+configured for the underlying platform. On Solaris and Linux, 
+the DNS client configuration is read from the 
+<tt>/etc/resolv.conf</tt> file.  
+On Windows, it is the DNS service configured for the Windows client.
+If DNS has not been configured for the underlying platform, 
+the LDAP service provider will use <tt>localhost</tt> and 53 as
+the hostname and port of the DNS server. 
+If no DNS service is available, or if the
+DNS service does not have the LDAP service's service records,
+the LDAP service provider will use <tt>localhost</tt> and 
+389 as the hostname and port of the LDAP server.
+
+<blockquote>
+<hr>
+<strong>Note:</strong> 
+Automatic discovery of the LDAP service
+using the URL's distinguished name is supported in
+<a href=http://java.sun.com/j2se/1.4.1>Java 2 SDK, v1.4.1</a> and later releases.
+In earlier releases, <tt>localhost</tt> and <tt>389</tt> are used
+if the hostname and port number are missing from the URL.
+</blockquote>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="close.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Connections</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

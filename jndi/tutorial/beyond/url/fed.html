@@ -1,0 +1,129 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>URLs as References for Federation</title>
+<meta name="collection" content="learning">
+
+                    <script>var w=window;if(w.performance||w.mozPerformance||w.msPerformance||w.webkitPerformance){var d=document;AKSB=w.AKSB||{},AKSB.q=AKSB.q||[],AKSB.mark=AKSB.mark||function(e,_){AKSB.q.push(["mark",e,_||(new Date).getTime()])},AKSB.measure=AKSB.measure||function(e,_,t){AKSB.q.push(["measure",e,_,t||(new Date).getTime()])},AKSB.done=AKSB.done||function(e){AKSB.q.push(["done",e])},AKSB.mark("firstbyte",(new Date).getTime()),AKSB.prof={custid:"322179",ustr:"",originlat:"0",clientrtt:"1",ghostip:"23.212.3.15",ipv6:false,pct:"10",clientip:"45.78.37.67",requestid:"2a85adb0",region:"32996",protocol:"",blver:14,akM:"dsca",akN:"ae",akTT:"O",akTX:"1",akTI:"2a85adb0",ai:"206465",ra:"false",pmgn:"",pmgi:"",pmp:"",qc:""},function(e){var _=d.createElement("script");_.async="async",_.src=e;var t=d.getElementsByTagName("script"),t=t[t.length-1];t.parentNode.insertBefore(_,t)}(("https:"===d.location.protocol?"https:":"http:")+"//ds-aksb-a.akamaihd.net/aksb.min.js")}</script>
+                    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="enum.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="config.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=bottom border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>URLs</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    URLs as References for Federation
+</h2>
+<p>
+<blockquote>
+
+Federation is the process of "hooking" together naming systems
+so that the aggregate system can process composite names.
+One basic means by which you federate systems
+is to bind the reference of one naming system in
+a context in another naming system.
+The 
+<a target="_top" href="../../objects/storing/reference.html">Storing Objects in the Directory</a> <a href="../../objects/storing/reference.html"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>   lesson contains descriptions of the 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html"><tt>Reference</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a> class and how to store and read references from the directory.
+<p>
+The contents of a reference used for federation is unrestricted,
+but a useful and common type of reference is one that contains a URL string.
+You can create a <tt>Reference</tt> for a URL string by creating a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/StringRefAddr.html"><tt>StringRefAddr</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/StringRefAddr.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    whose type is <tt>"URL"</tt> and whose contents is the URL string.
+<p>
+Here is <a href=src/BindRef.java>an example</a>
+of a reference to a file system context.
+<blockquote><pre>
+// Create the file system reference
+Reference fsRef = new Reference("javax.naming.Context", 
+    new StringRefAddr("URL", "file:/tmp"));
+</pre></blockquote>
+You can then bind this reference in another naming system, 
+such as the LDAP:
+<blockquote><pre>
+ldapCtx.bind("cn=fs", fsRef);
+</pre></blockquote>
+The LDAP and file system are now <em>federated</em>.
+<p>
+Next, you supply a name to the LDAP service provider that spans 
+both the LDAP naming system and the file system:
+<blockquote><pre>
+Object obj = ldapCtx.lookup("cn=fs/tutorial/report.txt");
+</pre></blockquote>
+Although the name <tt>"cn=fs"</tt> is in the LDAP naming system, it is
+naming an object in the file system, the object (context) 
+named by the URL string <tt>"file:/tmp"</tt>.
+<p>
+When the LDAP service provider processes the <tt>"cn=fs"</tt> entry, it asks
+the JNDI to return the context identified by that entry so that
+it can continue the operation.
+The service provider does this by using
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/NamingManager.html#getContinuationContext(javax.naming.CannotProceedException)"><tt>NamingManager.getContinuationContext()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/NamingManager.html#getContinuationContext(javax.naming.CannotProceedException)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getContinuationDirContext(javax.naming.CannotProceedException)"><tt>DirectoryManager.getContinuationDirContext()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getContinuationDirContext(javax.naming.CannotProceedException)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, which are explained in the 
+<a target="_top" href="../../provider/fed/index.html">Building a Service Provider</a> <a target="_top" href="../../provider/fed/index.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>   trail.
+
+The JNDI, when given a reference that contains a <tt>"URL"</tt> <tt>StringRefAddr</tt>
+and no factory class name, will turn the URL string in the reference into a context
+by using the same algorithm used for locating a URL context implementation,
+as explained in the <a href=initctx.html#FAC>URLs as Names to the Initial Context section</a>
+of this lesson.
+In the previous example, the JNDI uses the <tt>file</tt> URL context implementation
+to process the URL string <tt>"file:/tmp"</tt>. It then uses the resulting context
+to process the remainder of the name, <tt>"tutorial/report.txt"</tt>.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="enum.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="config.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=top border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>URLs</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

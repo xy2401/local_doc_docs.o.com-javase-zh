@@ -1,0 +1,359 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Oracle Solaris OS Install (JRE)</title>
+<meta name="Title" content="JRE 7 Installation on the Oracle Solaris OS" />
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<hr />
+<div class="smallpagetitle"><h1>JRE 7 Installation on the Oracle Solaris Operating System</h1></div>
+<p>See <a href="../index.html">JDK 7 and JRE 7 Installation
+Guide</a> for general information about installing JDK 7 and JRE 7.</p>
+<p>For information on enhancements to JDK 7 that relate to the installer, see <a href="../enhancements-7.html#solaris">Installer Enhancements in JDK 7</a>.</p>
+<h2>Contents</h2>
+<ul>
+<li><a href="#requirements">System Requirements</a></li>
+<li><a href="#install-ips">JRE 7 Installation Instructions for Oracle Solaris 1 using IPS Packages</a></li>
+<li><a href="#install">Manual JRE 7 Installation Instructions</a>
+<ul>
+<li><a href="#install-archive">Installation of Oracle Solaris Archive
+Binaries (<code>.tar.gz</code>)</a></li>
+</ul>
+</li>
+<li><a href="#plugin">Java Plugin Browser Registration
+Instructions</a></li>
+<li><a href="#jws">Java Web Start Installation Notes</a></li>
+</ul>
+<h2><a name="requirements" id="requirements"></a>System
+Requirements</h2>
+<p>This version of the JRE is supported on the Oracle Solaris 10 Update 9 or later OS, Oracle Solaris 11 Express OS, and Oracle Solaris 11 OS. For supported processors and browsers, see <a href=
+"http://www.oracle.com/technetwork/java/javase/config-417990.html">
+Oracle JDK 7 and JRE 7 Certified System Configurations</a>.</p>
+<h2><a id="install-ips" name="install-ips"></a>JRE 7 Installation Instructions for Oracle Solaris 11 using IPS Packages</h2>
+To install JRE 7 on Oracle Solaris 11, install the <tt>jre-7</tt> package:
+
+<ol>
+
+<!-- *** -->
+
+<li><p>Make sure the <tt>jre-7</tt> package is available from your IPS publisher.</p>
+
+<pre>
+$ pkg list -a jre-7
+
+NAME (PUBLISHER)     VERSION                   IFO
+runtime/java/jre-7   1.7.0.0-173.0.0.0.0.0     ---
+</pre>
+
+<p>If you see an "i" in the I column, then the package is already installed.</p>
+
+<p>This package is available from the <tt>solaris</tt> publisher at <tt>pkg.oracle.com</tt> and also from other publisher origins. If you see a message that no such package is found, use the <tt>pkg publisher</tt> command to check your publisher origin and contact your system administrator or Oracle Support representative.</p></li>
+
+<!-- *** -->
+
+<li><p>Make sure you have permissions to install IPS packages.</p>
+
+<ul>
+
+<!-- ### -->
+
+<li><p>Use the <tt>profiles</tt> command to list the rights profiles that are assigned to you.  If you have the Software Installation rights profile, you can use the <tt>pfexec</tt> command to install and update packages.</p>
+
+<pre>
+$ pfexec pkg install jre-7
+</pre>
+
+<p>Other rights profiles also provide installation privilege, such as the System Administrator rights profile.</p>
+
+</li>
+
+<!-- ### -->
+
+<li><p>Depending on the security policy at your site, you might be able to use the <tt>sudo</tt> command with your user password to execute a privileged command.</p>
+
+<pre>
+$ sudo pkg install jre-7
+</pre>
+
+</li>
+
+<!-- ### -->
+
+<li><p>Use the <tt>roles</tt> command to list the roles that are assigned to you.  If you have the <tt>root</tt> role, you can use the <tt>su</tt> command with the root password to assume the root role.</p>
+
+<pre>
+# pkg install jre-7
+</pre>
+
+</li>
+
+<!-- ### -->
+
+</ul>
+
+</li>
+
+</ol>
+
+<h2><a id="install" name="install"></a>Manual JRE 7 Installation Instructions</h2>
+
+<p>The following table lists the options available for downloading
+the JRE 7 release on the Oracle Solaris platform.</p>
+
+<table border="1" summary=
+"download files for JRE 7 on the Oracle Solaris platform">
+<tr>
+<th>Download File(s)</th>
+<th>Architecture</th>
+<th>Who Can Install</th>
+</tr>
+<tr>
+<td>jre-7u<em>&lt;version&gt;</em>-solaris-sparc.tar.gz<br />
+jre-7u<em>&lt;version&gt;</em>-solaris-sparcv9.tar.gz</td>
+<td>64-bit SPARC</td>
+<td>anyone</td>
+</tr>
+<tr>
+<td>jre-7u<em>&lt;version&gt;</em>-solaris-i586.tar.gz<br />
+jre-7u<em>&lt;version&gt;</em>-solaris-x64.tar.gz</td>
+<td>64-bit x64, EM64T</td>
+<td>anyone</td>
+</tr>
+<tr>
+<td>jre-7u<em>&lt;version&gt;</em>-solaris-i586.tar.gz</td>
+<td>EM64T</td>
+<td>anyone</td>
+</tr>
+</table>
+
+<p>
+<strong>Note:</strong> For any text on this page containing the following
+notation, you must substitute the appropriate JRE update version number
+for the notation.</p>
+<pre>
+    <em>&lt;version&gt;</em>
+</pre>
+<p>For example, if you are installing update JRE 7 update release 1,
+the following string representing the name of the bundle:</p>
+<pre>
+    jre-7<strong>u&lt;version&gt;</strong>-solaris-sparc.tar.gz
+</pre>
+<p>would become:</p>
+<pre>
+    jre-7<strong>u1</strong>-solaris-sparc.tar.gz
+</pre>
+<p>Note that, as in the preceding example,
+the <em>&lt;version&gt;</em> number is sometimes
+preceded with the letter <code>u</code>, for example, <code>7u1</code>,
+and sometimes it is preceded with an underbar, for example,
+<code>jre1.7.0_01</code>.</p>
+<!--
+<hr />
+<h3><a id="install-ips" name="install-ips"></a>
+Installation of Oracle Solaris IPS Packages (IPS)</h3>
+-->
+<hr />
+<h3><a id="install-archive" name="install-archive"></a>
+Installation of Oracle Solaris Archive Binaries
+(<code>.tar.gz</code>)</h3>
+
+<p>You can install a JRE archive binary in any location that you
+can write to. It will not displace the system version of the Java
+platform provided by the Oracle Solaris OS.</p>
+
+<p>Installing the JRE on a 64-bit system that allows a 32-bit JVM
+is a two-step process: first install the 32-bit JRE and then
+install the additional support for 64-bit operations. The file
+names are as follows:</p>
+
+<p><strong>On SPARC processors</strong>:</p>
+<pre>
+    jre-7u<em>&lt;version&gt;</em>-solaris-sparc.tar.gz     (32-bit)
+    jre-7u<em>&lt;version&gt;</em>-solaris-sparcv9.tar.gz   (64-bit)
+</pre>
+
+<p><strong>On x64/EM64T processors</strong>:</p>
+<pre>
+    jre-7u<em>&lt;version&gt;</em>-solaris-i586.tar.gz     (32-bit)
+    jre-7u<em>&lt;version&gt;</em>-solaris-x64.tar.gz      (64-bit)
+</pre>
+
+<p>If you are running a 32-bit version of Oracle Solaris, you only need
+to download and install the 32-bit version. <a id="check" name=
+"check"></a></p>
+
+<p><strong>1. Download the bundles</strong> or bundle, if you are
+installing only the 32-bit version of Oracle Solaris. Before the file can
+be downloaded, you must accept the license agreement. The archive
+binaries can be installed by anyone (not only root users), in any
+location that you can write to.</p>
+
+<p>The <code>.tar.gz</code> archive file (also called a
+<code>tarball</code>) is a file that can be simultaneously
+uncompressed and extracted in one step.</p>
+
+<p><strong>2. Change directory</strong> to the location where you
+would like the JRE to be installed. Move the <code>.tar.gz</code>
+archive binaries to the current directory.</p>
+
+<p><strong>3. Unpack the tarball and install the JRE.</strong></p>
+
+<p>The following steps can be performed in either order.</p>
+
+<p><strong>On SPARC processors:</strong></p>
+
+<pre>
+    % gzip -dc jre-7u<em>&lt;version&gt;</em>-solaris-sparc.tar.gz | tar xf -
+    % gzip -dc jre-7u<em>&lt;version&gt;</em>-solaris-sparcv9.tar.gz | tar xf -
+</pre>
+<p><strong>On x64/EM64T processors:</strong></p>
+<pre>
+    % gzip -dc jre-7u<em>&lt;version&gt;</em>-solaris-i586.tar.gz | tar xf -
+    % gzip -dc jre-7u<em>&lt;version&gt;</em>-solaris-x64.tar.gz | tar xf -
+</pre>
+
+<p>The JRE is installed in a directory called 
+<code>jre1.7.0<em>_&lt;version&gt;</em></code> in the current directory.
+For example, for the JRE 7 update 1 release, the directory would be
+named: <code>jre1.7.0_01</code>.</p>
+
+<p>The supplemental files for 64-bit support are installed in
+directories named for the machine architecture model, which are
+added at several locations within the same 
+<code>jre1.7.0<em>_&lt;version&gt;</em></code> directory where the
+32-bit JRE was installed.
+For example, on SPARC processors the 64-bit Java VM Library file
+(<code>libjvm.so</code>) is stored in the
+<code>jre1.7.0<em>_&lt;version&gt;</em>/jre/lib/sparcv9/server</code>
+directory, whereas the version for x64/EM64T is stored in the
+<code>jre1.7.0<em>_&lt;version&gt;/</em>jre/lib/amd64/server</code> directory.</p>
+
+<hr />
+
+<h2><a name="plugin" id="plugin"></a> Java Plugin Browser
+Registration Instructions</h2>
+
+<p>You must register the Java Plugin component with Firefox for the
+Plugin to work. Instructions to do this can be found at <a href=
+"solaris-plugin-install.html">Manual Installation and Registration
+of Java Plugin for Oracle Solaris</a>.</p>
+
+<p>Java Plugin is supported for the browsers listed in <a href=
+"http://www.oracle.com/technetwork/java/javase/config-417990.html#browsers">
+JDK 7 and JRE 7 Certified System Configurations</a>.</p>
+
+<p>If you are using a non-supported browser, check your browser
+documentation for details on registering the Java Plugin.</p>
+
+<hr />
+<h2><a name="jws" id="jws"></a> Java Web Start Installation
+Notes</h2>
+
+<p>This JRE release includes Java Web Start; Java Web Start is
+automatically installed with the JRE. But note the following:</p>
+<ul>
+<li><strong>Upgrading from Previous Versions:</strong> This new
+release will overwrite previous installations and automatically
+update browsers to use this new release. The configuration files
+and program files folder used by Java Web Start have changed, but
+all your settings will remain intact after the upgrade, since Java
+Web Start will translate your settings to the new form.</li>
+<li><strong><code>pkgadd</code> utility use:</strong> (1) If you
+use the <code>pkgadd</code> utility to install the Oracle Solaris packages
+for the JDK, a symbolic link for <code>../java/bin/javaws</code> is
+created in <code>/usr/bin</code>. (2) If you have a previous
+release of Java Web Start installed and you want the latest version
+to run instead, edit the <code>$HOME/.mailcap</code> file so that
+it is identical to <code>/etc/.mailcap</code>. If you want the
+older version of Java Web Start to run, do not edit
+<code>$HOME/.mailcap.</code></li>
+</ul>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2014, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

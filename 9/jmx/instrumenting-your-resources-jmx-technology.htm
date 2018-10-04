@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Instrumenting Your Resources for JMX Technology</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="dcterms.created" content="2017-09-14T12:05:30Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Java Management Extensions Guide" />
+<meta name="dcterms.identifier" content="E79011-02" />
+<meta name="dcterms.isVersionOf" content="JSJMX" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;2006, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="jmx-technology-architecture.htm" title="Previous" type="text/html" />
+<link rel="Next" href="using-jmx-agents.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSJMX.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSJMX.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSJMX.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-C2114C55-80A7-49B5-A9C5-B8762E18A401"></a> <span id="PAGE" style="display:none;">7/95</span> <!-- End Header -->
+<h1 id="JSJMX-GUID-C2114C55-80A7-49B5-A9C5-B8762E18A401" class="sect1"><span class="enumeration_chapter">3</span> Instrumenting Your Resources for JMX Technology</h1>
+<div>
+<p>This chapter outlines the concepts behind instrumenting resources for management by using JMX technology in the following sections:</p>
+<ul style="list-style-type: disc;">
+<li><a href="instrumenting-your-resources-jmx-technology.htm#GUID-5E2B06CF-371C-4FD4-BD03-E9166571C569">Manageable Resources</a></li>
+<li><a href="instrumenting-your-resources-jmx-technology.htm#GUID-3D448BA7-0FF3-4247-BD78-E14ADB3E321A">Managed Beans (MBeans)</a></li>
+<li><a href="instrumenting-your-resources-jmx-technology.htm#GUID-D3473171-8C6F-490C-907B-CBD1D1C499CD">Java Virtual Machine Instrumentation</a></li>
+</ul>
+</div>
+<div class="sect2"><a id="GUID-5E2B06CF-371C-4FD4-BD03-E9166571C569"></a>
+<h2 id="JSJMX-GUID-5E2B06CF-371C-4FD4-BD03-E9166571C569" class="sect2">Manageable Resources</h2>
+<div>
+<p>Different types of resources can be managed using JMX technology, for example an application, an implementation of a service, a device, or a user. For a given resource to be managed by JMX technology, it must be developed in the Java language, or at least offer a Java language wrapper. The resource must also be instrumented by one or more Java objects known as managed beans (MBeans), in compliance with the JMX specification.</p>
+<p>Developers of applications and devices can choose the granularity of objects that are instrumented as MBeans. An MBean might represent the smallest object in an application, or it could represent the entire application. Application components designed with their management interface in mind can typically be written as MBeans. MBeans can be used as wrappers for legacy code without a management interface or as proxies for code with a legacy management interface.</p>
+</div>
+</div>
+<div class="sect2"><a id="GUID-3D448BA7-0FF3-4247-BD78-E14ADB3E321A"></a>
+<h2 id="JSJMX-GUID-3D448BA7-0FF3-4247-BD78-E14ADB3E321A" class="sect2">Managed Beans (MBeans)</h2>
+<div>
+<p>The Java objects that implement resources and their instrumentation are called managed beans (MBeans). MBeans must follow the design patterns and interfaces defined in the JMX Specification (JSR 3) to ensure that all MBeans provide the instrumentation of managed resources in a standardized way.</p>
+<p>The instrumentation of a given resource is provided by one or more MBeans that are either standard or dynamic. <span class="italic">Standard MBeans</span> are Java objects that conform to certain design patterns derived from the JavaBeansTM component model. <span class="italic">Dynamic MBeans</span> conform to a specific interface that offers more flexibility at runtime. <span class="italic">MXBeans</span> reference only a predefined set of types.</p>
+<p>The instrumentation of a resource allows it to be manageable through the agent level described in <a href="using-jmx-agents.htm#GUID-A3E653A9-A82E-45F5-8028-74A364FBEDFC">Using JMX Agents</a>. MBeans do not require knowledge of the JMX agent with which they operate.</p>
+<p>MBeans are designed to be flexible, simple, and easy to implement. Developers of applications, services, or devices can make their products manageable in a standard way without having to understand or invest in complex management systems. Existing objects can easily be evolved to produce standard MBeans or wrapped as dynamic MBeans, thus making existing resources manageable with minimum effort.</p>
+<p>The instrumentation level specifies a notification mechanism enables MBeans to generate and propagate notification events to components of the other levels.</p>
+<p>The management interface of an MBean consists of:</p>
+<ul style="list-style-type: disc;">
+<li>Named and typed attributes that can be read and/or written</li>
+<li>Named and typed operations that can be invoked</li>
+<li>Typed notifications that can be emitted by the MBean</li>
+</ul>
+<p>The Java class of a standard MBean exposes the resource to be managed directly through its attributes and operations. Attributes are internal entities that are exposed through getter and setter methods. Operations are the other methods of the class that are available to managers. All these methods are defined statically in the MBean interface and are visible to a JMX agent through introspection. This is the most straightforward way of making a new resource manageable.</p>
+<p>A dynamic MBean defines its management interface at runtime. For example, a configuration MBean could determine the names and types of the attributes it exposes by parsing an XML file.</p>
+<p>An MXBean is a new type of MBean that provides a simple way to code an MBean that only references a pre-defined set of types. In this way, you can be sure that your MBean will be usable by any client, including remote clients, without any requirement that the client have access to model-specific classes representing the types of your MBeans.</p>
+</div>
+</div>
+<div class="sect2"><a id="GUID-D3473171-8C6F-490C-907B-CBD1D1C499CD"></a>
+<h2 id="JSJMX-GUID-D3473171-8C6F-490C-907B-CBD1D1C499CD" class="sect2">Java Virtual Machine Instrumentation</h2>
+<div>
+<p>The Java Virtual Machine (JVM) is highly instrumented using JMX technology. You can easily start a JMX agent to access the built-in JVM instrumentation, and thereby monitor and manage the JVM remotely by JMX technology.</p>
+<p>To find out more about using JMX technology to monitor and manage the JVM, see the <span><cite>Java Platform, Standard Edition Management Developer&rsquo;s Guide</cite></span>.</p>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment256">
+<tr>
+<td class="cellalignment263">
+<table class="cellalignment261">
+<tr>
+<td class="cellalignment260"><a href="jmx-technology-architecture.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment260"><a href="using-jmx-agents.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;2006, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment265">
+<table class="cellalignment259">
+<tr>
+<td class="cellalignment260"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment260"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment260"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

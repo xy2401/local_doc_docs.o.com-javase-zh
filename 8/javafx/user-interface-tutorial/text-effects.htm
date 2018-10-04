@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>40 Applying Effects to Text (Release 8)</title>
+<meta name="description" content="In this chapter you learn how to apply single effects and a chain of effects to text nodes. It includes demo samples to illustrate the APIs being used.">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXUI.pdf">PDF</a> | <a href="../JFXUI.epub">ePub</a> | <a href="../JFXUI.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Working with JavaFX UI Components</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="text-settings.htm">Previous Page</a><a class="button" title="Next Page" href="samples.htm">Next Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="BEICCHBA" name="BEICCHBA" class="anchor"></a><a id="JFXUI773" name="JFXUI773" class="anchor"></a>
+<h1 class="chapter"><span class="secnum">40</span> Applying Effects to Text</h1>
+<a id="JFXUI783" name="JFXUI783" class="anchor"></a>
+<p>In this chapter you learn how to apply single effects and a chain of effects to text nodes. It includes demo samples to illustrate the APIs being used.</p>
+<p>The JavaFX SDK provides a wide set of effects that reside in the <code>javafx.scene.effect</code> package. For a complete set of available effects, see the API documentation. You can see some of the effects in action in the <code>TextEffects</code> demo application. This application displays text nodes with various effects. Download the <a href="../sample-apps/TextEffectsSample.zip"><code>TextEffectsSample.zip</code></a> file, extract the files, save them on your computer, and open a NetBeans project in the NetBeans IDE.</p>
+<a id="JFXUI758" name="JFXUI758" class="anchor"></a>
+<div class="sect1"><a id="sthref429" name="sthref429" class="anchor"></a>
+<h2 class="sect1">Perspective Effect</h2>
+<p>The <code>PerspectiveTansform</code> class enables you to imitate a three-dimensional effect for your two-dimensional content. The perspective transformation can map an arbitrary quadrilateral into another quadrilateral. An input for this transformation is your node. To define the perspective transformation, you specify the x and y coordinates of output locations of all four corners. In the <code>TextEffects</code> application, the PerspectiveTransform effect is set for a group consisting of a rectangle and text as shown in <a href="#CHDFIFGE">Example 40-1</a>.</p>
+<div class="example"><a id="CHDFIFGE" name="CHDFIFGE" class="anchor"></a><a id="JFXUI759" name="JFXUI759" class="anchor"></a>
+<p class="titleinexample">Example 40-1</p>
+<pre xml:space="preserve" class="oac_no_warn">PerspectiveTransform pt = new PerspectiveTransform();
+pt.setUlx(10.0f);
+pt.setUly(10.0f);
+pt.setUrx(310.0f);
+pt.setUry(40.0f);
+pt.setLrx(310.0f);
+pt.setLry(60.0f);
+pt.setLlx(10.0f);
+pt.setLly(90.0f);
+ 
+g.setEffect(pt);
+<span class="bold">g.setCache(true);</span>
+ 
+Rectangle r = new Rectangle();
+r.setX(10.0f);
+r.setY(10.0f);
+r.setWidth(280.0f);
+r.setHeight(80.0f);
+r.setFill(Color.BLUE);
+ 
+Text t = new Text();
+t.setX(20.0f);
+t.setY(65.0f);
+t.setText("Perspective");
+t.setFill(Color.YELLOW);
+t.setFont(Font.font(null, FontWeight.BOLD, 36));
+ 
+g.getChildren().add(r);
+g.getChildren().add(t);
+return g;
+</pre></div>
+<!-- class="example" -->
+<p>Using the <code>setCache(true)</code> property enables you to improve performance when rendering the node.</p>
+<p>You can see the result of the perspective transformation in <a href="#CHDFHIIC">Figure 40-1</a>.</p>
+<div class="figure"><a id="CHDFHIIC" name="CHDFHIIC" class="anchor"></a><a id="JFXUI760" name="JFXUI760" class="anchor"></a>
+<p class="titleinfigure">Figure 40-1 Text with a Perspective Effect</p>
+<img width="312" height="94" src="img/perspective.jpg" alt="Description of Figure 40-1 follows" title="Description of Figure 40-1 follows" longdesc="img_text/perspective.htm" /><br />
+<a id="sthref430" name="sthref430" href="img_text/perspective.htm">Description of "Figure 40-1 Text with a Perspective Effect"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXUI761" name="JFXUI761" class="anchor"></a>
+<div class="sect1"><a id="sthref431" name="sthref431" class="anchor"></a>
+<h2 class="sect1">Blur Effect</h2>
+<p>The <code>GaussianBlur</code> class provides a blur effect based on a Gaussian convolution kernel.</p>
+<p><a href="#CHDFJIGI">Example 40-2</a> shows a text node with an applied Gaussian blur effect implemented in the <code>TextEffects</code> application.</p>
+<div class="example"><a id="CHDFJIGI" name="CHDFJIGI" class="anchor"></a><a id="JFXUI762" name="JFXUI762" class="anchor"></a>
+<p class="titleinexample">Example 40-2</p>
+<pre xml:space="preserve" class="oac_no_warn">Text t2 = new Text();
+t2.setX(10.0f);
+t2.setY(140.0f);
+t2.setCache(true);
+t2.setText("Blurry Text");
+t2.setFill(Color.RED);
+t2.setFont(Font.font(null, FontWeight.BOLD, 36));
+t2.setEffect(new GaussianBlur());
+return t2;
+</pre></div>
+<!-- class="example" -->
+<p>You can see the result of the Gaussian blur effect in <a href="#CHDFCDBB">Figure 40-2</a>.</p>
+<div class="figure"><a id="CHDFCDBB" name="CHDFCDBB" class="anchor"></a><a id="JFXUI763" name="JFXUI763" class="anchor"></a>
+<p class="titleinfigure">Figure 40-2 Text with a Blur Effect</p>
+<img width="221" height="65" src="img/gauss_blur.jpg" alt="Description of Figure 40-2 follows" title="Description of Figure 40-2 follows" longdesc="img_text/gauss_blur.htm" /><br />
+<a id="sthref432" name="sthref432" href="img_text/gauss_blur.htm">Description of "Figure 40-2 Text with a Blur Effect "</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXUI764" name="JFXUI764" class="anchor"></a>
+<div class="sect1"><a id="sthref433" name="sthref433" class="anchor"></a>
+<h2 class="sect1">Drop Shadow Effect</h2>
+<p>To implement a drop shadow effect, use the <code>DropShadow</code> class. You can specify a color and an offset for the shadow of your text. In the <code>TextEffects</code> application, the drop shadow effect is applied to the red text and provides a three-pixel gray shadow. You can see the code in <a href="#CHDBBFHC">Example 40-3</a>.</p>
+<div class="example"><a id="CHDBBFHC" name="CHDBBFHC" class="anchor"></a><a id="JFXUI765" name="JFXUI765" class="anchor"></a>
+<p class="titleinexample">Example 40-3</p>
+<pre xml:space="preserve" class="oac_no_warn">DropShadow ds = new DropShadow();
+ds.setOffsetY(3.0f);
+ds.setColor(Color.color(0.4f, 0.4f, 0.4f));
+ 
+Text t = new Text();
+t.setEffect(ds);
+t.setCache(true);
+t.setX(10.0f);
+t.setY(270.0f);
+t.setFill(Color.RED);
+t.setText("JavaFX drop shadow...");
+t.setFont(Font.font(null, FontWeight.BOLD, 32));
+</pre></div>
+<!-- class="example" -->
+<p>You can see the result of the applied effect in <a href="#CHDBBDAI">Figure 40-3</a>.</p>
+<div class="figure"><a id="CHDBBDAI" name="CHDBBDAI" class="anchor"></a><a id="JFXUI766" name="JFXUI766" class="anchor"></a>
+<p class="titleinfigure">Figure 40-3 Text with a Drop Shadow Effect</p>
+<img width="374" height="63" src="img/drop_shadow.jpg" alt="Description of Figure 40-3 follows" title="Description of Figure 40-3 follows" longdesc="img_text/drop_shadow.htm" /><br />
+<a id="sthref434" name="sthref434" href="img_text/drop_shadow.htm">Description of "Figure 40-3 Text with a Drop Shadow Effect"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXUI767" name="JFXUI767" class="anchor"></a>
+<div class="sect1"><a id="sthref435" name="sthref435" class="anchor"></a>
+<h2 class="sect1">Inner Shadow Effect</h2>
+<p>An inner shadow effect renders a shadow inside the edges of your content. For text content, you can specify a color and an offset. See how the inner shadow effect with four-pixel offsets in the x and y directions is applied to a text node in <a href="#CHDCAIGA">Example 40-4</a>.</p>
+<div class="example"><a id="CHDCAIGA" name="CHDCAIGA" class="anchor"></a><a id="JFXUI768" name="JFXUI768" class="anchor"></a>
+<p class="titleinexample">Example 40-4</p>
+<pre xml:space="preserve" class="oac_no_warn">InnerShadow is = new InnerShadow();
+is.setOffsetX(4.0f);
+is.setOffsetY(4.0f);
+
+Text t = new Text();
+t.setEffect(is);
+t.setX(20);
+t.setY(100);
+t.setText("InnerShadow");
+t.setFill(Color.YELLOW);
+t.setFont(Font.font(null, FontWeight.BOLD, 80));
+
+t.setTranslateX(300);
+t.setTranslateY(300);
+ 
+return t;
+</pre></div>
+<!-- class="example" -->
+<p>The result of the applied effect is shown in <a href="#BCEEFIHG">Figure 40-4</a>.</p>
+<div class="figure"><a id="BCEEFIHG" name="BCEEFIHG" class="anchor"></a><a id="JFXUI769" name="JFXUI769" class="anchor"></a>
+<p class="titleinfigure">Figure 40-4 Text with an Inner Shadow Effect</p>
+<img width="498" height="72" src="img/inner_shadow.jpg" alt="Description of Figure 40-4 follows" title="Description of Figure 40-4 follows" longdesc="img_text/inner_shadow.htm" /><br />
+<a id="sthref436" name="sthref436" href="img_text/inner_shadow.htm">Description of "Figure 40-4 Text with an Inner Shadow Effect"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXUI770" name="JFXUI770" class="anchor"></a>
+<div class="sect1"><a id="sthref437" name="sthref437" class="anchor"></a>
+<h2 class="sect1">Reflection</h2>
+<p>The <code>Reflection</code> class enables you to display the reflected version of your text below the original text. You can adjust the view of your reflected text by providing additional parameters such as a bottom opacity value, a fraction of the input to be visible in the reflection, an offset between the input text and its reflection, and a top opacity value. For details, see the API documentation.</p>
+<p>The reflection effect is implemented in the <code>TextEffects</code> application as shown in <a href="#CHDJFAHB">Example 40-5</a>.</p>
+<div class="example"><a id="CHDJFAHB" name="CHDJFAHB" class="anchor"></a><a id="JFXUI771" name="JFXUI771" class="anchor"></a>
+<p class="titleinexample">Example 40-5</p>
+<pre xml:space="preserve" class="oac_no_warn">Text t = new Text();
+t.setX(10.0f);
+t.setY(50.0f);
+t.setCache(true);
+t.setText("Reflections on JavaFX...");
+t.setFill(Color.RED);
+t.setFont(Font.font(null, FontWeight.BOLD, 30));
+ 
+Reflection r = new Reflection();
+r.setFraction(0.7f);
+ 
+t.setEffect(r);
+ 
+t.setTranslateY(400);
+return t;
+</pre></div>
+<!-- class="example" -->
+<p>You can see the text node with the reflection effect in <a href="#CHDFHJCF">Figure 40-5</a>.</p>
+<div class="figure"><a id="CHDFHJCF" name="CHDFHJCF" class="anchor"></a><a id="JFXUI772" name="JFXUI772" class="anchor"></a>
+<p class="titleinfigure">Figure 40-5 Text with a Reflection Effect</p>
+<img width="374" height="80" src="img/reflections.jpg" alt="Description of Figure 40-5 follows" title="Description of Figure 40-5 follows" longdesc="img_text/reflections.htm" /><br />
+<a id="sthref438" name="sthref438" href="img_text/reflections.htm">Description of "Figure 40-5 Text with a Reflection Effect"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXUI921" name="JFXUI921" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref439" name="sthref439" class="anchor"></a>
+<h2 class="sect1">Combining Several Effects</h2>
+<p>In the previous section you learned how to apply a single effect to a text node. To further enrich your text content, you can compose several effects and apply a chain of effects to achieve a specific visual result. Consider the <code>NeonSign</code> application shown in <a href="#BEIIIGHC">Figure 40-6</a>.</p>
+<div class="figure"><a id="BEIIIGHC" name="BEIIIGHC" class="anchor"></a><a id="JFXUI775" name="JFXUI775" class="anchor"></a>
+<p class="titleinfigure">Figure 40-6 The Neon Sign Application Window</p>
+<img width="600" height="329" src="img/neon_sign.jpg" alt="Description of Figure 40-6 follows" title="Description of Figure 40-6 follows" longdesc="img_text/neon_sign.htm" /><br />
+<a id="sthref440" name="sthref440" href="img_text/neon_sign.htm">Description of "Figure 40-6 The Neon Sign Application Window"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>The graphical scene of the <code>NeonSign</code> application consists of the following elements:</p>
+<ul>
+<li>
+<p>An image of a brick wall used as a background</p>
+</li>
+<li>
+<p>A rectangle that provides a radial gradient fill</p>
+</li>
+<li>
+<p>A text node with a chain of effects</p>
+</li>
+<li>
+<p>A text field used for entering text data</p>
+</li>
+</ul>
+<p>The background is set in an external .css file.</p>
+<p>This application uses a binding mechanism to set the text content on the text node. The text property of the text node is bound to the text property of the text field as shown in <a href="#BEIIJHDD">Example 40-6</a>.</p>
+<div class="example"><a id="BEIIJHDD" name="BEIIJHDD" class="anchor"></a><a id="JFXUI776" name="JFXUI776" class="anchor"></a>
+<p class="titleinexample">Example 40-6</p>
+<pre xml:space="preserve" class="oac_no_warn">Text text = new Text();
+TextField textField = new TextField();
+textField.setText("Neon Sign");
+text.textProperty().bind(textField.textProperty());
+</pre></div>
+<!-- class="example" -->
+<p>You can type in the text field and view the changed contents of the text node.</p>
+<p>A chain of effects is applied to the text node. The primary effect is a blend effect that uses the <code>MULTIPLY</code> mode to mix two inputs together: a drop shadow effect and another blend effect, <code>blend1</code>. Similarly, the <code>blend1</code> effect combines a drop shadow effect (<code>ds1</code>) and a blend effect (<code>blend2</code>). The <code>blend2</code> effect combines two inner shadow effects. Using this chain of effects and varying color parameters enables you to apply subtle and sophisticated color patterns to text objects. See the code for the chain of effects in <a href="#BEIBIFFE">Example 40-7</a>.</p>
+<div class="example"><a id="BEIBIFFE" name="BEIBIFFE" class="anchor"></a><a id="JFXUI777" name="JFXUI777" class="anchor"></a>
+<p class="titleinexample">Example 40-7</p>
+<pre xml:space="preserve" class="oac_no_warn">Blend blend = new Blend();
+blend.setMode(BlendMode.MULTIPLY);
+
+DropShadow ds = new DropShadow();
+ds.setColor(Color.rgb(254, 235, 66, 0.3));
+ds.setOffsetX(5);
+ds.setOffsetY(5);
+ds.setRadius(5);
+ds.setSpread(0.2);
+
+blend.setBottomInput(ds);
+
+DropShadow ds1 = new DropShadow();
+ds1.setColor(Color.web("#f13a00"));
+ds1.setRadius(20);
+ds1.setSpread(0.2);
+
+Blend blend2 = new Blend();
+blend2.setMode(BlendMode.MULTIPLY);
+
+InnerShadow is = new InnerShadow();
+is.setColor(Color.web("#feeb42"));
+is.setRadius(9);
+is.setChoke(0.8);
+blend2.setBottomInput(is);
+
+InnerShadow is1 = new InnerShadow();
+is1.setColor(Color.web("#f13a00"));
+is1.setRadius(5);
+is1.setChoke(0.4);
+blend2.setTopInput(is1);
+
+Blend blend1 = new Blend();
+blend1.setMode(BlendMode.MULTIPLY);
+blend1.setBottomInput(ds1);
+blend1.setTopInput(blend2);
+
+blend.setTopInput(blend1);
+
+text.setEffect(blend);
+</pre></div>
+<!-- class="example" -->
+<p>In this article, you learned how to add text and apply various effects to text content. For a complete set of available effects, see the API documentation.</p>
+<p>If you need to implement a text editing area in your JavaFX application, use the <code>HTMLEditor</code> component. For more information about the <code>HTMLEditor</code> control, see <a href="editor.htm#CHDBEGDD">HTML Editor</a>.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXUI774" name="JFXUI774" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref441" name="sthref441" class="anchor"></a>
+<h2 class="sect1">Application Files</h2>
+<p class="itemizedlisttitle">Source Code&nbsp;</p>
+<ul>
+<li>
+<p><code><a href="text_samples.htm#BABGFCGJ">TextEffects.java</a></code></p>
+</li>
+<li>
+<p><code><a href="text_samples.htm#CHDCADDF">NeonSign.java</a></code></p>
+</li>
+</ul>
+<p class="itemizedlisttitle">NetBeans Projects&nbsp;</p>
+<ul>
+<li>
+<p><a href="../sample-apps/TextEffectsSample.zip"><code>TextEffectsSample.zip</code></a></p>
+</li>
+<li>
+<p><a href="../sample-apps/NeonSignSample.zip"><code>NeonSignSample.zip</code></a></p>
+</li>
+</ul>
+</div>
+<!-- class="sect1" -->
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Working with JavaFX UI Components</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">Audience</a></li>
+        <li><a href="preface.htm#sthref4">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref6">Related Documents</a></li>
+        <li><a href="preface.htm#sthref7">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a href="ui_components.htm#JFXUI101">Part I About This Tutorial</a>
+    <ul>
+    <li><a href="whatsnew.htm#JFXUI781">1 What Is New</a></li>
+</ul>
+</li>
+    <li><a href="ui_controls.htm#JFXUI336">Part II Using JavaFX UI Controls</a>
+    <ul>
+    <li><a href="label.htm#CIHHFIBJ">2 Label</a>
+      <ul>
+        <li><a href="label.htm#sthref10">Creating a Label</a></li>
+        <li><a href="label.htm#sthref12">Setting a Font</a></li>
+        <li><a href="label.htm#sthref13">Wrapping Text</a></li>
+        <li><a href="label.htm#sthref15">Applying Effects</a></li>
+      </ul>
+    </li>
+    <li><a href="button.htm#CJHEEACB">3 Button</a>
+      <ul>
+        <li><a href="button.htm#sthref19">Creating a Button</a></li>
+        <li><a href="button.htm#sthref22">Assigning an Action</a></li>
+        <li><a href="button.htm#sthref23">Applying Effects</a></li>
+        <li><a href="button.htm#sthref25">Styling a Button</a></li>
+      </ul>
+    </li>
+    <li><a href="radio-button.htm#BABBJBDA">4 Radio Button</a>
+      <ul>
+        <li><a href="radio-button.htm#sthref29">Creating a Radio Button</a></li>
+        <li><a href="radio-button.htm#sthref30">Adding Radio Buttons to Groups</a></li>
+        <li><a href="radio-button.htm#sthref32">Processing Events for Radio Buttons</a></li>
+        <li><a href="radio-button.htm#sthref33">Requesting Focus for a Radio Button</a></li>
+      </ul>
+    </li>
+    <li><a href="toggle-button.htm#CACJDICF">5 Toggle Button</a>
+      <ul>
+        <li><a href="toggle-button.htm#sthref38">Creating a Toggle Button</a></li>
+        <li><a href="toggle-button.htm#sthref39">Adding Toggle Buttons to a Group</a></li>
+        <li><a href="toggle-button.htm#sthref41">Setting the Behavior</a></li>
+        <li><a href="toggle-button.htm#sthref43">Styling Toggle Buttons</a></li>
+      </ul>
+    </li>
+    <li><a href="checkbox.htm#CHDFEJCD">6 Checkbox</a>
+      <ul>
+        <li><a href="checkbox.htm#sthref47">Creating Checkboxes</a></li>
+        <li><a href="checkbox.htm#sthref48">Defining a State</a></li>
+        <li><a href="checkbox.htm#sthref50">Setting the Behavior</a></li>
+      </ul>
+    </li>
+    <li><a href="choice-box.htm#BCEDJAEH">7 Choice Box</a>
+      <ul>
+        <li><a href="choice-box.htm#sthref54">Creating a Choice Box</a></li>
+        <li><a href="choice-box.htm#sthref56">Setting the Behavior for a Choice Box</a></li>
+        <li><a href="choice-box.htm#sthref59">Applying a Tooltip</a></li>
+      </ul>
+    </li>
+    <li><a href="text-field.htm#BABBCEIG">8 Text Field</a>
+      <ul>
+        <li><a href="text-field.htm#sthref63">Creating a Text Field</a></li>
+        <li><a href="text-field.htm#sthref64">Building the UI with Text Fields</a></li>
+        <li><a href="text-field.htm#sthref67">Processing Text Field Data</a></li>
+      </ul>
+    </li>
+    <li><a href="password-field.htm#BABIDAGF">9 Password Field</a>
+      <ul>
+        <li><a href="password-field.htm#sthref71">Creating a Password Field</a></li>
+        <li><a href="password-field.htm#sthref73">Evaluating the Password</a></li>
+      </ul>
+    </li>
+    <li><a href="scrollbar.htm#BGBEGJDE">10 Scroll Bar</a>
+      <ul>
+        <li><a href="scrollbar.htm#sthref78">Creating a Scroll Bar</a></li>
+        <li><a href="scrollbar.htm#sthref79">Using a Scroll Bar in Your Application</a></li>
+      </ul>
+    </li>
+    <li><a href="scrollpane.htm#CBBFFBCH">11 Scroll Pane</a>
+      <ul>
+        <li><a href="scrollpane.htm#sthref83">Creating a Scroll Pane</a></li>
+        <li><a href="scrollpane.htm#sthref84">Setting the Scroll Bar Policy for a Scroll Pane</a></li>
+        <li><a href="scrollpane.htm#sthref86">Resizing Components in the Scroll Pane</a></li>
+        <li><a href="scrollpane.htm#sthref89">Sample Application with a Scroll Pane</a></li>
+      </ul>
+    </li>
+    <li><a href="list-view.htm#CEGGEDBF">12 List View</a>
+      <ul>
+        <li><a href="list-view.htm#sthref93">Creating a List View</a></li>
+        <li><a href="list-view.htm#sthref96">Populating a List View with Data</a></li>
+        <li><a href="list-view.htm#sthref98">Customizing the Content of a List View</a></li>
+        <li><a href="list-view.htm#sthref100">Processing the List Item Selection</a></li>
+      </ul>
+    </li>
+    <li><a href="table-view.htm#CJABIEED">13 Table View</a>
+      <ul>
+        <li><a href="table-view.htm#sthref104">Creating a Table</a></li>
+        <li><a href="table-view.htm#sthref107">Defining the Data Model</a></li>
+        <li><a href="table-view.htm#sthref109">Adding New Rows</a></li>
+        <li><a href="table-view.htm#sthref112">Sorting Data in Columns</a></li>
+        <li><a href="table-view.htm#sthref114">Editing Data in the Table</a></li>
+        <li><a href="table-view.htm#sthref117">Adding Maps of Data to the Table</a></li>
+      </ul>
+    </li>
+    <li><a href="tree-view.htm#JFXUI377">14 Tree View</a>
+      <ul>
+        <li><a href="tree-view.htm#sthref121">Creating Tree Views</a></li>
+        <li><a href="tree-view.htm#sthref123">Implementing Cell Factories</a></li>
+        <li><a href="tree-view.htm#sthref126">Adding New Tree Items on Demand</a></li>
+        <li><a href="tree-view.htm#sthref129">Using Tree Cell Editors</a></li>
+      </ul>
+    </li>
+    <li><a href="tree-table-view.htm#JFXUI833">15 Tree Table View</a>
+      <ul>
+        <li><a href="tree-table-view.htm#sthref135">Creating a TreeTableView control</a></li>
+        <li><a href="tree-table-view.htm#sthref137">Adding Several Columns</a></li>
+        <li><a href="tree-table-view.htm#sthref139">Altering Visual Appearance</a></li>
+        <li><a href="tree-table-view.htm#sthref142">Managing Selection Mode</a></li>
+      </ul>
+    </li>
+    <li><a href="combo-box.htm#BABEFEJC">16 Combo Box</a>
+      <ul>
+        <li><a href="combo-box.htm#sthref147">Creating Combo Boxes</a></li>
+        <li><a href="combo-box.htm#sthref151">Editable Combo Boxes</a></li>
+        <li><a href="combo-box.htm#sthref154">Applying Cell Factories to Combo Boxes</a></li>
+      </ul>
+    </li>
+    <li><a href="separator.htm#BGBCFDFI">17 Separator</a>
+      <ul>
+        <li><a href="separator.htm#sthref157">Creating a Separator</a></li>
+        <li><a href="separator.htm#sthref159">Adding Separators to the UI of Your Application</a></li>
+        <li><a href="separator.htm#sthref161">Styling Separators</a></li>
+      </ul>
+    </li>
+    <li><a href="slider.htm#CCHFBJCH">18 Slider</a>
+      <ul>
+        <li><a href="slider.htm#sthref165">Creating a Slider</a></li>
+        <li><a href="slider.htm#sthref166">Using Sliders in Graphical Applications</a></li>
+      </ul>
+    </li>
+    <li><a href="progress.htm#CHDDJAJE">19 Progress Bar and Progress Indicator</a>
+      <ul>
+        <li><a href="progress.htm#sthref170">Creating Progress Controls</a></li>
+        <li><a href="progress.htm#sthref172">Indicating Progress in Your User Interface</a></li>
+      </ul>
+    </li>
+    <li><a href="hyperlink.htm#CIHGADBG">20 Hyperlink</a>
+      <ul>
+        <li><a href="hyperlink.htm#sthref176">Creating a Hyperlink</a></li>
+        <li><a href="hyperlink.htm#sthref177">Linking the Local Content</a></li>
+        <li><a href="hyperlink.htm#sthref180">Linking the Remote Content</a></li>
+      </ul>
+    </li>
+    <li><a href="editor.htm#JFXUI346">21 HTML Editor</a>
+      <ul>
+        <li><a href="editor.htm#sthref184">Adding an HTML Editor</a></li>
+        <li><a href="editor.htm#sthref187">Using an HTML Editor to Build the User Interface</a></li>
+        <li><a href="editor.htm#sthref189">Obtaining HTML Content</a></li>
+      </ul>
+    </li>
+    <li><a href="tooltip.htm#BABBIJBJ">22 Tooltip</a>
+      <ul>
+        <li><a href="tooltip.htm#sthref194">Creating a Tooltip</a></li>
+        <li><a href="tooltip.htm#sthref196">Presenting Application Data in Tooltips</a></li>
+      </ul>
+    </li>
+    <li><a href="accordion-titledpane.htm#JFXUI356">23 Titled Pane and Accordion</a>
+      <ul>
+        <li><a href="accordion-titledpane.htm#sthref200">Creating Titled Panes</a></li>
+        <li><a href="accordion-titledpane.htm#sthref203">Adding Titled Panes to an Accordion</a></li>
+        <li><a href="accordion-titledpane.htm#sthref205">Processing Events for an Accordion with Titled Panes</a></li>
+      </ul>
+    </li>
+    <li><a href="menu_controls.htm#JFXUI409">24 Menu</a>
+      <ul>
+        <li><a href="menu_controls.htm#sthref210">Building Menus in JavaFX Applications</a></li>
+        <li><a href="menu_controls.htm#sthref211">Creating a Menu Bar</a></li>
+        <li><a href="menu_controls.htm#sthref213">Adding Menu Items</a></li>
+        <li><a href="menu_controls.htm#sthref216">Creating Submenus</a></li>
+        <li><a href="menu_controls.htm#sthref220">Adding Context Menus</a></li>
+      </ul>
+    </li>
+    <li><a href="color-picker.htm#JFXUI433">25 Color Picker</a>
+      <ul>
+        <li><a href="color-picker.htm#sthref223">Design Overview</a>
+          <ul>
+          <li><a href="color-picker.htm#sthref225">Color Chooser</a></li>
+          <li><a href="color-picker.htm#sthref227">Color Palette</a></li>
+          <li><a href="color-picker.htm#sthref230">Custom Color Dialog Window</a></li>
+          </ul>
+        </li>
+        <li><a href="color-picker.htm#JFXUI445">Using a Color Picker</a></li>
+        <li><a href="color-picker.htm#JFXUI452">Changing the Appearance of a Color Picker</a></li>
+      </ul>
+    </li>
+    <li><a href="date-picker.htm#JFXUI808">26 Date Picker</a>
+      <ul>
+        <li><a href="date-picker.htm#sthref238">Working with Time Data and Date Formats</a></li>
+        <li><a href="date-picker.htm#sthref239">Date Picker Design Overview</a></li>
+        <li><a href="date-picker.htm#sthref241">Adding a Date Picker to an Application UI</a></li>
+        <li><a href="date-picker.htm#sthref244">Customizing the Date Picker</a></li>
+        <li><a href="date-picker.htm#sthref250">Altering the Calendar System</a></li>
+      </ul>
+    </li>
+    <li><a href="pagination.htm#JFXUI459">27 Pagination Control</a>
+      <ul>
+        <li><a href="pagination.htm#sthref254">Creating a Pagination Control</a></li>
+        <li><a href="pagination.htm#sthref257">Implementing Page Factories</a></li>
+        <li><a href="pagination.htm#sthref262">Styling a Pagination Control</a></li>
+      </ul>
+    </li>
+    <li><a href="file-chooser.htm#CCHICECF">28 File Chooser</a>
+      <ul>
+        <li><a href="file-chooser.htm#sthref266">Opening Files</a></li>
+        <li><a href="file-chooser.htm#sthref272">Configuring a File Chooser</a></li>
+        <li><a href="file-chooser.htm#sthref274">Setting Extension Filters</a></li>
+        <li><a href="file-chooser.htm#sthref276">Saving Files</a></li>
+      </ul>
+    </li>
+    <li><a href="custom.htm#JFXUI493">29 Customization of UI Controls</a>
+      <ul>
+        <li><a href="custom.htm#sthref280">Applying CSS</a></li>
+        <li><a href="custom.htm#sthref285">Altering Default Behavior</a></li>
+        <li><a href="custom.htm#sthref288">Implementing Cell Factories</a></li>
+      </ul>
+    </li>
+    <li><a href="embed.htm#JFXUI785">30 UI Controls on the Embedded Platforms</a>
+      <ul>
+        <li><a href="embed.htm#sthref292">Embedded Runtime Features</a>
+          <ul>
+          <li><a href="embed.htm#sthref293">Support for Touch-Enabled Devices</a></li>
+          <li><a href="embed.htm#sthref294">Virtual Keyboard</a></li>
+          </ul>
+        </li>
+        <li><a href="embed.htm#sthref301">Appearance of UI Controls on Embedded Platforms</a>
+          <ul>
+          <li><a href="embed.htm#sthref302">Scrolling Controls</a></li>
+          <li><a href="embed.htm#sthref304">Text Input Controls</a></li>
+          <li><a href="embed.htm#sthref306">Context Menus</a></li>
+          </ul>
+        </li>
+        <li><a href="embed.htm#sthref309">UI Controls Features Available on the Embedded Platforms</a></li>
+        <li><a href="embed.htm#sthref311">UI Controls Features That Are Not Available on Embedded Touch Platforms</a></li>
+        <li><a href="embed.htm#sthref312">Other Features That Are Not Available on Embedded Touch Platforms</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="charts.htm#JFXUI577">Part III Working with JavaFX Charts</a>
+    <ul>
+    <li><a href="pie-chart.htm#CIHFDADD">31 Pie Chart</a>
+      <ul>
+        <li><a href="pie-chart.htm#sthref314">Creating a Pie Chart</a></li>
+        <li><a href="pie-chart.htm#sthref316">Setting a Pie Chart and a Legend</a></li>
+        <li><a href="pie-chart.htm#sthref319">Processing Events for a Pie Chart</a></li>
+      </ul>
+    </li>
+    <li><a href="line-chart.htm#CIHGBCFI">32 Line Chart</a>
+      <ul>
+        <li><a href="line-chart.htm#sthref323">Chart Settings</a></li>
+        <li><a href="line-chart.htm#sthref324">Chart Data</a></li>
+        <li><a href="line-chart.htm#sthref325">Creating a Line Chart</a></li>
+        <li><a href="line-chart.htm#sthref327">Creating Categories for a Line Chart</a></li>
+        <li><a href="line-chart.htm#sthref329">Adding Series to the Line Chart</a></li>
+      </ul>
+    </li>
+    <li><a href="area-chart.htm#CIHCFGBA">33 Area Chart</a>
+      <ul>
+        <li><a href="area-chart.htm#sthref334">Creating an Area Chart</a></li>
+        <li><a href="area-chart.htm#sthref336">Creating a Stacked Area Chart</a></li>
+        <li><a href="area-chart.htm#sthref338">Setting Axis and Tick Properties</a></li>
+        <li><a href="area-chart.htm#sthref342">Adding Negative Values</a></li>
+        <li><a href="area-chart.htm#sthref344">Styling Area Charts</a></li>
+      </ul>
+    </li>
+    <li><a href="bubble-chart.htm#CHDHAFHB">34 Bubble Chart</a>
+      <ul>
+        <li><a href="bubble-chart.htm#sthref348">Creating a Bubble Chart</a></li>
+        <li><a href="bubble-chart.htm#sthref351">Using the Extra Value Property</a></li>
+        <li><a href="bubble-chart.htm#sthref353">Changing the Appearance Visual Setting of the Plot and Tick Marks</a></li>
+      </ul>
+    </li>
+    <li><a href="scatter-chart.htm#CIHDEACI">35 Scatter Chart</a>
+      <ul>
+        <li><a href="scatter-chart.htm#sthref357">Creating a Scatter Chart</a></li>
+        <li><a href="scatter-chart.htm#sthref359">Managing Chart Data</a></li>
+        <li><a href="scatter-chart.htm#sthref361">Adding Effects to Charts</a></li>
+        <li><a href="scatter-chart.htm#sthref363">Changing the Chart Symbol</a></li>
+      </ul>
+    </li>
+    <li><a href="bar-chart.htm#CIHJFHDE">36 Bar Chart</a>
+      <ul>
+        <li><a href="bar-chart.htm#sthref367">Creating a Bar Chart</a></li>
+        <li><a href="bar-chart.htm#sthref369">Horizontal Bar Chart</a></li>
+        <li><a href="bar-chart.htm#sthref371">Creating a Stacked Bar Chart</a></li>
+        <li><a href="bar-chart.htm#sthref374">Animating Data in Charts</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="css_tutorial.htm#JFXUI733">Part IV Skinning JavaFX Applications with CSS</a>
+    <ul>
+    <li><a href="apply-css.htm#JFXUI714">37 Styling UI Controls with CSS</a>
+      <ul>
+        <li><a href="apply-css.htm#sthref378">Default Style Sheet</a></li>
+        <li><a href="apply-css.htm#sthref380">Creating Style Sheets</a></li>
+        <li><a href="apply-css.htm#sthref381">Defining Styles</a>
+          <ul>
+          <li><a href="apply-css.htm#sthref382">Selectors</a></li>
+          <li><a href="apply-css.htm#sthref383">Rules and Properties</a></li>
+          </ul>
+        </li>
+        <li><a href="apply-css.htm#sthref384">Skinning the Scene</a></li>
+        <li><a href="apply-css.htm#sthref385">Skinning Controls</a>
+          <ul>
+          <li><a href="apply-css.htm#sthref386">Overriding Default Styles</a></li>
+          <li><a href="apply-css.htm#sthref388">Creating Class Styles</a></li>
+          <li><a href="apply-css.htm#sthref390">Creating ID Styles</a></li>
+          <li><a href="apply-css.htm#sthref392">Setting Styles in the Code</a></li>
+          </ul>
+        </li>
+        <li><a href="apply-css.htm#sthref394">Additional Resources</a></li>
+      </ul>
+    </li>
+    <li><a href="css-styles.htm#JFXUI672">38 Styling Charts with CSS</a>
+      <ul>
+        <li><a href="css-styles.htm#sthref395">Modifying Basic Chart Elements</a></li>
+        <li><a href="css-styles.htm#sthref401">Altering Colors of the Chart Plot</a></li>
+        <li><a href="css-styles.htm#sthref404">Setting the Axes</a></li>
+        <li><a href="css-styles.htm#sthref407">Setting Chart Colors</a></li>
+        <li><a href="css-styles.htm#sthref413">Changing Chart Symbols</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="text.htm#JFXUI734">Part V Working with Text in JavaFX Applications</a>
+    <ul>
+    <li><a href="text-settings.htm#JFXUI735">39 Using Text in JavaFX</a>
+      <ul>
+        <li><a href="text-settings.htm#sthref417">Introduction</a></li>
+        <li><a href="text-settings.htm#sthref418">Adding Text</a>
+          <ul>
+          <li><a href="text-settings.htm#sthref420">Setting Text Font and Color</a></li>
+          <li><a href="text-settings.htm#sthref422">Making Text Bold or Italic</a></li>
+          <li><a href="text-settings.htm#sthref423">Using Custom Fonts</a></li>
+          <li><a href="text-settings.htm#sthref425">Setting LCD Text Support</a></li>
+          <li><a href="text-settings.htm#sthref426">Rich Text and Bidirectional Support</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a class="selected" href="text-effects.htm#JFXUI773">40 Applying Effects to Text</a>
+      <ul>
+        <li><a href="text-effects.htm#sthref429">Perspective Effect</a></li>
+        <li><a href="text-effects.htm#sthref431">Blur Effect</a></li>
+        <li><a href="text-effects.htm#sthref433">Drop Shadow Effect</a></li>
+        <li><a href="text-effects.htm#sthref435">Inner Shadow Effect</a></li>
+        <li><a href="text-effects.htm#sthref437">Reflection</a></li>
+        <li><a href="text-effects.htm#sthref439">Combining Several Effects</a></li>
+        <li><a href="text-effects.htm#sthref441">Application Files</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="samples.htm#sthref444">Part VI Source Code for the UI Components Tutorials</a>
+    <ul>
+    <li><a href="ui_controls_samples.htm#sthref445">A UI Control Samples</a>
+      <ul>
+        <li><a href="ui_controls_samples.htm#JFXUI870">LabelSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI871">ButtonSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI872">RadioButtonSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI873">ToggleButtonSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI874">CheckboxSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI875">ChoiceBoxSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI876">TextFieldSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI877">PasswordField.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI878">ScrollBarSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI879">ScrollPaneSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI880">ListViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI881">TableViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI882">TreeViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI883">TreeTableViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI884">ComboBoxSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI885">SeparatorSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI886">SliderSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI887">ProgressSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI888">HyperlinkSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI889">HyperlinkWebViewSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI890">HTMLEditorSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI891">TooltipSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI892">TitledPaneSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI893">MenuSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI894">ColorPickerSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI895">DatePickerSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI896">PaginationSample.java</a></li>
+        <li><a href="ui_controls_samples.htm#JFXUI897">FileChooserSample.java</a></li>
+      </ul>
+    </li>
+    <li><a href="chart_samples.htm#JFXUI898">B Chart Samples</a>
+      <ul>
+        <li><a href="chart_samples.htm#JFXUI900">PieChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI901">LineChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI902">AreaChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI903">BubbleChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI904">ScatterChartSample.java</a></li>
+        <li><a href="chart_samples.htm#JFXUI905">BarChartSample.java</a></li>
+      </ul>
+    </li>
+    <li><a href="css_samples.htm#sthref446">C CSS Samples</a>
+      <ul>
+        <li><a href="css_samples.htm#JFXUI908">DownloadButton.java</a></li>
+        <li><a href="css_samples.htm#JFXUI909">DownloadButtonStyle1.css</a></li>
+        <li><a href="css_samples.htm#JFXUI910">DownloadButtonStyle2.css</a></li>
+        <li><a href="css_samples.htm#JFXUI911">StyleStage.java</a></li>
+        <li><a href="css_samples.htm#JFXUI912">UIControlCSS.java</a></li>
+        <li><a href="css_samples.htm#JFXUI913">controlStyle1.css</a></li>
+        <li><a href="css_samples.htm#JFXUI914">controlStyle2.css</a></li>
+      </ul>
+    </li>
+    <li><a href="text_samples.htm#sthref447">D Text Samples</a>
+      <ul>
+        <li><a href="text_samples.htm#JFXUI917">TextEffects.java</a></li>
+        <li><a href="text_samples.htm#JFXUI920">NeonSign.java</a></li>
+      </ul>
+    </li>
+</ul>
+
+</li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="text-settings.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a><a class="button" title="Next Page" href="samples.htm">Next Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2011, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

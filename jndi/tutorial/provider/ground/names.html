@@ -1,0 +1,190 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Names</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="env.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="threads.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Ground Rules</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Names
+</h2>
+<p>
+<blockquote>
+
+Names are discussed extensively in the
+
+<a target="_top" href="../../beyond/names/index.html">What's in a Name?</a> <a target="_top" href="../../beyond/names/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson.
+This section discusses in general how a service provider developer
+should treat the string and structured name parameters to methods in the
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><tt>Context</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   interface and subinterfaces.
+
+<h4>String Names</h4>
+
+A string name is a 
+<a href=../../getStarted/concepts/glossary.html#COMPOSITENAME>composite name</a>.
+Even if the context implementation that you are writing won't be supporting
+federation, following this rule is still a good idea so that
+users of your provider won't have to treat your provider differently
+in this respect.
+<p>
+Following this rule, you would write the overloads in the 
+<tt>Context</tt> interface and subinterfaces that accept a 
+<tt>java.lang.String</tt>
+name as simple wrappers around the overloads that accept a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Name.html"><tt>Name</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Name.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+As an example, here is a context implementation's definition of
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(java.lang.String)"><tt>Context.lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<blockquote><pre>
+Object lookup(String name) throws NamingException {
+    return lookup(new CompositeName(name));
+}
+</pre></blockquote>
+
+<h4>Composite Names</h4>
+
+A structured name is represented by an object that implements the <tt>Name</tt>
+interface. It can represent either a
+<a href=../../getStarted/concepts/glossary.html#COMPOSITENAME>composite name</a>
+or a 
+<a href=../../getStarted/concepts/glossary.html#COMPOUNDNAME>compound name</a>.
+In either case, the name parameter belongs to the caller and you should
+not modify it
+(see the <a href=../ground/params.html>Parameters and Return Values</a>
+section for details).
+
+<p>
+A composite name is represented by an instance of
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html"><tt>CompositeName</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+If your context implementation does not support federation, then
+it can treat composite names in one of two ways.
+The simplest is for the context implementation to throw an
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InvalidNameException.html"><tt>InvalidNameException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InvalidNameException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   when it receives a <tt>CompositeName</tt>.
+However, this approach is Draconian in that it precludes
+the application from ever passing in a <tt>CompositeName</tt>, even
+if the <tt>CompositeName</tt> contains only the components that belong
+to the context implementation's namespace.
+A more compromising approach is for the context implementation to
+accept only <tt>CompositeName</tt>s that contain components that
+belong to its namespace.
+In this approach, the implementation 
+extracts the components that belong to its namespace, and for
+components that do not belong, it
+throws an <tt>InvalidNameException</tt>.
+<p>
+If your context implementation supports federation, it should extract
+the components from the <tt>CompositeName</tt> that belong to its namespace. 
+For components that do not belong, it should resolve
+its own components and then pass the remaining components to the nns.
+(More detail about this are given in the 
+<a target="_top" href="../fed/index.html">Adding Federation Support</a> <a target="_top" href="../fed/index.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>    lesson.)
+If the implementation receives only components for its namespace,
+then it should process the requested operation.
+<p>
+Here is some pseudocode that illustrates the nonfederated case.
+<blockquote><pre>
+Object lookup(Name name) throws NamingException {
+    if (name instanceof CompositeName) {
+        {mine, theirs} = splitName(name);
+	if (theirs.size() == 0) {
+             // Find in internal tables
+             return impl.get(mine);
+        } else {
+	     // Don't support federation
+ 	     throw new InvalidNameException(name.toString() + 
+                " has more components than I can handle");
+        }
+    } else {
+        // Process the compound name
+        ...
+    }
+}
+</pre></blockquote>
+<h4>Compound Names</h4>
+A compound name can be represented by any implementation of
+the <tt>Name</tt> interface except <tt>CompositeName</tt> or one of 
+its subclasses.
+The easiest, though not the most efficient, way of making a context
+implementation accept a compound name is to turn it into a 
+composite name. 
+<p>
+Here is an example for mapping a compound name 
+to a single-component composite name.
+<blockquote><pre>
+Object lookup(Name name) throws NamingException {
+    if (name instanceof CompositeName) {
+        // Process composite name
+        ... 
+    } else {
+        // Process compound name; turn it into single-component CompositeName
+        return lookup(new CompositeName().add(name.toString()));
+    }
+}
+</pre></blockquote>
+This is the most general solution.
+A context implementation typically can do this much more efficiently
+by using either the preparsed form (<tt>Name</tt> instance) directly
+or the stringified compound name.
+For example, an implementation might use the stringified compound name
+as a key to an internal hash table.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="env.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="threads.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Ground Rules</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

@@ -1,0 +1,195 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Naming System Boundaries</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="current.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Adding Federation Support</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Naming System Boundaries
+</h2>
+<p>
+<blockquote>
+
+The 
+<a target="_top" href="../../beyond/fed/boundary.html">Federation</a> <a target="_top" href="../../beyond/fed/boundary.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson describes how a service
+provider determines which components of the composite name to process
+and which to pass on.
+<a target="_top" href="../basics/names.html">The Essential Components</a> <a target="_top" href="../basics/names.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>   lesson contains two examples of how a context implementation
+selects components from the input composite name to process.
+Both of these examples concern context implementations that
+support strong separation and therefore simply select the first component
+of the composite name.
+<p>
+To support weak separation, you need to rewrite
+the utility method <tt>getMyComponents()</tt>
+and all of the context methods to eliminate
+the single component assumption.
+Following is a more general method that, given a composite or compound name,
+returns a two-element array.
+In that array, the first component
+contains the components to be processed by the current naming 
+system
+and the second component contains the components to be processed by
+subsequent naming systems.
+This example handles strong separation.
+<blockquote><pre>
+protected Name[] parseComponents(Name name) throws NamingException {
+    Name head, tail;
+    if (name instanceof CompositeName) {
+        int separator;
+        // If there is no name to parse, or 
+	// if you're already at the boundary
+        if (name.isEmpty() ||  name.get(0).equals("")) {
+    	    separator = 0;
+        } else {
+	    separator = 1;
+        }
+
+	head = name.getPrefix(separator);
+	tail = name.getSuffix(separator);
+    } else {
+	// Treat this like a compound name
+	head = new CompositeName().add(name.toString());
+	tail = null;
+    }
+
+    return new Name[]{head, tail};
+}
+</pre></blockquote>
+<p>
+Following the same method rewritten to support weak separation.
+For this particular context implementation,
+only leading components that contain the equals character ("=")
+are selected for the current naming system.
+<blockquote><pre>
+protected Name[] parseComponents(Name name) throws NamingException {
+    Name head, tail;
+    if (name instanceof CompositeName) {
+        int separator;
+        // If there is no name to parse, or 
+	// if you're already at the boundary
+        if (name.isEmpty() ||  name.get(0).equals("")) {
+	    separator = 0;
+        } else {
+	    // Find the leading components that have "="
+	    int total = name.size();
+	    int i;
+	    for (i = 0; i &lt; total; i++) {
+	        if (name.get(i).indexOf('=') &lt; 0) {
+		    break;
+	        }
+	    }
+	    separator = i;
+        }
+
+	head = name.getPrefix(separator);
+	tail = name.getSuffix(separator);
+    } else {
+	// Treat this like a compound name
+	head = new CompositeName().add(name.toString());
+	tail = null;
+    }
+
+    return new Name[]{head, tail};
+}
+</pre></blockquote>
+
+If the context implementation supports dynamic weak separation
+(that is, determines the naming system boundary dynamically),
+then <tt>parseComponents()</tt> will return all components as 
+belonging to the current naming system. Here is an example.
+<blockquote><pre>
+protected Name[] parseComponents(Name name) throws NamingException {
+    Name head, tail;
+    if (name instanceof CompositeName) {
+        int separator;
+        // If there is no name to parse, or 
+	// if you're already at the boundary
+        if (name.isEmpty() ||  name.get(0).equals("")) {
+	    separator = 0;
+        } else {
+	    // All components are eligible
+	    separator = name.size();
+        }
+
+	head = name.getPrefix(separator);
+	tail = name.getSuffix(separator);
+    } else {
+	// Treat this like a compound name
+	head = new CompositeName().add(name.toString());
+	tail = null;
+    }
+
+    return new Name[]{head, tail};
+}
+</pre></blockquote>
+
+Once you have defined this method, your context methods can use it
+to extract the components. Here is <a href=src/tut/FedCtx.java>an example</a>.
+<blockquote><pre>
+Name[] nm = parseComponents(name);
+Name mine = nm[0];
+Name rest = nm[1];
+</pre></blockquote>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="current.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Adding Federation Support</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

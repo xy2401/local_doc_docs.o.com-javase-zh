@@ -1,0 +1,227 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Creating a Federation</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="resolver.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="../misc/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Adding Federation Support</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Creating a Federation
+</h2>
+<p>
+<blockquote>
+
+You create a federation in either of two ways:
+<ul>
+<li>
+By explicit administration
+<li>
+By dynamic composition
+</ul>
+<p>
+In the former way, you explicitly bind the reference of one naming system 
+into a context in another naming system. For example, you might 
+record reference information
+about the local departmental LDAP naming system into a DNS system such that
+applications can subsequently resolve a composite name that contains 
+the DNS name and the LDAP name.
+In the latter way, you have the federation
+be created dynamically 
+as the resolution of a composite name proceeds.
+For example, a file system contains different types of files.
+Some of those files might be ZIP formatted. 
+You can create a federation by using a composite name
+that contains the filename and its entry within the ZIP file.
+In this way, the federation is created dynamically with no
+external assistance and can be as varied as the types of
+files and their corresponding service providers.
+<p>
+
+An explicit binding consists of a name and a reference.  Depending on the
+naming system in which the reference is bound, the actual reference
+might take different forms.  For example, a departmental LDAP naming
+system might be <em>bound</em> into the DNS via a DNS SRV record
+that contains the LDAP servers' IP addresses and DNs.  
+Or, the JNDI reference of an application naming system
+might be bound in an LDAP naming system.
+Also, a naming system might be represented differently in different
+superior naming systems. For example, the same
+naming system might be bound by using different data in the DNS and in the LDAP.
+Regardless of its storage format, a reference is eventually
+represented programmatically by a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html"><tt>Reference</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+The
+<a target="_top" href="../../objects/index.html">Java Objects and the Directory</a> <a href="../../objects/index.html"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>    lesson describes how a <tt>Reference</tt> can be transformed
+to and from its actual representation.
+<p>
+From a service provider developer's perspective,
+it is a good idea to 
+define a reference for the context implementation.
+This encourages users of the provider to use a consistent
+reference when referring to contexts in the implementation and when
+binding contexts from the implementation
+into foreign naming systems.
+
+<h4>Reference</h4>
+
+A context's reference should contain the data required to create
+a <tt>Context</tt> instance.  
+If the context represents state on a naming
+or directory server, then its reference should at a minimum contain
+information on how to contact the server and how to identify its state
+within the server. Sometimes this task is complicated by the fact
+that access to the server might be controlled and require authentication.
+You are advised not to place security-sensitive information
+such as passwords in a reference. 
+Rather, the reference should be generic and
+the context's authentication information ignored.
+<p>
+
+If the service provider already has a URL context implementation and
+a factory for the context implementation, then you can leverage that when
+designing the context's reference. For example, you can simply make the
+reference contain the URL(s) of the context.  
+This not only makes
+access to the context more consistent, but also significantly
+simplifies the
+implementation of the corresponding object factory.
+
+<h4>Object Factory</h4>
+
+Once you have defined the format of the reference for your context
+implementation, you can write an object factory for it.  
+Thus applications will be able
+to access your context implementation via references
+instead of names.
+<p>
+Following is an example of an object factory written to use
+the URL context factory of the same context implementation.
+For example, suppose that your context implementation supports
+the <tt>foo</tt> URL scheme and has the URL context factory
+<tt>tut.foo.fooURLContextFactory</tt>.
+The corresponding object factory
+<a href=src/tut/FooCtxFactory.java><tt>FooCtxFactory</tt></a>
+might look as follows.
+<blockquote><pre>
+public class FooCtxFactory implements ObjectFactory {
+    public FooCtxFactory() {
+    }
+
+    public Object getObjectInstance(Object ref, Name name, Context nameCtx,
+	Hashtable env) throws Exception {
+
+	if ((ref instanceof Reference) &amp;&amp;
+	    myClassName.equals(((Reference)ref).getFactoryClassName())) {
+	    
+	    // Create a URL context factory
+	    ObjectFactory factory = new tut.foo.fooURLContextFactory();
+
+	    // Extract the URL(s) from the Reference
+	    String[] urls = getURLs((Reference)ref);
+
+	    // Ask the URL context factory to process the URL(s)
+	    return factory.getObjectInstance(urls, name, nameCtx, env);
+	}
+
+	// This is not meant for this factory
+	return null;
+    }
+}
+</blockquote></pre>
+<tt>getURLs()</tt> is a utility that extracts the URL strings from the 
+reference's addresses.
+
+<h4>Referenceable</h4>
+
+A symmetric relationship is not needed for binding the context.
+Simply because you can look up a context from a foreign naming
+system does not necessarily mean that you can programmatically bind
+(the reference of) the same context into that foreign naming system.
+The binding could have been added administratively through
+tools specific for that foreign naming server.
+<p>
+Nevertheless, you can plan for programmatic binding support
+by making your context implementation <em>referenceable</em>.
+To do this, make the implementation implement the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Referenceable.html"><tt>Referenceable</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Referenceable.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interface. Also, provide an implementation for
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Referenceable.html#getReference()"><tt>getReference()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Referenceable.html#getReference()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+This method should return a reference that can be fed back into
+the provider's object factory.
+
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+<strong>Adding Federation Support: End of Lesson</strong>
+<p>
+What's next? 
+Now you can:
+<ul>
+<li> <a href=../misc/index.html>Continue</a> on in this trail
+     to learn how to add various enhancements to a service provider,
+such as adding support for referrals and bundling factories.
+
+</ul>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="resolver.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="../misc/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Adding Federation Support</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

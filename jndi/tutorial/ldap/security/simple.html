@@ -1,0 +1,135 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Simple Authentication</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="anonymous.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="sasl.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Security</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Simple Authentication
+</h2>
+<p>
+<blockquote>
+
+<em>Simple</em> authentication consists of sending the LDAP server the
+fully qualified DN of the client (user) and the client's
+clear-text password
+(see <A HREF="http://www.ietf.org/rfc/rfc2251.txt">RFC 2251</A> and
+<a href="http://www.ietf.org/rfc/rfc2829.txt">RFC 2829</a>).
+This mechanism has security problems because the
+password can be read from the network.
+To avoid exposing the password in this way,
+you can use the simple authentication mechanism
+within an encrypted channel (such as SSL), provided that this is supported
+by the LDAP server.
+<p>
+Both the LDAP v2 and v3 support simple authentication.
+<p>
+To use the simple authentication mechanism, you must set the three
+authentication environment properties as follows.
+
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_AUTHENTICATION><tt>Context.SECURITY_AUTHENTICATION</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_AUTHENTICATION><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<dd>
+Set to <tt>"simple"</tt>.
+</dd>
+</dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_PRINCIPAL><tt>Context.SECURITY_PRINCIPAL</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_PRINCIPAL><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<dd>
+Set to the fully qualified DN of the entity that is being authenticated
+(e.g., <tt>"cn=S. User, ou=NewHires, o=JNDITutorial"</tt>).
+It is of type <tt>java.lang.String</tt>.
+</dd>
+</dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_CREDENTIALS><tt>Context.SECURITY_CREDENTIALS</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_CREDENTIALS><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<dd>
+Set to the password of the principal (e.g., <tt>"mysecret"</tt>).
+It is of type <tt>java.lang.String</tt>, <tt>char</tt> array (<tt>char[]</tt>),
+or <tt>byte</tt> array (<tt>byte[]</tt>).
+If the password is a <tt>java.lang.String</tt> or a <tt>char</tt> array, 
+then it is encoded using UTF-8 for the LDAP v3
+and using ISO-Latin-1 for the LDAP v2 for transmission to the server.
+If the password is a <tt>byte[]</tt>, 
+then it is transmitted as is to the server.
+</dd>
+</dl>
+See the <a href=ldap.html#SIMPLE>example</a> earlier in this section
+that illustrates how to use simple authentication.
+
+<blockquote>
+<hr>
+
+<strong>Note: </strong>
+If you supply an empty string, an empty <tt>byte</tt>/<tt>char</tt> array, or <tt>null</tt> to the
+<tt>Context.SECURITY_CREDENTIALS</tt> environment property,
+then the authentication mechanism will be <tt>"none"</tt>.
+This is because the LDAP requires the password to be nonempty
+for simple authentication. The protocol automatically converts
+the authentication to <tt>"none"</tt> if a password is not supplied.
+</blockquote>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="anonymous.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="sasl.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Security</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

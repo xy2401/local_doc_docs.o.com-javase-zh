@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Source Code for JAAS and Java GSS-API Tutorials</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="dcterms.created" content="2018-03-13T07:25:33Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Security Developer&rsquo;s Guide" />
+<meta name="dcterms.identifier" content="E91076-01" />
+<meta name="dcterms.isVersionOf" content="JSSEC" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="troubleshooting.htm" title="Previous" type="text/html" />
+<link rel="Next" href="related-documentation1.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSSEC.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8"></a> <span id="PAGE" style="display:none;">32/59</span> <!-- End Header -->
+<h1 id="JSSEC-GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8" class="sect1">Source Code for JAAS and Java GSS-API Tutorials</h1>
+<div>
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__SAMPLESERVER.JAVA-33891DED">
+<p class="subhead1">SampleServer.java</p>
+<pre dir="ltr">
+import org.ietf.jgss.*;
+import java.io.*;
+import java.net.Socket;
+import java.net.ServerSocket;
+
+/**
+ * A sample server application that uses JGSS to do mutual authentication
+ * with a client using Kerberos as the underlying mechanism. It then
+ * exchanges data securely with the client.
+ *
+ * Every message exchanged with the client includes a 4-byte application-
+ * level header that contains the big-endian integer value for the number
+ * of bytes that will follow as part of the JGSS token.
+ *
+ * The protocol is:
+ *    1.  Context establishment loop:
+ *         a. client sends init sec context token to server
+ *         b. server sends accept sec context token to client
+ *         ....
+ *    2. client sends a wrap token to the server.
+ *    3. server sends a mic token to the client for the application
+ *       message that was contained in the wrap token.
+ */
+
+public class SampleServer  {
+
+    public static void main(String[] args)
+        throws IOException, GSSException {
+
+        // Obtain the command-line arguments and parse the port number
+
+        if (args.length != 1) {
+            System.err.println("Usage: java &lt;options&gt; Login SampleServer &lt;localPort&gt;");
+            System.exit(-1);
+        }
+
+        int localPort = Integer.parseInt(args[0]);
+
+        ServerSocket ss = new ServerSocket(localPort);
+
+        GSSManager manager = GSSManager.getInstance();
+
+        while (true) {
+
+            System.out.println("Waiting for incoming connection...");
+
+            Socket socket = ss.accept();
+            DataInputStream inStream =
+                new DataInputStream(socket.getInputStream());
+            DataOutputStream outStream =
+                new DataOutputStream(socket.getOutputStream());
+
+            System.out.println("Got connection from client "
+                               + socket.getInetAddress());
+
+            /*
+             * Create a GSSContext to receive the incoming request
+             * from the client. Use null for the server credentials
+             * passed in. This tells the underlying mechanism
+             * to use whatever credentials it has available that
+             * can be used to accept this connection.
+             */
+            GSSContext context = manager.createContext((GSSCredential)null);
+
+            // Do the context eastablishment loop
+
+            byte[] token = null;
+
+            while (!context.isEstablished()) {
+
+                token = new byte[inStream.readInt()];
+                System.out.println("Will read input token of size "
+                                   + token.length
+                                   + " for processing by acceptSecContext");
+                inStream.readFully(token);
+
+                token = context.acceptSecContext(token, 0, token.length);
+
+                // Send a token to the peer if one was generated by
+                // acceptSecContext
+                if (token != null) {
+                    System.out.println("Will send token of size "
+                                       + token.length
+                                       + " from acceptSecContext.");
+                    outStream.writeInt(token.length);
+                    outStream.write(token);
+                    outStream.flush();
+                }
+            }
+
+            System.out.print("Context Established! ");
+            System.out.println("Client is " + context.getSrcName());
+            System.out.println("Server is " + context.getTargName());
+            /*
+             * If mutual authentication did not take place, then
+             * only the client was authenticated to the
+             * server. Otherwise, both client and server were
+             * authenticated to each other.
+             */
+            if (context.getMutualAuthState())
+                System.out.println("Mutual authentication took place!");
+
+            /*
+             * Create a MessageProp which unwrap will use to return
+             * information such as the Quality-of-Protection that was
+             * applied to the wrapped token, whether or not it was
+             * encrypted, etc. Since the initial MessageProp values
+             * are ignored, just set them to the defaults of 0 and false.
+             */
+            MessageProp prop = new MessageProp(0, false);
+
+            /*
+             * Read the token. This uses the same token byte array
+             * as that used during context establishment.
+             */
+            token = new byte[inStream.readInt()];
+            System.out.println("Will read token of size "
+                               + token.length);
+            inStream.readFully(token);
+
+            byte[] bytes = context.unwrap(token, 0, token.length, prop);
+            String str = new String(bytes);
+            System.out.println("Received data \""
+                               + str + "\" of length " + str.length());
+
+            System.out.println("Confidentiality applied: "
+                               + prop.getPrivacy());
+
+            /*
+             * Now generate a MIC and send it to the client. This is
+             * just for illustration purposes. The integrity of the
+             * incoming wrapped message is guaranteed irrespective of
+             * the confidentiality (encryption) that was used.
+             */
+
+            /*
+             * First reset the QOP of the MessageProp to 0
+             * to ensure the default Quality-of-Protection
+             * is applied.
+             */
+            prop.setQOP(0);
+
+            token = context.getMIC(bytes, 0, bytes.length, prop);
+
+            System.out.println("Will send MIC token of size "
+                               + token.length);
+            outStream.writeInt(token.length);
+            outStream.write(token);
+            outStream.flush();
+
+            System.out.println("Closing connection with client "
+                               + socket.getInetAddress());
+            context.dispose();
+            socket.close();
+        }
+    }
+}
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__BCSLOGIN.CONF-3389212B">
+<p class="subhead1">bcsLogin.conf</p>
+<pre dir="ltr">
+/** 
+ * Login Configuration for JAAS.
+ */
+
+com.sun.security.jgss.initiate {
+  com.sun.security.auth.module.Krb5LoginModule required;
+};
+
+com.sun.security.jgss.accept {
+  com.sun.security.auth.module.Krb5LoginModule required storeKey=true; 
+};
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__SAMPLECLIENT.JAVA-338923E1">
+<p class="subhead1">SampleClient.java</p>
+<pre dir="ltr">
+import org.ietf.jgss.*;
+import java.net.Socket;
+import java.io.IOException;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+
+/**
+ * A sample client application that uses JGSS to do mutual authentication
+ * with a server using Kerberos as the underlying mechanism. It then
+ * exchanges data securely with the server.
+ *
+ * Every message sent to the server includes a 4-byte application-level
+ * header that contains the big-endian integer value for the number
+ * of bytes that will follow as part of the JGSS token.
+ *
+ * The protocol is:
+ *    1.  Context establishment loop:
+ *         a. client sends init sec context token to server
+ *         b. server sends accept sec context token to client
+ *         ....
+ *    2. client sends a wrap token to the server.
+ *    3. server sends a MIC token to the client for the application
+ *       message that was contained in the wrap token.
+ */
+
+public class SampleClient {
+
+    public static void main(String[] args)
+       throws IOException, GSSException  {
+
+        // Obtain the command-line arguments and parse the port number
+
+        if (args.length &lt; 3) {
+            System.err.println("Usage: java &lt;options&gt; Login SampleClient "
+                               + " &lt;server&gt; &lt;hostName&gt; &lt;port&gt;");
+            System.exit(-1);
+        }
+
+        String server = args[0];
+        String hostName = args[1];
+        int port = Integer.parseInt(args[2]);
+
+        Socket socket = new Socket(hostName, port);
+        DataInputStream inStream =
+          new DataInputStream(socket.getInputStream());
+        DataOutputStream outStream =
+          new DataOutputStream(socket.getOutputStream());
+
+        System.out.println("Connected to server "
+                           + socket.getInetAddress());
+
+        /*
+         * This Oid is used to represent the Kerberos version 5 GSS-API
+         * mechanism. It is defined in RFC 1964. We will use this Oid
+         * whenever we need to indicate to the GSS-API that it must
+         * use Kerberos for some purpose.
+         */
+        Oid krb5Oid = new Oid("1.2.840.113554.1.2.2");
+
+        GSSManager manager = GSSManager.getInstance();
+
+        /*
+         * Create a GSSName out of the server's name. The null
+         * indicates that this application does not wish to make
+         * any claims about the syntax of this name and that the
+         * underlying mechanism should try to parse it as per whatever
+         * default syntax it chooses.
+         */
+        GSSName serverName = manager.createName(server, null);
+
+        /*
+         * Create a GSSContext for mutual authentication with the
+         * server.
+         *    - serverName is the GSSName that represents the server.
+         *    - krb5Oid is the Oid that represents the mechanism to
+         *      use. The client chooses the mechanism to use.
+         *    - null is passed in for client credentials
+         *    - DEFAULT_LIFETIME lets the mechanism decide how long the
+         *      context can remain valid.
+         * Note: Passing in null for the credentials asks GSS-API to
+         * use the default credentials. This means that the mechanism
+         * will look among the credentials stored in the current Subject
+         * to find the right kind of credentials that it needs.
+         */
+        GSSContext context = manager.createContext(serverName,
+                                        krb5Oid,
+                                        null,
+                                        GSSContext.DEFAULT_LIFETIME);
+
+        // Set the desired optional features on the context. The client
+        // chooses these options.
+
+        context.requestMutualAuth(true);  // Mutual authentication
+        context.requestConf(true);  // Will use confidentiality later
+        context.requestInteg(true); // Will use integrity later
+
+        // Do the context eastablishment loop
+
+        byte[] token = new byte[0];
+
+        while (!context.isEstablished()) {
+
+            // token is ignored on the first call
+            token = context.initSecContext(token, 0, token.length);
+
+            // Send a token to the server if one was generated by
+            // initSecContext
+            if (token != null) {
+                System.out.println("Will send token of size "
+                                   + token.length
+                                   + " from initSecContext.");
+                outStream.writeInt(token.length);
+                outStream.write(token);
+                outStream.flush();
+            }
+
+            // If the client is done with context establishment
+            // then there will be no more tokens to read in this loop
+            if (!context.isEstablished()) {
+                token = new byte[inStream.readInt()];
+                System.out.println("Will read input token of size "
+                                   + token.length
+                                   + " for processing by initSecContext");
+                inStream.readFully(token);
+            }
+        }
+
+        System.out.println("Context Established! ");
+        System.out.println("Client is " + context.getSrcName());
+        System.out.println("Server is " + context.getTargName());
+
+        /*
+         * If mutual authentication did not take place, then only the
+         * client was authenticated to the server. Otherwise, both
+         * client and server were authenticated to each other.
+         */
+        if (context.getMutualAuthState())
+            System.out.println("Mutual authentication took place!");
+
+        byte[] messageBytes = "Hello There!\0".getBytes();
+
+        /*
+         * The first MessageProp argument is 0 to request
+         * the default Quality-of-Protection.
+         * The second argument is true to request
+         * privacy (encryption of the message).
+         */
+        MessageProp prop =  new MessageProp(0, true);
+
+        /*
+         * Encrypt the data and send it across. Integrity protection
+         * is always applied, irrespective of confidentiality
+         * (i.e., encryption).
+         * You can use the same token (byte array) as that used when
+         * establishing the context.
+         */
+
+        token = context.wrap(messageBytes, 0, messageBytes.length, prop);
+        System.out.println("Will send wrap token of size " + token.length);
+        outStream.writeInt(token.length);
+        outStream.write(token);
+        outStream.flush();
+
+        /*
+         * Now we will allow the server to decrypt the message,
+         * calculate a MIC on the decrypted message and send it back
+         * to us for verification. This is unnecessary, but done here
+         * for illustration.
+         */
+
+        token = new byte[inStream.readInt()];
+        System.out.println("Will read token of size " + token.length);
+        inStream.readFully(token);
+        context.verifyMIC(token, 0, token.length,
+                          messageBytes, 0, messageBytes.length,
+                          prop);
+
+        System.out.println("Verified received MIC for message.");
+
+        System.out.println("Exiting...");
+        context.dispose();
+        socket.close();
+    }
+}
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__JAASACN.JAVA-338927FE">
+<p class="subhead1">JaasAcn.java</p>
+<pre dir="ltr">
+import javax.security.auth.*;
+import javax.security.auth.callback.*;
+import javax.security.auth.login.*;
+import com.sun.security.auth.callback.TextCallbackHandler;
+
+/**
+ * This JaasAcn application attempts to authenticate a user
+ * and reports whether or not the authentication was successful.
+ */
+public class JaasAcn {
+
+    public static void main(String[] args) {
+
+        // Obtain a LoginContext, needed for authentication. Tell it
+        // to use the LoginModule implementation specified by the
+        // entry named "JaasSample" in the JAAS login configuration
+        // file and to also use the specified CallbackHandler.
+        LoginContext lc = null;
+        try {
+            lc = new LoginContext("JaasSample", new TextCallbackHandler());
+        } catch (LoginException le) {
+            System.err.println("Cannot create LoginContext. "
+                + le.getMessage());
+            System.exit(-1);
+        } catch (SecurityException se) {
+            System.err.println("Cannot create LoginContext. "
+                + se.getMessage());
+            System.exit(-1);
+        }
+
+        try {
+
+            // attempt authentication
+            lc.login();
+
+        } catch (LoginException le) {
+
+            System.err.println("Authentication failed:");
+            System.err.println("  " + le.getMessage());
+            System.exit(-1);
+
+        }
+
+        System.out.println("Authentication succeeded!");
+
+    }
+}
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__JASS.CONF-33892AE7">
+<p class="subhead1">jass.conf</p>
+<pre dir="ltr">
+/** Login Configuration for the JaasAcn and
+ ** JaasAzn Applications 
+ **/
+
+JaasSample {
+   com.sun.security.auth.module.Krb5LoginModule required;
+};
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__JASSACN.POLICY-33892D36">
+<p class="subhead1">jassacn.policy</p>
+<pre dir="ltr">
+/** Java Access Control Policy for the JaasAcn Application **/
+
+
+grant codebase "file:./JaasAcn.jar" {
+
+   permission javax.security.auth.AuthPermission "createLoginContext.JaasSample";
+};
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__JAASAZN.JAVA-33892F00">
+<p class="subhead1">JaasAzn.java</p>
+<pre dir="ltr">
+import javax.security.auth.Subject;
+import javax.security.auth.callback.*;
+import javax.security.auth.login.*;
+import com.sun.security.auth.callback.TextCallbackHandler;
+import java.security.PrivilegedAction;
+
+/**
+ * This JaasAzn application attempts to authenticate a user
+ * and reports whether or not the authentication was successful.
+ * If successful, it then sets up subsequent execution of
+ * code in the run method of the SampleAction class such that
+ * access control checks for security-sensitive operations will be
+ * based on the user running the code.
+ */
+public class JaasAzn {
+
+    public static void main(String[] args) {
+
+        // Obtain a LoginContext, needed for authentication. Tell it
+        // to use the LoginModule implementation specified by the
+        // entry named "JaasSample" in the JAAS login configuration
+        // file and to also use the specified CallbackHandler.
+        LoginContext lc = null;
+        try {
+            lc = new LoginContext("JaasSample", new TextCallbackHandler());
+        } catch (LoginException le) {
+            System.err.println("Cannot create LoginContext. "
+                + le.getMessage());
+            System.exit(-1);
+        } catch (SecurityException se) {
+            System.err.println("Cannot create LoginContext. "
+                + se.getMessage());
+            System.exit(-1);
+        }
+
+        try {
+
+            // attempt authentication
+            lc.login();
+
+        } catch (LoginException le) {
+
+            System.err.println("Authentication failed:");
+            System.err.println("  " + le.getMessage());
+            System.exit(-1);
+
+        }
+
+        System.out.println("Authentication succeeded!");
+
+        // now try to execute the SampleAction as the authenticated Subject
+        Subject mySubject = lc.getSubject();
+        PrivilegedAction action = new SampleAction();
+        Subject.doAsPrivileged(mySubject, action, null);
+
+    }
+}
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__SAMPLEACTION.JAVA-33893145">
+<p class="subhead1">SampleAction.java</p>
+<pre dir="ltr">
+import java.io.File;
+import java.security.PrivilegedAction;
+
+/**
+ * This is a sample PrivilegedAction implementation, designed to be
+ * used with the JaasAzn class.
+ */
+public class SampleAction implements PrivilegedAction {
+
+    /**
+     * This sample PrivilegedAction performs the following operations:
+     * &lt;ul&gt;
+     * &lt;li&gt; Access the System property &lt;i&gt;java.home&lt;/i&gt;
+     * &lt;li&gt; Access the System property &lt;i&gt;user.home&lt;/i&gt;
+     * &lt;li&gt; Access the file &lt;i&gt;foo.txt&lt;/i&gt;
+     * &lt;/ul&gt;
+     *
+     * @return &lt;code&gt;null&lt;/code&gt; in all cases.
+     *
+     * @exception SecurityException if the caller does not have permission
+     *          to perform any of the operations listed above.
+     */
+    public Object run() {
+        System.out.println("\nYour java.home property value is: "
+                            +System.getProperty("java.home"));
+
+        System.out.println("\nYour user.home property value is: "
+                            +System.getProperty("user.home"));
+
+        File f = new File("foo.txt");
+        System.out.print("\nfoo.txt does ");
+        if (!f.exists())
+            System.out.print("not ");
+        System.out.println("exist in the current working directory.");
+        return null;
+    }
+}
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__JASSAZN.POLICY-3389344E">
+<p class="subhead1">jassazn.policy</p>
+<pre dir="ltr">
+/** Java Access Control Policy for the JaasAzn Application **/
+
+/** Code-Based Access Control Policy for JaasAzn **/
+
+grant codebase "file:./JaasAzn.jar" {
+
+   permission javax.security.auth.AuthPermission 
+                    "createLoginContext.JaasSample";
+   permission javax.security.auth.AuthPermission "doAsPrivileged";
+};
+
+
+/** User-Based Access Control Policy for the SampleAction class
+ ** instantiated by JaasAzn 
+ **/
+
+grant   codebase "file:./SampleAction.jar",
+    Principal javax.security.auth.kerberos.KerberosPrincipal 
+        "your_user_name@your_realm"  {
+
+   permission java.util.PropertyPermission "java.home", "read";
+   permission java.util.PropertyPermission "user.home", "read";
+   permission java.io.FilePermission "foo.txt", "read";
+};
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__LOGIN.JAVA-338935D0">
+<p class="subhead1">Login.java</p>
+<pre dir="ltr">
+import java.io.*;
+import java.lang.reflect.*;
+import java.util.Arrays;
+
+import javax.security.auth.callback.*;
+import javax.security.auth.login.*;
+import javax.security.auth.Subject;
+import com.sun.security.auth.callback.TextCallbackHandler;
+
+/**
+ * &lt;p&gt; This class authenticates a &lt;code&gt;Subject&lt;/code&gt; and then
+ * executes a specified application as that &lt;code&gt;Subject&lt;/code&gt;.
+ * To use this class, the java interpreter would typically be invoked as:
+ *
+ * &lt;pre&gt;
+ *    % java -Djava.security.manager \
+ *        Login \
+ *        &lt;applicationclass&gt; &lt;applicationClass_args&gt;
+ * &lt;/pre&gt;
+ *
+ * &lt;p&gt; &lt;i&gt;applicationClass&lt;/i&gt; represents the application to be executed
+ * as the authenticated &lt;code&gt;Subject&lt;/code&gt;,
+ * and &lt;i&gt;applicationClass_args&lt;/i&gt; are passed as arguments to
+ * &lt;i&gt;applicationClass&lt;/i&gt;.
+ *
+ * &lt;p&gt; To perform the authentication, &lt;code&gt;Login&lt;/code&gt; uses a
+ * &lt;code&gt;LoginContext&lt;/code&gt;.  A &lt;code&gt;LoginContext&lt;/code&gt; relies on a
+ * &lt;code&gt;Configuration&lt;/code&gt; to determine the modules that should be used
+ * to perform the actual authentication.  The location of the Configuration
+ * is dependent upon each Configuration implementation.
+ * The default Configuration implementation
+ * (&lt;code&gt;com.sun.security.auth.login.ConfigFile&lt;/code&gt;)
+ * allows the Configuration location to be specified (among other ways)
+ * via the &lt;code&gt;java.security.auth.login.config&lt;/code&gt; system property.
+ * Therefore, the &lt;code&gt;Login&lt;/code&gt; class can also be invoked as:
+ *
+ * &lt;pre&gt;
+ *    % java -Djava.security.manager \
+ *        -Djava.security.auth.login.config=&lt;configuration_url&gt; \
+ *        Login \
+ *        &lt;your_application_class&gt; &lt;your_application_class_args&gt;
+ * &lt;/pre&gt;
+ */
+
+public class Login {
+
+    /**
+     * &lt;p&gt; Instantate a &lt;code&gt;LoginContext&lt;/code&gt; using the
+     * provided application classname as the index for the login
+     * &lt;code&gt;Configuration&lt;/code&gt;.  Authenticate the &lt;code&gt;Subject&lt;/code&gt;
+     * (three retries are allowed) and invoke
+     * &lt;code&gt;Subject.doAsPrivileged&lt;/code&gt;
+     * with the authenticated &lt;code&gt;Subject&lt;/code&gt; and a
+     * &lt;code&gt;PrivilegedExceptionAction&lt;/code&gt;.
+     * The &lt;code&gt;PrivilegedExceptionAction&lt;/code&gt;
+     * loads the provided application class, and then invokes
+     * its public static &lt;code&gt;main&lt;/code&gt; method, passing it
+     * the application arguments.
+     *
+     * &lt;p&gt;
+     *
+     * @param args the arguments for &lt;code&gt;Login&lt;/code&gt;.  The first
+     *          argument must be the class name of the application to be
+     *          invoked once authentication has completed, and the
+     *          subsequent arguments are the arguments to be passed
+     *          to that application's public static &lt;code&gt;main&lt;/code&gt; method.
+     */
+    public static void main(String[] args) {
+
+        // check for the application's main class
+        if (args == null || args.length == 0) {
+            System.err.println("Invalid arguments: " +
+                "Did not provide name of application class.");
+            System.exit(-1);
+        }
+
+        LoginContext lc = null;
+        try {
+            lc = new LoginContext(args[0], new TextCallbackHandler());
+        } catch (LoginException le) {
+            System.err.println("Cannot create LoginContext. "
+                + le.getMessage());
+            System.exit(-1);
+        } catch (SecurityException se) {
+            System.err .println("Cannot create LoginContext. "
+                + se.getMessage());
+            System.exit(-1);
+        }
+
+        // the user has 3 attempts to authenticate successfully
+        int i;
+        for (i = 0; i &lt; 3; i++) {
+            try {
+
+                // attempt authentication
+                lc.login();
+
+                // if we return with no exception, authentication succeeded
+                break;
+
+            } catch (AccountExpiredException aee) {
+
+                System.err.println("Your account has expired.  " +
+                                "Please notify your administrator.");
+                System.exit(-1);
+
+            } catch (CredentialExpiredException cee) {
+
+                System.err.println("Your credentials have expired.");
+                System.exit(-1);
+
+            } catch (FailedLoginException fle) {
+
+                System.err.println("Authentication Failed");
+                try {
+                      Thread.currentThread().sleep(3000);
+                } catch (Exception e) {
+                      // ignore
+                }
+
+            } catch (Exception e) {
+
+                System.err.println("Unexpected Exception - unable to continue");
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
+
+        // did they fail three times?
+        if (i == 3) {
+            System.err.println("Sorry");
+            System.exit(-1);
+        }
+
+        // push the subject into the current ACC
+        try {
+            Subject.doAsPrivileged(lc.getSubject(),
+                                   new  MyAction(args),
+                                   null);
+        } catch (java.security.PrivilegedActionException pae) {
+            pae.printStackTrace();
+            System.exit(-1);
+        }
+
+        System.exit(0);
+    }
+}
+
+class MyAction implements java.security.PrivilegedExceptionAction {
+
+    String[] origArgs;
+
+    public MyAction(String[] origArgs) {
+        this.origArgs = (String[])origArgs.clone();
+    }
+
+    public Object run() throws Exception {
+
+        // get the ContextClassLoader
+        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+
+        try {
+            // get the application class's main method
+            Class c = Class.forName(origArgs[0], true, cl);
+            Class[] PARAMS = { origArgs.getClass() };
+            java.lang.reflect.Method mainMethod = c.getMethod("main", PARAMS);
+
+            // invoke the main method with the remaining args
+            String[] appArgs = new String[origArgs.length - 1];
+            System.arraycopy(origArgs, 1, appArgs, 0, origArgs.length - 1);
+            Object[] args = { appArgs };
+            mainMethod.invoke(null /*ignored*/, args);
+        } catch (Exception e) {
+            throw new java.security.PrivilegedActionException(e);
+        }
+
+        // successful completion
+        return null;
+    }
+}
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__SAMPLE.JAVA-3389388B">
+<p class="subhead1">Sample.java</p>
+<pre dir="ltr">
+import java.io.File;
+
+public class Sample {
+
+    /**
+     * This sample class performs the following operations:
+     * &lt;ul&gt;
+     * &lt;li&gt; Access the System property &lt;i&gt;java.home&lt;/i&gt;
+     * &lt;li&gt; Access the System property &lt;i&gt;user.home&lt;/i&gt;
+     * &lt;li&gt; Access the file &lt;i&gt;foo.txt&lt;/i&gt;
+     * &lt;/ul&gt;
+     *
+     * @exception SecurityException if the caller does not have permission
+     *          to perform any of the operations listed above.
+     */
+    public static void main (String[] args) throws SecurityException {
+
+        // If there were any arguments to read, we'd do it here.
+
+        System.out.println("\nYour java.home property value is: "
+                            +System.getProperty("java.home"));
+
+        System.out.println("\nYour user.home property value is: "
+                            +System.getProperty("user.home"));
+
+        File f = new File("foo.txt");
+        System.out.print("\nfoo.txt does ");
+        if (!f.exists())
+            System.out.print("not ");
+        System.out.println("exist in the current working directory.");
+    }
+}
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__SAMPLE.CONF-33893A5C">
+<p class="subhead1">sample.conf</p>
+<pre dir="ltr">
+/** Login Configuration for the Sample Application **/
+
+Sample {
+   com.sun.security.auth.module.Krb5LoginModule required;
+};
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__SAMPLE.POLICY-33893EE3">
+<p class="subhead1">sample.policy</p>
+<pre dir="ltr">
+/** Access Control Policy for the Sample Application **/
+
+
+grant codebase "file:./Login.jar" {
+   permission java.security.AllPermission;
+};
+
+
+grant   codebase "file:./Sample.jar",
+    Principal javax.security.auth.kerberos.KerberosPrincipal 
+        "your_user_name@your_realm"  {
+
+   permission java.util.PropertyPermission "java.home", "read";
+   permission java.util.PropertyPermission "user.home", "read";
+   permission java.io.FilePermission "foo.txt", "read";
+};
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__CSLOGIN.CONF-33894173">
+<p class="subhead1">csLogin.conf</p>
+<pre dir="ltr">
+/** 
+ * Login Configuration for JAAS.
+ */
+
+SampleClient {
+  com.sun.security.auth.module.Krb5LoginModule required;
+};
+
+SampleServer {
+  com.sun.security.auth.module.Krb5LoginModule required storeKey=true principal="service_principal@your_realm";
+};
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__CLIENT.POLICY-33894283">
+<p class="subhead1">client.policy</p>
+<pre dir="ltr">
+grant CodeBase "file:./Login.jar" {
+        permission java.security.AllPermission;
+};
+
+grant CodeBase "file:./SampleClient.jar", 
+        Principal javax.security.auth.kerberos.KerberosPrincipal 
+                "your_user_name@your_realm" {
+
+        permission java.net.SocketPermission "*", "connect";
+
+        permission javax.security.auth.kerberos.ServicePermission
+                "krbtgt/your_realm@your_realm", 
+                "initiate";
+
+        permission javax.security.auth.kerberos.ServicePermission
+                "service_principal@your_realm", 
+                "initiate";
+};
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__SERVER.POLICY-33894513">
+<p class="subhead1">server.policy</p>
+<pre dir="ltr">
+grant CodeBase "file:./Login.jar" {
+        permission java.security.AllPermission;
+};
+
+grant CodeBase "file:./SampleServer.jar" 
+        Principal javax.security.auth.kerberos.KerberosPrincipal 
+                "service_principal@your_realm" {
+
+        permission java.net.SocketPermission "*", "accept";
+
+        permission javax.security.auth.kerberos.ServicePermission
+                "service_principal@your_realm", "accept";
+};
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__SAMPLESERVERIMP.JAVA-33894617">
+<p class="subhead1">SampleServerImp.java</p>
+<pre dir="ltr">
+import org.ietf.jgss.*;
+import java.io.*;
+import java.net.Socket;
+import java.net.ServerSocket;
+import javax.security.auth.Subject;
+import java.security.PrivilegedAction;
+
+/**
+ * A sample server application that uses JGSS to do mutual authentication
+ * with a client using Kerberos as the underlying mechanism. It then
+ * exchanges data securely with the client.
+ *
+ * Every message exchanged with the client includes a 4-byte application-
+ * level header that contains the big-endian integer value for the number
+ * of bytes that will follow as part of the JGSS token.
+ *
+ * The protocol is:
+ *    1.  Context establishment loop:
+ *         a. client sends init sec context token to server
+ *         b. server sends accept sec context token to client
+ *         ....
+ *    2. client sends a wrap token to the server.
+ *    3. server sends a mic token to the client for the application
+ *       message that was contained in the wrap token.
+ */
+
+public class SampleServerImp  {
+
+    public static void main(String[] args)
+        throws IOException, GSSException {
+
+        // Obtain the command-line arguments and parse the port number
+
+        if (args.length != 1) {
+            System.err.println("Usage: java &lt;options&gt; Login SampleServer &lt;localPort&gt;");
+            System.exit(-1);
+        }
+
+        int localPort = Integer.parseInt(args[0]);
+
+        ServerSocket ss = new ServerSocket(localPort);
+
+        GSSManager manager = GSSManager.getInstance();
+
+        while (true) {
+
+            System.out.println("Waiting for incoming connection...");
+
+            Socket socket = ss.accept();
+            DataInputStream inStream =
+                new DataInputStream(socket.getInputStream());
+            DataOutputStream outStream =
+                new DataOutputStream(socket.getOutputStream());
+
+            System.out.println("Got connection from client "
+                               + socket.getInetAddress());
+
+            /*
+             * Create a GSSContext to receive the incoming request
+             * from the client. Use null for the server credentials
+             * passed in. This tells the underlying mechanism
+             * to use whatever credentials it has available that
+             * can be used to accept this connection.
+             */
+            GSSContext context = manager.createContext((GSSCredential)null);
+
+            // Do the context eastablishment loop
+
+            byte[] token = null;
+
+            while (!context.isEstablished()) {
+
+                token = new byte[inStream.readInt()];
+                System.out.println("Will read input token of size "
+                                   + token.length
+                                   + " for processing by acceptSecContext");
+                inStream.readFully(token);
+
+                token = context.acceptSecContext(token, 0, token.length);
+
+                // Send a token to the peer if one was generated by
+                // acceptSecContext
+                if (token != null) {
+                    System.out.println("Will send token of size "
+                                       + token.length
+                                       + " from acceptSecContext.");
+                    outStream.writeInt(token.length);
+                    outStream.write(token);
+                    outStream.flush();
+                }
+            }
+
+            System.out.println("Context Established! ");
+            System.out.println("Client is " + context.getSrcName());
+            System.out.println("Server is " + context.getTargName());
+            /*
+             * If mutual authentication did not take place, then
+             * only the client was authenticated to the
+             * server. Otherwise, both client and server were
+             * authenticated to each other.
+             */
+            if (context.getMutualAuthState())
+                System.out.println("Mutual authentication took place!");
+
+            /*
+             * Create a MessageProp which unwrap will use to return
+             * information such as the Quality-of-Protection that was
+             * applied to the wrapped token, whether or not it was
+             * encrypted, etc. Since the initial MessageProp values
+             * are ignored, just set them to the defaults of 0 and false.
+             */
+            MessageProp prop = new MessageProp(0, false);
+
+            /*
+             * Read the token. This uses the same token byte array
+             * as that used during context establishment.
+             */
+            token = new byte[inStream.readInt()];
+            System.out.println("Will read token of size "
+                               + token.length);
+            inStream.readFully(token);
+
+            byte[] bytes = context.unwrap(token, 0, token.length, prop);
+            String str = new String(bytes);
+            System.out.println("Received data \""
+                               + str + "\" of length " + str.length());
+
+            System.out.println("Confidentiality applied: "
+                               + prop.getPrivacy());
+
+            /*
+             * Now generate a MIC and send it to the client. This is
+             * just for illustration purposes. The integrity of the
+             * incoming wrapped message is guaranteed irrespective of
+             * the confidentiality (encryption) that was used.
+             */
+
+            /*
+             * First reset the QOP of the MessageProp to 0
+             * to ensure the default Quality-of-Protection
+             * is applied.
+             */
+            prop.setQOP(0);
+
+            token = context.getMIC(bytes, 0, bytes.length, prop);
+
+            System.out.println("Will send MIC token of size "
+                               + token.length);
+            outStream.writeInt(token.length);
+            outStream.write(token);
+            outStream.flush();
+
+
+            /*
+             * Impersonate client
+             */
+
+            System.out.println("Impersonating client.");
+
+            /*
+             * Extract the KerberosPrincipal from the client GSSName and populate
+             * it in the principal set of a new Subject. Pass in a null for
+             * credentials. If we were to pass in the delegated GSSCredential
+             * instead of null, then the resulting Subject's private credential
+             * set would also be populated.
+             */
+            GSSName clientGSSName = context.getSrcName();
+            System.out.println("clientGSSName: " + clientGSSName);
+            Subject client =
+                com.sun.security.jgss.GSSUtil.createSubject(clientGSSName,
+                                                     null);
+
+            /*
+             * Construct an action that will read a file meant only for the
+             * client
+             */
+            PrivilegedAction readFile =
+                new ReadFileAction(clientGSSName.toString());
+
+            /*
+             * Invoke the action via a doAsPrivileged. This allows the
+             * action to be executed as the client subject, and it also runs
+             * that code as privileged. This means that any permission checking
+             * that happens beyond this point applies only to the code being
+             * run as the client.
+             */
+            Subject.doAsPrivileged(client, readFile, null);
+
+
+
+            /*
+             * Clean up
+             */
+
+
+            System.out.println("Closing connection with client "
+                               + socket.getInetAddress());
+            context.dispose();
+            socket.close();
+        }
+    }
+}
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__READFILEACTION.JAVA-33894842">
+<p class="subhead1">ReadFileAction.java</p>
+<pre dir="ltr">
+import java.security.PrivilegedAction;
+import java.io.*;
+
+/**
+ * This class implements the PrivilegedAction interface to demonstrate the
+ * reading of a file that belongs to the client. This code will be
+ * executed by the server while impersonating the client principal.
+ */
+public class ReadFileAction implements PrivilegedAction {
+
+    private String fileName;
+
+    /**
+     * Contructs a ReadFileAction instance.
+     *
+     * @param kerberosPrincipalName the name of the Kerberos principal
+     * who owns the file that will be read. The filename is constructed
+     * from the name of the principal.
+     */
+    public ReadFileAction(String kerberosPrincipalName) {
+        /*
+         * Separate the realm component from the name and use the rest of
+         * it for constructing the filename. If the principal name is
+         * "joe@REALM" then the file that will be read is
+         * "data/joe_info.txt". The path separator "/" might be "\" in the
+         * case of Windows.
+         */
+        int realmSeparatorPos = kerberosPrincipalName.lastIndexOf('@');
+        fileName = "data" + File.separatorChar
+            + kerberosPrincipalName.substring(0, realmSeparatorPos)
+            + "_info.txt";
+    }
+
+    /**
+     * Does the actual reading of the file. It displays the text contained
+     * in the file.
+     */
+    public Object run() {
+        System.out.println("===============================================");
+        System.out.println("Reading file: " + fileName);
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+            String str = reader.readLine();
+            while (str != null) {
+                System.out.println(str);
+                str = reader.readLine();
+            }
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        System.out.println("===============================================");
+        return null;
+    }
+}
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__SERVERIMP.POLICY-33894A6C">
+<p class="subhead1">serverimp.policy</p>
+<pre dir="ltr">
+grant CodeBase "file:./Login.jar" {
+        permission java.security.AllPermission;
+};
+
+grant CodeBase "file:./SampleServerImp.jar" 
+        Principal javax.security.auth.kerberos.KerberosPrincipal 
+                "service_principal@your_realm" {
+
+        permission java.net.SocketPermission "*", "accept";
+
+        permission javax.security.auth.kerberos.ServicePermission
+                "service_principal@your_realm", "accept";
+
+        permission javax.security.auth.AuthPermission "doAsPrivileged";
+};
+
+grant CodeBase "file:./ReadFileAction.jar" 
+        Principal javax.security.auth.kerberos.KerberosPrincipal 
+                "your_user_name@your_realm" {
+
+        permission java.io.FilePermission 
+                "data/your_user_name_info.txt", "read";
+};
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-09D4192C-D855-49D6-BC62-E08F49ADB4F8__CSIMPLOGIN.CONF-37761B67">
+<p class="subhead1">csImpLogin.conf</p>
+<pre dir="ltr">
+/** 
+ * Login Configuration for JAAS.
+ */
+
+SampleClient {
+  com.sun.security.auth.module.Krb5LoginModule required;
+};
+
+SampleServerImp {
+  com.sun.security.auth.module.Krb5LoginModule required storeKey=true principal="service_principal@your_realm";
+};
+</pre></div>
+<!-- class="section" --></div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment455">
+<tr>
+<td class="cellalignment462">
+<table class="cellalignment460">
+<tr>
+<td class="cellalignment459"><a href="troubleshooting.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment459"><a href="related-documentation1.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment464">
+<table class="cellalignment458">
+<tr>
+<td class="cellalignment459"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment459"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment459"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

@@ -1,0 +1,146 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Referrals in the LDAP</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="jndi.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Referrals</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Referrals in the LDAP
+</h2>
+<p>
+<blockquote>
+
+This section provides an overview of LDAP referrals.
+
+<h4>Comparison with Alias</h4>
+In many ways, a referral is a generalization of an 
+<em><a href=../../getStarted/concepts/glossary.html#ALIAS>alias</em></a>, which is discussed in
+the
+<a target="_top" href="../misc/aliases.html">Miscellaneous</a> <a href="../misc/aliases.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson.
+An alias contains the DN of another object, whereas a referral
+contains one or more URLs of objects.
+The URLs are usually, but not necessarily, LDAP URLs.
+The LDAP URL contains the server's host/port and
+an object's DN.
+The host/port information can point to a directory server
+that differs from
+the one that returned the referral.
+<p>
+Whereas an alias is dereferenced and processed by the server, 
+a referral is returned to the client, which is responsible for processing it.
+
+<h4>Uses</h4>
+<p>
+
+Like an alias, a referral is useful for allowing an object to be identified by
+different names. Referrals can be used, for example, 
+to accommodate the namespace changes
+and mergers that are inevitable as organizations evolve.  In
+addition, they allow directory administrators to set up 
+"search paths" for collecting results from multiple
+servers.  They also can be used to deploy cache or read-only server
+replicas that return referrals for all update requests.  
+Use of a read-only replica is
+among the many different load balancing strategies that can 
+be implemented by using referrals.
+
+<h4>Version 2 versus Version 3</h4>
+
+The <A HREF="http://www.ietf.org/rfc/rfc1777.txt">LDAP v2</a>
+provides limited support for referrals.
+An LDAP v2 server can be configured with a "default" referral
+so that
+if the information requested at the server does not exist, then
+the server will return a "partial result" error response
+that contains the referral URL.
+When the client receives this error, it will check
+whether the referral URL is present and use it instead of
+interpreting the response as a "partial result" error.
+The client uses the referral URL by contacting the server named in
+it to continue the requested operation.
+
+<p>
+The <A HREF="http://www.ietf.org/rfc/rfc2251.txt">LDAP v3</a>
+explicitly supports referrals and allows servers to
+return them directly to the client.
+The server can return to the client a "referral" error response
+for any request that requires a response.
+This error response contains one or more URLs that
+are to be used to continue the operation.
+All of the URLs in the response are
+equivalent in that using any one should yield the correct result.
+The client should select one to continue the operation.
+<p>
+In addition, during an LDAP v3 "search" operation,
+a server can return a number of <em>continuation references</em>,
+which are of the same data type as a referral.
+The client is required to follow all continuation references.
+Like a referral, each continuation reference itself may contain a number
+of URLs assumed to be equivalent, and the client should
+use one of those URLs. 
+<p>
+Unless a distinction is required,
+this lesson uses the term "referral" to mean the referral
+that is returned in either an error response or a continuation reference.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="jndi.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Referrals</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

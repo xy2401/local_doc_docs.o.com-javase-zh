@@ -1,0 +1,365 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>The Start TLS Extension</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="extensions.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="../connect/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Controls and Extensions</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    The Start TLS Extension
+</h2>
+<p>
+<blockquote>
+
+
+<blockquote>
+<hr>
+<strong>Server Requirements: </strong>
+The LDAP server must support the Start TLS extension
+("1.3.6.1.4.1.1466.20037").
+In addition, it must satisfy the server requirements detailed in the 
+<a target="_top" href="../security/ssl.html#SERVER">SSL and Custom Sockets</a> <a href="../security/ssl.html#SERVER"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    section.
+<p>
+
+<strong>Client Requirements: </strong>
+
+The examples in this section requires the <a href=http://java.sun.com/j2se/1.4>Java 2 SDK, v1.4</a>.
+In addition, the Java client environment must satisfy the client requirements 
+detailed in the 
+<a target="_top" href="../security/ssl.html#CLIENT">SSL and Custom Sockets</a> <a href="../security/ssl.html#CLIENT"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    section.
+<hr>
+</blockquote>
+
+
+The 
+<a href="http://www.ietf.org/rfc/rfc2830.txt">Start TLS extension</a>
+allows an application to serialize
+secure and plain requests against an LDAP server on a single connection.
+For example, an application might use secure requests to make
+modifications to the directory and use plain requests to read
+parts of the directory that are open for unauthenticated browsing.
+To achieve this, the application uses the Start TLS extension
+to turn security on and off on demand.
+<p>
+
+Here is <a href=src/StartTls.java>an example</a> that uses Start TLS
+to perform secure operations and then stops TLS to do 
+unprotected operations.
+<blockquote><pre>
+// Set up environment for creating initial context
+Hashtable env = new Hashtable(11);
+env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+
+// Must use the name of the server that is found in its certificate
+env.put(Context.PROVIDER_URL, "ldap://ldap.jnditutorial.org:389/o=JNDITutorial");
+
+// Create initial context
+LdapContext ctx = new InitialLdapContext(env, null);
+
+// Start TLS
+StartTlsResponse tls =
+    (StartTlsResponse) ctx.extendedOperation(new StartTlsRequest());
+SSLSession sess = tls.negotiate();
+
+// ... do something useful with ctx that requires secure connection
+
+// Stop TLS
+tls.close();
+
+// ... do something useful with ctx that doesn't require security
+
+// Close the context when we're done
+ctx.close();
+</pre></blockquote>
+
+You first set up the environment properties
+to use the LDAP service provider and to name the LDAP server.
+You must use the hostname that is found in the server's certificate 
+as the hostname in the 
+
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#PROVIDER_URL><tt>Context.PROVIDER_URL</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#PROVIDER_URL><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    property; 
+otherwise, the Start TLS negotiation will fail.
+(We show you how to loosen this restriction later in this section.)
+You then create the initial context using the two properties.
+<p>
+Once you have a context, you may initiate TLS at any time by first
+invoking the
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#extendedOperation(javax.naming.ldap.ExtendedRequest)"><tt>LdapContext.extendedOperation()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#extendedOperation(javax.naming.ldap.ExtendedRequest)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     method with an instance of
+<a target="_top" href="http://java.sun.com/j2se/1.4/docs/api/javax/naming/ldap/StartTlsRequest.html"><tt>StartTlsRequest</tt></a><a target="_top" href="http://java.sun.com/j2se/1.4/docs/api/javax/naming/ldap/StartTlsRequest.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+You then initiate the TLS handshake by using
+<a target="_top" href="http://java.sun.com/j2se/1.4/docs/api/javax/naming/ldap/StartTlsResponse.html#negotiate()"><tt>StartTlsResponse.negotiate()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.4/docs/api/javax/naming/ldap/StartTlsResponse.html#negotiate()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.  If this method returns successfully, then TLS has been started on
+the context's connection. Any method you invoke on the context
+will use the security layer just negotiated to communicate with the LDAP server.
+After you are done with the TLS session, call 
+<a target="_top" href="http://java.sun.com/j2se/1.4/docs/api/javax/naming/ldap/StartTlsResponse.html#negotiate()"><tt>StartTlsResponse.close()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.4/docs/api/javax/naming/ldap/StartTlsResponse.html#negotiate()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   to terminate the TLS without closing the underlying network connection.
+Subsequently, you may continue to use the context to communicate with
+the LDAP server. Any such communication is not secure.
+You may reestablish secure communications by submitting another
+<tt>StartTlsRequest</tt>.
+
+<p>
+The <tt>StartTlsRequest</tt> and <tt>StartTlsResponse</tt> classes
+are closely tied to the
+<a href=http://java.sun.com/j2se/1.4/docs/guide/security/jsse/JSSERefGuide.html>Java Secure Socket Extension (JSSE)</a>.
+Familiarity with the JSSE will help you understand how to best use
+the methods in the <tt>StartTlsResponse</tt> class.
+
+<blockquote>
+<hr>
+<strong>Note 1:</strong>
+The i-Planet Directory Server, v5.0, does not respond to the <tt>tls.close()</tt>,
+leaving the client blocked.
+<p>
+<strong>Note 2:</strong>
+The OpenLDAP server, upon receiving the <tt>tls.close()</tt>, will shut down
+the connection instead of downgrading it to a plain connection.
+<hr>
+</blockquote>
+
+<h4>Hostname Verification</h4>
+
+The Start TLS implementation uses a default verifier for checking
+that the server's certificate being used for TLS belongs to the LDAP server.
+The verifier matches the hostname of the server against the certificate
+subject's alternative names by ignoring case
+and taking into account wildcards in DNS names. For example, the
+hostname, "foo.bar.com", will match the certificate subject's alternative
+name, "*.BAR.COM". If none of the alternative names matches, the verifier
+does a case-ignore comparison of the hostname with the common
+name component of the certificate subject's distinguished name (DN).
+<p>
+The LDAP server's hostname is the hostname component of the
+URL specified in the
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#PROVIDER_URL><tt>Context.PROVIDER_URL</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#PROVIDER_URL><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    property. 
+Because the hostname found in a certificate is usually the fully qualified
+DNS hostname, you should supply in the URL the LDAP server's fully qualified
+DNS hostname.
+However, there may be times when you have no control over the form of
+hostname that you can use. Or, you might want to use matching rules
+different from those set forth by the default verifier.  For example,
+you might need to use the LDAP server's IP address because the
+hostname is not resolvable by the naming server. 
+To use your own verifier with Start TLS, you must create an instance of
+the verifier and install it by using
+<a target="_top" href="http://java.sun.com/j2se/1.4/docs/api/javax/naming/ldap/StartTlsResponse.html#setHostnameVerifier(javax.net.ssl.HostnameVerifier)"><tt>StartTlsResponse.setHostnameVerifier()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.4/docs/api/javax/naming/ldap/StartTlsResponse.html#setHostnameVerifier(javax.net.ssl.HostnameVerifier)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+Here is <a href=src/StartTlsWithVerifier.java>an example</a>
+of a verifier that prints its arguments and always 
+returns true. This example is useful only for debugging and illustrative
+purposes and should never be used in a real program.
+<blockquote><pre>
+class SampleVerifier implements HostnameVerifier {
+    public boolean verify(String hostname, SSLSession session) {
+	System.out.println("Checking: " + hostname + " in");
+	try {
+	    Certificate[] cert = session.getPeerCertificates();
+	    for (int i = 0; i < cert.length; i++) {
+	        System.out.println(cert[i]);
+	    }
+        } catch (SSLPeerUnverifiedException e) {
+	    return false;
+        }
+
+	return true; 	    // Never do this
+    }
+}
+</pre></blockquote>
+Using this verifier, you can now enter a name other than the fully qualified
+hostname. Here is <a href=src/StartTlsWithVerifier.java>an example</a>.
+<blockquote><pre>
+...
+env.put(Context.PROVIDER_URL, "ldap://localhost:389/o=JNDITutorial");
+
+// Create initial context
+LdapContext ctx = new InitialLdapContext(env, null);
+
+// Start TLS
+StartTlsResponse tls =
+    (StartTlsResponse) ctx.extendedOperation(new StartTlsRequest());
+
+// Install hostname verifier
+tls.setHostnameVerifier(new SampleVerifier());
+
+// Perform TLS negotiations
+tls.negotiate();
+</pre></blockquote>
+
+
+<h4>TLS with Simple Authentication</h4>
+
+In the examples shown thus far, only the LDAP server is being authenticated.
+To identify the client to the LDAP server, you may use any of the
+authentication mechanisms described in the
+<a target="_top" href="../security/index.html">Security Lesson</a> <a href="../security/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>.
+<p>
+Here is <a href=src/StartTlsSimple.java>an example</a>
+that illustrates how to perform simple authentication.
+Note that the username and cleartext password are now encrypted
+because the authentication is being performed after establishment of the
+TLS session.
+
+<blockquote><pre>
+// Set up environment for creating initial context
+Hashtable env = new Hashtable(11);
+env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+
+// Must use the name of the server that is found in its certificate
+env.put(Context.PROVIDER_URL, "ldap://ldap.jnditutorial.org:389/o=JNDITutorial");
+
+// Create initial context
+LdapContext ctx = new InitialLdapContext(env, null);
+
+// Start TLS
+StartTlsResponse tls =
+    (StartTlsResponse) ctx.extendedOperation(new StartTlsRequest());
+tls.negotiate();
+
+// Perform simple client authentication
+// Authenticate as S. User and password "mysecret"
+ctx.addToEnvironment(Context.SECURITY_AUTHENTICATION, "simple");
+ctx.addToEnvironment(Context.SECURITY_PRINCIPAL, 
+    "cn=S. User, ou=NewHires, o=JNDITutorial");
+ctx.addToEnvironment(Context.SECURITY_CREDENTIALS, "mysecret");
+
+// ... do something useful with ctx that requires secure connection
+</pre></blockquote>
+
+<h4>TLS with External SASL Authentication</h4>
+
+<blockquote>
+<hr>
+<strong>Client and Server Requirements:</strong>
+The LDAP server and Java client environment must satisfy the requirements
+detailed in the
+<a target="_top" href="../security/ssl.html#SERVER2">SSL and Custom Sockets</a> <a href="../security/ssl.html#SERVER2"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    section for client authentication.
+<hr>
+</blockquote>
+
+For TLS, because the LDAP server might already have a database of certificates,
+sometimes it is convenient to use certificates for client authentication.
+To use the TLS client's credentials for authentication, you use the
+<a href=../security/ssl.html#EXTERNAL>External</a> SASL 
+mechanism. 
+Here is <a href=src/StartTlsExternal.java>an example</a>.
+
+<blockquote><pre>
+// Set up environment for creating initial context
+Hashtable env = new Hashtable(11);
+env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+
+// Must use the name of the server that is found in its certificate
+env.put(Context.PROVIDER_URL, "ldap://ldap.jnditutorial.org:389/o=JNDITutorial");
+
+// Create initial context
+LdapContext ctx = new InitialLdapContext(env, null);
+
+// Start TLS
+StartTlsResponse tls =
+    (StartTlsResponse) ctx.extendedOperation(new StartTlsRequest());
+tls.negotiate();
+
+// Perform client authentication using TLS credentials
+ctx.addToEnvironment(Context.SECURITY_AUTHENTICATION, "EXTERNAL");
+
+// ... do something useful with ctx that requires secure connection
+</pre></blockquote>
+
+To run this program, you need to specify the location and password
+of the keystore file that contains the client's certificate.
+Here is an example of how to run the program.
+<blockquote><pre>
+java -Djavax.net.ssl.keyStore=MyKeystoreFile \
+    -Djavax.net.ssl.keyStorePassword=mysecret \
+    StartTlsExternal
+</pre></blockquote>
+
+<p>
+To further customize how your application obtains its client certificates
+and determines trust relationships, write a custom socket factory class
+that implements the
+<a target="_top" href="http://java.sun.com/j2se/1.4/docs/api/javax/net/ssl/SSLSocketFactory.html"><tt>SSLSocketFactory</tt></a><a target="_top" href="http://java.sun.com/j2se/1.4/docs/api/javax/net/ssl/SSLSocketFactory.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>  abstract class.
+Then, use the
+<a target="_top" href="http://java.sun.com/j2se/1.4/docs/api/javax/naming/ldap/StartTlsResponse.html#negotiate(javax.net.ssl.SSLSocketFactory)"><tt>StartTlsResponse.negotiate(SSLSocketFactory)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.4/docs/api/javax/naming/ldap/StartTlsResponse.html#negotiate(javax.net.ssl.SSLSocketFactory)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>  method to make use of the custom socket factory. 
+See the <a href=http://java.sun.com/j2se/1.4/docs/guide/security/jsse/JSSERefGuide.html>JSSE Reference Guide</a> for details on
+keystores, trust stores, and socket factories.
+
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<strong>Controls and Extensions: End of Lesson</strong>
+<p>
+What's next?
+Now you can:
+<ul>
+<li> <a href=../connect/index.html>Continue</a> on in this trail 
+     for information on how connections are managed.
+
+<li> Go to the 
+<a target="_top" href="../faq/index.html">Frequently Asked Questions</a> <a href="../faq/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>     lesson to read about questions that LDAP users have when using the JNDI.
+
+</ul>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="extensions.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="../connect/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Controls and Extensions</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

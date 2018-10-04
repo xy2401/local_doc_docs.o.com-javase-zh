@@ -1,0 +1,270 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>URLs as Names to the Initial Context</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="enum.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=bottom border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>URLs</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    URLs as Names to the Initial Context
+</h2>
+<p>
+<blockquote>
+
+In the JNDI, every name is resolved relative to a context. 
+To begin, you typically create an
+<a href=../../getStarted/concepts/glossary.html#IC>initial context</a> by using
+one of the constructors from the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html"><tt>InitialContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>,
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InitialDirContext.html"><tt>InitialDirContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InitialDirContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, or
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/InitialLdapContext.html"><tt>InitialLdapContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/InitialLdapContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a> class.
+The 
+<a target="_top" href="../env/index.html">Environment Properties</a> <a target="_top" href="../env/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson contains examples of how to use these constructors.
+<p>
+Once you have an instance of a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><tt>Context</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, you can look up
+other contexts and perform naming operations relative to those contexts.
+The names supplied to all of these contexts are <em>relative names</em>.
+That is, they are interpreted relative to the context to which they
+are supplied.
+<p>
+The closest thing to an <em>absolute name</em> in the JNDI is a URL string.
+In the JNDI, you can supply a URL string to the methods
+in the <tt>InitialContext</tt> and <tt>InitialDirContext</tt> classes.
+(The <tt>InitialLdapContext</tt> class does not declare any method
+that accepts a name argument, although the class does inherit
+all of the methods from the <tt>InitialContext</tt> and
+<tt>InitialDirContext</tt> classes.)
+
+<h4>Client's View</h4>
+
+When you supply a URL string, that is, a string of the form
+<blockquote>
+<em>scheme</em> : <em>scheme-specific-parts</em>
+</blockquote>
+to an <tt>InitialContext</tt> or <tt>InitialDirContext</tt> method, 
+such as 
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html#lookup(java.lang.String)"><tt>lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html#lookup(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, the name is treated as a URL string rather than a name relative to
+the initial context.
+Here is <a href=src/LookupUrl.java>an example</a> that looks up
+an object using an LDAP URL string.
+<blockquote><pre>
+Object obj = new InitialContext().lookup(
+    "ldap://localhost:389/cn=homedir,cn=Jon%20Ruiz,ou=People,o=jnditutorial");
+</pre></blockquote>
+<p>
+The <tt>InitialContext</tt> class (and subclasses) diverts the method
+invocation so that it is processed by the corresponding <em>URL
+context implementation</em> rather than any underlying initial context
+implementation. That is, if you had set the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#INITIAL_CONTEXT_FACTORY"><tt>Context.INITIAL_CONTEXT_FACTORY</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#INITIAL_CONTEXT_FACTORY"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   environment property, then it would not have been used in the
+<tt>lookup()</tt> call. Instead, the JNDI
+would find and use the URL context implementation for the <tt>ldap</tt> URL scheme.
+Notice from the previous example that no 
+<tt>Context.INITIAL_CONTEXT_FACTORY</tt> property was specified
+to the <tt>InitialContext</tt> constructor.
+<p>
+The JNDI's ability to accept arbitrary URL strings 
+from the <tt>InitialContext</tt>
+class (and subclasses) allows you to access any namespace for which
+you have an implementation. Thus, you are not restricted by
+the namespace offered by the implementation named by the
+<tt>Context.INITIAL_CONTEXT_FACTORY</tt> property.
+For example, suppose that you name a file system  service provider by using the
+<tt>Context.INITIAL_CONTEXT_FACTORY</tt> environment property.
+Using the same <tt>InitialContext</tt> instance, you can access
+an LDAP namespace by specifying an LDAP URL string and you can access
+a CORBA namespace by specifying a CORBA URL string.
+<p>
+
+
+<a name=FAC><h4>How URL Strings Are Processed</h4></a>
+When the <tt>InitialContext</tt> class receives a URL string as a name argument
+to one of its methods, it looks for a URL context implementation.
+It does this by using the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#URL_PKG_PREFIXES"><tt>Context.URL_PKG_PREFIXES</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#URL_PKG_PREFIXES"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    environment property.
+This property contains a colon-separated list of package prefixes.
+Each item in the list is a fully qualified package prefix of a
+URL context factory. The factory name is constructed using the following
+rule:
+<blockquote>
+<em>package_prefix</em> <strong>.</strong> <em>scheme</em> <strong>.</strong> <em>scheme</em><tt>URLContextFactory</tt>
+</blockquote>
+The package prefix <tt>"com.sun.jndi.url"</tt> is always appended to the end
+of this list.
+<p>
+Typically, a service provider that supplies a context implementation
+will also supply a URL context implementation so that
+it can handle URL strings passed to the <tt>InitialContext</tt>.
+However, this is not a requirement and some service providers might
+not supply any URL context implementations.
+Suppose that the <tt>URL_PKG_PREFIXES</tt> property contains
+<blockquote><pre>
+com.widget:com.wiz.jndi
+</pre></blockquote>
+Also suppose that the following URL string is supplied to the
+<tt>lookup()</tt> method of the <tt>InitialContext</tt> class:
+<blockquote><pre>
+ldap://localhost:389/cn=homedir,cn=Jon%20Ruiz,ou=People,o=JNDITutorial
+</pre></blockquote>
+The JNDI will then look for the following classes:
+<blockquote><pre>
+com.widget.ldap.ldapURLContextFactory
+com.wiz.jndi.ldap.ldapURLContextFactory
+com.sun.jndi.url.ldap.ldapURLContextFactory
+</pre></blockquote>
+It next tries to instantiate each class in turn and invokes
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/ObjectFactory.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable)"><tt>ObjectFactory.getObjectInstance(Object, Name, Context, Hashtable)</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/ObjectFactory.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    until one of them produces a non-<tt>null</tt> answer.
+The answer, which is a context, is then used to carry out
+the originally intended method, using the URL string as the name argument.
+<p>
+Next, suppose that the JNDI successfully instantiated
+the <tt>com.wiz.jndi.ldap.ldapURLContextFactory</tt> class and obtains a
+context from it. The JNDI then invokes <tt>lookup()</tt>
+on the context and supply it 
+<tt>"ldap://localhost:389/cn=homedir,cn=Jon%20Ruiz,ou=People,o=JNDITutorial"</tt>
+as the string name argument.
+<p>
+If the JNDI cannot find a URL context factory that returns a
+non-<tt>null</tt> answer, then the input URL string is passed to the
+underlying initial context implementation (i.e., that 
+implementation specified in the
+<tt>Context.INITIAL_CONTEXT_FACTORY</tt> environment property).
+<p>
+See the
+<a target="_top" href="../../provider/index.html">Building a Service Provider</a> <a target="_top" href="../../provider/index.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>   trail for descriptions on how to write a URL context implementation.
+
+
+
+<h4>Relationship to the Underlying Initial Context</h4>
+
+You need to understand that no relationship exists between
+the implementation named by the <tt>Context.INITIAL_CONTEXT_FACTORY</tt>
+environment property and any URL context implementation other than
+all can be accessed via the same <tt>InitialContext</tt>
+instance. 
+For example, suppose that you have the following environment property settings:
+<blockquote><pre>
+java.naming.factory.initial=com.wiz.jndi.ldap.LdapContextFactory
+java.naming.factory.url.pkgs=
+</pre></blockquote>
+If you supply the name <tt>"ldap://localhost:389/o=JNDITutorial"</tt>
+to <tt>InitialContext.lookup()</tt>, then the list of URL context factory
+classes that the JNDI will try is
+<blockquote><pre>
+com.sun.jndi.url.ldap.ldapURLContextFactory
+</blockquote></pre>
+If the service provider came with a URL context factory, 
+then the provider should supply an 
+<a href=../../getStarted/concepts/glossary.html#APPRES>application resource file</a>
+(<tt>jndi.properties</tt>)
+that contains the factory's package prefix.
+See the
+<a target="_top" href="../env/source.html">Environment Properties</a> <a target="_top" href="../env/source.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson for a description of application resource files.
+
+If the provider has a URL context factory but
+has not specified a package prefix for it in an application resource file, 
+then you should specify it in your program or application resource file 
+so that the JNDI can find the factory.
+
+<h4>Relationship to Composite Names</h4>
+
+To specify a URL string as part of a composite name to the methods in
+the <tt>InitialContext</tt>, make it the first component 
+of a composite name. 
+By doing this, you, in effect, use the
+URL string to name a context in which to continue operation on the rest of the name's components.
+<p>
+Here is <a href=src/LookupUrlComposite.java>an example</a> that creates a 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html"><tt>CompositeName</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    that consists of an LDAP URL string as the first component and filenames
+as the remaining components.
+<blockquote><pre>
+String url = 
+    "ldap://localhost:389/cn=homedir,cn=Jon%20Ruiz,ou=people,o=JNDITutorial";
+
+// Create a CompositeName in which the first component is a URL string
+Name name = new CompositeName().add(url);
+
+// Add the other components
+name.add("tutorial").add("report.txt");
+
+// Perform the lookup by using CompositeName
+System.out.println(ctx.lookup(name));
+</pre></blockquote>
+You can't specify composite name components as part of the URL string itself
+because doing so might conflict with the URL's syntax.
+
+<h4>More Than Just Names</h4>
+
+Some URLs, such as those for the LDAP
+(<A HREF="http://www.ietf.org/rfc/rfc2255.txt">RFC 2255</A>),
+specify more than name components. The LDAP URL syntax allows
+you to specify the scope of the search and the search query,
+as well as the attributes to return.
+
+See the
+<a target="_top" href="../../ldap/misc/url.html#QUERY">Miscellaneous</a> <a href="../../ldap/misc/url.html#QUERY"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson for more information and an example of how query components
+in a URL string are used.
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="enum.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=top border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>URLs</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

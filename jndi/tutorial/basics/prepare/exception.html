@@ -1,0 +1,320 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Naming Exceptions</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="package.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="initial.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/basicsHeader.gif" width=26 height=26 align=bottom border=0 alt="The Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Preparations</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Naming Exceptions
+</h2>
+<p>
+<blockquote>
+
+Many methods in the JNDI packages throw a
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html><tt>NamingException</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    when they need to indicate that the operation requested cannot
+be performed.
+Commonly, you will see a <tt>try/catch</tt>
+wrapper around the methods that can throw a <tt>NamingException</tt>:
+<blockquote>
+<pre>
+try {
+    Context ctx = new InitialContext();
+    Object obj = ctx.lookup("somename");
+} catch (NamingException e) {
+    // Handle the error
+    System.err.println(e);
+}
+</pre>
+</blockquote>
+
+<h4>Exception Class Hierarchy</h4>
+<p>
+The JNDI has a rich exception hierarchy stemming from 
+the <tt>NamingException</tt> class.
+The class names of the exceptions are self-explanatory and are listed
+later in this discussion.
+To handle a particular subclass of
+<tt>NamingException</tt> specially, you catch the
+subclass separately.
+For example, the following code specially treats the <tt>AuthenticationException</tt>
+and its subclasses.
+<blockquote>
+<pre>
+try {
+    Context ctx = new InitialContext();
+    Object obj = ctx.lookup("somename");
+} catch (AuthenticationException e) {
+    // attempt to reacquire the authentication information
+    ...
+} catch (NamingException e) {
+    // Handle the error
+    System.err.println(e);
+}
+</pre>
+</blockquote>
+
+<h4>Enumerations</h4>
+
+Operations such as 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><tt>Context.list()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+and
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.directory.SearchControls)"><tt>DirContext.search()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.directory.SearchControls)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    return a 
+
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html><tt>NamingEnumeration</tt> </a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. In
+these cases, if an error occurs and no results are returned,
+then <tt>NamingException</tt> or one of its appropriate subclasses will be
+thrown at the time that the method is invoked.  If an error occurs but
+there are some results to be returned, then a <tt>NamingEnumeration</tt> is
+returned so that you can get those results. When all of the results are
+exhausted, invoking 
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html#hasMore()"><tt>NamingEnumeration.hasMore()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html#hasMore()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     will cause a
+<tt>NamingException</tt> (or one of its subclasses) to be
+thrown to indicate the
+error.  At that point, the enumeration becomes invalid and no more
+methods should be invoked on it.
+
+<p>
+For example, if you perform a <tt>search()</tt> and specify a 
+count limit (<em>n</em>) of how many answers to return, 
+then the <tt>search()</tt>
+will return an enumeration consisting of at most <em>n</em>
+results. If the number of results exceeds <em>n</em>, then
+when <tt>NamingEnumeration.hasMore()</tt> is invoked for the <em>n+1</em>
+time, a <tt>SizeLimitExceededException</tt> will be thrown.
+See the 
+
+<a target="_top" href="../directory/countlimit.html">count limit discussion</a> <a href="../directory/countlimit.html"><img src="../../jndiimages/basicsIcon.gif" width=20 height=20 border=0 alt="(in the Basics trail)"></a>     in this trail for sample code.
+
+
+
+<h4>Examples in This Tutorial</h4>
+
+In the inline sample code that is embedded within the text of
+this tutorial, the <tt>try/catch</tt> clauses are usually omitted for
+the sake of readability. Typically, because only code
+fragments are shown here, only the lines that are directly useful in
+illustrating a concept are included.  
+You will see appropriate placements of the
+<tt>try/catch</tt> clauses for <tt>NamingException</tt>
+if you look in the source files that
+accompany this tutorial.
+
+<h4>Exceptions in the 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/package-summary.html>javax.naming</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/package-summary.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>      Package</h4>
+
+Following are the exceptions contained in the
+<tt>javax.naming</tt> package:
+<p>
+<tt>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html>NamingException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/CannotProceedException.html>CannotProceedException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/CannotProceedException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/CommunicationException.html>CommunicationException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/CommunicationException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ConfigurationException.html>ConfigurationException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ConfigurationException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ContextNotEmptyException.html>ContextNotEmptyException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ContextNotEmptyException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/InsufficientResourcesException.html>InsufficientResourcesException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/InsufficientResourcesException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/InterruptedNamingException.html>InterruptedNamingException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/InterruptedNamingException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/InvalidNameException.html>InvalidNameException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/InvalidNameException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/LimitExceededException.html>LimitExceededException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/LimitExceededException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/SizeLimitExceededException.html>SizeLimitExceededException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/SizeLimitExceededException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/TimeLimitExceededException.html>TimeLimitExceededException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/TimeLimitExceededException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+</dl>
+
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/LinkException.html>LinkException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/LinkException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/LinkLoopException.html>LinkLoopException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/LinkLoopException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/MalformedLinkException.html>MalformedLinkException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/MalformedLinkException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+</dl>
+
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameAlreadyBoundException.html>NameAlreadyBoundException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameAlreadyBoundException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameNotFoundException.html>NameNotFoundException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameNotFoundException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+</dl>
+
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingSecurityException.html>NamingSecurityException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingSecurityException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/AuthenticationException.html>AuthenticationException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/AuthenticationException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+</dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/AuthenticationNotSupportedException.html>AuthenticationNotSupportedException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/AuthenticationNotSupportedException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NoPermissionException.html>NoPermissionException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NoPermissionException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+</dl>
+
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NoInitialContextException.html>NoInitialContextException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NoInitialContextException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NotContextException.html>NotContextException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NotContextException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/OperationNotSupportedException.html>OperationNotSupportedException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/OperationNotSupportedException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/PartialResultException.html>PartialResultException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/PartialResultException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html>ReferralException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ServiceUnavailableException.html>ServiceUnavailableException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ServiceUnavailableException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+
+</dl>
+</tt>
+
+<h4>Exceptions in the 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/package-summary.html>javax.naming.directory</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/package-summary.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     Package</h4>
+
+Following are the exceptions in the 
+<tt>javax.naming.directory</tt> package:
+<p>
+
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html>NamingException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/AttributeInUseException.html>AttributeInUseException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/AttributeInUseException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/AttributeModificationException.html>AttributeModificationException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/AttributeModificationException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InvalidAttributeIdentifierException.html>InvalidAttributeIdentifierException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InvalidAttributeIdentifierException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InvalidAttributesException.html>InvalidAttributesException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InvalidAttributesException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InvalidAttributeValueException.html>InvalidAttributeValueException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InvalidAttributeValueException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InvalidSearchControlsException.html>InvalidSearchControlsException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InvalidSearchControlsException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InvalidSearchFilterException.html>InvalidSearchFilterException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InvalidSearchFilterException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/NoSuchAttributeException.html>NoSuchAttributeException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/NoSuchAttributeException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/SchemaViolationException.html>SchemaViolationException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/SchemaViolationException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+</dl>
+</tt>
+
+<h4>Exceptions in the 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/package-summary.html>javax.naming.ldap</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/package-summary.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     Package</h4>
+
+Following are the exceptions in the 
+<tt>javax.naming.directory</tt> package:
+
+<tt>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html>NamingException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html>ReferralException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapReferralException.html>LdapReferralException</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapReferralException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></dl>
+</dl>
+</dl>
+</tt>
+
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="package.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="initial.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/basicsHeader.gif" width=26 height=26 align=top border=0 alt="The Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Preparations</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

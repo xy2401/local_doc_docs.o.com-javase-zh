@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>"Extended" Operations</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="response.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="starttls.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Controls and Extensions</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    "Extended" Operations
+</h2>
+<p>
+<blockquote>
+
+As mentioned earlier in this lesson,
+the LDAP v3 defines
+the "extended" operation, which takes 
+a request as the argument and returns a response. 
+The request contains an identifier that
+identifies the request and the arguments of the request.
+The response contains the results of performing the request.  
+The pair of "extended" operation request/response is called an
+<em>extension</em>.  For example, there can be an extension for 
+<a href="http://www.ietf.org/rfc/rfc2830.txt">Start TLS</a>, 
+which is a request for the client to the server to activate the
+TLS protocol. These extensions can be standard (defined by the
+LDAP community) or proprietary (defined by a particular directory
+vendor).
+<p>
+The
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/package-summary.html"><tt>javax.naming.ldap</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/package-summary.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    package defines the interface 
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/ExtendedRequest.html"><tt>ExtendedRequest</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/ExtendedRequest.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+to represent the argument to an "extended" operation,
+and the interface
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/ExtendedResponse.html"><tt>ExtendedResponse</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/ExtendedResponse.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    to represent the result of the operation.
+An extended response is usually paired with an extended request
+but not necessarily vice versa. That is, you can have an extended request
+that has no corresponding extended response.
+An unpaired extended response is called an unsolicited notification,
+described in detail in the
+<a target="_top" href="../../beyond/event/unsol.html">Event Notification</a> <a target="_top" href="../../beyond/event/unsol.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson.
+<p>
+An application typically does not deal directly with these interfaces.
+Instead, it deals with classes that <em>implement</em> these
+interfaces.  
+The application gets these classes either as part of a
+repertoire of "extended" operations standardized through the IETF or
+from directory vendors for vendor-specific "extended" operations.
+The request classes should have constructors that accept
+arguments in a type-safe and user-friendly manner, whereas the
+response classes should have access methods for getting the data
+of the response in a type-safe and user-friendly manner.
+Internally, the request/response classes deal with encoding and decoding
+BER values.
+<p>
+Examples of extension classes are the
+
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/ldap/StartTlsRequest.html"><tt>StartTlsRequest</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/ldap/StartTlsRequest.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and 
+
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/ldap/StartTlsResponse.html"><tt>StartTlsResponse</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/ldap/StartTlsResponse.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+   classes.
+See the <a href=starttls.html>next section</a> 
+for a detailed description of this extension and
+sample code that uses these classes.
+
+<h4>Extensions Supported by LDAP Servers</h4>
+
+Support for specific extensions is LDAP server-dependent.
+Eventually, when extensions are standardized, a
+set of popular extensions supported by most LDAP servers
+might be available.
+However, proprietary and vendor-specific extensions
+might still be around.
+<p>
+Here is a <a href=src/ServerExts.java>simple program</a> for finding
+out the list of extensions that an LDAP server supports.
+<blockquote><pre>
+// Create the initial context
+DirContext ctx = new InitialDirContext();
+
+// Read supportedextension from the root DSE
+Attributes attrs = ctx.getAttributes(
+    "ldap://localhost:389", new String[]{"supportedextension"});
+</pre></blockquote>
+
+Here is the output produced by running this program against an LDAP server.
+<blockquote><pre>
+{supportedextension=supportedextension: 
+  1.3.6.1.4.1.1466.20037
+}
+</pre></blockquote>
+
+
+<h4>Implementations</h4>
+
+
+You typically will deal with implementation classes that implement
+<tt>ExtendedRequest</tt> and <tt>ExtendedResponse</tt>
+rather than directly use their methods.
+Such implementation classes typically have type-friendly constructors
+and accessor methods.
+<p>
+For example, suppose that an LDAP server supports a Get Time 
+"extended" operation.
+It would supply classes such as
+<tt>GetTimeRequest</tt> and <tt>GetTimeResponse</tt>,
+so that applications can use this feature.
+An application would use these classes as follows.
+<blockquote><pre>
+// Invoke the "extended" operation
+GetTimeResponse resp =
+    (GetTimeResponse) lctx.extendedOperation(new GetTimeRequest());
+
+// Get the "extended" operation's (decoded) response
+long time = resp.getTime();
+</pre></blockquote>
+<p>
+The <tt>GetTimeRequest</tt> and <tt>GetTimeResponse</tt> classes might
+be defined as follows.
+<blockquote><pre>
+public class GetTimeRequest implements ExtendedRequest {
+    // User-friendly constructor 
+    public GetTimeRequest() {
+    };
+
+    // Methods used by service providers
+    public String getID() {
+        return GETTIME_REQ_OID;
+    }
+    public byte[] getEncodedValue() {
+        return null;  // No value is needed for the Get Time request
+    }
+    public ExtendedResponse createExtendedResponse(
+        String id, byte[] berValue, int offset, int length) throws NamingException {
+        return new GetTimeResponse(id, berValue, offset, length);
+    }
+}
+
+public class GetTimeResponse implements ExtendedResponse {
+    long time;
+    // Called by GetTimeRequest.createExtendedResponse()
+    GetTimeResponse(String id, byte[] berValue, int offset, int length) 
+        throws NamingException {
+        // Check the validity of the id
+        long time =  ... // Decode berValue to get the time
+    }
+
+    // These are type-safe and user-friendly methods
+    public java.util.Date getDate() { return new java.util.Date(time); }
+    public long getTime() { return time; }
+
+    // These are low-level methods
+    public byte[] getEncodedValue() {
+        return // berValue saved;
+    }
+    public String getID() {
+        return GETTIME_RESP_OID;
+    }
+}
+</pre></blockquote>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="response.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="starttls.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Controls and Extensions</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

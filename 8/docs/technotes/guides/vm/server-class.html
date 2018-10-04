@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Server-Class Machine Detection</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../webdesign/pubs8/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs8/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://docs.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+
+<h2>Server-Class Machine Detection</h2>
+
+<p>Starting with Java SE 5.0, when an application starts up, the
+launcher can attempt to detect whether the application is running
+on a &quot;server-class&quot; machine and, if so, use the Java
+HotSpot Server Virtual Machine (<i>server VM</i>) instead of the
+Java HotSpot Client Virtual Machine (<i>client VM</i>). The aim is
+to improve performance even if no one configures the VM to reflect
+the application it's running. In general, the server VM starts up
+more slowly than the client VM, but over time runs more
+quickly.</p>
+<hr />
+<b>Note:</b> For Java SE 6, the definition of a <i>server-class</i>
+machine is one with at least 2 CPUs and at least 2GB of physical
+memory.
+<hr />
+<p>In Java SE 6, server-class detection occurs if neither
+<code>-server</code> nor <code>-client</code> is specified when
+launching the application on an i586 or Sparc 32-bit machine
+running Solaris or Linux. As the following table shows, the i586
+Microsoft Windows platform uses the client VM by default. The
+remaining platforms use only the server VM.</p>
+<div align="center">
+<table border="1" summary="Platform and default VM">
+<tr>
+<th id="h1">Architecture</th>
+<th id="h2">OS</th>
+<th id="h3">Default client VM</th>
+<th id="h4">if server-class, server VM;<br />
+otherwise, client VM</th>
+<th id="h5">Default server VM</th>
+</tr>
+<tr>
+<td headers="h1">SPARC 32-bit</td>
+<td headers="h2">Solaris</td>
+<td headers="h3">
+<div align="center">&nbsp;</div>
+</td>
+<td headers="h4">
+<div align="center"><b>X</b></div>
+</td>
+<td headers="h5">
+<div align="center">&nbsp;</div>
+</td>
+</tr>
+<tr>
+<td headers="h1">i586</td>
+<td headers="h2">Solaris</td>
+<td headers="h3">
+<div align="center">&nbsp;</div>
+</td>
+<td headers="h4">
+<div align="center"><b>X</b></div>
+</td>
+<td headers="h5">
+<div align="center">&nbsp;</div>
+</td>
+</tr>
+<tr>
+<td headers="h1">i586</td>
+<td headers="h2">Linux</td>
+<td headers="h3">
+<div align="center">&nbsp;</div>
+</td>
+<td headers="h4">
+<div align="center"><b>X</b></div>
+</td>
+<td headers="h5">
+<div align="center">&nbsp;</div>
+</td>
+</tr>
+<tr>
+<td headers="h1">i586</td>
+<td headers="h2">Microsoft Windows</td>
+<td headers="h3">
+<div align="center"><b>X</b></div>
+</td>
+<td headers="h4">
+<div align="center">&nbsp;</div>
+</td>
+<td headers="h5">
+<div align="center">&nbsp;</div>
+</td>
+</tr>
+<tr>
+<td headers="h1">SPARC 64-bit</td>
+<td headers="h2">Solaris</td>
+<td headers="h3">
+<div align="center">&mdash;</div>
+</td>
+<td headers="h4">
+<div align="center">&nbsp;</div>
+</td>
+<td headers="h5">
+<div align="center"><b>X</b></div>
+</td>
+</tr>
+<tr>
+<td headers="h1">AMD64</td>
+<td headers="h2">Solaris</td>
+<td headers="h3">
+<div align="center">&mdash;</div>
+</td>
+<td headers="h4">
+<div align="center">&nbsp;</div>
+</td>
+<td headers="h5">
+<div align="center"><b>X</b></div>
+</td>
+</tr>
+<tr>
+<td headers="h1">AMD64</td>
+<td headers="h2">Linux</td>
+<td headers="h3">
+<div align="center">&mdash;</div>
+</td>
+<td headers="h4">
+<div align="center">&nbsp;</div>
+</td>
+<td headers="h5">
+<div align="center"><b>X</b></div>
+</td>
+</tr>
+<tr>
+<td headers="h1">AMD64</td>
+<td headers="h2">Microsoft Windows</td>
+<td headers="h3">
+<div align="center">&mdash;</div>
+</td>
+<td headers="h4">
+<div align="center">&nbsp;</div>
+</td>
+<td headers="h5">
+<div align="center"><b>X</b></div>
+</td>
+</tr>
+</table>
+<b>Legend:</b> &nbsp;&nbsp;<b>X</b> = default
+VM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &mdash; = client VM not provided for
+this platform</div>
+<p>For details of using command-line options for launching
+applications, see the <code>java</code> tool documentation for
+<a href="../../tools/unix/java.html">Solaris, Linux, or Mac OS X</a>, or
+<a href="../../tools/windows/java.html">Microsoft Windows</a>.</p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

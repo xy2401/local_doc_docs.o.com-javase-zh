@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>examples/Lookup/jini/Client.java</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="dcterms.created" content="2018-03-13T13:07:03Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Java Management Extensions Guide" />
+<meta name="dcterms.identifier" content="E91147-01" />
+<meta name="dcterms.isVersionOf" content="JSJMX" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;2006, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="examples-lookup-jini-server-java.htm" title="Previous" type="text/html" />
+<link rel="Next" href="examples-lookup-jini-java-policy.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSJMX.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-23F3DE0B-0334-4B22-A690-CE00C61ABE45"></a> <span id="PAGE" style="display:none;">60/95</span> <!-- End Header -->
+<h1 id="JSJMX-GUID-23F3DE0B-0334-4B22-A690-CE00C61ABE45" class="sect1">examples/Lookup/jini/Client.java</h1>
+<div>
+<pre dir="ltr">
+/*
+ * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *   - Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *
+ *   - Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *
+ *   - Neither the name of Oracle or the names of its
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */ 
+
+package jini;
+
+import net.jini.core.lookup.ServiceRegistrar;
+import net.jini.admin.Administrable;
+import net.jini.core.discovery.LookupLocator;
+import net.jini.core.lookup.ServiceItem;
+import net.jini.core.lookup.ServiceRegistration;
+import net.jini.core.entry.Entry;
+import net.jini.core.lease.Lease;
+import net.jini.core.lookup.ServiceTemplate;
+import net.jini.core.lookup.ServiceMatches;
+
+import javax.management.remote.*;
+import javax.management.*;
+
+import java.net.MalformedURLException;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.Iterator;
+import java.io.IOException;
+import java.io.Serializable;
+import java.rmi.RMISecurityManager;
+
+/**
+ * This class demonstrates how to use Jini as a lookup service for
+ * JSR 160 connectors. It shows how to lookup a JMXConnector from
+ * the Jini lookup service.
+ * &lt;p&gt;
+ * See README file and {@link #main(String[])} for more details.
+ * &lt;p&gt;
+ * Make sure to read the section "Binding with Lookup Services" of
+ * the JMX Remote API 1.0 Specification before looking at this example.
+ */
+public class Client {
+
+    private static boolean debug = false;
+
+    /**
+     * Get a pointer to the Jini Lookup Service.
+     * (See Jini documentation for more info).
+     * &lt;p&gt;
+     * The Jini Lookup Service URL is determined as follows:
+     * &lt;p&gt;
+     * If the System property &lt;code&gt;"jini.lookup.url"&lt;/code&gt; is provided,
+     * its value is the Jini Lookup Service URL.
+     * &lt;p&gt;
+     * Otherwise, the default URL is assumed to be
+     * &lt;code&gt;"jini://localhost"&lt;/code&gt;
+     *
+     * @return a pointer to the Jini Lookup Service.
+     */
+    public static ServiceRegistrar getRegistrar()
+        throws IOException, ClassNotFoundException, MalformedURLException {
+        final String jurl =
+            System.getProperty("jini.lookup.url","jini://localhost");
+        final LookupLocator lookup = new LookupLocator(jurl);
+        final ServiceRegistrar registrar = lookup.getRegistrar();
+        if (registrar instanceof Administrable)
+            debug("Registry is administrable.");
+        return registrar;
+    }
+
+    /**
+     * Lookup JMXConnectors in the Jini Lookup Service.
+     *
+     * @param registrar A pointer to the Jini Lookup Service,
+     *        returned by {@link #getRegistrar()}.
+     * @param name the AgentName of the JMXConnectors that should
+     *        be returned. If &lt;var&gt;name&lt;/var&gt; is null, then
+     *        the JMXConnectors for all agents are returned
+     *        (null is an equivalent for a wildcard).
+     * @return The list of matching JMXConnectors retrieved from
+     *         the Jini Lookup Service.
+     */
+    public static List lookup(ServiceRegistrar registrar,
+                              String name) throws IOException {
+        final ArrayList list = new ArrayList();
+
+        // Returns only JMXConnectors. The filter could be made
+        // more strict by suplying e.g. RMIConnector.class
+        // (would only return RMIConnectors).
+        //
+        final Class[] classes = new Class[] {JMXConnector.class};
+
+        // Will return only those services for which the Name
+        // attribute was registered. Since JSR 160 specifies that
+        // the Name attribute is mandatory, this makes it possible
+        // to filter out all the services that do not conform
+        // to the spec.
+        // If &lt;name&gt; is null, then all services for which the
+        // Name attribute was specified will match, regardless of
+        // the value of that attribute. Otherwise, only those services
+        // for which Name matches the specified name will be returned.
+        //
+        final Entry[] serviceAttrs = new Entry[] {
+            // Add here the matching attributes.
+            new net.jini.lookup.entry.Name(name)
+        };
+
+        // Create a ServiceTemplate to do the matching.
+        //
+        ServiceTemplate template =
+            new ServiceTemplate(null,classes,serviceAttrs);
+
+        // Lookup all matching services in the Jini Lookup Service.
+        //
+        ServiceMatches matches =
+            registrar.lookup(template, Integer.MAX_VALUE);
+
+        // Retrieve the matching JMX Connectors.
+        //
+        for (int i = 0; i &lt; matches.totalMatches; i++) {
+
+            debug("Found Service: " + matches.items[i].serviceID);
+            if (debug) {
+                // List the lookup attributes that where registered
+                // for that service.
+                if (matches.items[i].attributeSets != null) {
+                    final Entry[] attrs = matches.items[i].attributeSets;
+                    for (int j = 0; j &lt; attrs.length ; j++) {
+                        debug("\tAttribute["+j+"]=" + attrs[j]);
+                    }
+                }
+            }
+
+            if (matches.items[i].service != null) {
+                // Service could be null if it can't be deserialized, because
+                // e.g. the class was not found.
+                // This will not happen with JSR 160 mandatory connectors
+                // however.
+
+                // Get the JMXConnector.
+                //
+                JMXConnector c = (JMXConnector)(matches.items[i].service);
+                debug("Found a JMXConnector: " + c);
+
+                // Add the connector to the result list.
+                list.add(c);
+            }
+        }
+        return list;
+    }
+
+    /**
+     * List all MBeans and their attributes.
+     */
+    public static void listMBeans(MBeanServerConnection server)
+        throws IOException {
+
+        final Set names = server.queryNames(null,null);
+        for (final Iterator i=names.iterator(); i.hasNext(); ) {
+            ObjectName name = (ObjectName)i.next();
+            System.out.println("Got MBean: "+name);
+            try {
+                MBeanInfo info =
+                    server.getMBeanInfo((ObjectName)name);
+                MBeanAttributeInfo[] attrs = info.getAttributes();
+                if (attrs == null) continue;
+                for (int j=0; j&lt;attrs.length; j++) {
+                    if (attrs[j].isReadable()) {
+                        try {
+                            Object o =
+                                server.getAttribute(name,attrs[j].getName());
+                            System.out.println("\t\t" + attrs[j].getName() +
+                                               " = "+o);
+                        } catch (Exception x) {
+                            System.err.println("JmxClient failed to get " +
+                                               attrs[j].getName());
+                            x.printStackTrace(System.err);
+                        }
+                    }
+                }
+            } catch (Exception x) {
+                System.err.println("JmxClient failed to get MBeanInfo: "  + x);
+                x.printStackTrace(System.err);
+            }
+        }
+    }
+
+    /**
+     * Trace a debug message.
+     */
+    private static void debug(String msg) {
+        if (debug) System.out.println(msg);
+    }
+
+    /**
+     * Program Main
+     * &lt;p&gt;
+     * Lookup all JMX agents in the Jini Lookup Service and list
+     * their MBeans and attributes.
+     * &lt;p&gt;
+     * You may wish to use the following properties on the Java command line:
+     * &lt;ul&gt;
+     * &lt;li&gt;&lt;code&gt;-Dagent.name=&amp;lt;AgentName&amp;gt;&lt;/code&gt;: specifies an
+     *     AgentName to lookup (default is null, meaning any agent).&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;-Djini.lookup.url=&amp;lt;jini-url&amp;gt;&lt;/code&gt;:
+     *     the Jini Lookup Service URL (default is "jini://localhost"),
+     *     see {@link #getRegistrar()}.&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;-Ddebug="true|false"&lt;/code&gt;: switch the Client debug flag
+     *     on/off (default is "false").&lt;/li&gt;
+     * &lt;/ul&gt;
+     */
+    public static void main(String[] args) {
+        try {
+            // Jini requires a security manager.
+            //
+            if (System.getSecurityManager() == null)
+                System.setSecurityManager(new RMISecurityManager());
+
+            // Get the value of the debug flag.
+            //
+            debug = (Boolean.valueOf(System.getProperty("debug","false"))).
+                booleanValue();
+
+            // Get AgentName to lookup. If not defined, all agents
+            // are looked up.
+            //
+            final String agentName = System.getProperty("agent.name");
+
+            // Get a pointer to the Jini Lookup Service.
+            //
+            final ServiceRegistrar registrar = getRegistrar();
+            debug("registrar is: " + registrar);
+
+            // Lookup all matching agents in the Jini Lookup Service.
+            //
+            List l = lookup(registrar,agentName);
+
+            // Attempt to connect to retrieved agents
+            //
+            System.out.println("Number of agents found : " + l.size());
+            int j = 1;
+            for (Iterator i=l.iterator();i.hasNext();j++) {
+                JMXConnector c1 = (JMXConnector) i.next();
+                if (c1 != null) {
+
+                    // Connect
+                    //
+                    System.out.println(
+                      "----------------------------------------------------");
+                    System.out.println("\tConnecting to agent number "+j);
+                    System.out.println(
+                      "----------------------------------------------------");
+                    debug("JMXConnector is: " + c1);
+
+                    try {
+                        c1.connect(null);
+                    } catch (IOException x) {
+                        System.err.println("Connection failed: " + x);
+                        if (debug) x.printStackTrace(System.err);
+                        continue;
+                    }
+
+                    // Get MBeanServerConnection
+                    //
+                    MBeanServerConnection conn =
+                        c1.getMBeanServerConnection();
+                    debug("Connection is:" + conn);
+                    System.out.println("Server domain is: " +
+                                       conn.getDefaultDomain());
+
+                    // List all MBeans
+                    //
+                    try {
+                        listMBeans(conn);
+                    } catch (IOException x) {
+                        System.err.println("Failed to list MBeans: " + x);
+                        if (debug) x.printStackTrace(System.err);
+                    }
+
+                    // Close connector
+                    //
+                    try {
+                        c1.close();
+                    } catch (IOException x) {
+                        System.err.println("Failed to close connection: " + x);
+                        if (debug) x.printStackTrace(System.err);
+                    }
+                }
+            }
+        } catch (Exception x) {
+            System.err.println("Unexpected exception caught in main: " + x);
+            x.printStackTrace(System.err);
+        }
+    }
+}
+</pre></div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment263">
+<tr>
+<td class="cellalignment270">
+<table class="cellalignment268">
+<tr>
+<td class="cellalignment267"><a href="examples-lookup-jini-server-java.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment267"><a href="examples-lookup-jini-java-policy.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;2006, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment272">
+<table class="cellalignment266">
+<tr>
+<td class="cellalignment267"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment267"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment267"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

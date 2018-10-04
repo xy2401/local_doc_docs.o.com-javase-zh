@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta name="generator" content="DITA Open Toolkit version 1.8.5" />
+<title>Description of Figure Example of How Application Retrieves "AES" Cipher Instance / Architecture of Service Provider Interface.png</title>
+<link rel="stylesheet" href="../../dcommon/css/blafdoc.css" title="Oracle BLAFDoc" type="text/css" />
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<div>
+<p>This figure consists of five boxes:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Application: This box contains the following pseudocode:</p>
+<pre class="oac_no_warn" dir="ltr">
+c:Cipher.getInstance("AES");
+</pre></li>
+<li>
+<p>JCA/JCE: This box contains the following list:</p>
+<ul style="list-style-type: disc;">
+<li>Signature</li>
+<li>Message Digest</li>
+<li>Key Script Generator</li>
+<li>Key Factory</li>
+<li>Algorithm Parameters</li>
+<li>Cipher</li>
+<li>Key Agreement</li>
+<li>Key Generator</li>
+<li>Secret Key Factory</li>
+<li>MAC</li>
+</ul>
+</li>
+<li>
+<p>CSP, CSP2, CSP3: These boxes represent cryptographic service providers</p>
+</li>
+<li>
+<p>The fifth box represents CSP3. It contains the following headers and pseudocode:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Provider.class</p>
+<pre class="oac_no_warn" dir="ltr">
+"Cipher.AES" -&gt; "com.foo.AESCipher"
+</pre></li>
+<li>
+<p>com.foo.AESCipher.class</p>
+<pre class="oac_no_warn" dir="ltr">
+package com.foo:
+  class AESCipher extends CipherSPi {
+    .
+    .
+    .
+  }
+</pre></li>
+</ul>
+</li>
+</ul>
+<p>Arrows connect the boxes as follows:</p>
+<ul style="list-style-type: disc;">
+<li>From Application to JCA/JCE</li>
+<li>From JCA/JCE to CSP1, CSP2, and CSP3 (the arrow branches)</li>
+</ul>
+<p>A dotted line connects CSP3 to the headings Provider.class and com.foo.AESCipher.class</p>
+</div>
+<div class="footer"><img class="copyrightlogo" src="../../dcommon/gifs/oracle.gif" alt="Oracle Logo" /> <a href="../../dcommon/html/cpyr.htm"><br />
+<span class="copyrightlogo">Copyright&nbsp;©&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span></a></div>
+</body>
+</html>

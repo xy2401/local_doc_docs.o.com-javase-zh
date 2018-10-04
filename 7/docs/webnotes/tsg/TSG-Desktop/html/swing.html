@@ -1,0 +1,649 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<!-- GenHTML revision 23965-->
+<meta http-equiv="Content-type" content=
+"text/html; charset=utf-8" />
+<title>Swing - Troubleshooting Guide for Java SE 7 Desktop
+Technologies</title>
+<meta http-equiv="content-language" content="en-US" />
+<meta name="robots" content="index,follow" />
+<meta name="language" content="en" />
+<meta name="collection" content="reference" />
+<meta name="keywords" content="" />
+<meta name="description" content=
+"This document is a guide to help troubleshoot problems that might arise with applications that are deployed using the release of Java Platform, Standard Edition 7 (Java SE 7). Most of the information also applies to Java SE 5." />
+<meta name="date" content="2008-09-01" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/default.css" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/pagelayout.css" />
+<link rel="alternate stylesheet" type="text/css" title="print"
+href="css/print.css" />
+<script type="text/javascript">
+//<![CDATA[
+function setActiveStyleSheet(title) {
+  var i, a, main;
+  for (i=0; (a = document.getElementsByTagName("link")[i]); i++) {
+         if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+                a.disabled = true;
+                if(a.getAttribute("title") == title) a.disabled = false;
+         }
+  }
+}
+
+function ClearDefault(Element) {
+   if (Element.defaultValue == Element.value) {
+        Element.value = ""
+        Element.style.cssText = "font-weight: bold; color: #00000"
+   }
+}
+
+//]]>
+</script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<div class="MastheadPane">
+<table class="MastheadTable" width="100%">
+<tr class="closeprintview">
+<td align="right"><a href="#" onclick=
+"setActiveStyleSheet('screen')">Exit Print View</a></td>
+</tr>
+<tr class="titlebar">
+<td>
+<h4 class="contentpage-doctitle"><a href="toc.html">Troubleshooting
+Guide for Java SE 7 Desktop Technologies</a></h4>
+</td>
+<td class="smallLogo"><a href="http://www.oracle.com"><img src=
+"graphics/smallOracleLogo.gif" /></a></td>
+</tr>
+</table>
+</div>
+<div class="ButtonPane">
+<table class="pagecontrol">
+<tr>
+<td class="pagebuttons"><a href="#" onclick=
+"setActiveStyleSheet('print')"><img height="46" width="40" border=
+"0" src="graphics/print.gif" alt="Print View" title=
+"Print View" /></a></td>
+<td class="pagebreadcrumb"></td>
+<td class="pagenavlinks"><a href="java2d.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="i18n.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+<div class="TOCPane">
+<p class="toc level1"><a href="docinfo.html">Document
+Information</a></p>
+<p class="toc level1 tocsp"><a href="preface.html">Preface</a></p>
+<p class="toc level1 tocsp"><a href=
+"introduction.html">1.&#160;&#160;Introduction</a></p>
+<p class="toc level1 tocsp"><a href=
+"awt.html">2.&#160;&#160;AWT</a></p>
+<p class="toc level1 tocsp"><a href=
+"java2d.html">3.&#160;&#160;Java 2D</a></p>
+<div id="scrolltoc" class="onpage">
+<p class="toc level1 tocsp"><a href="">4.&#160;&#160;Swing</a></p>
+<p class="toc level2"><a href="#gchlh">4.1 General Debugging Tips
+for Swing</a></p>
+<p class="toc level2"><a href="#gchzf">4.2 Specific Debugging Tips
+for Swing</a></p>
+<p class="toc level3"><a href="#gdlci">4.2.1 Incorrect
+Threading</a></p>
+<p class="toc level3"><a href="#gdldq">4.2.2 Overlapping Children
+of a <tt>JComponent</tt></a></p>
+<p class="toc level3"><a href="#gdldc">4.2.3 Updating the
+Display</a></p>
+<p class="toc level3"><a href="#gdled">4.2.4 Changing the
+Model</a></p>
+<p class="toc level3"><a href="#gdleg">4.2.5 Adding or Removing
+Components</a></p>
+<p class="toc level3"><a href="#gdlda">4.2.6 Overriding
+Opaque</a></p>
+<p class="toc level3"><a href="#gdlcu">4.2.7 Permanent Changes to a
+Graphics</a></p>
+<p class="toc level3"><a href="#gdlct">4.2.8 Custom Painting and
+Double Buffering</a></p>
+<p class="toc level3"><a href="#gdleh">4.2.9 Opaque Content
+Pane</a></p>
+<p class="toc level3"><a href="#gdldi">4.2.10 Performance: Call to
+Renderer for Each Cell</a></p>
+<p class="toc level3"><a href="#gdldm">4.2.11 Possible
+Leaks</a></p>
+<p class="toc level3"><a href="#gdlde">4.2.12 Mixing Heavyweight
+and Lightweight Components</a></p>
+<p class="toc level3"><a href="#gdldd">4.2.13 Tips for Using
+<tt>Synth</tt></a></p>
+<p class="toc level3"><a href="#gdlee">4.2.14 Tracking Activity on
+Event Dispatch Thread</a></p>
+<p class="toc level3"><a href="#gdlcr">4.2.15 Differing Default
+Layout Managers</a></p>
+<p class="toc level3"><a href="#gdldf">4.2.16 Listener Objects
+Dispatched to Deepest Component</a></p>
+<p class="toc level3"><a href="#gdlcy">4.2.17 Adding a Component to
+Content Pane</a></p>
+<p class="toc level3"><a href="#gdlcj">4.2.18 Drag and Drop Support
+in Swing</a></p>
+<p class="toc level3"><a href="#gdleb">4.2.19 One Parent at a Time
+for a Component</a></p>
+<p class="toc level3"><a href="#gdaaj">4.2.20 Problem With
+<tt>JFileChooser</tt> and Shortcuts on Windows</a></p>
+</div>
+<p class="toc level1 tocsp"><a href=
+"i18n.html">5.&#160;&#160;Internationalization</a></p>
+<p class="toc level1 tocsp"><a href="sound.html">6.&#160;&#160;Java
+Sound</a></p>
+<p class="toc level1 tocsp"><a href=
+"plugin.html">7.&#160;&#160;Applets and Java Web Start
+Applications</a></p>
+<p class="toc level1 tocsp"><a href=
+"bugreports.html">8.&#160;&#160;Submitting Bug Reports</a></p>
+<p class="toc level1 tocsp"><a href=
+"java2d-props.html">A.&#160;&#160;Java 2D Properties</a></p>
+<p class="toc level1 tocsp"><a href=
+"felog.html">B.&#160;&#160;Fatal Error Log</a></p>
+</div>
+<div class="ContentPane"><a name="swing" id=
+"swing"></a>Chapter&#160;4
+<h2>Swing</h2>
+<p>This chapter provides information and guidance on some specific
+procedures for troubleshooting some of the most common issues that
+might be found in the Java SE Swing API.</p>
+<a name="gchlh" id="gchlh"></a>
+<h3>4.1 General Debugging Tips for Swing</h3>
+<p>Swing's painting infrastructure changed quite extensively in
+Java SE 6. If you notice painting artifacts specific in Java SE 6
+or later releases, you can try turning off the new functionality.
+This can be done with the property
+<tt>swing.bufferPerWindow</tt>.</p>
+<p>When you are debugging the Swing code which is executed while
+any menu is popped up, it is recommended to use the debugger
+remotely. Otherwise, the debugging process and the application
+execution block each other, and this prevents further work with the
+system. If that happens, the only action that can be taken is to
+kill the X server for Linux and Solaris. For more information, see
+the following bug in the Bug Database.</p>
+<p><a href=
+"http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6517045">http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6517045</a></p>
+<p>Some common Swing problems:</p>
+<ul>
+<li>
+<p>Painting problems.</p>
+</li>
+<li>
+<p>Renderers.</p>
+</li>
+<li>
+<p>Updating models from wrong thread.</p>
+</li>
+<li>
+<p>Hangs.</p>
+</li>
+<li>
+<p>Responsiveness.</p>
+</li>
+<li>
+<p>Repainting issues.</p>
+</li>
+<li>
+<p><tt>isOpaque</tt> usage.</p>
+</li>
+<li>
+<p>Startup: could be caused by small heap, loading unnecessary
+classes.</p>
+</li>
+</ul>
+<p>Some things to consider:</p>
+<ul>
+<li>
+<p>Buffer-per-window feature.</p>
+</li>
+<li>
+<p>Native look-and-feel fidelity: Gnome vs Windows</p>
+</li>
+<li>
+<p>Footprint of Swing applications.</p>
+</li>
+<li>
+<p><tt>JTable</tt>, <tt>JTree</tt>, and <tt>JList</tt> all use
+renderers.</p>
+</li>
+<li>
+<p>Make sure that custom renderers do as little as possible.</p>
+</li>
+<li>
+<p>Update models only from event dispatch thread. Otherwise the
+display will not reflect the state of the model.</p>
+</li>
+</ul>
+<p>Identifying bad renderers:</p>
+<ul>
+<li>
+<p>Sluggish application, especially when scrolling.</p>
+</li>
+<li>
+<p>Use an optimizer to watch painting calls, look for calls to
+<tt>getTableCellTRendererComponent</tt>.</p>
+</li>
+</ul>
+<a name="gchzf" id="gchzf"></a>
+<h3>4.2 Specific Debugging Tips for Swing</h3>
+<p>The following subsections present some tips for troubleshooting
+Swing problems.</p>
+<ul>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdlci">4.2.1 Incorrect Threading</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdldq">4.2.2 Overlapping Children of a
+<tt>JComponent</tt></a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdldc">4.2.3 Updating the Display</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdled">4.2.4 Changing the Model</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdleg">4.2.5 Adding or Removing Components</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdlda">4.2.6 Overriding Opaque</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdlcu">4.2.7 Permanent Changes to a Graphics</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdlct">4.2.8 Custom Painting and Double Buffering</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdleh">4.2.9 Opaque Content Pane</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdldi">4.2.10 Performance: Call to Renderer for Each Cell</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdldm">4.2.11 Possible Leaks</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdlde">4.2.12 Mixing Heavyweight and Lightweight
+Components</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdldd">4.2.13 Tips for Using <tt>Synth</tt></a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdlee">4.2.14 Tracking Activity on Event Dispatch Thread</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdlcr">4.2.15 Differing Default Layout Managers</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdldf">4.2.16 Listener Objects Dispatched to Deepest
+Component</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdlcy">4.2.17 Adding a Component to Content Pane</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdlcj">4.2.18 Drag and Drop Support in Swing</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdleb">4.2.19 One Parent at a Time for a Component</a></p>
+</li>
+<li>
+<p><img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gdaaj">4.2.20 Problem With <tt>JFileChooser</tt> and Shortcuts on
+Windows</a></p>
+</li>
+</ul>
+<a name="gdlci" id="gdlci"></a>
+<h4>4.2.1 Incorrect Threading</h4>
+<p>Random exceptions and painting problems are usually the result
+of incorrect threading usage of Swing. <b>All</b> access to Swing
+components, unless specifically noted in the javadoc, must be done
+on the event dispatch thread. This includes any models
+(<tt>TableModel</tt>, <tt>ListModel</tt>, and others) that are
+attached to Swing components.</p>
+<p>The best way to check for bad usage of Swing is by way of an
+instrumented <tt>RepaintManager</tt>, as illustrated by the
+following code:</p>
+<pre>
+public class CheckThreadViolationRepaintManager extends RepaintManager {
+     // it is recommended to pass the complete check
+     private boolean completeCheck = true;
+
+     public boolean isCompleteCheck() {
+         return completeCheck;
+     }
+
+     public void setCompleteCheck(boolean completeCheck) {
+         this.completeCheck = completeCheck;
+     }
+
+     public synchronized void addInvalidComponent(JComponent component) {
+         checkThreadViolations(component);
+         super.addInvalidComponent(component);
+     }
+
+     public void addDirtyRegion(JComponent component, int x, int y, int w, int 
+h) {
+         checkThreadViolations(component);
+         super.addDirtyRegion(component, x, y, w, h);
+     }
+
+     private void checkThreadViolations(JComponent c) {
+         if (!SwingUtilities.isEventDispatchThread() &#38;&#38; (completeCheck || 
+c.isShowing())) {
+             Exception exception = new Exception();
+             boolean repaint = false;
+             boolean fromSwing = false;
+             StackTraceElement[] stackTrace = exception.getStackTrace();
+             for (StackTraceElement st : stackTrace) {
+                 if (repaint &#38;&#38; st.getClassName().startsWith("javax.swing.")) {
+                     fromSwing = true;
+                 }
+                 if ("repaint".equals(st.getMethodName())) {
+                     repaint = true;
+                 }
+             }
+             if (repaint &#38;&#38; !fromSwing) {
+                 //no problems here, since repaint() is thread safe
+                 return;
+             }
+             exception.printStackTrace();
+         }
+     }
+}
+</pre>
+<a name="gdldq" id="gdldq"></a>
+<h4>4.2.2 Overlapping Children of a <tt>JComponent</tt></h4>
+<p>Another possible source of painting problems can occur if you
+allow children of a <tt>JComponent</tt> to overlap. In this case
+the parent must override <tt>isOptimizedDrawingEnabled</tt> to
+return <tt>false</tt>. If you do not override
+<tt>isOptimizedDrawingEnabled</tt>, components can randomly appear
+on top of others, depending upon which one repaint was invoked
+on.</p>
+<a name="gdldc" id="gdldc"></a>
+<h4>4.2.3 Updating the Display</h4>
+<p>Another source of painting problems can occur if you do not
+invoke repaint correctly when you need to update the display.
+Changing a visible property of a Swing component, such as the font,
+will trigger a repaint or revalidate. If you are writing a custom
+component, you must invoke repaint and possibly revalidate whenever
+the display or sizing information has been updated. If you do not,
+the display will only update the next time someone triggers a
+repaint.</p>
+<p>A good way to diagnose this is to resize the window. If the
+content appears after a resize, it implies that the component did
+not invoke repaint or revalidate correctly.</p>
+<a name="gdled" id="gdled"></a>
+<h4>4.2.4 Changing the Model</h4>
+<p>Just as you do not need to invoke repaint when you change a
+visible property of a Swing component, you also need not invoke
+repaint when your model changes. If your model sends out the
+correct change notification, the <tt>JComponent</tt> will invoke
+repaint or revalidate as appropriate.</p>
+<p>However, if you change your model but do not send out a
+notification, a repaint event may not even work. In particular this
+will not work with <tt>JTree</tt>. The correct thing to do is to
+send out the appropriate model notification. This can usually be
+diagnosed by again resizing the window and noticing that the
+display has not updated correctly.</p>
+<a name="gdleg" id="gdleg"></a>
+<h4>4.2.5 Adding or Removing Components</h4>
+<p>When you add or remove components, you need to invoke repaint or
+revalidate. Swing and AWT will not invoke repaint or revalidate in
+these situations, and therefore you must invoke them yourself.</p>
+<a name="gdlda" id="gdlda"></a>
+<h4>4.2.6 Overriding Opaque</h4>
+<p>Another possible area of painting problems is if a component
+does not override opaque. Here is the documentation warning on
+this:</p>
+<p>Further, if you do not invoker super's implementation you must
+honor the opaque property, that is if this component is opaque, you
+must completely fill in the background in a non-opaque color. If
+you do not honor the opaque property you will likely see visual
+artifacts.</p>
+<p>The only way to check for this is to look for consistent visual
+artifacts when the component invokes repaint.</p>
+<a name="gdlcu" id="gdlcu"></a>
+<h4>4.2.7 Permanent Changes to a Graphics</h4>
+<p>Do not make any permanent changes to a Graphics passed to
+<tt>paint</tt>, <tt>paintComponent</tt>, or <tt>paintChildren</tt>.
+Here is the documentation warning on this:</p>
+<p>If you override this in a subclass you should not make permanent
+changes to the passed in Graphics. For example, you should not
+alter the clip Rectangle or modify the transform. If you need to do
+these operations you may find it easier to create a new Graphics
+from the passed in Graphics and manipulate it.</p>
+<p>Not honoring this restriction will result in clipping or other
+weird visual artifacts.</p>
+<a name="gdlct" id="gdlct"></a>
+<h4>4.2.8 Custom Painting and Double Buffering</h4>
+<p>Although you can override <tt>paint</tt> and do custom painting
+in the override, you should instead override
+<tt>paintComponent</tt>. The <tt>JComponent.paint</tt> method
+ensures that painting happens to the double buffer. If you override
+<tt>paint</tt> directly, you may lose double buffering.</p>
+<a name="gdleh" id="gdleh"></a>
+<h4>4.2.9 Opaque Content Pane</h4>
+<p>Swing's painting architecture requires an opaque content pane.
+Here is the documentation:</p>
+<p>The painting architecture of Swing requires an opaque
+<tt>JComponent</tt> to exist in the containment hierarchy above all
+other components. This is typically provided by way of the content
+pane. If you replace the content pane, it is recommended that you
+make the content pane opaque by way of <tt>setOpaque(true)</tt>.
+Additionally, if the content pane overrides
+<tt>paintComponent</tt>, it will need to completely fill in the
+background in an opaque color in <tt>paintComponent</tt>.</p>
+<a name="gdldi" id="gdldi"></a>
+<h4>4.2.10 Performance: Call to Renderer for Each Cell</h4>
+<p>Renderers are painted for each cell, so ensure that the renderer
+does as little as possible. Any slowdown in the renderer is
+magnified across all cells. For example, if you repaint the visible
+region of a table with 50x20 visible cells, there will be 1000
+calls to the renderer.</p>
+<a name="gdldm" id="gdldm"></a>
+<h4>4.2.11 Possible Leaks</h4>
+<p>If the life cycle of your model is longer than that of a window
+with a component using the model, you must explicitly set the model
+of the Swing component to null. If you do not set the model to
+null, your model will retain a reference to the <tt>Component</tt>,
+which will keep all components in the window from being
+garbage-collected. For example, consider the following code:</p>
+<pre>
+TableModel myModel = ...;
+JFrame frame = new JFrame();
+frame.setContentPane(new JScrollPane(new JTable(myModel)));
+frame.dispose();
+</pre>
+<p>If your application still holds a reference to <tt>myModel</tt>,
+then <tt>frame</tt> and all its children will still be reachable by
+way of the listener <tt>JTable</tt> installs on <tt>myModel</tt>.
+The solution is to invoke <tt>table.setModel(new
+DefaultTableModel())</tt>.</p>
+<a name="gdlde" id="gdlde"></a>
+<h4>4.2.12 Mixing Heavyweight and Lightweight Components</h4>
+<p>Mixing heavyweight and lightweight components can work in
+certain scenarios, primarily as long as the heavyweight component
+does not overlap with any existing Swing components. For example, a
+heavyweight will not work in an internal frame, because when the
+user drags around the internal frame it will overlap with other
+internal frames. If you do use heavyweights, invoke the following
+methods:</p>
+<ul>
+<li>
+<p><tt>JPopupMenu.setDefaultLightWeightPopupEnabled(false)</tt></p>
+</li>
+<li>
+<p>
+<tt>ToolTipManager.sharedInstance().setLightWeightPopupEnabled(false)</tt></p>
+</li>
+</ul>
+<a name="gdldd" id="gdldd"></a>
+<h4>4.2.13 Tips for Using <tt>Synth</tt></h4>
+<p><tt>Synth</tt> is an empty canvas. To use <tt>Synth</tt> you
+must either provide a complete XML file that configures the look
+and feel, or extend <tt>SynthLookAndFeel</tt> and provide your own
+<tt>SynthStyleFactory</tt>.</p>
+<a name="gdlee" id="gdlee"></a>
+<h4>4.2.14 Tracking Activity on Event Dispatch Thread</h4>
+<p>If a Swing application tries to do too much on the event
+dispatch thread, the application will appear sluggish and
+unresponsive.</p>
+<p>One way to detect this situation is to push a new
+<tt>EventQueue</tt> that can output logging information if an event
+takes too long to process. This approach is not perfect in that it
+has problems with focus events and modality, but it is good for
+ad-hoc testing.</p>
+<a name="gdlcr" id="gdlcr"></a>
+<h4>4.2.15 Differing Default Layout Managers</h4>
+<p>Problems can be caused by having by differing default layout
+manager classes on a Swing component. For example, the default for
+the <tt>JPanel</tt> class is <tt>FlowLayout</tt>, but the default
+for the <tt>JFrame</tt> class is <tt>BorderLayout</tt>. This
+situation is easily fixed by specifying a
+<tt>LayoutManager</tt>.</p>
+<a name="gdldf" id="gdldf"></a>
+<h4>4.2.16 Listener Objects Dispatched to Deepest Component</h4>
+<p><tt>MouseListener</tt> objects are dispatched to the deepest
+component that has <tt>MouseListener</tt> objects (or has enabled
+<tt>MouseEvent</tt> objects). A ramification of this is that if you
+attach a <tt>MouseListener</tt> to a component whose descendants
+have <tt>MouseListener</tt> objects, your <tt>MouseListener</tt>
+object will never get called.</p>
+<p>This is easily reproduced with a composite component, like an
+editable <tt>JComboBox</tt>. Because a <tt>JComboBox</tt> has child
+components that have a <tt>MouseListener</tt>, a
+<tt>MouseListener</tt> attached to an editable <tt>JComboBox</tt>
+will never get notified.</p>
+<p>If your <tt>MouseListener</tt> suddenly stops getting events, it
+could be the result of a change in the application whereby a
+descendant component now has a <tt>MouseListener</tt>. A good way
+to check for this is to iterate over the descendants asking if they
+have any mouse listeners.</p>
+<p>A similar scenario occurs with the <tt>KeyListener</tt> class. A
+<tt>KeyListener</tt> object is dispatched only to the focused
+component.</p>
+<p>The <tt>JComboBox</tt> case is another example of this
+situation. In the editable <tt>JComboBox</tt> case the editor gets
+focus, not the <tt>JComboBox</tt>. As a result, a
+<tt>KeyListener</tt> attached to an editable <tt>JComboBox</tt>
+will never get notified.</p>
+<a name="gdlcy" id="gdlcy"></a>
+<h4>4.2.17 Adding a Component to Content Pane</h4>
+<p>Prior to J2SE 1.5 you could not add a component to a
+<tt>JFrame</tt>, <tt>JWindow</tt>, <tt>JDialog</tt> or
+<tt>JApplet</tt>. Instead, you needed to add the component to the
+content pane. As of J2SE 1.5 it is still the case that a component
+added to a top-level Swing component must go to the content pane,
+but the <tt>add</tt> method (and a couple of other methods) on
+these classes redirect to the content pane. In other words, doing
+<tt>frame.getContentPane().add(component)</tt> is the same as
+<tt>frame.add(component)</tt>.</p>
+<p>The following methods redirect to the content pane for you:
+<tt>add</tt> (and its variants), <tt>remove</tt> (and its
+variants), and <tt>setLayout</tt>.</p>
+<p>This is purely a convenience, but can cause confusion. In
+particular, <tt>getChildren</tt>, <tt>getLayout</tt>, and various
+others do not redirect to the content pane.</p>
+<p>This change impacts <tt>LayoutManagers</tt> that only work with
+one component, such as <tt>GroupLayout</tt> and <tt>BoxLayout</tt>.
+For example, new <tt>GroupLayout(frame)</tt> will not work;
+instead, you need to do new
+<tt>GroupLayout(frame.getContentPane())</tt>.</p>
+<a name="gdlcj" id="gdlcj"></a>
+<h4>4.2.18 Drag and Drop Support in Swing</h4>
+<p>When using Swing you should use Swing's
+drag&#8211;and&#8211;drop support as provided by
+<tt>TransferHandler</tt>. Otherwise, you will have to manage the
+selection and various other issues.</p>
+<a name="gdleb" id="gdleb"></a>
+<h4>4.2.19 One Parent at a Time for a Component</h4>
+<p>Remember that a component can only exist in one parent at a
+time. Problems occur when you attempt to share menu items between
+menus. For example, <tt>JMenuItem</tt> is a component, and
+therefore can exist in only one menu at a time.</p>
+<a name="gdaaj" id="gdaaj"></a>
+<h4>4.2.20 Problem With <tt>JFileChooser</tt> and Shortcuts on
+Windows</h4>
+<p>The <tt>JFileChooser</tt> class does not support shortcuts on
+Windows OS (<tt>.lnk</tt> files). Unlike the standard Windows file
+choosers, <tt>JFileChooser</tt> does not allow the user to follow
+Windows shortcuts when browsing the file system, because it does
+not show the correct path to the file.</p>
+<p>To reproduce the problem, perform the following procedure:</p>
+<ol>
+<li>
+<p>Create a text file on the Desktop called, for example,
+<tt>MyFile.txt</tt>. Open the text file and type some text, for
+example, <tt>This is the contents of MyFile.txt</tt>.</p>
+</li>
+<li>
+<p>Create a shortcut to the new text file in the following way:
+Drag the file with the right mouse button to another location on
+the Desktop and choose &#8220;Create Shortcut(s) here.&#8221;</p>
+</li>
+<li>
+<p>Run the <tt>JfileChooser</tt> test application, browse the
+Desktop, select &#8220;Shortcut to MyFile.txt,&#8221; and press
+Open.</p>
+</li>
+<li>
+<p>The result File is <var>PathToDesktop</var><tt>\Shortcut to
+MyFile.txt.lnk</tt>, but it should be
+<var>PathToDesktop</var><tt>\MyFile.txt</tt>.</p>
+</li>
+<li>
+<p>In addition, the contents of the result File in the text area
+shows the contents of the file <tt>Shortcut to MyFile.txt.lnk</tt>,
+but the contents should be <tt>This is the contents of
+MyFile.txt</tt>, which was typed in the first step.</p>
+</li>
+</ol>
+</div>
+<div class="BottomPageControlPane">
+<table class="pagecontrol">
+<tr>
+<td>
+<div class="pagefooterlinks">Copyright &#169;1995, 2011, Oracle
+and/or its affiliates. All rights reserved. <a href=
+"docinfo.html">Legal Notices</a></div>
+</td>
+<td class="pagenavlinks"><a href="java2d.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="i18n.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+</body>
+</html>

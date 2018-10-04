@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>1 Transformations Overview (Release 8)</title>
+<meta name="description" content="This chapter introduces transformations supported in JavaFX.">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXTE.pdf">PDF</a> | <a href="../JFXTE.epub">ePub</a> | <a href="../JFXTE.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Transformations, Animations, and Visual Effects</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="transforms.htm">Previous Page</a><a class="button" title="Next Page" href="transformation-types.htm">Next Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="CHDCEHJJ" name="CHDCEHJJ" class="anchor"></a><a id="JFXTE216" name="JFXTE216" class="anchor"></a>
+<h1 class="chapter"><span class="secnum">1</span> Transformations Overview</h1>
+<a id="JFXTE217" name="JFXTE217" class="anchor"></a>
+<p>This chapter introduces transformations supported in JavaFX.</p>
+<p>All transformations are located in the <code>javafx.scene.transform</code> package and are subclasses of the <code>Transform</code> class.</p>
+<a id="JFXTE218" name="JFXTE218" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref9" name="sthref9" class="anchor"></a>
+<h2 class="sect1">Introducing Transformations</h2>
+<p>A transformation changes the place of a graphical object in a coordinate system according to certain parameters. The following types of transformations are supported in JavaFX:</p>
+<ul>
+<li>
+<p>Translation</p>
+</li>
+<li>
+<p>Rotation</p>
+</li>
+<li>
+<p>Scaling</p>
+</li>
+<li>
+<p>Shearing</p>
+</li>
+</ul>
+<p>These transformations can be applied to either a standalone node or to groups of nodes. You can apply one transformation at a time or you can combine transformations and apply several transformations to one node.</p>
+<p>The <code>Transform</code> class implements the concepts of affine transformations. The <code>Affine</code> class extends the <code>Transform</code> class and acts as a superclass to all transformations. Affine transformations are based on euclidean algebra, and perform a linear mapping (through the use of matrixes) from initial coordinates to other coordinates while preserving the straightness and parallelism of lines. Affine transformations can be constructed using observableArrayLists rotations, translations, scales, and shears.</p>
+<div class="infoboxnote">
+<p class="notep1">Note:</p>
+<p>Usually, do not use the <code>Affine</code> class directly, but instead, use the specific Translate, Scale, Rotate, or Shear transformations.</p>
+</div>
+<p>Transformations in JavaFX can be performed along three coordinates, thus enabling users to create three-dimensional (3-D) objects and effects. To manage the display of objects with depth in 3-D graphics, JavaFX implements z-buffering. Z-buffering ensures that the perspective is the same in the virtual world as it is in the real one: a solid object in the foreground blocks the view of one behind it. Z-buffering can be enabled by using the <code>setDepthTest</code> class. You can try to disable z-buffering (<code>setDepthTest(DepthTest.DISABLE</code>)) in the sample application to see the effect of the z-buffer.</p>
+<p>To simplify transformation usage, JavaFX implements transformation constructors with the x-axis and y-axis along with the x, y, and z axes. If you want to create a two-dimensional (2-D) effect, you can specify only the x and y coordinates. If you want to create a 3-D effect, specify all three coordinates.</p>
+<p>To be able to see 3-D objects and transformation effects in JavaFX, users must enable the perspective camera.</p>
+<p>Though knowing the underlying concepts can help you use JavaFX more effectively, you can start using transformations by studying the example provided with this document and trying different transformation parameters. For more information about particular classes, methods, or additional features, see the API documentation.</p>
+<p>In this document, a Xylophone application is used as a sample to illustrate all the available transformations. You can download its source code by clicking the <a href="../sample-apps/transformations.zip">transformations.zip</a> link.</p>
+<div class="figure"><a id="JFXTE219" name="JFXTE219" class="anchor"></a><a id="sthref10" name="sthref10" class="anchor"></a>
+<p class="titleinfigure">Figure 1-1 A Xylophone application</p>
+<img width="517" height="295" src="img/xylophone.jpg" alt="Description of Figure 1-1 follows" title="Description of Figure 1-1 follows" longdesc="img_text/xylophone.htm" /><br />
+<a id="sthref11" name="sthref11" href="img_text/xylophone.htm">Description of "Figure 1-1 A Xylophone application"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Transformations, Animations, and Visual Effects</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">About This Document</a></li>
+        <li><a href="preface.htm#sthref4">Audience</a></li>
+        <li><a href="preface.htm#sthref5">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref7">Related Documents</a></li>
+        <li><a href="preface.htm#sthref8">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a href="transforms.htm#CHDGCBAH">Part I Applying Transformations in JavaFX</a>
+    <ul>
+    <li><a class="selected" href="transformations-intro.htm#JFXTE216">1 Transformations Overview</a>
+      <ul>
+        <li><a href="transformations-intro.htm#sthref9">Introducing Transformations</a></li>
+      </ul>
+    </li>
+    <li><a href="transformation-types.htm#JFXTE101">2 Transformation Types and Examples</a>
+      <ul>
+        <li><a href="transformation-types.htm#sthref12">Translation</a></li>
+        <li><a href="transformation-types.htm#sthref13">Rotation</a></li>
+        <li><a href="transformation-types.htm#sthref14">Scaling</a></li>
+        <li><a href="transformation-types.htm#sthref15">Shearing</a></li>
+        <li><a href="transformation-types.htm#sthref18">Multiple Transformations</a></li>
+        <li><a href="transformation-types.htm#sthref19">Application Files</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="animations.htm#CHDHICAE">Part II Creating Transitions and Timeline Animations</a>
+    <ul>
+    <li><a href="basics.htm#CIHFGFED">3 Animation Basics</a>
+      <ul>
+        <li><a href="basics.htm#BEIIJJJB">Transitions</a>
+          <ul>
+          <li><a href="basics.htm#sthref22">Fade Transition</a></li>
+          <li><a href="basics.htm#sthref23">Path Transition</a></li>
+          <li><a href="basics.htm#JFXTE108">Parallel Transition</a></li>
+          <li><a href="basics.htm#JFXTE111">Sequential Transition</a></li>
+          </ul>
+        </li>
+        <li><a href="basics.htm#BEIIDFJC">Timeline Animation</a>
+          <ul>
+          <li><a href="basics.htm#sthref28">Basic Timeline Animation</a></li>
+          <li><a href="basics.htm#sthref31">Timeline Events</a></li>
+          </ul>
+        </li>
+        <li><a href="basics.htm#BEIEBEIB">Interpolators</a>
+          <ul>
+          <li><a href="basics.htm#sthref32">Built-in Interpolators</a></li>
+          <li><a href="basics.htm#sthref33">Custom Interpolators</a></li>
+          </ul>
+        </li>
+        <li><a href="basics.htm#sthref34">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a href="tree-animation.htm#CACCEGFG">4 Tree Animation Example</a>
+      <ul>
+        <li><a href="tree-animation.htm#sthref37">Project and Elements</a></li>
+        <li><a href="tree-animation.htm#sthref40">Grass</a>
+          <ul>
+          <li><a href="tree-animation.htm#sthref41">Creating Grass</a></li>
+          <li><a href="tree-animation.htm#sthref44">Creating Timeline Animation for Grass Movement</a></li>
+          </ul>
+        </li>
+        <li><a href="tree-animation.htm#sthref46">Tree</a>
+          <ul>
+          <li><a href="tree-animation.htm#sthref48">Branches</a></li>
+          <li><a href="tree-animation.htm#sthref49">Leaves and Flowers</a></li>
+          <li><a href="tree-animation.htm#sthref50">Animating Tree Elements</a></li>
+          </ul>
+        </li>
+        <li><a href="tree-animation.htm#sthref54">Application Files</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="visual_effects.htm#BABEIJGH">Part III Creating Visual Effects</a>
+    <ul>
+    <li><a href="effect-types.htm#JFXTE192">5 Applying Effects</a>
+      <ul>
+        <li><a href="effect-types.htm#JFXTE237">Blend Effect</a></li>
+        <li><a href="effect-types.htm#JFXTE238">Bloom Effect</a></li>
+        <li><a href="effect-types.htm#JFXTE240">Blur Effects</a>
+          <ul>
+          <li><a href="effect-types.htm#sthref58">BoxBlur</a></li>
+          <li><a href="effect-types.htm#sthref60">Motion Blur</a></li>
+          <li><a href="effect-types.htm#sthref62">Gaussian Blur</a></li>
+          </ul>
+        </li>
+        <li><a href="effect-types.htm#JFXTE250">Drop Shadow Effect</a></li>
+        <li><a href="effect-types.htm#JFXTE253">Inner Shadow Effect</a></li>
+        <li><a href="effect-types.htm#JFXTE256">Reflection</a></li>
+        <li><a href="effect-types.htm#JFXTE259">Lighting Effect</a></li>
+        <li><a href="effect-types.htm#JFXTE262">Perspective Effect</a></li>
+        <li><a href="effect-types.htm#JFXTE266">Creating a Chain of Effects</a></li>
+        <li><a href="effect-types.htm#sthref72">Application Files</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="sample-source-code.htm#JFXTE231">Part IV Source Code for the Transformations, Animations, and Visual Effects Tutorial</a>
+    <ul>
+    <li><a href="xylophonejava.htm#JFXTE270">A Xylophone.java</a></li>
+</ul>
+
+</li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="transforms.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a><a class="button" title="Next Page" href="transformation-types.htm">Next Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2011, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

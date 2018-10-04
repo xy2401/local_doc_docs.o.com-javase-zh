@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Quick Troubleshooting Tips on Windows for Java SE 7</title>
+<meta name="collection" content="reference" />
+<link rel="stylesheet" href="/css/default_developer.css" type=
+"text/css" />
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<h2>Quick Troubleshooting Tips on Windows for Java SE 7</h2>
+<p>This "Quick Start Guide" gives you some quick tips for
+troubleshooting. The subsections list some typical functions that
+can help you in troubleshooting, including one or more ways to get
+the information or perform the action.</p>
+<p>These tips are organized as follows:</p>
+<blockquote><a href="#hung">Hung, Deadlocked, or Looping
+Process</a><br />
+<a href="#post">Post-mortem Diagnostics, Memory Leaks</a><br />
+<a href="#monitor">Monitoring</a><br />
+<a href="#other">Other Functions</a></blockquote>
+<h3><a name="hung" id="hung"></a>Hung, Deadlocked, or Looping
+Process</h3>
+<ul>
+<li>Print thread stack for all Java threads:
+<ul>
+<li>Control-Break</li>
+<li><tt>jstack</tt> <i>pid</i></li>
+</ul>
+</li>
+<li>Detect deadlocks:
+<ul>
+<li>Request deadlock detection: JConsole tool, Threads tab</li>
+<li>Print information on deadlocked threads: Control-Break</li>
+<li>Print lock information for a process: <tt>jstack -l</tt>
+<i>pid</i></li>
+</ul>
+</li>
+<li>Get a heap histogram for a process:
+<ul>
+<li>Start Java process with <tt>-XX:+PrintClassHistogram</tt>, then
+Control-Break</li>
+<li><tt>jmap -histo</tt> <i>pid</i></li>
+</ul>
+</li>
+<li>Dump Java heap for a process in binary format to file:
+<ul>
+<li><tt>jmap -dump:format=b,file=</tt><i>filename pid</i></li>
+</ul>
+</li>
+<li>Print shared object mappings for a process:
+<ul>
+<li><tt>jmap</tt> <i>pid</i></li>
+</ul>
+</li>
+<li>Print heap summary for a process:
+<ul>
+<li>Control-Break</li>
+<li><tt>jmap -heap</tt> <i>pid</i></li>
+</ul>
+</li>
+<li>Print finalization information for a process:
+<ul>
+<li><tt>jmap -finalizerinfo</tt> <i>pid</i></li>
+</ul>
+</li>
+<li>Attach the command-line debugger to a process:
+<ul>
+<li><tt>jdb -connect
+sun.jvm.hotspot.jdi.SAPIDAttachingConnector:pid=</tt><i>pid</i></li>
+</ul>
+</li>
+</ul>
+<h3><a name="post" id="post"></a>Post-mortem Diagnostics, Memory
+Leaks</h3>
+<ul>
+<li>Examine the fatal error log file. Default file name is
+<tt>hs_err_pid</tt><i>pid</i><tt>.log</tt> in the working
+directory.</li>
+<li>Create a heap dump:
+<ul>
+<li>Start the application with HPROF enabled: <tt>java
+-agentlib:hprof=file=</tt><i>file</i><tt>,format=b</tt>
+<i>application</i>; then Control-Break</li>
+<li>Start the application with HPROF enabled: <tt>java
+-agentlib:hprof=heap=dump</tt> <i>application</i></li>
+<li>JConsole tool, MBeans tab</li>
+<li>Start VM with <tt>-XX:+HeapDumpOnOutOfMemoryError</tt>; if
+OutOfMemoryError is thrown, VM generates a heap dump.</li>
+</ul>
+</li>
+<li>Browse Java heap dump:
+<ul>
+<li><tt>jhat</tt> <i>heap-dump-file</i></li>
+</ul>
+</li>
+<li>Get a heap histogram for a process:
+<ul>
+<li>Start Java process with <tt>-XX:+PrintClassHistogram</tt>, then
+Control-Break</li>
+<li><tt>jmap -histo</tt> <i>pid</i></li>
+</ul>
+</li>
+</ul>
+<h3><a name="monitor" id="monitor"></a>Monitoring</h3>
+<p>(<tt>jstat</tt> is not available on Windows 98 or Windows
+ME.)</p>
+<p>Note: The <i>vmID</i> argument for the <tt>jstat</tt> command is
+the virtual machine identifier. See the <a href=
+"http://download.oracle.com/javase/7/docs/technotes/tools/share/jstat.html">
+<tt>jstat</tt> man page</a> for a detailed explanation.</p>
+<ul>
+<li>Print statistics on the class loader:
+<ul>
+<li><tt>jstat -class</tt> <i>vmID</i></li>
+</ul>
+</li>
+<li>Print statistics on the compiler:
+<ul>
+<li>Compiler behavior: <tt>jstat -compiler</tt> <i>vmID</i></li>
+<li>Compilation method statistics: <tt>jstat -printcompilation</tt>
+<i>vmID</i></li>
+</ul>
+</li>
+<li>Print statistics on garbage collection:
+<ul>
+<li>Summary of statistics: <tt>jstat -gcutil</tt> <i>vmID</i></li>
+<li>Summary of statistics, with causes: <tt>jstat -gccause</tt>
+<i>vmID</i></li>
+<li>Behavior of the gc heap: <tt>jstat -gc</tt> <i>vmID</i></li>
+<li>Capacities of all the generations: <tt>jstat -gccapacity</tt>
+<i>vmID</i></li>
+<li>Behavior of the new generation: <tt>jstat -gcnew</tt>
+<i>vmID</i></li>
+<li>Capacity of the new generation: <tt>jstat -gcnewcapacity</tt>
+<i>vmID</i></li>
+<li>Behavior of the old and permanent generations: <tt>jstat
+-gcold</tt> <i>vmID</i></li>
+<li>Capacity of the old generation: <tt>jstat -gcoldcapacity</tt>
+<i>vmID</i></li>
+<li>Capacity of the permanent generation: <tt>jstat
+-gcpermcapacity</tt> <i>vmID</i></li>
+</ul>
+</li>
+<li>Monitor objects awaiting finalization:
+<ul>
+<li>JConsole tool, VM Summary tab</li>
+<li><tt>jmap -finalizerinfo</tt> <i>pid</i></li>
+<li><tt>getObjectPendingFinalizationCount</tt> method in
+<tt>java.lang.management.MemoryMXBean</tt> class</li>
+</ul>
+</li>
+<li>Monitor memory:
+<ul>
+<li>Heap allocation profiles via HPROF: <tt>java
+-agentlib:hprof=heap=sites</tt></li>
+<li>JConsole tool, Memory tab</li>
+<li>Control-Break prints generation information.</li>
+</ul>
+Monitor CPU usage:
+<ul>
+<li>By thread stack: <tt>java -agentlib:hprof=cpu=samples</tt>
+<i>application</i></li>
+<li>By method: <tt>java -agentlib:hprof=cpu=times</tt>
+<i>application</i></li>
+<li>JConsole tool, Overview and VM Summary tabs</li>
+</ul>
+</li>
+<li>Monitor thread activity:
+<ul>
+<li>JConsole tool, Threads tab</li>
+</ul>
+</li>
+<li>Monitor class activity:
+<ul>
+<li>JConsole tool, Classes tab</li>
+</ul>
+</li>
+</ul>
+<h3><a name="remote" id="remote"></a>Actions on a Remote Debug
+Server</h3>
+<p>First, attach the debug daemon <tt>jsadebugd</tt>, then execute
+the command:</p>
+<ul>
+<li>Dump Java heap in binary format to a file: <tt>jmap
+-dump:format=b,file=</tt><i>filename hostID</i></li>
+<li>Print shared object mappings: <tt>jmap</tt> <i>hostID</i></li>
+<li>Print heap summary : <tt>jmap -heap</tt> <i>hostID</i></li>
+<li>Print finalization information : <tt>jmap -finalizerinfo</tt>
+<i>hostID</i></li>
+<li>Print lock information : <tt>jstack -l</tt> <i>hostID</i></li>
+<li>Print thread trace : <tt>jstack</tt> <i>hostID</i></li>
+<li>Print Java configuration information: <tt>jinfo</tt>
+<i>hostID</i></li>
+</ul>
+<h3><a name="other" id="other"></a>Other Functions</h3>
+<ul>
+<li>Interface with the instrumented Java virtual machines:
+<ul>
+<li>Monitor for the creation and termination of instrumented VMs
+(not Windows 98 or Windows ME): <tt>jstatd</tt> daemon</li>
+<li>List the instrumented VMs (not Windows 98 or Windows ME):
+<tt>jps</tt></li>
+<li>Provide interface between remote monitoring tools and local VMs
+(not Windows 98 or Windows ME): <tt>jstatd</tt> daemon</li>
+<li>Request garbage collection: JConsole tool, Memory tab</li>
+</ul>
+</li>
+<li>Print Java configuration information from a running process:
+<ul>
+<li><tt>jinfo</tt> <i>pid</i></li>
+</ul>
+</li>
+<li>Dynamically set, unset, or change the value of certain Java VM
+flags for a process:
+<ul>
+<li><tt>jinfo -flag</tt> <i>flag pid</i></li>
+</ul>
+</li>
+<li>Print command-line flags passed to the VM:
+<ul>
+<li><tt>jinfo -flags</tt></li>
+</ul>
+</li>
+<li>Print Java system properties:
+<ul>
+<li><tt>jinfo -sysprops</tt></li>
+</ul>
+</li>
+<li>Pass a Java VM flag to the virtual machine:
+<ul>
+<li><tt>jconsole -J</tt><i>flag</i> ...</li>
+<li><tt>jhat -J</tt><i>flag</i> ...</li>
+<li><tt>jmap -J</tt><i>flag</i> ...</li>
+</ul>
+</li>
+<li>Print statistics of permanent generation of Java heap, by class
+loader:
+<ul>
+<li><tt>jmap -permstat</tt></li>
+</ul>
+</li>
+<li>Report on monitor contention:
+<ul>
+<li><tt>java -agentlib:hprof=monitor=y</tt> <i>application</i></li>
+</ul>
+</li>
+<li>Evaluate or execute a script in interactive or batch mode:
+<ul>
+<li><tt>jrunscript</tt></li>
+</ul>
+</li>
+<li>Interface dynamically with an MBean, via JConsole tool, MBean
+tab:
+<ul>
+<li>Show tree structure.</li>
+<li>Set an attribute value.</li>
+<li>Invoke an operation.</li>
+<li>Subscribe to notification.</li>
+</ul>
+</li>
+<li>Run interactive command-line debugger:
+<ul>
+<li>Launch a new VM for the class: <tt>jdb</tt> <i>class</i></li>
+<li>Attach debugger to a running VM: <tt>jdb -attach</tt>
+<i>address</i></li>
+</ul>
+</li>
+</ul>
+<br />
+<hr />
+</body>
+</html>

@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>6 Implementing a Swing Application in JavaFX (Release 8)</title>
+<meta name="description" content="In this chapter, you consider a Swing application and learn how to implement it in JavaFX.">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXIP.pdf">PDF</a> | <a href="../JFXIP.epub">ePub</a> | <a href="../JFXIP.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Interoperability</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="media-player.htm">Previous Page</a><a class="button" title="Next Page" href="embed-swing.htm">Next Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="BABDIGHF" name="BABDIGHF" class="anchor"></a><a id="JFXIP164" name="JFXIP164" class="anchor"></a>
+<h1 class="chapter"><span class="secnum">6</span> Implementing a Swing Application in JavaFX</h1>
+<a id="JFXIP165" name="JFXIP165" class="anchor"></a>
+<p>In this chapter, you consider a Swing application and learn how to implement it in JavaFX.</p>
+<p>For the purpose of this chapter, get familiar with the <code>Converter</code> application shown in <a href="#BABIEADF">Figure 6-1</a>. This application converts distance measurements between metric and U.S. units.</p>
+<div class="figure"><a id="BABIEADF" name="BABIEADF" class="anchor"></a><a id="JFXIP166" name="JFXIP166" class="anchor"></a>
+<p class="titleinfigure">Figure 6-1 Converter Application in Java</p>
+<img width="288" height="188" src="img/converter_java.png" alt="Description of Figure 6-1 follows" title="Description of Figure 6-1 follows" longdesc="img_text/converter_java.htm" /><br />
+<a id="sthref50" name="sthref50" href="img_text/converter_java.htm">Description of "Figure 6-1 Converter Application in Java"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<a id="JFXIP167" name="JFXIP167" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref51" name="sthref51" class="anchor"></a>
+<h2 class="sect1">Analyzing the Converter Application Developed in Swing</h2>
+<p>For more information about the implementation of this example in the Java programming language, see <a href="../../../tutorial/uiswing/components/panel.html">How to Use Panels</a> and <a href="../../../tutorial/uiswing/components/model.html">Using Models</a> trails in the Swing tutorial. In particular, the graphical user interface (GUI) is discussed in the trail about the panels.</p>
+<p>To learn the code of the Converter application, download its NetBeans project or the source files available at the <a href="../../../tutorial/uiswing/examples/components/index.html#Converter">example index</a>.</p>
+<p>Swing components use models. If you look at the contents of the project, you notice the <code>ConverterRangeModel</code> and <code>FollowerRangeModel</code> classes that define models for the Converter application.</p>
+<p>The Converter application consists of the following files:</p>
+<ul>
+<li>
+<p><code>ConversionPanel.java</code> &#x2014; contains a custom <code>JPanel</code> subclass to hold components</p>
+</li>
+<li>
+<p><code>Converter.java</code> &#x2014; contains the main application class</p>
+</li>
+<li>
+<p><code>ConverterRangeModel.java</code> &#x2014; defines the top slider's model</p>
+</li>
+<li>
+<p><code>FollowerRangeModel.java</code> &#x2014; defines the bottom slider's model</p>
+</li>
+<li>
+<p><code>Units.java</code> &#x2014; creates <code>Unit</code> objects</p>
+</li>
+</ul>
+<p>Note that the synchronization between each text field and its slider is implemented by event handlers that listen for changes in values.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXIP168" name="JFXIP168" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref52" name="sthref52" class="anchor"></a>
+<h2 class="sect1">Planning the Converter Application in JavaFX</h2>
+<p>The <code>Converter</code> application contains two similar panels that hold components such as a text field, slider, and combo box. The panels have titles. The <code>TitlePane</code> class from the javafx.scene.control package ideally suits the GUI of the <code>Converter</code> application.</p>
+<p>In what follows, you will implement the <code>ConversionPanel</code> class and add two instances of this class to the graphical scene of the <code>Converter</code> application.</p>
+<p>First, note that the components within a single <code>ConversionPanel</code> object should be synchronized as follows. Whenever you move the knob on the slider, you must update the value in the text field and vice versa: Whenever you change the value in the text field, you must adjust the position of the knob on the slider.</p>
+<p>As soon as you choose another value from the combo box, you must update the value of the text field and, hence, the position of the knob on the slider.</p>
+<p>Second, note that both <code>ConversionPanel</code> objects should be synchronized. As soon as changes happen on one panel, the corresponding components on another panel must be updated.</p>
+<p>It is suggested that you implement synchronization between the panels using the <code>DoubleProperty</code> object, called <code>meters</code>, and listen to changes in the properties of the text fields and combo boxes by creating and registering two <code>InvalidationListener</code> objects: <code>fromMeters</code> and <code>toMeters</code>. Whenever the property of the text field on one panel changes, the <code>invalidated</code> method of the attached <code>InvalidationListener</code> object is called, which updates the <code>meters</code> property. Because the <code>meters</code> property changes, the <code>invalidated</code> method of the <code>InvalidationListener</code> object, attached to the <code>meters</code> property, is called, which updates the corresponding text field on another panel.</p>
+<p>Similarly, whenever the property of the combo box on one panel changes, the <code>invalidated</code> method of the attached <code>InvalidationListener</code> object is called, which updates the text field on this panel.</p>
+<p>To provide synchronization between the value of the slider and the value of the <code>meters</code> object, use bidirectional binding.</p>
+<p>For more information about JavaFX properties and binding, see <a class="olink JFXBD" href="http://www.oracle.com/pls/topic/lookup?ctx=javase80&id=JFXBD">Using JavaFX Properties and Binding</a>.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXIP169" name="JFXIP169" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref53" name="sthref53" class="anchor"></a>
+<h2 class="sect1">Creating the Converter Application in JavaFX</h2>
+<p>Create a new JavaFX project in NetBeans IDE and name it Converter. Copy the <code>Unit.java</code> file from the Swing application to the Converter project. Add a new java class to this project and name it <code>ConversionPanel.java</code>.</p>
+<a id="JFXIP170" name="JFXIP170" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="sthref54" name="sthref54" class="anchor"></a>
+<h3 class="sect2">Standard JavaFX Pattern to Create the GUI</h3>
+<p>Before you start creating the GUI of the <code>Converter</code> application in JavaFX, see the standard pattern of GUI creation in Swing applications, as shown in <a href="#BABHECBI">Example 6-1</a>.</p>
+<div class="example"><a id="BABHECBI" name="BABHECBI" class="anchor"></a><a id="JFXIP171" name="JFXIP171" class="anchor"></a>
+<p class="titleinexample">Example 6-1</p>
+<pre xml:space="preserve" class="oac_no_warn">public class Converter { 
+    private void initAndShowGUI() {
+        ...
+    }
+    public static void main(String[] args) { 
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                initAndShowGUI();
+            }
+        });
+    }
+}
+</pre></div>
+<!-- class="example" -->
+<p>To map this pattern to JavaFX, you extend the <code>javafx.application.Application</code> class, override the <code>start</code> method, and call the <code>main</code> method, as shown in <a href="#BABGJFHB">Example 6-2</a>.</p>
+<div class="example"><a id="BABGJFHB" name="BABGJFHB" class="anchor"></a><a id="JFXIP172" name="JFXIP172" class="anchor"></a>
+<p class="titleinexample">Example 6-2</p>
+<pre xml:space="preserve" class="oac_no_warn">import javafx.application.Application;
+import javafx.stage.Stage;
+
+public class Converter extends Application {
+    @Override
+    public void start(Stage t) {
+        ...
+    }
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
+</pre></div>
+<!-- class="example" -->
+<p>When you create a new JavaFX project in the NetBeans IDE, this pattern is automatically generated for you. However, it is important that you understand the basic approach to GUI creation in JavaFX, especially if you use a text editor.</p>
+</div>
+<!-- class="sect2" -->
+<a id="JFXIP173" name="JFXIP173" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="sthref55" name="sthref55" class="anchor"></a>
+<h3 class="sect2">Containers and Layouts</h3>
+<p>In Swing, containers and layout managers are different entities. You create a container, such as a <code>JPanel</code> or <code>JComponent</code> object, and set a layout manager for this container. You can assign a specific layout manager and write<code>.add()</code> in your code or assign none of the layout managers.</p>
+<p>In JavaFX, the container itself takes care of laying out its child nodes. You create a specific layout pane, such as a <code>Vbox</code>, <code>FlowPane</code>, or <code>TitledPane</code> object, and then add content to the list of its child nodes using the<code>.getChildren().add()</code>methods.</p>
+<p>There are several layout container classes in JavaFX, called panes, some of which have their counterparts in Swing, such as the <code>FlowPane</code> class in JavaFX and <code>FlowLayout</code> class in Swing.</p>
+<p>For more information, see <a class="olink JFXLY" href="http://www.oracle.com/pls/topic/lookup?ctx=javase80&id=JFXLY">Working With Layouts in JavaFX</a>.</p>
+</div>
+<!-- class="sect2" -->
+<a id="JFXIP174" name="JFXIP174" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="sthref56" name="sthref56" class="anchor"></a>
+<h3 class="sect2">UI Controls</h3>
+<p>JavaFX SDK provides a set of standard UI controls. Some of the UI controls have their counterparts in Swing such as the <code>Button</code> class in JavaFX and <code>JButton</code> in Swing; <code>Slider</code> in JavaFX and <code>JSlider</code> in Swing; and <code>TextField</code> in JavaFX and <code>JTextField</code> in Swing.</p>
+<p>To implement the <code>Converter</code> application in JavaFX, you can use the standard UI controls provided by the <code>TextField</code>, <code>Slider</code>, and <code>ComboBox</code> classes.</p>
+<p>For more information, see <a class="olink JFXUI" href="http://www.oracle.com/pls/topic/lookup?ctx=javase80&id=JFXUI">Using JavaFX UI Controls</a>.</p>
+</div>
+<!-- class="sect2" -->
+<a id="JFXIP178" name="JFXIP178" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="sthref57" name="sthref57" class="anchor"></a>
+<h3 class="sect2">Mechanism of Getting Notifications on User Actions and Binding</h3>
+<p>In Swing, you can register a listener on any component and listen for changes in the component properties, such as size, position, or visibility; or listen for events, such as whether the component gained or lost the keyboard focus; or whether the mouse was clicked, pressed, or released over the component.</p>
+<p>In JavaFX, each object has a set of properties for which you can register a listener. The listener is called whenever a value of the property changes.</p>
+<p>Note that an object can be registered as a listener for changes in another object's properties. Thus, you can use the binding mechanism to synchronize some properties of two objects.</p>
+</div>
+<!-- class="sect2" -->
+<a id="JFXIP179" name="JFXIP179" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="sthref58" name="sthref58" class="anchor"></a>
+<h3 class="sect2">Creating the ConversionPanel Class</h3>
+<p>The <code>ConversionPanel</code> class is used to hold components: a text field, a slider, and a combo box. When creating the graphical scene of the <code>Converter</code> application, you add two instances of the <code>ConversionPanel</code> class to the graphical scene. Add the import statement for the <code>TitledPane</code> class and extend the <code>ConversionPanel</code> class as shown in <a href="#BABHCJEH">Example 6-3</a>.</p>
+<div class="example"><a id="BABHCJEH" name="BABHCJEH" class="anchor"></a><a id="JFXIP180" name="JFXIP180" class="anchor"></a>
+<p class="titleinexample">Example 6-3</p>
+<pre xml:space="preserve" class="oac_no_warn">import javafx.scene.control.TitledPane;
+
+public class ConversionPanel extends TitledPane {
+
+}
+</pre></div>
+<!-- class="example" -->
+<a id="JFXIP181" name="JFXIP181" class="anchor"></a>
+<div class="sect3"><!-- infolevel="all" infotype="General" --><a id="sthref59" name="sthref59" class="anchor"></a>
+<h4 class="sect3">Creating Instance Variables for UI Controls</h4>
+<p>Add import statements for the <code>TextField</code>, <code>Slider</code>, <code>ComboBox</code> controls and define instance variables for the components as shown in <a href="#BABFAGGB">Example 6-4</a>.</p>
+<div class="example"><a id="BABFAGGB" name="BABFAGGB" class="anchor"></a><a id="JFXIP182" name="JFXIP182" class="anchor"></a>
+<p class="titleinexample">Example 6-4</p>
+<pre xml:space="preserve" class="oac_no_warn">import java.text.NumberFormat;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
+
+private ComboBox&lt;Unit&gt; comboBox;
+private Slider slider;
+private TextField textField;
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect3" -->
+<a id="JFXIP183" name="JFXIP183" class="anchor"></a>
+<div class="sect3"><!-- infolevel="all" infotype="General" --><a id="sthref60" name="sthref60" class="anchor"></a>
+<h4 class="sect3">Creating DoubleProperty and NumberFormat Objects</h4>
+<p>Add the import statement for the <code>DoubleProperty</code> and NumberFormat classes and create a <code>DoubleProperty</code> object named <code>meters</code> as shown in <a href="#BABJGGBD">Example 6-5</a>. The <code>meters</code> object is used to ensure the synchronization between two <code>ConversionPanel</code> objects.</p>
+<div class="example"><a id="BABJGGBD" name="BABJGGBD" class="anchor"></a><a id="JFXIP184" name="JFXIP184" class="anchor"></a>
+<p class="titleinexample">Example 6-5</p>
+<pre xml:space="preserve" class="oac_no_warn">import javafx.beans.property.DoubleProperty;
+
+private DoubleProperty meters;
+provate numberFormat;
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect3" -->
+<a id="JFXIP186" name="JFXIP186" class="anchor"></a>
+<div class="sect3"><!-- infolevel="all" infotype="General" --><a id="sthref61" name="sthref61" class="anchor"></a>
+<h4 class="sect3">Laying Out the Components</h4>
+<p>To lay out the text field and the slider, use the <code>VBox</code> class. To lay out both of these components and a combo box, use the <code>HBox</code> class. Add the import statements for the <code>ObservableList</code> class and implement the constructor of the <code>ConversionPanel</code> class as shown in <a href="#BABCDAHF">Example 6-6</a>.</p>
+<div class="example"><a id="BABCDAHF" name="BABCDAHF" class="anchor"></a><a id="JFXIP187" name="JFXIP187" class="anchor"></a>
+<p class="titleinexample">Example 6-6</p>
+<pre xml:space="preserve" class="oac_no_warn">import javafx.collections.ObservableList;
+
+
+public ConversionPanel(String title, ObservableList&lt;Unit&gt; units, 
+DoubleProperty meters) {
+    setText(title);
+    setCollapsible(false);
+
+    numberFormat = NumberFormat.getNumberInstance();
+    numberFormat.setMaximumFractionDigits(2);
+
+    textField = new TextField();
+    slider = new Slider(0, MAX, 0);
+    comboBox = new ComboBox(units);
+    comboBox.setConverter(new StringConverter&lt;Unit&gt;() {
+        
+        @Override
+        public String toString(Unit t) {
+            return t.description;
+        }
+        
+        @Override
+        public Unit fromString(String string) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+    })
+    VBox vbox = new VBox(textField, slider);
+    HBox hbox = new HBox(vbox, comboBox);
+    setContent(hbox);
+    this.meters = meters;
+    
+    comboBox.getSelectionModel().select(0);
+}
+</pre></div>
+<!-- class="example" -->
+<p>The last line of code selects a value in the <code>ComboBox</code> object.</p>
+</div>
+<!-- class="sect3" -->
+<a id="JFXIP188" name="JFXIP188" class="anchor"></a>
+<div class="sect3"><!-- infolevel="all" infotype="General" --><a id="sthref62" name="sthref62" class="anchor"></a>
+<h4 class="sect3">Creating InvalidationListener Objects</h4>
+<p>To listen to changes in the properties of the text fields and combo boxes, create the <code>InvalidationListener</code> objects <code>fromMeters</code> and <code>toMeters</code> as shown in <a href="#BABBHJFA">Example 6-7</a>.</p>
+<div class="example"><a id="BABBHJFA" name="BABBHJFA" class="anchor"></a><a id="JFXIP189" name="JFXIP189" class="anchor"></a>
+<p class="titleinexample">Example 6-7</p>
+<pre xml:space="preserve" class="oac_no_warn">import javafx.beans.InvalidationListener;
+
+private InvalidationListener fromMeters = t -&gt; {
+    if (!textField.isFocused()) {
+        textField.setText(numberFormat.format(meters.get() / getMultiplier()));
+    }
+};
+
+private InvalidationListener toMeters = t -&gt; {
+    if (!textField.isFocused()) {
+        return;
+    try {
+        meters.set(numberFormat.parse(textField.getText()).doubleValue() *
+getMultiplier());
+    } catch (ParseException | Error | RuntimeException ignored) {
+    }
+};
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect3" -->
+<a id="JFXIP190" name="JFXIP190" class="anchor"></a>
+<div class="sect3"><!-- infolevel="all" infotype="General" --><a id="sthref63" name="sthref63" class="anchor"></a>
+<h4 class="sect3">Adding Change Listeners to Controls and Ensuring Synchronization</h4>
+<p>To provide the synchronization between the text fields and combo boxes, add change listeners as shown in <a href="#BABIGEEA">Example 6-8</a>.</p>
+<div class="example"><a id="BABIGEEA" name="BABIGEEA" class="anchor"></a><a id="JFXIP191" name="JFXIP191" class="anchor"></a>
+<p class="titleinexample">Example 6-8</p>
+<pre xml:space="preserve" class="oac_no_warn">meters.addListener(fromMeters);
+comboBox.valueProperty().addListener(fromMeters);
+textField.textProperty().addListener(toMeters);
+fromMeters.invalidated(null);
+</pre></div>
+<!-- class="example" -->
+<p>Create a bidirectional binding between the value of the slider and the value of the <code>meters</code> object as shown in <a href="#BABGIHEH">Example 6-9</a>.</p>
+<div class="example"><a id="BABGIHEH" name="BABGIHEH" class="anchor"></a><a id="JFXIP192" name="JFXIP192" class="anchor"></a>
+<p class="titleinexample">Example 6-9</p>
+<pre xml:space="preserve" class="oac_no_warn">slider.valueProperty().bindBidirectional(meters);
+</pre></div>
+<!-- class="example" -->
+<p>When a new value is typed in the text field, the <code>invalidated</code> method of the <code>toMeters</code> listener is called, which updates the value of the <code>meters</code> object.</p>
+</div>
+<!-- class="sect3" --></div>
+<!-- class="sect2" -->
+<a id="JFXIP193" name="JFXIP193" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="sthref64" name="sthref64" class="anchor"></a>
+<h3 class="sect2">Creating the Converter Class</h3>
+<p>Open the <code>Converter.java</code> file that was automatically generated by the NetBeans IDE and remove all of the code except for the <code>main</code> method. Then, press Ctrl (or Cmd)+Shift+I to correct the import statements.</p>
+<a id="JFXIP194" name="JFXIP194" class="anchor"></a>
+<div class="sect3"><!-- infolevel="all" infotype="General" --><a id="sthref65" name="sthref65" class="anchor"></a>
+<h4 class="sect3">Defining Instance Variables</h4>
+<p>Add import statements for the <code>ObservableList</code>, <code>DoubleProperty</code>, and <code>SimpleDoubleProperty</code> classes and create <code>metricDistances</code>, <code>usaDistances</code>, and <code>meters</code> variables of the appropriate types as shown in <a href="#BABCCFHG">Example 6-10</a>.</p>
+<div class="example"><a id="BABCCFHG" name="BABCCFHG" class="anchor"></a><a id="JFXIP195" name="JFXIP195" class="anchor"></a>
+<p class="titleinexample">Example 6-10</p>
+<pre xml:space="preserve" class="oac_no_warn">import javafx.beans.property.DoubleProperty;
+import javafx.collections.ObservableList;
+import javafx.beans.property.SimpleDoubleProperty;
+
+private ObservableList&lt;Unit&gt; metricDistances;
+private ObservableList&lt;Unit&gt; usaDistances;
+private DoubleProperty meters = new SimpleDoubleProperty(1);
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect3" -->
+<a id="JFXIP196" name="JFXIP196" class="anchor"></a>
+<div class="sect3"><!-- infolevel="all" infotype="General" --><a id="sthref66" name="sthref66" class="anchor"></a>
+<h4 class="sect3">Creating the Constructor for the Converter Class</h4>
+<p>In the constructor for the <code>Converter</code> class, create <code>Unit</code> objects for the metric and the U.S. distances as shown in <a href="#BABFAGAJ">Example 6-11</a>. Add the import statement for the <code>FXCollections</code> class. Later, you will instantiate two <code>ConversionPanel</code> objects with these units.</p>
+<div class="example"><a id="BABFAGAJ" name="BABFAGAJ" class="anchor"></a><a id="JFXIP197" name="JFXIP197" class="anchor"></a>
+<p class="titleinexample">Example 6-11</p>
+<pre xml:space="preserve" class="oac_no_warn">import javafx.collections.FXCollections;
+
+public Converter() {
+metricDistances = FXCollections.observableArrayList(
+        new Unit("Centimeters", 0.01),
+        new Unit("Meters", 1.0),
+        new Unit("Kilometers", 1000.0));
+
+usaDistances = FXCollections.observableArrayList(
+        new Unit("Inches", 0.0254),
+        new Unit("Feet", 0.305),
+        new Unit("Yards", 0.914),
+        new Unit("Miles", 1613.0));
+}
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect3" -->
+<a id="JFXIP198" name="JFXIP198" class="anchor"></a>
+<div class="sect3"><!-- infolevel="all" infotype="General" --><a id="sthref67" name="sthref67" class="anchor"></a>
+<h4 class="sect3">Creating the Graphical Scene</h4>
+<p>Override the <code>start</code> method to create the graphical scene for your <code>Converter</code> application. Add two <code>ConversionPanel</code> objects to the graphical scene and lay out them vertically. Note that two <code>ConversionPanel</code> objects are instantiated with the same <code>meters</code> object. Use the <code>VBox</code> class as a root container for the graphical scene. Instantiate two <code>ConversionPanel</code> objects as shown in <a href="#BABGDACH">Example 6-12</a>.</p>
+<div class="example"><a id="BABGDACH" name="BABGDACH" class="anchor"></a><a id="JFXIP199" name="JFXIP199" class="anchor"></a>
+<p class="titleinexample">Example 6-12</p>
+<pre xml:space="preserve" class="oac_no_warn">@Override
+public void start(Stage stage) {
+    VBox vbox = new VBox(
+            new ConversionPanel(
+                    "Metric System", metricDistances, meters),
+            new ConversionPanel(
+                    "U.S. System", usaDistances, meters));
+    Scene scene = new Scene(vbox);
+    
+    stage.setTitle("Converter");
+    stage.setScene(scene);
+    stage.show();
+}
+</pre></div>
+<!-- class="example" -->
+<p>You can view the source code and download the NetBeans project of the <code>Converter</code> application in JavaFX using the links at the bottom of this document.</p>
+<p>The Converter application in JavaFX is shown in <a href="#BABGGBCF">Figure 6-2</a>.</p>
+<div class="figure"><a id="BABGGBCF" name="BABGGBCF" class="anchor"></a><a id="JFXIP200" name="JFXIP200" class="anchor"></a>
+<p class="titleinfigure">Figure 6-2 Converter Application in JavaFX</p>
+<img width="297" height="208" src="img/converter_fx.png" alt="Description of Figure 6-2 follows" title="Description of Figure 6-2 follows" longdesc="img_text/converter_fx.htm" /><br />
+<a id="sthref68" name="sthref68" href="img_text/converter_fx.htm">Description of "Figure 6-2 Converter Application in JavaFX"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>Compare the two applications with the same functionality implemented using the Swing library and JavaFX.</p>
+<p>Not only does the application in JavaFX contain three files as compared with five files of the Swing application, but the code in JavaFX is cleaner. The applications also differ in look and feel.</p>
+</div>
+<!-- class="sect3" --></div>
+<!-- class="sect2" --></div>
+<!-- class="sect1" -->
+<a id="JFXIP804" name="JFXIP804" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref69" name="sthref69" class="anchor"></a>
+<h2 class="sect1">Application Files</h2>
+<p class="itemizedlisttitle">Source Code&nbsp;</p>
+<ul>
+<li>
+<p><code><a href="converterjava.htm#BGBJCDIC">Converter.java</a></code></p>
+</li>
+<li>
+<p><code><a href="conversionpaneljava.htm#CBBECBEE">ConversionPanel.java</a></code></p>
+</li>
+</ul>
+<p class="itemizedlisttitle">NetBeans Projects&nbsp;</p>
+<ul>
+<li>
+<p><a href="../sample-apps/Converter.zip"><code>Converter.zip</code></a></p>
+</li>
+</ul>
+</div>
+<!-- class="sect1" -->
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Interoperability</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">About This Document</a></li>
+        <li><a href="preface.htm#sthref4">Audience</a></li>
+        <li><a href="preface.htm#sthref5">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref7">Related Documents</a></li>
+        <li><a href="preface.htm#sthref8">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a href="fx_concurrency.htm#sthref9">Part I Concurrency in JavaFX</a>
+    <ul>
+    <li><a href="concurrency.htm#JFXIP546">1 Concurrency in JavaFX</a>
+      <ul>
+        <li><a href="concurrency.htm#sthref10">Why Use the javafx.concurrent Package?</a></li>
+        <li><a href="concurrency.htm#sthref11">Overview of the javafx.concurrent Package</a>
+          <ul>
+          <li><a href="concurrency.htm#JFXIP549">The Worker Interface</a></li>
+          <li><a href="concurrency.htm#JFXIP550">The Task Class</a></li>
+          <li><a href="concurrency.htm#JFXIP556">The Service Class</a></li>
+          <li><a href="concurrency.htm#JFXIP558">The WorkerStateEvent Class and State Transitions</a></li>
+          <li><a href="concurrency.htm#JFXIP800">The ScheduledService Class</a></li>
+          </ul>
+        </li>
+        <li><a href="concurrency.htm#sthref16">Conclusion</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="fx_swing.htm#JFXIP561">Part II JavaFX-Swing Interoperability</a>
+    <ul>
+    <li><a href="overview.htm#JFXIP102">2 The JavaFX Advantage for Swing Developers</a>
+      <ul>
+        <li><a href="overview.htm#sthref17">Using FXML</a></li>
+        <li><a href="overview.htm#sthref18">JavaFX Scene Builder</a></li>
+        <li><a href="overview.htm#sthref19">CSS Support</a></li>
+        <li><a href="overview.htm#sthref20">JavaFX Media Support</a></li>
+        <li><a href="overview.htm#sthref21">Animation</a></li>
+        <li><a href="overview.htm#sthref22">HTML Content</a></li>
+      </ul>
+    </li>
+    <li><a href="swing-fx-interoperability.htm#JFXIP109">3 Integrating JavaFX into Swing Applications</a>
+      <ul>
+        <li><a href="swing-fx-interoperability.htm#sthref23">Adding JavaFX Content to a Swing Component</a></li>
+        <li><a href="swing-fx-interoperability.htm#sthref24">Swing&#x2013;JavaFX Interoperability and Threads</a>
+          <ul>
+          <li><a href="swing-fx-interoperability.htm#sthref25">Changing JavaFX Data in Response to a Change in Swing Data</a></li>
+          <li><a href="swing-fx-interoperability.htm#sthref26">Changing Swing Data in Response to a Change in JavaFX Data</a></li>
+          </ul>
+        </li>
+        <li><a href="swing-fx-interoperability.htm#sthref27">Introducing the SimpleSwingBrowser Application</a>
+          <ul>
+          <li><a href="swing-fx-interoperability.htm#sthref29">Initializing Swing Data</a></li>
+          <li><a href="swing-fx-interoperability.htm#sthref30">Loading JavaFX Content</a></li>
+          <li><a href="swing-fx-interoperability.htm#sthref31">Updating Swing Data</a></li>
+          </ul>
+        </li>
+        <li><a href="swing-fx-interoperability.htm#sthref32">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a href="jtable-barchart.htm#JFXIP131">4 Enriching Swing Applications with JavaFX Functionality</a>
+      <ul>
+        <li><a href="jtable-barchart.htm#sthref35">Sample Swing Application</a></li>
+        <li><a href="jtable-barchart.htm#sthref37">Integrating JavaFX Bar Chart</a></li>
+        <li><a href="jtable-barchart.htm#sthref39">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a href="media-player.htm#JFXIP147">5 Leveraging Applications with Media Features</a>
+      <ul>
+        <li><a href="media-player.htm#sthref42">About Media Integration</a></li>
+        <li><a href="media-player.htm#sthref43">Building the Media Player Application</a>
+          <ul>
+          <li><a href="media-player.htm#sthref45">Skinning the Application with CSS</a></li>
+          <li><a href="media-player.htm#sthref46">Adding a New Control to the Control Bar</a></li>
+          </ul>
+        </li>
+        <li><a href="media-player.htm#sthref47">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a class="selected" href="port-to-javafx.htm#JFXIP164">6 Implementing a Swing Application in JavaFX</a>
+      <ul>
+        <li><a href="port-to-javafx.htm#sthref51">Analyzing the Converter Application Developed in Swing</a></li>
+        <li><a href="port-to-javafx.htm#sthref52">Planning the Converter Application in JavaFX</a></li>
+        <li><a href="port-to-javafx.htm#sthref53">Creating the Converter Application in JavaFX</a>
+          <ul>
+          <li><a href="port-to-javafx.htm#sthref54">Standard JavaFX Pattern to Create the GUI</a></li>
+          <li><a href="port-to-javafx.htm#sthref55">Containers and Layouts</a></li>
+          <li><a href="port-to-javafx.htm#sthref56">UI Controls</a></li>
+          <li><a href="port-to-javafx.htm#sthref57">Mechanism of Getting Notifications on User Actions and Binding</a></li>
+          <li><a href="port-to-javafx.htm#sthref58">Creating the ConversionPanel Class</a></li>
+          <li><a href="port-to-javafx.htm#sthref64">Creating the Converter Class</a></li>
+          </ul>
+        </li>
+        <li><a href="port-to-javafx.htm#sthref69">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a href="embed-swing.htm#JFXIP566">7 Embedding Swing Content in JavaFX Applications</a>
+      <ul>
+        <li><a href="embed-swing.htm#sthref72">SwingNode Class</a></li>
+        <li><a href="embed-swing.htm#sthref74">Embedding Swing Content and Handling Events</a></li>
+        <li><a href="embed-swing.htm#sthref76">Adding Interoperability Between Swing and JavaFX Components</a></li>
+        <li><a href="embed-swing.htm#sthref81">Conclusion</a></li>
+        <li><a href="embed-swing.htm#sthref82">Application Files</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="fx_swt.htm#sthref85">Part III Interoperability with SWT</a>
+    <ul>
+    <li><a href="fx-swt_interoperability.htm#JFXIP101">8 JavaFX Interoperability with SWT</a>
+      <ul>
+        <li><a href="fx-swt_interoperability.htm#JFXIP543">Introduction</a></li>
+        <li><a href="fx-swt_interoperability.htm#JFXIP606">Adding JavaFX Content to an SWT Component</a></li>
+        <li><a href="fx-swt_interoperability.htm#JFXIP541">Creating SWT-JavaFX Applications in an IDE</a></li>
+        <li><a href="fx-swt_interoperability.htm#JFXIP609">Packaging SWT-JavaFX Applications</a>
+          <ul>
+          <li><a href="fx-swt_interoperability.htm#sthref89">Packaging the Application when JavaFX is Bundled with the JDK</a></li>
+          <li><a href="fx-swt_interoperability.htm#sthref90">Packaging the Application with a Standalone JavaFX Installation</a></li>
+          </ul>
+        </li>
+        <li><a href="fx-swt_interoperability.htm#JFXIP799">Application Files</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="sample-source-code.htm#sthref92">Part IV Source Code for the Interoperability Tutorial</a>
+    <ul>
+    <li><a href="simpleswingbrowserjava.htm#JFXIP620">A SimpleSwingBrowser.java</a></li>
+    <li><a href="swinginteropjava.htm#JFXIP637">B SwingInterop.java</a></li>
+    <li><a href="sampletablemodeljava.htm#JFXIP654">C SampleTableModel.java</a></li>
+    <li><a href="mediaplayerjava.htm#JFXIP671">D MediaPlayer.java</a></li>
+    <li><a href="mediacontroljava.htm#JFXIP688">E MediaControl.java</a></li>
+    <li><a href="mediaplayercss.htm#JFXIP795">F mediaplayer.css</a></li>
+    <li><a href="converterjava.htm#JFXIP705">G Converter.java</a></li>
+    <li><a href="conversionpaneljava.htm#JFXIP722">H ConversionPanel.java</a></li>
+    <li><a href="swingnodesamplejava.htm#JFXIP739">I SwingNodeSample.java</a></li>
+    <li><a href="buttonhtmldemojava.htm#JFXIP784">J ButtonHtmlDemo.java</a></li>
+    <li><a href="enablefxbuttonjava.htm#JFXIP756">K EnableFXButton.java</a></li>
+    <li><a href="enablebuttonsjava.htm#JFXIP791">L EnableButtons.java</a></li>
+    <li><a href="imagesources.htm#sthref93">M Image Source Files</a>
+      <ul>
+        <li><a href="imagesources.htm#JFXIP809">left.gif</a></li>
+        <li><a href="imagesources.htm#JFXIP810">right.gif</a></li>
+        <li><a href="imagesources.htm#JFXIP811">down.gif</a></li>
+        <li><a href="imagesources.htm#JFXIP812">middle.gif</a></li>
+      </ul>
+    </li>
+</ul>
+
+</li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="media-player.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a><a class="button" title="Next Page" href="embed-swing.htm">Next Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2012, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

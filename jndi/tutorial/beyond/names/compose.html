@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html lang="en-US">
+<head>
+<title>Dynamic Name Composition</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="syntax.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="../env/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=bottom border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>What's in a Name?</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Dynamic Name Composition
+</h2>
+<p>
+<blockquote>
+
+For name composition, you typically use the methods in the
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Name.html><tt>Name</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Name.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interface.
+
+The <a href=composite.html#MOD>Composite Names section</a>
+explained how to add components to a composite name
+and the <a href=compound.html#ACCESS>Compound Names section</a>.
+discussed how to add components to a compound name.
+<p>
+These methods are useful when you know that you are dealing with either
+composite names or compound names. But what if you have a composite
+name and you need to add a component? Would you use
+the composite name syntax or the compound name syntax?
+If compound, which compound name syntax?
+Developers who write applications such as namespace browsers
+often face this question. It can be difficult to answer
+without a lot of insight and knowledge about the 
+context in which the name is bound and how it was resolved.
+<p>
+For example, suppose that the name 
+<tt>"cn=homedir,cn=Jon Ruiz,ou=People"</tt>
+is bound to an object in a different naming 
+system--specifically, a file system context.
+To add a filename component to this name,
+you use the composite name syntax. This is because you are
+traversing from an LDAP namespace to the file namespace.
+<blockquote><pre>
+cn=homedir,cn=Jon Ruiz,ou=People/tutorial
+</pre></blockquote>
+When you add yet another filename component to the result,
+you should use the filename syntax. For example, in Windows, 
+adding the
+component <tt>"report.txt"</tt> results in the name:
+<blockquote><pre>
+cn=homedir,cn=Jon Ruiz,ou=People/tutorial\report.txt
+</pre></blockquote>
+To add an LDAP component to the name <tt>"cn=Jon Ruiz, ou=People"</tt>
+you would use the LDAP name syntax.
+<blockquote><pre>
+cn=homedir,cn=Jon Ruiz,ou=People
+</pre></blockquote>
+In all three examples, you use a different naming syntax.
+The rules of when to use which syntax become difficult to figure out, as well as to program.
+<p>
+To assist in this task, the JNDI provides
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#composeName(javax.naming.Name, javax.naming.Name)"><tt>Context.composeName()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#composeName(javax.naming.Name, javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    for composing names dynamically depending on federated
+namespace boundaries. 
+You give this method two arguments: the name that you want to append
+and the name of this context (relative to one of its ancestor contexts).
+You need to supply the latter because, in general,
+a context does not know its name, especially its name relative
+to other contexts through which you might have resolved to get there.
+<p>
+The implementation of this method is supplied by the service provider.
+This puts the onus of figuring out namespace boundaries and which
+naming syntax to use on the service provider instead of the application
+developer.
+<p>
+Following is <a href=src/ComposeName.java>an example</a> that performs the
+compositions described here.
+<blockquote><pre>
+// Create the initial context
+Context ctx = new InitialContext(env);
+
+// Compose a name within the LDAP namespace
+Context ldapCtx = (Context)ctx.lookup("cn=Jon Ruiz,ou=people");
+String ldapName = ldapCtx.composeName("cn=homedir", "cn=Jon Ruiz,ou=people");
+System.out.println(ldapName);
+
+// Compose a name when it crosses into the next naming system
+Context homedirCtx = (Context)ctx.lookup(ldapName);
+String compositeName = homedirCtx.composeName("tutorial", ldapName);
+System.out.println(compositeName);
+
+// Compose a name within the File namespace
+Context fileCtx = (Context)ctx.lookup(compositeName);
+String fileName = fileCtx.composeName("report.txt", compositeName);
+System.out.println(fileName);
+</blockquote></pre>
+The names of the variables used in this example are only for illustrative purposes.
+The application does  not need to know whether it is
+interacting with an LDAP context, a file system context, or a 
+context that connects the two.
+<blockquote>
+<hr>
+<strong>Note:</strong> The v1.2 Beta version of the file system service
+provider does not implement <tt>composeName()</tt> properly.
+If you run this example on a Windows platform, 
+then the last filename composition uses a forward slash 
+character ("/") 
+instead of a backslash character.
+<hr>
+</blockquote>
+<p>
+This method also has an overloaded form that accepts
+<tt>Name</tt> instead of <tt>java.lang.String</tt> arguments.
+If you use the <tt>Name</tt> form, then make sure that both arguments
+are of the same type. For example, don't mix a <tt>CompositeName</tt>
+with a <tt>CompoundName</tt>.
+
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+<strong>What's in a Name?: End of Lesson</strong>
+<p>
+What's next? 
+Now you can:
+<ul>
+<li> <a href=../env/index.html>Continue</a> on in this trail
+to learn about environment properties.
+
+<li> Go to the 
+<a target="_top" href="../event/index.html">Event Notification</a> <a target="_top" href="../event/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>     lesson to learn about how to use event notification.
+
+<li> Go to the 
+<a target="_top" href="../url/index.html">URL</a> <a target="_top" href="../url/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>     lesson to learn about how URLs are used in various parts of the JNDI.
+
+
+</ul>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="syntax.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="../env/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=top border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>What's in a Name?</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Migrating Java Applets to Java Web Start and JNLP</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="dcterms.created" content="2018-03-12T22:52:24Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Deployment Guide" />
+<meta name="dcterms.identifier" content="E92517-01" />
+<meta name="dcterms.isVersionOf" content="JSDPG" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="application-development-considerations.htm" title="Previous" type="text/html" />
+<link rel="Next" href="jnlp-file-syntax.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSDPG.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-1F95EBB3-D5CB-434A-B069-2261900738F5"></a> <span id="PAGE" style="display:none;">12/17</span> <!-- End Header -->
+<h1 id="JSDPG-GUID-1F95EBB3-D5CB-434A-B069-2261900738F5" class="sect1"><span class="enumeration_chapter">6</span> Migrating Java Applets to Java Web Start and JNLP</h1>
+<div>
+<p>Because browsers are reducing or eliminating support for the Java Plug-in, consider migrating existing Java applets to Java Web Start, which uses the Java Network Launching Protocol (JNLP) to download and run an application locally.</p>
+<p><span>Although available and supported in JDK 9, the Applet API and the Java Plug-in are marked as deprecated in preparation for removal in a future release. Alternatives for applets and embedded JavaFX applications include Java Web Start and self-contained applications.</span></p>
+<p>Migrating to Java Web Start provides the ability to launch the application independent of a web browser. When your user is offline or unable to access the browser, a desktop shortcut can launch the application, providing your user with the same experience as that of a native application.</p>
+<p>This chapter includes the following topics:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="migrating-java-applets-jnlp.htm#GUID-6B65096D-49F3-4AE2-B9ED-F8137A9B4D9E">Migrating an Existing Java Applet</a></p>
+</li>
+<li>
+<p><a href="migrating-java-applets-jnlp.htm#GUID-09C10AD7-8B69-445D-81DD-C3F2C531248C">Rewriting a Java Applet as a Java Web Start Application</a></p>
+</li>
+<li>
+<p><a href="migrating-java-applets-jnlp.htm#GUID-E6E11FAE-DBCB-4C1C-B5FD-7C9597E0DEBB">Special Considerations</a></p>
+</li>
+</ul>
+</div>
+<div class="props_rev_3"><a id="GUID-6B65096D-49F3-4AE2-B9ED-F8137A9B4D9E"></a>
+<h2 id="JSDPG-GUID-6B65096D-49F3-4AE2-B9ED-F8137A9B4D9E" class="sect2">Migrating an Existing Java Applet</h2>
+<div>
+<p>Java Web Start technology has built-in support for applets. Your applet can run with Java Web Start technology without any recompilation of the applet. Just convert your applet HTML tags to a Java Network Launching Protocol (JNLP) file using the JNLP <code class="codeph">applet-desc</code> element, for example:</p>
+<pre dir="ltr">
+&lt;resources&gt;
+  &lt;jar href="SwingSet2.jar"/&gt;
+&lt;/resources&gt;
+&lt;applet-desc main-class="SwingSet2Applet" name="SwingSet" width="625" height="595"&gt;
+  &lt;param name="param1" value="value1"/&gt;
+  &lt;param name="param2" value="value2"/&gt;
+&lt;/applet-desc&gt;
+</pre>
+<div class="infobox-note" id="GUID-6B65096D-49F3-4AE2-B9ED-F8137A9B4D9E__GUID-639E876C-C984-4D6E-9833-A4D78EFF286C">
+<p class="notep1">Note:</p>
+<span>Although available and supported in JDK 9, the Applet API is marked as deprecated in preparation for removal in a future release. Instead of applets, consider alternatives such as Java Web Start or self-contained applications.</span></div>
+</div>
+</div>
+<div class="props_rev_3"><a id="GUID-09C10AD7-8B69-445D-81DD-C3F2C531248C"></a>
+<h2 id="JSDPG-GUID-09C10AD7-8B69-445D-81DD-C3F2C531248C" class="sect2">Rewriting a Java Applet as a Java Web Start Application</h2>
+<div>
+<p>The best way to migrate your applet is to rewrite it as a standalone Java application, and then deploy it with Java Web Start technology. Rewriting your applet and testing the resulting application ensures that your converted applet works as expected, and your application can take advantage of the Java Web Start features.</p>
+<p>The major work needed is to convert your <code class="codeph">applet</code> class to the <code class="codeph">main</code> class of the application. The applet <code class="codeph">init</code> and <code class="codeph">start</code> methods are no longer present, instead, initialize the application at the beginning of the application's <code class="codeph">main</code> method.</p>
+<p>To quickly begin the migration, add the <code class="codeph">main</code> method to your original <code class="codeph">applet</code> class, and then start calling your applet initialization code where it normally gets called from the applet's <code class="codeph">init</code> and <code class="codeph">start</code> methods. When there is a <code class="codeph">main</code> method in the <code class="codeph">applet</code> class, you can begin launching it by using the Java Web Start technology, and then slowly remove the dependency on the <code class="codeph">Applet</code> class and convert it completely to your application's <code class="codeph">main</code> class.</p>
+</div>
+</div>
+<div class="props_rev_3"><a id="GUID-E6E11FAE-DBCB-4C1C-B5FD-7C9597E0DEBB"></a>
+<h2 id="JSDPG-GUID-E6E11FAE-DBCB-4C1C-B5FD-7C9597E0DEBB" class="sect2">Special Considerations</h2>
+<div>
+<p>The following items are things to consider when migrating:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>A Java Web Start application does not run within the web browser. If your applet has any dependency on the browser (for example, Java-to-JavaScript or JavaScript-to-Java communications using the browser), the communication code will no longer work. The APIs that are affected include:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph">JSObject</code> API (<code class="codeph">netscape.javascript.JSObject.*</code>) for Java-to-JavaScript communication does not work for Java Web Start applications.</p>
+</li>
+<li>
+<p>Common Document Object Model (DOM) APIs (<code class="codeph">com.sun.java.browser.dom.*</code> and <code class="codeph">org.w3c.dom.*</code>) available for Java Plug-in applets are not available to Java Web Start applications.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Similar to Java Plug-in technology, for faster start-up performance, Java Web Start technology caches your application JARs and resources downloaded by your application.</p>
+</li>
+<li>
+<p>Java Web Start technology provides permanent cookie support on Windows using the cookie store in Internet Explorer (IE), and the cookie-handling behavior is determined by the cookie control in IE. On Linux and Solaris, Java Web Start technology provides permanent cookie support using its own cookie store implementation. See <a href="http://docs.oracle.com/javase/tutorial/deployment/doingMoreWithRIA/cookies.html" target="_blank">Cookies</a> in the Java Tutorials.</p>
+</li>
+<li>
+<p>If you deploy an applet with the JNLP <code class="codeph">applet-desc</code> element, your applet is created using the <code class="codeph">AppletContainer</code> provided by Java Web Start technology. When your applet calls <code class="codeph">Applet.getAppletContext()</code>, it returns the <code class="codeph">AppletContainerContext</code> provided by Java Web Start technology. The following list describes minor differences in implementation between the Java Plug-in <code class="codeph">AppletContext</code> and the Java Web Start <code class="codeph">AppletContext</code>:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>The following Applet Persistence API methods are not implemented by Java Web Start technology:</p>
+<pre dir="ltr">
+AppletContext.getStream(String key)
+AppletContext.getStreamKeys()
+AppletContext.setStream(String key, InputStream s)
+</pre>
+<p>For Java Web Start applications, you can use the JNLP Persistence Service API for storing data locally on the client's system. See the <a href="https://docs.oracle.com/javase/10/docs/api/javax/jnlp/PersistenceService.html" target="_blank"><code class="codeph">PersistenceService</code></a> interface.</p>
+</li>
+<li>
+<p>For <code class="codeph">AppletContext.showDocument(URL url, String target)</code>, the target argument is ignored by Java Web Start technology.</p>
+</li>
+<li>
+<p>For <code class="codeph">AppletContext.showStatus(String status)</code>, when launched with Java Web Start technology, this sets the <code class="codeph">JLabel</code> text that is below the applet, hosted by the Java Web Start <code class="codeph">AppletContainer</code>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Similar to <code class="codeph">AppletContext.showDocument</code>, Java Web Start applications are capable of showing an HTML page using the system's default web browser by using the <code class="codeph">BasicService.showDocument</code> API.</p>
+<p>For a Java Plug-in applet:</p>
+<pre dir="ltr">
+AppletContext.showDocument(URL url)
+AppletContext.showDocument(URL url, String target)
+</pre>
+<p>For a Java Web Start application:</p>
+<pre dir="ltr">
+BasicService.showDocument(URL url)
+</pre>
+<p>See the <a href="https://docs.oracle.com/javase/10/docs/api/javax/jnlp/BasicService.html" target="_blank"><code class="codeph">BasicService</code></a> interface.</p>
+</li>
+<li>
+<p>In an applet, if you obtain a resource using the following calls:</p>
+<pre dir="ltr">
+Applet.getImage(URL url)
+Applet.getImage(URL url, String name)
+Applet.getAudioClip(URL url)
+Applet.getAudioClip(URL url, String name)
+AppletContext.getAudioClip(URL url)
+AppletContext.getImage(URL url)
+</pre>
+<p>Then in Java Web Start technology, the best practice is to include the resources in your application JAR files, and access the resources using the <code class="codeph">JNLPClassLoader</code>:</p>
+<pre dir="ltr">
+ClassLoader cl = this.getClass().getClassLoader();
+URL url = cl.getResource(url);
+Image im = Toolkit.getDefaultToolkit().createImage(url);
+</pre>
+<p>See <a href="application-development-considerations.htm#GUID-D29972EC-7CDB-4E1E-8B5C-44A8EEC2B320">Retrieving Resources from JAR Files</a>.</p>
+</li>
+<li>
+<p>The pack200 JAR packing tool is supported by both the Java Web Start and the Java Plug-in technologies. If you are already deploying your applet JARs with pack200, no change is needed when migrating to Java Web Start technology.</p>
+</li>
+<li>
+<p>By using the <code class="codeph">OBJECT</code> tag in Java Plug-in technology, you can detect whether Java is available on the client's machine with the plug-in <code class="codeph">CLSID</code> and then auto-download Java if necessary. The same support is available with Java Web Start technology by using the Java Web Start <code class="codeph">CLSID</code>. See <a href="http://docs.oracle.com/javase/tutorial/deployment/deploymentInDepth/ensuringJRE.html" target="_blank">Ensuring the Presence of the JRE Software</a> in the Java Tutorials.</p>
+</li>
+<li>
+<p>If you want to deploy extensions for your Java Web Start application, then use the JNLP extension protocol mechanism. See the <a href="https://www.jcp.org/en/jsr/detail?id=56" target="_blank">JSR 56: Java Network Launching Protocol and API</a>, section 3.8 "Extension Descriptor."</p>
+<p>One advantage of the JNLP extensions mechanism over Java Plug-in technology is that the installed extensions are available to all Java Web Start applications running on the system, no matter what version of the JRE the application is running. For Java Plug-in technology, only applets running in the same JRE version can use the installed extensions.</p>
+</li>
+<li>
+<p>For signed JAR files, similar to Java Plug-in technology, you can sign your application JAR files and request your application to be run with all permissions using the JNLP file. In Java Plug-in technology, your applet JARs can be signed by different certificates. In Java Web Start technology, the same certificate must be used to sign all JAR files (<code class="codeph">jar</code> and <code class="codeph">nativelib</code> elements) that are part of a single JNLP file. This simplifies user management because only one certificate must be presented to the user during a launch per JNLP file. If you must use JARs signed with different certificates, then you can put them in a component extension JNLP file, and reference the extension file from the main JNLP file. See the <a href="https://www.jcp.org/en/jsr/detail?id=56" target="_blank">JSR 56: Java Network Launching Protocol and API</a>, section 5.4 "Signed Applications" and section 4.7 "Extension Resources."</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment396">
+<tr>
+<td class="cellalignment403">
+<table class="cellalignment401">
+<tr>
+<td class="cellalignment400"><a href="application-development-considerations.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment400"><a href="jnlp-file-syntax.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment405">
+<table class="cellalignment399">
+<tr>
+<td class="cellalignment400"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment400"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment400"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

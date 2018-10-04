@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>2 Tips for Sizing and Aligning Nodes (Release 8)</title>
+<meta name="description" content="This topic describes techniques for controlling the size and alignment of nodes when placed in a JavaFX layout pane.">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXLY.pdf">PDF</a> | <a href="../JFXLY.epub">ePub</a> | <a href="../JFXLY.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Working with Layouts in JavaFX</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="builtin_layouts.htm">Previous Page</a><a class="button" title="Next Page" href="style_css.htm">Next Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="CJHBCBJB" name="CJHBCBJB" class="anchor"></a><a id="JFXLY133" name="JFXLY133" class="anchor"></a>
+<h1 class="chapter"><span class="secnum">2</span> Tips for Sizing and Aligning Nodes</h1>
+<a id="JFXLY218" name="JFXLY218" class="anchor"></a>
+<p>This topic describes techniques for controlling the size and alignment of nodes when placed in a JavaFX layout pane.</p>
+<p>A main advantage of using the built-in JavaFX layout panes is that the size and alignment of nodes is handled by the pane. As the pane is resized, the nodes are resized according to their preferred size range preferences. Note that not all node classes are resizable. UI controls and layout panes are resizable, but shapes, <code>Text</code> objects, and <code>Group</code> objects are not resizable and are treated as rigid objects in a layout.</p>
+<p>If you want more control over the size of controls in your UI, you can set their preferred size range directly. The layout pane then uses your settings to determine the size of the control. To manage the position of the controls, you can use the alignment properties for the layout panes.</p>
+<p>This topic provides simple examples for sizing and aligning nodes in a pane. The <code><a href="layoutsizingaligningjava.htm#BABFGJAD">LayoutSizingAligning.java</a></code> file contains the source code for the samples described in this topic. The <a href="../sample-apps/LayoutSizingAligning.zip"><code>LayoutSizingAligning.zip</code></a> file contains the NetBeans IDE project for the sample.</p>
+<a id="JFXLY134" name="JFXLY134" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref33" name="sthref33" class="anchor"></a>
+<h2 class="sect1">Sizing Nodes</h2>
+<p>Layouts query the preferred size of their nodes by invoking the <code>prefWidth(height)</code> and <code>prefHeight(width)</code> methods. By default, UI controls compute default values for their preferred size that is based on the content of the control. For example, the computed size of a Button object is determined by the length of the text and the size of the font used for the label, plus the size of any image. Typically, the computed size is just big enough for the control and the label to be fully visible.</p>
+<p>UI controls also provide default minimum and maximum sizes that are based on the typical usage of the control. For example, the maximum size of a <code>Button</code> object defaults to its preferred size because you don't usually want buttons to grow arbitrarily large. However, the maximum size of a <code>ScrollPane</code> object is unbounded because typically you do want them to grow to fill their spaces.</p>
+<p>You can use the default size constraints of nodes, or you can set them to provide the look that you want. For example, <a href="#CJHEDEJD">Figure 2-1</a> shows the default size of several buttons and a list view in a border pane.</p>
+<div class="figure"><a id="CJHEDEJD" name="CJHEDEJD" class="anchor"></a><a id="JFXLY135" name="JFXLY135" class="anchor"></a>
+<p class="titleinfigure">Figure 2-1 Computed Sizes</p>
+<img width="408" height="574" src="img/computed_sizes.png" alt="Description of Figure 2-1 follows" title="Description of Figure 2-1 follows" longdesc="img_text/computed_sizes.htm" /><br />
+<a id="sthref34" name="sthref34" href="img_text/computed_sizes.htm">Description of "Figure 2-1 Computed Sizes"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>Suppose that the look that you want is the screen shown in <a href="#CACCBEJF">Figure 2-2</a>, which shows the UI controls sized according to desired constraints.</p>
+<div class="figure"><a id="CACCBEJF" name="CACCBEJF" class="anchor"></a><a id="JFXLY160" name="JFXLY160" class="anchor"></a>
+<p class="titleinfigure">Figure 2-2 Desired Sizes</p>
+<img width="316" height="438" src="img/overridden_sizes.png" alt="Description of Figure 2-2 follows" title="Description of Figure 2-2 follows" longdesc="img_text/overridden_sizes.htm" /><br />
+<a id="sthref35" name="sthref35" href="img_text/overridden_sizes.htm">Description of "Figure 2-2 Desired Sizes"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>Applications often need to directly set the minimum, preferred, and maximum size constraints on controls. The following sections provide tips for overriding the computed sizes to get the look that you want.</p>
+<a id="JFXLY137" name="JFXLY137" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="sthref36" name="sthref36" class="anchor"></a>
+<h3 class="sect2">Making Buttons the Same Size</h3>
+<p>You can go through the trouble of determining the height and width of each button and then setting the preferred size of each button to the greatest height and width of the buttons in the set. An easier option is to let the layout panes do the work. The layout pane that you want to use is determined by the effect that you want to achieve.</p>
+<a id="JFXLY138" name="JFXLY138" class="anchor"></a>
+<div class="sect3"><!-- infolevel="all" infotype="General" --><a id="sthref37" name="sthref37" class="anchor"></a>
+<h4 class="sect3">Using a VBox</h4>
+<p>The scene in <a href="#CJHEDEJD">Figure 2-1</a> uses a <code>VBox</code> layout pane for the buttons on the right and uses the computed sizes for the buttons. The buttons already have the same height, so only the width needs to be changed.</p>
+<p>The scene in <a href="#CACCBEJF">Figure 2-2</a> uses a <code>VBox</code> pane to take advantage of the default behavior that makes the width of the <code>VBox</code> pane the same as the preferred width of its widest element. To enable all of the buttons to be resized to the width of the <code>VBox</code> pane, the maximum width of each button is set to the <code>Double.MAX_VALUE</code> constant, which enables a control to grow without limit. An alternative to using the maximum value constant is to set the maximum width to a specific value, such as 80.0.</p>
+<p><a href="#BABHECHE">Example 2-1</a> shows how to make a column of buttons the same width using a <code>VBox</code> pane.</p>
+<div class="example"><a id="BABHECHE" name="BABHECHE" class="anchor"></a><a id="JFXLY139" name="JFXLY139" class="anchor"></a>
+<p class="titleinexample">Example 2-1 Set a Column of Buttons to the Same Width</p>
+<pre xml:space="preserve" class="oac_no_warn">BorderPane border = new BorderPane();
+border.setPadding(new Insets(20, 0, 20, 20));
+
+Button btnAdd = new Button("Add");
+Button btnDelete = new Button("Delete");
+Button btnMoveUp = new Button("Move Up");
+Button btnMoveDown = new Button("Move Down");
+
+btnAdd.setMaxWidth(Double.MAX_VALUE);
+btnDelete.setMaxWidth(Double.MAX_VALUE);
+btnMoveUp.setMaxWidth(Double.MAX_VALUE);
+btnMoveDown.setMaxWidth(Double.MAX_VALUE);
+
+VBox vbButtons = new VBox();
+vbButtons.setSpacing(10);
+vbButtons.setPadding(new Insets(0, 20, 10, 20)); 
+vbButtons.getChildren().addAll(btnAdd, btnDelete, btnMoveUp, btnMoveDown);
+</pre></div>
+<!-- class="example" -->
+<p>In the Layout Sizing and Aligning sample, the elements of the UI are laid out using a border pane. The column of buttons is put in the right region of the border pane to limit the size of the buttons to the preferred width of the widest button. The center region of a border pane expands to fill any space available so if you put the <code>VBox</code> pane in the center region, the <code>VBox</code> pane and the buttons also expand.</p>
+</div>
+<!-- class="sect3" -->
+<a id="JFXLY140" name="JFXLY140" class="anchor"></a>
+<div class="sect3"><!-- infolevel="all" infotype="General" --><a id="sthref38" name="sthref38" class="anchor"></a>
+<h4 class="sect3">Using a TilePane</h4>
+<p>The scene in <a href="#CJHEDEJD">Figure 2-1</a> uses an <code>HBox</code> layout pane for the buttons on the bottom and uses the computed sizes for those buttons. The buttons have different widths and heights.</p>
+<p>The scene in <a href="#CACCBEJF">Figure 2-2</a> uses a horizontal <code>TilePane</code> layout pane to take advantage of the default behavior that makes each cell (tile) the same size. The size of each tile is the size needed to hold the preferred size of the largest node in the tile pane.</p>
+<p>To enable the buttons to be resized to the size of the tile, set the maximum width and height to the <code>Double.MAX_VALUE</code> constant. <a href="#BABCIHEC">Example 2-2</a> shows how make a row of buttons the same width and height using a tile pane.</p>
+<div class="example"><a id="BABCIHEC" name="BABCIHEC" class="anchor"></a><a id="JFXLY141" name="JFXLY141" class="anchor"></a>
+<p class="titleinexample">Example 2-2 Set a Row of Buttons to the Same Size</p>
+<pre xml:space="preserve" class="oac_no_warn">Button btnApply = new Button("Apply");
+Button btnContinue = new Button("Continue");
+Button btnExit = new Button("Exit");
+btnExit.setStyle("-fx-font-size: 15pt;");
+
+btnApply.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+btnContinue.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+btnExit.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+
+TilePane tileButtons = new TilePane(Orientation.HORIZONTAL);
+tileButtons.setPadding(new Insets(20, 10, 20, 0));
+tileButtons.setHgap(10.0);
+tileButtons.setVgap(8.0);
+tileButtons.getChildren().addAll(btnApply, btnContinue, btnExit);
+</pre></div>
+<!-- class="example" -->
+<p>Tiles are not resized as the window size changes so the buttons don't change size when set in a tile pane. Note that if the width of the window is reduced, the buttons in the tile pane change position, but do not get smaller.</p>
+</div>
+<!-- class="sect3" --></div>
+<!-- class="sect2" -->
+<a id="JFXLY142" name="JFXLY142" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="sthref39" name="sthref39" class="anchor"></a>
+<h3 class="sect2">Keeping Nodes at Their Preferred Size</h3>
+<p>As a stage is resized, layout panes within the stage might have more or less space to allocate to the controls that they contain. Each layout pane has its own rules for allocating space according to the minimum, preferred, and maximum size ranges of the controls.In general, controls that have a default maximum size of <code>Double.MAX_VALUE</code> expand to fill their space while controls with constrained maximum sizes do not expand. For example, a <code>ListView</code> object has an unbounded maximum. If you want to limit the height to its preferred size, you can set the maximum size to the <code>Control.USE_PREF_SIZE</code> constant, as shown in <a href="#BABGEIGA">Example 2-3</a>.</p>
+<div class="example"><a id="BABGEIGA" name="BABGEIGA" class="anchor"></a><a id="JFXLY143" name="JFXLY143" class="anchor"></a>
+<p class="titleinexample">Example 2-3 Set Maximum Height to Preferred Height</p>
+<pre xml:space="preserve" class="oac_no_warn">ListView&lt;String&gt; lvList = new ListView&lt;&gt;();
+ObservableList&lt;String&gt; items = FXCollections.observableArrayList (
+        "Hot dog", "Hamburger", "French fries", 
+        "Carrot sticks", "Chicken salad");
+lvList.setItems(items);
+lvList.setMaxHeight(Control.USE_PREF_SIZE);
+</pre></div>
+<!-- class="example" -->
+<p>By default, buttons grow only to their preferred size. However, buttons shrink to where the label is shown as three dots (<span class="gui-object-title">...</span>) if the minimum width is not overridden. To prevent a button from becoming smaller than its preferred width, set its minimum width to its preferred width as shown in <a href="#BABDGABJ">Example 2-4</a>.</p>
+<div class="example"><a id="BABDGABJ" name="BABDGABJ" class="anchor"></a><a id="JFXLY144" name="JFXLY144" class="anchor"></a>
+<p class="titleinexample">Example 2-4 Set Minimum Width to Preferred Width</p>
+<pre xml:space="preserve" class="oac_no_warn">Button btnMoveDown = new Button("Move Down");
+btnMoveDown.setMinWidth(Control.USE_PREF_SIZE);
+</pre></div>
+<!-- class="example" -->
+<p>The preferred size of a control is initially based on the computed size. You can override the default preferred size by setting the preferred size constraint to the size of your choice. The following statement overrides the preferred width of a list view:</p>
+<pre xml:space="preserve" class="oac_no_warn">lvList.setPrefWidth(150.0);
+</pre></div>
+<!-- class="sect2" -->
+<a id="JFXLY145" name="JFXLY145" class="anchor"></a>
+<div class="sect2"><a id="sthref40" name="sthref40" class="anchor"></a>
+<h3 class="sect2">Preventing Resizing</h3>
+<p>If you do not want the size of a node to change, set the minimum, maximum, and preferred sizes to the same size. To prevent only the width or height from changing, set the width or height constraints to the same value. In <a href="#BABHHCDA">Example 2-5</a>, a list is created with all size constraints set to the same width and height values so that the size of the list doesn't change as the size of the window changes. A button is created with all width constraints set to the same value.</p>
+<div class="example"><a id="BABHHCDA" name="BABHHCDA" class="anchor"></a><a id="JFXLY146" name="JFXLY146" class="anchor"></a>
+<p class="titleinexample">Example 2-5 Set Size Constraints to Prevent Resizing</p>
+<pre xml:space="preserve" class="oac_no_warn">ListView&lt;String&gt; lvList = new ListView&lt;String&gt;();
+lvList.setMinSize(150.0, Control.USE_PREF_SIZE);
+lvList.setMaxSize(150.0, Control.USE_PREF_SIZE);
+
+Button btnDelete = new Button("Delete");
+btnDelete.setMinWidth(80.0);
+btnDelete.setPrefWidth(80.0);
+btnDelete.setMaxWidth(80.0);
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect2" --></div>
+<!-- class="sect1" -->
+<a id="JFXLY147" name="JFXLY147" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref41" name="sthref41" class="anchor"></a>
+<h2 class="sect1">Aligning Content</h2>
+<p>Each layout pane has a default way of aligning the nodes within the pane. For example, in <code>HBox</code> and <code>VBox</code> layout panes, nodes are top-justified and left-justified. In <code>TilePane</code> and <code>FlowPane</code> layout panes, nodes are centered. The panes themselves by default are typically top-justified and left-justified.</p>
+<p>You can manage the alignment of nodes and panes by using the <code>setAlignment()</code> method for the panes. Alignment constants are available in the following <code>enum</code> types in the <code>javafx.geometry</code> package:</p>
+<ul>
+<li>
+<p><code>HPos</code> - Values for specifying horizontal alignment.</p>
+</li>
+<li>
+<p><code>Pos</code> - Values for specifying vertical and horizontal alignment. The value to the left of the underscore specifies the vertical alignment, the value to the right of the underscore specifies the horizontal alignment. For example, <code>Pos.BOTTOM_LEFT</code> aligns a node at the bottom of the space vertically and at the left edge of the space horizontally.</p>
+</li>
+<li>
+<p><code>VPos</code> - Values for specifying vertical alignment.</p>
+</li>
+</ul>
+<p><a href="#CJHGEGEH">Figure 2-3</a> is created by the code shown in <a href="#CJHDJDIF">Example 2-6</a>. Without any alignment constraints specified, the layout pane is placed in the top left corner.</p>
+<div class="figure"><a id="CJHGEGEH" name="CJHGEGEH" class="anchor"></a><a id="JFXLY148" name="JFXLY148" class="anchor"></a>
+<p class="titleinfigure">Figure 2-3 Default Positions</p>
+<img width="316" height="438" src="img/default_positions.png" alt="Description of Figure 2-3 follows" title="Description of Figure 2-3 follows" longdesc="img_text/default_positions.htm" /><br />
+<a id="sthref42" name="sthref42" href="img_text/default_positions.htm">Description of "Figure 2-3 Default Positions"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<div class="example"><a id="CJHDJDIF" name="CJHDJDIF" class="anchor"></a><a id="JFXLY149" name="JFXLY149" class="anchor"></a>
+<p class="titleinexample">Example 2-6 Create a UI with Default Alignment</p>
+<pre xml:space="preserve" class="oac_no_warn">GridPane grid = new GridPane();
+    grid.setHgap(10);
+    grid.setVgap(12);
+
+    HBox hbButtons = new HBox();
+    hbButtons.setSpacing(10.0);
+
+    Button btnSubmit = new Button("Submit");
+    Button btnClear = new Button("Clear");
+    Button btnExit = new Button("Exit");
+    btnSubmit.setStyle("-fx-font-size: 15pt;");
+
+    Label lblName = new Label("User name:");
+    TextField tfName = new TextField();
+    Label lblPwd = new Label("Password:");
+    PasswordField pfPwd = new PasswordField();
+
+    hbButtons.getChildren().addAll(btnSubmit, btnClear, btnExit);
+    grid.add(lblName, 0, 0);
+    grid.add(tfName, 1, 0);
+    grid.add(lblPwd, 0, 1);
+    grid.add(pfPwd, 1, 1);
+    grid.add(hbButtons, 0, 2, 2, 1);
+}
+</pre></div>
+<!-- class="example" -->
+<p>Suppose the look that you want is the screen shown in <a href="#CJHDEFIA">Figure 2-4</a>, which centers the layout pane in the screen and changes the default alignment of the controls.</p>
+<div class="figure"><a id="CJHDEFIA" name="CJHDEFIA" class="anchor"></a><a id="JFXLY150" name="JFXLY150" class="anchor"></a>
+<p class="titleinfigure">Figure 2-4 Desired Positions</p>
+<img width="316" height="438" src="img/overridden_positions.png" alt="Description of Figure 2-4 follows" title="Description of Figure 2-4 follows" longdesc="img_text/overridden_positions.htm" /><br />
+<a id="sthref43" name="sthref43" href="img_text/overridden_positions.htm">Description of "Figure 2-4 Desired Positions"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>The following sections provide tips for overriding the default positions.</p>
+<a id="JFXLY151" name="JFXLY151" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="sthref44" name="sthref44" class="anchor"></a>
+<h3 class="sect2">Centering the Grid</h3>
+<p>To center the grid from <a href="#CJHDJDIF">Example 2-6</a> in the scene, use the following statement:</p>
+<pre xml:space="preserve" class="oac_no_warn">grid.setAlignment(Pos.CENTER);
+</pre></div>
+<!-- class="sect2" -->
+<a id="JFXLY152" name="JFXLY152" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="sthref45" name="sthref45" class="anchor"></a>
+<h3 class="sect2">Aligning Controls in the Columns</h3>
+<p>In the desired layout, the labels are right-justified and the fields are left-justified. To achieve this in a grid, define each column using the <code>ColumnConstraints</code> class and set the horizontal alignment constraint. <a href="#CJHDAJJF">Example 2-7</a> defines the columns for the grid from <a href="#CJHDJDIF">Example 2-6</a>.</p>
+<div class="example"><a id="CJHDAJJF" name="CJHDAJJF" class="anchor"></a><a id="JFXLY153" name="JFXLY153" class="anchor"></a>
+<p class="titleinexample">Example 2-7 Define the Columns in the Grid</p>
+<pre xml:space="preserve" class="oac_no_warn">GridPane grid = new GridPane();
+grid.setAlignment(Pos.CENTER);
+grid.setHgap(10);
+grid.setVgap(12);
+
+ColumnConstraints column1 = new ColumnConstraints();
+column1.setHalignment(HPos.RIGHT);
+grid.getColumnConstraints().add(column1); 
+
+ColumnConstraints column2 = new ColumnConstraints();
+column2.setHalignment(HPos.LEFT);
+grid.getColumnConstraints().add(column2); 
+</pre></div>
+<!-- class="example" -->
+<p>An alternative for right-justifying controls in a column is to use a <code>VBox</code> layout pane. Use the <code>setAlignment()</code> method as shown in the following statements:</p>
+<pre xml:space="preserve" class="oac_no_warn">VBox vbox = new VBox;
+vbox.setAlignment(Pos.CENTER_RIGHT);
+</pre></div>
+<!-- class="sect2" -->
+<a id="JFXLY154" name="JFXLY154" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="sthref46" name="sthref46" class="anchor"></a>
+<h3 class="sect2">Centering the Buttons</h3>
+<p>The buttons are laid out in an <code>HBox</code> layout pane that spans both columns in the grid. The following statement centers the buttons in the grid from <a href="#CJHDJDIF">Example 2-6</a>:</p>
+<pre xml:space="preserve" class="oac_no_warn">hbButtons.setAlignment(Pos.CENTER);
+</pre>
+<p>The <code>setAlignment()</code> method for the <code>HBox</code> pane centers the <code>HBox</code> pane within its layout area and also centers the nodes within the <code>HBox</code> pane. You might prefer to center the <code>HBox</code> pane within the row but bottom-justify the buttons within the <code>HBox</code> pane as shown in <a href="#CJHIHDBB">Figure 2-5</a>.</p>
+<div class="figure"><a id="CJHIHDBB" name="CJHIHDBB" class="anchor"></a><a id="JFXLY155" name="JFXLY155" class="anchor"></a>
+<p class="titleinfigure">Figure 2-5 Override Positions and Bottom-Justify the Buttons</p>
+<img width="316" height="438" src="img/overridden_positions2.png" alt="Description of Figure 2-5 follows" title="Description of Figure 2-5 follows" longdesc="img_text/overridden_positions2.htm" /><br />
+<a id="sthref47" name="sthref47" href="img_text/overridden_positions2.htm">Description of "Figure 2-5 Override Positions and Bottom-Justify the Buttons"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>For this arrangement, place the <code>HBox</code> pane in an inner grid with a single cell and place that grid in the third row of the outer grid. Set the alignment constraint for the inner grid to center the grid and set the alignment constraint for the <code>HBox</code> pane to bottom-justify the contents as shown in <a href="#CJHEHDJJ">Example 2-8</a>.</p>
+<div class="example"><a id="CJHEHDJJ" name="CJHEHDJJ" class="anchor"></a><a id="JFXLY156" name="JFXLY156" class="anchor"></a>
+<p class="titleinexample">Example 2-8 Center and Bottom-Justify the Buttons</p>
+<pre xml:space="preserve" class="oac_no_warn">hbButtons.setAlignment(Pos.BOTTOM_CENTER);
+hbButtons.getChildren().addAll(btnSubmit, btnClear, btnExit);
+
+GridPane innergrid = new GridPane();
+innergrid.setAlignment(Pos.CENTER);
+innergrid.add(hbButtons, 0, 0);
+grid.add(innergrid, 0, 2, 2, 1);
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect2" --></div>
+<!-- class="sect1" -->
+<a id="JFXLY195" name="JFXLY195" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref48" name="sthref48" class="anchor"></a>
+<h2 class="sect1">Additional Resources</h2>
+<p>To learn more about the layout panes in JavaFX, see the information for the <a href="../api/javafx/scene/layout/package-summary.html"><code>javafx.scene.layout</code></a> package in the <a class="olink JFXAP" href="http://www.oracle.com/pls/topic/lookup?ctx=javase80&id=JFXAP">API Documentation</a>.</p>
+</div>
+<!-- class="sect1" -->
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref49" name="sthref49" class="anchor"></a>
+<h2 class="sect1">Application Files</h2>
+<p class="itemizedlisttitle">Source Code&nbsp;</p>
+<ul>
+<li>
+<p><code><a href="layoutsizingaligningjava.htm#BABFGJAD">LayoutSizingAligning.java</a></code></p>
+</li>
+</ul>
+<p class="itemizedlisttitle">NetBeans Projects&nbsp;</p>
+<ul>
+<li>
+<p><a href="../sample-apps/LayoutSizingAligning.zip"><code>LayoutSizingAligning.zip</code></a></p>
+</li>
+</ul>
+</div>
+<!-- class="sect1" -->
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Working with Layouts in JavaFX</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">About This Document</a></li>
+        <li><a href="preface.htm#sthref4">Audience</a></li>
+        <li><a href="preface.htm#sthref5">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref7">Related Documents</a></li>
+        <li><a href="preface.htm#sthref8">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a href="builtin_layouts.htm#JFXLY102">1 Using Built-in Layout Panes</a>
+      <ul>
+        <li><a href="builtin_layouts.htm#sthref9">BorderPane</a></li>
+        <li><a href="builtin_layouts.htm#JFXLY106">HBox</a></li>
+        <li><a href="builtin_layouts.htm#sthref13">VBox</a></li>
+        <li><a href="builtin_layouts.htm#sthref16">StackPane</a></li>
+        <li><a href="builtin_layouts.htm#JFXLY118">GridPane</a></li>
+        <li><a href="builtin_layouts.htm#sthref21">FlowPane</a></li>
+        <li><a href="builtin_layouts.htm#sthref24">TilePane</a></li>
+        <li><a href="builtin_layouts.htm#sthref25">AnchorPane</a></li>
+        <li><a href="builtin_layouts.htm#sthref29">Additional Resources</a></li>
+        <li><a href="builtin_layouts.htm#sthref30">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a class="selected" href="size_align.htm#JFXLY133">2 Tips for Sizing and Aligning Nodes</a>
+      <ul>
+        <li><a href="size_align.htm#sthref33">Sizing Nodes</a>
+          <ul>
+          <li><a href="size_align.htm#sthref36">Making Buttons the Same Size</a></li>
+          <li><a href="size_align.htm#sthref39">Keeping Nodes at Their Preferred Size</a></li>
+          <li><a href="size_align.htm#sthref40">Preventing Resizing</a></li>
+          </ul>
+        </li>
+        <li><a href="size_align.htm#sthref41">Aligning Content</a>
+          <ul>
+          <li><a href="size_align.htm#sthref44">Centering the Grid</a></li>
+          <li><a href="size_align.htm#sthref45">Aligning Controls in the Columns</a></li>
+          <li><a href="size_align.htm#sthref46">Centering the Buttons</a></li>
+          </ul>
+        </li>
+        <li><a href="size_align.htm#sthref48">Additional Resources</a></li>
+        <li><a href="size_align.htm#sthref49">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a href="style_css.htm#JFXLY161">3 Styling Layout Panes with CSS</a>
+      <ul>
+        <li><a href="style_css.htm#sthref53">Creating Style Definitions</a>
+          <ul>
+          <li><a href="style_css.htm#sthref54">Style Properties for Layout Panes</a></li>
+          <li><a href="style_css.htm#sthref55">Assigning a Style Sheet to the Scene</a></li>
+          </ul>
+        </li>
+        <li><a href="style_css.htm#sthref56">Styling the Layout Sample</a>
+          <ul>
+          <li><a href="style_css.htm#JFXLY170">Defining a Style for Shared Properties</a></li>
+          <li><a href="style_css.htm#sthref57">Styling the Border Pane</a></li>
+          <li><a href="style_css.htm#sthref58">Styling the HBox Panes</a></li>
+          <li><a href="style_css.htm#sthref60">Styling the VBox Pane</a></li>
+          <li><a href="style_css.htm#sthref61">Styling the Stack Pane</a></li>
+          <li><a href="style_css.htm#sthref62">Styling the Grid Pane</a></li>
+          <li><a href="style_css.htm#sthref63">Styling the Flow Pane or Tile Pane</a></li>
+          <li><a href="style_css.htm#sthref64">Styling the Anchor Pane</a></li>
+          </ul>
+        </li>
+        <li><a href="style_css.htm#sthref65">Using a Background Image</a></li>
+        <li><a href="style_css.htm#sthref67">Additional Resources</a></li>
+        <li><a href="style_css.htm#sthref68">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a href="layoutsamplejava.htm#JFXLY220">A LayoutSample.java</a></li>
+    <li><a href="layoutsizingaligningjava.htm#JFXLY224">B LayoutSizingAligning.java</a></li>
+    <li><a href="layoutsamplecssjava.htm#JFXLY228">C LayoutSampleCSS.java</a></li>
+    <li><a href="layoutstylescss.htm#JFXLY232">D layoutstyles.css</a></li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="builtin_layouts.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a><a class="button" title="Next Page" href="style_css.htm">Next Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2011, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

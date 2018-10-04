@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>2 Shape3D (Release 8)</title>
+<meta name="description" content="This chapter gives information about the Shape3D API that is available with the JavaFX 3D Graphics library.">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXGR.pdf">PDF</a> | <a href="../JFXGR.epub">ePub</a> | <a href="../JFXGR.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Working with JavaFX Graphics</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="overview-3d.htm">Previous Page</a><a class="button" title="Next Page" href="camera.htm">Next Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="CJAHFAHA" name="CJAHFAHA" class="anchor"></a><a id="JFXGR103" name="JFXGR103" class="anchor"></a>
+<h1 class="chapter"><span class="secnum">2</span> Shape3D</h1>
+<a id="JFXGR159" name="JFXGR159" class="anchor"></a>
+<p>This chapter gives information about the Shape3D API that is available with the JavaFX 3D Graphics library.</p>
+<p>There are two types of 3D shapes:</p>
+<ul>
+<li>
+<p><a href="#CBHGJDAI">Pre-defined Shapes</a></p>
+</li>
+<li>
+<p><a href="#CBHIEGDD">User-Defined Shapes</a></p>
+</li>
+</ul>
+<a id="CBHGJDAI" name="CBHGJDAI" class="anchor"></a><a id="JFXGR160" name="JFXGR160" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Pre-defined Shapes</h2>
+<p>The pre-defined 3D shapes are provided to make it easier for you to quickly create 3D objects out-of-the-box. These shapes include boxes, cylinders, and spheres. Sample usages are shown in <a href="#BABEGIJI">Figure 2-1</a>.</p>
+<div class="figure"><a id="BABEGIJI" name="BABEGIJI" class="anchor"></a><a id="JFXGR161" name="JFXGR161" class="anchor"></a>
+<p class="titleinfigure">Figure 2-1 Pre-defined Shapes</p>
+<img width="490" height="345" src="img/mesh-types.gif" alt="Description of Figure 2-1 follows" title="Description of Figure 2-1 follows" longdesc="img_text/mesh-types.htm" /><br />
+<a id="sthref12" name="sthref12" href="img_text/mesh-types.htm">Description of "Figure 2-1 Pre-defined Shapes"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p><a href="#CBHBIHAA">Example 2-1</a> shows the Shape3D class hierarchy. It includes the <code>MeshView</code> class, which defines a surface with the specified 3D mesh data. Also included are the <code>Box</code>, <code>Cylinder</code>, and <code>Sphere</code> subclasses.</p>
+<div class="example"><a id="CBHBIHAA" name="CBHBIHAA" class="anchor"></a><a id="JFXGR162" name="JFXGR162" class="anchor"></a>
+<p class="titleinexample">Example 2-1 Shape3D Class Hierarchy</p>
+<pre xml:space="preserve" class="oac_no_warn">java.lang.Object
+  javafx.scene.Node
+     javafx.scene.shape.Shape3D
+        javafx.scene.shape.MeshView
+        javafx.scene.shape.Box
+        javafx.scene.shape.Cylinder
+        javafx.scene.shape.Sphere
+</pre></div>
+<!-- class="example" -->
+<p>Use the following information to create the pre-defined shapes:</p>
+<ul>
+<li>
+<p>To create a Box object, specify the dimensions of width, height, and depth.</p>
+<pre xml:space="preserve" class="oac_no_warn">Box myBox = new Box(width, height, depth);
+</pre></li>
+<li>
+<p>To create a Cylinder object, specify the radius and height.</p>
+<pre xml:space="preserve" class="oac_no_warn">Cylinder myCylinder = new Cylinder(radius, height);
+Cylinder myCylinder2 = new Cylinder(radius, height, divisions);
+</pre></li>
+<li>
+<p>To create a Sphere object, specify the radius.</p>
+<pre xml:space="preserve" class="oac_no_warn">Sphere mySphere = new Sphere(radius);
+Sphere mySphere2 = new Sphere(radius, divisions);
+</pre></li>
+</ul>
+<p><a href="#BABDFJGD">Example 2-2</a> shows lines of code that demonstrate the use of the predefined 3D shapes.</p>
+<div class="example"><a id="BABDFJGD" name="BABDFJGD" class="anchor"></a><a id="JFXGR263" name="JFXGR263" class="anchor"></a>
+<p class="titleinexample">Example 2-2 Sample Usage of Predefined 3D Shapes</p>
+<pre xml:space="preserve" class="oac_no_warn">...
+       final PhongMaterial redMaterial = new PhongMaterial();
+       redMaterial.setSpecularColor(Color.ORANGE);
+       redMaterial.setDiffuseColor(Color.RED);
+ 
+       final PhongMaterial blueMaterial = new PhongMaterial();
+       blueMaterial.setDiffuseColor(Color.BLUE);
+       blueMaterial.setSpecularColor(Color.LIGHTBLUE);
+
+       final PhongMaterial greyMaterial = new PhongMaterial();
+       greyMaterial.setDiffuseColor(Color.DARKGREY);
+       greyMaterial.setSpecularColor(Color.GREY);
+
+       final Box red = new Box(400, 400, 400);
+       red.setMaterial(redMaterial);
+ 
+       final Sphere blue = new Sphere(200);
+       blue.setMaterial(blueMaterial);
+ 
+       final Cylinder grey = new Cylinder(5, 100);
+       grey.setMaterial(greyMaterial);
+...
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect1" -->
+<a id="CBHIEGDD" name="CBHIEGDD" class="anchor"></a><a id="JFXGR163" name="JFXGR163" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">User-Defined Shapes</h2>
+<p><a href="#BABFEHHA">Example 2-3</a> shows the JavaFX Mesh class hierarchy, which contains the <code>TriangleMesh</code> subclass. Triangle mesh is the most typical kind of mesh used in 3D layouts.</p>
+<div class="example"><a id="BABFEHHA" name="BABFEHHA" class="anchor"></a><a id="JFXGR164" name="JFXGR164" class="anchor"></a>
+<p class="titleinexample">Example 2-3 Mesh Class Hierarchy</p>
+<pre xml:space="preserve" class="oac_no_warn">java.lang.Object
+   javafx.scene.shape.Mesh (abstract)
+   javafx.scene.shape.TriangleMesh
+</pre></div>
+<!-- class="example" -->
+<p>The TriangleMesh contains separate arrays of points, texture coordinates, and faces that describe a triangulated geometric mesh. Smoothing groups are used to group triangles that are part of the same curved surface. Triangles that are in different smoothing groups form hard edges.</p>
+<p>Use the following steps to create a TriangleMesh instance:</p>
+<ol>
+<li>
+<p>Create a new instance of a triangleMesh.</p>
+<pre xml:space="preserve" class="oac_no_warn">mesh = new TriangleMesh();
+</pre></li>
+<li>
+<p>Define the set of points, which are the vertices of the mesh.</p>
+<pre xml:space="preserve" class="oac_no_warn">float points[] = { &#x2026; };
+mesh.getPoints().addAll(points);
+</pre></li>
+<li>
+<p>Describe the texture coordinates for each vertex.</p>
+<pre xml:space="preserve" class="oac_no_warn">float texCoords[] = { &#x2026; };
+mesh.getTexCoords().addAll(texCoords);
+</pre></li>
+<li>
+<p>Using the vertices, build the Faces, which are triangles that describe the topology.</p>
+<pre xml:space="preserve" class="oac_no_warn">int faces[] = { &#x2026; };
+mesh.getFaces().addAll(faces);
+</pre></li>
+<li>
+<p>Define the smoothing group to which each face belongs.</p>
+<pre xml:space="preserve" class="oac_no_warn">int smoothingGroups[] = { &#x2026; };
+mesh.getFaceSmoothingGroups().addAll(smoothingGroups);
+</pre>
+<p>Smoothing group adjusts the normal on the vertices for the face to either be smooth or faceted. If every single face has a differing smoothing group, then the mesh will be very faceted. If every single face has the same smoothing group, then the mesh will look very smooth.</p>
+</li>
+</ol>
+</div>
+<!-- class="sect1" -->
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Working with JavaFX Graphics</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">About This Tutorial</a></li>
+        <li><a href="preface.htm#sthref4">Audience</a></li>
+        <li><a href="preface.htm#sthref5">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref7">Related Documents</a></li>
+        <li><a href="preface.htm#sthref8">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a href="javafx-3d-graphics.htm#CHDGHHEJ">Part I Getting Started with JavaFX 3D Graphics</a>
+    <ul>
+    <li><a href="overview-3d.htm#JFXGR102">1 Overview</a>
+      <ul>
+        <li><a href="overview-3d.htm#sthref9">Sample of 3D Graphics Use Cases</a></li>
+        <li><a href="overview-3d.htm#sthref11">3D Feature in JavaFX 2.x Releases</a></li>
+      </ul>
+    </li>
+    <li><a class="selected" href="shape3d.htm#JFXGR103">2 Shape3D</a>
+      <ul>
+        <li><a href="shape3d.htm#JFXGR160">Pre-defined Shapes</a></li>
+        <li><a href="shape3d.htm#JFXGR163">User-Defined Shapes</a></li>
+      </ul>
+    </li>
+    <li><a href="camera.htm#JFXGR104">3 Camera</a>
+      <ul>
+        <li><a href="camera.htm#sthref13">Perspective Camera</a>
+          <ul>
+          <li><a href="camera.htm#sthref14">Field of View</a></li>
+          <li><a href="camera.htm#sthref15">Clipping Planes</a></li>
+          <li><a href="camera.htm#sthref16">Y-down versus Y-up</a></li>
+          <li><a href="camera.htm#sthref17">Sample Code Using PerspectiveCamera</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="subscene.htm#JFXGR105">4 SubScene</a>
+      <ul>
+        <li><a href="subscene.htm#sthref18">Creating a SubScene</a></li>
+        <li><a href="subscene.htm#sthref19">Sample Use of SubScene</a></li>
+      </ul>
+    </li>
+    <li><a href="light.htm#JFXGR106">5 Light</a>
+      <ul>
+        <li><a href="light.htm#sthref20">Creating and Using Light</a></li>
+      </ul>
+    </li>
+    <li><a href="material.htm#JFXGR107">6 Material</a></li>
+    <li><a href="picking.htm#JFXGR108">7 Picking</a>
+      <ul>
+        <li><a href="picking.htm#sthref21">Creating a PickResult Object</a></li>
+        <li><a href="picking.htm#sthref22">Methods for the PickResult Object</a></li>
+        <li><a href="picking.htm#sthref24">Sample Use of PickResult</a></li>
+      </ul>
+    </li>
+    <li><a href="sampleapp3d.htm#JFXGR109">8 Building a 3D Sample Application</a>
+      <ul>
+        <li><a href="sampleapp3d.htm#JFXGR270">Prepare for this Tutorial</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR188">Create the Project</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR189">Create the Scene</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR192">Set Up the Camera</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR198">Build the Axes</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR204">Build the Molecule</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR209">Add Camera Viewing Controls</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="javafx-canvas.htm#sthref29">Part II JavaFX Canvas</a>
+    <ul>
+    <li><a href="canvas.htm#JFXGR214">9 Working with the Canvas API</a>
+      <ul>
+        <li><a href="canvas.htm#sthref30">Overview</a></li>
+        <li><a href="canvas.htm#sthref31">Drawing Basic Shapes</a></li>
+        <li><a href="canvas.htm#sthref33">Applying Gradients and Shadows</a></li>
+        <li><a href="canvas.htm#sthref38">Interacting with the User</a></li>
+        <li><a href="canvas.htm#sthref42">Creating a Simple Layer System</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="javafx-image-ops.htm#sthref49">Part III JavaFX Image Ops</a>
+    <ul>
+    <li><a href="image_ops.htm#JFXGR238">10 Using the Image Ops API</a>
+      <ul>
+        <li><a href="image_ops.htm#sthref50">Overview of the Image Ops API</a></li>
+        <li><a href="image_ops.htm#sthref51">Reading Pixels From Images</a></li>
+        <li><a href="image_ops.htm#sthref55">Writing Pixels to Images</a></li>
+        <li><a href="image_ops.htm#sthref58">Writing Images with Byte Arrays and PixelFormats</a></li>
+        <li><a href="image_ops.htm#sthref63">Creating a Snapshot</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="samples-appendix.htm#JFXGR274">Part IV Source Code for the Graphics Tutorials</a>
+    <ul>
+    <li><a href="msaaapp-code.htm#JFXGR277">A MSAAApp Code</a>
+      <ul>
+        <li><a href="msaaapp-code.htm#JFXGR279">MSAAApp.java</a></li>
+      </ul>
+    </li>
+    <li><a href="sampleapp3d-code.htm#JFXGR280">B 3D MoleculeSampleApp Code</a>
+      <ul>
+        <li><a href="sampleapp3d-code.htm#JFXGR282">Xform.java</a></li>
+        <li><a href="sampleapp3d-code.htm#JFXGR283">buildMolecule()</a></li>
+        <li><a href="sampleapp3d-code.htm#JFXGR284">handleMouse()</a></li>
+        <li><a href="sampleapp3d-code.htm#JFXGR285">handleKeyboard()</a></li>
+      </ul>
+    </li>
+</ul>
+
+</li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="overview-3d.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a><a class="button" title="Next Page" href="camera.htm">Next Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2008, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

@@ -1,0 +1,729 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<!-- GenHTML revision 23965-->
+<meta http-equiv="Content-type" content=
+"text/html; charset=utf-8" />
+<title>Troubleshooting System Crashes - Troubleshooting Guide for
+HotSpot VM</title>
+<meta http-equiv="content-language" content="en-US" />
+<meta name="robots" content="index,follow" />
+<meta name="language" content="en" />
+<meta name="collection" content="reference" />
+<meta name="keywords" content="" />
+<meta name="description" content=
+"This document is a guide to help troubleshoot problems that might arise with applications that are developed using the release of Java Platform, Standard Edition Development Kit 7 (JDK 7). In particular, this guide addresses possible problems between the applications and the Java HotSpot virtual machine. The document provides a description of the tools, command line options, and other help in analyzing a problem. The document also provides guidance on how to approach some general issues such as a crash, hang, or memory resource issues. Finally, the document provides direction for data collection and bug report preparation." />
+<meta name="date" content="2008-11-01" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/default.css" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/pagelayout.css" />
+<link rel="alternate stylesheet" type="text/css" title="print"
+href="css/print.css" />
+<script type="text/javascript">
+//<![CDATA[
+function setActiveStyleSheet(title) {
+  var i, a, main;
+  for (i=0; (a = document.getElementsByTagName("link")[i]); i++) {
+         if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+                a.disabled = true;
+                if(a.getAttribute("title") == title) a.disabled = false;
+         }
+  }
+}
+
+function ClearDefault(Element) {
+   if (Element.defaultValue == Element.value) {
+        Element.value = ""
+        Element.style.cssText = "font-weight: bold; color: #00000"
+   }
+}
+
+//]]>
+</script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<div class="MastheadPane">
+<table class="MastheadTable" width="100%">
+<tr class="closeprintview">
+<td align="right"><a href="#" onclick=
+"setActiveStyleSheet('screen')">Exit Print View</a></td>
+</tr>
+<tr class="titlebar">
+<td>
+<h4 class="contentpage-doctitle"><a href="toc.html">Troubleshooting
+Guide for HotSpot VM</a></h4>
+</td>
+<td class="smallLogo"><a href="http://www.oracle.com"><img src=
+"graphics/smallOracleLogo.gif" /></a></td>
+</tr>
+</table>
+</div>
+<div class="ButtonPane">
+<table class="pagecontrol">
+<tr>
+<td class="pagebuttons"><a href="#" onclick=
+"setActiveStyleSheet('print')"><img height="46" width="40" border=
+"0" src="graphics/print.gif" alt="Print View" title=
+"Print View" /></a></td>
+<td class="pagebreadcrumb"></td>
+<td class="pagenavlinks"><a href="memleaks.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="hangloop.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+<div class="TOCPane">
+<p class="toc level1"><a href="docinfo.html">Document
+Information</a></p>
+<p class="toc level1 tocsp"><a href="preface.html">Preface</a></p>
+<p class="toc level1 tocsp"><a href=
+"tools.html">1.&#160;&#160;Diagnostic Tools and Options</a></p>
+<p class="toc level1 tocsp"><a href=
+"tooldescr.html">2.&#160;&#160;Detailed Tool Descriptions</a></p>
+<p class="toc level1 tocsp"><a href=
+"memleaks.html">3.&#160;&#160;Troubleshooting Memory Leaks</a></p>
+<div id="scrolltoc" class="onpage">
+<p class="toc level1 tocsp"><a href=
+"">4.&#160;&#160;Troubleshooting System Crashes</a></p>
+<p class="toc level2"><a href="#gbyzx">4.1 Sample Crashes</a></p>
+<p class="toc level3"><a href="#gdywn">4.1.1 Determining Where the
+Crash Occurred</a></p>
+<p class="toc level3"><a href="#gbyzj">4.1.2 Crash in Native
+Code</a></p>
+<p class="toc level3"><a href="#gbyzz">4.1.3 Crash due to Stack
+Overflow</a></p>
+<p class="toc level3"><a href="#gbyzu">4.1.4 Crash in the HotSpot
+Compiler Thread</a></p>
+<p class="toc level3"><a href="#gbyzb">4.1.5 Crash in Compiled
+Code</a></p>
+<p class="toc level3"><a href="#gbyyz">4.1.6 Crash in
+<tt>VMThread</tt></a></p>
+<p class="toc level2 tocsp"><a href="#gbyzo">4.2 Finding a
+Workaround</a></p>
+<p class="toc level3"><a href="#gbyzd">4.2.1 Crash in HotSpot
+Compiler Thread or Compiled Code</a></p>
+<p class="toc level3"><a href="#gbyzq">4.2.2 Crash During Garbage
+Collection</a></p>
+<p class="toc level3"><a href="#gbyzf">4.2.3 Class Data
+Sharing</a></p>
+<p class="toc level2 tocsp"><a href="#gbyzp">4.3 Microsoft Visual
+C++ Version Considerations</a></p>
+</div>
+<p class="toc level1 tocsp"><a href=
+"hangloop.html">5.&#160;&#160;Troubleshooting Hanging or Looping
+Processes</a></p>
+<p class="toc level1 tocsp"><a href=
+"signals.html">6.&#160;&#160;Integrating Signal and Exception
+Handling</a></p>
+<p class="toc level1 tocsp"><a href=
+"bugreports.html">7.&#160;&#160;Submitting Bug Reports</a></p>
+<p class="toc level1 tocsp"><a href=
+"envvars.html">A.&#160;&#160;Environment Variables and System
+Properties</a></p>
+<p class="toc level1 tocsp"><a href=
+"clopts.html">B.&#160;&#160;Command-Line Options</a></p>
+<p class="toc level1 tocsp"><a href=
+"felog.html">C.&#160;&#160;Fatal Error Log</a></p>
+<p class="toc level1 tocsp"><a href=
+"tools-by-rel.html">D.&#160;&#160;Summary of Tools in This
+Release</a></p>
+</div>
+<div class="ContentPane"><a name="crashes" id=
+"crashes"></a>Chapter&#160;4
+<h2>Troubleshooting System Crashes</h2>
+<p>This chapter provides information and guidance on some specific
+procedures for troubleshooting system crashes.</p>
+<p>A crash, or fatal error, causes a process to terminate
+abnormally. There are various possible reasons for a crash. For
+example, a crash can occur due to a bug in the HotSpot VM, in a
+system library, in a Java SE library or API, in application native
+code, or even in the operating system. External factors, such as
+resource exhaustion in the operating system can also cause a
+crash.</p>
+<p>Crashes caused by bugs in the HotSpot VM or in the Java SE
+library code are rare. This chapter provides suggestions on how to
+examine a crash. In some cases it is possible work around a crash
+until the cause of the bug is diagnosed and fixed.</p>
+<p>In general the first step with any crash is to locate the fatal
+error log. This is a text file that the HotSpot VM generates in the
+event of a crash. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="felog.html">Appendix&#160;C,
+Fatal Error Log</a> for an explanation of how to locate this file,
+as well as a detailed description of the file.</p>
+<a name="gbyzx" id="gbyzx"></a>
+<h3>4.1 Sample Crashes</h3>
+<p>This section presents a number of examples which demonstrate how
+the error log can be used to suggest the cause of a crash.</p>
+<a name="gdywn" id="gdywn"></a>
+<h4>4.1.1 Determining Where the Crash Occurred</h4>
+<p>The error log header indicates the problematic frame. See
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"felog.html#header">C.3 Header Format</a>.</p>
+<p>If the top frame type is a native frame and not one of the
+operating system native frames, then this indicates that the
+problem is likely in that native library and not in the Java
+virtual machine. The first step to solving this crash is to
+investigate the source of the native library where the crash
+occurred. There are three options, depending on the source of the
+native library.</p>
+<ol>
+<li>
+<p>If the native library is provided by your application, then
+investigate the source code of your native library. The option
+<tt>-Xcheck:jni</tt> can help find many native bugs. See
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"clopts.html#gbmtq">B.2.1 <tt>-Xcheck:jni</tt> Option</a>.</p>
+</li>
+<li>
+<p>If the native library has been provided by another vendor and is
+used by your application, then file a bug report against this
+third-party application and provide the fatal error log
+information.</p>
+</li>
+<li>
+<p>Determine if the native library is part of the Java runtime
+environment (JRE) by looking in the <tt>jre/lib</tt> or
+<tt>jre/bin</tt> directories in the JRE distribution. If so, file a
+bug report, and ensure that this library name is prominently
+indicated so that the bug report can be routed to the appropriate
+developers.</p>
+</li>
+</ol>
+<p>If the top frame indicated in the error log is another type of
+frame, file a bug report and include the fatal error log as well as
+any information on how to reproduce the problem.</p>
+<p>See also the remaining sections in this chapter.</p>
+<a name="gbyzj" id="gbyzj"></a>
+<h4>4.1.2 Crash in Native Code</h4>
+<p>If the fatal error log indicates that the crash was in a native
+library, there might be a bug in native code or JNI library code.
+The crash could of course be caused by something else, but analysis
+of the library and any core file or crash dump is a good starting
+place. For example, consider the following extract from the header
+of a fatal error log:</p>
+<pre>
+# An unexpected error has been detected by HotSpot Virtual Machine:
+#
+#  SIGSEGV (0xb) at pc=0x417789d7, pid=21139, tid=1024
+#
+# Java VM: Java HotSpot(TM) Server VM (6-beta2-b63 mixed mode)
+# Problematic frame:
+# C  [libApplication.so+0x9d7]
+</pre>
+<p>In this case a <tt>SIGSEGV</tt> occurred with a thread executing
+in the library <tt>libApplication.so</tt>.</p>
+<p>In some cases a bug in a native library manifests itself as a
+crash in Java VM code. Consider the following crash where a
+<tt>JavaThread</tt> fails while in the <tt>_thread_in_vm</tt> state
+(meaning that it is executing in Java VM code) :</p>
+<pre>
+# An unexpected error has been detected by HotSpot Virtual Machine:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x08083d77, pid=3700, tid=2896
+#
+# Java VM: Java HotSpot(TM) Client VM (1.5-internal mixed mode)
+# Problematic frame:
+# V  [jvm.dll+0x83d77]
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00036960):  JavaThread "main" [_thread_in_vm, id=2896]
+ :
+Stack: [0x00040000,0x00080000),  sp=0x0007f9f8,  free space=254k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x83d77]
+C  [App.dll+0x1047]          &#60;========= C/native frame
+j  Test.foo()V+0
+j  Test.main([Ljava/lang/String;)V+0
+v  ~StubRoutines::call_stub
+V  [jvm.dll+0x80f13]
+V  [jvm.dll+0xd3842]
+V  [jvm.dll+0x80de4]
+V  [jvm.dll+0x87cd2]
+C  [java.exe+0x14c0]
+C  [java.exe+0x64cd]
+C  [kernel32.dll+0x214c7]
+ :
+</pre>
+<p>In this case the stack trace shows that a native routine in
+<tt>App.dll</tt> has called into the VM (probably with JNI).</p>
+<p>If you get a crash in a native application library (as in the
+above examples), then you might be able to attach the native
+debugger to the core file or crash dump, if it is available.
+Depending on the operating system, the native debugger is
+<tt>dbx</tt>, <tt>gdb</tt>, or <tt>windbg</tt>.</p>
+<p>Another approach is to run with the <tt>-Xcheck:jni</tt> option
+added to the command line (see <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="clopts.html#gbmtq">B.2.1
+<tt>-Xcheck:jni</tt> Option</a>). This option is not guaranteed to
+find all issues with JNI code, but it can help identify a
+significant number of issues.</p>
+<p>If the native library where the crash occurred is part of the
+Java runtime environment (for example <tt>awt.dll</tt>,
+<tt>net.dll</tt>, and so forth), then it is possible that you have
+encountered a library or API bug. If after further analysis you
+conclude this is a library or API bug, then gather a much data as
+possible and submit a bug or support call. See <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href=
+"bugreports.html">Chapter&#160;7, Submitting Bug Reports</a>.</p>
+<a name="gbyzz" id="gbyzz"></a>
+<h4>4.1.3 Crash due to Stack Overflow</h4>
+<p>A stack overflow in Java language code will normally result in
+the offending thread throwing
+<tt>java.lang.StackOverflowError</tt>. On the other hand, C and C++
+write past the end of the stack and provoke a stack overflow. This
+is a fatal error which causes the process to terminate.</p>
+<p>In the HotSpot implementation, Java methods share stack frames
+with C/C++ native code, namely user native code and the virtual
+machine itself. Java methods generate code that checks that stack
+space is available a fixed distance towards the end of the stack so
+that the native code can be called without exceeding the stack
+space. This distance towards the end of the stack is called
+&#8220;Shadow Pages.&#8221; The size of the shadow pages is between
+3 and 20 pages, depending on the platform. This distance is
+tunable, so that applications with native code needing more than
+the default distance can increase the shadow page size. The option
+to increase shadow pages is
+<tt>-XX:StackShadowPages=</tt><var>n</var>, where <var>n</var> is
+greater than the default stack shadow pages for the platform.</p>
+<p>If your application gets a segmentation fault without a core
+file or fatal error log file (see <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="felog.html">Appendix&#160;C,
+Fatal Error Log</a>) or a <tt>STACK_OVERFLOW_ERROR</tt> on Windows
+or the message &#8220;An irrecoverable stack overflow has
+occurred,&#8221; this indicates that the value of
+<tt>StackShadowPages</tt> was exceeded and more space is
+needed.</p>
+<p>If you increase the value of <tt>StackShadowPages</tt>, you
+might also need to increase the default thread stack size using the
+<tt>-Xss</tt>parameter. Increasing the default thread stack size
+might decrease the number of threads that can be created, so be
+careful in choosing a value for the thread stack size. The thread
+stack size varies by platform from 256k to 1024k.</p>
+<p>The following is a fragment from a fatal error log, on a Windows
+system, where a thread has provoked a stack overflow in native
+code.</p>
+<pre>
+# An unexpected error has been detected by HotSpot Virtual Machine:
+#
+#  EXCEPTION_STACK_OVERFLOW (0xc00000fd) at pc=0x10001011, pid=296, tid=2940
+#
+# Java VM: Java HotSpot(TM) Client VM (1.6-internal mixed mode, sharing)
+# Problematic frame:
+# C  [App.dll+0x1011]
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x000367c0):  JavaThread "main" [_thread_in_native, id=2940]
+:
+Stack: [0x00040000,0x00080000),  sp=0x00041000,  free space=4k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  [App.dll+0x1011]
+C  [App.dll+0x1020]
+C  [App.dll+0x1020]
+:
+C  [App.dll+0x1020]
+C  [App.dll+0x1020]
+...&#60;more frames&gt;...
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  Test.foo()V+0
+j  Test.main([Ljava/lang/String;)V+0
+v  ~StubRoutines::call_stub
+</pre>
+<p>Note the following information in the above output:</p>
+<ul>
+<li>
+<p>The exception is <tt>EXCEPTION_STACK_OVERFLOW</tt>.</p>
+</li>
+<li>
+<p>The thread state is <tt>_thread_in_native</tt>, which means that
+the thread is executing native or JNI code.</p>
+</li>
+<li>
+<p>In the stack information the free space is only 4k (a single
+page on a Windows system). In addition, the stack pointer
+(<tt>sp</tt>) is at 0x00041000, which is close to the end of the
+stack (0x00040000).</p>
+</li>
+<li>
+<p>The printout of the native frames shows that a recursive native
+function is the issue in this case.</p>
+</li>
+<li>
+<p>The output notation <tt>...&#60;more frames&gt;...</tt>
+indicates that additional frames exist but were not printed. The
+output is limited to 100 frames.</p>
+</li>
+</ul>
+<a name="gbyzu" id="gbyzu"></a>
+<h4>4.1.4 Crash in the HotSpot Compiler Thread</h4>
+<p>If the fatal error log output shows that the <tt>Current
+thread</tt> is a <tt>JavaThread</tt> named
+<tt>CompilerThread0</tt>, <tt>CompilerThread1</tt>, or
+<tt>AdapterCompiler</tt>, then it is possible that you have
+encountered a compiler bug. In this case it might be necessary to
+temporarily work around the issue by switching the compiler (for
+example, by using the HotSpot Client VM instead of the HotSpot
+Server VM, or visa versa), or by excluding from compilation the
+method that provoked the crash. This is discussed in <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href="#gbyzd">4.2.1
+Crash in HotSpot Compiler Thread or Compiled Code</a>.</p>
+<a name="gbyzb" id="gbyzb"></a>
+<h4>4.1.5 Crash in Compiled Code</h4>
+<p>If the crash occurred in compiled code, then it is possible that
+you have encountered a compiler bug that has resulted in incorrect
+code generation. You can recognize a crash in compiled code if the
+problematic frame is marked with the code <tt>J</tt> (meaning a
+compiled Java frame). Below is an example of a such a crash:</p>
+<pre>
+# An unexpected error has been detected by HotSpot Virtual Machine:
+#
+#  SIGSEGV (0xb) at pc=0x0000002a99eb0c10, pid=6106, tid=278546
+#
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (1.6.0-beta-b51 mixed mode)
+# Problematic frame:
+# J  org.foobar.Scanner.body()V
+#
+:
+Stack: [0x0000002aea560000,0x0000002aea660000),  sp=0x0000002aea65ddf0,
+  free space=1015k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+J  org.foobar.Scanner.body()V
+
+[error occurred during error reporting, step 120, id 0xb]
+</pre>
+<p>Note that a complete thread stack is not available. The output
+line &#8220;<tt>error occurred during error reporting</tt>&#8221;
+means that a problem arose trying to obtain the stack trace
+(perhaps stack corruption in this example).</p>
+<p>It might be possible to temporarily work around the issue by
+switching the compiler (for example, by using the HotSpot Client VM
+instead of the HotSpot Server VM, or visa versa) or by excluding
+from compilation the method that provoked the crash. In this
+specific example it might not be possible to switch the compiler as
+it was taken from the 64-bit Server VM and hence it might not be
+feasible to switch to the 32-bit Client VM.</p>
+<a name="gbyyz" id="gbyyz"></a>
+<h4>4.1.6 Crash in <tt>VMThread</tt></h4>
+<p>If the fatal log output shows that the <tt>Current thread</tt>
+is the <tt>VMThread</tt>, then look for the line containing
+<tt>VM_Operation</tt> in the <tt>THREAD</tt> section. The
+<tt>VMThread</tt> is a special thread in the HotSpot VM. It
+performs special tasks in the VM such as garbage collection (GC).
+If the <tt>VM_Operation</tt> suggests that the operation is a
+garbage collection, then it is possible that you have encountered
+an issue such as heap corruption.</p>
+<p>The crash might also be a GC issue, but it could equally be
+something else (such as a compiler or runtime bug) that leaves
+object references in the heap in an inconsistent or incorrect
+state. In this case, collect as much information as possible about
+the environment and try possible workarounds. If the issue is
+GC-related you might be able to temporarily work around the issue
+by changing the GC configuration. This is discussed in <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href="#gbyzq">4.2.2
+Crash During Garbage Collection</a>.</p>
+<a name="gbyzo" id="gbyzo"></a>
+<h3>4.2 Finding a Workaround</h3>
+<p>If a crash occurs with a critical application, and the crash
+appears to be caused by a bug in the HotSpot VM, then it might be
+desirable to quickly find a temporary workaround. The purpose of
+this section is to suggest some possible workarounds. If the crash
+occurs with an application that is deployed with the most recent
+release of the JDK, then the crash should always be reported to 
+Oracle.
+<!--
+either by logging a support call (for customers with
+support contracts), by reporting a one&#8211;time&#8211;incident
+(see <img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"preface.html#gbdib">Commercial Support</a> for links to support
+options), or by submitting a bug to the bug database (see
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"preface.html#gbdbo">Other Resources</a> for the link to the bug
+database).
+-->
+</p>
+<div class="note">
+<hr />
+<p><b>Note -</b> Even if a workaround in this section successfully
+eliminates a crash, the workaround is <b>not</b> a fix for the
+problem, but merely a temporary solution. Submit a support call or
+bug report with the original configuration that demonstrated the
+issue.</p>
+<hr /></div>
+<a name="gbyzd" id="gbyzd"></a>
+<h4>4.2.1 Crash in HotSpot Compiler Thread or Compiled Code</h4>
+<p>If the fatal error log indicates that the crash occurred in a
+compiler thread, then it is possible (but not always the case) that
+you have encountered a compiler bug. Similarly, if the crash is in
+compiled code then it is possible that the compiler has generated
+incorrect code.</p>
+<p>In the case of the HotSpot Client VM (<tt>-client</tt> option),
+the compiler thread appears in the error log as
+<tt>CompilerThread0</tt>. With the HotSpot Server VM there are
+multiple compiler threads and these appear in the error log file as
+<tt>CompilerThread0</tt>, <tt>CompilerThread1</tt>, and
+<tt>AdapterThread</tt>.</p>
+<p>Below is a fragment of an error log for a compiler bug that was
+encountered and fixed during the development of J2SE 5.0. The log
+file shows that the HotSpot Server VM is used and the crash
+occurred in <tt>CompilerThread1</tt>. In addition, the log file
+shows that the <tt>Current CompileTask</tt> was the compilation of
+the <tt>java.lang.Thread.setPriority</tt> method.</p>
+<pre>
+# An unexpected error has been detected by HotSpot Virtual Machine:
+#
+:
+# Java VM: Java HotSpot(TM) Server VM (1.5-internal-debug mixed mode)
+:
+---------------  T H R E A D  ---------------
+
+Current thread (0x001e9350): JavaThread "CompilerThread1" daemon [_thread_in_vm, id=20]
+
+Stack: [0xb2500000,0xb2580000),  sp=0xb257e500,  free space=505k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [libjvm.so+0xc3b13c]
+:
+
+Current CompileTask:
+opto: 11      java.lang.Thread.setPriority(I)V (53 bytes)
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( =&gt; current thread )
+  0x00229930 JavaThread "Low Memory Detector" daemon [_thread_blocked, id=21]
+=&gt;0x001e9350 JavaThread "CompilerThread1" daemon [_thread_in_vm, id=20]
+ :
+</pre>
+<p>In this case there are two potential workarounds:</p>
+<ul>
+<li>
+<p>The brute force approach: change the configuration so that the
+application is run with the <tt>-client</tt> option to specify the
+HotSpot Client VM.</p>
+</li>
+<li>
+<p>Assume that the bug only occurs during the compilation of the
+<tt>setPriority</tt> method and exclude this method from
+compilation.</p>
+</li>
+</ul>
+<p>The first approach (to use the <tt>-client</tt> option) might be
+trivial to configure in some environments. In others, it might be
+more difficult if the configuration is complex or if the command
+line to configure the VM is not readily accessible. In general,
+switching from the HotSpot Server VM to the HotSpot Client VM also
+reduces the peak performance of an application. Depending on the
+environment, this might be acceptable until the actual issue is
+diagnosed and fixed.</p>
+<p>The second approach (exclude the method from compilation)
+requires creating the file <tt>.hotspot_compiler</tt> in the
+working directory of the application. Below is an example of this
+file:</p>
+<pre>
+exclude    java/lang/Thread    setPriority
+</pre>
+<p>In general the format of this file is <tt>exclude CLASS
+METHOD</tt>, where <tt>CLASS</tt> is the class (fully qualified
+with the package name) and <tt>METHOD</tt> is the name of the
+method. Constructor methods are specified as <tt>&#60;init&gt;</tt>
+and static initializers are specified as
+<tt>&#60;clinit&gt;</tt>.</p>
+<div class="note">
+<hr />
+<p><b>Note -</b> The <tt>.hotspot_compiler</tt> file is an
+unsupported interface. It is documented here solely for the
+purposes of troubleshooting and finding a temporary workaround.</p>
+<hr /></div>
+<p>Once the application is restarted, the compiler will not attempt
+to compile any of the methods listed as excluded in the
+<tt>.hotspot_compiler</tt> file. In some cases this can provide
+temporary relief until the root cause of the crash is diagnosed and
+the bug is fixed.</p>
+<p>In order to verify that the HotSpot VM correctly located and
+processed the <tt>.hotspot_compiler</tt> file that is shown in the
+example above, look for the following log information at runtime.
+Note that the file name separator is a dot, not a slash.</p>
+<pre>
+### Excluding compile:    java.lang.Thread::setPriority
+</pre>
+<a name="gbyzq" id="gbyzq"></a>
+<h4>4.2.2 Crash During Garbage Collection</h4>
+<p>If a crash occurs during garbage collection (GC), then the fatal
+error log reports that a <tt>VM_Operation</tt> is in progress. For
+the purposes of this discussion, assume that the mostly concurrent
+GC (<tt>-XX:+UseConcMarkSweep</tt>) is not in use. The
+<tt>VM_Operation</tt> is shown in the <tt>THREAD</tt> section of
+the log and indicates one of the following situations:</p>
+<ul>
+<li>
+<p>Generation collection for allocation</p>
+</li>
+<li>
+<p>Full generation collection</p>
+</li>
+<li>
+<p>Parallel gc failed allocation</p>
+</li>
+<li>
+<p>Parallel gc failed permanent allocation</p>
+</li>
+<li>
+<p>Parallel gc system gc</p>
+</li>
+</ul>
+<p>Most likely the current thread reported in the log is the
+<tt>VMThread</tt>. This is the special thread used to execute
+special tasks in the HotSpot VM. The following fragment of the
+fatal error log shows an example of a crash in the serial garbage
+collector:</p>
+<pre>
+---------------  T H R E A D  ---------------
+
+Current thread (0x002cb720):  VMThread [id=3252]
+
+siginfo: ExceptionCode=0xc0000005, reading address 0x00000000
+
+Registers:
+EAX=0x0000000a, EBX=0x00000001, ECX=0x00289530, EDX=0x00000000
+ESP=0x02aefc2c, EBP=0x02aefc44, ESI=0x00289530, EDI=0x00289530
+EIP=0x0806d17a, EFLAGS=0x00010246
+
+Top of Stack: (sp=0x02aefc2c)
+0x02aefc2c:   00289530 081641e8 00000001 0806e4b8
+0x02aefc3c:   00000001 00000000 02aefc9c 0806e4c5
+0x02aefc4c:   081641e8 081641c8 00000001 00289530
+0x02aefc5c:   00000000 00000000 00000001 00000001
+0x02aefc6c:   00000000 00000000 00000000 08072a9e
+0x02aefc7c:   00000000 00000000 00000000 00035378
+0x02aefc8c:   00035378 00280d88 00280d88 147fee00
+0x02aefc9c:   02aefce8 0806e0f5 00000001 00289530
+Instructions: (pc=0x0806d17a)
+0x0806d16a:   15 08 83 3d c0 be 15 08 05 53 56 57 8b f1 75 0f
+0x0806d17a:   0f be 05 00 00 00 00 83 c0 05 a3 c0 be 15 08 8b 
+
+Stack: [0x02ab0000,0x02af0000),  sp=0x02aefc2c,  free space=255k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x6d17a]
+V  [jvm.dll+0x6e4c5]
+V  [jvm.dll+0x6e0f5]
+V  [jvm.dll+0x71771]
+V  [jvm.dll+0xfd1d3]
+V  [jvm.dll+0x6cd99]
+V  [jvm.dll+0x504bf]
+V  [jvm.dll+0x6cf4b]
+V  [jvm.dll+0x1175d5]
+V  [jvm.dll+0x1170a0]
+V  [jvm.dll+0x11728f]
+V  [jvm.dll+0x116fd5]
+C  [MSVCRT.dll+0x27fb8]
+C  [kernel32.dll+0x1d33b]
+
+VM_Operation (0x0373f71c): generation collection for allocation, mode:
+ safepoint, requested by thread 0x02db7108
+</pre>
+<div class="note">
+<hr />
+<p><b>Note -</b> A crash during garbage collection does not imply a
+bug in the garbage collection implementation. It could also
+indicate a compiler or runtime bug or some other issue.</p>
+<hr /></div>
+<p>You can try the following workarounds if you get a repeated
+crash during garbage collection:</p>
+<ul>
+<li>
+<p>Switch GC configuration. For example, if you are using the
+serial collector, try the throughput collector, or visa versa.</p>
+</li>
+<li>
+<p>If you are using the HotSpot Server VM, try the HotSpot Client
+VM.</p>
+</li>
+</ul>
+<p>If you are not sure which garbage collector is in use, you can
+use the <tt>jmap</tt> utility on Solaris OS and Linux (see
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gbdid">2.7 <tt>jmap</tt> Utility</a>) to obtain the
+heap information from the core file, if the core file is available.
+In general if the GC configuration is not specified on the command
+line, then the serial collector will be used on Windows. On Solaris
+OS and Linux it depends on the machine configuration. If the
+machine has at least 2GB of memory and has at least 2 processors,
+then the throughput collector (Parallel GC) will be used. For
+smaller machines the serial collector is the default. The option to
+select the serial collector is <tt>-XX:+UseSerialGC</tt> and the
+option to select the throughput collector is
+<tt>-XX:+UseParallelGC</tt>. If, as a workaround, you switch from
+the throughput collector to the serial collector, then you might
+experience some performance degradation on multi-processor systems.
+This might be acceptable until the root issue is diagnosed and
+resolved.</p>
+<a name="gbyzf" id="gbyzf"></a>
+<h4>4.2.3 Class Data Sharing</h4>
+<p>Class data sharing was a new feature in J2SE 5.0. When the JRE
+is installed on 32-bit platforms using the Sun-provided installer,
+the installer loads a set of classes from the system JAR file into
+a private internal representation and dumps that representation to
+a file called a shared archive. When the VM is started, the shared
+archive is memory-mapped in. This saves on class loading and allows
+much of the metadata associated with the classes to be shared
+across multiple VM instances. In J2SE 5.0, class data sharing is
+enabled only when the HotSpot Client VM is used. In addition,
+sharing is supported only with the serial garbage collector.</p>
+<p>The fatal error log prints the version string in the header of
+the log. If sharing is enabled, it is indicated by the text
+<tt>sharing</tt>, as shown in the following example:</p>
+<pre>
+# An unexpected error has been detected by HotSpot Virtual Machine:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x08083d77, pid=3572, tid=784
+#
+# Java VM: Java HotSpot(TM) Client VM (1.5-internal mixed mode, sharing)
+# Problematic frame:
+# V  [jvm.dll+0x83d77]
+</pre>
+<p>Sharing can be disabled by providing the <tt>-Xshare:off</tt>
+option on the command line. If the crash cannot be duplicated with
+sharing disabled but can be duplicated with sharing enabled, then
+it is possible that you have encountered a bug in this feature. In
+that case gather as much information as possible and submit a bug
+report.</p>
+<a name="gbyzp" id="gbyzp"></a>
+<h3>4.3 Microsoft Visual C++ Version Considerations</h3>
+<p>The JDK 7 software is built on Windows using Microsoft Visual
+Studio 2010 Professional for both 32-bit and 64-bit platforms. If
+you experience a crash with a Java application and if you have
+native or JNI libraries that are compiled with a different release
+of the compiler, then you must consider compatibility issues
+between the runtimes. Specifically, your environment is supported
+only if you follow the Microsoft guidelines when dealing with
+multiple runtimes. For example, if you allocate memory using one
+runtime, then you must release it using the same runtime.
+Unpredictable behavior or crashes can arise if you release a
+resource using a different library than the one that allocated the
+resource.</p>
+</div>
+<div class="BottomPageControlPane">
+<table class="pagecontrol">
+<tr>
+<td>
+<div class="pagefooterlinks">Copyright &#169;1995, 2011, Oracle
+and/or its affiliates. All rights reserved. <a href=
+"docinfo.html">Legal Notices</a></div>
+</td>
+<td class="pagenavlinks"><a href="memleaks.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="hangloop.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+</body>
+</html>

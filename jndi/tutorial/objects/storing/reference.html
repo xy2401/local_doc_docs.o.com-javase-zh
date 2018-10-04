@@ -1,0 +1,239 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Referenceable Objects and References</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="serial.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="dircontext.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/objectsHeader.gif" width=26 height=26 align=bottom border=0 alt="Java Objects and the Directory | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Storing Objects in the Directory</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Referenceable Objects and References
+</h2>
+<p>
+<blockquote>
+
+You can think of the serialized state of an object as a copy of the
+object in a different representation.  Sometimes it is not
+appropriate to store that representation in the directory.
+This is because
+the serialized state might be too large or it might
+be inadequate for
+your needs (the application, for example, might need
+more information than can be supplied by the serialized form).
+Or, you might need the object in a different form.
+<p>
+For reasons such as these, the JNDI defines a 
+<a href=../../getStarted/concepts/glossary.html#REFERENCE><em>reference</em></a>
+for use when (the serialized form of) an object cannot be stored in the 
+directory directly.
+You store an object with an associated reference in the directory 
+<em>indirectly</em> by storing its reference.
+It might be useful to think of the distinction between a serialized object
+and a JNDI reference as that between a copy of a Java object and
+a Java object reference.
+
+<h4>What's in a Reference?</h4>
+
+A reference is represented by the class 
+
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html><tt>Reference</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+A <tt>Reference</tt> consists of an ordered 
+list of addresses and class information
+about the object being referenced.  
+Each address is represented by a subclass of 
+
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/RefAddr.html><tt>RefAddr</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/RefAddr.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     and contains information on how to construct the object.
+<p>
+References are commonly used to represent connections to a
+network service such as a database, directory, or file system.  Each
+address may then identify for that service
+a <em>communication endpoint</em> that contains information on 
+how to contact the service.
+Multiple addresses might arise for various reasons, such as 
+the need for replication
+or multiple access points (that is, the object offers interfaces 
+over more than one communication mechanism).
+<p>
+A reference also contains information to assist in creating an
+instance of the object to which the reference refers.  It contains
+the Java class name of that object, as well as the class name and location
+of the object factory to be used to create the object.  
+<p>
+
+<h4>Referenceable Objects</h4>
+
+An object whose class implements the 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Referenceable.html><tt>Referenceable</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Referenceable.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     interface has an associated reference.
+The <tt>Referenceable</tt> interface has one method,
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Referenceable.html#getReference()"><tt>getReference()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Referenceable.html#getReference()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, which returns the reference of the object.
+<p>
+The following example shows a 
+<a href=src/Fruit.java><tt>Fruit</tt></a> class that
+implements the <tt>Referenceable</tt> interface.
+<a name=FRUIT></a>
+<blockquote>
+<pre>
+public class Fruit implements Referenceable {
+    String fruit;
+    
+    public Fruit(String f) {
+	fruit = f;
+    }
+    
+    public Reference getReference() throws NamingException {
+	return new Reference(
+	    Fruit.class.getName(),
+	    new StringRefAddr("fruit", fruit),
+	    FruitFactory.class.getName(),
+	    null);          // Factory location
+    }
+
+    public String toString() {
+	return fruit;
+    }
+}
+</pre>
+</blockquote>
+The reference of a <tt>Fruit</tt> instance consists
+of a single address (of class 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/StringRefAddr.html><tt>StringRefAddr</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/StringRefAddr.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>).
+This address contains the fruit type with which the instance was created.
+For example,  if the instance was created using <tt>new Fruit("orange")</tt>, then
+its address type would be <tt>"fruit"</tt> and its address contents <tt>"orange"</tt>.
+The reference contains two additional pieces of information:
+the fully qualified name of the <tt>Fruit</tt> class (in this case, simply <tt>"Fruit"</tt>)
+and the fully qualified name of the 
+<em>object factory</em> class
+that can be used to create instances of <tt>Fruit</tt> (in this case,
+<tt>"FruitFactory"</tt>). Object factories are described in the
+<a target="_top" href="../factory/index.html">Object Factories</a> <a href="../factory/index.html"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>    lesson.
+<p>
+<A name=EXAMPLE><h4>Binding a Referenceable Object</h4></a>
+
+You might remember the <tt>Fruit</tt> class from the
+<a target="_top" href="../../basics/directory/hybrid.html#BIND">Adding a Binding That Has Attributes</a> <a href="../../basics/directory/hybrid.html#BIND"><img src="../../jndiimages/basicsIcon.gif" width=20 height=20 border=0 alt="(in the Basics trail)"></a>     example.
+<a href=src/RefObj.java>The following example</a> is a simplification of that example.
+<p>
+After creating an instance of <tt>Fruit</tt>, you invoke
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><tt>Context.bind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>,
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#bind(javax.naming.Name, java.lang.Object, javax.naming.directory.Attributes)"><tt>DirContext.bind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#bind(javax.naming.Name, java.lang.Object, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>,
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#rebind(javax.naming.Name, java.lang.Object)"><tt>Context.rebind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#rebind(javax.naming.Name, java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, or
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#rebind(javax.naming.Name, java.lang.Object, javax.naming.directory.Attributes)"><tt>DirContext.rebind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#rebind(javax.naming.Name, java.lang.Object, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     to add it to the directory.
+<p>
+<blockquote>
+<pre>
+// Create the object to be bound
+Fruit fruit = new Fruit("orange");
+...
+
+// Perform bind
+ctx.bind("cn=favorite", fruit);
+</pre>
+</blockquote>
+The service provider implementation of <tt>bind()</tt>/<tt>rebind()</tt>
+first extracts the reference from the object being bound
+(by using <tt>Referenceable.getReference()</tt>)
+and then stores that reference in the directory.
+When that object is subsequently looked up from the directory,
+its corresponding object factory will convert the reference into
+an instance of the object (conversion details are described in the
+<a target="_top" href="../factory/index.html">Object Factories</a> <a href="../factory/index.html"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>    lesson).
+
+<blockquote>
+<pre>
+// Read the object back
+Fruit f2 = (Fruit) ctx.lookup("cn=favorite");
+System.out.println(f2);
+</pre>
+</blockquote>
+This produces the following output, <tt>"orange"</tt>,
+produced by <a href=#FRUIT><tt>Fruit.toString()</tt></a>.
+<blockquote>
+<pre>
+# java RefObj
+orange
+</pre>
+</blockquote>
+<p>
+From the perspective of the application using the JNDI, it is dealing
+only with <tt>bind()</tt> and <tt>lookup()</tt>.
+The service provider takes care of getting the reference from the
+object and converting it to/from the actual object itself.
+<p>
+Note that you can store a <tt>Referenceable</tt> object in the directory
+only if the underlying service provider supports it.
+Sun's LDAP service provider supports storing both
+<tt>Reference</tt>s and <tt>Referenceable</tt> objects.
+
+<a name=REF>
+<h4>Binding a Reference</h4></a>
+
+Binding a <tt>Referenceable</tt> object is more elegant than binding a 
+<tt>Reference</tt> directly. This is because you can simply bind
+the object instead of first getting its reference.
+However, you can also bind a <tt>Reference</tt> directly.
+See the
+<a target="_top" href="remote.html#REF">Remote Objects</a> <a href="remote.html#REF"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>    section for an example of binding a <tt>Reference</tt>.
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="serial.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="dircontext.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/objectsHeader.gif" width=26 height=26 align=top border=0 alt="Java Objects and the Directory | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Storing Objects in the Directory</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>
+

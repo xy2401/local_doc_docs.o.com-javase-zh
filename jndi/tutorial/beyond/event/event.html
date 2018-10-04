@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Naming Events</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="source.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="unsol.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=bottom border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Event Notification</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Naming Events
+</h2>
+<p>
+<blockquote>
+
+After a 
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamespaceChangeListener.html"><tt>NamespaceChangeListener</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamespaceChangeListener.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     or
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/ObjectChangeListener.html"><tt>ObjectChangeListener</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/ObjectChangeListener.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    has been registered with an event source,
+it will get event notifications in the form of
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html"><tt>NamingEvent</tt>s</a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+An instance of this class contains information about the event, 
+such as its type and event source,
+and information about the object that caused the event to be fired.
+Typically, an event source creates an instance of <tt>NamingEvent</tt>
+and passes it to naming listeners. The naming listeners then can use
+the <tt>NamingEvent</tt> instance's access methods to obtain information
+about the event.
+
+<h4>Event Type</h4>
+
+A <tt>NamingEvent</tt> contains a <em>type</em> that identifies the type of event.
+An event type could be, for example <em>object-added</em> 
+or <em>object-changed</em>.
+Event types are categorized into those that affect the namespace
+(such as an object-added type) and those that do not (such as
+an object-changed type).
+Here are the event types defined in the <tt>NamingEvent</tt> class.
+<ul>
+<li>
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html#OBJECT_CHANGED"><tt>NamingEvent.OBJECT_CHANGED</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html#OBJECT_CHANGED"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>: An object's content has changed. For example, one of its attribute has 
+been removed or perhaps its binding has been replaced.
+<li>
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html#OBJECT_ADDED"><tt>NamingEvent.OBJECT_ADDED</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html#OBJECT_ADDED"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>: A new object has been added to the namespace.
+<li>
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html#OBJECT_REMOVED"><tt>NamingEvent.OBJECT_REMOVED</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html#OBJECT_REMOVED"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>: An existing object has been removed from the namespace.
+<li>
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html#OBJECT_RENAMED"><tt>NamingEvent.OBJECT_RENAMED</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html#OBJECT_RENAMED"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>: An existing object has been given another name.
+Note that not all naming services support the
+generation of <em>rename</em> events.
+For example, an object being renamed might be manifested
+as an object removal followed by an object addition.
+</ul>
+
+The event type is obtained using
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html#getType()"><tt>getType()</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html#getType()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+
+<h4>Event Source</h4>
+
+An event source is the entity that fired the event and the object with
+which the listener has registered.
+It is an instance of
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/EventContext.html"><tt>EventContext</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/EventContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   or 
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/EventDirContext.html"><tt>EventDirContext</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/EventDirContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+See the <a href=source.html>Listener Registration section</a> 
+for more information about these two interfaces.
+<p>
+The event source is obtained by using
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html#getEventContext()"><tt>getEventContext()</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html#getEventContext()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   or
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/java/util/EventObject.html#getSource()"><tt>java.util.EventObject.getSource()</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/java/util/EventObject.html#getSource()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+These methods differ
+only in that
+<tt>getEventContext()</tt> returns the result as an <tt>EventContext</tt>
+whereas <tt>getSource()</tt> returns the result as a
+<tt>java.lang.Object</tt>.
+<p>
+You can use the event source to obtain more information about the
+object or objects reachable from it. If you do use this method, you must
+synchronize access to it. This is because implementations of 
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Context.html"><tt>Context</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Context.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    are not guaranteed to be
+thread-safe (and <tt>EventContext</tt> is a subinterface of <tt>Context</tt>).
+<p>
+Here is some listener code that uses the event source.
+<blockquote><pre>
+Attributes attrs;
+
+// Get the event source
+EventContext ctx = evt.getEventContext();
+
+// Get the name of the object that changed
+// Should really check for null binding first.
+String which = evt.getNewBinding().getName();
+
+// Lock the event source
+synchronized(ctx) {
+    attrs = ctx.getAttributes(which, new String[]{"objectclass"});
+}
+// Do something useful with attrs
+</pre></blockquote>
+
+<h4>Other Information</h4>
+
+A <tt>NamingEvent</tt> contains, 
+in addition to the event's type and source,
+the old and new bindings of the object that caused the event,
+as well as any additional information.
+
+You use
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html#getNewBinding()"><tt>getNewBinding()</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html#getNewBinding()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    to obtain a
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Binding.html"><tt>Binding</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Binding.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>  instance that describes the state of the object <em>after</em> the event
+occurred.
+The <tt>Binding</tt> contains the name of the object, the object itself,
+and its attributes. Any and all of this data might be missing if
+the server or service provider cannot provide it.
+<p>
+You use
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html#getOldBinding()"><tt>getOldBinding()</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html#getOldBinding()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>  to get similar information about the object <em>before</em> the event occurred.
+<p>
+Note that the name in the old and new bindings is relative to the event source.
+For example, suppose that your program uses the following code to register a listener.
+<blockquote><pre>
+EventContext ctx = (EventContext)
+    (new InitialContext(env).lookup("ou=People"));
+
+// Create the listener
+NamingListener listener = new SampleNCListener("nc1");
+
+// Register the listener for namespace change events
+ctx.addNamingListener("ou=Objects,cn=John Smith", 
+    EventContext.ONELEVEL_SCOPE, listener);
+</pre></blockquote>
+When the object <tt>"cn=String"</tt> is added underneath 
+<tt>"ou=Objects"</tt>,
+the name in the binding of the <tt>NamingEvent</tt> will
+have the name <tt>"cn=String, ou=Objects, cn=John Smith"</tt>.
+<p>
+In addition, you can use
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html#getChangeInfo()"><tt>getChangeInfo()</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/event/NamingEvent.html#getChangeInfo()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   to obtain any additional change information that the server or
+service provider has supplied. For example, the server might send
+an identifier that identifies the change.
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="source.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="unsol.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=top border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Event Notification</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

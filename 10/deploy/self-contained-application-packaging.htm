@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Self-Contained Application Packaging</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="This topic describes how to generate the package for a self-contained application. A self-contained application contains your Java or JavaFX application and the JRE needed to run the application. Self-contained packages can be created for distribution to systems running Linux, macOS, and Windows." />
+<meta name="dcterms.created" content="2018-03-12T22:52:24Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Deployment Guide" />
+<meta name="dcterms.identifier" content="E92517-01" />
+<meta name="dcterms.isVersionOf" content="JSDPG" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="packaging.htm" title="Previous" type="text/html" />
+<link rel="Next" href="javafx-ant-tasks.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSDPG.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-9D4DA76A-1AC5-4378-9D01-0C24AFD1FA95"></a> <span id="PAGE" style="display:none;">7/17</span> <!-- End Header -->
+<a id="JSDPG584"></a><a id="JSDPG583"></a>
+<h1 id="JSDPG-GUID-9D4DA76A-1AC5-4378-9D01-0C24AFD1FA95" class="sect1"><span class="enumeration_chapter">2</span> Self-Contained Application Packaging</h1>
+<div>
+<div><span>This topic describes how to generate the package for a self-contained application. A self-contained application contains your Java or JavaFX application and the JRE needed to run the application. Self-contained packages can be created for distribution to systems running Linux, macOS, and Windows.</span></div>
+<p>This topic includes the following sections:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="self-contained-application-packaging.htm#GUID-11A271C6-A289-4406-8817-885F11D64F3A">Introduction</a></p>
+</li>
+<li>
+<p><a href="self-contained-application-packaging.htm#GUID-25EB0FA8-82D8-4751-8BC8-B3A0A6C3AF22">Benefits and Drawbacks of Self-Contained Application Packages</a></p>
+</li>
+<li>
+<p><a href="self-contained-application-packaging.htm#GUID-01DCE65B-B072-4084-A1B5-CA784FA9C3F9">Basics</a></p>
+</li>
+<li>
+<p><a href="self-contained-application-packaging.htm#GUID-385802E7-121F-47D4-B7DD-B73BC3CF94D6" title="Create installable packages for self-contained applications based on the target operating system and the packaging tools available.">Installable Packages</a></p>
+</li>
+<li>
+<p><a href="self-contained-application-packaging.htm#GUID-1F8F00F0-1929-4DCC-A03E-268F1F67773D">Working Through a Deployment Scenario</a></p>
+</li>
+</ul>
+</div>
+<a id="JSDPG585"></a>
+<div class="props_rev_3"><a id="GUID-11A271C6-A289-4406-8817-885F11D64F3A"></a>
+<h2 id="JSDPG-GUID-11A271C6-A289-4406-8817-885F11D64F3A" class="sect2">Introduction</h2>
+<div>
+<p>The Java packaging tools provide built-in support for several formats of self-contained application packages. The basic package is a single folder on your hard drive that includes all application resources and the JRE. The package can be redistributed as is, or you can build an installable package (for example, EXE or DMG format.)</p>
+<p>From the standpoint of process, producing a self-contained application package is similar to producing a basic application package, with the following differences:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Self-contained application packages must be explicitly requested by passing the <code class="codeph">native</code> argument to the <code class="codeph">&lt;fx:deploy&gt;</code> Ant task or <code class="codeph">javapackager -deploy</code> command.</p>
+</li>
+<li>
+<p>Self-contained application packages must be built on the operating system on which it is intended to run. Prerequisite tools must be available to build a package in a specific format.</p>
+</li>
+<li>
+<p>Self-contained application packages can only be built using JDK 7 Update 6 or later. The Java Packager for JDK 9 packages applications with a JDK 9 runtime image. To package a JDK 8 or JDK 7 JRE with your application, use the JDK 8 Java Packager.</p>
+</li>
+</ul>
+<p>While it is easy to create a basic self-contained application package, tailoring it to achieve the best user experience for a particular distribution method usually requires some effort and a deeper understanding of the topic.</p>
+</div>
+</div>
+<a id="JSDPG586"></a>
+<div class="props_rev_3"><a id="GUID-25EB0FA8-82D8-4751-8BC8-B3A0A6C3AF22"></a>
+<h2 id="JSDPG-GUID-25EB0FA8-82D8-4751-8BC8-B3A0A6C3AF22" class="sect2">Benefits and Drawbacks of Self-Contained Application Packages</h2>
+<div>
+<p>Deciding whether the use of self-contained application packages is the best way to deploy your application depends on your requirements.</p>
+<p>Self-contained application packages provide the following benefits:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Users install the application with an installer that is familiar to them and launch it in the usual way.</p>
+</li>
+<li>
+<p>You control the version of the JRE used by the application.</p>
+</li>
+<li>
+<p>Applications can be deployed on fresh systems with no requirement for the JRE to be installed.</p>
+</li>
+<li>
+<p>Deployment occurs with no need for admin permissions when using ZIP or user-level installers.</p>
+</li>
+<li>
+<p>File associations can be registered for the application.</p>
+</li>
+<li>
+<p>Support for secondary launchers enables a suite of applications to be bundled in a single self-contained application package.</p>
+</li>
+</ul>
+<p>Self-contained application packages have the following drawbacks:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>"Download and run" user experience</p>
+<p>Unlike web deployment, the user experience is not about "launch the application from the web." It is more one of "download, install, and run" process, in which the user might need to go through additional steps to get the application launched. For example, the user might have to accept a browser or operating system security dialog, or find and launch the application installer from the download folder.</p>
+</li>
+<li>
+<p>Larger download size</p>
+<p>In general, the size of self-contained application packages is larger than the size of a standalone application, because a private copy of the JRE is included.</p>
+</li>
+<li>
+<p>Package per target platform</p>
+<p>Self-contained application packages are platform-specific and can only be produced for the same system on which you build. To deliver self-contained application packages on Windows, Linux, and macOS, you must build your project on all three platforms.</p>
+</li>
+<li>
+<p>Application updates are the responsibility of developer</p>
+<p>Web-deployed Java applications automatically download application updates from the web as soon as they are available. The Java Autoupdate mechanism takes care of updating the JRE to the latest secure version several times every year. Self-contained applications do not have built-in support for automatic updates.</p>
+</li>
+</ul>
+</div>
+</div>
+<a id="JSDPG587"></a>
+<div class="props_rev_3"><a id="GUID-01DCE65B-B072-4084-A1B5-CA784FA9C3F9"></a>
+<h2 id="JSDPG-GUID-01DCE65B-B072-4084-A1B5-CA784FA9C3F9" class="sect2">Basics</h2>
+<div>
+<p>Each self-contained application package includes the following items:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Application code in a set of JAR files, plus any other application resources (data files, native libraries)</p>
+</li>
+<li>
+<p>Copy of the JRE, to be used by this application only</p>
+</li>
+<li>
+<p>Native launcher for the application, multiple launchers for a single package are supported</p>
+</li>
+<li>
+<p>Metadata, such as icons</p>
+</li>
+</ul>
+<p>Multiple package formats are possible. Built-in support is provided for several types of packages. You can also assemble your own packages by post-processing a self-contained application packaged as a folder, for example, if you want to distribute your application as a ZIP file.</p>
+</div>
+<a id="JSDPG550"></a><a id="JSDPG588"></a>
+<div class="props_rev_3"><a id="GUID-58EEDDB5-D8D9-4D36-BC71-A22826511A32"></a>
+<h3 id="JSDPG-GUID-58EEDDB5-D8D9-4D36-BC71-A22826511A32" class="sect3">Self-Contained Application Structure</h3>
+<div>
+<div class="section">
+<p>The basic form of a self-contained application package is a single folder on your hard drive, such as the example in <a href="self-contained-application-packaging.htm#GUID-58EEDDB5-D8D9-4D36-BC71-A22826511A32__BABBCIHF">Figure 2-1</a>. When any of the packages are installed, the result is a folder with the same content.</p>
+<div class="figure" id="GUID-58EEDDB5-D8D9-4D36-BC71-A22826511A32__BABBCIHF">
+<p class="titleinfigure">Figure 2-1 Example of a Self-Contained Application Package</p>
+<img width="365" height="185" src="img/bundle_file_struc.png" alt="Description of Figure 2-1 follows" title="Description of Figure 2-1 follows" /><br />
+<a href="img_text/bundle_file_struc.htm">Description of "Figure 2-1 Example of a Self-Contained Application Package"</a></div>
+<!-- class="figure" -->
+<p>The internal structure of a self-contained application folder is platform-specific, and might change in the future. However, the following items apply to all platforms and are not likely to change:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>The application package is included as a folder, preserving the application directory structure.</p>
+</li>
+<li>
+<p>A copy of the JRE is included as another folder and the JRE directory structure is preserved.</p>
+</li>
+</ul>
+<p>Because directory structure is preserved, the application can load external resources using paths relative to the application JAR or <code class="codeph">java.home</code> system property.</p>
+<div class="infobox-note" id="GUID-58EEDDB5-D8D9-4D36-BC71-A22826511A32__GUID-91D8C8A5-9C97-49BF-ABC5-5024D6C730DA">
+<p class="notep1">Note:</p>
+<p>The Java packaging tools use the <code class="codeph">jlink</code> tool to generate a custom JRE for the application. If you need something that is not included by default, then you can copy it in as a post-processing step. For installable packages, you can do this from the <code class="codeph">config</code> script that is executed after populating the self-contained application folder. See <a href="self-contained-application-packaging.htm#GUID-ED89707D-2D72-48C2-BBE3-A16B6B0F9947">Customizing the Package Using Drop-In Resources</a>.</p>
+</div>
+</div>
+<!-- class="section" --></div>
+</div>
+<a id="JSDPG590"></a><a id="JSDPG591"></a><a id="JSDPG589"></a>
+<div class="props_rev_3"><a id="GUID-9A5CBD08-D9E2-49F6-A516-18BF9280D79D"></a>
+<h3 id="JSDPG-GUID-9A5CBD08-D9E2-49F6-A516-18BF9280D79D" class="sect3">Basic Build</h3>
+<div>
+<p>The easiest way to produce a self-contained application is to modify the deployment task. To request the creation of all types of self-contained application packages for the platform on which you are running, add <code class="codeph">nativeBundles="all"</code> to the <code class="codeph">&lt;fx:deploy&gt;</code> task, as shown in the following example.</p>
+<pre dir="ltr">
+&lt;fx:deploy width="${javafx.run.width}" height="${javafx.run.height}"
+           <span class="bold">nativeBundles="all"</span>
+           outdir="${basedir}/${dist.dir}" outfile="${application.title}"&gt;
+    &lt;fx:application name="${application.title}" mainClass="${javafx.main.class}"/&gt;
+    &lt;fx:resources&gt;
+        &lt;fx:fileset dir="${basedir}/${dist.dir}" includes="*.jar"/&gt;
+    &lt;/fx:resources&gt;
+    &lt;fx:info title="${application.title}" vendor="${application.vendor}"/&gt;
+&lt;/fx:deploy&gt;
+</pre>
+<p>You can also specify the exact package format that you want to produce. Use the value <code class="codeph">image</code> to produce a basic package, <code class="codeph">exe</code> to request an EXE installer, <code class="codeph">dmg</code> to request a DMG installer, and so on. For the full list of attribute values, see the <code class="codeph">nativeBundles</code> attribute in the <a href="javafx-ant-tasks.htm#GUID-F39DA697-4B6C-4F06-AA41-3F840E7C9775">&lt;fx:deploy&gt;</a> entry in the Ant Task Reference.</p>
+<p>You can also produce native packages using the Java Packager tool. You can request specific formats using the <code class="codeph">-native</code> option with the <code class="codeph">-deploy</code> command. See the <a class="olink JSWOR719" target="_blank" href="../tools/javapackager.htm#JSWOR719"><code class="codeph">javapackager</code></a> command reference in <span><cite>Java Platform, Standard Edition Tools Reference</cite></span>.</p>
+<p><a href="self-contained-application-packaging.htm#GUID-9A5CBD08-D9E2-49F6-A516-18BF9280D79D__BCGCGBJI">Example 2-1</a> shows the use of the <code class="codeph">-native</code> option with the <code class="codeph">-deploy</code> command, used to generate all applicable self-contained application packages for the BrickBreaker application. The <code class="codeph">-deploy</code> command requires a JAR file as input, so it assumes that <code class="codeph">dist/BrickBreaker.jar</code> has already been built:</p>
+<div class="example" id="GUID-9A5CBD08-D9E2-49F6-A516-18BF9280D79D__BCGCGBJI">
+<p class="titleinexample">Example 2-1 Java Packager Command to Generate Self-Contained Application Packages</p>
+<pre dir="ltr">
+javapackager -deploy <span class="bold">-native</span> -outdir packages -outfile BrickBreaker 
+    -srcdir dist -srcfiles BrickBreaker.jar -appclass brickbreaker.Main 
+    -name "BrickBreaker" -title "BrickBreaker demo"
+</pre></div>
+<!-- class="example" --></div>
+</div>
+<a id="JSDPG592"></a>
+<div class="props_rev_3"><a id="GUID-ED89707D-2D72-48C2-BBE3-A16B6B0F9947"></a>
+<h3 id="JSDPG-GUID-ED89707D-2D72-48C2-BBE3-A16B6B0F9947" class="sect3">Customizing the Package Using Drop-In Resources</h3>
+<div>
+<p>The packaging tools use several built-in resources to produce a package, such as the application icon or configuration files. One way to customize the resulting package is to substitute a built-in resource with your customized version.</p>
+<p>The following actions are needed:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="self-contained-application-packaging.htm#GUID-35E59248-AAB0-48AC-81A4-ED13833B6D4F">Prepare Custom Resources</a></p>
+</li>
+<li>
+<p><a href="self-contained-application-packaging.htm#GUID-B1C74A01-A7A1-45AC-80F8-8A9B2344322C">Substitute a Built-In Resource</a></p>
+</li>
+</ul>
+</div>
+<a id="JSDPG607"></a><a id="JSDPG606"></a>
+<div class="props_rev_3"><a id="GUID-35E59248-AAB0-48AC-81A4-ED13833B6D4F"></a>
+<h4 id="JSDPG-GUID-35E59248-AAB0-48AC-81A4-ED13833B6D4F" class="sect4">Prepare Custom Resources</h4>
+<div>
+<p>To get more insight into what resources are being used, enable verbose mode by adding the <code class="codeph">verbose="true"</code> attribute to <code class="codeph"><a href="javafx-ant-tasks.htm#GUID-F39DA697-4B6C-4F06-AA41-3F840E7C9775">&lt;fx:deploy&gt;</a></code>, or pass the <code class="codeph">-v</code> option to the <code class="codeph">javapackager -deploy</code> command.</p>
+<p>Verbose mode includes the following actions:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>The following items are printed:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>List of configuration resources that are used for the package that you are generating</p>
+</li>
+<li>
+<p>Role of each resource</p>
+</li>
+<li>
+<p>Expected custom resource name</p>
+</li>
+</ul>
+</li>
+<li>
+<p>A copy of the configuration files and resources used to create the self contained package are saved to a temporary folder. You can use these files as a starting point for customization.</p>
+</li>
+</ul>
+<p>The following example shows sample output in verbose mode, with the important parts in bold:</p>
+<pre dir="ltr">
+Using base JDK at: /Library/Java/JavaVirtualMachines/jdk1.7.0_06.jdk
+  Using default package resource [<span class="bold">Bundle config file</span>] (add
+    <span class="bold">package/macosx/Info.plist</span> to the class path to customize)
+  Using default package resource [<span class="bold">icon</span>] (add <span class="bold">package/macosx/DemoApp.icns</span>
+      to the class path to customize)
+Creating app bundle: /tmp/test/TestPackage/bundles/DemoApp.app
+<span class="bold">Config files are saved</span> to /var/folders/rd/vg2ywnnx3qj081sc5pn9_
+    vqr0000gn/T/build7039970456896502625.fxbundler/macosx. Use them 
+    to customize package.
+</pre>
+<p>Now you can grab a copy of the configuration files and tune them to your needs. For example, you can take the configuration file <code class="codeph">Info.plist</code> and add localized package names.</p>
+<div class="infobox-note" id="GUID-35E59248-AAB0-48AC-81A4-ED13833B6D4F__GUID-228202D6-7042-43AD-842F-CE4730DC685A">
+<p class="notep1">Note:</p>
+<p>It is recommended that you disable verbose mode after you are done customizing, or add a custom cleanup action to remove sample configuration files.</p>
+</div>
+</div>
+</div>
+<a id="JSDPG609"></a><a id="JSDPG610"></a><a id="JSDPG608"></a>
+<div class="props_rev_3"><a id="GUID-B1C74A01-A7A1-45AC-80F8-8A9B2344322C"></a>
+<h4 id="JSDPG-GUID-B1C74A01-A7A1-45AC-80F8-8A9B2344322C" class="sect4">Substitute a Built-In Resource</h4>
+<div>
+<p>Packaging tools look for customized resources on the class path before reverting to built-in resources. The Java Packager has "." (the current working directory) added to the class path by default. Therefore, to replace the application icon, copy your custom icon to <code class="codeph">./package/macosx/DemoApp.icns</code> in the directory from which <code class="codeph">javapackager</code> is run (typically, the root project directory).</p>
+<p>The class path for Java Ant tasks is defined when task definitions are loaded. You must add an additional path to the lookup before the path <code class="codeph">ant-javafx.jar</code>.</p>
+<p><a href="self-contained-application-packaging.htm#GUID-B1C74A01-A7A1-45AC-80F8-8A9B2344322C__BCGIGHHC">Example 2-2</a> shows how to add "." to the custom resource path.</p>
+<p>After you provide a customized resource, verbose build output reports that the resource is used. For example, if you added a custom icon to an application, then the verbose output reports the addition, shown in <a href="self-contained-application-packaging.htm#GUID-B1C74A01-A7A1-45AC-80F8-8A9B2344322C__BCGHIGJH">Example 2-3</a>.</p>
+<div class="example" id="GUID-B1C74A01-A7A1-45AC-80F8-8A9B2344322C__BCGIGHHC">
+<p class="titleinexample">Example 2-2 Enabling Resource Customization for JavaFX Ant Tasks</p>
+<pre dir="ltr">
+&lt;fx:bundleArgument arg="dropinResourcesRoot" value="."/&gt;
+</pre></div>
+<!-- class="example" -->
+<div class="example" id="GUID-B1C74A01-A7A1-45AC-80F8-8A9B2344322C__BCGHIGJH">
+<p class="titleinexample">Example 2-3 Verbose Output After Adding a Customized Icon Resource</p>
+<pre dir="ltr">
+Using base JDK at: /Library/Java/JavaVirtualMachines/jdk1.7.0_06.jdk
+  Using default package resource [Bundle config file] (add
+      package/macosx/Info.plist to the class path to customize)
+<span class="bold">Using custom package resource [icon] (loaded from</span>
+<span class="bold">    package/macosx/DemoApp.icns on class path)</span>
+Creating app bundle: /tmp/test/TestPackage/bundles/DemoApp.app
+</pre></div>
+<!-- class="example" --></div>
+</div>
+</div>
+<a id="JSDPG594"></a><a id="JSDPG593"></a>
+<div class="props_rev_3"><a id="GUID-72700ACD-8D34-4BDE-9E20-59255A4B3D73"></a>
+<h3 id="JSDPG-GUID-72700ACD-8D34-4BDE-9E20-59255A4B3D73" class="sect3">Customization Options</h3>
+<div>
+<div class="section">
+<p>Many of the existing JavaFX Ant elements are used to customize self-contained application packages. Different sets of parameters are needed for different packages, and the same element might have different roles. <a href="self-contained-application-packaging.htm#GUID-72700ACD-8D34-4BDE-9E20-59255A4B3D73__BCGFDBEJ" title="This table presents the customization options for self-contained packages with JavaFX Ant elements and attributes. Column 1 identifies the JavaFX Ant tag. Column 2 describes the tag.">Table 2-1</a> introduces some of the customization options and relevant attributes. See <a href="javafx-ant-tasks.htm#GUID-AB003254-2D3C-4135-8D57-525FE282E0BA">JavaFX Ant Helper Parameter Reference</a> for a complete description of the elements and their attributes.</p>
+</div>
+<!-- class="section" -->
+<div class="tblformal" id="GUID-72700ACD-8D34-4BDE-9E20-59255A4B3D73__BCGFDBEJ">
+<p class="titleintable">Table 2-1 Customization Options with Ant Elements and Attributes</p>
+<table class="cellalignment407" title="Customization Options with Ant Elements and Attributes" summary="This table presents the customization options for self-contained packages with JavaFX Ant elements and attributes. Column 1 identifies the JavaFX Ant tag. Column 2 describes the tag.">
+<thead>
+<tr class="cellalignment397">
+<th class="cellalignment429" id="d2698e452">Element</th>
+<th class="cellalignment429" id="d2698e455">Desciption</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment397">
+<td class="cellalignment397" id="d2698e460" headers="d2698e452">
+<p><code class="codeph">&lt;fx:application&gt;</code></p>
+</td>
+<td class="cellalignment397" headers="d2698e460 d2698e455">
+<p>Application descriptor. Use this to set application attributes, such as the name and version.</p>
+</td>
+</tr>
+<tr class="cellalignment397">
+<td class="cellalignment397" id="d2698e468" headers="d2698e452">
+<p><code class="codeph">&lt;fx:preferences&gt;</code></p>
+</td>
+<td class="cellalignment397" headers="d2698e468 d2698e455">
+<p>Deployment preferences for the application. Use this to set installation options, such as requesting a shortcut or an entry in the system application menu.</p>
+</td>
+</tr>
+<tr class="cellalignment397">
+<td class="cellalignment397" id="d2698e476" headers="d2698e452">
+<p><code class="codeph">&lt;fx:fileset&gt;</code></p>
+</td>
+<td class="cellalignment397" headers="d2698e476 d2698e455">
+<p>Extension of the standard Ant <code class="codeph">FileSet</code> type. Use this to identify the types of resources provided.</p>
+</td>
+</tr>
+<tr class="cellalignment397">
+<td class="cellalignment397" id="d2698e487" headers="d2698e452">
+<p><code class="codeph">&lt;fx:info&gt;</code></p>
+</td>
+<td class="cellalignment397" headers="d2698e487 d2698e455">
+<p>Application description for users. Use this to define the application information shown in system dialog boxes, such as the title and vendor of the application.</p>
+</td>
+</tr>
+<tr class="cellalignment397">
+<td class="cellalignment397" id="d2698e495" headers="d2698e452">
+<p><code class="codeph">&lt;fx:argument&gt;</code></p>
+</td>
+<td class="cellalignment397" headers="d2698e495 d2698e455">
+<p>Arguments to pass to the application when it is started.</p>
+</td>
+</tr>
+<tr class="cellalignment397">
+<td class="cellalignment397" id="d2698e503" headers="d2698e452">
+<p><code class="codeph">&lt;fx:association&gt;</code></p>
+</td>
+<td class="cellalignment397" headers="d2698e503 d2698e455">
+<p>Types of files to associate with the application.</p>
+</td>
+</tr>
+<tr class="cellalignment397">
+<td class="cellalignment397" id="d2698e511" headers="d2698e452">
+<p><code class="codeph">&lt;fx:jvmarg&gt;</code></p>
+</td>
+<td class="cellalignment397" headers="d2698e511 d2698e455">
+<p>JVM arguments to be passed to JVM and used to run the application, for example, large heap size.</p>
+</td>
+</tr>
+<tr class="cellalignment397">
+<td class="cellalignment397" id="d2698e519" headers="d2698e452">
+<p><code class="codeph">&lt;fx:jvmUserArg&gt;</code></p>
+</td>
+<td class="cellalignment397" headers="d2698e519 d2698e455">
+<p>User-changeable JVM arguments to be passed to JVM and used to run the application.</p>
+</td>
+</tr>
+<tr class="cellalignment397">
+<td class="cellalignment397" id="d2698e527" headers="d2698e452">
+<p><code class="codeph">&lt;fx:property&gt;</code></p>
+</td>
+<td class="cellalignment397" headers="d2698e527 d2698e455">
+<p>Properties to be set in the JVM running the application.</p>
+</td>
+</tr>
+<tr class="cellalignment397">
+<td class="cellalignment397" id="d2698e535" headers="d2698e452">
+<p><code class="codeph">&lt;fx:runtime&gt;</code></p>
+</td>
+<td class="cellalignment397" headers="d2698e535 d2698e455">
+<p>Customization of the Java runtime generated for the application. Use this to add modules to the runtime, specify the location of modules, and include command-line tools.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+</div>
+<a id="JSDPG595"></a>
+<div class="props_rev_3"><a id="GUID-045FB25B-1BDB-48F4-98B7-C726A9F8D78C"></a>
+<h3 id="JSDPG-GUID-045FB25B-1BDB-48F4-98B7-C726A9F8D78C" class="sect3">Platform-Specific Customization for Basic Packages</h3>
+<div>
+<p>Creating and customizing the basic form of self-contained application packages is a fairly straightforward process, but note the following points:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Different icon types are needed for different platforms.</p>
+<p>For example, on Windows, the <code class="codeph">.ico</code> format is expected, on Linux, the fomat is <code class="codeph">.png</code>, and on macOS the format is <code class="codeph">.icns</code>. No icon is embedded into the launcher on Linux, instead the <code class="codeph">.desktop</code> file references the icon.</p>
+</li>
+<li>
+<p>For JavaFX applications, add the icon to the application stage to ensure that the icon is set in the runtime. For example, add the following code to the <code class="codeph">start()</code> method of your JavaFX application:</p>
+<pre dir="ltr">
+stage.getIcons().add(new
+     Image(this.getClass().getResourceAsStream("app.png")));
+</pre></li>
+<li>
+<p>Sign files in the output folder if you plan to distribute the application.</p>
+<p>For example, on Windows, the launcher executable can be signed using <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa387764(v=vs.85).aspx" target="_blank"><code class="codeph">signtool.exe</code></a>.</p>
+</li>
+</ul>
+</div>
+<a id="JSDPG983"></a><a id="JSDPG596"></a>
+<div class="props_rev_3"><a id="GUID-F2ADAD1C-7F96-48F0-8824-FF281B004A03"></a>
+<h4 id="JSDPG-GUID-F2ADAD1C-7F96-48F0-8824-FF281B004A03" class="sect4">macOS</h4>
+<div>
+<p>The resulting package on macOS is an "application bundle".</p>
+<p>Several configuration parameters are placed in the <code class="codeph">Info.plist</code> file in the application bundle and must conform to the following rules:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Application ID (or main class name if ID is not specified) is used as <a href="http://developer.apple.com/library/ios/documentation/general/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#/apple_ref/doc/uid/TP40009249-SW1" target="_blank"><code class="codeph">CFBundleIdentifier</code></a>.</p>
+</li>
+<li>
+<p>Application version is used as <a href="http://developer.apple.com/library/ios/documentation/general/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#/apple_ref/doc/uid/TP40009249-SW1" target="_blank"><code class="codeph">CFBundleShortVersionString</code></a>.</p>
+</li>
+</ul>
+<p>Gatekeeper in macOS prevents execution of untrusted code by default, regardless of whether this code is implemented in Objective-C or Java.</p>
+<p>The user can manually enable the application to run, but this is not a perfect user experience. To get optimal user experience, obtain a Developer ID Certificate from Apple. The Mac bundler uses the certificate to sign the <code class="codeph">.app</code> folder. If your local user information differs from the name of the certificate, you might need to set the bundle argument <code class="codeph">mac.signing-key-user-name</code>, as shown in <a href="self-contained-application-packaging.htm#GUID-F2ADAD1C-7F96-48F0-8824-FF281B004A03__GUID-02EC3709-3BE3-4EFD-B9D4-A35E23168EA1">Example 2-4</a>. See <a href="https://developer.apple.com/resources/developer-id/" target="_blank">Developer ID and Gatekeeper</a> at the Apple Developer site.</p>
+<div class="example" id="GUID-F2ADAD1C-7F96-48F0-8824-FF281B004A03__GUID-02EC3709-3BE3-4EFD-B9D4-A35E23168EA1">
+<p class="titleinexample">Example 2-4 Example using mac.signing-key-user-name</p>
+<pre dir="ltr">
+// Using javapackager tool
+ javapackager ... -Bmac.signing-key-user-name="Jane Appleseed"
+
+// Using Ant tasks
+   &lt;fx:deploy&gt;
+      //...
+&lt;fx:bundleArgument arg="mac.signing-key-user-name" value="Jane Appleseed"/&gt;
+      //...
+    &lt;/fx:deploy&gt;
+</pre></div>
+<!-- class="example" --></div>
+</div>
+</div>
+<a id="JSDPG995"></a>
+<div class="props_rev_3"><a id="GUID-12A580AA-2491-4CFF-A809-F915C087BDD4"></a>
+<h3 id="JSDPG-GUID-12A580AA-2491-4CFF-A809-F915C087BDD4" class="sect3">Passing Arguments to a Self-Contained Application</h3>
+<div>
+<p>Arguments can be passed to a self-contained application when the application is started from the command line. You can also define a set of arguments to pass to the application if no arguments are provided. To define default arguments, use the <code class="codeph">-argument</code> option with the <code class="codeph">javapackager deploy</code> command or the <a href="javafx-ant-tasks.htm#GUID-FE9855D0-DB66-4185-A5B3-6D841A5D97D0">&lt;fx:argument&gt;</a> element in an Ant task when the application package is created. Arguments entered from the command line override the default arguments. If the application is started from the launcher icon, the default arguments are used.</p>
+</div>
+</div>
+<a id="JSDPG996"></a>
+<div class="props_rev_3"><a id="GUID-E6F74AB3-D13A-4091-B5F7-5E252E377276"></a>
+<h3 id="JSDPG-GUID-E6F74AB3-D13A-4091-B5F7-5E252E377276" class="sect3">Associating Files with a Self-Contained Application</h3>
+<div>
+<p>The installer for a self-contained application can be set up to register file associations for the application. The <a href="javafx-ant-tasks.htm#GUID-AB28D6F6-A867-4FDF-9CBF-5DB94C5D00CD">&lt;fx:association&gt;</a> element is used in an Ant task to identify the files that can be handled by the application. File associations are based on either the file extension or MIME type.</p>
+<p>The following example associates the application with files that have the MIME type <code class="codeph">application/x-vnd.MyAppFile</code>.</p>
+<pre dir="ltr">
+&lt;fx:info title="Association example"&gt;
+  &lt;fx:association mimetype="application/x-vnd.MyAppFile" description="Sample Test Files"&gt;
+  &lt;/fx:association&gt;
+&lt;/fx:info&gt;
+</pre></div>
+</div>
+<a id="JSDPG1000"></a>
+<div class="props_rev_3"><a id="GUID-D3381A1E-9A51-472E-9B9A-2A941BFC642B"></a>
+<h3 id="JSDPG-GUID-D3381A1E-9A51-472E-9B9A-2A941BFC642B" class="sect3">Supporting Multiple Entry Points</h3>
+<div>
+<p>The package for self-contained applications can be built to support a suite of products with more than one entry point. Each entry point can have its own shortcut or icon. The <code class="codeph">mainClass</code> attribute for the <a href="javafx-ant-tasks.htm#GUID-41BE0713-82DB-4CF0-898E-6E3367759FBC">&lt;fx:application&gt;</a> element identifies the primary entry point. Use the <a href="javafx-ant-tasks.htm#GUID-5E9C4B8E-D703-4A5B-B4D8-8EE62DB99EF6">&lt;fx:secondaryLauncher&gt;</a> element with the <a href="javafx-ant-tasks.htm#GUID-F39DA697-4B6C-4F06-AA41-3F840E7C9775">&lt;fx:deploy&gt;</a> task to define each secondary entry point.</p>
+<div class="infobox-note" id="GUID-D3381A1E-9A51-472E-9B9A-2A941BFC642B__GUID-55751217-FCB3-492A-8039-27B19B0152B2">
+<p class="notep1">Note:</p>
+<p>Multiple entry points are supported only for Windows and Linux applications.</p>
+</div>
+<p>The following example defines entry points for the <code class="codeph">TestSuite</code> application for Windows.</p>
+<pre dir="ltr">
+&lt;fx:deploy outdir="test/apps" nativeBundles="image"&gt;
+    &lt;fx:application name="TestSuite Sample"
+                    mainClass="samples.TestSuite"/&gt;
+
+    &lt;fx:info title="Test Suite"/&gt;
+
+    &lt;fx:secondaryLauncher
+        mainClass="samples.TestSuite"
+        name="Suite Applications"/&gt;
+        shortcut="true"/&gt;
+ 
+    &lt;fx:secondaryLauncher name="Editor"&gt;
+        &lt;fx:bundleArgument arg="icon" value="../resources/editor.ico"/&gt;
+    &lt;/fx:secondaryLauncher&gt;
+ 
+    &lt;fx:secondaryLauncher name="Spreadsheet"&gt;
+        &lt;fx:bundleArgument arg="icon" value="../resources/spreadsheet.ico"/&gt;
+    &lt;/fx:secondaryLauncher&gt;
+&lt;/fx:deploy&gt;
+</pre></div>
+</div>
+</div>
+<div class="sect2"><a id="GUID-27A46A14-3499-4198-82E9-DA4E23AF5F32"></a>
+<h2 id="JSDPG-GUID-27A46A14-3499-4198-82E9-DA4E23AF5F32" class="sect2">Customization of the JRE</h2>
+<div>
+<p>The Java packaging tools use the <code class="codeph">jlink</code> tool to generate a runtime for the self-contained application. Add command-line tools and additional modules as needed.</p>
+<div class="section">
+<p>By default, command-line tools such as <code class="codeph">java.exe</code> are removed from the JRE that is bundled with self-contained application packages. To keep these tools in the generated JRE, set the <code class="codeph">strip-native-commands</code> attribute of the <code class="codeph">&lt;fx:runtime&gt;</code> element to <code class="codeph">false</code>.</p>
+<p>To minimize the size of the JRE, the <code class="codeph">jlink</code> tool is used to generate a custom runtime that contains only the packages needed to run the application. If additional modules are needed, use the <code class="codeph">&lt;fx:add-modules&gt;</code> element to add them to the runtime. To add multiple modules, use a single <code class="codeph">&lt;fx:add-modules&gt;</code> element with a comma-separated list of modules, or use a separate <code class="codeph">&lt;fx:add-modules&gt;</code> element for each module.</p>
+</div>
+<!-- class="section" -->
+<div class="example" id="GUID-27A46A14-3499-4198-82E9-DA4E23AF5F32__GUID-19B3A398-3D85-45C4-A52F-4812CF9C3A07">
+<p>The following example includes command-line tools and adds modules from <code class="codeph">jdk.packager.services</code> and <code class="codeph">javafx.controls</code>.</p>
+<pre dir="ltr">
+&lt;fx:runtime strip-native-commands="false"&gt;
+  &lt;fx:add-modules value="jdk.packager.services,javafx.controls"/&gt;
+&lt;/fx:runtime&gt;
+</pre></div>
+<!-- class="example" --></div>
+</div>
+<div class="sect2"><a id="GUID-E2DE420D-EF33-452A-9691-2B12FA93DD82"></a>
+<h2 id="JSDPG-GUID-E2DE420D-EF33-452A-9691-2B12FA93DD82" class="sect2">Packaging for Modular Applications</h2>
+<div>
+<p>Use the Java Packager tool to package modular applications as well as non-modular applications.</p>
+<p>Modular applications can be packaged as self-contained applications. They cannot be packaged as Java Web Start applications. To identify the main module of a modular application, set the <code class="codeph">module</code> attribute of the <code class="codeph">&lt;fx:secondaryLauncher&gt;</code> element.</p>
+<div class="example" id="GUID-E2DE420D-EF33-452A-9691-2B12FA93DD82__GUID-3F6E63C0-1118-4FC0-A25E-B1B830E240B7">
+<p>The following example identifies the main module for an application named <code class="codeph">HelloWorldModular</code>.</p>
+<pre dir="ltr">
+&lt;fx:secondaryLauncher name="HelloWorldModular"
+    module="hello.world"
+    mainClass="com.sample.app.HelloWorld"&gt;
+&lt;/fx:secondaryLauncher&gt;
+</pre></div>
+<!-- class="example" --></div>
+</div>
+<a id="JSDPG598"></a>
+<div class="props_rev_3"><a id="GUID-385802E7-121F-47D4-B7DD-B73BC3CF94D6"></a>
+<h2 id="JSDPG-GUID-385802E7-121F-47D4-B7DD-B73BC3CF94D6" class="sect2">Installable Packages</h2>
+<div>
+<p>A self-contained application can be wrapped into a platform-specific installable package to simplify distribution. Java packaging tools provide built-in support for several formats of installable packages, depending on the availability of third-party tools.</p>
+<p>Tuning the user experience for the installation process is specific to the particular installer technology, as described in other sections in this chapter. However, you must decide what type of installer you need. The following considerations might help with your decision:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold">System-wide or per-user installation?</span></p>
+<p>System-wide installation results in a package installed into a shared location and can be used by any user on the system. Admin permissions are typically required and additional steps are likely to be needed during the installation process, such as an OS prompt to approve elevating installer permissions.</p>
+<p>Per-user installation copies the package into a private user directory and does not require admin permissions. This type of installation enables you to show as few dialogs as possible and run the program even if the user is not eligible for admin privileges.</p>
+<p>Note that whenever a user- or system-level installable package is requested, the build procedure itself does not require admin permissions.</p>
+</li>
+<li>
+<p><span class="bold">Do you need a click-through license?</span></p>
+<p>Some installable packages support showing license text before initiating the installation. The installation process starts only after the user accepts the license.</p>
+</li>
+<li>
+<p><span class="bold">What menu and desktop integration is needed?</span></p>
+<p>The user should be able to launch your application easily. Therefore, having a desktop shortcut or adding the application to the list of applications in the menu is required.</p>
+</li>
+</ul>
+<p>Note that the current implementation contains many simplifying assumptions. For example, installers never ask the user to choose the location in which to install the package. Developers also have limited control of the installation location, and can only specify system-wide or per-user installation.</p>
+<p>If the default assumptions do not meet your needs, advanced customizations are available by tuning the configuration file templates (see <a href="self-contained-application-packaging.htm#GUID-ED89707D-2D72-48C2-BBE3-A16B6B0F9947">Customizing the Package Using Drop-In Resources</a>) or packaging a basic self-contained application and then wrapping it into an installable package on your own.</p>
+</div>
+<a id="JSDPG599"></a><a id="JSDPG1089"></a>
+<div class="props_rev_3"><a id="GUID-A51DA42C-3C94-4E38-AA42-5AB790D77EBB"></a>
+<h3 id="JSDPG-GUID-A51DA42C-3C94-4E38-AA42-5AB790D77EBB" class="sect3">Types of Installable Packages</h3>
+<div>
+<p>Create installable packages for self-contained applications based on the target operating system and the packaging tools available.</p>
+<div class="section">
+<p>The following table shows the supported installable-package formats and the tools needed to create them:</p>
+</div>
+<!-- class="section" -->
+<div class="tblformal" id="GUID-A51DA42C-3C94-4E38-AA42-5AB790D77EBB__GUID-5DA6B076-171C-41CA-A2DD-57CD99F11D40">
+<p class="titleintable">Table 2-2 Installable Package Formats and Tool Prerequisites</p>
+<table class="cellalignment407" title="Installable Package Formats and Tool Prerequisites" summary="This table shows the installable-package formats that are available and information about the formats. The first column identifies the type of package. The second format shows the directory in which the application is installed. The third column indicates if a click-through license is supported. The last column identifies the operating system on which the format runs and the tool needed to create the package.">
+<thead>
+<tr class="cellalignment397">
+<th class="cellalignment430" id="d2698e867">Package format</th>
+<th class="cellalignment431" id="d2698e870">Installation Location (Default mode in bold)</th>
+<th class="cellalignment432" id="d2698e873">Click-Through License</th>
+<th class="cellalignment433" id="d2698e876">Prerequisites</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment397">
+<td class="cellalignment434" id="d2698e881" headers="d2698e867">
+<p>EXE</p>
+</td>
+<td class="cellalignment435" headers="d2698e881 d2698e870">
+<p><span class="bold">Per user</span>: <code class="codeph">%LOCALAPPDATA%</code></p>
+<p>System: <code class="codeph">%ProgramFiles%</code></p>
+</td>
+<td class="cellalignment436" headers="d2698e881 d2698e873">
+<p>Yes (option)</p>
+</td>
+<td class="cellalignment437" headers="d2698e881 d2698e876">
+<ul style="list-style-type: disc;">
+<li>
+<p>Windows</p>
+</li>
+<li>
+<p>Inno Setup 5 or later</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="cellalignment397">
+<td class="cellalignment434" id="d2698e907" headers="d2698e867">
+<p>MSI</p>
+</td>
+<td class="cellalignment435" headers="d2698e907 d2698e870">
+<p>Per user: <code class="codeph">%LOCALAPPDATA%</code></p>
+<p><span class="bold">System</span>: <code class="codeph">%ProgramFiles%</code></p>
+</td>
+<td class="cellalignment436" headers="d2698e907 d2698e873">
+<p>No special support</p>
+</td>
+<td class="cellalignment437" headers="d2698e907 d2698e876">
+<ul style="list-style-type: disc;">
+<li>
+<p>Windows</p>
+</li>
+<li>
+<p>WiX 3.0 or later</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="cellalignment397">
+<td class="cellalignment434" id="d2698e934" headers="d2698e867">
+<p>DMG</p>
+</td>
+<td class="cellalignment435" headers="d2698e934 d2698e870">
+<p>Per user: user's desktop folder</p>
+<p><span class="bold">System</span>: /Applications</p>
+</td>
+<td class="cellalignment436" headers="d2698e934 d2698e873">
+<p>Yes (option)</p>
+</td>
+<td class="cellalignment437" headers="d2698e934 d2698e876">
+<ul style="list-style-type: disc;">
+<li>
+<p>macOS</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="cellalignment397">
+<td class="cellalignment434" id="d2698e953" headers="d2698e867">
+<p>PKG</p>
+</td>
+<td class="cellalignment435" headers="d2698e953 d2698e870">
+<p>Per user: user's desktop folder</p>
+<p><span class="bold">System</span>: /Applications</p>
+</td>
+<td class="cellalignment436" headers="d2698e953 d2698e873">
+<p>Yes (option)</p>
+</td>
+<td class="cellalignment437" headers="d2698e953 d2698e876">
+<ul style="list-style-type: disc;">
+<li>
+<p>macOS</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="cellalignment397">
+<td class="cellalignment434" id="d2698e972" headers="d2698e867">
+<p>RPM</p>
+</td>
+<td class="cellalignment435" headers="d2698e972 d2698e870">
+<p>Per user: unsupported</p>
+<p>System: /opt</p>
+</td>
+<td class="cellalignment436" headers="d2698e972 d2698e873">
+<p>No special support</p>
+</td>
+<td class="cellalignment437" headers="d2698e972 d2698e876">
+<ul style="list-style-type: disc;">
+<li>
+<p>Linux</p>
+</li>
+<li>
+<p>RPMBuild</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="cellalignment397">
+<td class="cellalignment434" id="d2698e992" headers="d2698e867">
+<p>DEB</p>
+</td>
+<td class="cellalignment435" headers="d2698e992 d2698e870">
+<p>Per user: unsupported</p>
+<p>System: /opt</p>
+</td>
+<td class="cellalignment436" headers="d2698e992 d2698e873">
+<p>No special support</p>
+</td>
+<td class="cellalignment437" headers="d2698e992 d2698e876">
+<ul style="list-style-type: disc;">
+<li>
+<p>Linux</p>
+</li>
+<li>
+<p>Debian packaging tools</p>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+</div>
+<a id="JSDPG611"></a><a id="JSDPG600"></a>
+<div class="props_rev_3"><a id="GUID-E8FF5585-D5C1-4618-9C45-DB75E7CC6FBB"></a>
+<h3 id="JSDPG-GUID-E8FF5585-D5C1-4618-9C45-DB75E7CC6FBB" class="sect3">EXE Package</h3>
+<div>
+<p>To generate an EXE package, you must have Inno Setup 5 or later installed and available on the <code class="codeph">PATH</code>. To validate that it is available, try running <code class="codeph">iscc.exe</code> from the command line where you launch the build or from your build script.</p>
+<p>By default, the generated package has the following characteristics:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Admin privileges not required</p>
+</li>
+<li>
+<p>Optimized to have a minimum number of dialogs</p>
+</li>
+<li>
+<p>Referenced from the programs menu or a desktop shortcut, or both</p>
+</li>
+<li>
+<p>Launches the application at the end of installation</p>
+</li>
+</ul>
+<p><a href="self-contained-application-packaging.htm#GUID-E8FF5585-D5C1-4618-9C45-DB75E7CC6FBB__BCGJIBAC">Figure 2-2</a> shows a typical dialog box for a self-contained JavaFX application being installed on Windows.</p>
+<div class="figure" id="GUID-E8FF5585-D5C1-4618-9C45-DB75E7CC6FBB__BCGJIBAC">
+<p class="titleinfigure">Figure 2-2 Windows Installation Dialog for a Self-Contained JavaFX Application</p>
+<img width="503" height="392" src="img/swinginterop-win.png" alt="Description of Figure 2-2 follows" title="Description of Figure 2-2 follows" /><br />
+<a href="img_text/swinginterop-win.htm">Description of "Figure 2-2 Windows Installation Dialog for a Self-Contained JavaFX Application"</a></div>
+<!-- class="figure" -->
+<p>Customization tips:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>If you chose system-wide installation, then the user needs to have admin permissions, and the application is not launched at the end of installation.</p>
+</li>
+<li>
+<p>A click-through license is supported. An <code class="codeph">.rtf</code> file is required.</p>
+</li>
+<li>
+<p>The image shown in the installation dialogs can be different from the application icon.</p>
+<p>The current version of Inno Setup assumes the image is <a href="http://www.jrsoftware.org/ishelp/index.php?topic=setup_wizardsmallimagefile" target="_blank">a bitmap file with a maximum size of 55x58 pixels</a>.</p>
+</li>
+<li>
+<p>For JavaFX applications, the icon can be added to the application stage to ensure that the icon is set in the runtime.</p>
+</li>
+<li>
+<p>The resulting <code class="codeph">.exe</code> package can be signed.</p>
+<p>You need to get a certificate from a Trusted Certificate Authority (TSA), then use the Windows <a href="http://msdn.microsoft.com/en-us/library/aa387764.aspx" target="_blank"><code class="codeph">signtool.exe</code> utility</a> to sign the code.</p>
+</li>
+<li>
+<p>A Windows script file can be used to fine tune the self-contained application folder before it is wrapped into an <code class="codeph">.exe</code> file, for example to sign the launcher executable.</p>
+</li>
+</ul>
+<p>The techniques for adding a custom image and providing a Windows script file are described in <a href="self-contained-application-packaging.htm#GUID-ED89707D-2D72-48C2-BBE3-A16B6B0F9947">Customizing the Package Using Drop-In Resources</a>. To add an icon to the application stage in a JavaFX application, see <a href="self-contained-application-packaging.htm#GUID-045FB25B-1BDB-48F4-98B7-C726A9F8D78C">Platform-Specific Customization for Basic Packages</a>.</p>
+<div class="infobox-note" id="GUID-E8FF5585-D5C1-4618-9C45-DB75E7CC6FBB__GUID-185DB0DD-3D48-4553-8F66-C4DD0C8BAA16">
+<p class="notep1">Note:</p>
+<p>While the resulting package is displayed in the list of installed applications, it does not use Windows Installer (MSI) technology and does not require the use of GUIDs. See the <a href="http://www.jrsoftware.org/isfaq.php#msi)" target="_blank">Inno Setup FAQ</a> for details.</p>
+</div>
+</div>
+</div>
+<a id="JSDPG601"></a>
+<div class="props_rev_3"><a id="GUID-426EF726-8CE9-4FEF-AEF9-809BD43CFE7D"></a>
+<h3 id="JSDPG-GUID-426EF726-8CE9-4FEF-AEF9-809BD43CFE7D" class="sect3">MSI Package</h3>
+<div>
+<p>MSI packages are generated using the <a href="http://wixtoolset.org/" target="_blank">Windows Installer XML (WiX) toolset</a> (also known as WiX). WiX 3.8 or later is required, and it must be available on the <code class="codeph">PATH</code>. To validate, try running <code class="codeph">candle /?</code> from the command line where you launch the build or from your build script.</p>
+<p>By default, a generated MSI package has the following characteristics:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Optimized for deployment using enterprise deployment tools</p>
+</li>
+<li>
+<p>Installs to a system-wide location</p>
+</li>
+<li>
+<p>No click-through UI, only a progress dialog is shown</p>
+</li>
+<li>
+<p>Referenced from the programs menu or a desktop shortcut, or both</p>
+</li>
+<li>
+<p>Removes all files in the installation folder, even if they were created outside of the installation process. (WiX 3.5 or later is required.)</p>
+</li>
+<li>
+<p>Tries to use the application identifier as <a href="http://msdn.microsoft.com/en-us/library/aa372375(v=vs.85).aspx" target="_blank"><code class="codeph">UpgradeCode</code></a>.</p>
+<p>If the application identifier is not a valid <a href="http://msdn.microsoft.com/en-us/library/aa368767(v=vs.85).aspx" target="_blank">GUID</a>, then a random GUID for <code class="codeph">UpgradeCode</code> is generated.</p>
+</li>
+<li>
+<p>Randomly generates <code class="codeph">ProductCode</code>.</p>
+</li>
+</ul>
+<p>To use a fixed Product code or add a custom UI to the MSI package, customize the WiX template file used by Java Packager as described in <a href="self-contained-application-packaging.htm#GUID-ED89707D-2D72-48C2-BBE3-A16B6B0F9947">Customizing the Package Using Drop-In Resources</a>. For a custom UI, also see <a href="http://wixtoolset.org/documentation/manual/v3/wixui/wixui_customizations.html" target="_blank">WiX documentation</a>.</p>
+<p>If you plan to distribute your MSI package on the network, sign it for the best user experience.</p>
+<p>You can also fine tune the self-contained application folder before it is wrapped into the <code class="codeph">.msi</code> file, for example, to sign the launcher executable.</p>
+</div>
+</div>
+<a id="JSDPG612"></a><a id="JSDPG615"></a><a id="JSDPG631"></a><a id="JSDPG602"></a>
+<div class="props_rev_3"><a id="GUID-0C60E5F9-F0E4-4B1C-AAD1-E2424FE3F215"></a>
+<h3 id="JSDPG-GUID-0C60E5F9-F0E4-4B1C-AAD1-E2424FE3F215" class="sect3">DMG Package</h3>
+<div>
+<p>By default, a DMG package provides a simple drag-and-drop installation experience. <a href="self-contained-application-packaging.htm#GUID-0C60E5F9-F0E4-4B1C-AAD1-E2424FE3F215__BCGBEGDI">Figure 2-3</a> shows an example of the default behavior during installation.</p>
+<div class="figure" id="GUID-0C60E5F9-F0E4-4B1C-AAD1-E2424FE3F215__BCGBEGDI">
+<p class="titleinfigure">Figure 2-3 Example of Default Installer for macOS</p>
+<img width="532" height="285" src="img/packageimg4.jpg" alt="Description of Figure 2-3 follows" title="Description of Figure 2-3 follows" /><br />
+<a href="img_text/packageimg4.htm">Description of "Figure 2-3 Example of Default Installer for macOS"</a></div>
+<!-- class="figure" -->
+<p>To customize the appearance of the installation window, you can provide a custom background image.</p>
+<p>If the background image has different dimensions or you need to position the icons differently, then you must also customize the DMG setup script that is used to modify sizes and positions of elements in the install view. See <a href="self-contained-application-packaging.htm#GUID-ED89707D-2D72-48C2-BBE3-A16B6B0F9947">Customizing the Package Using Drop-In Resources</a>.</p>
+<div class="figure" id="GUID-0C60E5F9-F0E4-4B1C-AAD1-E2424FE3F215__BCGDCHCH">
+<p class="titleinfigure">Figure 2-4 Example of Customized Appearance of Installable Package for macOS</p>
+<img width="544" height="430" src="img/mac-ensemble.png" alt="Description of Figure 2-4 follows" title="Description of Figure 2-4 follows" /><br />
+<a href="img_text/mac-ensemble.htm">Description of "Figure 2-4 Example of Customized Appearance of Installable Package for macOS"</a></div>
+<!-- class="figure" -->
+<p>To fine tune the self-contained application folder before it is wrapped, provide your own bash script to be executed after the application folder is populated. You can use the script for such actions as adding localization files to the package. <a href="self-contained-application-packaging.htm#GUID-0C60E5F9-F0E4-4B1C-AAD1-E2424FE3F215__BCGDCHCH">Figure 2-4</a> shows an example of a "tuned" application installer.</p>
+<p>To create a Gatekeeper-friendly package, the application in the DMG package must be signed. It is not necessary to sign the DMG file itself. The Mac bundler handles the signing of your application. If your local user information differs from the name of the certificate, you might need to set the bundle argument <code class="codeph">mac.signing-key-user-name</code>, as shown in <a href="self-contained-application-packaging.htm#GUID-F2ADAD1C-7F96-48F0-8824-FF281B004A03__GUID-02EC3709-3BE3-4EFD-B9D4-A35E23168EA1">Example 2-4</a>.</p>
+<p>To sign the application manually, you can use a technique described in <a href="self-contained-application-packaging.htm#GUID-F2ADAD1C-7F96-48F0-8824-FF281B004A03">macOS</a> to provide a configuration script that is executed after the application bundle is populated. For the sample <code class="codeph">DemoApp</code>, the configuration script is located at <code class="codeph">package/macosx/DemoApp-post-image.sh</code> and has the content shown in the following example.</p>
+<pre dir="ltr">
+echo "Signing application bundle"
+#Move to the folder containing application bundle
+cd ../images/dmg.image
+#do sign
+codesign -s "Developer ID Application" *.app
+echo "Done with signing"
+</pre>
+<p>The DMG installer also supports a click-though license provided in text format. If use of rich text format is desired, then prepare the <code class="codeph">license.plist</code> file externally and add it to the package using the technique described in <a href="self-contained-application-packaging.htm#GUID-ED89707D-2D72-48C2-BBE3-A16B6B0F9947">Customizing the Package Using Drop-In Resources</a>.</p>
+<p>No third party tools are needed to create a DMG package.</p>
+</div>
+</div>
+<a id="JSDPG603"></a>
+<div class="props_rev_3"><a id="GUID-4D8CA7A3-2153-4A0E-88EE-0EA54B641BC7"></a>
+<h3 id="JSDPG-GUID-4D8CA7A3-2153-4A0E-88EE-0EA54B641BC7" class="sect3">Linux Packages</h3>
+<div>
+<p>Producing install packages for Linux assumes that the native tools needed to build install packages are installed. For RPM packages, this typically means the RPMBuild package and its dependencies. For DEB packages, <code class="codeph">dpkg-deb</code> and dependencies are needed.</p>
+<p>No admin permissions are needed to build the package.</p>
+<p>By default the resulting package has the following characteristics:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Installs the application to the <code class="codeph">/opt</code> directory</p>
+</li>
+<li>
+<p>Adds a shortcut to the application menu</p>
+</li>
+<li>
+<p>Does not have any UI for installation, which is normal behavior for Linux packages</p>
+</li>
+</ul>
+<p>Customization tips:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>To place the application into a specific category in the application menu, use the <code class="codeph">category</code> attribute of <a href="javafx-ant-tasks.htm#GUID-705B3DE5-22ED-4A8F-82C0-29A9362D29D4">&lt;fx:info&gt;</a>.</p>
+<p>See <a href="http://standards.freedesktop.org/menu-spec/latest/apa.html" target="_blank">Desktop Menu Specification</a>, and your window manager docs for the list of category names.</p>
+</li>
+<li>
+<p>The icon is expected to be a .png file</p>
+</li>
+<li>
+<p>Advanced customization is possible by tuning the build template files using techniques described in <a href="self-contained-application-packaging.htm#GUID-ED89707D-2D72-48C2-BBE3-A16B6B0F9947">Customizing the Package Using Drop-In Resources</a>..</p>
+<p>See the DEB/RPM packaging guides for more information about available options.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<a id="JSDPG614"></a><a id="JSDPG613"></a>
+<div class="props_rev_3"><a id="GUID-1F8F00F0-1929-4DCC-A03E-268F1F67773D"></a>
+<h2 id="JSDPG-GUID-1F8F00F0-1929-4DCC-A03E-268F1F67773D" class="sect2">Working Through a Deployment Scenario</h2>
+<div>
+<div class="section">
+<p>Consider a scenario where you have a JavaFX application with the following characteristics:</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<ul style="list-style-type: disc;">
+<li>
+<p>Uses several third-party libraries</p>
+</li>
+<li>
+<p>One of the third-party libraries uses JNI and loads a platform-specific native library using <code class="codeph">System.loadLibrary()</code></p>
+</li>
+<li>
+<p>Needs a large 1Gb heap</p>
+</li>
+</ul>
+<p>You want to package this application as a self-contained application that does not need admin permissions to install.</p>
+<p>It is assumed that your application works fine as a standalone application, that the main JAR file is built in the <code class="codeph">dist</code> folder (using <a href="javafx-ant-tasks.htm#GUID-DF3ABE9A-A11C-4BBC-B8D1-DB88240F59BD">&lt;fx:jar&gt;</a>) and that third-party libraries are copied to the <code class="codeph">dist/lib</code> directory.</p>
+<p>One way to assemble a self-contained application package is shown in <a href="self-contained-application-packaging.htm#GUID-1F8F00F0-1929-4DCC-A03E-268F1F67773D__BCGBFDDC">Example 2-5</a>, and consists of the following actions:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Include all application JAR files.</p>
+</li>
+<li>
+<p>Add native libraries applicable to current platform as resources of type data.</p>
+<p>Ensure that the fileset base directory is set to the folder containing the library. This ensures that the libraries are copied to the top-level application folder.</p>
+</li>
+<li>
+<p>Request a user-level installation with <code class="codeph">&lt;fx:preferences install="false"/&gt;</code></p>
+</li>
+</ul>
+<p>Note that the top-level application folder is added to the library search path, and therefore <code class="codeph">System.loadLibrary()</code> can be used.</p>
+<p><a href="self-contained-application-packaging.htm#GUID-1F8F00F0-1929-4DCC-A03E-268F1F67773D__BCGBFDDC">Example 2-5</a> shows an example <a href="javafx-ant-tasks.htm#GUID-F39DA697-4B6C-4F06-AA41-3F840E7C9775">&lt;fx:deploy&gt;</a> task.</p>
+</div>
+<!-- class="section" -->
+<div class="example" id="GUID-1F8F00F0-1929-4DCC-A03E-268F1F67773D__BCGBFDDC">
+<p class="titleinexample">Example 2-5 Example &lt;fx:deploy&gt; Task</p>
+<pre dir="ltr">
+&lt;fx:deploy nativeBundles="all" width="600" height="400"
+           outdir="${basedir}/dist" outfile="NativeLibDemo"&gt;
+    &lt;fx:application name="NativeLib Demo" mainClass="${javafx.main.class}"/&gt;
+ 
+    &lt;fx:resources&gt;
+        &lt;!-- include application jars --&gt;
+        &lt;fx:fileset dir="dist" includes="*.jar"/&gt;       
+        &lt;fx:fileset dir="dist" includes="lib/*.jar"/&gt;
+
+        &lt;!-- native libs for self-contained application --&gt;
+        &lt;!-- assume they are stored as
+                 native/windows/x86/JNativeHook.dll
+                 native/linux/x86_64/libJNativeHook.so
+                 .... --&gt;
+        &lt;!-- ensure libraries are included as top level elements
+                to get them on java.library.path --&gt;
+        &lt;fx:fileset dir="${basedir}/native/${os.name}/${os.arch}"
+                    type="data"&gt;
+            &lt;include name="*.dll"/&gt;
+            &lt;include name="*.jnilib"/&gt;
+            &lt;include name="*.so"/&gt;
+        &lt;/fx:fileset&gt;
+    &lt;/fx:resources&gt;
+ 
+    &lt;!-- Custom JVM setup for application --&gt;
+    &lt;fx:platform&gt;
+        &lt;fx:jvmarg value="-Xmx1024m"/&gt;
+        &lt;fx:jvmarg value="-verbose:jni"/&gt;
+        &lt;property name="my.property" value="something"/&gt;
+    &lt;/fx:platform&gt;
+ 
+    &lt;!-- request user level installation --&gt;
+    &lt;fx:preferences install="false"/&gt;
+&lt;/fx:deploy&gt; 
+</pre></div>
+<!-- class="example" --></div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment396">
+<tr>
+<td class="cellalignment403">
+<table class="cellalignment401">
+<tr>
+<td class="cellalignment400"><a href="packaging.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment400"><a href="javafx-ant-tasks.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment405">
+<table class="cellalignment399">
+<tr>
+<td class="cellalignment400"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment400"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment400"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

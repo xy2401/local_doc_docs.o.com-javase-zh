@@ -1,0 +1,279 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Class Loading</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="link.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=bottom border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Class Loading
+</h2>
+<p>
+<blockquote>
+
+The JNDI is an API defined independent of any specific naming
+or directory service implementation. 
+For an application,
+applet, servlet, or any program unit to use the JNDI,
+it must specify the service provider to use and have access
+to the provider's class files.
+A single program might use more than one provider.
+Furthermore, the program and/or providers might use
+<a href=../../getStarted/concepts/glossary.html#OF>object factories</a>,
+<a href=../../getStarted/concepts/glossary.html#SF>state factories</a>, and
+<a href=../../getStarted/concepts/glossary.html#CF>control factories</a>,
+all of whose class files must also be made available to the JNDI.
+In addition, the JNDI needs access to application resource files (see the
+
+<a target="_top" href="../env/source.html#APPRES">Application Resource Files</a> <a target="_top" href="../env/source.html#APPRES"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    section)
+provided by the program, providers, and other components.
+In all of these cases, the JNDI needs to load in class and resource files.
+This section explains how the JNDI uses class loaders and how you can
+affect its use of them.
+
+<h4>Background on Class Loaders</h4>
+
+The class loader is the means by which Java<sup><font size=-1>TM</font></sup> classes and resources are
+loaded into the JRE. It controls the policies
+ranging from where to load class definitions to the data format of the class
+definitions. 
+<p>
+In the 
+<a href=http://java.sun.com/products/jdk/1.1/>JDK<sup><font size=-1>TM</font></sup> 1.1</a>
+and earlier releases, 
+no relationship exists between various class loaders.
+A system class loader responsible for loading in the Java runtime,
+the application, and classes and resources in the application's classpath.
+An applet class loader is responsible
+for loading the applets and their related classes and resources, possibly
+over the network by communicating with a Web server.
+<p>
+In the 
+<a href=http://java.sun.com/products/jdk/1.2/>Java 2 Platform, Standard Edition, v1.2</a>
+and later releases, class loaders
+have a hierarchical relationship.
+Each class loader has a parent class loader.
+When a class loader is asked to load a class or resource, it 
+consults its parent class loader before attempting to load the item itself.
+The parent in turn consults its parent, and so on.
+So it is only after <em>all</em> of the ancestor class loaders
+cannot find the item that the current class loader gets involved.
+<p>
+A <em>bootstrap class loader</em> is responsible for loading in
+the Java runtime. It is the "root" in the class loader hierarchy.
+The system class loader is a descendant of the bootstrap class loader.
+It is responsible for loading in the application,
+as well as for loading
+classes and resources in the application's classpath.
+<p>
+The Java 2 platform also introduced the notion of
+<em>context class loader</em>.
+A thread's context class loader is, by default, set to the context
+class loader of the thread's parent. The hierarchy of threads is
+rooted at the primordial thread (the one that runs the program).
+The context class loader of the primordial thread is set to the class loader
+that loaded the application. So unless you explicitly change
+the thread's context class loader, its context class loader
+will be the application's class loader. That is, the context class loader
+can load the classes that the application can load.
+This loader is used by the Java runtime such as the RMI
+(Java Remote Method Invocation) 
+to load classes and resources on behalf
+of the user application.
+The context class loader, like any Java 2 platform class loader, 
+has a parent class loader
+and supports the same delegation model for class loading described previously.
+
+<h4>Class Loading on the JDK 1.1 Software</h4>
+When you use the JNDI with the JDK 1.1 software, 
+you must place the JNDI JARs,
+service provider JARs, 
+and JARs or class files containing factories
+in the application's classpath.
+If you're using an applet, then 
+you must place those JARs and class files
+in the applet's codebase directory and/or archive locations.
+Consequently, the class loader that loads the JNDI 
+JARs is typically the
+same as the one that loads in the application and the factories.
+
+<p>
+Note that you cannot use JNDI application resource files with
+the JDK 1.1 software. See the
+<a target="_top" href="../env/source.html#APPRES">Application Resource Files</a> <a target="_top" href="../env/source.html#APPRES"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>   section for details.
+
+<h4>Class Loading on the Java 2 Platform</h4>
+
+When you use the JNDI with the Java 2 platform,
+the class loader that loads the JNDI classes typically differs
+from the one that loads in the application.
+For example, in the 
+<a href=http://java.sun.com/j2se/1.3>Java 2 SDK, v1.3</a>,
+the JNDI classes are loaded by the bootstrap class loader whereas
+the application classes are loaded by the system class loader.
+In the Java 2 SDK, v1.2, if you install the JNDI as an installed extension,
+then the JNDI classes are loaded by the class loader responsible
+for loading installed extensions, whereas the application
+classes are loaded by the system class loader.
+As a result, if the JNDI were to use its class loader to
+load service providers and factories, then it might not see
+the same classes as the application.
+Therefore, to try to see what the application can see, 
+the JNDI uses the calling thread's context class loader
+when it is loading in classes for the service providers, factories,
+and application resource files.
+<p>
+In rare circumstances, you want to
+change a thread's context class loader to affect how the JNDI finds classes.
+This might occur, for example, when the environment that
+you're working in does not set the context class loader properly.
+For example, a bug in the
+<a href=http://java.sun.com/products/jdk/1.2/>Java 2 SDK, Standard Edition, v1.2.2</a> 
+causes the AWT (Abstract Window Toolkit) 
+not to set the listener threads'
+context class loader to be the class loader that loaded the applet.
+Consequently, callback methods invoked by the listener threads
+do not have access to service providers and factories that
+the applet can otherwise load explicitly.
+Or, you might want to add an additional repository of JARs and class files
+that contains special providers and factories
+to your applications/applets.
+To change a thread's context class loader, 
+you use <tt>Thread.setContextClassLoader()</tt>.
+<p>
+Here is <a href=src/ChangeLoader.java>an example</a>.
+<blockquote><pre>
+ClassLoader prevCl = Thread.currentThread().getContextClassLoader();
+
+// Create the class loader by using the given URL
+// Use prevCl as parent to maintain current visibility
+ClassLoader urlCl = 
+    URLClassLoader.newInstance(new URL[]{new URL(url)}, prevCl);
+
+try {
+    // Save the class loader so that you can restore it later
+    Thread.currentThread().setContextClassLoader(urlCl);
+
+    // Expect that the environment properties are in the
+    // application resource file found at "url"
+    Context ctx = new InitialContext();
+
+    System.out.println(ctx.lookup("tutorial/report.txt"));
+
+    // Do something useful with ctx
+    ...
+} catch (NamingException e) {
+    // Handle the exception
+} finally {
+    // Restore
+    Thread.currentThread().setContextClassLoader(prevCl);
+}
+</pre></blockquote>
+This example creates a <tt>URLClassLoader</tt>
+that loads classes from a specified codebase URL.
+It then creates an initial context and performs other JNDI operations
+within the context of that class loader.
+In this example, the class loader affects how the
+initial context was initialized (via an application resource file
+found by the new class loader), as well as the result of
+<tt>lookup()</tt> (via the object factory named in the application resource
+file and the class file of the factory found by the new class loader).
+To run this program, you supply a codebase URL as follows:
+<blockquote><pre>
+# java ChangeClassLoader file:/some/directory/somewhere/
+</blockquote></pre>
+In that codebase, you can specify a 
+<tt>jndi.properties</tt> file.
+In particular example,  the following 
+<a href=src/somewhere/jndi.properties><tt>jndi.properties</tt> file</a>
+is in the codebase directory.
+<blockquote><pre>
+java.naming.factory.initial=com.sun.jndi.fscontext.FSContextFactory
+java.naming.provider.url=file:/tmp
+java.naming.factory.object=FooObjectFactory
+</pre></blockquote>
+In the same codebase directory is the class definition
+for <a href=src/somewhere/FooObjectFactory.java><tt>FooObjectFactory</tt></a>,
+which when given a <tt>java.io.File</tt> object
+always returns the string <tt>"foo"</tt>. 
+When you run this program, you see this output:
+<blockquote><pre>
+foo
+</pre></blockquote>
+If you do not see this output, then check the correctness of the codebase URL argument.
+Remember, if you are naming a codebase directory, 
+then you should include a trailing forward
+slash character in the URL.
+
+
+<h4>Class Loading from Prespecified Locations</h4>
+
+In some cases, the location of class files is specified explicitly.
+For example, you can specify an object factory's codebase in its
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html><tt>Reference</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. 
+When the JNDI reads such an object from the naming or directory service,
+it will use a class loader for
+the codebase named in the <tt>Reference</tt>
+to obtain the class files for the factory. 
+The parent of that class loader is the thread's context class loader.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="link.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=top border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

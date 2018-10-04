@@ -1,0 +1,903 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<!-- GenHTML revision 23965-->
+<meta http-equiv="Content-type" content=
+"text/html; charset=utf-8" />
+<title>Submitting Bug Reports - Troubleshooting Guide for Java SE 7
+Desktop Technologies</title>
+<meta http-equiv="content-language" content="en-US" />
+<meta name="robots" content="index,follow" />
+<meta name="language" content="en" />
+<meta name="collection" content="reference" />
+<meta name="keywords" content="" />
+<meta name="description" content=
+"This document is a guide to help troubleshoot problems that might arise with applications that are deployed using the release of Java Platform, Standard Edition 7 (Java SE 7). Most of the information also applies to Java SE 5." />
+<meta name="date" content="2008-09-01" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/default.css" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/pagelayout.css" />
+<link rel="alternate stylesheet" type="text/css" title="print"
+href="css/print.css" />
+<script type="text/javascript">
+//<![CDATA[
+function setActiveStyleSheet(title) {
+  var i, a, main;
+  for (i=0; (a = document.getElementsByTagName("link")[i]); i++) {
+         if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+                a.disabled = true;
+                if(a.getAttribute("title") == title) a.disabled = false;
+         }
+  }
+}
+
+function ClearDefault(Element) {
+   if (Element.defaultValue == Element.value) {
+        Element.value = ""
+        Element.style.cssText = "font-weight: bold; color: #00000"
+   }
+}
+
+//]]>
+</script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<div class="MastheadPane">
+<table class="MastheadTable" width="100%">
+<tr class="closeprintview">
+<td align="right"><a href="#" onclick=
+"setActiveStyleSheet('screen')">Exit Print View</a></td>
+</tr>
+<tr class="titlebar">
+<td>
+<h4 class="contentpage-doctitle"><a href="toc.html">Troubleshooting
+Guide for Java SE 7 Desktop Technologies</a></h4>
+</td>
+<td class="smallLogo"><a href="http://www.oracle.com"><img src=
+"graphics/smallOracleLogo.gif" /></a></td>
+</tr>
+</table>
+</div>
+<div class="ButtonPane">
+<table class="pagecontrol">
+<tr>
+<td class="pagebuttons"><a href="#" onclick=
+"setActiveStyleSheet('print')"><img height="46" width="40" border=
+"0" src="graphics/print.gif" alt="Print View" title=
+"Print View" /></a></td>
+<td class="pagebreadcrumb"></td>
+<td class="pagenavlinks"><a href="plugin.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="java2d-props.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+<div class="TOCPane">
+<p class="toc level1"><a href="docinfo.html">Document
+Information</a></p>
+<p class="toc level1 tocsp"><a href="preface.html">Preface</a></p>
+<p class="toc level1 tocsp"><a href=
+"introduction.html">1.&#160;&#160;Introduction</a></p>
+<p class="toc level1 tocsp"><a href=
+"awt.html">2.&#160;&#160;AWT</a></p>
+<p class="toc level1 tocsp"><a href=
+"java2d.html">3.&#160;&#160;Java 2D</a></p>
+<p class="toc level1 tocsp"><a href=
+"swing.html">4.&#160;&#160;Swing</a></p>
+<p class="toc level1 tocsp"><a href=
+"i18n.html">5.&#160;&#160;Internationalization</a></p>
+<p class="toc level1 tocsp"><a href="sound.html">6.&#160;&#160;Java
+Sound</a></p>
+<p class="toc level1 tocsp"><a href=
+"plugin.html">7.&#160;&#160;Applets and Java Web Start
+Applications</a></p>
+<div id="scrolltoc" class="onpage">
+<p class="toc level1 tocsp"><a href="">8.&#160;&#160;Submitting Bug
+Reports</a></p>
+<p class="toc level2"><a href="#gbvge">8.1 Checking for Existing
+Fixes in Update Releases</a></p>
+<p class="toc level2"><a href="#gentextid-2189">8.2 Preparing to
+Submit a Bug Report</a></p>
+<p class="toc level2"><a href="#gbkxq">8.3 Collecting Data for a
+Bug Report</a></p>
+<p class="toc level3"><a href="#gbkwm">8.3.1 Hardware
+Details</a></p>
+<p class="toc level3"><a href="#gbkxm">8.3.2 Operating
+System</a></p>
+<p class="toc level3"><a href="#gbkwp">8.3.3 Java SE
+Version</a></p>
+<p class="toc level3"><a href="#gbkyf">8.3.4 Command-Line
+Options</a></p>
+<p class="toc level3"><a href="#gbkwl">8.3.5 Environment
+Variables</a></p>
+<p class="toc level3"><a href="#gbkyz">8.3.6 Fatal Error
+Log</a></p>
+<p class="toc level3"><a href="#gbkyo">8.3.7 Core or Crash
+Dump</a></p>
+<p class="toc level3"><a href="#gbkyv">8.3.8 Detailed Description
+of the Problem</a></p>
+<p class="toc level3"><a href="#gbkyn">8.3.9 Logs and
+Traces</a></p>
+<p class="toc level3"><a href="#gbkzl">8.3.10 Results from
+Troubleshooting Steps</a></p>
+<p class="toc level2 tocsp"><a href="#gbkyy">8.4 Collecting Core
+Dumps</a></p>
+<p class="toc level3"><a href="#gbkyt">8.4.1 Collecting Core Dumps
+on Solaris OS</a></p>
+<p class="toc level4"><a href="#gbkzo">8.4.1.1 Using the
+<tt>ShowMessageBoxOnError</tt> Option on Solaris OS</a></p>
+<p class="toc level4"><a href="#gbkzh">8.4.1.2 Suspending a Process
+using <tt>truss</tt></a></p>
+<p class="toc level3 tocsp"><a href="#gbkyp">8.4.2 Collecting Core
+Dumps on Linux</a></p>
+<p class="toc level4"><a href="#gbkyj">8.4.2.1 Using the
+<tt>ShowMessageBoxOnError</tt> Option on Linux</a></p>
+<p class="toc level3 tocsp"><a href="#gbkzk">8.4.3 Reasons for Not
+Getting a Core File</a></p>
+<p class="toc level3"><a href="#gbkzq">8.4.4 Collecting Crash Dumps
+on Windows</a></p>
+<p class="toc level4"><a href="#gblau">8.4.4.1 Configuring Dr.
+Watson</a></p>
+<p class="toc level4"><a href="#gblav">8.4.4.2 Forcing a Crash
+Dump</a></p>
+</div>
+<p class="toc level1 tocsp"><a href=
+"java2d-props.html">A.&#160;&#160;Java 2D Properties</a></p>
+<p class="toc level1 tocsp"><a href=
+"felog.html">B.&#160;&#160;Fatal Error Log</a></p>
+</div>
+<div class="ContentPane"><a name="bugreports" id=
+"bugreports"></a>Chapter&#160;8
+<h2>Submitting Bug Reports</h2>
+<p>This chapter provides guidance on how to submit a bug report. It
+includes suggestions about what to try before submitting a report
+and what data to collect for the report.</p>
+<a name="gbvge" id="gbvge"></a>
+<h3>8.1 Checking for Existing Fixes in Update Releases</h3>
+<p>The current platform is Java SE 7. Regularly scheduled updates
+to this release contain fixes for a set of critical bugs identified
+since the initial release of the platform. When an update release
+becomes available, it becomes the default download at the <a href=
+"http://www.oracle.com/technetwork/java/javase/downloads/index.html">
+Java SE Downloads site</a>.</p>
+<p>The download site includes release notes that list the bug fixes
+in the release. Each bug in the list is linked to the bug
+description in the bug database. The release notes also include the
+list of fixes in previous update releases. If you encounter an
+issue, or suspect a bug, then, as an early step in the diagnosis,
+check the list of fixes that are available in the most recent
+update release.</p>
+<p>Sometimes it is not obvious if an issue is a duplicate of a bug
+that is already fixed. Therefore, where possible, test with the
+latest update release to see if the problem persists.</p>
+<a name="gentextid-2189" id="gentextid-2189"></a>
+<h3>8.2 Preparing to Submit a Bug Report</h3>
+<p>Before submitting a big report, consider the following
+recommendations:</p>
+<ul>
+<li>
+<p>Collect as much relevant data as possible. For example, generate
+a thread-dump in the case of a deadlock, or locate the core file
+(where applicable) and <tt>hs_err</tt> file in the case of a crash.
+In all cases it is important to document the environment and the
+actions performed just before the problem is encountered.</p>
+</li>
+<li>
+<p>Where applicable, try to restore the original state and
+reproduce the problem using the documented steps. This helps to
+determine if the problem is reproducible or an intermittent
+issue.</p>
+</li>
+<li>
+<p>If the issue is reproducible, try to narrow down the problem. In
+some cases, a bug can be demonstrated with a small standalone test
+case. Bugs that are demonstrated by small test cases will typically
+be easy to diagnose when compared to test cases that consist of a
+large complex application.</p>
+</li>
+<li>
+<p>Search the bug database to see if this bug or a similar bug has
+been reported. If the bug has already been reported, the bug report
+might have further information, such as the following:</p>
+<ul>
+<li>
+<p>If the bug has already been fixed, the release in which it was
+fixed.</p>
+</li>
+<li>
+<p>A workaround for the problem.</p>
+</li>
+<li>
+<p>Comments in the evaluation that explain, in further detail, the
+circumstances that cause the bug to arise.</p>
+</li>
+</ul>
+<p>The bug database is located at <a href=
+"http://bugs.sun.com/bugdatabase/index.jsp">http://bugs.sun.com/bugdatabase/index.jsp</a>.</p>
+</li>
+<li>
+<p>If you conclude that the bug has not already been reported,
+submit a new bug.</p>
+</li>
+</ul>
+<p>Before submitting a bug, verify that the environment where the
+problem arises is a supported configuration. See the <a href=
+"http://www.oracle.com/technetwork/java/javase/config-417990.html">Supported
+System Configurations site</a>.</p>
+<p>In addition to the system configurations, check the list of
+supported locales. See the <a href=
+"http://www.oracle.com/technetwork/java/javase/javase7locales-334809.html">
+Supported Locales web page</a>.</p>
+<p>In the case of the Solaris Operating System, check the
+recommended patch cluster for the operating system release to
+ensure that the recommended patches are installed. 
+<!--The recommended patch list can be obtained at the
+<a href="http://sunsolve.sun.com/pub-cgi/show.pl?target=patches/JavaSE">Patches
+&#38; Updates from the Sun Update Connection</a>.--></p>
+<a name="gbkxq" id="gbkxq"></a>
+<h3>8.3 Collecting Data for a Bug Report</h3>
+<p>In general it is recommended to collect as much relevant data as
+possible when you create a bug report or submit a support call.
+This section suggests the data to collect and, where applicable, it
+provides recommendations for the commands or general procedure for
+obtaining the data.</p>
+<p>The following data can be collected prior to submitting a bug
+report:</p>
+<ul>
+<li>
+<p>Hardware details</p>
+</li>
+<li>
+<p>Operating system details</p>
+</li>
+<li>
+<p>Java SE version information</p>
+</li>
+<li>
+<p>Command-line options</p>
+</li>
+<li>
+<p>Environment variables</p>
+</li>
+<li>
+<p>Fatal error log (in the case of a crash)</p>
+</li>
+<li>
+<p>Core or crash dump (in the case of a crash and possibly a
+hang)</p>
+</li>
+<li>
+<p>Detailed description of the problem, including test case (where
+possible)</p>
+</li>
+<li>
+<p>Logs or trace information (where applicable)</p>
+</li>
+<li>
+<p>Results from troubleshooting steps</p>
+</li>
+</ul>
+<p>The following sections present more detail for each type of
+data.</p>
+<a name="gbkwm" id="gbkwm"></a>
+<h4>8.3.1 Hardware Details</h4>
+<p>Sometimes a bug arises or can be reproduced only on certain
+hardware configurations. If a fatal error occurs, the error log
+might contain the hardware details. If an error log is not
+available, document in the bug report the number and the type of
+processors in the machine, the clock speed, and, where applicable
+and if known, some details on the features of that processor. For
+example, in the case of Intel processors, it might be relevant that
+hyper-threading is available.</p>
+<a name="gbkxm" id="gbkxm"></a>
+<h4>8.3.2 Operating System</h4>
+<p>On the Solaris Operating System, the <tt>showrev -a</tt> command
+prints the operating system version and patch information.</p>
+<p>On Linux, it is important to know which distribution and version
+is used. Sometimes the <tt>/etc/*release</tt> file indicates the
+release information, but as components and packages can be upgraded
+independently, it is not always a reliable indication of the
+configuration. Therefore, in addition to the information from the
+<tt>*release</tt> file, collect the following information:</p>
+<ul>
+<li>
+<p>The kernel version. This can be obtained using the <tt>uname
+-a</tt> command.</p>
+</li>
+<li>
+<p>The <tt>glibc</tt> version. The <tt>rpm -q glibc</tt> command
+indicates the patch level of <tt>glibc</tt>.</p>
+</li>
+<li>
+<p>The thread library. There are two thread libraries for Linux,
+namely <tt>LinuxThreads</tt> and <tt>NPTL</tt>. The
+<tt>LinuxThreads</tt> library is used on 2.4 and older kernels and
+has &#8220;fixed stack&#8221; and &#8220;floating stack&#8221;
+variants. The Native POSIX Thread Library (<tt>NTPL</tt>) is used
+on the 2.6 kernel. Some Linux releases (such as RHEL3) include
+backports of <tt>NPTL</tt>to the 2.4 kernel. Use the command
+<tt>getconf GNU_LIBPTHREAD_VERSION</tt> to determine which thread
+library is used. If the <tt>getconf</tt> command returns an error
+to say that the variable does not exist, then it is likely that you
+are using an old kernel with the <tt>LinuxThreads</tt> library.</p>
+</li>
+</ul>
+<a name="gbkwp" id="gbkwp"></a>
+<h4>8.3.3 Java SE Version</h4>
+<p>The Java SE version string can be obtained using the <tt>java
+-version</tt> command.</p>
+<p>Multiple versions of Java SE may be installed on the same
+machine. Therefore, ensure that you use the appropriate version of
+the <tt>java</tt> command by verifying that the installation
+<tt>bin</tt> directory appears in your <tt>PATH</tt> environment
+variable before other installations.</p>
+<a name="gbkyf" id="gbkyf"></a>
+<h4>8.3.4 Command-Line Options</h4>
+<p>If the bug report does not include a fatal error log, it is
+important to document the full command line and all its options.
+This includes any options that specify heap settings (for example,
+the <tt>-mx</tt> option ) or any <tt>-XX</tt> options that specify
+HotSpot specific options.</p>
+<p>One of the features in Java SE is garbage collector ergonomics.
+On server-class machines the <tt>java</tt> command launches the
+HotSpot Server VM and a parallel garbage collector. A machine is
+considered to be a server machine if it has at least two processors
+and 2GB or more of memory.</p>
+<p>The <tt>-XX:+PrintCommandLineFlags</tt> option can be used to
+verify the command-line options. This option prints all
+command-line flags to the VM. The command-line options can also be
+obtained for a running VM or core file using the <tt>jmap</tt>
+utility.</p>
+<a name="gbkwl" id="gbkwl"></a>
+<h4>8.3.5 Environment Variables</h4>
+<p>Sometimes problems arise due to environment variable settings.
+When creating the bug report, indicate the values of the following
+Java environment variables (if set).</p>
+<ul>
+<li>
+<p><tt>JAVA_HOME</tt></p>
+</li>
+<li>
+<p><tt>JRE_HOME</tt></p>
+</li>
+<li>
+<p><tt>JAVA_TOOL_OPTIONS</tt></p>
+</li>
+<li>
+<p><tt>_JAVA_OPTIONS</tt></p>
+</li>
+<li>
+<p><tt>CLASSPATH</tt></p>
+</li>
+<li>
+<p><tt>JAVA_COMPILER</tt></p>
+</li>
+<li>
+<p><tt>PATH</tt></p>
+</li>
+<li>
+<p><tt>USERNAME</tt></p>
+</li>
+</ul>
+<p>In addition, collect the following operating-system-specific
+environment variables.</p>
+<ul>
+<li>
+<p>On Solaris OS and Linux, collect the values of the following
+environment variables.</p>
+<ul>
+<li>
+<p><tt>LD_LIBRARY_PATH</tt></p>
+</li>
+<li>
+<p><tt>LD_PRELOAD</tt></p>
+</li>
+<li>
+<p><tt>SHELL</tt></p>
+</li>
+<li>
+<p><tt>DISPLAY</tt></p>
+</li>
+<li>
+<p><tt>HOSTTYPE</tt></p>
+</li>
+<li>
+<p><tt>OSTYPE</tt></p>
+</li>
+<li>
+<p><tt>ARCH</tt></p>
+</li>
+<li>
+<p><tt>MACHTYPE</tt></p>
+</li>
+</ul>
+</li>
+<li>
+<p>On the Linux operating system, collect the values of the
+following environment variables.</p>
+<ul>
+<li>
+<p><tt>LD_ASSUME_KERNEL</tt></p>
+</li>
+<li>
+<p><tt>_JAVA_SR_SIGNUM</tt></p>
+</li>
+</ul>
+</li>
+<li>
+<p>On the Windows operating system, collect the values of the
+following environment variables.</p>
+<ul>
+<li>
+<p><tt>OS</tt></p>
+</li>
+<li>
+<p><tt>PROCESSOR_IDENTIFIER</tt></p>
+</li>
+<li>
+<p><tt>_ALT_JAVA_HOME_DIR</tt></p>
+</li>
+</ul>
+</li>
+</ul>
+<a name="gbkyz" id="gbkyz"></a>
+<h4>8.3.6 Fatal Error Log</h4>
+<p>When a fatal error occurs, an error log is created. See
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"felog.html">Appendix&#160;B, Fatal Error Log</a> for detailed
+information about this file.</p>
+<p>The error log contains much information obtained at the time of
+the fatal error, such as version and environment information,
+details on the threads that provoked the crash, and so forth.</p>
+<p>If the fatal error log is generated, be sure to include it in
+the bug report or support call.</p>
+<a name="gbkyo" id="gbkyo"></a>
+<h4>8.3.7 Core or Crash Dump</h4>
+<p>Core and crash dumps can be very useful when trying to diagnose
+a system crash or hung process. The procedure for generating a dump
+is described in <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="#gbkyy">8.4 Collecting Core
+Dumps</a>.</p>
+<a name="gbkyv" id="gbkyv"></a>
+<h4>8.3.8 Detailed Description of the Problem</h4>
+<p>When creating a problem description, try to include as much
+relevant information as possible. Describe the application, the
+environment, and most importantly the events leading up to the time
+when the problem was encountered.</p>
+<ul>
+<li>
+<p>If the problem is reproducible, list the stepsthat are required
+to demonstrate the problem.</p>
+</li>
+<li>
+<p>If the problem can be demonstrated with a small test case,
+include the test case and the commands to compile and execute the
+test case.</p>
+</li>
+<li>
+<p>If the test case or problem requires third-party code (for
+example, a commercial or open source library or package), provide
+details on where and how to obtain the library.</p>
+</li>
+</ul>
+<p>Sometimes the problem can be reproduced only in a complex
+application environment. In this case, the description, coupled
+with logs, core file, and other relevant information, might be the
+sole means to diagnose the issue. In these situations the
+description should indicate if the submitter is willing to run
+further diagnosis or run test binaries on the system where the
+issue arises.</p>
+<a name="gbkyn" id="gbkyn"></a>
+<h4>8.3.9 Logs and Traces</h4>
+<p>In some cases, log or trace output can help to quickly determine
+the cause of a problem.</p>
+<p>For example, in the case of a performance issue the output of
+the <tt>-verbose:gc</tt> option can help in to diagnosing the
+problem. (This is the option to enable output from the garbage
+collector.)</p>
+<p>In other cases the output from the <tt>jstat</tt> command can be
+used to capture statistical information over the time period
+leading up to the problem.</p>
+<p>In the case of a deadlock or a hung VM (for example, due to a
+loop) the thread stacks can help diagnose the problem. The thread
+stacks are obtained using Ctrl-\ on Solaris OS and Linux and
+Ctrl-Break on the Windows operating system.</p>
+<p>In general, include all relevant logs, traces and other output
+in the bug report or support call.</p>
+<a name="gbkzl" id="gbkzl"></a>
+<h4>8.3.10 Results from Troubleshooting Steps</h4>
+<p>Before submitting the bug report, be sure to document any
+troubleshooting steps that were performed.</p>
+<p>For example, if the problem is a crash and the application has
+native libraries, you might have already run the application with
+the <tt>-Xcheck:jni</tt> option to reduce the likelihood that the
+bug is in the native code. Another case could be a crash that
+occurs with the HotSpot Server VM (<tt>-server</tt> option). If you
+have also tested with the HotSpot Client VM (<tt>-client</tt>
+option) and the problem does not occur, this gives an indication
+that the bug might be specific to the HotSpot Server VM.</p>
+<p>In general, include in the bug report all troubleshooting steps
+and results that have already occurred. This type of information
+can often reduce the time that is required to diagnose an
+issue.</p>
+<a name="gbkyy" id="gbkyy"></a>
+<h3>8.4 Collecting Core Dumps</h3>
+<p>This section explains how to generate and collect core dumps
+(also known as crash dumps). A core dump or a crash dump is a
+memory snapshot of a running process. A core dump can be
+automatically created by the operating system when a fatal or
+unhandled error (for example, signal or system exception) occurs.
+Alternatively, a core dump can be forced by means of
+system-provided command-line utilities. Sometimes a core dump is
+useful when diagnosing a process that appears to be hung; the core
+dump may reveal information about the cause of the hang.</p>
+<p>When collecting a core dump, be sure to gather other information
+about the environment so that the core file can be analyzed (for
+example, OS version, patch information, and the fatal error
+log).</p>
+<p>Core dumps do not usually contain all the memory pages of the
+crashed or hung process. With each of the operating systems
+discussed here, the text (or code) pages of the process are not
+included in core dumps. But to be useful, a core dump must consist
+of pages of heap and stack as a minimum. Collecting non-truncated
+good core dump files is essential for postmortem analysis of the
+crash.</p>
+<a name="gbkyt" id="gbkyt"></a>
+<h4>8.4.1 Collecting Core Dumps on Solaris OS</h4>
+<p>With the Solaris Operating System, unhandled signals such as a
+segmentation violation, illegal instruction, and so forth, result
+in a core dump. By default, the core dump is created in the current
+working directory of the process and the name of the core dump file
+is <tt>core</tt>. The user can configure the location and name of
+the core dump using the core file administration utility,
+<tt>coreadm</tt>. This procedure is fully described in the man page
+for the <tt>coreadm</tt> utility.</p>
+<p>The <tt>ulimit</tt> utility is used to get or set the
+limitations on the system resources available to the current shell
+and its descendants. Use the <tt>ulimit -c</tt> command to check or
+set the core file size limit. Make sure that the limit is set to
+<tt>unlimited</tt>; otherwise the core file could be truncated.
+Note that <tt>ulimit</tt> is a Bash shell built-in command; on a C
+shell, use the <tt>limit</tt> command.</p>
+<p>Ensure that any scripts that are used to launch the VM or your
+application do not disable core dump creation.</p>
+<p>The <tt>gcore</tt> utility can be used to get a core image of
+running processes. This utility accepts a process id (pid) of the
+process for which you want to force core dump.</p>
+<p>To get the list of Java processes running on the machine, you
+can use any of the following commands:</p>
+<ul>
+<li>
+<p><tt>ps -ef | grep java</tt></p>
+</li>
+<li>
+<p><tt>pgrep java</tt></p>
+</li>
+<li>
+<p><tt>jps</tt> command. The <tt>jps</tt> command-line utility does
+not perform name matching (that is, looking for &#8220;java&#8221;
+in the process command name) and so it can list Java VM embedded
+processes as well as the Java processes.</p>
+</li>
+</ul>
+<a name="gbkzo" id="gbkzo"></a>
+<h5>8.4.1.1 Using the <tt>ShowMessageBoxOnError</tt> Option on
+Solaris OS</h5>
+<p>A Java process can be started with the
+<tt>-XX:+ShowMessageBoxOnError</tt> command-line option. When a
+fatal error is encountered, the process prints a message to
+standard error and waits for a <tt>yes</tt> or <tt>no</tt> response
+from standard input. Below is an example of output when an
+unexpected signal occurs.</p>
+<pre>
+=======================================================================
+Unexpected Error
+-----------------------------------------------------------------------
+SIGSEGV (0xb) at pc=0xfeba31ac, pid=8677, tid=2
+Do you want to debug the problem?
+To debug, run 'dbx - 8677'; then switch to thread 2
+Enter 'yes' to launch dbx automatically (PATH must include dbx)
+Otherwise, press RETURN to abort...
+=======================================================================
+</pre>
+<p>Before answering <tt>yes</tt> or pressing RETURN, use the
+<tt>gcore</tt> utility to force a core dump. Then you can type
+<tt>yes</tt> to launch the <tt>dbx</tt> debugger.</p>
+<a name="gbkzh" id="gbkzh"></a>
+<h5>8.4.1.2 Suspending a Process using <tt>truss</tt></h5>
+<p>In situations where it is not possible to specify the
+<tt>-XX:+ShowMessageBoxOnError</tt> option, you might be able to
+use the <tt>truss</tt> utility. This Solaris OS utility is used to
+trace system calls and signals. You can use this utility to suspend
+the process when it reaches a specific function or system call.</p>
+<p>The following command shows how to use the <tt>truss</tt>
+utility to suspend a process when the exit system call is executed
+(in other words, the process is about to exit).</p>
+<pre>
+$ <b>truss -t \!all -s \!all -T exit -p <var>pid</var></b>
+</pre>
+<p>When the process calls <tt>exit</tt>, it will be suspended. At
+this point, you can attach the debugger to the process or call
+<tt>gcore</tt> to force a core dump.</p>
+<a name="gbkyp" id="gbkyp"></a>
+<h4>8.4.2 Collecting Core Dumps on Linux</h4>
+<p>On the Linux operating system, unhandled signals such as
+segmentation violation, illegal instruction, and so forth, result
+in a core dump. By default, the core dump is created in the current
+working directory of the process and the name of the core dump file
+is <tt>core.</tt><var>pid</var>, where <var>pid</var> is the
+process id of the crashed Java process.</p>
+<p>The <tt>ulimit</tt> utility is used to get or set the
+limitations on the system resources available to the current shell
+and its descendants. Use the <tt>ulimit -c</tt> command to check or
+set the core file size limit. Make sure that the limit is set to
+<tt>unlimited</tt>; otherwise the core file could be truncated.
+Note that <tt>ulimit</tt> is a Bash shell built-in command; on a C
+shell, use the <tt>limit</tt> command.</p>
+<p>Ensure that any scripts that are used to launch the VM or your
+application do not disable core dump creation.</p>
+<p>You can use the <tt>gcore</tt> command in the <tt>gdb</tt> (GNU
+Debugger) interface to get a core image of a running process. This
+utility accepts the pid of the process for which you want to force
+the core dump.</p>
+<p>To get the list of Java processes running on the machine, you
+can use any of the following commands:</p>
+<ul>
+<li>
+<p><tt>ps -ef | grep java</tt></p>
+</li>
+<li>
+<p><tt>pgrep java</tt></p>
+</li>
+<li>
+<p><tt>jps</tt> command. The <tt>jps</tt> command-line utility does
+not perform name matching (that is, looking for &#8220;java&#8221;
+in the process command name) and so it can list Java VM embedded
+processes as well as the Java processes.</p>
+</li>
+</ul>
+<a name="gbkyj" id="gbkyj"></a>
+<h5>8.4.2.1 Using the <tt>ShowMessageBoxOnError</tt> Option on
+Linux</h5>
+<p>A Java process can be started with the
+<tt>-XX:+ShowMessageBoxOnError</tt> command-line option. When a
+fatal error is encountered, the process prints a message to
+standard error and waits for a <tt>yes</tt> or <tt>no</tt> response
+from standard input. Below is an example of output when an
+unexpected signal occurs.</p>
+<pre>
+=======================================================================
+Unexpected Error
+-----------------------------------------------------------------------
+SIGSEGV (0xb) at pc=0x06232e5f, pid=11185, tid=8194
+Do you want to debug the problem?
+To debug, run 'gdb /proc/11185/exe 11185'; then switch to thread 8194
+Enter 'yes' to launch gdb automatically (PATH must include gdb)
+Otherwise, press RETURN to abort...
+=======================================================================
+</pre>
+<p>Type <tt>yes</tt> to launch the <tt>gdb</tt> (GNU Debugger)
+interface, as suggested by the error report shown above. In the
+<tt>gdb</tt> prompt, you can give the <tt>gcore</tt> command. This
+command creates a core dump of the debugged process with the name
+<tt>core.</tt><var>pid</var>, where <var>pid</var> is the process
+ID of the crashed process. Make sure that the <tt>gdb gcore</tt>
+command is supported in your versions of <tt>gdb</tt>. Look for
+<tt>help gcore</tt> in the <tt>gdb</tt> command prompt.</p>
+<a name="gbkzk" id="gbkzk"></a>
+<h4>8.4.3 Reasons for Not Getting a Core File</h4>
+<p>The following list explains the major reasons that a core file
+might not be generated. This list pertains to both Solaris OS and
+Linux, unless specified otherwise.</p>
+<ul>
+<li>
+<p>The current user does not have permission to write in the
+current working directory of the process.</p>
+</li>
+<li>
+<p>The current user has write permission on the current working
+directory, but there is already a file named <tt>core</tt> that has
+read-only permission.</p>
+</li>
+<li>
+<p>The current directory does not have enough space or there is no
+space left.</p>
+</li>
+<li>
+<p>The current directory has a subdirectory named
+<tt>core</tt>.</p>
+</li>
+<li>
+<p>The current working directory is remote. It might be mapped by
+NFS (Network File System), and NFS failed just at the time the core
+dump was about to be created.</p>
+</li>
+<li>
+<p>Solaris OS only: The <tt>coreadm</tt> tool has been used to
+configure the directory and name of the core file, but any of the
+above reasons apply for the configured directory or filename.</p>
+</li>
+<li>
+<p>The core file size limit is too low. Check your core file limit
+using the <tt>ulimit -c</tt> command (Bash shell) or the <tt>limit
+-c</tt> command (C shell). If the output from this command is not
+<tt>unlimited</tt>, the core dump file size might not be large
+enough. If this is the case, you will get truncated core dumps or
+no core dump at all. In addition, ensure that any scripts that are
+used to launch the VM or your application do not disable core dump
+creation.</p>
+</li>
+<li>
+<p>The process is running a <tt>setuid</tt> program and therefore
+the operating system will not dump core unless it is configured
+explicitly.</p>
+</li>
+<li>
+<p>Java specific: If the process received <tt>SIGSEGV</tt> or
+<tt>SIGILL</tt> but no core dump, it is possible that the process
+handled it. For example, HotSpot VM uses the <tt>SIGSEGV</tt>
+signal for legitimate purposes, such as throwing
+<tt>NullPointerException</tt>, deoptimization, and so forth. The
+signal is unhandled by the Java VM only if the current instruction
+(PC) falls outside Java VM generated code. These are the only cases
+in which HotSpot dumps core.</p>
+</li>
+<li>
+<p>Java specific: The JNI Invocation API was used to create the VM.
+The standard Java launcher was not used. The custom Java launcher
+program handled the signal by just consuming it and produced the
+log entry silently. This situation has occurred with certain
+Application Servers and Web Servers. These Java VM embedding
+programs transparently attempt to restart (fail over) the system
+after an abnormal termination. In this case, the fact that a core
+dump is not produced is a feature and not a bug.</p>
+</li>
+</ul>
+<a name="gbkzq" id="gbkzq"></a>
+<h4>8.4.4 Collecting Crash Dumps on Windows</h4>
+<p>On the Windows operating system there are three types of crash
+dumps.</p>
+<ul>
+<li>
+<p>Dr. Watson logfile, which is a text error log file that includes
+faulting stack trace and a few other details.</p>
+</li>
+<li>
+<p>User minidump, which can be considered a &#8220;partial&#8221;
+core dump. It is not a complete core dump, because it does not
+contain all the useful memory pages of the process.</p>
+</li>
+<li>
+<p>Dr. Watson full-dump, which is equivalent to a Unix core dump.
+This dump contains most memory pages of the process (except for
+code pages).</p>
+</li>
+</ul>
+<p>When an unexpected exception occurs on Windows, the action taken
+depends on two values in the following registry key.</p>
+<pre>
+\\HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\AeDebug
+</pre>
+<p>The two values are named <tt>Debugger</tt> and <tt>Auto</tt>.
+The <tt>Auto</tt> value indicates if the debugger specified in the
+value of the <tt>Debugger</tt> entry starts automatically when an
+application error occurs.</p>
+<ul>
+<li>
+<p>A value of 0 for <tt>Auto</tt> means that the system displays a
+message box notifying the user when an application error
+occurs.</p>
+</li>
+<li>
+<p>A value of 1 for <tt>Auto</tt> means that the debugger starts
+automatically.</p>
+</li>
+</ul>
+<p>The value of <tt>Debugger</tt> is the debugger command that is
+to be used to debug program errors.</p>
+<p>When a program error occurs, Windows examines the <tt>Auto</tt>
+value and if the value is 0 it executes the command in the
+<tt>Debugger</tt> value. If the value for <tt>Debugger</tt> is a
+valid command, a message box is created with two buttons: OK and
+Cancel. If the user clicks OK, the program is terminated. If the
+user clicks Cancel, the specified debugger is started. If the value
+for the <tt>Auto</tt> entry is set to 1 and the value for the
+<tt>Debugger</tt> entry specifies the command for a valid debugger,
+the system automatically starts the debugger and does not generate
+a message box.</p>
+<a name="gblau" id="gblau"></a>
+<h5>8.4.4.1 Configuring Dr. Watson</h5>
+<p>The Dr. Watson debugger is used to create crash dump files. By
+default, the Dr. Watson debugger (<tt>drwtsn32.exe</tt>) is
+installed into the Windows system folder
+(<tt>%SystemRoot%\System32</tt>).</p>
+<p>To install Dr. Watson as the postmortem debugger, run the
+following command.</p>
+<pre>
+drwtsn32 -i
+</pre>
+<p>To configure name and location of crash dump files, run
+<tt>drwtsn32</tt> without any options.</p>
+<pre>
+drwtsn32
+</pre>
+<p>In the Dr. Watson GUI window, make sure that the Create Crash
+Dump File checkbox is set and that the crash dump file path and log
+file path are configured in their respective text fields.</p>
+<p>Dr. Watson may be configured to create a full dump using the
+registry. The registry key is as follows.</p>
+<pre>
+System Key: [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\DrWatson]
+Entry Name: CreateCrashDump
+Value: (0 = disabled, 1 = enabled)
+</pre>
+<p>Note that if the application handles the exception, then the
+registry-configured debugger is not invoked. In that case it might
+be appropriate to use the <tt>-XX:+ShowMessageBoxOnError</tt>
+command-line option to force the process to wait for user
+intervention on fatal error conditions.</p>
+<a name="gblav" id="gblav"></a>
+<h5>8.4.4.2 Forcing a Crash Dump</h5>
+<p>On the Windows operating system, the <tt>userdump</tt>
+command-line utility can be used to force a Dr. Watson dump of a
+running process. The <tt>userdump</tt> utility does not ship with
+Windows but instead is released as a component of the OEM Support
+Tools package.</p>
+<p>An alternative way to force a crash dump is to use the
+<tt>windbg</tt> debugger. The main advantage of using
+<tt>windbg</tt> is that it can attach to process in a non-invasive
+manner (that is, read-only). Normally Windows terminates a process
+after a crash dump is obtained but with the non-invasive attach it
+is possible to obtain a crash dump and let the process continue. To
+attach the debugger non-invasively requires selecting the Attach to
+Process option and clicking the Noninvasive checkbox.</p>
+<p>When the debugger is attached, a crash dump can be obtained
+using the following command.</p>
+<pre>
+.dump /f crash.dmp
+</pre>
+<p>The <tt>windbg</tt> debugger is included in the &#8220;Debugging
+Tools for Windows&#8221; download.</p>
+<p>An additional utility in this download is the
+<tt>dumpchk.exe</tt> utility, which can verify that a memory dump
+file has been created correctly.</p>
+<p>Both <tt>userdump.exe</tt> and <tt>windbg</tt> require the
+process id (pid) of the process. The <tt>userdump -p</tt> command
+lists the process and program for all processes. This is useful if
+you know that the application is started with the <tt>java.exe</tt>
+launcher. However, if a custom launcher is used (embedded VM), it
+might be difficult to recognize the process. In that case you can
+use the<tt>jps</tt> command line utility as it lists the pids of
+the Java processes only.</p>
+<p>As with Solaris OS and Linux, you can also use the
+<tt>-XX:+ShowMessageBoxOnError</tt> command-line option on Windows.
+When a fatal error is encountered, the process shows a message box
+and waits for a yes or no response from the user.</p>
+<p>Before clicking Yes or No, you can use the <tt>userdump.exe</tt>
+utility to generate the Dr. Watson dump for the Java process. This
+utility can also be used for the case where the process appears to
+be hung.</p>
+</div>
+<div class="BottomPageControlPane">
+<table class="pagecontrol">
+<tr>
+<td>
+<div class="pagefooterlinks">Copyright &#169;1995, 2011, Oracle
+and/or its affiliates. All rights reserved. <a href=
+"docinfo.html">Legal Notices</a></div>
+</td>
+<td class="pagenavlinks"><a href="plugin.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="java2d-props.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+</body>
+</html>

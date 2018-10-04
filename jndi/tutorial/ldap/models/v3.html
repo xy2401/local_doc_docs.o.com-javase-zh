@@ -1,0 +1,274 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>LDAP v3</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="v2.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="jndi.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Comparison of the LDAP and JNDI Models</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    LDAP v3
+</h2>
+<p>
+<blockquote>
+
+The LDAP v3 
+(<A HREF="http://www.ietf.org/rfc/rfc2251.txt">RFC 2251</A>) 
+is designed to address some of the limitations of the LDAP v2 in the areas of
+internationalization, authentication, referral, and deployment.
+It also allows new features to be added to the protocol
+without also requiring changes to the protocol.  This is done by using
+<em>extensions</em> and <em>controls</em>.
+
+<h4>Internationalization</h4>
+Internationalization is addressed via an international
+character set (ISO 10646) to represent protocol elements that are
+strings (such as DNs).
+Version 3 also differs from version 2 in that it
+uses UTF-8 to encode its strings.
+
+<h4>Authentication</h4> 
+
+The LDAP v2 supported three types of authentication: anonymous, simple
+(clear-text password), and Kerberos v4.
+<p>
+The LDAP v3 uses the Simple Authentication
+and Security Layer (SASL) authentication framework (<A
+HREF="http://www.ietf.org/rfc/rfc2222.txt">RFC 2222</A>) to allow
+different authentication mechanisms to be used with the LDAP.
+SASL specifies a challenge-response protocol in which data is
+exchanged between the client and the server for the purposes of
+authentication. 
+<p>
+Several SASL mechanisms are currently defined:
+<a href="http://www.ietf.org/rfc/rfc2831.txt">DIGEST-MD5</a>,
+<A HREF="http://www.ietf.org/rfc/rfc2195.txt">CRAM-MD5</a>,
+<A HREF="http://www.ietf.org/rfc/rfc2245.txt">Anonymous</a>,
+<A HREF="http://www.ietf.org/rfc/rfc2222.txt">External</a>,
+<A HREF="http://www.ietf.org/rfc/rfc2222.txt">S/Key</a>,
+<A HREF="http://www.ietf.org/rfc/rfc2222.txt">GSSAPI</a>, and
+<A HREF="http://www.ietf.org/rfc/rfc2222.txt">Kerberos v4</a>.
+
+An LDAP v3 client can use any of these SASL mechanisms,
+provided that the LDAP v3 server supports them.  
+Moreover, new (yet-to-be
+defined) SASL mechanisms can be used without changes to the LDAP
+having to be made.
+
+
+<h4>Referrals</h4>
+
+A <a href=../../getStarted/concepts/glossary.html#REFERRAL><em>referral</em></a>
+is information that a server sends back to the client
+indicating that the requested information can be found
+at another location (possibly at another server).
+In the LDAP v2, servers are supposed to handle referrals and not
+return them to the client. This is because handling referrals
+can be very complicated and therefore would result in 
+more-complicated
+clients.  As servers were built and deployed, referrals were
+found to be useful, but
+not many servers supported server-side referral handling.
+So a way was found to retrofit the protocol to allow it to return
+referrals. This was done by placing the referral inside of the error
+message of a "partial result" error response.
+<p>
+
+The LDAP v3 has explicit support for referrals and allows servers to
+return the referrals directly to the client.
+
+<h4>Deployment</h4>
+
+A common protocol such as the LDAP is useful for ensuring that all 
+of the
+directory clients and servers "speak the same language."  When many
+different directory client applications and directory servers are
+deployed in a network, it also is very useful for all of these entities
+to talk about the same objects. For example, if applications
+<em>App1</em> and <em>App2</em> both need to associate data with a
+user, then it makes sense for the directory to have a common notion of
+user that both applications can use rather than each going off and
+defining its own.
+
+<p> 
+
+A <em>directory schema</em>
+specifies, among other things, the types of objects that a
+directory may have and the mandatory and optional attributes that each
+type of object may have.  The LDAP v3 defines a schema 
+(<A HREF="http://www.ietf.org/rfc/rfc2252.txt">RFC 2252</A> and
+<A HREF="http://www.ietf.org/rfc/rfc2256.txt">RFC 2256</A>) based on
+the X.500 standard for common objects found in the network, such as countries,
+localities, organizations, users/persons, groups, and devices. 
+It
+also defines a way for a client application to access the server's
+schema so that it can find out the types of objects and
+attributes that a particular server supports.
+<p>
+
+The LDAP v3 further defines a set of syntaxes for representing attribute values
+(<A HREF="http://www.ietf.org/rfc/rfc2252.txt">RFC 2252</A>).
+
+<h4>Extensions</h4>
+
+In addition to the repertoire of predefined operations, such as
+"search" and "modify," the LDAP v3 defines an
+<em>"extended" operation</em>.  The "extended" operation takes 
+a request as an argument and returns a response. 
+The request contains an identifier that
+identifies the request and the arguments of the request.
+The response contains the results of performing the request.  
+The pair
+of "extended" operation request/response is called an
+<em>extension</em>.  For example, there can be an extension for 
+Start TLS, which is a request for the client to the server to activate the
+Start TLS protocol. 
+<p>
+These extensions can be standard (defined by the
+LDAP community) or proprietary (defined by a particular directory
+vendor).
+
+<h4>Controls</h4>
+
+Another way to add new features is by using a
+<em>control</em>.  The LDAP v3 allows the behavior
+of any operation to be modified through the use of controls.
+Any number of controls may be sent along with an
+operation, and any number of controls may be returned with its
+results.  For example, you can send a Sort control along with a
+"search" operation that tells the server to sort the results of the
+search according to the <tt>"name"</tt> attribute.  
+<p>
+Like extensions, such
+controls can be standard or proprietary.
+
+<h4>Additional Differences</h4>
+
+<TABLE BORDER CELLPADDING=3 WIDTH="80%" >
+<TR>
+<TH>Operation/Feature</TH>
+
+<TH>Description</TH>
+</TR>
+
+<tr>
+<td>bind</td>
+<td>
+The "bind" operation is optional and can be sent multiple times during a
+session.  If a client requests an operation to be performed without
+doing an explicit bind, the client is treated as "anonymous."  The
+client can also send a "bind" operation in the middle of a session to change 
+the client's credentials (without sending an unbind first).
+</td>
+</tr>
+
+<tr>
+<td>modify DN</td>
+<td>
+The "modify DN" operation allows you to rename an entry to any other part of the
+namespace. (That is, you are not restricted to the same context, as is the
+case of the LDAP v2).  The client specifies the DN of
+the entry, the new RDN, and the (optional) DN of the new
+parent for the new RDN.  If the optional DN of the new parent is not
+specified, then the parent of the original entry is used.
+</td>
+</tr>
+
+<tr>
+<td>search filter</td>
+<td>
+The LDAP v3 defines an updated search filter representation
+(<A HREF="http://www.ietf.org/rfc/rfc2254.txt">RFC 2254</A>)
+that supports the ISO 10646 character set, supports extensible matches,
+and uses the UTF-8 encoding.
+</tr>
+
+<tr>
+<td>operational attributes</td>
+<td>
+<em>Operational attributes</em> are maintained by servers for administrative
+purposes. They are not visible to client applications unless
+those applications explicitly ask for them.
+They are used to hold such information as time stamps and
+a <em>subschema subentry</em> 
+(which is a pointer to schema information about the entry).
+The LDAP v3 defines these operational attributes and subschema entries
+and allows clients to access them.
+</td>
+
+<tr>
+<td>LDAP URL</td>
+<td>
+The LDAP v3 defines 
+an updated LDAP URL format
+(<A HREF="http://www.ietf.org/rfc/rfc2255.txt">RFC 2255</A>)
+to support extensions.
+</table>
+
+<h4>LDAP v3 Compared to the X.500 Standard</h4>
+
+<p>
+The LDAP v3 has many more features than the LDAP v2 and therefore
+departs from one of original goals of the LDAP v2 to have
+small and simple clients. The LDAP v3 supports a larger subset
+of the X.500 features than does the LDAP v2.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="v2.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="jndi.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Comparison of the LDAP and JNDI Models</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Binary Literals</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Binary Literals</h1></div>
+
+<p>In Java SE 7, the integral types (<code>byte</code>, <code>short</code>, <code>int</code>, and <code>long</code>) can also be expressed using the binary number system. To specify a binary literal, add the prefix <code>0b</code> or <code>0B</code> to the number. The following examples show binary literals:</p>
+
+<pre>// An 8-bit 'byte' value:
+byte aByte = (byte)0b00100001;
+
+// A 16-bit 'short' value:
+short aShort = (short)0b1010000101000101;
+
+// Some 32-bit 'int' values:
+int anInt1 = 0b10100001010001011010000101000101;
+int anInt2 = 0b101;
+int anInt3 = 0B101; // The B can be upper or lower case.
+
+// A 64-bit 'long' value. Note the "L" suffix:
+long aLong = 0b1010000101000101101000010100010110100001010001011010000101000101L;</pre>
+
+<p>Binary literals can make relationships among data more apparent than they would be in hexadecimal or octal. For example, each successive number in the following array is rotated by one bit:</p>
+
+<pre>public static final int[] phases = {
+  0b00110001,
+  0b01100010,
+  0b11000100,
+  0b10001001,
+  0b00010011,
+  0b00100110,
+  0b01001100,
+  0b10011000
+}</pre>
+
+<p>In hexadecimal, the relationship among the numbers is not readily apparent:</p>
+
+<pre>public static final int[] phases = {
+    0x31, 0x62, 0xC4, 0x89, 0x13, 0x26, 0x4C, 0x98
+}</pre>
+
+<p>You can use binary integral constants in code that you can verify against a specifications document, such as a simulator for a hypothetical 8-bit microprocessor:</p>
+
+<pre>public State decodeInstruction(int instruction, State state) {
+  if ((instruction &amp; 0b11100000) == 0b00000000) {
+    final int register = instruction &amp; 0b00001111;
+    switch (instruction &amp; 0b11110000) {
+      case 0b00000000: return state.nop();
+      case 0b00010000: return state.copyAccumTo(register);
+      case 0b00100000: return state.addToAccum(register);
+      case 0b00110000: return state.subFromAccum(register);
+      case 0b01000000: return state.multiplyAccumBy(register);
+      case 0b01010000: return state.divideAccumBy(register);
+      case 0b01100000: return state.setAccumFrom(register);
+      case 0b01110000: return state.returnFromCall();
+      default: throw new IllegalArgumentException();
+    }
+  } else {
+    final int address = instruction &amp; 0b00011111;
+    switch (instruction &amp; 0b11100000) {
+      case 0b00100000: return state.jumpTo(address);
+      case 0b01000000: return state.jumpIfAccumZeroTo(address);
+      case 0b01000000: return state.jumpIfAccumNonzeroTo(address);
+      case 0b01100000: return state.setAccumFromMemory(address);
+      case 0b10100000: return state.writeAccumToMemory(address);
+      case 0b11000000: return state.callTo(address);
+      default: throw new IllegalArgumentException();
+    }
+  }
+}</pre>
+
+<p>You can use binary literals to make a bitmap more readable:</p>
+
+<pre>public static final short[] HAPPY_FACE = {
+   (short)0b0000011111100000,
+   (short)0b0000100000010000,
+   (short)0b0001000000001000,
+   (short)0b0010000000000100,
+   (short)0b0100000000000010,
+   (short)0b1000011001100001,
+   (short)0b1000011001100001,
+   (short)0b1000000000000001,
+   (short)0b1000000000000001,
+   (short)0b1001000000001001,
+   (short)0b1000100000010001,
+   (short)0b0100011111100010,
+   (short)0b0010000000000100,
+   (short)0b0001000000001000,
+   (short)0b0000100000010000,
+   (short)0b0000011111100000
+}
+</pre>
+
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

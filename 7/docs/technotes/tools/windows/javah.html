@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Windows (vers 12 April 2005), see www.w3.org" />
+<title>javah - C Header and Stub File Generator</title>
+<meta name="collection" content="reference" />
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>javah - C Header and Stub File Generator</h1></div>
+<p><b>javah</b> produces C header files and C source files from a Java
+class. These files provide the connective glue that allow your Java
+and C code to interact.
+</p>
+<h2>SYNOPSIS</h2>
+<pre class="codeblock">
+javah [ <a href=
+"javah.html#options">options</a> ] fully-qualified-classname. . .
+</pre>
+<h2>DESCRIPTION</h2>
+<p><b>javah</b> generates C header and source files that are needed to
+implement native methods. The generated header and source files are
+used by C programs to reference an object's instance variables from
+native source code. The .h file contains a struct definition whose
+layout parallels the layout of the corresponding class. The fields
+in the struct correspond to instance variables in the class.</p>
+<p>The name of the header file and the structure declared within it
+are derived from the name of the class. If the class passed to
+<b>javah</b> is inside a package, the package name is prepended to
+both the header file name and the structure name. Underscores (_)
+are used as name delimiters.</p>
+<p>By default <b>javah</b> creates a header file for each class
+listed on the command line and puts the files in the current
+directory. Use the <i>-stubs</i> option to create source files. Use
+the <i>-o</i> option to concatenate the results for all listed
+classes into a single file.</p>
+<p>The new native method interface, Java Native Interface (JNI),
+does not require header information or stub files. <b>javah</b> can
+still be used to generate native method function proptotypes needed
+for JNI-style native methods. <b>javah</b> produces JNI-style
+output by default, and places the result in the .h file.</p>
+<h2><a name="options" id="options">OPTIONS</a></h2>
+<dl>
+<dt><b>-o <i>outputfile</i></b></dt>
+<dd>Concatenates the resulting header or source files for all the
+classes listed on the command line into <i>outputfile</i>. Only one
+of <b>-o</b> or <b>-d</b> may be used.</dd>
+<dt><b>-d <i>directory</i></b></dt>
+<dd>Sets the directory where <b>javah</b> saves the header files or
+the stub files. Only one of <b>-d</b> or <b>-o</b> may be
+used.</dd>
+<dt><b>-stubs</b></dt>
+<dd>Causes <b>javah</b> to generate C declarations from the Java
+object file.</dd>
+<dt><b>-verbose</b></dt>
+<dd>Indicates verbose output and causes <b>javah</b> to print a
+message to stdout concerning the status of the generated
+files.</dd>
+<dt><b>-help</b></dt>
+<dd>Print help message for <b>javah</b> usage.</dd>
+<dt><b>-version</b></dt>
+<dd>Print out <b>javah</b> version information.</dd>
+<dt><b>-jni</b></dt>
+<dd>Causes <b>javah</b> to create an output file containing
+JNI-style native method function prototypes. This is the default
+output, so use of <b>-jni</b> is optional.</dd>
+<dt><b>-classpath <i>path</i></b></dt>
+<dd>Specifies the path <b>javah</b> uses to look up classes.
+Overrides the default or the CLASSPATH environment variable if it
+is set. Directories are separated by semi-colons. Thus the general
+format for <i>path</i> is:
+<pre class="codeblock">
+   .;&lt;your_path&gt;
+</pre>
+For example:
+<pre class="codeblock">
+   .;C:\users\dac\classes;C:\tools\java\classes
+</pre>
+<!-- ********** 11.15 classpath addition  -->
+<p>As a special convenience, a class path element containing a
+basename of <code>*</code> is considered equivalent to specifying a
+list of all the files in the directory with the extension
+<code>.jar</code> or <code>.JAR</code> (a java program cannot tell
+the difference between the two invocations).<br />
+<br />
+For example, if directory <code>foo</code> contains
+<code>a.jar</code> and <code>b.JAR</code>, then the class path
+element <code>foo/*</code> is expanded to a
+<code>A.jar:b.JAR</code>, except that the order of jar files is
+unspecified. All jar files in the specified directory, even hidden
+ones, are included in the list. A classpath entry consisting simply
+of <code>*</code> expands to a list of all the jar files in the
+current directory. The <code>CLASSPATH</code> environment variable,
+where defined, will be similarly expanded. Any classpath wildcard
+expansion occurs before the Java virtual machine is started -- no
+Java program will ever see unexpanded wildcards except by querying
+the environment. For example; by invoking
+<tt>System.getenv("CLASSPATH")</tt>. 
+<!-- ************ end classpath ************* --></p>
+</dd>
+<dt><b>-bootclasspath <i>path</i></b></dt>
+<dd>Specifies path from which to load bootstrap classes. By
+default, the bootstrap classes are the classes implementing the
+core Java platform located in <tt>jre\lib\rt.jar</tt> and several
+other jar files.</dd>
+<dt><b>-old</b></dt>
+<dd>Specifies that old JDK1.0-style header files should be
+generated.</dd>
+<dt><b>-force</b></dt>
+<dd>Specifies that output files should always be written.</dd>
+<dt><b>-J</b><i>option</i></dt>
+<dd>Pass <i>option</i> to the Java virtual machine, where
+<i>option</i> is one of the options described on the reference page
+for the <a href="java.html">java application launcher</a>. For
+example, <b>-J-Xms48m</b> sets the startup memory to 48
+megabytes.</dd>
+</dl>
+<h2>ENVIRONMENT VARIABLES</h2>
+<dl>
+<dt>CLASSPATH</dt>
+<dd>Used to provide the system a path to user-defined classes.
+Directories are separated by semi-colons, for example,
+<pre class="codeblock">
+   .;C:\users\dac\classes;C:\tools\java\classes
+</pre></dd>
+</dl>
+<h2>SEE ALSO</h2>
+<p>
+<a href="javac.html">javac</a>, <a href="java.html">java</a>,
+<a href="jdb.html">jdb</a>, <a href="javap.html">javap</a>,
+<a href="javadoc.html">javadoc</a>
+</p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

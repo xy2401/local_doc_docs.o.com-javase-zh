@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Introduction to Client Issues</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="This chapter explains how the different Java SE Desktop technologies interact with each other. In addition, the chapter helps you to pinpoint the technology from which you might start troubleshooting your problem and provides general troubleshooting tips." />
+<meta name="dcterms.created" content="2018-03-12T22:27:13Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Troubleshooting Guide" />
+<meta name="dcterms.identifier" content="E91156-01" />
+<meta name="dcterms.isVersionOf" content="JSTGD" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1995, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="debug-client-issues.htm" title="Previous" type="text/html" />
+<link rel="Next" href="awt.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSTGD.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-16FFEDCA-9F90-42E5-9979-586CDEDFB34F"></a> <span id="PAGE" style="display:none;">16/31</span> <!-- End Header -->
+<a id="JSTGD382"></a><a id="JSTGD381"></a>
+<h1 id="JSTGD-GUID-16FFEDCA-9F90-42E5-9979-586CDEDFB34F" class="sect1"><span class="enumeration_chapter">9</span> Introduction to Client Issues</h1>
+<div>
+<div><span>This chapter explains how the different Java SE Desktop technologies interact with each other. In addition, the chapter helps you to pinpoint the technology from which you might start troubleshooting your problem and provides general troubleshooting tips.</span></div>
+<p>This chapter contains the following sections:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="introduction-client-issues.htm#GUID-608E2810-60DA-4637-9A8A-DEFAC1DA64B4" title="Java SE Desktop consists of several technologies used to create rich client applications and applets.">Java SE Desktop Technologies</a></p>
+</li>
+<li>
+<p><a href="introduction-client-issues.htm#GUID-88EB93A6-4399-4387-A9DA-83A24B271693" title="General steps to troubleshoot problems in your application.">General Steps to Troubleshoot an Issue</a></p>
+</li>
+<li>
+<p><a href="introduction-client-issues.htm#GUID-3E244296-1413-4DD8-B293-D50BC4FC9F4F" title="Guidance about identifying the problem you are experiencing, and finding the cause and solution.">Identify the Type of Issue</a></p>
+</li>
+<li>
+<p><a href="introduction-client-issues.htm#GUID-1671C947-CD68-45CC-9969-C984AF528AAB" title="List of basic tools that can help troubleshoot certain types of issues.">Basic Tools</a></p>
+</li>
+<li>
+<p><a href="introduction-client-issues.htm#GUID-EC8ED33F-96F2-492F-9332-4048DB893024" title="The Java Debug Wire Protocol (JDWP) is very useful for debugging applications as well as applets.">Java Debug Wire Protocol</a></p>
+</li>
+</ul>
+</div>
+<a id="JSTGD384"></a><a id="JSTGD383"></a>
+<div class="props_rev_3"><a id="GUID-608E2810-60DA-4637-9A8A-DEFAC1DA64B4"></a>
+<h2 id="JSTGD-GUID-608E2810-60DA-4637-9A8A-DEFAC1DA64B4" class="sect2">Java SE Desktop Technologies</h2>
+<div>
+<p>Java SE Desktop consists of several technologies used to create rich client applications and applets.</p>
+<p>The desktop tools and libraries provide an interface between the Java application and the core tools and libraries of the platform, as shown in <a href="introduction-client-issues.htm#GUID-608E2810-60DA-4637-9A8A-DEFAC1DA64B4__BCFCJGDH">Figure 9-1</a>.</p>
+<div class="figure" id="GUID-608E2810-60DA-4637-9A8A-DEFAC1DA64B4__BCFCJGDH">
+<p class="titleinfigure">Figure 9-1 Overview of the Java SE Desktop</p>
+<img width="446" height="304" src="img/desktop-overview.gif" alt="Description of Figure 9-1 follows" title="Description of Figure 9-1 follows" /><br />
+<a href="img_text/desktop-overview.htm">Description of "Figure 9-1 Overview of the Java SE Desktop"</a></div>
+<!-- class="figure" -->
+<p>To know more about the desktop technologies available in Java SE, visit the <a href="http://www.oracle.com/technetwork/java/javase/tech/index-jsp-142216.html" target="_blank">Java SE Desktop Overview documentation</a>.</p>
+<p>This topic describes troubleshooting techniques for the following Java SE dsktop technologies:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold">Abstract Window Toolkit (AWT)</span> provides a set of application programming interfaces (APIs) for constructing graphical user interface (GUI) components such as menus, buttons, text fields, dialog boxes, checkboxes, and for handling user input through those components. In addition, AWT allows for rendering of simple shapes such as ovals and polygons and enables developers to control the interface layout and fonts used by their applications. It also includes data transfer classes (including drag and drop) that allow cut and paste through the native platform clipboard.</p>
+<p>The classes of this API are at the bottom of the software stack (closest to the underlying operating and desktop system).</p>
+<p>AWT also provides a set of heavyweight components.</p>
+<p>Purely AWT applications are usually not related to Swing. If an AWT application does custom rendering, it uses Java 2D.</p>
+</li>
+<li>
+<p><span class="bold">Java 2D</span> is a set of classes for advanced 2D graphics and imaging. It encompasses line art, text, and images in a single comprehensive model. The API provides extensive support for image compositing and alpha channel images, a set of classes to provide accurate color space definition and conversion, and a rich set of display-oriented imaging operators. These classes are provided as additions to the <code class="codeph">java.awt</code> and <code class="codeph">java.awt.image</code> packages.</p>
+<p>Like AWT, Java 2D is also at the bottom of the software stack (closest to the underlying operating and desktop system).</p>
+</li>
+<li>
+<p><span class="bold">Swing</span> provides a comprehensive set of GUI components and services which enables the development of commercial-quality desktop and Internet/Intranet applications.</p>
+<p>Swing is built on top of many of the other Java SE Desktop technologies, including AWT, Java2D and Internationalization. In most cases the Swing high-level components are recommended instead of those in AWT. However, there are many APIs in AWT that are important to understand when programming in Swing.</p>
+<p>Since Swing is a lightweight toolkit, it has very little interaction with the native platform. Swing uses Java 2D for rendering, and AWT provides creation and manipulation of top-level components, such as Windows, Frames, and Dialogs.</p>
+</li>
+<li>
+<p><span class="bold">Internationalization</span> is the process of designing software so that it can be adapted (localized) to various languages and regions easily, cost-effectively, and in particular without engineering changes to the software. <strong class="term">Localization</strong> is performed by simply adding locale-specific components, such as translated text, data describing locale-specific behavior, fonts, and input methods.</p>
+<p>In Java SE, internationalization support is fully integrated into the classes and packages that provide language-dependent or culture-dependent functionality.</p>
+<p>To know more about internationalization APIs and features of Java SE, see <a class="olink JSINT-GUID-1CB4B574-44E2-49E3-ACB4-AE6EF83A7F86" target="_blank" href="../intl/internationalization-overview.htm#JSINT-GUID-1CB4B574-44E2-49E3-ACB4-AE6EF83A7F86">Internationalization documentation</a>.</p>
+</li>
+<li>
+<p><span class="bold">Java Sound</span> provides low-level support for audio operations such as audio playback and capture (recording), mixing, musical instrument digital interface (MIDI) sequencing, and MIDI synthesis in an extensible, flexible framework. This API is supported by an efficient sound engine which guarantees high-quality audio mixing and MIDI synthesis capabilities for the platform.</p>
+</li>
+<li>
+<p><span class="bold">Java Plug-in</span> extends the functionality of popular web browsers by connecting them to the Java platform. This connection enables Java applets on websites to be run within the web browser on the desktop.</p>
+</li>
+</ul>
+<p>The better you understand the relationships between these technologies, the more quickly you can pinpoint the area your problem falls into.</p>
+</div>
+</div>
+<a id="JSTGD385"></a>
+<div class="props_rev_3"><a id="GUID-88EB93A6-4399-4387-A9DA-83A24B271693"></a>
+<h2 id="JSTGD-GUID-88EB93A6-4399-4387-A9DA-83A24B271693" class="sect2">General Steps to Troubleshoot an Issue</h2>
+<div>
+<p>General steps to troubleshoot problems in your application.</p>
+<div class="section">
+<p>When you experience problems running your application, follow the steps below for troubleshooting the issue.</p>
+</div>
+<!-- class="section" -->
+<ol>
+<li class="stepexpand"><span><span class="bold">Identify the symptom:</span></span>
+<div>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="introduction-client-issues.htm#GUID-3E244296-1413-4DD8-B293-D50BC4FC9F4F" title="Guidance about identifying the problem you are experiencing, and finding the cause and solution.">Identify the Type of Issue</a>.</p>
+</li>
+<li>
+<p>Find the problem area.</p>
+</li>
+<li>
+<p>Note the vant configuration information.</p>
+</li>
+</ul>
+</div>
+</li>
+<li class="stepexpand"><span><span class="bold">Eliminate non-issues:</span></span>
+<div>
+<ul style="list-style-type: disc;">
+<li>
+<p>Ensure that the correct patches, drivers, and operating systems are installed.</p>
+</li>
+<li>
+<p>Try earlier releases (back-tracing).</p>
+</li>
+<li>
+<p>Minimize the test. Restrict the test to as few issues at a time as possible.</p>
+</li>
+<li>
+<p>Minimize the hardware and software configuration. Determine if the problem is reproducible on a single system and on multiple systems. Determine if the problem changes with the browser version.</p>
+</li>
+<li>
+<p>Determine if the problem depends on whether multiple VMs are installed.</p>
+</li>
+</ul>
+</div>
+</li>
+<li class="stepexpand"><span><span class="bold">Find the cause:</span></span>
+<div>
+<ul style="list-style-type: disc;">
+<li>
+<p>Check for typical causes in the area.</p>
+</li>
+<li>
+<p>Use flags to change defaults.</p>
+</li>
+<li>
+<p>Use tracing.</p>
+</li>
+<li>
+<p>In exceptional cases, use system properties to temporarily change the behavior of the painting system.</p>
+</li>
+</ul>
+</div>
+</li>
+<li class="stepexpand"><span><span class="bold">Find the fix:</span></span>
+<div>
+<ul style="list-style-type: disc;">
+<li>
+<p>Find a possible workaround.</p>
+</li>
+<li>
+<p>File a bug.</p>
+<p>For guidance about how to submit a bug report and suggestions about what data to collect for the report, see <a href="submit-bug-report.htm#GUID-DB465A9C-03FA-4324-BFF9-45BF9699F349" title="Guidance about how to submit a bug report. It includes suggestions about what to try before submitting a report and which data to collect for the report.">Submit a Bug Report</a>.</p>
+</li>
+<li>
+<p>Fix the setup.</p>
+</li>
+<li>
+<p>Fix the application.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<a id="JSTGD386"></a>
+<div class="props_rev_3"><a id="GUID-3E244296-1413-4DD8-B293-D50BC4FC9F4F"></a>
+<h2 id="JSTGD-GUID-3E244296-1413-4DD8-B293-D50BC4FC9F4F" class="sect2">Identify the Type of Issue</h2>
+<div>
+<p>Guidance about identifying the problem you are experiencing, and finding the cause and solution.</p>
+<p>First of all, take a moment to categorize the problem you are experiencing. This will help you to identify the specific area of the problem, find the cause, and ultimately determine a solution or a workaround.</p>
+<p>The following subsections below provide information about common issue types:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="introduction-client-issues.htm#GUID-6747245C-2D35-475B-ACAB-5884485F53F3" title="An error log is created that contains information and the state obtained at the time of the fatal error, when the Java client crashes.">Java Client Crashes</a></p>
+</li>
+<li>
+<p><a href="introduction-client-issues.htm#GUID-184417A6-8098-45E1-80A6-34FE55074510" title="Performance problems are harder to diagnose because you generally do not have as much information.">Performance Problems</a></p>
+</li>
+<li>
+<p><a href="introduction-client-issues.htm#GUID-E1BC3AE5-5DCC-4B9E-964B-902E1FD95404" title="Guidance about dealing with various problems in the application.">Behavior Problems</a></p>
+</li>
+</ul>
+<p>Some of these might seem obvious, but it is always helpful to consider every possibility and to eliminate what is not an issue.</p>
+</div>
+<a id="JSTGD387"></a>
+<div class="props_rev_3"><a id="GUID-6747245C-2D35-475B-ACAB-5884485F53F3"></a>
+<h3 id="JSTGD-GUID-6747245C-2D35-475B-ACAB-5884485F53F3" class="sect3">Java Client Crashes</h3>
+<div>
+<p>An error log is created that contains information and the state obtained at the time of the fatal error, when the Java client crashes.</p>
+<p>The default name of the error log file is hs_err_<span class="variable">pid</span>.log where <span class="variable">pid</span> is the process identifier (PID) of the process that crashed. For a standalone Java application that this file is created in the current directory, while for Java Applets it is created in the browser binaries directory or user client folder.</p>
+<p>To know more about the fatal error log, see <a href="fatal-error-log.htm#GUID-2AE5EE08-A68F-4514-9618-A581C0EDFB1B" title="Describes the fatal error log, its location, and contents.">Fatal Error Log</a>.</p>
+<p>A line near the top of the header section indicates the library where the error occurred. The following example shows that the crash was related to the AWT library.</p>
+<pre dir="ltr">
+...
+# Java VM: Java HotSpot(TM) Client VM (1.6.0-beta2-b76 mixed mode, sharing)
+# Problematic frame:
+# C  [awt.dll+0x123456]
+...
+</pre>
+<p>If the crash occurred in the Java Native Interface (JNI), it was likely to have been caused by the desktop libraries. A crash in a native library typically means a problem in Java 2D or AWT, because Swing does not have much native code. The small amount of native code in Swing is then concerned with the native look and feel, and if your application is using native look and feel, then the crash may be related to this area.</p>
+<p>The error log usually shows the exact library where the crash occurred, and this can give you a good idea of the cause. Crashes in libraries which are not part of the Java Development Kit (JDK) usually indicate problems with the environment, for example, bad video drivers or desktop managers.</p>
+</div>
+</div>
+<a id="JSTGD389"></a>
+<div class="props_rev_3"><a id="GUID-184417A6-8098-45E1-80A6-34FE55074510"></a>
+<h3 id="JSTGD-GUID-184417A6-8098-45E1-80A6-34FE55074510" class="sect3">Performance Problems</h3>
+<div>
+<p>Performance problems are harder to diagnose because you generally do not have as much information.</p>
+<p>First, you must determine which technology has the problem. For example, rendering performance problems are probably in Java 2D, and responsiveness issues can be Swing-related.</p>
+<p>Performance-related problems can be divided into the following categories:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold">Startup</span></p>
+<p>How long does the application take to start up and become useful to the user?</p>
+</li>
+<li>
+<p><span class="bold">Footprint</span></p>
+<p>How much memory does the application take? This can be measured by tools such as Task Manager on Windows or <code class="codeph">top</code> and <code class="codeph">prstat</code> on the Oracle Solaris and Linux operating systems.</p>
+</li>
+<li>
+<p><span class="bold">Runtime</span></p>
+<p>How fast does the application complete the task it is designed to perform? For example, if the application computes something, how long does it take to finish the computations? In the case of a game, is the frame rate acceptable, and does the animation look smooth?</p>
+<p><span class="italic">Note:</span> This is not the same as responsiveness, which is the next topic.</p>
+</li>
+<li>
+<p><span class="bold">Responsiveness</span></p>
+<p>How fast does the application respond to user interaction? If the user clicks a menu, how long does it take for the menu to appear? Can a long-running task be interrupted? Does the application repaint fast enough so that it does not appear to be slow?</p>
+</li>
+</ul>
+</div>
+</div>
+<a id="JSTGD390"></a>
+<div class="props_rev_3"><a id="GUID-E1BC3AE5-5DCC-4B9E-964B-902E1FD95404"></a>
+<h3 id="JSTGD-GUID-E1BC3AE5-5DCC-4B9E-964B-902E1FD95404" class="sect3">Behavior Problems</h3>
+<div>
+<p>Guidance about dealing with various problems in the application.</p>
+<p>In addition to crashes, various behavior-related problems can occur. Some of these problems are listed below. Their descriptions can guide you to the Java SE Desktop technology to troubleshoot.</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold">Hangs</span> occur when the application stops responding to user input. See <a href="troubleshoot-process-hangs-and-loops.htm#GUID-0777035D-123C-4DC5-A241-21560882C7BB" title="This chapter provides information and guidance about some specific procedures for troubleshooting hanging or looping processes.">Troubleshoot Process Hangs and Loops</a>.</p>
+</li>
+<li>
+<p><span class="bold">Exceptions in Java code</span> are visibly thrown to the console or the application log files. An examination of this output will guide you to the problem area.</p>
+</li>
+<li>
+<p><span class="bold">Rendering and repainting issues</span> indicate a problem in Java 2D or in Swing. For example, the application&rsquo;s appearance is incorrect after a repaint that was caused by another application being dragged over it. Other examples are incorrect font, wrong colors, scrolling, damaging the application's frame by dragging another window over it, and updating a damaged area.</p>
+<p>A quick test is the following: If the problem is reproducible on a different platform (for example, the problem was originally seen on Windows, and it is also present on Oracle Solaris or Linux), it is very likely to be a Swing <code class="codeph">PaintManager</code> problem.</p>
+<p>For the ways to change the Java 2D rendering pipelines with some flags, see <a href="java-2d.htm#GUID-63FAD092-E3E7-416D-9CA3-25BBACFC46E9" title="Information and guidance for troubleshooting some of the most common issues that might be found in the Java 2D API.">Java 2D</a>. This can also help determine if the problem is related to Java 2D or to Swing.</p>
+<p>Multiscreen-related repainting issues belong to Java 2D (for example, repainting problems when moving a window from one screen to another, or other unusual behavior caused by the interaction with a non-default screen device).</p>
+</li>
+<li>
+<p><span class="bold">Issues related to desktop interaction</span> indicate a problem in AWT. Some examples of such issues occur when moving, resizing, minimizing and maximizing windows, handling focus, enumerating multiple screens, using modality, interacting with the notification area (system tray), and viewing splash screens.</p>
+</li>
+<li>
+<p><span class="bold">Drag-and-drop problems</span> are related to AWT.</p>
+</li>
+<li>
+<p><span class="bold">Printing problems</span> could be related either to Java 2D or AWT depending on the API that is used.</p>
+</li>
+<li>
+<p><span class="bold">Text-rendering issues</span> in AWT applications might be a problem in font properties or in internationalization.</p>
+<p>However, if your application is purely AWT, text rendering problems might also be caused by Java 2D. On Oracle Solaris or Linux, text rendering is performed by Java 2D.</p>
+<p>Text rendering in Swing is performed by Java 2D. Therefore, if your application uses Swing and you have text rendering problems (such as missing glyphs, incorrect rendering of glyphs, incorrect spacing between lines or characters, bad quality of font rendering), then the problem is likely to be in Java 2D.</p>
+</li>
+<li>
+<p><span class="bold">Painting problems</span> are most likely a Swing issue.</p>
+</li>
+<li>
+<p><span class="bold">Full-screen issues</span> are related to the Java 2D API.</p>
+</li>
+<li>
+<p><span class="bold">Encoding and locales issues</span> (for example, no locale-specific characters displayed) indicate internalization problems.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<a id="JSTGD391"></a>
+<div class="props_rev_3"><a id="GUID-1671C947-CD68-45CC-9969-C984AF528AAB"></a>
+<h2 id="JSTGD-GUID-1671C947-CD68-45CC-9969-C984AF528AAB" class="sect2">Basic Tools</h2>
+<div>
+<p>List of basic tools that can help troubleshoot certain types of issues.</p>
+<p>This section lists a few tools that can help you troubleshoot certain types of issues.</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold">Performance:</span> Benchmarks, profilers, DTrace, Java probe.</p>
+</li>
+<li>
+<p><span class="bold">FootPrint:</span> <code class="codeph">jmap</code>, profilers</p>
+</li>
+<li>
+<p><span class="bold">Crashes:</span> Native debuggers</p>
+</li>
+<li>
+<p><span class="bold">Hangs:</span> JConsole, <code class="codeph">jstack</code>, Control+Break</p>
+</li>
+<li>
+<p><span class="bold">Font-rendering:</span> Font2DTest (delivered with the JDK in demo/jfc/Font2DTest)</p>
+</li>
+</ul>
+</div>
+</div>
+<a id="JSTGD392"></a>
+<div class="props_rev_3"><a id="GUID-EC8ED33F-96F2-492F-9332-4048DB893024"></a>
+<h2 id="JSTGD-GUID-EC8ED33F-96F2-492F-9332-4048DB893024" class="sect2">Java Debug Wire Protocol</h2>
+<div>
+<p>The Java Debug Wire Protocol (JDWP) is very useful for debugging applications as well as applets.</p>
+<div class="section">To debug an application using JDWP:</div>
+<!-- class="section" -->
+<ol>
+<li class="stepexpand"><span>Open the command line, and set the <code>PATH</code> environment variable to <code><span class="variable">jdk</span>/bin</code> where <code><span class="variable">jdk</span></code> is the installation directory of the JDK.</span></li>
+<li class="stepexpand"><span>Use the following command to run the application (called <code class="codeph">Test</code> in this example) that you want to debug:</span>
+<ul>
+<li>On Windows:
+<pre dir="ltr">
+java -Xdebug -Xrunjdwp:transport=dt_shmem,address=debug,server=y,suspend=y Test
+</pre></li>
+<li>On Oracle Solaris and Linux operating systems:
+<pre dir="ltr">
+java -Xdebug -Xrunjdwp:transport=dt_socket,address=8888,server=y,suspend=y Test
+</pre></li>
+</ul>
+<div>
+<p>The <code class="codeph">Test</code> class will start in the debugging mode and wait for a debugger to attach to it at address <code class="codeph">debug</code> (on Windows) or <code class="codeph">8888</code> (on Oracle Solaris and Linux operating systems).</p>
+</div>
+</li>
+<li class="stepexpand"><span>Open another command line, and use the following command to run <code class="codeph">jdb</code> and attach it to the running debug server:</span>
+<ul>
+<li>On Windows:
+<pre dir="ltr">
+jdb -attach 'debug'
+</pre></li>
+<li>On Oracle Solaris and Linux operating systems:
+<pre dir="ltr">
+jdb -attach 8888
+</pre></li>
+</ul>
+<div>After <code class="codeph">jdb</code> initializes and attaches to <code class="codeph">Test</code>, you can perform Java-level debugging.</div>
+</li>
+<li class="stepexpand"><span>Set your breakpoints and run the application. For example, to set the breakpoint at the beginning of the <code class="codeph">main</code> method in <code class="codeph">Test</code>, run the following command:</span>
+<div>
+<pre dir="ltr">
+stop in Test.main run
+</pre>
+<p>When the <code class="codeph">jdb</code> utility hits the breakpoint, you will be able to inspect the environment in which the application is running and see if it is functioning as expected.</p>
+</div>
+</li>
+<li class="stepexpand"><span>(Optional) To perform native-level debugging along with Java-level debugging, use native debuggers to attach to the Java process running with JDWP.</span>
+<ul>
+<li>On Oracle Solaris, you can use the <code class="codeph">dbx</code> utility and on Linux, you can use the <code class="codeph">gdb</code> utility.</li>
+<li>On Windows, you can use Visual Studio for native-level debugging as follows:
+<ol>
+<li>
+<p>Open Visual Studio.</p>
+</li>
+<li>
+<p>On the <span class="bold">Debug</span> menu, select <span class="bold">Attach to Process</span>. Select the Java process that is running with JDWP.</p>
+</li>
+<li>
+<p>On the <span class="bold">Project</span> menu, select <span class="bold">Settings</span>, and open the <span class="bold">Debug</span> tab. In the <span class="bold">Category</span> drop-down list, select <span class="bold">Additional DLLs</span> and add the native DLL that you want to debug (for example, <code class="codeph">Test.dll</code>).</p>
+</li>
+<li>
+<p>Open the source file (one or more) of <code class="codeph">Test.dll</code> and set your breakpoints.</p>
+</li>
+<li>
+<p>Enter <code class="codeph">cont</code> in the <code class="codeph">jdb</code> window. The process will hit the breakpoint in Visual Studio.</p>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<div class="section">
+<p>To debug an applet using JDWP:</p>
+<ol>
+<li>
+<p>Launch the Java Control Panel, open the <span class="bold">Java</span> tab, and click <span class="bold">View</span>. On the Java Runtime Environment Settings window, specify the following in the <span class="bold">Runtime Parameters</span> field for the necessary platform:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>On Windows:</p>
+<pre dir="ltr">
+Djavaplugin.trace=true -Xdebug -Xrunjdwp:transport=dt_shmem,address=debug,server=y,suspend=y
+</pre></li>
+<li>
+<p>On Oracle Solaris and Linux operating systems:</p>
+<pre dir="ltr">
+Djavaplugin.trace=true -Xdebug -Xrunjdwp:transport=dt_shmem,address=8888,server=y,suspend=y
+</pre></li>
+</ul>
+<p>When you launch a web browser and load an applet, the Java Plug-in will start in the debugging mode and wait for a debugger to attach to it at the address <code class="codeph">debug</code> (on Windows) or <code class="codeph">8888</code> (on Oracle Solaris and Linux operating systems).</p>
+</li>
+<li>
+<p>Open the command line, and use the following command to run <code class="codeph">jdb</code> and attach it to the running debug server.</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>On Windows:</p>
+<pre dir="ltr">
+jdb -attach 'debug'
+</pre></li>
+<li>
+<p>On Oracle Solaris and Linux operating systems:</p>
+<pre dir="ltr">
+jdb -attach 8888
+</pre></li>
+</ul>
+<p>After <code class="codeph">jdb</code> initializes and attaches to <code class="codeph">Test</code>, you can perform Java-level debugging.</p>
+</li>
+<li>
+<p>Set your breakpoints and run the applet. For example, to set the breakpoint at the beginning of the <code class="codeph">func1</code> method in <code class="codeph">MyApplet</code>, run the following command:</p>
+<pre dir="ltr">
+stop in MyApplet.func1 run
+</pre>
+<p>When the <code class="codeph">jdb</code> utility hits the breakpoint, you will be able to inspect the environment in which the application is running and see if it is functioning as expected.</p>
+</li>
+</ol>
+</div>
+<!-- class="section" --></div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment340">
+<tr>
+<td class="cellalignment347">
+<table class="cellalignment345">
+<tr>
+<td class="cellalignment344"><a href="debug-client-issues.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment344"><a href="awt.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1995, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment349">
+<table class="cellalignment343">
+<tr>
+<td class="cellalignment344"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment344"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment344"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

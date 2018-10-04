@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>jmod</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="You use the jmod tool to create JMOD files and list the content of existing JMOD files." />
+<meta name="dcterms.created" content="2017-10-12T08:04:07Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Tools Reference" />
+<meta name="dcterms.identifier" content="E61612-05" />
+<meta name="dcterms.isVersionOf" content="JSWOR" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="jlink.htm" title="Previous" type="text/html" />
+<link rel="Next" href="jdeps.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSWOR.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSWOR.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSWOR.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE"></a> <span id="PAGE" style="display:none;">14/65</span> <!-- End Header -->
+<h1 id="JSWOR-GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE" class="sect1">jmod</h1>
+<div>
+<p><span>You use the <code class="codeph">jmod</code> tool to create JMOD files and list the content of existing JMOD files.</span></p>
+<div class="section">
+<p class="subhead1">Synopsis</p>
+<pre dir="ltr">
+jmod (create|extract|list|describe|hash) [<span class="variable">options</span>] <span class="variable">jmod-file</span>
+</pre>
+<p>Includes the following:</p>
+<p><span class="bold">Main operation modes</span></p>
+<dl class="1.00* 3.00*">
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-059E2BD9-881B-421D-9170-6AA051434E10"><!-- --></a><code class="codeph">create</code></dt>
+<dd>
+<p>Creates a new JMOD archive file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-89A0D687-8856-4E33-8A2B-3C60DF98AB5C"><!-- --></a><code class="codeph">extract</code></dt>
+<dd>
+<p>Extracts all the files from the JMOD archive file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-F01F6A46-F2B5-4F6E-9680-21E3EF310453"><!-- --></a><code class="codeph">list</code></dt>
+<dd>
+<p>Prints the names of all the entries.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-308F58A7-B518-4D13-9634-CD1A8126F0B7"><!-- --></a><code class="codeph">describe</code></dt>
+<dd>
+<p>Prints the module details.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-556F694E-7775-46E3-91D3-A5459DF83C03"><!-- --></a><code class="codeph">hash</code></dt>
+<dd>
+<p>Determines leaf modules and records the hashes of the dependencies that directly and indirectly require them.</p>
+</dd>
+</dl>
+<p><span class="bold">Options</span></p>
+<dl>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-9B2565A5-2848-47A9-970B-58CDAECF1BB4"><!-- --></a><code class="codeph"><span class="variable">options</span></code></dt>
+<dd>
+<p>See <a href="jmod.htm#GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__JDK9JLINKSTANDARDOPTIONS">Options for jmod</a>.</p>
+</dd>
+</dl>
+<p><span class="bold">Required</span></p>
+<dl>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-D85F5C3E-9BC4-4BC8-B15E-A8D82022E5BF"><!-- --></a><code class="codeph"><span class="variable">jmod-file</span></code></dt>
+<dd>
+<p>Specifies the name of the JMOD file to create or from which to retrieve information.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Description</p>
+<div class="infobox-note" id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-FED1F980-0E5C-4550-8B7D-8A05E139F5A5">
+<p class="notep1">Note:</p>
+For most development tasks, including deploying modules on the module path or publishing them to a Maven repository, continue to package modules in modular JAR files. The <code class="codeph">jmod</code> tool is intended for modules that have native libraries or other configuration files or for modules that you intend to link, with the <a href="jlink.htm" title="You can use the jlink tool to assemble and optimize a set of modules and their dependencies into a custom runtime image."><code class="codeph">jlink</code></a> tool, to a runtime image.</div>
+<p>The JMOD file format let&rsquo;s you aggregate files other than <code class="codeph">.class</code> files, metadata, and resources. This format is transportable but not executable, which means that you can use it during compile time or link time but not at run time.</p>
+<p>Many <code class="codeph">jmod</code> options involve specifying a path whose contents are copied into the resulting JMOD files. These options copy all the contents of the specified path, including subdirectories and their contents, but exclude files whose names match the pattern specified by the <code class="codeph">--exclude</code> option.</p>
+<p>With the <code class="codeph">--hash-modules</code> option or the <code class="codeph">jmod hash</code> command, you can, in each module's descriptor, record hashes of the content of the modules that are allowed to depend upon it, thus "tying" together these modules. This let&rsquo;s you to allow a package to be exported to one or more specifically-named modules and to no others through qualified exports. The runtime verifies if the recorded hash of a module matches the one resolved at run time; if not, the runtime returns an error.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__JDK9JLINKSTANDARDOPTIONS">
+<p class="subhead1">Options for jmod</p>
+<dl class="1.35* 2.65*">
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-E3E7D982-EB89-4582-9CAD-C665B6E956F0"><!-- --></a><code class="codeph">--class-path <span class="variable">path</span></code></dt>
+<dd>
+<p>Specifies the location of application JAR files or a directory containing classes to copy into the resulting JMOD file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-D03376BC-541E-4B77-88A5-362703E4757A"><!-- --></a><code class="codeph">--cmds <span class="variable">path</span></code></dt>
+<dd>
+<p>Specifies the location of native commands to copy into the resulting JMOD file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-BB79ECC9-DA4F-4D9F-8827-AE61D089E2C4"><!-- --></a><code class="codeph">--config <span class="variable">path</span></code></dt>
+<dd>
+<p>Specifies the location of user-editable configuration files to copy into the resulting JMOD file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-BED13987-4307-4830-ACD5-2663371A770C"><!-- --></a><code class="codeph">&ndash;-dir <span class="variable">path</span></code></dt>
+<dd>
+<p>Specifies the location where <code class="codeph">jmod</code> puts extracted files from the specified JMOD archive.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-B5D01061-161E-4A1B-97E1-CBC32A771F44"><!-- --></a><code class="codeph">--dry-run</code></dt>
+<dd>
+<p>Performs a dry run of hash mode. It identifies leaf modules and their required modules without recording any hash values.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-37DE51D5-4B5C-4348-BB23-F039273ABAA4"><!-- --></a><code class="codeph">--exclude <span class="variable">pattern&ndash;list</span></code></dt>
+<dd>
+<p>Excludes files matching the supplied comma-separated pattern list, each element using one the following forms:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph"><span class="variable">glob-pattern</span></code></p>
+</li>
+<li>
+<p><code class="codeph">glob:<span class="variable">glob-pattern</span></code></p>
+</li>
+<li>
+<p><code class="codeph">regex:<span class="variable">regex-pattern</span></code></p>
+</li>
+</ul>
+<p>See the <a href="https://docs.oracle.com/javase/9/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-" target="_blank"><span class="apiname">FileSystem.getPathMatcher</span></a> method for the syntax of <code class="codeph"><span class="variable">glob-pattern</span></code>. See the <a href="https://docs.oracle.com/javase/9/docs/api/java/util/regex/Pattern.html" target="_blank"><span class="apiname">Pattern</span></a> class for the syntax of <code class="codeph"><span class="variable">regex-pattern</span></code>, which represents a regular expression.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-985A5BDE-6111-49BC-8CD9-7A1EE971EDA1"><!-- --></a><code class="codeph">--hash-modules <span class="variable">regex-pattern</span></code></dt>
+<dd>
+<p>Determines the leaf modules and records the hashes of the dependencies directly and indirectly requiring them, based on the module graph of the modules matching the given <code class="codeph"><span class="variable">regex-pattern</span></code>. The hashes are recorded in the JMOD archive file being created, or a JMOD archive or modular JAR on the module path specified by the <code class="codeph">jmod hash</code> command.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-08030F35-8F4F-427D-B10A-2D92F0D5E2F1"><!-- --></a><code class="codeph">--header-files <span class="variable">path</span></code></dt>
+<dd>
+<p>Specifies the location of header files to copy into the resulting JMOD file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-DE00E6EA-B2C7-4245-A34A-565F149910A2"><!-- --></a><code class="codeph">--help</code> or <code class="codeph">-h</code></dt>
+<dd>
+<p>Prints a usage message.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-30664A80-CAC8-41C2-98F9-8FE8DFF00314"><!-- --></a><code class="codeph">--help-extra</code></dt>
+<dd>
+<p>Prints help for extra options.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-A8DAB598-8FDF-41D8-9ACA-B6AE5805D62F"><!-- --></a><code class="codeph">&ndash;-legal-notices <span class="variable">path</span></code></dt>
+<dd>
+<p>Specifies the location of legal notices to copy into the resulting JMOD file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-BA2404EC-37CA-4F46-BE74-9FA15B2D75C5"><!-- --></a><code class="codeph">--libs <span class="variable">path</span></code></dt>
+<dd>
+<p>Specifies location of native libraries to copy into the resulting JMOD file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-D9D01DD7-B159-4F2D-B1FE-31C4F5126FC2"><!-- --></a><code class="codeph">--main-class <span class="variable">class-name</span></code></dt>
+<dd>
+<p>Specifies main class to record in the <code>module-info.class</code> file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-927F22FD-BE6F-4FDF-9C2F-FB44C0F6983C"><!-- --></a><code class="codeph">--man-pages <span class="variable">path</span></code></dt>
+<dd>
+<p>Specifies the location of man pages to copy into the resulting JMOD file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-2327FFCA-5148-466F-B5D3-F3BEC8726B94"><!-- --></a><code class="codeph">--module-version <span class="variable">module-version</span></code></dt>
+<dd>
+<p>Specifies the module version to record in the <code>module-info.class</code> file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-D152AEF8-E151-422E-9389-2F2D5BBD85B2"><!-- --></a><code class="codeph">--module-path <span class="variable">path</span></code> or <code class="codeph">-p <span class="variable">path</span></code></dt>
+<dd>
+<p>Specifies the module path. This option is required if you also specify <code class="codeph">--hash-modules</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-DE037FAD-8FC0-4D72-AFA2-8D612B4342C9"><!-- --></a><code class="codeph">--target-platform <span class="variable">platform</span></code></dt>
+<dd>
+<p>Specifies the target platform.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-6C102FC3-5C60-4ED7-BCCC-6D59604FCE17"><!-- --></a><code class="codeph">--version</code></dt>
+<dd>
+<p>Prints version information of the <code class="codeph">jmod</code> tool.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-F3AFD368-4496-48C4-B790-8E9558D83567"><!-- --></a><code class="codeph">@<span class="variable">filename</span></code></dt>
+<dd>
+<p>Reads options from the specified file.</p>
+<p>An options file is a text file that contains the options and values that you would ordinarily enter in a command prompt. Options may appear on one line or on several lines. You may not specify environment variables for path names. You may comment out lines by prefixinga hash symbol (<code class="codeph">#</code>) to the beginning of the line.</p>
+<p>The following is an example of an options file for the <code class="codeph">jmod</code> command:</p>
+<pre dir="ltr">
+#Wed Dec 07 00:40:19 EST 2016
+create --class-path mods/com.greetings --module-path mlib
+  --cmds commands --config configfiles --header-files src/h
+  --libs lib --main-class com.greetings.Main
+  --man-pages man --module-version 1.0
+  --os-arch "x86_x64" --os-name "Mac OS X"
+  --os-version "10.10.5" greetingsmod
+</pre></dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Extra Options for jmod</p>
+<p>In addition to the options described in <a href="jmod.htm#GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__JDK9JLINKSTANDARDOPTIONS">Options for jmod</a> , the following are extra options that can be used with the command.</p>
+<dl>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-F3062E34-F4D1-4734-8BC7-E984CA526439"><!-- --></a><code class="codeph">--do-not-resolve-by-default</code></dt>
+<dd>
+<p>Exclude from the default root set of modules</p>
+</dd>
+<dt class="dlterm"><a id="GUID-0A0BDFF6-BE34-461B-86EF-AAC9A555E2AE__GUID-395347E9-754A-49D3-A68B-53BD360BD40E"><!-- --></a><code class="codeph">--warn-if-resolved</code></dt>
+<dd>
+<p>Hint for a tool to issue a warning if the module is resolved. One of deprecated, deprecated-for-removal, or incubating.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">jmod Create Example</p>
+<p>The following is an example of creating a JMOD file:</p>
+<pre dir="ltr">
+jmod create --class-path mods/com.greetings --cmds commands
+  --config configfiles --header-files src/h --libs lib
+  --main-class com.greetings.Main --man-pages man --module-version 1.0
+  --os-arch "x86_x64" --os-name "Mac OS X"
+  --os-version "10.10.5" greetingsmod 
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">jmod Hash Example</p>
+<p>The following example demonstrates what happens when you try to link a leaf module (in this example, <code class="codeph">ma</code>) with a required module (<code class="codeph">mb</code>), and the hash value recorded in the required module doesn't match that of the leaf module.</p>
+<ol>
+<li>
+<p>Create and compile the following <code class="codeph">.java</code> files:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><code>jmodhashex/src/ma/module-info.java</code></p>
+<pre dir="ltr">
+module ma {
+  requires mb;
+}
+</pre></li>
+<li>
+<p><code>jmodhashex/src/mb/module-info.java</code></p>
+<pre dir="ltr">
+module mb {
+}
+</pre></li>
+<li>
+<p><code>jmodhashex2/src/ma/module-info.java</code></p>
+<pre dir="ltr">
+module ma {
+  requires mb;
+}
+</pre></li>
+<li>
+<p><code>jmodhashex2/src/mb/module-info.java</code></p>
+<pre dir="ltr">
+module mb {
+}
+</pre></li>
+</ul>
+</li>
+<li>
+<p>Create a JMOD archive for each module. Create the directories <code>jmodhashex/jmods</code> and <code>jmodhashex2/jmods</code>, and then run the following commands from the <code>jmodhashex</code> directory, then from the <code>jmodhashex2</code> directory:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph">jmod create --class-path mods/ma jmods/ma.jmod</code></p>
+</li>
+<li>
+<p><code class="codeph">jmod create --class-path mods/mb jmods/mb.jmod</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Optionally preview the <code class="codeph">jmod hash</code> command. Run the following command from the <code>jmodhashex</code> directory:</p>
+<p><code class="codeph">jmod hash --dry-run -module-path jmods --hash-modules .*</code></p>
+<p>The command prints the following:</p>
+<pre dir="ltr">
+Dry run:
+mb
+  hashes ma SHA-256 07667d5032004b37b42ec2bb81b46df380cf29e66962a16481ace2e71e74073a
+</pre>
+<p>This indicates that the <code class="codeph">jmod hash</code> command (without the <code class="codeph">--dry-run</code> option) will record the hash value of the leaf module <code class="codeph">ma</code> in the module <code class="codeph">mb</code>.</p>
+</li>
+<li>
+<p>Record hash values in the JMOD archive files contained in the <code>jmodhashex</code> directory. Run the following command from the <code>jmodhashex</code> directory:</p>
+<p><code class="codeph">jmod hash --module-path jmods --hash-modules .*</code></p>
+<p>The command prints the following:</p>
+<pre dir="ltr">
+Hashes are recorded in module mb
+</pre></li>
+<li>
+<p>Print information about each JMOD archive contained in the <code>jmodhashex</code>directory. Run the highlighted commands from the <code>jmodhashex</code> directory:</p>
+<pre dir="ltr">
+<span class="bold">jmod describe jmods/ma.jmod</span>
+
+ma
+  requires mandated java.base
+  requires mb
+
+<span class="bold">jmod describe jmods/mb.jmod</span>
+
+mb
+  requires mandated java.base
+  hashes ma SHA-256 07667d5032004b37b42ec2bb81b46df380cf29e66962a16481ace2e71e74073a
+</pre></li>
+<li>
+<p>Attempt to create a runtime image that contains the module <code class="codeph">ma</code> from the directory <code class="codeph">jmodhashex2</code> but the module <code class="codeph">mb</code> from the directory <code class="codeph">jmodhashex</code>. Run the following command from the <code>jmodhashex2</code> directory:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold"><span>Oracle Solaris, Linux, and OS X</span>:</span> <code class="codeph">jlink --module-path $JAVA_HOME/jmods:jmods/ma.jmod:../jmodhashex/jmods/mb.jmod --add-modules ma --output ma-app</code></p>
+</li>
+<li>
+<p><span class="bold">Windows:</span> <code class="codeph">jlink --module-path %JAVA_HOME%/jmods;jmods/ma.jmod;../jmodhashex/jmods/mb.jmod --add-modules ma --output ma-app</code></p>
+</li>
+</ul>
+<p>The command prints an error message similar to the following:</p>
+<pre dir="ltr">
+Error: Hash of ma (a2d77889b0cb067df02a3abc39b01ac1151966157a68dc4241562c60499150d2) differs to
+expected hash (07667d5032004b37b42ec2bb81b46df380cf29e66962a16481ace2e71e74073a) recorded in mb
+</pre></li>
+</ol>
+</div>
+<!-- class="section" --></div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment179">
+<tr>
+<td class="cellalignment191">
+<table class="cellalignment184">
+<tr>
+<td class="cellalignment183"><a href="jlink.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment183"><a href="jdeps.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment193">
+<table class="cellalignment182">
+<tr>
+<td class="cellalignment183"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment183"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment183"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

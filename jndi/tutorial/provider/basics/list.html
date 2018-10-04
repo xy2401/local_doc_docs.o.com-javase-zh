@@ -1,0 +1,197 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>List Methods</title>
+<meta name="collection" content="learning">
+
+                    <script>var w=window;if(w.performance||w.mozPerformance||w.msPerformance||w.webkitPerformance){var d=document;AKSB=w.AKSB||{},AKSB.q=AKSB.q||[],AKSB.mark=AKSB.mark||function(e,_){AKSB.q.push(["mark",e,_||(new Date).getTime()])},AKSB.measure=AKSB.measure||function(e,_,t){AKSB.q.push(["measure",e,_,t||(new Date).getTime()])},AKSB.done=AKSB.done||function(e){AKSB.q.push(["done",e])},AKSB.mark("firstbyte",(new Date).getTime()),AKSB.prof={custid:"322179",ustr:"",originlat:"0",clientrtt:"1",ghostip:"23.212.3.15",ipv6:false,pct:"10",clientip:"45.78.37.67",requestid:"2a8602d9",region:"32996",protocol:"",blver:14,akM:"dsca",akN:"ae",akTT:"O",akTX:"1",akTI:"2a8602d9",ai:"206465",ra:"false",pmgn:"",pmgi:"",pmp:"",qc:""},function(e){var _=d.createElement("script");_.async="async",_.src=e;var t=d.getElementsByTagName("script"),t=t[t.length-1];t.parentNode.insertBefore(_,t)}(("https:"===d.location.protocol?"https:":"http:")+"//ds-aksb-a.akamaihd.net/aksb.min.js")}</script>
+                    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="lookup.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="update.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Essential Components</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    List Methods
+</h2>
+<p>
+<blockquote>
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><tt>list()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#listBindings(javax.naming.Name)"><tt>listBindings()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#listBindings(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    generate a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html"><tt>NamingEnumeration</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+A <tt>NamingEnumeration</tt> is like a <tt>java.util.Enumeration</tt>,
+except that it contains methods that allow a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html"><tt>NamingException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    to be thrown and it contains a 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html#close()"><tt>close()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html#close()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   method for freeing the resources associated with the enumeration.
+
+In <a href=src/FlatCtx.java>the flat namespace example</a>, <tt>list()</tt>
+and <tt>listBindings()</tt> simply perform a <tt>lookup()</tt>
+on the target context (that is, the context to be listed) and then
+do the listing by using the empty name as the argument.
+If the target does not name a <tt>Context</tt>, then it throws a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NotContextException.html"><tt>NotContextException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NotContextException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<blockquote><pre>
+public NamingEnumeration list(Name name) throws NamingException {
+    if (name.isEmpty()) {
+        // Generate enumeration of context's contents
+        return new ListOfNames(bindings.keys());
+    } 
+
+    // Perhaps "name" names a context
+    Object target = lookup(name);
+    if (target instanceof Context) {
+        try {
+            return ((Context)target).list("");
+        } finally {
+	    ((Context)target).close();
+        }
+    }
+    throw new NotContextException(name + " cannot be listed");
+}
+</pre></blockquote>
+<blockquote>
+<hr>
+<strong>Implementation Note:</strong>
+Notice that the <tt>list()</tt> and <tt>listBindings()</tt> implementations
+take care to close the context that they looked up.
+This is good practice in case the context needs to be cleaned up.
+This also means that the enumeration returned by both
+methods should remain viable even after the <tt>Context</tt>
+instance from which it was obtained has been closed.
+When the <tt>Context</tt> instance's outstanding enumerations have been closed
+or completed, the final cleanup of the closed
+<tt>Context</tt> instance can occur.
+<hr>
+</blockquote>
+<p>
+The listing is generated by using the two internal classes
+<tt>ListOfNames</tt> and <tt>ListOfBindings</tt>. 
+Here is the definition of <tt>ListOfNames</tt>.
+<blockquote><pre>
+// Class for enumerating name/class pairs
+class ListOfNames implements NamingEnumeration {
+    protected Enumeration names;
+
+    ListOfNames (Enumeration names) {
+        this.names = names;
+    }
+
+    public boolean hasMoreElements() {
+	try {
+	    return hasMore();
+	} catch (NamingException e) {
+	    return false;
+	}
+    }
+
+    public boolean hasMore() throws NamingException {
+        return names.hasMoreElements();
+    }
+
+    public Object next() throws NamingException {
+        String name = (String)names.nextElement();
+        String className = bindings.get(name).getClass().getName();
+        return new NameClassPair(name, className);
+    }
+
+    public Object nextElement() {
+        try {
+            return next();
+        } catch (NamingException e) {
+  	    throw new NoSuchElementException(e.toString());
+	}
+    }
+
+    public void close() {
+    }
+}
+</blockquote></pre>
+The real work is done in the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html#hasMore()"><tt>hasMore()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html#hasMore()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html#next()"><tt>next()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html#next()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    definitions.
+For the hash table example, <tt>ListOfNames</tt> is simply a wrapper
+around an <tt>Enumeration</tt>. In an actual implementation, the listing
+would be generated by accessing the underlying naming/directory service.
+<p>
+<tt>hasMoreElements()</tt> is a wrapper around <tt>hasMore()</tt>, 
+whereas
+<tt>nextElement()</tt> is a wrapper around <tt>next()</tt>.
+<tt>hasMoreElements()</tt> and <tt>nextElement()</tt> satisfy
+the <tt>java.util.Enumeration</tt> interface and are
+used by clients that do not care about being notified of exceptions
+that occur during the enumeration.  These are generic definitions
+that can be used by any implementation.
+<p>
+The <tt>ListOfBindings</tt> inner class is a subclass of <tt>ListOfNames</tt>.
+It overrides the definition of <tt>next()</tt> to return an instance of an instance of
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Binding.html"><tt>Binding</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Binding.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    instead of
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameClassPair.html"><tt>NameClassPair</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameClassPair.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>:
+<blockquote><pre>
+public Object next() throws NamingException {
+    String name = (String)names.nextElement();
+    return new Binding(name, bindings.get(name));
+}
+</pre></blockquote>
+This is obviously a very simplified implementation.
+If the object in <tt>Binding</tt> is a <tt>Context</tt>, then
+it should be one that can be closed (which probably means that you want to clone it
+before returning it).
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="lookup.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="update.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Essential Components</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

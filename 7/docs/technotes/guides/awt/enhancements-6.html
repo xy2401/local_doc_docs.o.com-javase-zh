@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- USE THIS TEMPLATE WHEN ENHANCEMENTS ARE LENGTHY; YOU THEN WILL USE A
+   SEPARATE FILE TO DOCUMENT THE ENHANCEMENTS OF EACH VERSION CURRENTLY SUPPORTED
+   -->
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>AWT Enhancements in Java SE 6.0</title>
+<meta name="collection" content="reference" />
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>AWT Enhancements in the Java&trade; Standard Edition 6.0</h1></div>
+<p><a name="package_awt" id="package_awt">java.awt</a></p>
+<p><a href="#awtMajor">Major Features</a></p>
+<ul>
+<li><a href="#Modality">Modality</a></li>
+<li><a href="#Desktop">Desktop</a></li>
+<li><a href="#SplashScreen">Splash Screen</a></li>
+<li><a href="#SystemTray">System Tray</a></li>
+<li><a href="#Layout">Enhancements to Layouting Components</a></li>
+<li><a href="#Windows">Enhancements of the <code>Window</code>
+class</a></li>
+</ul>
+<a href="#fixedBugs">Fixed Bugs</a><br />
+<a href="#knownBugs">Known Bugs and Issues</a><br />
+<hr />
+<h2><a name="awtMajor" id="awtMajor">Major Features</a></h2>
+<p>The following features were introduced in the Java SE 6.0:</p>
+<h3><a name="Modality" id="Modality">Modality</a></h3>
+<p>The new modality model was introduced to handle modality
+blocking of a dialog box. This model comprises four modality types:
+modeless, application-modal, document-modal, and toolkit-modal.</p>
+<pre>
+public <strong>Dialog</strong>(<a href="http://docs.oracle.com/javase/6/docs/api/java/awt/Window.html" title=
+"class in java.awt">Window</a>&nbsp;owner, <a href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html"
+title="class in java.lang">String</a>&nbsp;title,
+                           <a href="http://docs.oracle.com/javase/6/docs/api/java/awt/Dialog.ModalityType.html"
+title=
+"enum in java.awt">Dialog.ModalityType</a>&nbsp;modalityType,<a href="http://docs.oracle.com/javase/6/docs/api/java/awt/GraphicsConfiguration.html"
+title="class in java.awt">GraphicsConfiguration</a>&nbsp;gc)
+</pre>
+<p>The <code>modalityTypes</code> parameter specifies whether a
+dialog box blocks input to other windows when shown. The null value
+and unsupported modality types are equivalent to the modeless type.
+The <code>getModalityType</code> and <code>setModalityType</code>
+methods of the <code>Dialog</code> class allows you accordingly to
+return and set the modality type for the dialog box.</p>
+<p>Any top-level window can be marked so it will not be blocked by
+modal dialogs. This property enables you to set up the <em>modal
+exclusion</em> mode. The <code>setModalExclusionType</code> method
+of the <code>Window</code> class specifies one of the following
+modal exclusion modes: <code>APPLICATION_EXCLUDE</code>,
+<code>TOOLKIT_EXCLUDE</code>, or <code>NO_EXCLUDE</code>.</p>
+<p>See the <a href=
+"http://docs.oracle.com/javase/tutorial/uiswing/misc/modality.html">
+How to Use Modality in Dialogs</a> section of the Swing tutorial
+for more information about modality.</p>
+<h3><a name="Desktop" id="Desktop">Desktop</a></h3>
+<p>The Desktop API (<a href="http://docs.oracle.com/javase/6/docs/api/java/awt/Desktop.html"><code>java.awt.Desktop</code></a>)
+API is provided to allow Java applications to interact with default
+applications associated with specific file types. All provided
+actions are represented as a <code><a href="http://docs.oracle.com/javase/6/docs/api/java/awt/Desktop.Action.html">
+Desktop.Action</a></code> enumeration instance:</p>
+<ul>
+<li>BROWSE &mdash; Represents a browse action performed by the
+host's default browser.</li>
+<li>MAIL &mdash; Represents a mail action performed by the host's
+default email client.</li>
+<li>OPEN &mdash; Represents an open action performed by an
+application associated with opening a specific file type.</li>
+<li>EDIT &mdash; Represents an edit action performed by an
+application associated with editing a specific file type</li>
+<li>PRINT &mdash; Represents a print action performed by an
+application associated with printing a specific file type.</li>
+</ul>
+<p>Use the <code><a href="http://docs.oracle.com/javase/6/docs/api/java/awt/Desktop.html#isSupported(java.awt.Desktop.Action)">
+isSupported</a></code> method of the <code>Desktop</code> class to
+check whether an action is supported on the current platform.</p>
+<p>See the <a href=
+"http://docs.oracle.com/javase/tutorial/uiswing/misc/desktop.html">
+How to Integrate with the Desktop Class</a> section of the Swing
+tutorial for more information about using the <code>Desktop</code>
+class.</p>
+<h3><a name="SplashScreen" id="SplashScreen">Splash Screen</a></h3>
+<p>There is a new solution that allows the application to display
+the splash screen before the virtual machine starts has been
+introduced. Although the <code><a href="http://docs.oracle.com/javase/6/docs/api/java/awt/SplashScreen.html">SplashScreen</a></code>
+class cannot be sued to create a splash screen, a Java application
+can close the splash screen, change the splash screen image, get
+the image position/size and paint in the splash screen. An instance
+of the <code>SplashScreen</code> class can be obtained using the
+<code><a href="http://docs.oracle.com/javase/6/docs/api/java/awt/SplashScreen.html#getSplashScreen()">
+getSplashScreen()</a></code> static method.</p>
+<p>To run an application with the splash screen from the command
+line use the following command:</p>
+<pre>
+java -splash:<em>&lt;file name&gt; &lt;class name&gt;</em>
+</pre>
+<p>See the <a href=
+"http://docs.oracle.com/javase/tutorial/uiswing/misc/splashscreen.html">
+How to Create a Splash Screen</a> section of the Swing Tutorial for
+more information about splash screen.</p>
+<h3><a name="SystemTray" id="SystemTray">System Tray</a></h3>
+<p>The <code><a href="http://docs.oracle.com/javase/6/docs/api/java/awt/SystemTray.html">SystemTray</a></code>
+class is intended to represent the system tray for a desktop. The
+system tray can be accessed by calling the
+<code>getSystemTray()</code> static method. The system tray may
+contain one or more tray icons represented by the <code><a href="http://docs.oracle.com/javase/6/docs/api/java/awt/TrayIcon.html">TrayIcon</a></code>
+class objects. However, the <code>TrayIcon</code> class
+functionality is not limited to creating a tray icon. It also
+includes a text tooltip, a pop-up menu, and balloon messages:</p>
+<pre>
+TrayIcon trayIcon = new TrayIcon(createImage("icon.gif", "tray icon"));
+
+trayIcon.displayMessage("Sun TrayIcon Demo", 
+                        "This is an info message", TrayIcon.MessageType.INFO);
+trayIcon.setToolTip("Sun TrayIcon");                    
+                        
+</pre>
+<p><strong>Note:</strong> The current implementation of the
+<code>TrayIcon</code> class provides limited support of the Swing
+components. The workaround proposal for this issue is described in
+the Bug Database, see Bug ID <a href=
+"http://bugs.sun.com/view_bug.do?bug_id=6285881">6285881</a>.&nbsp;</p>
+<p>See the <a href=
+"http://docs.oracle.com/javase/tutorial/uiswing/misc/systemtray.html">
+How to Use the System Tray</a> section of the Swing Tutorial for
+more information about the system tray and tray icons.</p>
+<h3><a name="Layout" id="Layout">Enhancements to Layouting
+Components</a></h3>
+<p>Two new methods of the <code>java.awt.Component</code> class
+enable to obtain the baseline measured from the top of the
+component and to handle the baseline change as the size of the
+component changes:</p>
+<ul>
+<li><a href="http://docs.oracle.com/javase/6/docs/api/java/awt/Component.html#getBaseline(int,%20int)">
+<code>public int getBaseline(int width int height)</code></a></li>
+<li><a href="http://docs.oracle.com/javase/6/docs/api/java/awt/Component.html#getBaselineResizeBehavior()">
+<code>public Component.BaselineResizeBehavior
+getBaselineResizeBehavior()</code></a></li>
+</ul>
+<p><code><strong>FlowLayout</strong>:</code></p>
+<p>Two methods were introduced to control vertical components'
+alignment along their baseline:</p>
+<ul>
+<li><code><a href="http://docs.oracle.com/javase/6/docs/api/java/awt/FlowLayout.html#getAlignOnBaseline()">
+getAlignOnBaseline()</a></code></li>
+<li><code><a href="http://docs.oracle.com/javase/6/docs/api/java/awt/FlowLayout.html#setAlignOnBaseline(boolean)">
+setAlignOnBaseline(boolean)</a></code></li>
+</ul>
+<code><strong>GridBagLayout</strong>:</code>
+<p>The following constraints were added to the <code><a href="http://docs.oracle.com/javase/6/docs/api/java/awt/GridBagConstraints.html">
+GridBagConstraints</a></code> class to enhance lay outing
+components with the <code>GridBagLayout</code> class:</p>
+<ul>
+<li><code>BASELINE</code></li>
+<li><code>BASELINE_LEADING</code></li>
+<li><code>BASELINE_TRAILING</code></li>
+<li><code>ABOVE_BASELINE</code></li>
+<li><code>ABOVE_BASELINE_LEADING</code></li>
+<li><code>ABOVE_BASELINE_TRAILING</code></li>
+<li><code>BELOW_BASELINE</code></li>
+<li><code>BELOW_BASELINE_LEADING</code></li>
+<li><code>BELOW_BASELINE_TRAILING</code></li>
+</ul>
+<p>Additionally the <code><a href="http://docs.oracle.com/javase/6/docs/api/java/awt/GridBagLayoutInfo.html">
+GridBagLayoutInfo</a></code> class was introduced to store align,
+size, and baseline parameters for every component within a
+container while lay outing components using
+<code>GridBagLayout</code>.</p>
+<h3><a name="Windows" id="Windows">Enhancements the
+<code>Window</code> class</a></h3>
+<p>New methods were added to the <code>Window</code> class to
+handle images that are displayed as the icon for the window. While
+the <code>setIconImage(Image image)</code> method sets the only one
+image, the <code>setIconImages(List&lt;? extends Image&gt;
+icons)</code> method supports the sequence of images of different
+dimensions to be applied depending on the platform
+capabilities.</p>
+<p>In Java SE 6 a <code>Window</code> or <code>Dialog</code> object
+can be created without a parent frame, the <code>owner</code>
+parameter in constructors of such objects equals
+<code>null</code>.</p>
+<h2><a name="fixedBugs" id="fixedBugs">Fixed Bugs</a></h2>
+Here is a list of the key bug fixes:
+<h3><a href=
+"http://bugs.sun.com/view_bug.do?bug_id=6404008">
+<b>6404008</b></a> Delivery of mouse events depends on drag
+sensitivity:</h3>
+<p>Mouse dragged events were received after the drag sensitivity
+setting of the operating system is reached. In the proposed
+solution the drag distance parameter of the operating system is
+ignored. Java drag events will be ganerated on the first movement
+of the mouse.</p>
+<h3><a href=
+"http://bugs.sun.com/view_bug.do?bug_id=6242833">
+<b>6242833</b></a> A mouse cursor does not behave properly after
+maximizing a window on Linux/JDS 3:</h3>
+<p>Some events essential for cursor update were not delivered while
+maximazing a window. The fix comprises x-crossing event handling
+within XWindow.</p>
+<h3><a href=
+"http://bugs.sun.com/view_bug.do?bug_id=4841881">
+<b>4841881</b></a>: Tabbing by using Alt+Tab on Windows L&amp;F
+moves focus to the application menu bar</h3>
+<p>Using Alt+Tab to navigate from a Java window to a native
+application window and back to the Java window resulted in the
+focus being moved to the first menu item of the Java window. The
+proposed fix allows to keep the focus on the initially focused
+component of the Java window.</p>
+<h3><a href=
+"http://bugs.sun.com/view_bug.do?bug_id=6291992">
+<b>6291992</b></a>: All editable fields get frozen</h3>
+Editable fields became unable to be edited or to get the focus
+(<code>JTextField</code>, <code>JTextArea</code>, etc), even in
+fields that have been previously edited. Other components as combo
+boxes, tables, radio buttons remain editable.
+<h3><a href=
+"http://bugs.sun.com/view_bug.do?bug_id=6176814">
+<b>6176814</b></a>: Multi-click handling</h3>
+<p>The XWindow.java code lacks multi click handling. So, when the
+user dragged the mouse on the screen onto the Linux box, double
+clicks occurred when the user expected single clicks. Likewise,
+single clicks occurred when the user expected no clicks at all. The
+fix includes the <code>AWT_MULTICLICK_SMUDGE</code> variable to
+apply a smudge factor so that moving the mouse by a small amount
+does not wipe out the multi-click state variables.</p>
+<h3><a href=
+"http://bugs.sun.com/view_bug.do?bug_id=5051557">
+<b>5051557</b></a>: The applet does not respond to keyboard
+commands</h3>
+<p>The applet itself did not get the focus, which apparently went
+to the embedded frame.This incompatibility was caused by a focus
+rearchitecture introduced in Java SE 1.4. The fix restores initial
+proper behavior.</p>
+<h3><a href=
+"http://bugs.sun.com/view_bug.do?bug_id=4320050">
+<b>4320050</b></a>: Minimum size for a <code>Frame</code> object is
+not being enforced</h3>
+<p>The <code>Window.setMinimumSize()</code> method has been
+modified to restrict user-resizing of top-level windows below
+specified dimensions. Previously, minimum size set for toplevel
+windows was ignored by platform, so this change can impact code
+that uses the <code>minimumSize</code> property of top-level
+windows for its own needs.</p>
+<p><a href=
+"http://bugs.sun.com/view_bug.do?bug_id=6199167">
+<b>6199167</b></a>: Live resizing</p>
+<p>Native applications on Windows had the property to dynamically
+relayout and repaint during resizing. This property was controlled
+through system desktop settings. Java disables this property by
+default. In Java SE 6 the required property is enables by
+default.</p>
+<h3><a href=
+"http://bugs.sun.com/view_bug.do?bug_id=4360364">
+<b>4360364</b></a>: Cyrillic input is not supported</h3>
+<p>If a locale was defined incorrectly, a native Input Method did
+not process keysyms and passed them as is to AWT
+<code>handleKeyEvent</code> routine. In the fix a conversion table
+is added and key event handling generally streamlined in non Input
+Method situations.</p>
+<h2><a name="knownBugs" id="knownBugs">Known Bugs and
+Issues</a></h2>
+<p>Here is a list of known problems you may encounter in release
+6.0.</p>
+<h3><a href=
+"http://bugs.sun.com/view_bug.do?bug_id=5070056">
+5070056</a>: The <code>JWindow</code> component stays on top of all
+other windows</h3>
+<p>The <code>JWindow</code> component stays up on top of all other
+windows hiding other windows behind it on Solaris and Linux. To
+workaround, you can use an undecorated frame.</p>
+<h3><a href=
+"http://bugs.sun.com/view_bug.do?bug_id=6387273">
+6387273</a>: The JVM crash</h3>
+<p>In some synthetic situations (such as repeated showing/disposing
+of a toplevel) the JVM may crash.</p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

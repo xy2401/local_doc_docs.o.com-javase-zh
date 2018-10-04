@@ -1,0 +1,241 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Schema in the JNDI</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="overview.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="object.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Schema</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Schema in the JNDI
+</h2>
+<p>
+<blockquote>
+
+The JNDI contains methods that access schema
+information about object classes, attribute types, and
+attribute syntaxes. These methods are listed in the following table.
+<p>
+
+<TABLE BORDER CELLPADDING=3>
+<tr>
+<th>
+Method
+</th>
+<th>
+Description
+</th>
+</tr>
+
+<tr>
+<td>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#getSchema(javax.naming.Name)"><tt>DirContext.getSchema()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#getSchema(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></td>
+<td>
+Returns the schema tree for the named object.
+</td>
+</tr>
+
+<tr>
+<td>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#getSchemaClassDefinition(javax.naming.Name)"><tt>DirContext.getSchemaClassDefinition()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#getSchemaClassDefinition(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></td>
+<td>
+Returns the object class definition for the named object.
+</td>
+</tr>
+
+<tr>
+<td>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attribute.html#getAttributeDefinition()"><tt>Attribute.getAttributeDefinition()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attribute.html#getAttributeDefinition()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></td>
+<td>
+Returns the attribute definition for this attribute.
+</td>
+</tr>
+<tr>
+<td>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attribute.html#getAttributeSyntaxDefinition()"><tt>Attribute.getAttributeSyntaxDefinition()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attribute.html#getAttributeSyntaxDefinition()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></td>
+<td>
+Returns the syntax definition for this attribute.
+</td>
+</tr>
+</table>
+<p>
+
+<tt>DirContext.getSchema()</tt> is described in this section.
+The other methods are described in more detail 
+elsewhere in this lesson.
+<p>
+The JNDI provides general descriptions of how these methods should behave
+but does not specify many details, such as 
+the structure and contents of the schema tree,
+the attributes of the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html"><tt>DirContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    objects returned by the schema methods, or
+the effect of modifications to the schema tree and data on 
+the directory itself.
+These details are currently determined by the underlying service
+provider and directory service because schema data is specific to each
+service. However, it makes sense for such details to be specified for a
+particular style of directory. For example, all LDAP-style
+directories should return schema information in a particular way.
+The <a href=http://java.sun.com/j2se/1.4.1/docs/guide/jndi/jndi-ldap-gl.html>Guidelines for LDAP Service Providers</a> 
+describes the recommended schema
+tree and attributes for LDAP-style directories.
+
+<h4>Relationship to the LDAP Schema</h4>
+
+The methods in the preceding table are invoked on the object for which
+you want the schema information.  When you are using the LDAP service
+provider, the objects returned by these methods are derived from
+schema information in the LDAP directory.  The
+provider first tries to obtain the information from the subschema
+subentry of the object's corresponding LDAP entry. 
+If this entry is not
+available, then it consults the root DSE's subschema subentry.
+If neither of these two sources is available, then an
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/OperationNotSupportedException.html"><tt>OperationNotSupportedException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/OperationNotSupportedException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     is thrown.
+<p>
+The sections 
+<a href=object.html>Object Class Definitions</a>,
+<a href=attribute.html>Attribute Type Definitions</a>,
+<a href=syntax.html>Attribute Syntax Definitions</a>,
+and
+<a href=matching.html>Attribute Matching Rule Definitions</a>
+give
+specifics about how the attributes in the subschema subentry
+are mapped to the objects returned by the JNDI methods.
+
+<h4>The Schema Tree</h4>
+
+The JNDI specifies that
+<tt>DirContext.getSchema()</tt> returns the root of the schema tree.
+The tree contains the bindings listed in the following table.
+<p>
+<TABLE BORDER CELLPADDING=3>
+<tr>
+<th>
+Name
+</th>
+<th>
+Binding
+</th>
+</tr>
+
+<tr>
+<td>
+<tt>AttributeDefinition</tt>
+</td>
+<td>
+The root of the attribute type definition namespace.
+</td>
+</tr>
+
+<tr>
+<td>
+<tt>ClassDefinition</tt>
+</td>
+<td>
+The root of the object class definition namespace.
+</td>
+</tr>
+
+
+<tr>
+<td>
+<tt>SyntaxDefinition</tt>
+</td>
+<td>
+The root of the attribute syntax definition namespace.
+</td>
+</tr>
+</table>
+<p>
+Any or all of these bindings may be absent if the underlying directory
+does not publish such schema data or if the service provider does not support
+their retrieval. 
+The <a href="http://www.sun.com/">SunONE Directory Server v5.1</a>,
+for example, does not publish syntax definitions.
+<p>
+Service providers may also make available additional bindings in the schema
+tree, for example, bindings for matching rules and extensions.
+Sun's LDAP service provider, for example, supports looking up 
+matching rule definitions from the <tt>"MatchingRule"</tt> binding in
+the schema tree.
+<p>
+Here's <a href=src/GetSchema.java>an example</a>
+that retrieves the schema tree root for the LDAP entry 
+<tt>"ou=People"</tt>
+and lists its contents.
+<blockquote><pre>
+// Get the schema tree root
+DirContext schema = ctx.getSchema("ou=People");
+
+// List the contents of root
+NamingEnumeration bds = schema.list("");
+while (bds.hasMore()) {
+    System.out.println(((NameClassPair)(bds.next())).getName());
+}
+</pre></blockquote>
+Here's the output produced by this example.
+<blockquote><pre>
+AttributeDefinition
+ClassDefinition
+</pre></blockquote>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="overview.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="object.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Schema</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

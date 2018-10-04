@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Part VI: HTTP/SPNEGO Authentication</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="dcterms.created" content="2018-03-13T07:25:33Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Security Developer&rsquo;s Guide" />
+<meta name="dcterms.identifier" content="E91076-01" />
+<meta name="dcterms.isVersionOf" content="JSSEC" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="part-v-secure-authentication-using-spnego-java-gss-mechanism.htm" title="Previous" type="text/html" />
+<link rel="Next" href="source-code-advanced-security-programming-java-se-authentication-secure-communication-and-single-sig.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSSEC.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-996F729E-5FEA-4E29-A32A-78FB510B2D80"></a> <span id="PAGE" style="display:none;">41/59</span> <!-- End Header -->
+<h1 id="JSSEC-GUID-996F729E-5FEA-4E29-A32A-78FB510B2D80" class="sect1">Part VI: HTTP/SPNEGO Authentication</h1>
+<div class="sect2"><a id="GUID-2978DB58-6217-4E29-95EF-2C1F25F7C37F"></a>
+<h2 id="JSSEC-GUID-2978DB58-6217-4E29-95EF-2C1F25F7C37F" class="sect2">Exercise 9: Using HTTP/SPNEGO Authentication</h2>
+<div class="sect3"><a id="GUID-89457AC9-89FE-4934-A6F3-B03D72D95AA7"></a>
+<h3 id="JSSEC-GUID-89457AC9-89FE-4934-A6F3-B03D72D95AA7" class="sect3">What is HTTP SPNEGO</h3>
+<div>
+<p>HTTP SPNEGO supports the Negotiate authentication scheme in an HTTP communication. SPNEGO supports types of authentication:</p>
+<div class="section">
+<p class="subhead3">Web Authentication</p>
+<p>The Web Server responds with</p>
+</div>
+<!-- class="section" -->
+<pre dir="ltr">
+HTTP/1.1 401 Unauthorized
+WWW-Authenticate: Negotiate
+</pre>
+<p>the client will need to send a header like</p>
+<pre dir="ltr">
+Authorization: Negotiate YY.....
+</pre>
+<p>to authenticate itself to the server</p>
+<div class="section">
+<p class="subhead3">Proxy Authentication</p>
+<p>The Web Server responses with</p>
+</div>
+<!-- class="section" -->
+<pre dir="ltr">
+HTTP/1.1 407 Proxy Authentication Required
+Proxy-Authenticate: Negotiate
+</pre>
+<p>the client will need to send a header like</p>
+<pre dir="ltr">
+Proxy-Authorization: Negotiate YY.....
+</pre>
+<p>to authenticate itself to the proxy server.</p>
+<p>This feature supports both types of authentication.</p>
+</div>
+</div>
+<div class="sect3"><a id="GUID-1101592C-854C-4CB2-B46C-CE3EE8652FB0"></a>
+<h3 id="JSSEC-GUID-1101592C-854C-4CB2-B46C-CE3EE8652FB0" class="sect3">How to use HTTP/SPNEGO Authentication</h3>
+<div>
+<p>There is no new public API function involved in the new feature, but several configurations are needed to perform a success communication:</p>
+<div class="section">
+<p class="subhead3">Kerberos 5 Configuration</p>
+<p>Since the SPNEGO mechanism will call JGSS, which in turns calls the Kerberos V5 login module to do real works. Kerberos 5 configurations are needed. This includes the following:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Some way to provide Kerberos configurations. This can be achieved with the Java system property <code class="codeph">java.security.krb5.conf</code>. For example:</p>
+<pre dir="ltr">
+java -Djava.security.krb5.conf=krb5.conf \
+     -Djavax.security.auth.useSubjectCredsOnly=false \
+     ClassName
+</pre>
+<p>A JAAS config file denoting what login module to use. HTTP SPNEGO codes will look for the standard entry named <code class="codeph">com.sun.security.jgss.krb5.initiate</code>.</p>
+<p>For example, you can provide a file <code class="codeph">spnegoLogin.conf</code>:</p>
+<pre dir="ltr">
+com.sun.security.jgss.krb5.initiate {
+    com.sun.security.auth.module.Krb5LoginModule
+        required useTicketCache=true;
+};
+</pre>
+<p>and run java with:</p>
+<pre dir="ltr">
+java -Djava.security.krb5.conf=krb5.conf \
+     -Djava.security.auth.login.config=spnegoLogin.conf \
+     -Djavax.security.auth.useSubjectCredsOnly=false \
+     ClassName
+</pre></li>
+</ul>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead3">User Name and Password Retrieval</p>
+<p>Just like any other HTTP authentication scheme, the client can provide a customized <span class="apiname">java.net.Authenticator</span> to feed user name and password to the HTTP SPNEGO module <span class="bold">if</span> they are needed (i.e. there is no credential cache available). The only authentication information needed to be checked in your <span class="apiname">Authenticator</span> is the scheme which can be retrieved with <span class="apiname">getRequestingScheme()</span>. The value should be "Negotiate".</p>
+<p>This means your <span class="apiname">Authenticator</span> implementation will look like:</p>
+<pre dir="ltr">
+class MyAuthenticator extends Authenticator {
+
+        public PasswordAuthentication getPasswordAuthentication () {
+            if (getRequestingScheme().equalsIgnoreCase("negotiate")) {
+                String krb5user;
+                char[] krb5pass;
+                // get krb5user and krb5pass in your own way
+                ....
+                return (new PasswordAuthentication (krb5user,
+                            krb5pass));
+            } else {
+                ....
+            }
+        }
+    }
+</pre>
+<div class="infobox-note" id="GUID-1101592C-854C-4CB2-B46C-CE3EE8652FB0__GUID-EE01F3DE-A2B0-4137-8EBD-EADFE95AB71E">
+<p class="notep1">Note:</p>
+According to the specification of <span class="apiname">java.net.Authenticator</span>, it's designed to get the user name and password at the same time, so do not specify <code class="codeph">principal=<span class="variable">xxx</span></code> in the JAAS config file.</div>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead3">Scheme Preference</p>
+<p>The client can still provide system property <span class="apiname">http.auth.preference</span> to denote that a certain scheme should always be used as long as the server request for it. You can use "SPNEGO" or "Kerberos" for this system property. "SPNEGO" means you prefer to response the Negotiate scheme using the GSS/SPNEGO mechanism; "Kerberos" means you prefer to response the Negotiate scheme using the GSS/Kerberos mechanism. Normally, when authenticating against a Microsoft product, you can use "SPNEGO". The value "Kerberos" also works for Microsoft servers. It's only needed when you encounter a server which knows Negotiate but doesn't know about SPNEGO.</p>
+<p>If <code class="codeph">http.auth.preference</code> is not set, the internal order chosen is:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>GSS/SPNEGO -&gt; Digest -&gt; NTLM -&gt; Basic</p>
+</li>
+</ul>
+<p>Notice that Kerberos does not appear in this list, since whenever Negotiate is supported, GSS/SPNEGO is always chosen.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead3">Fallback</p>
+<p>If the server has provided more than one authentication scheme (including Negotiate), according to the processing order mentioned in the last section, Java will try to challenge the Negotiate scheme. However, if the protocol cannot be established successfully (for example, the Kerberos configuration is not correct, or the server's hostname is not recorded in the KDC principal DB, or the user name and password provided by <span class="apiname">Authenticator</span> is wrong), then the second strongest scheme will be automatically used.</p>
+<div class="infobox-note" id="GUID-1101592C-854C-4CB2-B46C-CE3EE8652FB0__GUID-2FE4CFC7-2814-49D2-AE82-53932203725E">
+<p class="notep1">Note:</p>
+<p>If <code class="codeph">http.auth.preference</code> is set to SPNEGO or Kerberos, then SPNEGO assumes you only want to try the Negotiate scheme even if it fails. SPNEGO will not fallback to any other scheme and your program will throw an <span class="apiname">IOException</span> saying it received a 401 or 407 error from the HTTP response.</p>
+</div>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect3"><a id="GUID-05B34286-D0B6-4C35-B0BF-C98CD9F7E1D2"></a>
+<h3 id="JSSEC-GUID-05B34286-D0B6-4C35-B0BF-C98CD9F7E1D2" class="sect3">HTTP/SPNEGO Authentication Example</h3>
+<div>
+<p>Assume that you have an IIS Server running on a Windows Server within an Active Directory. A web page on this server is configured to be protected by Integrated Windows Authentication. This means the server will prompt for both Negotiate and NTLM authentication.</p>
+<p>You need to prepare these files to get the protected file:</p>
+<div class="section">
+<p class="subhead3">RunHttpSpnego.java</p>
+<pre dir="ltr">
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
+import java.net.URL;
+
+public class RunHttpSpnego {
+
+    static final String kuser = "username"; // your account name
+    static final String kpass = "password"; // your password for the account
+
+    static class MyAuthenticator extends Authenticator {
+        public PasswordAuthentication getPasswordAuthentication() {
+            // I haven't checked getRequestingScheme() here, since for NTLM
+            // and Negotiate, the usrname and password are all the same.
+            System.err.println("Feeding username and password for " + getRequestingScheme());
+            return (new PasswordAuthentication(kuser, kpass.toCharArray()));
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        Authenticator.setDefault(new MyAuthenticator());
+        URL url = new URL(args[0]);
+        InputStream ins = url.openConnection().getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(ins));
+        String str;
+        while((str = reader.readLine()) != null)
+            System.out.println(str);
+    }
+}
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead3">krb.conf</p>
+<pre dir="ltr">
+[libdefaults]
+    default_realm = AD.LOCAL
+[realms]
+    AD.LOCAL = {
+        kdc = kdc.ad.local
+    }
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead3">login.conf</p>
+<pre dir="ltr">
+com.sun.security.jgss.krb5.initiate {
+  com.sun.security.auth.module.Krb5LoginModule required  doNotPrompt=false useTicketCache=true;
+};
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead3">Compiling and Running the Example</p>
+<ol>
+<li>
+<p>Compile <code>RunHttpSpnego.java</code>.</p>
+</li>
+<li>
+<p>Run <code>RunHttpSpnego.java</code>:</p>
+<pre dir="ltr">
+java -Djava.security.krb5.conf=krb5.conf \
+    -Djava.security.auth.login.config=login.conf \
+    -Djavax.security.auth.useSubjectCredsOnly=false \
+    RunHttpSpnego \
+    http://www.ad.local/hello/hello.html
+</pre>
+<p>You will see the following:</p>
+<pre dir="ltr">
+Feeding username and password for Negotiate 
+&lt;h1&gt;Hello, You got me!&lt;/h1&gt;
+</pre>
+<p>In fact, if you are running on a Windows machine as a domain user, or, you are running on a Linux or Solaris machine that has already issued the kinit command and got the credential cache. The class <code class="codeph">MyAuthenticator</code> will be completely ignored, and the output will be simply:</p>
+<pre dir="ltr">
+&lt;h1&gt;Hello, You got me!&lt;/h1&gt;
+</pre>
+<p>which shows the user name and password are not consulted. This is the so-called Single Sign-On.</p>
+<p>Also, you can just run</p>
+<pre dir="ltr">
+java RunHttpSpnego http://www.ad.local/hello/hello.html
+</pre>
+<p>to see how the fallback is done, in which case you will see</p>
+<pre dir="ltr">
+Feeding username and password for ntlm
+&lt;h1&gt;Hello, You got me!&lt;/h1&gt;
+</pre></li>
+</ol>
+</div>
+<!-- class="section" --></div>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment455">
+<tr>
+<td class="cellalignment462">
+<table class="cellalignment460">
+<tr>
+<td class="cellalignment459"><a href="part-v-secure-authentication-using-spnego-java-gss-mechanism.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment459"><a href="source-code-advanced-security-programming-java-se-authentication-secure-communication-and-single-sig.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment464">
+<table class="cellalignment458">
+<tr>
+<td class="cellalignment459"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment459"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment459"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

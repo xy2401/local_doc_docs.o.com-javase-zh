@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Cookie Management</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../webdesign/pubs8/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs8/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://docs.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Cookie Management</h1></div>
+<h2>Introduction</h2>
+<p>The HTTP state management mechanism specifies a way to create a
+stateful session with HTTP requests and responses. The
+specification for it can be found in RFC 2965: HTTP State
+Management Mechanism at <a href=
+"http://www.ietf.org/rfc/rfc2965.txt?number=2965">http://www.ietf.org/rfc/rfc2965.txt?number=2965.</a></p>
+<h2>Prior to JDK 5.0 support</h2>
+<p>Prior to JDK 5.0, it was possible to add Cookie management to
+applications. But the supporting API was somewhat rudimentary.
+There was no single point of hook up with cookie management. Each
+application had to handle cookies for each HTTP request/response
+separately by using the following two methods from
+java.net.URLConnection class:</p>
+<p><code>setRequestProperty()<br />
+getHeaderFields()</code></p>
+<p>The first method should be called before sending out a HTTP
+request in order to set the appropriate cookies for the current URL
+in the HTTP headers. The second method should be used to retrieve
+the cookies from the response headers sent by the HTTP server.</p>
+<p>Although doable, adding Cookie support in this way results in
+fragmented code, which is error prone and incurs high
+maintenance.</p>
+<h2>What's new in JDK 5.0?</h2>
+<p>JDK 5.0 introduced a new callback mechanism via an abstract
+class to hook up a HTTP state management policy implementation into
+the HTTP protocol handler. Applications and web containers can
+introduce Cookie management by providing a concrete subclass of the
+new API.</p>
+<p>The new abstract class is called java.net.CookieHandler. It
+provides a mechanism to register and retrieve the current
+CookieHandler for the JVM, as well as methods to retrieve and
+record relevant cookies for a specific URI.</p>
+<p>There are two static methods in CookieHandler getDefault() and
+setDefault() for retrieving and registering the default
+CookieHandler in the VM. As well as two instance methods get() and
+put() for returning a list of cookies based on a URL and stores a
+list of cookies from the response headers, respectively.</p>
+<p>Cookies are represented as Map&lt;String,List&lt;String&gt;&gt;,
+a Map from the header field name for cookies to a list of cookies
+represented by Strings. There are two state management headers
+defined so far, &quot;Set-Cookie2&quot; and &quot;Cookie&quot;. The
+former is used for returning cookies in response headers; while the
+latter is for setting cookies in HTTP request headers.</p>
+<p>Here is an example from RFC2965:</p>
+<p>1. User Agent -&gt; Server</p>
+<p>POST /acme/login HTTP/1.1<br />
+[form data]</p>
+<p>2. Server -&gt; User Agent</p>
+<p>HTTP/1.1 200 OK<br />
+Set-Cookie2: Customer="WILE_E_COYOTE"; Version="1";
+Path="/acme"</p>
+<p>3. User Agent -&gt; Server</p>
+<p>POST /acme/pickitem HTTP/1.1<br />
+Cookie: $Version="1"; Customer="WILE_E_COYOTE"; $Path="/acme"<br />
+[form data]</p>
+<h2>A simple Example</h2>
+<p>Here's a simple example of a CookieHandler implementation.
+Basically there are two methods to implement, given a request URI
+and request headers (except the cookie headers), retrieve all the
+relevant cookies from your cookie cache; and record the applicable
+cookies to your cookie cache given the request URI and the response
+headers.</p>
+<pre class="codeblock">
+class MyCookieHandler extends CookieHandler {
+        public Map&lt;String, List&lt;String&gt;&gt;
+                get(URI uri, Map&lt;String, List&lt;String&gt;&gt; requestHeaders)
+                throws IOException {
+                // the cookies will be included in request
+                Map&lt;String, List&lt;String&gt;&gt; map = new HashMap&lt;String, List&lt;String&gt;&gt;();
+                List&lt;String&gt; l = retrieveCookies(uri, rqstHdrs);
+                map.put(&quot;Cookie&quot;,l);
+                return Collections.unmodifiableMap(map);
+        }
+
+        public void
+                put(URI uri, Map responseHeaders)
+                throws IOException {
+            // check response has cookies[1]
+                List l = (List)responseHeaders.get(&quot;Set-Cookie2&quot;);
+            if (l != null) {
+                        // save the cookies in a cookie cache
+                 storeCookies(uri, l);
+            }
+        }
+}
+</pre>
+<p>The methods <code>retrieveCookies()</code> and
+<code>storeCookies()</code> are "magic" functions for interacting
+with a backend cookie management facility, which is omitted in this
+example.</p>
+<p>Once it is registered with the VM, it will take effect when you
+issue HTTP transactions.</p>
+<pre class="codeblock">
+public static void main(String args[]) throws Exception {
+        ......
+        CookieHandler.setDefault(new MyCookieHandler());
+        HttpURLConnection http = (HttpURLConnection)url.openConnection();
+
+        int respCode = http.getResponseCode();
+        http.disconnect();
+        ......
+}
+</pre>
+<p>There is no default implementation of a cookie manager in <!--J2SE--> Java SE.
+However, this may change in the future. Java Plugin and Java WebStart provides a default CookieHandler in their environment.</p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

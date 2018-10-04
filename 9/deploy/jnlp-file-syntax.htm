@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>JNLP File Syntax</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="dcterms.created" content="2017-09-14T11:30:08Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Deployment Guide" />
+<meta name="dcterms.identifier" content="E61695-03" />
+<meta name="dcterms.isVersionOf" content="JSDPG" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="migrating-java-applets-jnlp.htm" title="Previous" type="text/html" />
+<link rel="Next" href="jnlp-api-examples.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSDPG.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSDPG.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSDPG.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-8644B881-8C5E-41C1-8F92-659FC2F62A12"></a> <span id="PAGE" style="display:none;">13/17</span> <!-- End Header -->
+<h1 id="JSDPG-GUID-8644B881-8C5E-41C1-8F92-659FC2F62A12" class="sect1"><span class="enumeration_chapter">7</span> JNLP File Syntax</h1>
+<div>
+<p>This chapter includes the following topics:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436">Introduction to JNLP File Syntax</a></p>
+</li>
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-D855AE21-EAAF-41C0-ACF7-7CB6AAD43F94">Examples of a JNLP File</a></p>
+</li>
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-C193BCD6-B945-4486-A18F-89B3E92A1412">JNLP Elements</a></p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-C336FC3F-DE2A-4873-AE29-44121766FC19">jnlp Element</a></p>
+</li>
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-CC367157-90BE-4173-9AFB-C386B4A04A0D">information Element</a></p>
+</li>
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-A7A2C463-4647-4204-8DC6-C2D0A7FD4723">security Element</a></p>
+</li>
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-9FF733BD-EBDC-40B4-93E8-CC60D0586EC8">update Element</a></p>
+</li>
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-F32AB01F-C9AF-4D7B-B9CB-66ACE2771846">resources Element</a></p>
+</li>
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-5C5E3A20-416B-46E0-A279-D31D48E430BA">application-desc Element</a></p>
+</li>
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-E1FD5551-4C30-4C8D-A9E3-A836E2A55470">applet-desc Element</a></p>
+</li>
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-EEA66696-2FF1-4A06-BA0F-8E53CA65CEB0">component-desc Element</a></p>
+</li>
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-27F7A65A-A244-4188-A015-1048D6C446B1">installer-desc Element</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="sect2"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436"></a>
+<h2 id="JSDPG-GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436" class="sect2">Introduction to JNLP File Syntax</h2>
+<div>
+<p>The format used in this release is that specified in the Java Network Launching Protocol &amp; API Specification (JSR-56) version 6.0. The Java Network Launch Protocol (JNLP) file for rich internet applications (RIAs) is an XML file. All elements and their attributes must be entered in lowercase. The following table describes the most commonly used elements of a JNLP file. For a complete description of the format, see the specification.</p>
+<div class="tblformalwide" id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-E0885FBC-5975-4795-90C3-939A08CCA6A9">
+<table class="cellalignment443" summary="Description of the element and element attributes in a JNLP file">
+<thead>
+<tr class="cellalignment388">
+<th class="cellalignment433" id="d23283e76">Element</th>
+<th class="cellalignment444" id="d23283e79">Description</th>
+<th class="cellalignment444" id="d23283e82">Attributes</th>
+<th class="cellalignment433" id="d23283e85">Required</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e90" headers="d23283e76">
+<p><code class="codeph">jnlp</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e90 d23283e79">
+<p>This is the main XML element for a JNLP file. Everything is contained within the <code class="codeph">jnlp</code> element.</p>
+</td>
+<td class="cellalignment445" headers="d23283e90 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-9FD9774D-3AD7-41C2-A361-268BBC626222"><!-- --></a><code class="codeph">spec</code></dt>
+<dd>Specifies the minimum version of the JNLP specification that this JNLP file can work with. Valid values are 1.0, 1.5, 6.0, 6.0.10, 6.0.18, 7.0, 8.20, 9 or a wildcard such as 1.0+.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-965E62A4-5E76-4D72-8EDA-ECF3E782F3FF"><!-- --></a><code class="codeph">codebase</code></dt>
+<dd>Specifies the base location for all relative URLs specified in <code class="codeph">href</code> attributes in the JNLP file.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-9FA656B2-C403-49D6-8C63-096832A9F0E1"><!-- --></a><code class="codeph">href</code></dt>
+<dd>Specifies the URL of the JNLP file itself.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-652ADBB7-2442-4F6D-B97C-0B1B52FD631F"><!-- --></a><code class="codeph">version</code></dt>
+<dd>Specifies the version of the application being launched and the version of the JNLP file itself.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e90 d23283e85">
+<p>Yes</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e133" headers="d23283e76">
+<p><code class="codeph">information</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e133 d23283e79">
+<p>Contains other elements that describe the application and its source.</p>
+</td>
+<td class="cellalignment445" headers="d23283e133 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-C4C39B2C-8923-4B61-9009-4484A84FB05D"><!-- --></a><code class="codeph">os</code></dt>
+<dd>Specifies the operating systems for which this information element should be considered. Added in 1.5.0.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-43B95B04-12F6-4E26-B2E4-37DDB075F65C"><!-- --></a><code class="codeph">arch</code></dt>
+<dd>Specifies the architecture for which this information element should be considered. Added in 1.5.0.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-0507996E-D65D-4659-AE19-0CF3F805C820"><!-- --></a><code class="codeph">platform</code></dt>
+<dd>Specifies the platform for which this information element should be considered. Added in 1.5.0.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-CFD4D700-94C9-43D0-ADEA-690AFEECFF10"><!-- --></a><code class="codeph">locale</code></dt>
+<dd>Specifies the locale for which this information element should be considered. Added in 1.5.0.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e133 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e170" headers="d23283e76">
+<p><code class="codeph">title</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e170 d23283e79">
+<p>Specifies the title of the application.</p>
+</td>
+<td class="cellalignment445" headers="d23283e170 d23283e82">
+<p>NA</p>
+</td>
+<td class="cellalignment435" headers="d23283e170 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e184" headers="d23283e76">
+<p><code class="codeph">vendor</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e184 d23283e79">
+<p>Specifies the provider of the application.</p>
+</td>
+<td class="cellalignment445" headers="d23283e184 d23283e82">
+<p>NA</p>
+</td>
+<td class="cellalignment435" headers="d23283e184 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e198" headers="d23283e76">
+<p><code class="codeph">homepage</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e198 d23283e79">
+<p>Home page of the application.</p>
+</td>
+<td class="cellalignment445" headers="d23283e198 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-DF0D42F5-19B5-44CC-A419-F17B70D8F667"><!-- --></a><code class="codeph">href</code></dt>
+<dd>Specifies the URL where more information about this application can be found. Required.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e198 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e217" headers="d23283e76">
+<p><code class="codeph">description</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e217 d23283e79">
+<p>Short statement describing the application.</p>
+</td>
+<td class="cellalignment445" headers="d23283e217 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-064AD180-6A1A-4D2B-91C6-39A95E717313"><!-- --></a><code class="codeph">kind</code></dt>
+<dd>Indicates the type of description this is. Valid values are <code class="codeph">one-line</code>, <code class="codeph">short</code>, and <code class="codeph">tooltip</code>.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e217 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e245" headers="d23283e76">
+<p><code class="codeph">icon</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e245 d23283e79">
+<p>Describes an icon that can be used to identify the application to the user.</p>
+</td>
+<td class="cellalignment445" headers="d23283e245 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-30FBBC58-511C-4439-8D54-26BB5CA0A7D7"><!-- --></a><code class="codeph">href</code></dt>
+<dd>Specifies the URL for the icon file. Can be in one of the following formats: GIF, JPG, PNG, ICO. Required.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-88929DE8-9B88-453A-8BAA-0323A93D05CC"><!-- --></a><code class="codeph">kind</code></dt>
+<dd>Indicates the suggested use of the icon. Valid values are <code class="codeph">default</code>, <code class="codeph">splash</code>, and <code class="codeph">shortcut</code>.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-A2D327DC-8894-45DD-ABC2-4022E0CC9844"><!-- --></a><code class="codeph">width</code></dt>
+<dd>Can be used to indicate the resolution of the image.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-23322C15-1E94-47F4-AF66-48FE2BE4D348"><!-- --></a><code class="codeph">height</code></dt>
+<dd>Can be used to indicate the resolution of the image.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-635B35F7-6CEC-45AA-834D-0E5FB6CC7D2E"><!-- --></a><code class="codeph">depth</code></dt>
+<dd>Can be used to indicate the resolution of the image.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e245 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e297" headers="d23283e76">
+<p><code class="codeph">offline-allowed</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e297 d23283e79">
+<p>Indicates that this application can operate when the client system is disconnected from the network.</p>
+</td>
+<td class="cellalignment445" headers="d23283e297 d23283e82">
+<p>NA</p>
+</td>
+<td class="cellalignment435" headers="d23283e297 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e311" headers="d23283e76">
+<p><code class="codeph">shortcut</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e311 d23283e79">
+<p>Can be used to indicate an application's preferences for desktop integration. Added in 1.5.0.</p>
+</td>
+<td class="cellalignment445" headers="d23283e311 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-40395AE3-7C3C-4C61-ABD6-6094EACFC12C"><!-- --></a><code class="codeph">online</code></dt>
+<dd>Can be used to describe the application's preference for creating a shortcut to run online or offline.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-3F600191-82A0-44F7-89A7-25B5CA726C6E"><!-- --></a><code class="codeph">install</code></dt>
+<dd>Can be used in a shortcut element to describe the application's preference for being considered installed. If the value is <code class="codeph">true</code>, then the application prefers to be considered installed. The default value of the install attribute is <code class="codeph">false</code>. On Windows, this determines if the application appears in the <span class="wintitle">Add and Remove Programs</span> panel. Added in 7.0.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e311 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e345" headers="d23283e76">
+<p><code class="codeph">desktop</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e345 d23283e79">
+<p>Can be used to indicate an application's preference for putting a shortcut on the users desktop. Added in 1.5.0.</p>
+</td>
+<td class="cellalignment445" headers="d23283e345 d23283e82">
+<p>NA</p>
+</td>
+<td class="cellalignment435" headers="d23283e345 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e359" headers="d23283e76">
+<p><code class="codeph">menu</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e359 d23283e79">
+<p>Can be used to indicate an application's preference for putting a menu item in the user&rsquo;s start menus. Added in 1.5.0.</p>
+</td>
+<td class="cellalignment445" headers="d23283e359 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-3E50ED1A-D59C-4385-B071-7E875E0A55E0"><!-- --></a><code class="codeph">sub-menu</code></dt>
+<dd>Can be used to indicate an application's preference for where to place the menu item.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e359 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e379" headers="d23283e76">
+<p><code class="codeph">association</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e379 d23283e79">
+<p>Can be used to hint to the JNLP client that it wants to be registered with the operating system as the primary handler of certain extensions and a certain MIME type. If this element is included, either the <code class="codeph">offline-allowed</code> element must also be included, or the <code class="codeph">href</code> attribute must be set for the jnlp element. Added in 1.5.0.</p>
+</td>
+<td class="cellalignment445" headers="d23283e379 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-55609497-A307-440C-93FE-A02732337850"><!-- --></a><code class="codeph">extensions</code></dt>
+<dd>Contains a list of file extensions (separated by spaces) that the application requests it be registered to handle.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-0BF335C8-40A0-4CAA-938E-6CDBD0D96342"><!-- --></a><code class="codeph">mime-type</code></dt>
+<dd>Contains the MIME type that the application requests it be registered to handle.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e379 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e410" headers="d23283e76">
+<p><code class="codeph">related-content</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e410 d23283e79">
+<p>Describes an additional piece of related content that can be integrated with the application. Added in 1.5.0.</p>
+</td>
+<td class="cellalignment445" headers="d23283e410 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-0D32013E-DFB3-48AD-A690-37D799E7D4F3"><!-- --></a><code class="codeph">href</code></dt>
+<dd>Specifies the URL to the related content. Required.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e410 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e429" headers="d23283e76">
+<p><code class="codeph">update</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e429 d23283e79">
+<p>Indicates the preferences for how application updates should be handled by the JNLP client. Added in 6.0.</p>
+</td>
+<td class="cellalignment445" headers="d23283e429 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-A9E42B49-A26A-4BAD-B7E4-A19035A60943"><!-- --></a><code class="codeph">check</code></dt>
+<dd>Indicates the preference for when the JNLP client should check for updates. Valid values are <code class="codeph">always</code>, <code class="codeph">timeout</code>, and <code class="codeph">background</code>.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-BD908E2D-B250-46B6-9E99-EA4FD6D459EA"><!-- --></a><code class="codeph">policy</code></dt>
+<dd>Indicates the preference for how the JNLP client should handle an application update when it is known an update is available before the application is launched. Valid values are <code class="codeph">always</code>, <code class="codeph">prompt-update</code>, and <code class="codeph">prompt-run</code>.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e429 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e472" headers="d23283e76">
+<p><code class="codeph">security</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e472 d23283e79">
+<p>Requests enhanced permissions.</p>
+</td>
+<td class="cellalignment445" headers="d23283e472 d23283e82">
+<p>NA</p>
+</td>
+<td class="cellalignment435" headers="d23283e472 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e486" headers="d23283e76">
+<p><code class="codeph">all-permissions</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e486 d23283e79">
+<p>Requests that the application be run with all permissions.</p>
+</td>
+<td class="cellalignment445" headers="d23283e486 d23283e82">
+<p>NA</p>
+</td>
+<td class="cellalignment435" headers="d23283e486 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e500" headers="d23283e76">
+<p><code class="codeph">j2ee-application-client-permissions</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e500 d23283e79">
+<p>Requests that the application be run with a permission set that meets the security specifications of the J2EE application client environment.</p>
+</td>
+<td class="cellalignment445" headers="d23283e500 d23283e82">
+<p>NA</p>
+</td>
+<td class="cellalignment435" headers="d23283e500 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e514" headers="d23283e76">
+<p><code class="codeph">resources</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e514 d23283e79">
+<p>Describes all the resources that are needed for an application.</p>
+</td>
+<td class="cellalignment445" headers="d23283e514 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-6ABE39BC-CF94-4F05-9769-797B65F11D31"><!-- --></a><code class="codeph">os</code></dt>
+<dd>Specifies the operating system for which the <code class="codeph">resources</code> element should be considered.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-8B2E95DD-21A5-4800-A22E-2CC4A2A4A312"><!-- --></a><code class="codeph">arch</code></dt>
+<dd>Specifies the architecture for which the <code class="codeph">resources</code> element should be considered.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-66B5F5E1-5DFD-4EB9-A3BB-9749638C1FB3"><!-- --></a><code class="codeph">locale</code></dt>
+<dd>Specifies that the locales for which the <code class="codeph">resources</code> element should be considered.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e514 d23283e85">
+<p>Yes</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e554" headers="d23283e76">
+<p><code class="codeph">java</code> (or <code class="codeph">j2se</code>)</p>
+</td>
+<td class="cellalignment445" headers="d23283e554 d23283e79">
+<p>Specifies the versions of Java to use to run the application. The <code class="codeph">java</code> element was added in 6.0.</p>
+</td>
+<td class="cellalignment445" headers="d23283e554 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-1E37D7F3-474F-4B99-AFE4-348762658CAB"><!-- --></a><code class="codeph">version</code></dt>
+<dd>Describes an ordered list of version ranges to use. Required.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-B185CFA1-3A60-4463-B8DD-161252C71FB0"><!-- --></a><code class="codeph">href</code></dt>
+<dd>URL denoting the supplier of this version of Java, and where it can be downloaded from.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-35C3B8BE-4C6F-440D-A51E-C0FC63A6671A"><!-- --></a><code class="codeph">java-vm-args</code></dt>
+<dd>Indicates an additional set of standard and non-standard virtual machine arguments that the application would prefer the JNLP client to use when launching Java.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-337DD583-AB9B-41E0-AF98-18FD92C6799A"><!-- --></a><code class="codeph">initial-heap-size</code></dt>
+<dd>Indicates the initial size of the Java heap.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-EDFB1B6F-2B67-48F6-933A-AD0AA2C962D9"><!-- --></a><code class="codeph">max-heap-size</code></dt>
+<dd>Indicates the maximum size of the Java heap.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e554 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e604" headers="d23283e76">
+<p><code class="codeph">jar</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e604 d23283e79">
+<p>Specifies a JAR file that is part of the application's class path.</p>
+</td>
+<td class="cellalignment445" headers="d23283e604 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-DCD068D0-C41D-4851-80C7-4F70E63B69CC"><!-- --></a><code class="codeph">href</code></dt>
+<dd>URL of the JAR file. Required.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-880FE823-7D6B-4453-B31C-CE3774EDB0B9"><!-- --></a><code class="codeph">version</code></dt>
+<dd>Requested version of the JAR file. Requires using the version-based download protocol.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-A54ECDC7-6C37-4BFC-8432-ADC79DD335F1"><!-- --></a><code class="codeph">main</code></dt>
+<dd>Indicates if this JAR contains the class containing the main method of the application.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-B1390897-6D13-44F3-9C88-DEAF56CC2E6A"><!-- --></a><code class="codeph">download</code></dt>
+<dd>Can be used to indicate that this JAR can be downloaded eagerly, lazily, or for progress indication.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-85D0AD82-2E23-4CE1-A0BF-812602F99E09"><!-- --></a><code class="codeph">size</code></dt>
+<dd>Indicates the downloadable size of the JAR file in bytes.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-84D6A30F-5727-4C4E-A8C8-08E72AB474A0"><!-- --></a><code class="codeph">part</code></dt>
+<dd>Can be used to group resources so they are downloaded at the same time.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e604 d23283e85">
+<p>No, however, if a main JNLP file does not specify a JAR file, then the JNLP file must contain a component extension whose resources section has at least one <code class="codeph">jar</code> element.</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e656" headers="d23283e76">
+<p><code class="codeph">nativelib</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e656 d23283e79">
+<p>Specifies a JAR file that contains native libraries in its root directory.</p>
+</td>
+<td class="cellalignment445" headers="d23283e656 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-5C170017-0692-4B99-82A2-F40222BE9BC1"><!-- --></a><code class="codeph">href</code></dt>
+<dd>URL of the JAR file. Required.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-0657B226-46E2-49CB-8EF3-D515C0A86497"><!-- --></a><code class="codeph">version</code></dt>
+<dd>The requested version of the JAR file. Requires using the version-based download protocol.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-2DAF8701-A4CD-4737-B8D1-177F1F149A5B"><!-- --></a><code class="codeph">download</code></dt>
+<dd>Can be used to indicate that this JAR file can be downloaded lazily.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-467F57D3-8C93-4CDE-B494-4C874156C742"><!-- --></a><code class="codeph">size</code></dt>
+<dd>Indicates the downloadable size of the JAR file in bytes.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-146B3E1A-E225-43F5-9FAD-1A14ED9DD1CB"><!-- --></a><code class="codeph">part</code></dt>
+<dd>Can be used to group resources together so they will be downloaded at the same time.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e656 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e699" headers="d23283e76">
+<p><code class="codeph">extension</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e699 d23283e79">
+<p>Contains a pointer to an additional <code class="codeph">component-desc</code> or <code class="codeph">installer-desc</code> to be used with this application.</p>
+</td>
+<td class="cellalignment445" headers="d23283e699 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-6055364D-FFF8-4A57-AB9B-9ED235F7557B"><!-- --></a><code class="codeph">href</code></dt>
+<dd>URL to the additional extension JNLP file. Required.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-DECD65C6-468F-4F6F-AD0E-39F3E8C01376"><!-- --></a><code class="codeph">version</code></dt>
+<dd>Version of the additional extension JNLP file.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-4579DF8C-1FEB-4C75-87A9-72FF3BAE8DB1"><!-- --></a><code class="codeph">name</code></dt>
+<dd>Name of the additional extension JNLP file.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e699 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e737" headers="d23283e76">
+<p><code class="codeph">ext-download</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e737 d23283e79">
+<p>Can be used in an <code class="codeph">extension</code> element to denote the parts contained in a component extension.</p>
+</td>
+<td class="cellalignment445" headers="d23283e737 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-CD44FE47-2647-4782-AC4C-6EFEC023F614"><!-- --></a><code class="codeph">ext-part</code></dt>
+<dd>Describes the name of a part that is expected to be found in the extension. Required.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-61CF212E-0EEE-4A45-9AFD-C94BCBE00A17"><!-- --></a><code class="codeph">download</code></dt>
+<dd>Can be used to indicate that this extension can be downloaded eagerly or lazily.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-B9DD3065-2AB1-4859-9357-FF77B604E7ED"><!-- --></a><code class="codeph">part</code></dt>
+<dd>Denotes the name of a part in this JNLP file in which to include the extension.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e737 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e771" headers="d23283e76">
+<p><code class="codeph">package</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e771 d23283e79">
+<p>Can be used to indicate to the JNLP client which packages are implemented in which JAR files.</p>
+</td>
+<td class="cellalignment445" headers="d23283e771 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-6BCADE34-EA9B-4CF3-8E4D-31BBE8C9544E"><!-- --></a><code class="codeph">name</code></dt>
+<dd>Package name contained in the JAR files of the given part. Required.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-BF57B5E0-3014-4C30-BAAD-66394DA8D1AF"><!-- --></a><code class="codeph">part</code></dt>
+<dd>Part name that contains the JAR files that include the given package name. Required.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-8E57D8AD-BC7E-4DF9-9D6F-CB792865CBE1"><!-- --></a><code class="codeph">recursive</code></dt>
+<dd>Can be used to indicated that all package names beginning with the given name can be found in the given part.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e771 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e802" headers="d23283e76">
+<p><code class="codeph">property</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e802 d23283e79">
+<p>Defines a system property that will be available through the <code class="codeph">System.getProperty</code> and <code class="codeph">System.getProperties</code> methods.</p>
+</td>
+<td class="cellalignment445" headers="d23283e802 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-1BEE4FE0-0C0E-4EBC-8E3D-F685F39C21F8"><!-- --></a><code class="codeph">name</code></dt>
+<dd>Name of the system property. Required.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-19DF4DF0-08CD-498F-A552-330517CE8DA5"><!-- --></a><code class="codeph">value</code></dt>
+<dd>Value for the property. Required.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e802 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e833" headers="d23283e76">
+<p><code class="codeph">application-desc</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e833 d23283e79">
+<p>Denotes this is the JNLP file for an application.</p>
+</td>
+<td class="cellalignment445" headers="d23283e833 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-39C95ECB-E3C4-4D6C-9D82-B7BE5432088B"><!-- --></a><code class="codeph">main-class</code></dt>
+<dd>Name of the class containing the <code class="codeph">public static void main(String[])</code> method of the application. Required.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-3753021C-8E63-4A57-82A7-F421AFC62F8F"><!-- --></a><code class="codeph">progress-class</code></dt>
+<dd>Name of the class that contains the implementation of <code class="codeph">DownloadServiceListener</code> that can be used to indicate download progress. Added in 6.0.18.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-3507B57A-5533-46FA-8E7A-019AEF5E5E21"><!-- --></a><code class="codeph">type</code></dt>
+<dd>Type of application to be deployed. Valid values are <code class="codeph">Java</code> and <code class="codeph">JavaFX</code>. The default is <code class="codeph">Java</code>. Use this attribute in place of the XML extensions that were previously used to define a JavaFX application.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e833 d23283e85">
+<div class="p">A JNLP file must contain one of the following elements:
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph">application-desc</code></p>
+</li>
+<li>
+<p><code class="codeph">applet-desc</code></p>
+</li>
+<li>
+<p><code class="codeph">component-desc</code></p>
+</li>
+<li>
+<p><code class="codeph">installer-desc</code></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e896" headers="d23283e76">
+<p><code class="codeph">argument</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e896 d23283e79">
+<p>Each argument contains (in order) an additional argument to be passed to the application&rsquo;s <code class="codeph">main</code> method.</p>
+</td>
+<td class="cellalignment445" headers="d23283e896 d23283e82">
+<p>NA</p>
+</td>
+<td class="cellalignment435" headers="d23283e896 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e913" headers="d23283e76">
+<p><code class="codeph">applet-desc</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e913 d23283e79">
+<p>Denotes this is the JNLP file for an applet.</p>
+<p id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-810BE1B2-3020-4991-8ABB-B4266840E00A"><span class="bold">Note:</span> <span>Although available and supported in JDK 9, the Applet API is marked as deprecated in preparation for removal in a future release. Instead of applets, consider alternatives such as Java Web Start or self-contained applications.</span></p>
+</td>
+<td class="cellalignment445" headers="d23283e913 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-A1D279CB-34F5-4F95-BAED-9D38CA0A2F4B"><!-- --></a><code class="codeph">main-class</code></dt>
+<dd>Name of the main <span class="apiname">Applet</span> class. Required.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-06D72707-C9A1-4659-8BA0-5BF2300A3F5E"><!-- --></a><code class="codeph">documentbase</code></dt>
+<dd>Document base for the applet as a URL.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-FE166539-B4DB-424C-B4BF-512D5FCB0AD3"><!-- --></a><code class="codeph">name</code></dt>
+<dd>Name of the applet. Required.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-C4132935-9C94-4591-A354-7F0F5F838C1B"><!-- --></a><code class="codeph">width</code></dt>
+<dd>Width of the applet in pixels. Required.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-D1896229-BFA0-4428-87C1-0FC7BC773BEA"><!-- --></a><code class="codeph">height</code></dt>
+<dd>Height of the applet in pixels. Required.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-4BD04C88-EC75-48BF-98D0-E8DF8CE9C05B"><!-- --></a><code class="codeph">progress-class</code></dt>
+<dd>Name of the class that contains the implementation of <code class="codeph">DownloadServiceListener</code> that can be used to indicate download progress. Added in 6.0.18.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e913 d23283e85">
+<div class="p">A JNLP file must contain one of the following elements:
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph">application-desc</code></p>
+</li>
+<li>
+<p><code class="codeph">applet-desc</code></p>
+</li>
+<li>
+<p><code class="codeph">component-desc</code></p>
+</li>
+<li>
+<p><code class="codeph">installer-desc</code></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e992" headers="d23283e76">
+<p><code class="codeph">param</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e992 d23283e79">
+<p>Set of parameters that can be passed into the application. This element can be used as a sub element of the <code class="codeph">applet-desc</code> or <code class="codeph">application-desc</code> elements. If used in an <code class="codeph">application-desc</code> element, then the values are used only if the <code class="codeph">type</code> attribute is set to <code class="codeph">JavaFX</code>. The values are ignored if the <code class="codeph">type</code> attribute is set to <code class="codeph">Java</code>.</p>
+</td>
+<td class="cellalignment445" headers="d23283e992 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-8D16BCFF-6B1D-4D1F-A9A3-131556FF77E0"><!-- --></a><code class="codeph">name</code></dt>
+<dd>Name of the parameter. Required.</dd>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-2ABD5728-B736-4809-A532-C8B571E4FC3A"><!-- --></a><code class="codeph">value</code></dt>
+<dd>Value of the parameter. Required.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e992 d23283e85">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e1039" headers="d23283e76">
+<p><code class="codeph">component-desc</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e1039 d23283e79">
+<p>Indicates this is the JNLP file for a component extension.</p>
+</td>
+<td class="cellalignment445" headers="d23283e1039 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-D684A585-84C5-4CC6-A53F-8A433B25E256"><!-- --></a><code class="codeph">progress-class</code></dt>
+<dd>Name of the class that contains the implementation of <code class="codeph">DownloadServiceListener</code> that can be used to indicate download progress. Added in 6.0.18.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e1039 d23283e85">
+<div class="p">A JNLP file must contain one of the following elements:
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph">application-desc</code></p>
+</li>
+<li>
+<p><code class="codeph">applet-desc</code></p>
+</li>
+<li>
+<p><code class="codeph">component-desc</code></p>
+</li>
+<li>
+<p><code class="codeph">installer-desc</code></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+<tr class="cellalignment388">
+<td class="cellalignment435" id="d23283e1078" headers="d23283e76">
+<p><code class="codeph">installer-desc</code></p>
+</td>
+<td class="cellalignment445" headers="d23283e1078 d23283e79">
+<p>Indicates this is the JNLP file for an installed extension.</p>
+</td>
+<td class="cellalignment445" headers="d23283e1078 d23283e82">
+<dl>
+<dt class="dlterm"><a id="GUID-A935D448-EA5A-42E0-B103-DD02ECAD1436__GUID-DBC60C52-829F-4EE2-AAAA-1A6197B573F6"><!-- --></a><code class="codeph">main-class</code></dt>
+<dd>Name of the class that contains the <code class="codeph">public static void main(String[])</code> method of the installer. Required.</dd>
+</dl>
+</td>
+<td class="cellalignment435" headers="d23283e1078 d23283e85">
+<div class="p">A JNLP file must contain one of the following elements:
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph">application-desc</code></p>
+</li>
+<li>
+<p><code class="codeph">applet-desc</code></p>
+</li>
+<li>
+<p><code class="codeph">component-desc</code></p>
+</li>
+<li>
+<p><code class="codeph">installer-desc</code></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p>The JNLP file is an XML document. See <a href="jnlp-file-syntax.htm#GUID-D855AE21-EAAF-41C0-ACF7-7CB6AAD43F94">Examples of a JNLP File</a>.</p>
+</div>
+</div>
+<div class="sect2"><a id="GUID-D855AE21-EAAF-41C0-ACF7-7CB6AAD43F94"></a>
+<h2 id="JSDPG-GUID-D855AE21-EAAF-41C0-ACF7-7CB6AAD43F94" class="sect2">Examples of a JNLP File</h2>
+<div>
+<p>For a basic application that does not require a lot of customization, the JNLP file can be simple. For more complex applications, additional elements can be added to the JNLP file.</p>
+<p>The elements are described in <a href="jnlp-file-syntax.htm#GUID-C193BCD6-B945-4486-A18F-89B3E92A1412">JNLP Elements</a>.</p>
+<div class="section">
+<p class="subhead2">Basic JNLP File</p>
+<p>This example shows a simple JNLP file. The root element is <code class="codeph">jnlp</code>, which has two subelements: <code class="codeph">resources</code> and <code class="codeph">application-desc</code>.</p>
+<pre dir="ltr">
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;jnlp spec="9"&gt;
+    &lt;resources&gt;
+        &lt;jar href="https://docs.oracle.com/javase/tutorialJWS/samples/deployment/NotepadJWSProject/Notepad.jar" /&gt;
+    &lt;/resources&gt;
+    &lt;application-desc main-class="Notepad"/&gt;
+&lt;/jnlp&gt;
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">JNLP File with Application Customizations</p>
+<p>This example shows the basic outline of the JNLP file with settings for application attributes. The root element is <code class="codeph">jnlp</code>, which has four subelements: <code class="codeph">information</code>, <code class="codeph">security</code>, <code class="codeph">resources</code>, and <code class="codeph">application-desc</code>. In addition, Java Web Start also supports launching applets by using the <code class="codeph">applet-desc</code> element.</p>
+<pre dir="ltr">
+&lt;<span class="bold">?xml</span> <span class="bold">version</span>="1.0" <span class="bold">encoding</span>="utf-8"?&gt;
+&lt;!-- JNLP File for SwingSet2 Demo Application --&gt;
+&lt;<span class="bold">jnlp</span>
+  <span class="bold">spec</span>="6.0+"
+  <span class="bold">codebase</span>="http://my_company.com/jaws/apps"
+  <span class="bold">href</span>="swingset2.jnlp"&gt;
+  &lt;<span class="bold">information</span>&gt;
+    <span class="bold">&lt;title</span>&gt;SwingSet2 Demo Application&lt;<span class="bold">/title</span>&gt;
+    &lt;<span class="bold">vendor</span>&gt;Sun Microsystems, Inc.&lt;<span class="bold">/vendor</span>&gt;
+    &lt;<span class="bold">homepage</span> <span class="bold">href</span>="docs/help.html"/&gt;
+    &lt;<span class="bold">description</span>&gt;SwingSet2 Demo Application&lt;<span class="bold">/description</span>&gt;
+    &lt;<span class="bold">description</span> <span class="bold">kind</span>="short"&gt;A demo of the capabilities 
+    of the Swing Graphical User Interface.&lt;<span class="bold">/description</span>&gt;
+    &lt;<span class="bold">icon</span> <span class="bold">href</span>="images/swingset2.jpg"/&gt;
+    &lt;<span class="bold">icon</span> <span class="bold">kind</span>="splash" href="images/splash.gif"/&gt;
+    &lt;<span class="bold">offline-allowed/</span>&gt; 
+    &lt;<span class="bold">association</span> <span class="bold">mime-type</span>="application-x/swingset2-file"  <span class="bold">extensions</span>="swingset2"/&gt; 
+    &lt;<span class="bold">shortcut</span> <span class="bold">online</span>="false" <span class="bold">install</span>="false"&gt;
+      &lt;<span class="bold">desktop/</span>&gt;
+      &lt;<span class="bold">menu</span> <span class="bold">submenu</span>="My Corporation Apps"/&gt;
+    &lt;<span class="bold">/shortcut</span>&gt;
+  &lt;<span class="bold">/information</span>&gt;
+  &lt;<span class="bold">information</span> <span class="bold">os</span>="linux"&gt;   
+    &lt;<span class="bold">title</span>&gt; SwingSet2 Demo on Linux &lt;<span class="bold">/title</span>&gt;
+    &lt;<span class="bold">homepage</span> href="docs/linuxhelp.html"&gt;
+  &lt;<span class="bold">/information</span>&gt;
+  &lt;<span class="bold">security</span>&gt;
+      &lt;<span class="bold">all-permissions/</span>&gt;
+  &lt;<span class="bold">/security</span>&gt;
+  &lt;<span class="bold">resources</span>&gt;
+    &lt;<span class="bold">j2se</span> <span class="bold">version</span>="1.6+" <span class="bold">java-vm-args</span>="-esa -Xnoclassgc"/&gt;
+    &lt;jar href="lib/SwingSet2.jar"/&gt;
+  &lt;<span class="bold">/resources</span>&gt;
+  &lt;<span class="bold">application-desc</span> <span class="bold">main-class</span>="SwingSet2"/&gt;
+&lt;<span class="bold">/jnlp</span>&gt; 
+</pre></div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-C193BCD6-B945-4486-A18F-89B3E92A1412"></a>
+<h2 id="JSDPG-GUID-C193BCD6-B945-4486-A18F-89B3E92A1412" class="sect2">JNLP Elements</h2>
+<div>
+<p>Information about commonly used JNLP elements is provided in the following sections:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-C336FC3F-DE2A-4873-AE29-44121766FC19">jnlp Element</a></p>
+</li>
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-CC367157-90BE-4173-9AFB-C386B4A04A0D">information Element</a></p>
+</li>
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-A7A2C463-4647-4204-8DC6-C2D0A7FD4723">security Element</a></p>
+</li>
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-9FF733BD-EBDC-40B4-93E8-CC60D0586EC8">update Element</a></p>
+</li>
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-F32AB01F-C9AF-4D7B-B9CB-66ACE2771846">resources Element</a></p>
+</li>
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-5C5E3A20-416B-46E0-A279-D31D48E430BA">application-desc Element</a></p>
+</li>
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-E1FD5551-4C30-4C8D-A9E3-A836E2A55470">applet-desc Element</a></p>
+</li>
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-EEA66696-2FF1-4A06-BA0F-8E53CA65CEB0">component-desc Element</a></p>
+</li>
+<li>
+<p><a href="jnlp-file-syntax.htm#GUID-27F7A65A-A244-4188-A015-1048D6C446B1">installer-desc Element</a></p>
+</li>
+</ul>
+</div>
+<div class="sect3"><a id="GUID-C336FC3F-DE2A-4873-AE29-44121766FC19"></a>
+<h3 id="JSDPG-GUID-C336FC3F-DE2A-4873-AE29-44121766FC19" class="sect3">jnlp Element</h3>
+<div>
+<p><code class="codeph">spec</code> attribute: This attribute must be 1.0 or higher to work with this release. The default value is <code class="codeph">1.0+</code>. Thus, it can typically be omitted. Note that the JDK 9 version of Java Web Start supports all versions of the spec through version 9.&nbsp; Previous versions of Java Web Start support only those versions of the specification (spec) that were available at the time of the JDK release. A JNLP file specifying <code class="codeph">spec="9+"</code> will work with this version, but not previous versions of Java Web Start.</p>
+<p><code class="codeph">codebase</code> attribute: All relative URLs specified in <code class="codeph">href</code> attributes in the JNLP file are using this URL as a base.</p>
+<p><code class="codeph">href</code> attribute: If present, this attribute points to the JNLP file that is used to download and run the application. If not present, then depending on the method used to start the application, Java Web Start might not know where the JNLP file came from, which can affect the security dialog boxes.</p>
+</div>
+</div>
+<div class="sect3"><a id="GUID-CC367157-90BE-4173-9AFB-C386B4A04A0D"></a>
+<h3 id="JSDPG-GUID-CC367157-90BE-4173-9AFB-C386B4A04A0D" class="sect3">information Element</h3>
+<div>
+<p><code class="codeph">os</code> attribute: This attribute contains a list of operating system names for this element. Read the discussion of the <code class="codeph">resources</code> element later for a full discussion of the <code class="codeph">os</code> attribute.</p>
+<p><code class="codeph">title</code> element: The name of the application.</p>
+<p><code class="codeph">vendor</code> element: The name of the vendor of the application.</p>
+<p><code class="codeph">homepage</code> element: Contains a single attribute, <code class="codeph">href</code>, which is a URL locating the home page for the application. It is used by the Java Application Cache Viewer to point the user to a web page where more information about the application can be found.</p>
+<p><code class="codeph">description</code> element: A short statement about the application. Description elements are optional. The <code class="codeph">kind</code> attribute defines how the description should be used. The following values are valid for <code class="codeph">kind</code>:</p>
+<ul style="list-style-type: disc;">
+<li><code class="codeph">one-line</code>: If a reference to the application is going to appear on one row in a list or a table, then this description is used.</li>
+<li><code class="codeph">short</code>: If a reference to the application is going to be displayed in a situation where there is room for a paragraph, then this description is used.</li>
+<li><code class="codeph">tooltip</code>: If a reference to the application is going to appear in a tooltip, then this description is used.</li>
+</ul>
+<p>Only one <code class="codeph">description</code> element of each kind can be specified. A <code class="codeph">description</code> element without a <code class="codeph">kind</code> attribute is used as a default value. Thus, if Java Web Start needs a description of kind <code class="codeph">short</code>, and it is not specified in the JNLP file, then the text from the description without an attribute is used.</p>
+<p>All descriptions contain plain text. No formatting, such as with HTML tags, is supported.</p>
+<p><code class="codeph">icon</code> element: Contains an HTTP URL to an image file in either GIF, JPEG, ICO, or PNG format. The icons are used to represent the application:</p>
+<ul style="list-style-type: disc;">
+<li>During the launch when Java Web Start presents the application to the user</li>
+<li>In the Java Application Cache Viewer</li>
+<li>In desktop shortcuts</li>
+</ul>
+<p>A 64x64 icon is shown during the download. In the Java Application Cache Viewer and in desktop shortcuts, a 32x32 icon is used. Java Web Start automatically resizes an icon to the appropriate size.</p>
+<p>Optional <code class="codeph">width</code> and <code class="codeph">height</code> attributes can be used to indicate the size of the images.</p>
+<p>The optional <code class="codeph">kind</code> attribute can have one of the following values:</p>
+<ul style="list-style-type: disc;">
+<li><code class="codeph">default</code>: The specified image is used in the Java Application Cache Viewer. It is also used if an <code class="codeph">icon</code> element with a particular <code class="codeph">kind</code> attribute has not been specified. Not specifying the <code class="codeph">kind</code> attribute is the same as specifying it with the <code class="codeph">default</code> value.</li>
+<li><code class="codeph">splash</code>: The specified image is used as the splash image on the second and subsequent launches of the application. During the initial launch of the application, before resources are downloaded, the default splash image is used.</li>
+<li><code class="codeph">shortcut</code>: The specified image is used in desktop shortcuts.</li>
+</ul>
+<p>A JNLP file can contain multiple <code class="codeph">icon</code> elements that differ by their <code class="codeph">kind</code> attribute. This enables you to specify different icon images for your application.</p>
+<p><code class="codeph">offline-allowed</code> element: The optional <code class="codeph">offline-allowed</code> element indicates if the application can be launched offline.</p>
+<p>If <code class="codeph">offline-allowed</code> is specified, then the application can be launched offline by the Java Application Cache Viewer, and shortcuts can be created that launch the application offline.</p>
+<p>If an application is launched offline, then it does not check for updates, and the API call <code class="codeph">BasicService.isOffline()</code> returns <code class="codeph">true</code>.</p>
+<p>The <code class="codeph">offline-allowed</code> element also controls how Java Web Start checks for an update to an application. If the element is not specified&mdash;that is, the application is required to be online to run&mdash;Java Web Start checks for an updated version before launching the application. If an update is found, then the new application is downloaded and launched. Thus, it is guaranteed that the user always runs the latest version of the application. The application, however, must be run online.</p>
+<p>If <code class="codeph">offline-allowed</code> is specified, then Java Web Start also checks if an update is available. However, if the application is already downloaded, the check times out after a few seconds, in which case the cached application is launched instead. Given a reasonably fast server connection, the latest version of the application is usually run, but it is not guaranteed. The application, however, can be run offline.</p>
+<p><code class="codeph">shortcut</code> element: The optional <code class="codeph">shortcut</code> element can be used to indicate an application's preferences for desktop integration. The <code class="codeph">shortcut</code> element and its subelements provide hints that the JNLP client may or may not use. The <code class="codeph">shortcut</code> element can contain the optional <code class="codeph">online</code> and <code class="codeph">install</code> attributes, and the two optional subelements, <code class="codeph">desktop</code> and <code class="codeph">menu</code>.</p>
+<p><code class="codeph">association</code> element: The optional <code class="codeph">association</code> element is a hint to the JNLP client that it wants to be registered with the operating system as the primary handler of certain extensions and a certain MIME type. The <code class="codeph">association</code> element must have the <code class="codeph">extensions</code> and <code class="codeph">mime-type</code> attributes. If the <code class="codeph">association</code> element is included, then either the <code class="codeph">offline-allowed</code> element must also be included, or the <code class="codeph">href</code> attribute must be set for the <code class="codeph">jnlp</code> element to ensure that the application can be located and run.</p>
+<p><code class="codeph">related-content</code> element: The optional <code class="codeph">related-content</code> element describes an additional piece of related content, such as a readme file, help pages, or links to registration pages, as a hint to a JNLP client. The application is asking that this content be included in its desktop integration. The <code class="codeph">related-content</code> element has a mandatory <code class="codeph">href</code> and <code class="codeph">title</code> attribute. It can contain any of the following subelements:</p>
+<ul style="list-style-type: disc;">
+<li><code class="codeph">description</code> element: A short description of the related content.</li>
+<li><code class="codeph">icon</code> element: The icon can be used by the JNLP client to identify the related content to the user.</li>
+</ul>
+</div>
+</div>
+<div class="sect3"><a id="GUID-A7A2C463-4647-4204-8DC6-C2D0A7FD4723"></a>
+<h3 id="JSDPG-GUID-A7A2C463-4647-4204-8DC6-C2D0A7FD4723" class="sect3">security Element</h3>
+<div>
+<p>Each sandbox application is run in a restricted execution environment, similar to the applet sandbox.&nbsp; The security element can be used to request unrestricted access.</p>
+<p>If the <code class="codeph">all-permissions</code> element is specified, then the application has full access to the client machine and local network. All JAR files must be signed. The user is prompted to accept the certificate and agree to run the application.</p>
+</div>
+</div>
+<div class="sect3"><a id="GUID-9FF733BD-EBDC-40B4-93E8-CC60D0586EC8"></a>
+<h3 id="JSDPG-GUID-9FF733BD-EBDC-40B4-93E8-CC60D0586EC8" class="sect3">update Element</h3>
+<div>
+<p>The <code class="codeph">update</code> element indicates the preferences for how application updates are handled by Java Web Start.</p>
+<p>The <code class="codeph">update</code> element can contain the following two optional attributes:</p>
+<p><code class="codeph">check</code> attribute: The <code class="codeph">check</code> attribute indicates the preference for when the JNLP Client should check for updates. The following values are valid:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph">always</code>: Check for updates before launching the application.</p>
+</li>
+<li>
+<p><code class="codeph">timeout</code> (default): means to check for updates until the timeout before launching the application. If the update check is not completed before the timeout, then the application is launched, and the update check continues in the background.</p>
+</li>
+<li>
+<p><code class="codeph">background</code>: Launch the application while checking for updates in the background.</p>
+</li>
+</ul>
+<p><code class="codeph">policy</code> attribute: The <code class="codeph">policy</code> attribute indicates the preference for how the JNLP client handles an application update when it is known an update is available before the application is launched. The following values are valid:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph">always</code> (default): Download updates without any prompt.</p>
+</li>
+<li>
+<p><code class="codeph">prompt-update</code>: Ask users if they want to download and run the updated version, or launch the cached version.</p>
+</li>
+<li>
+<p><code class="codeph">prompt-run</code>: Ask users if they want to download and run the updated version, or cancel and stop running the application.</p>
+</li>
+</ul>
+<p>For example:</p>
+<pre dir="ltr">
+&lt;update check="always" policy="prompt-update"&gt;
+</pre></div>
+</div>
+<div class="sect3"><a id="GUID-F32AB01F-C9AF-4D7B-B9CB-66ACE2771846"></a>
+<h3 id="JSDPG-GUID-F32AB01F-C9AF-4D7B-B9CB-66ACE2771846" class="sect3">resources Element</h3>
+<div>
+<p>The <code class="codeph">resources</code> element is used to specify all of the resources, such as Java class files, native libraries, and system properties, that are part of the application.&nbsp;To restrict a resource definition to a specific operating system, architecture, or locale, use the <code class="codeph">os</code>, <code class="codeph">arch</code>, and <code class="codeph">locale</code> attributes.</p>
+<p>The <code class="codeph">os</code> attribute contains a list of operating system names for a resource. For example, you could use multiple <code class="codeph">resources</code> definitions with different <code class="codeph">os</code> attributes to supply a native library for multiple operating systems.</p>
+<p>The <code class="codeph">os</code> attribute contains a list of operating system names separated by spaces. At runtime, the <code class="codeph">os</code> values are compared with the beginning of the <code class="codeph">os.name</code> system property to find a match. For example, an <code class="codeph">os</code> attribute value of "Windows" matches both "Windows 8" and "Windows 10" operating systems.</p>
+<p>If you want to list an operating system whose name contains a space, then use a backslash to indicate that the space is part of the operating system name. The following example specifically matches "Windows 8" and "Windows 10":</p>
+<pre dir="ltr">
+    &lt;<span class="bold">resources</span> <span class="bold">os</span>="Windows\ 8 Windows\ 10"&gt;
+      &lt;<span class="bold">jar</span> <span class="bold">href</span>="hello.jar"/&gt;
+    &lt;/<span class="bold">resources</span>&gt;
+</pre>
+<p>The <code class="codeph">resources</code> element has six different possible subelements: <code class="codeph">jar</code>, <code class="codeph">nativelib</code>, <code class="codeph">j2se</code>, <code class="codeph">property</code>, <code class="codeph">package</code>, and <code class="codeph">extension</code>. The <code class="codeph">package</code> and <code class="codeph">extension</code> elements are not discussed in this developer's guide.</p>
+<p>A <code class="codeph">jar</code> element specifies a JAR file that is part of the application's class path.&nbsp; For example:</p>
+<pre dir="ltr">
+      &lt;<span class="bold">jar href</span>="myjar.jar"/&gt;
+</pre>
+<p>The <code class="codeph">jar</code> file is loaded into the JVM using a <code class="codeph">ClassLoader</code> object.&nbsp; The <code class="codeph">jar</code> file typically contains Java classes that contain the code for the particular application, but can also contain other resources, such as icons and configuration files, that are available through the <code class="codeph">getResource</code> mechanism.</p>
+<p>A <code class="codeph">nativelib</code> element specifies a JAR file that contains native libraries, for example:</p>
+<pre dir="ltr">
+      &lt;<span class="bold">nativelib href</span>="lib/windows/corelib.jar"/&gt;
+</pre>
+<p>The JNLP client must ensure that each file entry in the root directory of the JAR file (i.e., <code class="codeph">/</code>) can be loaded into the running process using the <code class="codeph">System.loadLibrary</code> method.&nbsp; Each entry must contain a platform-dependent shared library with the correct naming convention, for example, <code class="codeph">*.dll</code> on Windows or <code class="codeph">lib*.so</code> on Solaris/Linux.&nbsp; The application is responsible for doing the actual call to <code class="codeph">System.loadLibrary</code>.</p>
+<p>Native libraries would typically be included in a <code class="codeph">resources</code> element that is geared toward a particular operating system and architecture, for example:</p>
+<pre dir="ltr">
+    &lt;<span class="bold">resources os</span>="SunOS" <span class="bold">arch=</span>"sparc"&gt;
+      &lt;<span class="bold">nativelib href</span>="lib/solaris/corelibs.jar"/&gt;
+    &lt;/<span class="bold">resources</span>&gt;
+</pre>
+<p>By default, <code class="codeph">jar</code> and <code class="codeph">nativelib</code> resources are downloaded eagerly, that is, they are downloaded and available locally to the JVM running the application before the application is launched.&nbsp; The <code class="codeph">jar</code> and <code class="codeph">nativelib</code> elements also allow a resource to be specified as <code class="codeph">lazy</code>.&nbsp; This means the resource does not have to be downloaded onto the client system before the application is launched.</p>
+<p>The <code class="codeph">download</code> attribute is used to control whether a resource is downloaded eagerly, lazily, or contains a custom progress implementation, for example:</p>
+<pre dir="ltr">
+    &lt;<span class="bold">jar</span><span class="bold">href</span>="sound.jar" <span class="bold">download</span>="lazy"/&gt;
+    &lt;<span class="bold">nativelib</span><span class="bold">href</span>="native-sound.jar" <span class="bold">download</span>="eager"/&gt;
+
+    &lt;<span class="bold">jar</span><span class="bold">href</span>="progress.jar" <span class="bold">download</span>="progress"/&gt;
+</pre>
+<p>A JAR file denoted with <code class="codeph">download="progress"</code> is downloaded eagerly, and can be used to indicate progress while downloading other resources.</p>
+<p>The <code class="codeph">j2se</code> element specifies what Java Platform, Standard Edition Runtime Environment (JRE) versions an application is supported on and standard parameters to the Java Virtual Machine.&nbsp; If several JREs are specified, then this indicates a prioritized list of the supported JREs, with the most preferred version first, for example:</p>
+<pre dir="ltr">
+       &lt;<span class="bold">j2se version</span>="9" <span class="bold">initial-heap-size</span>="64m" max-heap-size="128m"/&gt;
+      &lt;<span class="bold">j2se version</span>="1.8.0_101+" <span class="bold">href</span>="http://java.sun.com/products/autodl/j2se" <span class="bold">java-vm-args</span>="-esa -Xnoclassgc"/&gt;
+</pre>
+<p>The <code class="codeph">version</code> attribute refers, by default, to a platform version (specification version) of the Java Platform Standard Edition. Currently defined platform versions are 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, and 9. (A platform version does not usually contain a micro version number; for example 1.4.2.)</p>
+<p>Exact product versions (implementation versions) can also be specified by including the <code class="codeph">href</code> attribute, such as 1.7.0_111, or 1.8.0_92, for example:</p>
+<p>&lt;<code class="codeph"><span class="bold">j2se version</span>="1.7.0_111" <span class="bold">href</span>="http://java.sun.com/products/autodl/j2se"/</code></p>
+<p>or</p>
+<p>&lt;<code class="codeph"><span class="bold">j2se version</span>="1.8.0_92" <span class="bold">href</span>="http://java.sun.com/products/autodl/j2se"/&gt;</code></p>
+<p>If a platform version is specified (that is, no <code class="codeph">href</code> attribute is provided), Java Web Start does not consider an installed non-General Availability (GA milestone) JRE as a match. For example, a request in the following the form does not consider an installed 9-ea JRE as a match for the request:</p>
+<pre dir="ltr">
+&lt;j2se version="9+"/&gt;
+</pre>
+<p>The <code class="codeph">java-vm-args</code> attribute of the <code class="codeph">j2se</code> element specifies a preferred set of virtual machine arguments to use when launching <code class="codeph">java</code>.</p>
+<p><code class="codeph">&lt;j2se version="9+" java-vm-args="-ea -Xincgc"/&gt;</code></p>
+<p>The following <code class="codeph">java-vm-args</code> are supported by this version:</p>
+<pre dir="ltr">
+ -d32,                                                          /* use a 32-bit data model if available (unix platforms only) */
+ -client,                                                       /* to select the client VM */
+ -server,                                                       /* to select the server VM */
+ -verbose,                                                      /* enable verbose output */
+ -version,                                                      /* print product version and exit */
+ -showversion,                                                  /* print product version and continue */                                              
+ -help,                                                         /* print this help message */
+ -X,                                                            /* print help on non-standard options */
+ -ea,                                                           /* enable assertions */
+ -enableassertions,                                             /* enable assertions */
+ -da,                                                           /* disable assertions */
+ -disableassertions,                                            /* disable assertions */
+ -esa,                                                          /* enable system assertions */
+ -enablesystemassertions,                                       /* enable system assertions */
+ -dsa,                                                          /* disable system assertione */
+ -disablesystemassertions,                                      /* disable system assertione */
+ -Xmixed,                                                       /* mixed mode execution (default) */
+ -Xint,                                                         /* interpreted mode execution only */
+ -Xnoclassgc,                                                   /* disable class garbage collection */
+ -Xincgc,                                                       /* enable incremental garbage collection */
+ -Xbatch,                                                       /* disable background compilation */
+ -Xprof,                                                        /* output cpu profiling data */
+ -Xdebug,                                                       /* enable remote debugging */
+ -Xfuture,                                                      /* enable strictest checks, anticipating future default */
+ -Xrs,                                                          /* reduce use of OS signals by Java/VM (see documentation) */
+ -XX:+ForceTimeHighResolution,                                  /* use high resolution timer */
+ -XX:-ForceTimeHighResolution,                                  /* use low resolution (default) */
+-XX:+PrintGCDetails,          /* Gives some details about the GCs */
+-XX:+PrintGCTimeStamps,       /* Prints GCs times happen to the start of the application */
+-XX:+PrintHeapAtGC,           /* Prints detailed GC info including heap occupancy */
+-XX:+PrintTenuringDistribution,  /* Gives the aging distribution of the allocated objects */
+-XX:+TraceClassUnloading,     /* Display classes as they are unloaded */
+-XX:+CMSClassUnloadingEnabled,/* It needs to be combined with -XX:+CMSPermGenSweepingEnabled */
+-XX:+CMSIncrementalPacing,    /* Automatic adjustment of the incremental mode duty cycle */
+-XX:+UseConcMarkSweepGC,      /* Turns on concurrent garbage collection */
+-XX:-ParallelRefProcEnabled,
+-XX:+DisableExplicitGC,       /* Disable calls to System.gc() */
+-XX:+UseG1GC,
+-XX:+HeapDumpOnOutOfMemoryError,
+-XstartOnFirstThread,
+-XX:+UseG1GC,
+-XX:+UseStringDeduplication,
+-XX:+PrintStringDeduplicationStatistics,
+-XX:+UseParallelOldGC,
+-XX:-UseParallelOldGC",
+-XX:+UseParallelOldGCCompacting",
+-XX:-UseParallelOldGCCompacting",
+-XX:+UseParallelGC,
+-XX:-UseParallelGC,
+-XX:+UseGCTimeLimit,
+-XX:-UseGCTimeLimit,
+-XX:+UseGCOverheadLimit,
+-XX:-UseGCOverheadLimit,
+-XX:+ScavengeBeforeFullGC,
+-XX:-ScavengeBeforeFullGC,
+-XX:+UseParallelScavenge,
+-XX:-UseParallelScavenge,
+-XX:-TransmitErrorReport,
+</pre>
+<p>Also supported are any arguments that start with one of the following strings:</p>
+<pre dir="ltr">
+-ea,                          /* enable assertions for classes */
+-enableassertions,            /* enable assertions for classes */
+-da,                          /* disable assertions for classes */
+-disableassertions,           /* disable assertions for classes */
+-verbose,                     /* enable verbose output */
+-Xms,                         /* set initial Java heap size */
+-Xmx,                         /* set maximum Java heap size */
+-Xss,                         /* set java thread stack size */
+-XX:NewRatio,                 /* set Ratio of new/old gen sizes */
+-XX:NewSize,                  /* set initial size of new generation */
+-XX:MaxNewSize,               /* set max size of new generation */
+-XX:PermSize,                 /* set initial size of permanent gen */
+-XX:MaxPermSize,              /* set max size of permanent gen */
+-XX:MaxHeapFreeRatio,         /* heap free percentage (default 70) */
+-XX:MinHeapFreeRatio,         /* heap free percentage (default 40) */
+-XX:UseSerialGC,              /* use serial garbage collection */
+-XX:ThreadStackSize,          /* thread stack size (in KB) */
+-XX:MaxInlineSize,            /* set max num of bytecodes to inline */
+-XX:ReservedCodeCacheSize,    /* Reserved code cache size (bytes) */
+-XX:MaxDirectMemorySize,
+-XX:PrintCMSStatistics,               /* If &gt; 0, Print statistics about the concurrent collections */
+-XX:SurvivorRatio,                    /* Sets the ratio of the survivor spaces */
+-XX:MaxTenuringThreshold,             /* Determines how much the objects may age */
+-XX:CMSMarkStackSize,
+-XX:CMSMarkStackSizeMax,
+-XX:CMSIncrementalDutyCycleMin,       /* The percentage which is the lower bound on the duty cycle */
+-XX:ParallelCMSThreads,
+-XX:ParallelGCThreads,                /* Sets the number of parallel GC threads */
+-XX:CMSInitiatingOccupancyFraction,   /* Sets the threshold percentage of the used heap */
+-XX:+UseCompressedOops,               /* Enables compressed references in 64-bit JVMs */
+-XX:GCPauseIntervalMillis,
+-XX:MaxGCPauseMillis,                 /* A hint to the virtual machine to pause times */
+-XX:+CMSIncrementalMode,              /* Enables the incremental mode */
+-XX:StringDeduplicationAgeThreshold,
+-XX:GCTimeLimit",
+-XX:GCHeapFreeLimit",
+-XX:MarkStackSize,
+-XX:MarkStackSizeMax,
+-XX:ConcGCThreads,
+</pre>
+<p>The <code class="codeph">property</code> element defines a system property that is available through the <code class="codeph">System.getProperty</code> and <code class="codeph">System.setProperties</code> methods. It has two required attributes: <code class="codeph">name</code> and <code class="codeph">value</code>, for example:</p>
+<pre dir="ltr">
+<span class="bold">&lt;property name=</span>"key" <span class="bold">value=</span>"overwritten"/&gt;
+</pre>
+<p>Properties that are considered secure are set by Java Web Start after the VM is started but before the application is invoked. These properties are passed as <code class="codeph">-Dkey=value</code> arguments to the <code class="codeph">java</code> command when invoked. The following properties are considered secure:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Properties set in a signed JNLP file</p>
+</li>
+<li>
+<p>Properties set in an unsigned JNLP file that are prefixed with one of the following strings: <code class="codeph">jnlp.</code>, <code class="codeph">javaws.</code>, or <code class="codeph">javapi.</code></p>
+</li>
+<li>
+<p>Predefined secure properties:</p>
+<pre dir="ltr">
+    sun.java2d.noddraw,
+    javaws.cfg.jauthenticator,
+    swing.useSystemFontSettings,
+    swing.metalTheme,
+    http.agent,
+    http.keepAlive,
+    sun.awt.noerasebackground,
+    sun.java2d.opengl,
+    sun.java2d.d3d,
+    java.awt.syncLWRequests,
+    java.awt.Window.locationByPlatform,
+    sun.awt.erasebackgroundonresize,
+    sun.awt.keepWorkingSetOnMinimize,
+    swing.noxp,
+    swing.boldMetal,
+    awt.useSystemAAFontSettings,
+    sun.java2d.dpiaware,
+    sun.awt.disableMixing,
+    sun.lang.ClassLoader.allowArraySyntax,
+    java.awt.smartInvalidate"
+    apple.laf.useScreenMenuBar,
+    java.net.preferIPv4Stack,
+    java.util.Arrays.useLegacyMergeSort",
+    sun.locale.formatasdefault,
+    sun.awt.enableExtraMouseButtons,
+    com.sun.management.jmxremote.local.only,
+    sun.nio.ch.bugLevel,
+    sun.nio.ch.disableSystemWideOverlappingFileLockCheck,
+    jdk.map.althashing.threshold
+</pre></li>
+</ul>
+</div>
+</div>
+<div class="sect3"><a id="GUID-5C5E3A20-416B-46E0-A279-D31D48E430BA"></a>
+<h3 id="JSDPG-GUID-5C5E3A20-416B-46E0-A279-D31D48E430BA" class="sect3">application-desc Element</h3>
+<div>
+<p>The <code class="codeph">application-desc</code> element indicates that the JNLP file is launching an application (as opposed to an applet). The application element has an optional attribute, <code class="codeph">main-class</code>, for specifying the name of the application's main class, which is the class where execution must begin:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>For Java applications, the main class is the class that contains the <code class="codeph">public static void main(String argv[])</code> method.</p>
+</li>
+<li>
+<p>For JavaFX applications, the main class is the class that extends <code class="codeph">javafx.application.Application</code>.</p>
+</li>
+</ul>
+<p>The <code class="codeph">main-class</code> attribute can be omitted if the first JAR file specified in the JNLP file contains a manifest file that contains the <code class="codeph">Main-Class</code> attribute.</p>
+<p>The optional <code class="codeph">type</code> attribute can be used to indicate the type of application, either Java, which is the default, or JavaFX. Java Web Start must know if it is a JavaFX application to know how to invoke it.</p>
+<p>Arguments can be specified for the application by including one or more nested <code class="codeph">argument</code> elements, for example:</p>
+<pre dir="ltr">
+  &lt;<span class="bold">application-desc main-class</span>="Main"&gt;
+      &lt;<span class="bold">argument</span>&gt;arg1&lt;/<span class="bold">argument</span>&gt;
+      &lt;<span class="bold">argument</span>&gt;arg2&lt;/<span class="bold">argument</span>&gt;
+  &lt;/<span class="bold">application-desc</span>&gt;
+</pre>
+<p>Parameters can be added to applications with the <code class="codeph">type</code> attribute set to <code class="codeph">JavaFX</code> just as in applets by including one or more <code class="codeph">param</code> elements, for example:</p>
+<pre dir="ltr">
+&lt;application-desc type="JavaFX" main-class="fxApp"&gt;
+    &lt;param name="key1" value="value1"/&gt;
+    &lt;param name="key2" value="value2"/&gt;
+&lt;/application-desc&gt;
+</pre>
+<p>The (optional) <code class="codeph">progress-class</code> attribute can be used to indicate that the class of this name implements the <span class="apiname">javax.jnlp.DownloadServiceListener</span> interface. This class can be loaded first and used to indicate the progress of other resources being downloaded and verified.</p>
+</div>
+</div>
+<div class="sect3"><a id="GUID-E1FD5551-4C30-4C8D-A9E3-A836E2A55470"></a>
+<h3 id="JSDPG-GUID-E1FD5551-4C30-4C8D-A9E3-A836E2A55470" class="sect3">applet-desc Element</h3>
+<div>
+<p>Java Web Start has support for launching Java applets. This support provides easy migration of existing code to Java Web Start.</p>
+<div class="infobox-note" id="GUID-E1FD5551-4C30-4C8D-A9E3-A836E2A55470__GUID-53018581-D563-400E-8709-8C33C9403963">
+<p class="notep1">Note:</p>
+Although available and supported in JDK 9, the Applet API is marked as deprecated in preparation for removal in a future release.</div>
+<p>An applet is launched using the <code class="codeph">applet-desc</code> element instead of the <code class="codeph">application-desc</code> element, for example:</p>
+<pre dir="ltr">
+  &lt;<span class="bold">applet-desc</span>
+      <span class="bold">documentBase</span>="http://..."
+      <span class="bold">name</span>="TimePilot"
+      <span class="bold">main-class</span>="TimePilot.TimePilotApp"
+      <span class="bold">width</span>="527"
+      <span class="bold">height</span>="428"&gt;
+    &lt;<span class="bold">param name=</span>"key1" <span class="bold">value=</span>"value1"/&gt;
+    &lt;<span class="bold">param name=</span>"key2" <span class="bold">value=</span>"value2"/&gt;
+  &lt;<span class="bold">/applet-desc</span>&gt;
+</pre>
+<p>The JAR files that make up the applet are described using the <code class="codeph">resources</code> element, the same as for applications. The <code class="codeph">documentBase</code> must be provided explicitly because a JNLP file is not embedded in an HTML page. The rest of the attributes correspond to the respective HTML applet tag elements.</p>
+<p>The <code class="codeph">main-class</code> attribute is used instead of the <code class="codeph">code</code> attribute.&nbsp;The <code class="codeph">main-class</code> attribute is assigned the name of the <code class="codeph">Applet</code> class (without the <code class="codeph">.class</code> extension). This attribute can be omitted if the <code class="codeph">Applet</code> class can be found from the <code class="codeph">Main-Class</code> manifest entry in the main JAR file.</p>
+<p>The (optional) <code class="codeph">progress-class</code> attribute can be used to indicate that the class of this name implements the <span class="apiname">javax.jnlp.DownloadServiceListener</span> interface. This class can be loaded first and used to indicate the progress of other resources being downloaded and verified.</p>
+<div class="infobox-note" id="GUID-E1FD5551-4C30-4C8D-A9E3-A836E2A55470__GUID-E3676603-DC97-4C83-B01A-2B8E7795F90C">
+<p class="notep1">Note:</p>
+Applets must be packaged in JAR files to work with Java Web Start.</div>
+</div>
+</div>
+<div class="sect3"><a id="GUID-EEA66696-2FF1-4A06-BA0F-8E53CA65CEB0"></a>
+<h3 id="JSDPG-GUID-EEA66696-2FF1-4A06-BA0F-8E53CA65CEB0" class="sect3">component-desc Element</h3>
+<div>
+<p>The <code class="codeph">component-desc</code> element denotes that this JNLP file is not an application or an applet but an extension that can be used as a resource in an application, applet, or another extension.</p>
+<p>A component extension is typically used to factor out a set of resources that are shared among multiple applications or that have separate security needs.</p>
+<p>The (optional) <code class="codeph">progress-class</code> attribute can be used to indicate that the class of this name implements the <span class="apiname">javax.jnlp.DownloadServiceListener</span> interface. This class can be loaded first and used to indicate the progress of other resources being downloaded and verified.</p>
+</div>
+</div>
+<div class="sect3"><a id="GUID-27F7A65A-A244-4188-A015-1048D6C446B1"></a>
+<h3 id="JSDPG-GUID-27F7A65A-A244-4188-A015-1048D6C446B1" class="sect3">installer-desc Element</h3>
+<div>
+<p>The <code class="codeph">installer-desc</code> element denotes that this JNLP file is an installer extension that defines an application that will be run only once, the first time this extension JNLP file is used in an application, applet, or another extension.</p>
+<p>An installer extension is typically used to install platform-specific native code that requires a more complicated setup than simply loading a native library into the VM.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment387">
+<tr>
+<td class="cellalignment394">
+<table class="cellalignment392">
+<tr>
+<td class="cellalignment391"><a href="migrating-java-applets-jnlp.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment391"><a href="jnlp-api-examples.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment396">
+<table class="cellalignment390">
+<tr>
+<td class="cellalignment391"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment391"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment391"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

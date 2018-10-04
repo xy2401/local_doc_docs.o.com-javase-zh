@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<meta name="generator" content="HTML Tidy, see www.w3.org" />
+<title>V1.4 JavaBeans API Enhancements</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>API Enhancements to the JavaBeans<sup><font size=
+"-2">TM</font></sup> Component API in v1.4</h1></div>
+<!-- Body text begins here -->
+<p>This document describes changes to the <tt>java.beans</tt>
+package that were introduced in version 1.4 of the Java 2 Platform,
+Standard Edition:</p>
+<ul>
+<li><a href="#ltp">New API for Long-Term Persistence</a></li>
+<li><a href="#othernew">Other API Additions</a></li>
+<li><a href="#introspector">Changes to the Introspector</a></li>
+<li><a href="#gc">Garbage Collection and Custom Attributes</a></li>
+</ul>
+<br />
+<h2><a name="ltp" id="ltp">New API for Long-Term
+Persistence</a></h2>
+<p>To support long-term persistence, the following classes were
+added:</p>
+<p align="center"></p>
+<table summary="new API for Long-Term Persistance">
+<thead>
+<tr>
+<th><em>Class</em></th>
+<th><em>Description</em></th>
+</tr>
+<tr valign="top">
+<td><a href=
+"../../../api/java/beans/Statement.html"><code>Statement</code></a></td>
+<td>An object that represents a method call, possibly with
+arguments, upon an object. For example:
+<code>a.setFoo(b)</code>.</td>
+</tr>
+<tr valign="top">
+<td><a href=
+"../../../api/java/beans/Expression.html"><code>Expression</code></a></td>
+<td>A statement that returns a result. For example:
+<code>a.getFoo()</code>.</td>
+</tr>
+<tr valign="top">
+<td><a href=
+"../../../api/java/beans/XMLDecoder.html"><code>XMLDecoder</code></a></td>
+<td>Reads XML documents that were created using
+<code>XMLEncoder</code>.</td>
+</tr>
+<tr valign="top">
+<td><a href=
+"../../../api/java/beans/Encoder.html"><code>Encoder</code></a></td>
+<td>Uses persistence delegates to break an object graph down into a
+series of <code>Statement</code>s and <code>Expression</code>s that
+can be used to recreate it.</td>
+</tr>
+<tr valign="top">
+<td><a href=
+"../../../api/java/beans/XMLEncoder.html"><code>XMLEncoder</code></a></td>
+<td>An <code>Encoder</code> that produces statements and
+expressions in an XML encoding.</td>
+</tr>
+<tr valign="top">
+<td><a href=
+"../../../api/java/beans/PersistenceDelegate.html"><code>PersistenceDelegate</code></a></td>
+<td>An abstract class that defines objects that can express the
+state of another object using the public methods of that object's
+class.</td>
+</tr>
+<tr valign="top">
+<td><a href=
+"../../../api/java/beans/DefaultPersistenceDelegate.html"><code>DefaultPersistenceDelegate</code></a></td>
+<td>The persistence delegate used, by default, for beans.</td>
+</tr>
+</thead>
+</table>
+<p>See <a href="index.html">JavaBeans Component API</a> for links
+to where you can find more information about long-term
+persistence.<br /></p>
+<h2><a name="othernew" id="othernew">Other API Additions</a></h2>
+<p>The following classes were also added in v1.4:</p>
+<p align="center"></p>
+<table summary="other classes added in v1.4">
+<thead>
+<tr>
+<th><em>Class</em></th>
+<th><em>Description</em></th>
+</tr>
+<tr valign="top">
+<td><a href=
+"../../../api/java/beans/EventHandler.html"><code>EventHandler</code></a></td>
+<td>Provides support for dynamically generating event listeners
+that have a small footprint and can be saved automatically by the
+persistence scheme.</td>
+</tr>
+<tr valign="top">
+<td><a href=
+"../../../api/java/beans/ExceptionListener.html"><code>ExceptionListener</code></a></td>
+<td>Defines a listener to be notified when a exception was thrown
+but then recovered from. You can register an exception listener on
+an <code>XMLEncoder</code> or <code>XMLDecoder</code> object to be
+notified when the object encounters a recoverable problem while
+writing or reading a bean.</td>
+</tr>
+<tr valign="top">
+<td><a href=
+"../../../api/java/beans/PropertyChangeListenerProxy.html"><code>PropertyChangeListenerProxy</code></a></td>
+<td>A proxy that implements <code>PropertyChangeListener</code> and
+serves to group another <code>PropertyChangeListener</code> (the
+real event handler) with a specific property; the proxy forwards
+property change events to the real event handler.</td>
+</tr>
+<tr valign="top">
+<td><a href=
+"../../../api/java/beans/VetoableChangeListenerProxy.html"><code>VetoableChangeListenerProxy</code></a></td>
+<td>A proxy that implements <code>VetoableChangeListener</code> and
+serves to group another <code>VetoableChangeListener</code> (the
+real event handler) with a specific constrained property; the proxy
+forwards vetoable property change events to the real event
+handler.</td>
+</tr>
+</thead>
+</table>
+<p>The following classes have additional methods:</p>
+<ul>
+<li>The <a href=
+"../../../api/java/beans/PropertyChangeSupport.html"><code>PropertyChangeSupport</code></a>
+class now contains a no-argument method to get all the registered
+property change listeners: <a href=
+"../../../api/java/beans/PropertyChangeSupport.html#getPropertyChangeListeners()">
+<code>getPropertyChangeListeners</code></a>.</li>
+<li>Similarly, the <a href=
+"../../../api/java/beans/VetoableChangeSupport.html"><code>VetoableChangeSupport</code></a>
+class now contains a no-argument method to get all the registered
+vetoable change listeners: <a href=
+"../../../api/java/beans/VetoableChangeSupport.html#getVetoableChangeListeners()">
+<code>getVetoableChangeListeners</code></a>.</li>
+</ul>
+<br />
+<h2><a name="introspector" id="introspector">Changes to the
+Introspector</a></h2>
+The <a href=
+"../../../api/java/beans/Introspector.html"><code>Introspector</code></a>
+class has been reimplemented, and its performance has improved. The
+new implementation has caused the following changes in the behavior
+of the introspector:
+<ul>
+<li><code>FeatureDescriptor</code>s are now shared on a
+per-<code>BeanInfo</code> basis, rather than copied when the
+<code>BeanInfo</code> is returned. This change improves the
+performance of the <code>getBeanInfo</code> method. It also means
+that when an attribute/value in a <code>FeatureDescriptor</code>
+changes, that change is persistent among <code>getBeanInfo</code>
+invocations as long as the <code>BeanInfo</code> is not garbage
+collected. (Garbage collection of <code>BeanInfo</code>s is
+described in <a href="#gc">Garbage Collection and Custom
+Attributes</a>.)</li>
+<li>The <code>getBeanInfo</code> methods no longer create a copy of
+the requested <code>BeanInfo</code>. Instead, they cache the
+<code>BeanInfo</code> and return it. If necessary, you can get the
+old behavior by storing a reference to the returned
+<code>BeanInfo</code> and using the <code>flushFromCaches</code>
+method to flush the bean's class from the introspector's
+cache.</li>
+<li>If the <code>instantiate</code> method can't instantiate a
+particular class using the sibling or bootstrap class loader, it
+now tries to load the class using the current thread's class
+loader.</li>
+</ul>
+<br />
+<h2><a name="gc" id="gc">Garbage Collection and Custom
+Attributes</a></h2>
+<p>As of v 1.4, a <code>BeanInfo</code> can be garbage collected
+when no direct references to it exist and the system is low on
+memory. This is implemented in the <code>Introspector</code> by
+wrapping <code>BeanInfo</code>s in <code>SoftReference</code>s.</p>
+<p>The possibility of garbage collection affects how you store
+custom attributes inside <code>BeanInfo</code>s. If a particular
+<code>BeanInfo</code> is garbage collected, then the next time you
+invoke <code>Introspector.getBeanInfo</code> to get the
+<code>BeanInfo</code>, the returned object won't contain any custom
+attributes.</p>
+<p>To avoid this problem, if you store custom attributes inside a
+<code>BeanInfo</code> you must ensure that the
+<code>BeanInfo</code> is correctly initialized with those
+attributes every time you retrieve the <code>BeanInfo</code>. The
+following is an example of initializing a <code>BeanInfo</code>
+class with a custom property in the bean descriptor. The code would
+be similar for a custom attribute in a property descriptor, method
+descriptor, or event set descriptor.</p>
+<pre class="codeblock">
+BeanInfo beanInfo = getBeanInfo(SomeBean.class);
+BeanDescriptor beanDescriptor = beanInfo.getBeanDescriptor();
+
+/*
+ * Before using the BeanInfo, check to see if our custom
+ * property has been initialized.  (Even if we initialized
+ * it before, if the BeanInfo has been garbage collected,
+ * then we need to initialize it again.)  Since our custom
+ * property's value could be null, we define another property
+ * to tell us if the custom property is initialized.
+ */
+if (beanDescriptor.getValue("myProperty_init") == null) {
+    beanDescriptor.setValue("myProperty", someValue);
+    beanDescriptor.setValue("myProperty_init", Boolean.TRUE);
+}
+</pre>
+<!-- Body text ends here -->
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

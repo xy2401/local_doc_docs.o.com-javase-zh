@@ -1,0 +1,147 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Using Arbitrary SASL Mechanisms</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="gssapi.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="ssl.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Security</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Using Arbitrary SASL Mechanisms
+</h2>
+<p>
+<blockquote>
+
+<blockquote>
+<hr>
+<strong>Note:</strong> The descriptions and examples presented here
+are based on a <a href=http://www.worldspot.com/jsr28/publicreview/doc/index.html>preview</a> of 
+the <a href="http://www.worldspot.com/jsr28/">Java SASL API</a> standard.
+Although these examples work with version 1.2.3 of the LDAP provider,
+the APIs are still subject to change, depending on
+the evolution of the Java SASL API.
+<hr>
+</blockquote>
+
+The LDAP provider has built-in support for several
+SASL mechanisms. To use other SASL mechanisms, you must make the
+classes for the mechanisms available to your program (for example by
+adding them to your classpath) and inform
+the SASL framework of their availability.
+You can achieve the latter in one of three ways.
+<ol>
+<li>Set the
+<tt>"javax.security.sasl.client.pkgs"</tt> environment property
+to the package name of the <em>factory</em> class that
+creates implementations for SASL mechanisms.
+<li>Set the
+<tt>"javax.security.sasl.client.pkgs"</tt> <em>system</em> property
+to the package name of the factory class that
+creates implementations for SASL mechanisms.
+<li>Put the fully qualified name of the factory class in the file
+<tt>META-INF/services/com.sun.security.sasl.preview.SaslClientFactory</tt>.
+</ol>
+The third option is the most transparent and preferred way.
+<p>
+Here is <a href=src/UseSampleMech.java>an example</a> that
+uses a package (<tt>examples</tt>) that contains a custom SASL mechanism.
+<blockquote><pre>
+// Specify the package name for SASL to search for the mechanism factories
+env.put("javax.security.sasl.client.pkgs", "examples");
+
+// Use the bogus SASL mechanism name
+env.put(Context.SECURITY_AUTHENTICATION, "SAMPLE");
+</pre></blockquote>
+
+The program first adds the package <tt>examples</tt> to the list of packages
+to search for SASL mechanisms (actually, <em>mechanism factories</em>).
+It then requests a SASL mechanism (<tt>"SAMPLE"</tt>) from that package.
+<p>
+Alternatively, instead of 
+setting the <tt>"javax.security.sasl.client.pkgs"</tt> environment property,
+you can place the fully qualified name of the factory class 
+(<a href=src/ClientFactory.java><tt>examples.ClientFactory</tt></a>) in the file
+<tt>META-INF/services/com.sun.security.sasl.preview.SaslClientFactory</tt>
+as follows.
+<blockquote><pre>
+examples.ClientFactory
+</pre></blockquote>
+<p>
+When you run the program, the <tt>"SAMPLE"</tt> SASL mechanism 
+implementation class
+(<a href=src/SampleMech.java><tt>SampleMech</tt></a>) prints a debug message
+to indicate that it has been invoked.
+When the program communicates with the LDAP server, the server
+will return an
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/AuthenticationNotSupportedException.html><tt>AuthenticationNotSupportedException</TT></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/AuthenticationNotSupportedException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+because <tt>"SAMPLE"</tt> is a bogus mechanism.
+
+<p>
+You can use a similar technique to access a SASL mechanism that
+the LDAP server does support. Do this by using an appropriate value for the 
+SASL mechanism name and the package name of
+the mechanism implementation.
+SASL mechanism implementations are typically provided by vendors
+and must follow the interfaces and guidelines outlined in the
+<a href="http://www.worldspot.com/jsr28/">Java SASL API</a>.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="gssapi.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="ssl.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Security</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>
+

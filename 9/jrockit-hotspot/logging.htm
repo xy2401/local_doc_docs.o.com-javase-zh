@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Logging</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="This topic describes the various logging options available in Oracle JRockit and HotSpot:" />
+<meta name="dcterms.created" content="2017-10-12T02:30:39Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition JRockit to HotSpot Migration Guide" />
+<meta name="dcterms.identifier" content="E76287-05" />
+<meta name="dcterms.isVersionOf" content="JRHMG" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1995, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="compilation-optimization.htm" title="Previous" type="text/html" />
+<link rel="Next" href="command-line-options.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JRHMG.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JRHMG.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JRHMG.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-062A92DA-5790-4EF3-80F5-A3CC6E53898A"></a> <span id="PAGE" style="display:none;">8/11</span> <!-- End Header -->
+<a id="JRHMG122"></a><a id="JRHMG121"></a>
+<h1 id="JRHMG-GUID-062A92DA-5790-4EF3-80F5-A3CC6E53898A" class="sect1"><span class="enumeration_chapter">5</span> Logging</h1>
+<div>
+<div><span>This topic describes the various logging options available in Oracle JRockit and HotSpot:</span></div>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="logging.htm#GUID-962A4EDC-33DE-4D8B-A00D-C76EDFDD2C9B" title="Verbose logging in HotSpot can be enabled using the -verbose option. There are some specific flags that can be used with this option to get area-specific verbose output.">Verbose Logging</a></p>
+</li>
+<li>
+<p><a href="logging.htm#GUID-33074D03-B4F3-4D16-B9B6-8B0076661AAF" title="These are some of the common logging options available in HotSpot that can be used to enable the diagnostic output for a specific subsystem within the HotSpot JVM.">HotSpot Logging Options</a></p>
+</li>
+</ul>
+</div>
+<a id="JRHMG124"></a><a id="JRHMG123"></a>
+<div class="props_rev_3"><a id="GUID-962A4EDC-33DE-4D8B-A00D-C76EDFDD2C9B"></a>
+<h2 id="JRHMG-GUID-962A4EDC-33DE-4D8B-A00D-C76EDFDD2C9B" class="sect2">Verbose Logging</h2>
+<div>
+<p>Verbose logging in HotSpot can be enabled using the <code class="codeph">-verbose</code> option. There are some specific flags that can be used with this option to get area-specific verbose output.</p>
+<div class="section">The following table lists various logging options available in Oracle JRockit and compares them with the options available in HotSpot:</div>
+<!-- class="section" -->
+<div class="tblformal" id="GUID-962A4EDC-33DE-4D8B-A00D-C76EDFDD2C9B__GUID-B6C4402F-F56A-41C0-8ABF-5A0FD69FDBBA">
+<p class="titleintable">Table 5-1 Verbose Logging</p>
+<table class="cellalignment282" title="Verbose Logging" summary="Verbose Logging Options">
+<thead>
+<tr class="cellalignment276">
+<th class="cellalignment283" id="d2223e71">Oracle JRockit Verbose Module</th>
+<th class="cellalignment283" id="d2223e74">HotSpot Option</th>
+<th class="cellalignment283" id="d2223e77">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e82" headers="d2223e71">
+<p><code class="codeph">alloc</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e82 d2223e74">
+<p><span class="italic">NA</span></p>
+</td>
+<td class="cellalignment284" headers="d2223e82 d2223e77">
+<p><span class="italic">NA</span></p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e95" headers="d2223e71">
+<p><code class="codeph">class</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e95 d2223e74">
+<p><code class="codeph">-verbose:class</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e95 d2223e77">
+<p>Displays information about the classes that are being loaded.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e107" headers="d2223e71">
+<p><code class="codeph">codegen</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e107 d2223e74">
+<p><span class="italic">NA</span></p>
+</td>
+<td class="cellalignment284" headers="d2223e107 d2223e77">
+<p><span class="italic">NA</span></p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e120" headers="d2223e71">
+<p><code class="codeph">compaction</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e120 d2223e74">
+<p><span class="italic">NA</span></p>
+</td>
+<td class="cellalignment284" headers="d2223e120 d2223e77">
+<p><span class="italic">NA</span></p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e133" headers="d2223e71">
+<p><code class="codeph">cpuinfo</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e133 d2223e74">
+<p><span class="italic">NA</span></p>
+</td>
+<td class="cellalignment284" headers="d2223e133 d2223e77">
+<p><span class="italic">NA</span></p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e146" headers="d2223e71">
+<p><code class="codeph">exceptions</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e146 d2223e74">
+<p><span class="italic">NA</span></p>
+</td>
+<td class="cellalignment284" headers="d2223e146 d2223e77">
+<p><span class="italic">NA</span></p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e159" headers="d2223e71">
+<p><code class="codeph">gc</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e159 d2223e74"><code class="codeph">-verbose:gc</code></td>
+<td class="cellalignment284" headers="d2223e159 d2223e77">
+<p>Displays information about each garbage collection (GC) event.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e170" headers="d2223e71">
+<p><code class="codeph">gcheuristic</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e170 d2223e74">
+<p><span class="italic">NA</span></p>
+</td>
+<td class="cellalignment284" headers="d2223e170 d2223e77">
+<p><span class="italic">NA</span></p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e183" headers="d2223e71">
+<p><code class="codeph">gcpause</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e183 d2223e74">
+<p><span class="italic">NA</span></p>
+</td>
+<td class="cellalignment284" headers="d2223e183 d2223e77">
+<p><span class="italic">NA</span></p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e196" headers="d2223e71">
+<p><code class="codeph">gcpausetree</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e196 d2223e74">
+<p><span class="italic">NA</span></p>
+</td>
+<td class="cellalignment284" headers="d2223e196 d2223e77">
+<p><span class="italic">NA</span></p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e209" headers="d2223e71">
+<p><code class="codeph">gcreport</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e209 d2223e74">
+<p><span class="italic">NA</span></p>
+</td>
+<td class="cellalignment284" headers="d2223e209 d2223e77">
+<p><span class="italic">NA</span></p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e223" headers="d2223e71">
+<p><code class="codeph">load</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e223 d2223e74">
+<p><span class="italic">NA</span></p>
+</td>
+<td class="cellalignment284" headers="d2223e223 d2223e77">
+<p><span class="italic">NA</span></p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e236" headers="d2223e71">
+<p><code class="codeph">memory</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e236 d2223e74">
+<p><span class="italic">NA</span></p>
+</td>
+<td class="cellalignment284" headers="d2223e236 d2223e77">
+<p><span class="italic">NA</span></p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e249" headers="d2223e71">
+<p><code class="codeph">memdbg</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e249 d2223e74">
+<p><span class="italic">NA</span></p>
+</td>
+<td class="cellalignment284" headers="d2223e249 d2223e77">
+<p><span class="italic">NA</span></p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e262" headers="d2223e71">
+<p><code class="codeph">opt</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e262 d2223e74">
+<p><span class="italic">NA</span></p>
+</td>
+<td class="cellalignment284" headers="d2223e262 d2223e77">
+<p><span class="italic">NA</span></p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e275" headers="d2223e71">
+<p><code class="codeph">refobj</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e275 d2223e74">
+<p><span class="italic">NA</span></p>
+</td>
+<td class="cellalignment284" headers="d2223e275 d2223e77">
+<p><span class="italic">NA</span></p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e288" headers="d2223e71">
+<p><code class="codeph">starttime</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e288 d2223e74">
+<p><span class="italic">NA</span></p>
+</td>
+<td class="cellalignment284" headers="d2223e288 d2223e77">
+<p><span class="italic">NA</span></p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e301" headers="d2223e71">
+<p><code class="codeph">shutdown</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e301 d2223e74">
+<p><span class="italic">NA</span></p>
+</td>
+<td class="cellalignment284" headers="d2223e301 d2223e77">
+<p><span class="italic">NA</span></p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e314" headers="d2223e71">
+<p><code class="codeph">systemgc</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e314 d2223e74">
+<p><span class="italic">NA</span></p>
+</td>
+<td class="cellalignment284" headers="d2223e314 d2223e77">
+<p><span class="italic">NA</span></p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e327" headers="d2223e71">
+<p><code class="codeph">timing</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e327 d2223e74">
+<p><span class="italic">NA</span></p>
+</td>
+<td class="cellalignment284" headers="d2223e327 d2223e77">
+<p><span class="italic">NA</span></p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e340" headers="d2223e71">
+<p>NA</p>
+</td>
+<td class="cellalignment284" headers="d2223e340 d2223e74">
+<p><code class="codeph">-verbose:jni</code></p>
+</td>
+<td class="cellalignment284" headers="d2223e340 d2223e77">
+<p>Displays information about the use of native methods and other Java Native Interface (JNI) activity.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+</div>
+<a id="JRHMG126"></a><a id="JRHMG125"></a>
+<div class="props_rev_3"><a id="GUID-33074D03-B4F3-4D16-B9B6-8B0076661AAF"></a>
+<h2 id="JRHMG-GUID-33074D03-B4F3-4D16-B9B6-8B0076661AAF" class="sect2">HotSpot Logging Options</h2>
+<div>
+<p>These are some of the common logging options available in HotSpot that can be used to enable the diagnostic output for a specific subsystem within the HotSpot JVM.</p>
+<div class="tblformal" id="GUID-33074D03-B4F3-4D16-B9B6-8B0076661AAF__GUID-4C3C4B62-700B-46FC-822F-2F6D366CC1FA">
+<p class="titleintable">Table 5-2 Logging Options</p>
+<table class="cellalignment282" title="Logging Options" summary="Logging Options">
+<thead>
+<tr class="cellalignment276">
+<th class="cellalignment283" id="d2223e380">HotSpot Logging Options</th>
+<th class="cellalignment285" id="d2223e383">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e388" headers="d2223e380">
+<p><code class="codeph">-Xloggc:&lt;filename&gt;</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e388 d2223e383">
+<p>Sets the file to which verbose GC event information must be redirected for logging. The information written to this file is similar to the output of <code class="codeph">-verbose:gc</code> with the time elapsed from the first GC event preceding each logged event. The <code class="codeph">-Xloggc</code> option overrides the<code class="codeph">-verbose:gc</code>, if both are given with the same <code class="codeph">java</code> command.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e408" headers="d2223e380">
+<p><code class="codeph">-XX:LogFile=&lt;path&gt;</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e408 d2223e383">
+<p>Sets the path and file name where the log data is written.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e416" headers="d2223e380">
+<p><code class="codeph">-XX:+PrintCommandLineFlags</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e416 d2223e383">
+<p>Enables printing of the selected JVM flags that appeared on the command-line.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e424" headers="d2223e380">
+<p><code class="codeph">-XX:+PrintNMTStatistics</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e424 d2223e383">
+<p>Enables printing of collected native memory tracking data at JVM exit when native memory tracking is enabled.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e432" headers="d2223e380">
+<p><code class="codeph">-XX:+LogCompilation</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e432 d2223e383">
+<p>Enables logging of compilation activity to a file named <code class="codeph">hotspot.log</code> in the current working directory. You can specify a different log file path and name using the <code class="codeph">-XX:LogFile</code> option. The <code class="codeph">-XX:+LogCompilation</code> option must be used together with the <code class="codeph">-XX:UnlockDiagnosticVMOptions</code> option that unlocks diagnostic JVM options.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e452" headers="d2223e380">
+<p><code class="codeph">-XX:+PrintAssembly</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e452 d2223e383">
+<p>Enables printing of assembly code resulting from JIT compilation of Java bytecode by using the external <code class="codeph">disassembler.so</code> library. This option enables you to view the generated code, which helps you to diagnose the performance issues. This option must be used together with the <code class="codeph">-XX:UnlockDiagnosticVMOptions</code> option that unlocks diagnostic JVM options.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e466" headers="d2223e380">
+<p><code class="codeph">-XX:+PrintCompilation</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e466 d2223e383">
+<p>Enables verbose diagnostic output from the JVM by printing a message to the console every time a method is compiled.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e474" headers="d2223e380">
+<p><code class="codeph">-XX:+PrintInlining</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e474 d2223e383">
+<p>Enables printing of inlining decisions. This option enables you to view the methods that are getting inlined.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e482" headers="d2223e380">
+<p><code class="codeph">-XX:+PrintClassHistogram</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e482 d2223e383">
+<p>Enables printing of a class instance histogram after a Control+C event (SIGTERM). By default, this option is disabled.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e490" headers="d2223e380">
+<p><code class="codeph">-XX:+PrintConcurrentLocks</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e490 d2223e383">
+<p>Enables printing of <code class="codeph">java.util.concurrent</code> locks after a Control+C event (SIGTERM). By default, this option is disabled.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e501" headers="d2223e380">
+<p><code class="codeph">-XX:+G1PrintHeapRegions</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e501 d2223e383">
+<p>Enables the printing of information about the regions that are allocated and that are reclaimed by the G1 collector.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e510" headers="d2223e380">
+<p><code class="codeph">-XX:+PrintAdaptiveSizePolicy</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e510 d2223e383">
+<p>Enables printing of information about adaptive generation sizing.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e518" headers="d2223e380">
+<p><code class="codeph">-XX:+PrintGC</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e518 d2223e383">
+<p>Enables printing of messages at every GC.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e526" headers="d2223e380">
+<p><code class="codeph">-XX:+PrintGCApplicationConcurrentTime</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e526 d2223e383">
+<p>Enables printing of the time elapsed from the last pause (for example, a GC pause).</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e534" headers="d2223e380">
+<p><code class="codeph">-XX:+PrintGCApplicationStoppedTime</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e534 d2223e383">
+<p>Enables printing of the duration of the pause (for example, a GC pause) that lasted.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e542" headers="d2223e380">
+<p><code class="codeph">-XX:+PrintGCDateStamps</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e542 d2223e383">
+<p>Enables printing of a date stamp at every GC.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e550" headers="d2223e380">
+<p><code class="codeph">-XX:+PrintGCDetails</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e550 d2223e383">
+<p>Enables printing of detailed messages at every GC.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e558" headers="d2223e380">
+<p><code class="codeph">-XX:+PrintGCTaskTimeStamps</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e558 d2223e383">
+<p>Enables printing of time stamps for every individual GC worker thread task.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e566" headers="d2223e380">
+<p><code class="codeph">-XX:+PrintGCTimeStamps</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e566 d2223e383">
+<p>Enables printing of time stamps at every GC.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e574" headers="d2223e380">
+<p><code class="codeph">-XX:+PrintStringDeduplicationStatistics</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e574 d2223e383">
+<p>Prints detailed deduplication statistics.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e582" headers="d2223e380">
+<p><code class="codeph">-XX:+PrintTenuringDistribution</code></p>
+</td>
+<td class="cellalignment286" headers="d2223e582 d2223e383">
+<p>Enables printing of tenuring age information.</p>
+</td>
+</tr>
+<tr class="cellalignment276">
+<td class="cellalignment284" id="d2223e590" headers="d2223e380"><code class="codeph">-Xlog</code></td>
+<td class="cellalignment286" headers="d2223e590 d2223e383">
+<p>Enables the common logging system for all JVM components.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment275">
+<tr>
+<td class="cellalignment287">
+<table class="cellalignment280">
+<tr>
+<td class="cellalignment279"><a href="compilation-optimization.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment279"><a href="command-line-options.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1995, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment289">
+<table class="cellalignment278">
+<tr>
+<td class="cellalignment279"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment279"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment279"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

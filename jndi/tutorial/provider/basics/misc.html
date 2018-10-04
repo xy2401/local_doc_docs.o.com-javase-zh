@@ -1,0 +1,135 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Miscellaneous</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="morenames.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="extend.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Essential Components</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Miscellaneous
+</h2>
+<p>
+<blockquote>
+This section describes additional miscellaneous issues that a
+context implementation must handle.
+
+<h4>Resource Management</h4>
+
+The Java programming language provides automatic garbage collection.
+This means that when an object is no longer being referenced, the Java
+runtime will automatically dispose of it.
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#close()"><tt>close()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#close()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   gives the API user a way to dispose of a <tt>Context</tt> instance and
+its associated resources before automatic garbage collection kicks in.
+This is important for network-based context implementations because
+network connections are a limited resource for both clients and servers.
+<a href=src/FlatCtx.java>The flat namespace example</a> does not provide any
+substantial implementation for <tt>close()</tt>.
+An actual implementation, especially one that must manage network connections, 
+would  define <tt>close()</tt> to clean up references and connections.
+
+<h4>Environment Properties</h4>
+
+<a target="_top" href="../ground/env.html">The Ground Rules</a> <a target="_top" href="../ground/env.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>    lesson describes how a context implementation should treat its environment
+properties.
+Even though 
+<a href=src/FlatCtx.java>the flat namespace</a> 
+and 
+<a href=src/FlatCtx.java>hierarchical namespace</a>
+examples don't use any environment properties,
+they must provide implementations for the environment-related methods.
+<p>
+As suggested by the
+<a target="_top" href="../ground/env.html">The Ground Rules</a> <a target="_top" href="../ground/env.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>    lesson,
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#getEnvironment()"><tt>getEnvironment()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#getEnvironment()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    should provide a read-only copy or a clone of its environment properties to
+its caller.
+<p>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#addToEnvironment(java.lang.String, java.lang.Object)"><tt>addToEnvironment()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#addToEnvironment(java.lang.String, java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>  and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#removeFromEnvironment(java.lang.String)"><tt>removeFromEnvironment()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#removeFromEnvironment(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    are used by a program to update a context's environment.
+<a href=src/FlatCtx.java>The flat namespace example</a> simply updates its internal
+environment hash table. An actual implementation would examine the
+property name and act appropriately to update the 
+<tt>Context</tt> instance's behavior accordingly.
+
+
+
+<h4>Unsupported Operations</h4>
+
+A context implementation must provide a valid implementation for 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><tt>lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+For all other methods, 
+if a context implementation does not support a particular method,
+then the method definition should throw an
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/OperationNotSupportedException.html"><tt>OperationNotSupportedException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/OperationNotSupportedException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<p>
+For example, a context implementation for a read-only underlying naming service
+cannot support any methods that involve updates.
+Here is an example of such a context
+implementation's definition of
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><tt>Context.bind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<blockquote><pre>
+public void bind(Name obj, Object obj) throws NamingException {
+    throw new OperationNotSupportedException(
+        "Read-only service does not support updates");
+}
+</pre></blockquote>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="morenames.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="extend.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Essential Components</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

@@ -1,0 +1,136 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Parameters and Return Values</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="env.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Ground Rules</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Parameters and Return Values
+</h2>
+<p>
+<blockquote>
+
+When writing a service provider, you must keep in mind
+certain rules on 
+how to treat incoming parameters and outgoing return values.
+Not only do these rules affect the correctness of the service provider
+and ultimately the correctness of the program that uses it,
+but they also have security implications.
+These rules apply to method invocations on the
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><tt>Context</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+interface and its subinterfaces and are discussed in the
+next subsections.
+
+<h4>Parameters Are Owned by the Caller</h4>
+
+When a service provider accepts a parameter from a caller
+as part of a context method invocation, it must
+not modify the parameter's contents. 
+Suppose that a service provider
+receives a <tt>java.util.Hashtable</tt> as an environment parameter.
+Then it must not add, delete, or change any item in the <tt>Hashtable</tt>.
+If the provider must use a modified version of the <tt>Hashtable</tt>
+(for example, by deleting any security-related properties),
+then it must do so only after cloning the <tt>Hashtable</tt>.
+<p>
+In another example, when the provider gets a <tt>Name</tt> parameter,
+it must not add, delete, or change any component in the name.
+
+
+<h4>Parameters Are Valid Only During Invocation</h4>
+
+A service provider must not maintain any pointers to
+(mutable) parameters beyond the method invocation.
+If a service provider must retain information passed in the
+parameters, then it should clone or copy the information to
+locally accessible variables.
+<p>
+For example, if a caller invokes
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#setRequestControls(javax.naming.ldap.Control[])"><tt>LdapContext.setRequestControls()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#setRequestControls(javax.naming.ldap.Control[])"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     with a non-<tt>null</tt>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/Control.html"><tt>Control[]</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/Control.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, then the service provider should copy the array before returning
+from the call. After the call, any changes 
+that the caller makes to its
+array should not affect the service provider, and vice versa.
+
+<h4>Return Values Are Owned by the Caller</h4>
+
+When a service provider returns a (mutable) object to the caller,
+it should give up ownership of the object.
+The caller then is free to make changes to the returned object, and such
+changes should have no effect on the service provider.
+<p>
+For example, if two callers invoke
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#getRequestControls()"><tt>LdapContext.getRequestControls()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#getRequestControls()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, then the <tt>Control[]</tt> that each receives is its own copy.
+Each caller can manipulate that result without affecting the
+other caller.
+Similarly, if two callers invoke 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#getEnvironment()"><tt>Context.getEnvironment()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#getEnvironment()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, then the <tt>java.util.Hashtable</tt> that each receives can be manipulated
+independently without the other caller's being affected.
+<p>
+To support this behavior, the service provider typically needs to
+clone a mutable result (that can be returned to multiple callers)
+before returning it.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="env.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Ground Rules</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>
+

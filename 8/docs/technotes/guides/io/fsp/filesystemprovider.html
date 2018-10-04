@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Developing a Custom File System Provider</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../../webdesign/pubs8/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../webdesign/pubs8/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://docs.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Developing a Custom File System Provider</h1></div>
+<h2>Introduction</h2>
+<p>The NIO.2 API introduced in the Java SE 7 release provides the
+ability to develop a custom file system provider that can be used
+to manage file system objects. A <em>file system</em> is
+essentially a container with organized, homogenous elements
+referred to as file system objects. A file system provides access
+to file system objects. A <em>file system object</em> can be a file
+store, file, or directory. A <em>file store</em> is a volume or
+partition in which files are stored. For example, in a native file
+system such as on the Windows platform, commonly known drives like
+<code>c:</code> or <code>d:</code> are file stores. On the Solaris
+operating system, <code>/</code> (root) and mounted directories are
+considered file stores.</p>
+<p>The <a href=
+"../../../../api/java/nio/file/spi/FileSystemProvider.html"><code>java.nio.file.spi.FileSystemProvider</code></a>
+class allows you to develop a custom file system provider. A custom
+file system provider is useful in the following situations:</p>
+<ul>
+<li>Developing a memory-based or zip-file-based file system</li>
+<li>Developing a fault-tolerant distributed file system</li>
+<li>Replacing or supplementing the default file system provider.
+The custom provider can augment the default provider by performing
+specific operations, such as logging all system operations, and
+delegate to the default provider for other routine operations.</li>
+</ul>
+<h2>Overview of the
+<code>java.nio.file.spi.FileSystemProvider</code> Class</h2>
+<p>A custom file system provider must implement the <a href=
+"../../../../api/java/nio/file/spi/FileSystemProvider.html"><code>java.nio.file.spi.FileSystemProvider</code></a>
+class. A file system provider is identified by a URI scheme such as
+<code>file</code>, <code>jar</code>, <code>memory</code>,
+<code>cd</code>.</p>
+<p>An implementation of the
+<code>java.nio.file.spi.FileSystemProvider</code> class is a
+factory for instances of the <a href=
+"../../../../api/java/nio/file/FileSystem.html"><code>java.nio.file.FileSystem</code></a>
+class. A file system's URI has a URI scheme that matches the URI
+scheme of the file system provider that created it.</p>
+<p>The <a href=
+"../../../../api/java/nio/file/spi/FileSystemProvider.html#newFileSystem-java.net.URI-java.util.Map-">
+<code>newFileSystem</code></a> method is used to create a file
+system and the <a href=
+"../../../../api/java/nio/file/spi/FileSystemProvider.html#getFileSystem-java.net.URI-">
+<code>getFileSystem</code></a> method is used to retrieve a
+reference to an existing file system.</p>
+<h2>Implementing a Custom File System Provider</h2>
+<p>This section describes the high-level steps necessary to create
+a custom file system provider using the
+<code>java.nio.file.spi.FileSystemProvider</code> API. The
+<code>ZipFileSystemProvider</code> class that is shipped in the
+<code>demo/nio/zipfs</code> of your JDK installation is an example
+of a custom file system provider. See <a href=
+"#resources">Resources</a> for information about the zip file
+system provider.</p>
+<h3>Implementing the Custom File System Provider Class</h3>
+<p>Implementing the custom file system provider class involves the
+following operations:</p>
+<ul>
+<li>Create a custom file system provider class, such as
+<code>MyFileSystemProvider</code>, that extends the
+<code>java.nio.file.spi.FileSystemProvider</code> class.</li>
+<li>Define a URI scheme such as <code>jar</code> for the file
+system provider. The <code>getScheme</code> method should return
+the URI scheme of this provider.</li>
+<li>Create an internal cache to keep track of file systems created
+by this provider.</li>
+<li>Implement the <code>newFileSystem</code> method. The method
+will create a new custom file system at the specified path and add
+the file system to cache. This method should throw a <a href=
+"../../../../api/java/nio/file/FileSystemAlreadyExistsException.html">
+<code>java.nio.file.FileSystemAlreadyExistsException</code></a>
+exception if a file system already exists at the specified
+path.</li>
+<li>Implement the <code>getFileSystem</code> method. This method
+should search the cache and return a previously created instance of
+a file system that corresponds to the given URI.</li>
+<li>Implement the <code>newFileChannel</code> method or the
+<code>newAsynchronousFileChannel</code> method depending on the
+requirements of your file system provider. This method should
+return a <code>FileChannel</code> object that allows a file to be
+read or written in the file system.</li>
+</ul>
+<h3>Implementing the Custom File System Class</h3>
+<p>Implementing the custom file system class involves the following
+operations:</p>
+<ul>
+<li>Create a class, such as <code>MyFileSystem</code>, that extends
+the <code>java.nio.file.FileSystem</code> class.</li>
+<li>Implement the methods of your file system class depending on
+the characteristics of the desired file system. Some
+characteristics of a file system are as follows:
+<ul>
+<li>Number of roots &ndash; A file system can have a single
+hierarchy of files with one root, or multiple hierarchies.</li>
+<li>Read and write access &ndash; A file system can be read-only or
+read/write.</li>
+<li>File store &ndash; A file system requires an underlying file
+store. The attributes that can be set for a file will vary
+depending on the underlying file store.</li>
+</ul>
+</li>
+</ul>
+<h2><a id="resources" name="resources"></a>Resources</h2>
+<ul>
+<li><a href="zipfilesystemprovider.html">Zip File System
+Provider</a></li>
+<li><a href="zipfilesystemproviderprops.html">Zip File System
+Properties</a></li>
+</ul>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

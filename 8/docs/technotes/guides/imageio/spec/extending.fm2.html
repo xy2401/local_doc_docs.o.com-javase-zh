@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Java Image I/O API Guide: 4 - Writing Image I/O
+Plug-ins</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../../webdesign/pubs8/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../webdesign/pubs8/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://docs.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<table summary="" width="100%">
+<tr>
+<td>
+<!-- Bug in Communicator w/font: NavBar text disappears for Times 14pt pref. -->
+<!-- font size="-1" --><a href=
+"imageio_guideTOC.fm.html">CONTENTS</a> | <a href=
+"extending.fm1.html">PREV</a> | <a href=
+"extending.fm3.html">NEXT</a> 
+<!-- | <a href="copyright.fm.html">INDEX</a>  -->
+<!-- /font --></td>
+</tr>
+</table>
+<br />
+<h2><a name="a996925" id="a996925"><i>4.2</i> Embedding Plug-ins in
+JAR Files</a></h2>
+<a name="a996941" id="a996941"><!-- --></a> Since a plug-in
+consists of several classes, the JAR file mechanism is used to
+allow them to be combined into a single file. In addition to class
+files, JAR files may contain additional files used to describe
+their contents. In particular, a JAR file may contain a
+<code>META-INF/services</code> directory that is used to list any
+service providers that are contained in the file. For each service
+provider interface that is implemented by a class stored in the JAR
+file, a file whose name is the fully-qualified class name of the
+service provider interface is placed within the
+<code>services</code> directory. The file should contain the
+fully-qualified class names of the implementation classes present
+in the JAR file, one per line. For example, if the JAR file
+contains a service provider class named
+<code>com.mycompany.mypackage.MyImageReaderSpi</code>, which
+implements the <code>javax.imageio.spi.ImageReaderSpi</code>
+interface, there should be a file named
+<code>META-INF/services/javax.imageio.spi.ImageReaderSpi</code>
+containing the line
+<code>com.mycompany.mypackage.MyImageReaderSpi</code>.
+<p><a name="a996951" id="a996951"><!-- --></a> The Image I/O API
+will automatically examine any JAR files that are found on the
+class path, and identify those that contain Image I/O plug-ins. For
+each plug-in found, a single instance of its service provider class
+will be instantiated and stored in a run-time registry class,
+<code>javax.iamgeio.spi.IIORegistry</code>.</p>
+<p><a name="a996964" id="a996964"><!-- --></a> JAR files on the
+application class path (i.e., the path set using the
+<code>CLASSPATH</code> variable), or elsewhere (e.g., available via
+a network URL) may be loaded by the application. They are not
+loaded by default in order to minimize startup time.</p>
+<p><a name="a999336" id="a999336"><!-- --></a> The
+<code>javax.imageio.spi.IIORegistry</code> class may also be used
+at run-time to deregister installed plug-ins and to register new
+ones. In particular, it is possible to use a
+<code>ClassLoader</code> to load a plug-in over the network, which
+may then be registered and used exactly like a locally installed
+plug-in.</p>
+<p><a name="a999353" id="a999353"><!-- --></a> Most applications
+should not need to deal directly with the registry. Instead, they
+may make use of convenience methods contained within the
+<code>javax.imageio.ImageIO</code> class that search for
+appropriate plug-ins automatically.</p>
+<br />
+<hr />
+<!-- Bug in Communicator w/font: NavBar text disappears for Times 14pt pref. -->
+<!-- font size="-1" --><a href=
+"imageio_guideTOC.fm.html">CONTENTS</a> | <a href=
+"extending.fm1.html">PREV</a> | <a href=
+"extending.fm3.html">NEXT</a> 
+<!-- | <a href="copyright.fm.html">INDEX</a>  -->
+<!-- /font -->
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

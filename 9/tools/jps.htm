@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>jps</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="You use the jps command to list the instrumented JVMs on the target system. This command is experimental and unsupported." />
+<meta name="dcterms.created" content="2017-10-12T08:04:07Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Tools Reference" />
+<meta name="dcterms.identifier" content="E61612-05" />
+<meta name="dcterms.isVersionOf" content="JSWOR" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="jconsole.htm" title="Previous" type="text/html" />
+<link rel="Next" href="jstat.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSWOR.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSWOR.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSWOR.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-6EB65B96-F9DD-4356-B825-6146E9EEC81E"></a> <span id="PAGE" style="display:none;">44/65</span> <!-- End Header -->
+<a id="JSWOR733"></a>
+<h1 id="JSWOR-GUID-6EB65B96-F9DD-4356-B825-6146E9EEC81E" class="sect1">jps</h1>
+<div>
+<p><span>You use the <code class="codeph">jps</code> command to list the instrumented JVMs on the target system.</span> This command is experimental and unsupported.</p>
+<div class="section">
+<p class="subhead1">Synopsis</p>
+<pre dir="ltr">
+jps [ -q ] [ -mlvV ][<span class="variable">hostid</span> ]
+</pre>
+<pre dir="ltr">
+jps [ -help ]
+</pre>
+<dl>
+<dt class="dlterm"><a id="GUID-6EB65B96-F9DD-4356-B825-6146E9EEC81E__QSUPPRESSESTHEOUTPUTOFTHECLASSNAMEJ-EC09097B"><!-- --></a><code class="codeph">-q</code></dt>
+<dd>
+<p>Suppresses the output of the class name, JAR file name, and arguments passed to the <code class="codeph">main</code> method, producing a list of only local JVM identifiers.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-6EB65B96-F9DD-4356-B825-6146E9EEC81E__MDISPLAYSTHEARGUMENTSPASSEDTOTHEMAI-EC090988"><!-- --></a><code class="codeph">-mlvV</code></dt>
+<dd>
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph">-m</code> displays the arguments passed to the <code class="codeph">main</code> method. The output may be <code class="codeph">null</code> for embedded JVMs.</p>
+</li>
+<li>
+<p><code class="codeph">-l</code> displays the full package name for the application's <code class="codeph">main</code> class or the full path name to the application's JAR file.</p>
+</li>
+<li>
+<p><code class="codeph">-v</code> displays the arguments passed to the JVM.</p>
+</li>
+<li>
+<p><code class="codeph">-V</code> suppresses the output of the class name, JAR file name, and arguments passed to the <code class="codeph">main</code> method, producing a list of only local JVM identifiers.</p>
+</li>
+</ul>
+</dd>
+<dt class="dlterm"><a id="GUID-6EB65B96-F9DD-4356-B825-6146E9EEC81E__GUID-866D2C44-9E2C-44F4-9EEC-4D9876DCE785"><!-- --></a><code class="codeph"><span class="variable">hostid</span></code></dt>
+<dd>
+<p>The identifier of the host for which the process report should be generated. The <code class="codeph">hostid</code> can include optional components that indicate the communications protocol, port number, and other implementation specific data. See <a href="jps.htm#GUID-6EB65B96-F9DD-4356-B825-6146E9EEC81E__CHDEFCED">Host Identifier</a>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-6EB65B96-F9DD-4356-B825-6146E9EEC81E__GUID-084A6ED9-D8EE-44D7-B200-B1B23B2313ED"><!-- --></a><code class="codeph">-help</code></dt>
+<dd>
+<p>Displays the help message for the <code class="codeph">jps</code> command.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Description</p>
+<p>The <code class="codeph">jps</code> command lists the instrumented Java HotSpot VMs on the target system. The command is limited to reporting information on JVMs for which it has the access permissions.</p>
+<p>If the <code class="codeph">jps</code> command is run without specifying a <code class="codeph">hostid</code>, then it searches for instrumented JVMs on the local host. If started with a <code class="codeph">hostid</code>, then it searches for JVMs on the indicated host, using the specified protocol and port. A <code class="codeph">jstatd</code> process is assumed to be running on the target host.</p>
+<p>The <code class="codeph">jps</code> command reports the local JVM identifier, or <code class="codeph">lvmid</code>, for each instrumented JVM found on the target system. The <code class="codeph">lvmid</code> is typically, but not necessarily, the operating system's process identifier for the JVM process. With no options, the <code class="codeph">jps</code> command lists each Java application's <code class="codeph">lvmid</code> followed by the short form of the application's class name or jar file name. The short form of the class name or JAR file name omits the class's package information or the JAR files path information.</p>
+<p>The <code class="codeph">jps</code> command uses the Java launcher to find the class name and arguments passed to the main method. If the target JVM is started with a custom launcher, then the class or JAR file name, and the arguments to the <code class="codeph">main</code> method aren&rsquo;t available. In this case, the <code class="codeph">jps</code> command outputs the string <code class="codeph">Unknown</code> for the class name, or JAR file name, and for the arguments to the <code class="codeph">main</code> method.</p>
+<p>The list of JVMs produced by the <code class="codeph">jps</code> command can be limited by the permissions granted to the principal running the command. The command lists only the JVMs for which the principal has access rights as determined by operating system-specific access control mechanisms.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-6EB65B96-F9DD-4356-B825-6146E9EEC81E__CHDEFCED">
+<p class="subhead1">Host Identifier</p>
+<p>The host identifier, or <code class="codeph">hostid</code>, is a string that indicates the target system. The syntax of the <code class="codeph">hostid</code> string corresponds to the syntax of a URI:</p>
+<pre dir="ltr">
+[protocol:][[//]hostname][:port][/servername]
+</pre>
+<dl>
+<dt class="dlterm"><a id="GUID-6EB65B96-F9DD-4356-B825-6146E9EEC81E__GUID-B90F7BF6-B868-4A85-B47B-39893448ED62"><!-- --></a><code class="codeph">protocol</code></dt>
+<dd>
+<p>The communications protocol. If the <code class="codeph">protocol</code> is omitted and a <code class="codeph">hostname</code> isn&rsquo;t specified, then the default protocol is a platform-specific, optimized, local protocol. If the protocol is omitted and a host name is specified, then the default protocol is <code class="codeph">rmi</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-6EB65B96-F9DD-4356-B825-6146E9EEC81E__GUID-05E088D4-CF0D-45E4-B9E3-BE0F2D51A9C7"><!-- --></a><code class="codeph">hostname</code></dt>
+<dd>
+<p>A host name or IP address that indicates the target host. If you omit the <code class="codeph">hostname</code> parameter, then the target host is the local host.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-6EB65B96-F9DD-4356-B825-6146E9EEC81E__GUID-1D06FC33-952F-4890-BC88-7E86CB72D57A"><!-- --></a><code class="codeph">port</code></dt>
+<dd>
+<p>The default port for communicating with the remote server. If the <code class="codeph">hostname</code> parameter is omitted or the <code class="codeph">protocol</code> parameter specifies an optimized, local protocol, then the <code class="codeph">port</code> parameter is ignored. Otherwise, treatment of the <code class="codeph">port</code> parameter is implementation-specific. For the default <code class="codeph">rmi</code> protocol, the <code class="codeph">port</code> parameter indicates the port number for the <code class="codeph">rmiregistry</code> on the remote host. If the <code class="codeph">port</code> parameter is omitted, and the <code class="codeph">protocol</code> parameter indicates <code class="codeph">rmi</code>, then the default <code class="codeph">rmiregistry</code> port (<code class="codeph">1099</code>) is used.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-6EB65B96-F9DD-4356-B825-6146E9EEC81E__GUID-69A10AD6-861D-4B56-8749-86CD33D70C0B"><!-- --></a><code class="codeph">servername</code></dt>
+<dd>
+<p>The treatment of this parameter depends on the implementation. For the optimized, local protocol, this field is ignored. For the <code class="codeph">rmi</code> protocol, this parameter is a string that represents the name of the RMI remote object on the remote host. See the <a href="jstatd.htm#GUID-FA737806-75CD-4EE7-A087-1CC4A5441870" title="You use the jstatd command to monitor the creation and termination of instrumented Java HotSpot VMs. This command is experimental and unsupported.">jstatd</a>command <code class="codeph">-n</code> option.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Output Format of the jps Command</p>
+<p>The output of the <code class="codeph">jps</code> command has the following pattern:</p>
+<pre dir="ltr">
+lvmid [ [ classname | JARfilename | "Unknown"] [ arg* ] [ jvmarg* ] ]
+</pre>
+<p>All output tokens are separated by white space. An <code class="codeph">arg</code> value that includes embedded white space introduces ambiguity when attempting to map arguments to their actual positional parameters.</p>
+<div class="infobox-note" id="GUID-6EB65B96-F9DD-4356-B825-6146E9EEC81E__GUID-92A9E617-EB68-44CA-AF90-91CE334B47F8">
+<p class="notep1">Note:</p>
+<p>It&rsquo;s recommended that you don&rsquo;t write scripts to parse <code class="codeph">jps</code> output because the format might change in future releases. If you write scripts that parse <code class="codeph">jps</code> output, then expect to modify them for future releases of this tool.</p>
+</div>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Examples</p>
+<p>This section provides examples of the <code class="codeph">jps</code> command.</p>
+<p>List the instrumented JVMs on the local host:</p>
+<pre dir="ltr">
+jps
+18027 Java2Demo.JAR
+18032 jps
+18005 jstat
+</pre>
+<p>The following example lists the instrumented JVMs on a remote host. This example assumes that the <code class="codeph">jstat</code> server and either the its internal RMI registry or a separate external <code class="codeph">rmiregistry</code> process are running on the remote host on the default port (port <code class="codeph">1099</code>). It also assumes that the local host has appropriate permissions to access the remote host. This example includes the <code class="codeph">-l</code> option to output the long form of the class names or JAR file names.</p>
+<pre dir="ltr">
+jps -l remote.domain
+3002 /opt/jdk1.7.0/demo/jfc/Java2D/Java2Demo.JAR
+2857 sun.tools.jstatd.jstatd
+</pre>
+<p>The following example lists the instrumented JVMs on a remote host with a nondefault port for the RMI registry. This example assumes that the <code class="codeph">jstatd</code> server, with an internal RMI registry bound to port <code class="codeph">2002</code>, is running on the remote host. This example also uses the <code class="codeph">-m</code> option to include the arguments passed to the <code class="codeph">main</code> method of each of the listed Java applications.</p>
+<pre dir="ltr">
+jps -m remote.domain:2002
+3002 /opt/jdk1.7.0/demo/jfc/Java2D/Java2Demo.JAR
+3102 sun.tools.jstatd.jstatd -p 2002
+</pre></div>
+<!-- class="section" --></div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment179">
+<tr>
+<td class="cellalignment191">
+<table class="cellalignment184">
+<tr>
+<td class="cellalignment183"><a href="jconsole.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment183"><a href="jstat.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment193">
+<table class="cellalignment182">
+<tr>
+<td class="cellalignment183"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment183"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment183"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

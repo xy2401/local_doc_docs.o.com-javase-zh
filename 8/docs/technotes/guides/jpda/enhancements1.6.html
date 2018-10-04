@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+
+<style type="text/css">
+/*<![CDATA[*/
+
+p               {margin-left: 18pt;}
+pre             {margin-left: 18pt;}
+ul li, ul ul li {font-weight: normal;}
+a               {font-weight: bold;}
+
+/*]]>*/
+</style>
+<meta http-equiv="Content-Type" content=
+"text/html; charset=utf-8" />
+<title>JPDA Enhancements</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../webdesign/pubs8/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs8/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://docs.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+
+<div class="smallpagetitle"><h1>Java Platform Debugger Architecture<br />
+Java SE 1.6 Enhancements</h1></div>
+
+<p>Following is a short summary of the enhancements to JPDA that
+have been added in Java SE 6. The documentation for these features
+is available in the <a href=
+"../../../jdk/api/jpda/jdi/index.html">JDI Specification</a>.</p>
+<p>Not shown here are the equivalent commands in JDWP. The
+documentation for these features is available in the <a href=
+"jdwp-spec.html">JDWP Specification</a>.</p>
+<ul>
+<li>JVMDI has been deleted. See its replacement, <a href=
+"../jvmti/index.html">JVM TI</a></li>
+<li>heap walking
+<ul>
+<li><a href=
+"http://bugs.java.com/view_bug.do?bug_id=5024119">5024119</a> Add
+ReferenceType.getAllInstances () method to JDI.</li>
+<li><a href=
+"http://bugs.java.com/view_bug.do?bug_id=5089849">5089849</a> Add
+support for backtracking reference graph.</li>
+</ul>
+<p>New methods:</p>
+<pre>
+          VirtualMachine:
+           boolean canGetInstanceInfo();       
+           long[] instanceCounts(List&lt;?extends ReferenceType?&gt; refTypes);
+
+         ReferenceType:
+           List&lt;ObjectReference&gt; instances(long maxInstances);
+
+         ObjectReference:
+           List&lt;ObjectReference&gt; referringObjects(long maxReferrers);
+</pre></li>
+<li><a href=
+"http://bugs.java.com/view_bug.do?bug_id=5024104">5024104</a> Allow
+access to Constant Pool in ClassType
+<p>New methods:</p>
+</li>
+<li style="list-style: none; display: inline">
+<pre>
+         
+        VirtualMachine:
+           boolean canGetClassFileVersion();
+           boolean canGetConstantPool();
+
+         ReferenceType:
+           int majorVersion();
+           int minorVersion();
+           int constantPoolCount();
+           byte[] constantPool();
+</pre></li>
+<li><a href=
+"http://bugs.java.com/view_bug.do?bug_id=4836939">4836939</a> JDI
+add addSourceFileFilter to ClassPrepareRequestb
+<p>New methods:</p>
+</li>
+<li style="list-style: none; display: inline">
+<pre>
+          VirtualMachine:
+            boolean canUseSourceNameFilters();
+
+          ClassPrepareRequest:
+            void addSourceNameFilter(String sourceNamePattern);
+</pre></li>
+<li><a href=
+"http://bugs.java.com/view_bug.do?bug_id=4490824">4490824</a> JDI:
+provide arguments when no debug attributes present
+<p>New methods:</p>
+</li>
+<li style="list-style: none; display: inline">
+<pre>
+         StackFrame:
+           List&lt;Value&gt; getArgumentValues();
+</pre></li>
+<li><a href=
+"http://bugs.java.com/view_bug.do?bug_id=4195445">4195445</a> JDWP,
+JDI: Add return value to Method Exit Event
+<p>New methods:</p>
+</li>
+<li style="list-style: none; display: inline">
+<pre>
+         VirtualMachine:
+           boolean canGetMethodReturnValues();
+
+         MethodExitEvent: 
+           Value returnValue();
+</pre></li>
+<li><a href=
+"http://bugs.java.com/view_bug.do?bug_id=6175634">6175634</a> Allow
+early return from method
+<p>New methods:</p>
+</li>
+<li style="list-style: none; display: inline">
+<pre>
+         VirtualMachine:
+           boolean canForceEarlyReturn();     
+
+         ThreadReference:
+           void forceEarlyReturn(Value value) throws InvalidTypeException, 
+                                              ClassNotLoadedException,
+                                              IncompatibleThreadStateException;
+</pre></li>
+<li><a href=
+"http://bugs.java.com/view_bug.do?bug_id=4401399">4401399</a>
+Request for breakpoints for monitor acquisitions and releases
+<p>New methods:</p>
+</li>
+<li style="list-style: none; display: inline">
+<pre>
+         VirtualMachine
+           boolean canRequestMonitorEvents();
+
+         EventRequestManager:
+           List&lt;MonitorContendedEnterRequest&gt; monitorContendedEnterRequests();
+           List&lt;MonitorContendedEnteredRequest&gt; monitorContendedEnteredRequests();
+           List&lt;MonitorWaitRequest&gt; monitorWaitRequests();
+           List&lt;MonitorWaitedRequest&gt; monitorWaitedRequests();
+</pre>
+<p>New classes:</p>
+<pre>
+       public interface MonitorContendedEnterRequest extends EventRequest
+         public interface MonitorContendedEnteredRequest extends EventRequest
+         public interface MonitorWaitRequest extends EventRequest
+         public interface MonitorWaitedRequest extends EventRequest
+
+         public interface MonitorContendedEnterEvent extends LocatableEvent 
+         public interface MonitorContendedEnteredEvent extends LocatableEvent 
+         public interface MonitorWaitEvent extends LocatableEvent 
+         public interface MonitorWaitedEvent extends LocatableEvent 
+</pre></li>
+<li><a href=
+"http://bugs.java.com/view_bug.do?bug_id=6230699">6230699</a> Need
+to be able to get the location at which a monitor was acquired
+<p>New methods:</p>
+</li>
+<li style="list-style: none; display: inline">
+<pre>
+         VirtualMachine
+           boolean canGetMonitorFrameInfo();
+       
+         ThreadReference
+           List&lt;MonitorInfo&gt; ownedMonitorsAndFrames()
+                           throws IncompatibleThreadStateException;
+</pre>
+<p>New classes:</p>
+<pre>
+       
+         public interface MonitorInfo extends Mirror
+</pre></li>
+<li><a href=
+"http://bugs.java.com/view_bug.do?bug_id=4527279">4527279</a>: Need
+a better way to find out the port number on which JPDA is listening
+<p>New Connector:</p>
+</li>
+<li style="list-style: none; display: inline">
+<p><code>com.sun.tools.jdi.ProcessAttach</code>, with arguments
+<code>pid</code> and <code>timeout</code>. This allows a debugger
+to attach to a debuggee started in debug mode via process id
+instead of transport address.</p>
+</li>
+</ul>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html lang="en-US">
+<head>
+<title>Composite Names</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="string.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="compound.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=bottom border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>What's in a Name?</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Composite Names
+</h2>
+<p>
+<blockquote>
+
+Recall that a 
+<a href=../../getStarted/concepts/glossary.html#COMPOSITENAME>composite name</a>
+is a name that spans multiple naming systems.
+Here's an example of a composite name:
+<blockquote><pre>
+cn=homedir,cn=Jon Ruiz,ou=People/tutorial/report.txt
+</pre></blockquote>
+This is the string representation of a composite name that contains two parts: 
+an LDAP name, 
+<tt>"cn=homedir,cn=Jon Ruiz,ou=People"</tt>,
+and a filename, <tt>"tutorial/report.txt"</tt>.
+When you pass this string to a 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html><tt>Context</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   method, such as 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(java.lang.String)"><tt>lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, in the namespace set up as recommended by this tutorial
+(see the 
+<a target="_top" href="../../basics/prepare/content.html">Preparations</a> <a href="../../basics/prepare/content.html"><img src="../../jndiimages/basicsIcon.gif" width=20 height=20 border=0 alt="(in the Basics trail)"></a>    lesson), the method will resolve through the LDAP directory
+to the file system and return the target object (a file).
+The mechanics of how this is accomplished by the underlying
+service provider implementations are described in the
+<a target="_top" href="../fed/index.html">Federation</a> <a target="_top" href="../fed/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson.
+<p>
+Here's <a href=src/LookupCompositeString.java>an example</a>.
+<blockquote><pre>
+File f = (File)ctx.lookup(
+    "cn=homedir,cn=Jon Ruiz,ou=People/tutorial/report.txt");
+</pre></blockquote>
+
+
+<h4>String Representation</h4>
+
+A composite name is made up of <em>components</em>.
+You can think of a component as a segment of the composite name
+that belongs to a single naming system. 
+Each component is separated by a forward slash character ("<tt>/</tt>").
+<p>
+For example, the name
+<blockquote><pre>
+cn=homedir,cn=Jon Ruiz,ou=People/tutorial/report.txt
+</pre></blockquote>
+has three components:
+<blockquote><pre>
+cn=homedir,cn=Jon Ruiz,ou=People
+tutorial
+report.txt
+</pre></blockquote>
+
+The first component belongs to the LDAP namespace,
+and the second two belong to the file system namespace.
+As you can see from this example, multiple components
+from the <em>same</em> namespace are allowed (<tt>"tutorial"</tt> and <tt>"report.txt"</tt>
+are both from the file system namespace), but one component cannot
+span more than one namespace. (See the discussion on this in the
+
+<a target="_top" href="../fed/index.html">Federation</a> <a target="_top" href="../fed/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>     lesson.)
+
+<p>
+In addition to the forward slash character, the composite name syntax allows three other special
+characters: the backslash character (<tt>"\"</tt>),
+the single quotation character (<tt>"'"</tt>), and the double quotation character 
+(<tt>"""</tt>).
+The slash, backslash, and quotation characters are called
+<em>meta</em> characters, which means they have special meanings
+when they occur in a composite name.
+The backslash character is the <em>escape</em> character.
+When the escape character precedes a meta character, the meta character
+is treated literally and not interpreted according to its special meaning.
+For example, in the string <tt>a\/b</tt>, the forward slash character is escaped by the backslash character
+and therefore is not treated as a composite name component separator.
+See the <a href=syntax.html>Handling Special Characters section</a> of this lesson for a more detailed discussion of meta characters.
+<p>
+The quotation characters are provided so that you can use the meta
+characters within a composite name component without having to escape them.
+When a component is quoted, its first and last characters
+must be (the same) quotation characters.
+A single quotation character must be matched by a single quotation character,
+and a double
+quotation character must be matched by a double quotation character. Here are three examples of the
+same component written by using escapes and quotation characters.
+<blockquote><pre>
+a\/b\/c\/d
+"a/b/c/d"
+'a/b/b/d'
+</pre></blockquote>
+
+Two different quotation characters are permitted so as to allow
+quoting when a quotation character already exists in the component.
+For example, a component containing a double quotation character can be represented
+as either <tt>\"ab</tt> or <tt>'"ab'</tt>.
+
+<p>
+A composite name can be <em>empty</em>; that is, it contains zero
+components. An empty composite name is represented by the empty string.
+<p>
+A composite name component can be <em>empty</em>, 
+that is, it contains an empty string.
+A leading component separator (the composite name string begins with
+a separator) denotes a leading empty component.
+A trailing component separator (the composite name string ends with
+a separator) denotes a trailing empty component.
+Adjacent component separators denote an empty component.
+Here are examples of each.
+<blockquote><pre>
+/abc
+abc/
+abc//xyz
+</pre></blockquote>
+<p>
+See the discussion in the 
+<a href=syntax.html>Handling Special Characters section</a> of this lesson about
+how best to accommodate special characters in a name that
+conflicts with the JNDI composite name syntax.
+
+<h4>The <tt>CompositeName</tt> Class</h4>
+
+The
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html><tt>CompositeName</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    class is the structural form of a composite name.
+The 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#CompositeName(java.lang.String)">constructor</a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#CompositeName(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a> accept a string representation of a composite name and parses it into
+components according to the composite name syntax.
+<p>
+Here's <a href=src/ConstructComposite.java>an example</a> 
+that uses the constructor to parse a composite name
+and then prints its components.
+<blockquote><pre>
+String name = // Composite name to parse
+try {
+    CompositeName cn = new CompositeName(name);
+    System.out.println(cn + " has " + cn.size() + " components: ");
+    for (int i = 0; i &lt; cn.size(); i++) {
+	System.out.println(cn.get(i));
+    }
+} catch (InvalidNameException e) {
+    System.out.println("Cannot parse name: " + name);
+}
+</pre></blockquote>
+Running this example with an input of <tt>a/b/c</tt> produces the following
+results.
+<blockquote><pre>
+a/b/c has 3 components: 
+a
+b
+c
+</pre></blockquote>
+<p>
+The <tt>CompositeName</tt> class contains methods to access components,
+to modify a <tt>CompositeName</tt>, to compare two
+<tt>CompositeName</tt>s for equality,
+and to get the string representation of a <tt>CompositeName</tt>.
+
+<a name=ACCESS><h4>Accessing Components of a Composite Name</h4></a>
+
+Here are the methods that you can use to access components
+of a composite name:
+
+<blockquote>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#get(int)"><tt>get(int posn)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#get(int)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+<br>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#getAll()"><tt>getAll()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#getAll()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#getPrefix(int)"><tt>getPrefix(int posn)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#getPrefix(int)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#getSuffix(int)"><tt>getSuffix(int posn)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#getSuffix(int)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#clone()"><tt>clone()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#clone()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></blockquote>
+<p>
+To retrieve the component at a particular position within a <tt>CompositeName</tt>,
+you use <tt>get()</tt>.
+The previous constructor example shows an example of its use.
+
+<p>
+<tt>getAll()</tt> returns all of the components of a <tt>CompositeName</tt>
+as an enumeration. You iterate through the enumeration to get each component.
+The constructor example can be <a href=src/GetAllComposite.java>rewritten 
+using an enumeration</a>, as shown next.
+<blockquote><pre>
+try {
+    CompositeName cn = new CompositeName(name);
+    System.out.println(cn + " has " + cn.size() + " components: ");
+    for (Enumeration all = cn.getAll(); all.hasMoreElements();) {
+	System.out.println(all.nextElement());
+    }
+} catch (InvalidNameException e) {
+    System.out.println("Cannot parse name: " + name);
+}
+</pre></blockquote>
+<p>
+You can also get a <tt>CompositeName</tt>'s suffix or prefix as a
+<tt>CompositeName</tt> instance.
+Here's <a href=src/CompositeSuffixPrefix.java>an example</a>
+that gets the suffix and prefix of a composite name.
+<blockquote><pre>
+CompositeName cn = new CompositeName("one/two/three");
+Name suffix = cn.getSuffix(1);  // 1 &lt;= index &lt; cn.size()
+Name prefix = cn.getPrefix(1);  // 0 &lt;= index &lt; 1
+</pre></blockquote>
+When you run this program, it generates the following output.
+<blockquote><pre>
+two/three
+one
+</pre></blockquote>
+To make a copy of a <tt>CompositeName</tt>, you use <tt>clone()</tt>.
+
+<a name=MOD><h4>Modifying a Composite Name</h4></a>
+Following are the methods that you can use to modify a composite
+name:
+<blockquote>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#add(String)"><tt>add(String comp)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#add(String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#add(int, String)"><tt>add(int posn, String comp)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#add(int, String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#add(javax.naming.Name)"><tt>addAll(Name comps)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#add(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#addAll(javax.naming.Name)"><tt>addAll(Name suffix)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#addAll(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#addAll(int,javax.naming.Name)"><tt>addAll(int posn, Name suffix)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#addAll(int,javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#remove(int)"><tt>remove(int posn)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#remove(int)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></blockquote>
+<p>
+After creating a <tt>CompositeName</tt> instance, you can 
+add and remove components from it. Here's
+<a href=src/ModifyComposite.java>an example</a> that
+appends a <tt>CompositeName</tt> to an existing <tt>CompositeName</tt>, 
+adds components to the front and the end,
+and removes the second component.
+<blockquote><pre>
+CompositeName cn = new CompositeName("1/2/3");
+CompositeName cn2 = new CompositeName("4/5/6");
+System.out.println(cn.addAll(cn2));           // 1/2/3/4/5/6
+System.out.println(cn.add(0, "abc"));         // abc/1/2/3/4/5/6
+System.out.println(cn.add("xyz"));            // abc/1/2/3/4/5/6/xyz
+System.out.println(cn.remove(1));             // 1
+System.out.println(cn);			      // abc/2/3/4/5/6/xyz
+</pre></blockquote>
+<h4>Comparing a Composite Name</h4>
+
+Following are the methods that you can use to compare
+two composite names:
+<blockquote>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#compareTo(java.lang.Object)"><tt>compareTo(Object name)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#compareTo(java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#equals(java.lang.Object)"><tt>equals(Object name)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#equals(java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#endsWith(javax.naming.Name)"><tt>endsWith(Name name)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#endsWith(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#startsWith(javax.naming.Name)"><tt>startsWith(Name name)</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#startsWith(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a><br>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#isEmpty()"><tt>isEmpty()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#isEmpty()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></blockquote>
+You can use <tt>compareTo()</tt> to sort a list of
+<tt>CompositeName</tt> instances. 
+Here's <a href=src/SortComposites.java>an example</a>
+that uses <tt>compareTo()</tt> to implement the Bubble Sort
+algorithm.
+<blockquote><pre>
+private static void sort(CompositeName[] names) {
+    int bound = names.length-1;
+    CompositeName tmp;
+
+    while (true) {
+        int t = -1;
+        for (int j=0; j &lt; bound; j++) {
+  	    int c = names[j].compareTo(names[j+1]);
+	    if (c &gt; 0) {
+		tmp = names[j];
+		names[j] = names[j+1];
+		names[j+1] = tmp;
+		t = j;
+	    }
+        }
+        if (t == -1) break;
+	bound = t;
+    }
+}
+</pre></blockquote>
+<tt>equals()</tt> lets you determine whether two <tt>CompositeName</tt>s
+are syntactically equal. Two <tt>CompositeName</tt>s are equal if they both
+have the same (case-exact matched) components in the same order.
+<p>
+With <tt>startsWith()</tt> and <tt>endsWith()</tt>,
+you can learn whether
+a <tt>CompositeName</tt> starts or ends with another <tt>CompositeName</tt>;
+that is, whether a <tt>CompositeName</tt> is a suffix or prefix of another
+<tt>CompositeName</tt>. 
+<p>
+The convenience method <tt>isEmpty()</tt> enables you
+to determine whether a <tt>CompositeName</tt> has zero components. You can
+also use the expression <tt>size() == 0</tt> to perform the same check.
+<p>
+Here are 
+<a href=src/CompareComposites.java>examples</a>
+of using some of these comparison methods.
+<blockquote><pre>
+CompositeName one = new CompositeName("cn=fs/o=JNDITutorial/tmp/a/b/c");
+CompositeName two = new CompositeName("tmp/a/b/c");
+CompositeName three = new CompositeName("cn=fs/o=JNDITutorial");
+CompositeName four = new CompositeName();
+
+System.out.println(one.equals(two)); 	    // false
+System.out.println(one.startsWith(three));  // true
+System.out.println(one.endsWith(two));      // true
+System.out.println(one.startsWith(four));   // true
+System.out.println(one.endsWith(four));     // true
+System.out.println(one.endsWith(three));    // false
+System.out.println(one.isEmpty());	    // false
+System.out.println(four.isEmpty());	    // true
+System.out.println(four.size() == 0);	    // true
+</pre></blockquote>
+
+<h4>Getting the String Representation</h4>
+Following is the method that you can use to get the
+string representation of a composite name:
+<blockquote><pre>
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#toString()"><tt>toString()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html#toString()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></pre></blockquote>
+
+When you use the <tt>CompositeName</tt> constructor, you supply the
+string representation of a composite name and get back a <tt>CompositeName</tt>
+instance. 
+To do the reverse, that is, 
+to get the string representation of a <tt>CompositeName</tt>
+instance, you use <tt>toString()</tt>.
+The result of <tt>toString()</tt> can be fed back to the constructor
+to produce a <tt>CompositeName</tt> instance that is equal to the original
+<tt>CompositeName</tt> instance.
+Here's <a href=src/CompositeToString.java>an example</a>.
+<blockquote><pre>
+CompositeName cn = new CompositeName(name);
+String str = cn.toString();
+System.out.println(str);
+CompositeName cn2 = new CompositeName(str);
+System.out.println(cn.equals(cn2));		// true
+</pre></blockquote>
+
+<h4>CompositeName as an Argument to Context Methods</h4>
+
+A <tt>CompositeName</tt> instance passed to methods in the
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html><tt>Context</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     and
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html><tt>DirContext</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     interfaces is treated
+as a composite name. Here is <a href=src/LookupCompositeName.java>an example</a>
+that looks up an object by first creating a <tt>CompositeName</tt>
+instance that represents its name.
+
+<blockquote><pre>
+// Create the initial context
+Context ctx = new InitialContext(env);
+	
+// Parse the string name into a CompositeName
+Name cname = new CompositeName(
+    "cn=homedir,cn=Jon Ruiz,ou=people/tutorial/report.txt");
+
+// Perform the lookup using the CompositeName
+File f = (File) ctx.lookup(cname);
+</blockquote></pre>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="string.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="compound.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=top border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>What's in a Name?</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

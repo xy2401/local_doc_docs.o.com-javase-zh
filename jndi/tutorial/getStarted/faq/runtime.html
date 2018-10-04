@@ -1,0 +1,267 @@
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Runtime Problems</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="compile.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="browser.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/getStartedHeader.gif" width=26 height=26 align=bottom border=0 alt="Getting Started | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Common Problems (and Their Solutions)</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Runtime Problems
+</h2>
+<p>
+<blockquote>
+
+Here are the most common problems that you might encounter
+when you try to run a successfully compiled program
+that uses the JNDI classes.
+
+<h4>Class Not Found</h4>
+<p>
+<em>Problem</em>: You get a <tt>NoClassDefFoundError</tt> when running your program.
+<p>
+<em>Cause</em>: You did not include the JNDI classes (<tt>jndi.jar</tt>)
+in your classpath, or you did not install the JNDI classes properly.
+<p>
+<em>Solution</em>:
+The
+<a href=http://java.sun.com/j2se/1.3>Java 2 SDK, v1.3</a>
+already include the JNDI classes so if you are using this version
+you should not get this error.
+<p>
+If you are not using the 
+<a href=http://java.sun.com/j2se/1.3>Java 2 SDK, v1.3</a>,
+then the way you that include the JNDI classes your
+<em>execution</em> environment depends on the
+environment.
+If you are using the 
+<a href="http://java.sun.com/products/jdk/1.2/">Java 2 SDK, v1.2</a>,
+then make sure that <tt>jndi.jar</tt>
+is in the <em>JAVA_HOME</em><tt>/jre/lib/ext</tt> directory,
+where <em>JAVA_HOME</em> is the directory that contains the 
+Java Runtime Environment (JRE).
+Note that on some platforms, separate <tt>jre/lib/ext</tt> directories exist
+for the JRE and the SDK. Make sure that the JNDI JARs have been
+installed in both <tt>jre/lib/ext</tt> directories.
+If you are using the <tt>java</tt> interpreter from the
+<a href="http://java.sun.com/products/jdk/1.1/">JDK 1.1</a>, 
+then add the JARs either
+to your <tt>CLASSPATH</tt> environment variable or to the
+<tt>-classpath</tt> option in your <tt>java</tt> command line.
+<p>
+For an applet, you need to make the JNDI and provider classes
+available to that applet (for example, by adding them to the
+<tt>archive</tt> option).
+
+<h4>No Initial Context</h4>
+
+<p>
+<em>Problem</em>: You get a <tt>NoInitialContextException</tt>.
+<p>
+<em>Cause</em>: You did not specify which implementation to use
+for the initial context.
+Specifically, the
+
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#INITIAL_CONTEXT_FACTORY><tt>Context.INITIAL_CONTEXT_FACTORY</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#INITIAL_CONTEXT_FACTORY><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     environment property was not set to the class name of the factory 
+that will create the initial context. 
+Or, you did not make available to the program
+the classes of the service provider named
+by <tt>Context.INITIAL_CONTEXT_FACTORY</tt>.
+
+<p>
+<em>Solution</em>:
+Set the <tt>Context.INITIAL_CONTEXT_FACTORY</tt> environment property to
+the class name of the initial context implementation that you are using.
+See 
+<a target="_top" href="../../basics/prepare/initial.html">The Basics</a> <a href="../../basics/prepare/initial.html"><img src="../../jndiimages/basicsIcon.gif" width=20 height=20 border=0 alt="(in the Basics trail)"></a>     trail for details.
+<p>
+If the property was set, then make sure that the class name was not mistyped,
+and that the class named is available to your program
+(either in its classpath or installed in the <tt>jre/lib/ext</tt> directory of the JRE).
+The
+<a href=http://java.sun.com/j2se/1.3>Java 2 SDK, v1.3</a>
+includes service providers for LDAP, COS naming, and the RMI registry.
+All other service providers must be installed and added to the
+execution environment.
+
+<h4>Connection Refused</h4>
+
+<p>
+<em>Problem</em>: You get a <tt>CommunicationException</tt>, indicating
+"connection refused."
+<p>
+<em>Cause</em>: 
+The server and port identified by the
+<tt>Context.PROVIDER_URL</tt>
+environment property is not being served by the server.
+Perhaps someone has disabled or turned off the machine on which
+the server is running.
+Or, maybe you mistyped the server's name or port number.
+
+<p><em>Solution</em>:
+Check that there is indeed a server running on that port,
+and restart the server if necessary.
+The way that you perform this check depends on the LDAP server that you are using.
+Usually, an administrative console or tool is available that you
+can use to administer the server. You may use that tool to verify
+the server's status.
+
+<h4>Connection Fails</h4>
+<em>Problem</em>: The LDAP server responds to other utilities
+(such as its administration console) but does not seem to respond
+to your program's requests.
+
+<p>
+<em>Cause</em>: The server does not respond to LDAP v3 connection
+requests.
+Some servers (especially public servers) do not respond correctly
+to the LDAP v3, ignoring the requests instead of rejecting them.
+Also, some LDAP v3 servers have problems handling a control
+that Sun's LDAP service provider automatically sends and often return a server-specific failure code.
+
+<p> <em>Solution</em>.  Try setting the environment property
+<tt>"java.naming.ldap.version"</tt> to <tt>"2"</tt>.  The LDAP service provider by
+default attempts to connect to an LDAP server using the LDAP v3;
+if that fails, then it uses the LDAP v2.  
+If the server silently ignores the v3 request, then the
+provider will assume that the request worked.  To work around such
+servers, you must explicitly set the protocol version to ensure proper
+behavior by the server.
+<p>
+If the server is a v3 server, then try setting the following environment
+property before creating the initial context:
+<blockquote>
+<pre>
+env.put(Context.REFERRAL, "throw");
+</pre>
+</blockquote>
+This will turn off the control that the LDAP provider sends automatically.
+(See the
+<a target="_top" href="../../ldap/referral/index.html">Referrals</a> <a href="../../ldap/referral/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>     lesson for details.)
+
+
+<H4>Program Hangs</h4>
+
+<p><em>Problem</em>: The program hangs.
+
+<p><em>Causes</em>:
+Some servers (especially public ones)
+won't respond (not even with a negative answer) if you attempt
+to perform a search that would generate too many results or
+that would require the server to
+examine too many entries in order to generate the answer.
+Such servers are trying to limit the amount of resources that
+they expend on a per-request basis.
+<p>
+Or, you tried to use Secure Socket Layer (SSL) against
+a server/port that does not support it, and vice versa
+(that is, you tried to use a plain socket to talk to an SSL port).
+
+<p><em>Solution</em>:
+If your program is hanging because the server is trying
+to restrict the use of its resources,
+then retry your request using a query that will return a single 
+result or only a few results.
+This will help you to determine whether the server is alive.
+If it is, then you can broaden your initial query and resubmit it.
+<p>
+If your program is hanging because of SSL problems,
+then you need to find out whether the port is an SSL port and then
+set the 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_PROTOCOL><tt>Context.SECURITY_PROTOCOL</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_PROTOCOL><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     environment property appropriately.
+If the port is an SSL port, then this property should be set to <tt>"ssl"</tt>.
+If it is not an SSL port, then this property should not be set.
+
+
+<h4>Name Not Found</h4>
+
+<p><em>Problem</em>: You get a <tt>NameNotFoundException</tt>.
+
+<p><em>Causes</em>:
+When you initialized the initial context for the LDAP, you supply a 
+root-distinguished name. For example, if you set the 
+<tt>Context.PROVIDER_URL</tt>
+environment property for the initial context
+to <tt>"ldap://ldapserver:389/o=JNDITutorial"</tt>
+and subsequently supplied a name such as <tt>"cn=Joe,c=us"</tt>,
+then the full name that you passed to the LDAP service was
+<tt>"cn=Joe,c=us,o=JNDITutorial"</tt>. 
+If this was really the name that you intended, 
+then you should check your server 
+to make sure that it contains such an entry.
+<p>
+Also, the SunONE and Netscape Directory Servers return this error if you
+supply an incorrect distinguished name for authentication purposes.
+For example, 
+the LDAP provider will throw  a
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameNotFoundException.html><tt>NameNotFoundException</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameNotFoundException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    if you set the
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_PRINCIPAL><tt>Context.SECURITY_PRINCIPAL</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_PRINCIPAL><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     environment property to <tt>"cn=Admin, o=Tutorial"</tt>,
+and <tt>"cn=Admin, o=Tutorial"</tt> is not an entry on the LDAP server.
+The correct error for the SunONE and Netscape Directory Servers to return
+actually should be something related to authentication, 
+rather than "name not found."
+
+<p><em>Solution</em>:
+Verify the name that you supplied is that of 
+an entry existing on the server. You can do this by listing 
+the entry's parent context or using some other tool such
+as the directory server's administration console.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="compile.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="browser.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/getStartedHeader.gif" width=26 height=26 align=top border=0 alt="Getting Started | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Common Problems (and Their Solutions)</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

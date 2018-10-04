@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>javac</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="You can use the javac tool and its options to read Java class and interface definitions and compile them into bytecode and class files." />
+<meta name="dcterms.created" content="2017-10-12T08:04:07Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Tools Reference" />
+<meta name="dcterms.identifier" content="E61612-05" />
+<meta name="dcterms.isVersionOf" content="JSWOR" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="main-tools-create-and-build-applications.htm" title="Previous" type="text/html" />
+<link rel="Next" href="javap.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSWOR.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSWOR.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSWOR.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9"></a> <span id="PAGE" style="display:none;">6/65</span> <!-- End Header -->
+<a id="JSWOR628"></a><a id="JSWOR629"></a><a id="JSWOR630"></a><a id="JSWOR631"></a><a id="JSWOR632"></a><a id="JSWOR633"></a><a id="JSWOR634"></a><a id="JSWOR635"></a><a id="JSWOR627"></a>
+<h1 id="JSWOR-GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9" class="sect1">javac</h1>
+<div>
+<p><span>You can use the <code class="codeph">javac</code> tool and its options to read Java class and interface definitions and compile them into bytecode and class files.</span></p>
+<div class="section">
+<p class="subhead1">Synopsis</p>
+<pre dir="ltr">
+javac [ <span class="variable">options</span> ] [ <span class="variable">sourcefiles</span> ]
+</pre>
+<dl>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-EC28DA51-E542-4577-B1CA-3499D059A01E"><!-- --></a><code class="codeph"><span class="variable">options</span></code></dt>
+<dd>
+<p>Command-line options. See <a href="javac.htm#GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__BHCGAJDC">Overview of javac Options</a>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-EDD8E3A1-0434-4FE8-A390-218E322E59E6"><!-- --></a><code class="codeph"><span class="variable">sourcefiles</span></code></dt>
+<dd>
+<p>One or more source files to be compiled (such as <code class="codeph">MyClass.java</code>) or processed for annotations (such as <code class="codeph">MyPackage.MyClass</code>).</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Description</p>
+<p>The <code class="codeph">javac</code> command reads class and interface definitions, written in the Java programming language, and compiles them into bytecode class files. The <code class="codeph">javac</code> command can also process annotations in Java source files and classes.</p>
+<p>In JDK 9, a new launcher environment variable, <code class="codeph">JDK_JAVAC_OPTIONS</code>, has been introduced that prepends its content to the command line to <code class="codeph">javac</code> . See <a href="javac.htm#GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__USINGJDK_JAVAC_OPTIONSENVIRONMENTVA-F3C76845">Using JDK_JAVAC_OPTIONS Environment Variable</a>.</p>
+<p>There are two ways to pass source code file names to <code class="codeph">javac</code>.</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>For a small number of source files, you can list the file names on the command line.</p>
+</li>
+<li>
+<p>For a large number of source files, you can use the <code class="codeph">@<span class="variable">filename</span></code> option on the <code class="codeph">javac</code> command line to include a file that lists the source file names. See <a href="javac.htm#GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__STANDARDOPTIONSFORJAVAC-7D3D9CC2">Standard Options for javac</a> for a description of the option and <a href="javac.htm#GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__BHCJEIBB">javac Command-Line Argument Files</a> for a description of <code class="codeph">javac</code> argument files.</p>
+</li>
+</ul>
+<p>Source code file names must have <code class="codeph">.java</code> suffixes, class file names must have <code class="codeph">.class</code> suffixes, and both source and class files must have root names that identify the class. For example, a class called <code class="codeph">MyClass</code> would be written in a source file called <code class="codeph">MyClass.java</code> and compiled into a bytecode class file called <code class="codeph">MyClass.class</code>.</p>
+<p>Inner class definitions produce additional class files. These class files have names that combine the inner and outer class names, such as <code class="codeph">MyClass$MyInnerClass.class</code>.</p>
+<p>You should arrange the source files in a directory tree that reflects their package tree. For example:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold"><span>Oracle Solaris, Linux, and OS X</span>:</span> If all of your source files are in <code class="codeph">/workspace</code>, then put the source code for <code class="codeph">com.mysoft.mypack.MyClass</code> in <code class="codeph">/workspace/com/mysoft/mypack/MyClass.java</code>.</p>
+</li>
+<li>
+<p><span class="bold">Windows:</span> If all of your source files are in <code class="codeph">\workspace</code>, then put the source code for <code class="codeph">com.mysoft.mypack.MyClass</code> in <code class="codeph">\workspace\com\mysoft\mypack\MyClass.java</code>.</p>
+</li>
+</ul>
+<p>By default, the compiler puts each class file in the same directory as its source file. You can specify a separate destination directory with the <code class="codeph">-d</code> option described in <a href="javac.htm#GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__STANDARDOPTIONSFORJAVAC-7D3D9CC2">Standard Options for javac</a>.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Programmatic Interface</p>
+<p>The <code class="codeph">javac</code> command supports the new Java Compiler API defined by the classes and interfaces in the <code class="codeph">javax.tools</code> package.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Implicitly Loaded Source Files</p>
+<p>To compile a set of source files, the compiler might need to implicitly load additional source files. See <a href="javac.htm#GUID-4A09BB65-0213-4281-B832-257BC410373C" title="To compile a source file, the compiler often needs information about a type, but the type definition is not in the source files specified on the command line.">Searching for Types</a>. Such files are currently not subject to annotation processing. By default, the compiler gives a warning when annotation processing occurs and any implicitly loaded source files are compiled. The <code class="codeph">-implicit</code> option provides a way to suppress the warning.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__USINGJDK_JAVAC_OPTIONSENVIRONMENTVA-F3C76845">
+<p class="subhead1">Using JDK_JAVAC_OPTIONS Environment Variable</p>
+<p>The content of the <code class="codeph">JDK_JAVAC_OPTIONS</code> environment variable, separated by white-spaces ( ) or white-space characters (<code class="codeph">\n</code>, <code class="codeph">\t</code>, <code class="codeph">\r</code>, or <code class="codeph">\f</code>) is prepended to the command line arguments passed to <code class="codeph">javac</code> as a list of arguments.</p>
+<p>The encoding requirement for the environment variable is the same as the <code class="codeph">javac</code> command line on the system. <code class="codeph">JDK_JAVAC_OPTIONS</code> environment variable content is treated in the same manner as that specified in the command line.</p>
+<p>Single (<code class="codeph">'</code>) or double (<code class="codeph">"</code>) quotes can be used to enclose arguments that&nbsp;contain whitespace characters. All content between the open quote and the first matching close quote are preserved by simply removing the pair of quotes. In case a matching quote is not found, the launcher will abort with an error message. <code class="codeph">@<span class="variable">files</span></code> are supported as they are specified in the command line. However, as in <code class="codeph">@<span class="variable">files</span></code>, use of a wildcard is not supported.</p>
+<p><span class="bold">Examples of quoting arguments containing white spaces:</span></p>
+<pre dir="ltr">
+export JDK_JAVAC_OPTIONS=&lsquo;@"C:\white spaces\argfile&rdquo;'
+</pre>
+<pre dir="ltr">
+export JDK_JAVAC_OPTIONS=&lsquo;"@C:\white spaces\argfile&rdquo;'
+</pre>
+<pre dir="ltr">
+export JDK_JAVAC_OPTIONS='@C:\"white spaces"\argfile'
+</pre></div>
+<!-- class="section" -->
+<div class="section" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__BHCGAJDC">
+<p class="subhead1">Overview of javac Options</p>
+<p>The compiler has sets of standard options, and cross-compilation options that are supported on the current development environment. The compiler also has a set of nonstandard options that are specific to the current virtual machine and compiler implementations but are subject to change in the future. The nonstandard options begin with <code class="codeph">-X</code> . The different sets of <code class="codeph">javac</code> options are described in the following sections:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="javac.htm#GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__STANDARDOPTIONSFORJAVAC-7D3D9CC2">Standard Options for javac</a></p>
+</li>
+<li>
+<p><a href="javac.htm#GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__CROSS-COMPILATIONOPTIONSFORJAVAC-7D3D83C3">Cross-Compilation Options for javac</a></p>
+</li>
+<li>
+<p><a href="javac.htm#GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__NONSTANDARDOPTIONSFORJAVAC-7D3DAA9D">Extra Options for javac</a></p>
+</li>
+</ul>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__STANDARDOPTIONSFORJAVAC-7D3D9CC2">
+<p class="subhead1">Standard Options for javac</p>
+<dl class="0.99* 3.01*">
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-71845552-4A41-4CF1-866A-ACE46D0931A1"><!-- --></a><code class="codeph">@<span class="variable">filename</span></code></dt>
+<dd>
+<p>Reads options and file names from a file. To shorten or simplify the <code class="codeph">javac</code> command, you can specify one or more files that contain arguments to the <code class="codeph">javac</code> command (except <code class="codeph">-J</code> options). This let&rsquo;s you to create <code class="codeph">javac</code> commands of any length on any operating system. See <a href="javac.htm#GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__BHCJEIBB">javac Command-Line Argument Files</a>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-6CC814A4-8A29-434A-B7E1-DF8234784E7C"><!-- --></a><code class="codeph">-Akey[=<span class="variable">value</span>]</code></dt>
+<dd>
+<p>Specifies options to pass to annotation processors. These options aren&rsquo;t interpreted by <code class="codeph">javac</code> directly, but are made available for use by individual processors. The <code class="codeph">key</code> value should be one or more identifiers separated by a dot (.).</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-AEF06674-4D9F-4BCF-90EC-F3FBA615F57A"><!-- --></a><code class="codeph">--add-modules <span class="variable">module</span> , <span class="variable">module</span></code></dt>
+<dd>
+<p>Specifies root modules to resolve in addition to the initial modules, or all modules on the module path if <code class="codeph"><span class="variable">module</span></code> is <code class="codeph">ALL-MODULE-PATH.</code></p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-38BC1737-2F22-4288-8DC9-933C37D471AB"><!-- --></a><code class="codeph">--boot-class-path <span class="variable">path</span></code> or <code class="codeph">-bootclasspath <span class="variable">path</span></code></dt>
+<dd>
+<p>Overrides the location of the bootstrap class files.</p>
+<div class="infobox-note" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-914DBC50-805F-4CE7-BFCC-EF5714A9F6E2">
+<p class="notep1">Note:</p>
+<p>This option is not supported when using <code class="codeph">--release <span class="variable">release</span></code> to compile for JDK 9. See the description of <code class="codeph">--release <span class="variable">release</span></code> for details about compiling for versions other than JDK 9.</p>
+</div>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-45DC2932-19BD-435B-B14C-A230D0A4EC87"><!-- --></a><code class="codeph">--class-path <span class="variable">path</span></code> , <code class="codeph">-classpath <span class="variable">path</span></code>, or <code class="codeph">-cp <span class="variable">path</span></code></dt>
+<dd>
+<p>Specifies where to find user class files and annotation processors. This class path overrides the user class path in the <code class="codeph">CLASSPATH</code> environment variable.</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>If <code class="codeph">--class-path</code>, <code class="codeph">-classpath</code>, or <code class="codeph">-cp</code> aren&rsquo;t specified, then the user class path is the current directory.</p>
+</li>
+<li>
+<p>If the <code class="codeph">-sourcepath</code> option isn&rsquo;t specified, then the user class path is also searched for source files.</p>
+</li>
+<li>
+<p>If the <code class="codeph">-processorpath</code> option isn&rsquo;t specified, then the class path is also searched for annotation processors.</p>
+</li>
+</ul>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-E31E2EF9-9FF9-43C1-B0D2-55B24E0421DC"><!-- --></a><code class="codeph">-d <span class="variable">directory</span></code></dt>
+<dd>
+<p>Sets the destination directory for class files. If a class is part of a package, then <code class="codeph">javac</code> puts the class file in a subdirectory that reflects the package name and creates directories as needed. For example:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold"><span>Oracle Solaris, Linux, and OS X</span>:</span> If you specify <code class="codeph">-d</code> <code class="codeph">/home/myclasses</code> and the class is called <code class="codeph">com.mypackage.MyClass</code>, then the class file is <code class="codeph">/home/myclasses/com/mypackage/MyClass.class</code>.</p>
+</li>
+<li>
+<p><span class="bold">Windows:</span> If you specify <code class="codeph">-d</code> <code class="codeph">C:\myclasses</code> and the class is called <code class="codeph">com.mypackage.MyClass</code>, then the class file is <code class="codeph">C:\myclasses\com\mypackage\MyClass.class</code>.</p>
+</li>
+</ul>
+<p>If the <code class="codeph">-d</code> option isn&rsquo;t specified, then <code class="codeph">javac</code> puts each class file in the same directory as the source file from which it was generated.</p>
+<div class="infobox-note" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-EB0C1618-7F62-48E9-8819-CB3EC70C47D0">
+<p class="notep1">Note:</p>
+<p>The directory specified by the <code class="codeph">-d</code> option isn&rsquo;t automatically added to your user class path.</p>
+</div>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-394C59F6-77EE-4F6B-A462-4DE4808912E2"><!-- --></a><code class="codeph">-deprecation</code></dt>
+<dd>
+<p>Shows a description of each use or override of a deprecated member or class. Without the <code class="codeph">-deprecation</code> option, <code class="codeph">javac</code> shows a summary of the source files that use or override deprecated members or classes. The <code class="codeph">-deprecation</code> option is shorthand for <code class="codeph">-Xlint:deprecation</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-0D054FFF-AFED-48F4-9E39-5D29BCF9CD83"><!-- --></a><code class="codeph">-encoding <span class="variable">encoding</span></code></dt>
+<dd>
+<p>Specifies character encoding used by source files, such as EUC-JP and UTF-8. If the <code class="codeph">-encoding</code> option isn&rsquo;t specified, then the platform default converter is used.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-3207B6C5-8838-4358-B550-67765E60C802"><!-- --></a><code class="codeph">-endorseddirs <span class="variable">directories</span></code></dt>
+<dd>
+<p>Overrides the location of the endorsed standards path.</p>
+<div class="infobox-note" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-8900793D-29E2-4C33-9781-A15F05AF43D3">
+<p class="notep1">Note:</p>
+<p>This option is not supported when using <code class="codeph">--release <span class="variable">release</span></code> to compile for JDK 9. See the description of <code class="codeph">--release <span class="variable">release</span></code> for details about compiling for versions other than JDK 9.</p>
+</div>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-3DD4B12D-3D4B-4353-8410-0B0B915BC63A"><!-- --></a><code class="codeph">-extdirs <span class="variable">directories</span></code></dt>
+<dd>
+<p>Overrides the location of the installed extensions. The <code class="codeph"><span class="variable">directories</span></code> variable is a colon-separated list of directories. Each JAR file in the specified directories is searched for class files. All JAR files found become part of the class path.</p>
+<p>If you are cross-compiling, then this option specifies the directories that contain the extension classes. See <a href="javac.htm#GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__CROSS-COMPILATIONOPTIONSFORJAVAC-7D3D83C3">Cross-Compilation Options for javac</a>.</p>
+<div class="infobox-note" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-265E2A4F-4111-470E-8C83-2005887A8205">
+<p class="notep1">Note:</p>
+<p>This option is not supported when using <code class="codeph">--release <span class="variable">release</span></code> to compile for JDK 9. See the description of <code class="codeph">--release <span class="variable">release</span></code> for details about compiling for versions other than JDK 9.</p>
+</div>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-38E8A593-FF4E-4EEA-ADC1-84429B08CCA2"><!-- --></a><code class="codeph">-g</code></dt>
+<dd>
+<p>Generates all debugging information, including local variables. By default, only line number and source file information is generated.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-9273A104-736D-4966-A815-6AF81D6A4B11"><!-- --></a><code class="codeph">-g:[lines, vars, source],[lines, vars, source],[lines, vars, source]</code></dt>
+<dd>
+<p>Generates only the kinds of debugging information specified by the comma-separated list of keywords. Valid keywords are:</p>
+<dl>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-2916C615-6235-48AD-A61C-7E8B9872C033"><!-- --></a><code class="codeph">lines</code></dt>
+<dd>
+<p>Line number debugging information.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-E2C0E94F-D08F-4C16-BFD0-E55079E7DEB0"><!-- --></a><code class="codeph">vars</code></dt>
+<dd>
+<p>Local variable debugging information.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-C010A427-5732-4D67-BBE3-DF59D6F0C912"><!-- --></a><code class="codeph">source</code></dt>
+<dd>
+<p>Source file debugging information.</p>
+</dd>
+</dl>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-421C325E-087C-4FAF-AF0F-92BF796A9BFA"><!-- --></a><code class="codeph">-g:none</code></dt>
+<dd>
+<p>Doesn&rsquo;t generate any debugging information.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-73FC25F0-BBE2-4AAC-9BAC-3BFDCDE4F31D"><!-- --></a><code class="codeph">-h <span class="variable">directory</span></code></dt>
+<dd>
+<p>Specifies where to place generated native header files.</p>
+<p>When you specify this option, a native header file is generated for each class that contains native methods or that has one or more constants annotated with the <a href="https://docs.oracle.com/javase/9/docs/api/java/lang/annotation/Native.html" target="_blank"><span class="apiname">java.lang.annotation.Native</span></a> annotation. If the class is part of a package, then the compiler puts the native header file in a subdirectory that reflects the package name and creates directories as needed.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-661F585E-792C-4A2F-A345-DE7F10577974"><!-- --></a><code class="codeph">--help</code> or <code class="codeph">&ndash;help</code></dt>
+<dd>
+<p>Prints a synopsis of the standard options.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-7CD90308-FBDE-4D66-AE34-BB88D6E852E0"><!-- --></a><code class="codeph">--help-extra</code> or <code class="codeph">-X</code></dt>
+<dd>
+<p>Prints the help for extra options.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-B45134E6-2985-417A-A427-2C49C10056A7"><!-- --></a><code class="codeph">-implicit:{[none, class],[none, class]}</code></dt>
+<dd>
+<p>Specifies whether or not to generate class files for implicitly referenced files:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph">-implicit:class</code> &mdash; Automatically generates class files.</p>
+</li>
+<li>
+<p><code class="codeph">-implicit:none</code> &mdash; Suppresses class file generation.</p>
+</li>
+</ul>
+<p>If this option isn&rsquo;t specified, then the default automatically generates class files. In this case, the compiler issues a warning if any class files are generated when also doing annotation processing. The warning isn&rsquo;t issued when the <code class="codeph">-implicit</code> option is explicitly set. See <a href="javac.htm#GUID-4A09BB65-0213-4281-B832-257BC410373C" title="To compile a source file, the compiler often needs information about a type, but the type definition is not in the source files specified on the command line.">Searching for Types</a>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-86B3EDD0-A67C-470D-9F53-8EC06ECBE549"><!-- --></a><code class="codeph">-J<span class="variable">option</span></code></dt>
+<dd>
+<p>Passes <code class="codeph"><span class="variable">option</span></code> to the runtime system, where <code class="codeph"><span class="variable">option</span></code> is one of the Java options described on <a href="java.htm#GUID-3B1CE181-CD30-4178-9602-230B800D4FAE" title="You can use the java command to launch a Java application.">java</a>command. For example, <code class="codeph">-J-Xms48m</code> sets the startup memory to 48 MB.</p>
+<div class="infobox-note" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-088E49B0-468D-4783-A090-82675241D51F">
+<p class="notep1">Note:</p>
+<p>The <code class="codeph">CLASSPATH</code> environment variable, <code class="codeph">-classpath</code> option, <code class="codeph">-bootclasspath</code> option, and <code class="codeph">-extdirs</code> option don&rsquo;t specify the classes used to run <code class="codeph">javac</code>. Trying to customize the compiler implementation with these options and variables is risky and often doesn&rsquo;t accomplish what you want. If you must customize the complier implementation, then use the <code class="codeph">-J</code> option to pass options through to the underlying Java launcher.</p>
+</div>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-874C39D7-2D55-46E1-AC33-ACF4962BD46F"><!-- --></a><code class="codeph">--limit-modules <span class="variable">module</span> , <span class="variable">module</span></code>*</dt>
+<dd>
+<p>Limits the universe of observable modules.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-B333E605-60C5-42C9-A939-DDA73C661EC5"><!-- --></a><code class="codeph">--module <span class="variable">module-name</span></code> or <code class="codeph">-m <span class="variable">module-name</span></code></dt>
+<dd>
+<p>Compiles only the specified module and checks time stamps.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-6F45B48D-91EE-4551-92DB-38BFF9D76B83"><!-- --></a><code class="codeph">--module-path <span class="variable">path</span></code> or <code class="codeph">-p <span class="variable">path</span></code></dt>
+<dd>
+<p>Specifies where to find application modules.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-282DCE3B-870F-4F6E-A62E-D20D17FB253A"><!-- --></a><code class="codeph">--module-source-path <span class="variable">module-source-path</span></code></dt>
+<dd>
+<p>Specifies where to find input source files for multiple modules.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-F5CA8C7E-948C-44B3-B39C-40B5E3B4EB0C"><!-- --></a><code class="codeph">--module-version <span class="variable">version</span></code></dt>
+<dd>Specifies the version of modules that are being compiled.</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-7F864AAE-650E-4BCE-85B0-26F0E3042CAC"><!-- --></a><code class="codeph">-nowarn</code></dt>
+<dd>
+<p>Disables warning messages. This option operates the same as the <code class="codeph">-Xlint:none</code> option.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-A649BE59-30C2-48E8-A766-FA5CD21AB3AF"><!-- --></a><code class="codeph">-parameters</code></dt>
+<dd>
+<p>Generates metadata for reflection on method parameters. Stores formal parameter names of constructors and methods in the generated class file so that the method <code class="codeph">java.lang.reflect.Executable.getParameters</code> from the Reflection API can retrieve them.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-B8CDC87A-E925-4E40-AFD4-CD88014E145E"><!-- --></a><code class="codeph">-proc: [none, only] , [none, only]</code></dt>
+<dd>
+<p>Controls whether annotation processing and compilation are done. <code class="codeph">-proc:none</code> means that compilation takes place without annotation processing. <code class="codeph">-proc:only</code> means that only annotation processing is done, without any subsequent compilation.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-CA6FD3F3-9919-41E0-86E1-119DA16A3AA4"><!-- --></a><code class="codeph">-processor <span class="variable">class1</span> [,<span class="variable">class2</span>,<span class="variable">class3</span>...]</code></dt>
+<dd>
+<p>Names of the annotation processors to run. This bypasses the default discovery process.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-63CB760A-D92E-41EA-BD74-51BA984B4063"><!-- --></a><code class="codeph">--processor-module&mdash;path <span class="variable">path</span></code> or <code class="codeph">-p <span class="variable">module-path</span></code></dt>
+<dd>
+<p>Specifies the module path used for finding annotation processors.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-214E175F-0F06-4CDC-B511-5BA469955F5A"><!-- --></a><code class="codeph">--processor&mdash;path <span class="variable">path</span></code> or <code class="codeph">-processorpath <span class="variable">path</span></code></dt>
+<dd>
+<p>Specifies where to find annotation processors. If this option isn&rsquo;t used, then the class path is searched for processors.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-19DEC16C-582B-4CED-A014-2A0DB75F7289"><!-- --></a><code class="codeph">-profile <span class="variable">profile</span></code></dt>
+<dd>
+<p>Checks that the API used is available in the specified profile.</p>
+<div class="infobox-note" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-3C87803E-557B-47AC-B0D3-C67D4BE09F41">
+<p class="notep1">Note:</p>
+<p>Not supported when using <code class="codeph">--release <span class="variable">release</span></code> to compile for JDK 9. See the description of <code class="codeph">--release <span class="variable">release</span></code> for details about compiling for versions other than JDK 9.</p>
+</div>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-D343F6B4-3FDD-43A8-AD24-43DD70214471"><!-- --></a><code class="codeph">--release <span class="variable">release</span></code></dt>
+<dd>
+<p>Compiles against the public, supported and documented API for a specific VM version. Supported <code class="codeph"><span class="variable">release</span></code> targets are <code class="codeph">6</code>, <code class="codeph">7</code>, <code class="codeph">8</code>, and <code class="codeph">9</code>.</p>
+<div class="infobox-note" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-947ACE0E-6307-48C6-B820-EC7F929EBDF0">
+<p class="notep1">Note:</p>
+<p>When using <code class="codeph">--release</code> for a version of the Java Platform that supports modules, you can&rsquo;t use <code class="codeph">--add-modules</code> to access internal JDK modules, nor can you use <code class="codeph">--add-exports</code> to access internal JDK APIs in the modules.</p>
+</div>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-A4B800B7-34EE-4BBC-A872-024F8B388892"><!-- --></a><code class="codeph">-s <span class="variable">directory</span></code></dt>
+<dd>
+<p>Specifies the directory used to place the generated source files. If a class is part of a package, then the compiler puts the source file in a subdirectory that reflects the package name and creates directories as needed. For example:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold"><span>Oracle Solaris, Linux, and OS X</span>:</span>: If you specify <code class="codeph">-s /home/mysrc</code> and the class is called <code class="codeph">com.mypackage.MyClass</code>, then the source file is put in <code class="codeph">/home/mysrc/com/mypackage/MyClass.java</code>.</p>
+</li>
+<li>
+<p><span class="bold">Windows</span>: If you specify <code class="codeph">-s C:\mysrc</code> and the class is called <code class="codeph">com.mypackage.MyClass</code>, then the source file is put in <code class="codeph">C:\mysrc\com\mypackage\MyClass.java</code>.</p>
+</li>
+</ul>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-B4EE2436-E146-428D-A3CB-E0DAE27BA5B7"><!-- --></a><code class="codeph">-source <span class="variable">release</span></code></dt>
+<dd>
+<p>Specifies the version of source code accepted. The following values for <code class="codeph"><span class="variable">release</span></code> are allowed:</p>
+<div class="infobox-note" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-301E081A-035D-4496-A6F1-C6EC9EBF79E4">
+<p class="notep1">Note:</p>
+<p>As of JDK 9, the <code class="codeph">javac</code> doesn&rsquo;t support <code class="codeph">-source</code> release settings less than or equal to <code class="codeph">5</code>. If settings less than or equal to <code class="codeph">5</code> are used, then the <code class="codeph">javac</code> command behaves as if <code class="codeph">-source 6</code> were specified.</p>
+</div>
+<dl>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-E774864D-48F6-40AD-B4DF-9AF009A6C877"><!-- --></a><code class="codeph">1.6</code></dt>
+<dd>
+<p>No language changes were introduced in Java SE 6. However, encoding errors in source files are now reported as errors instead of warnings as was done in earlier releases of Java Platform, Standard Edition.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-9579F0BD-6A95-49D2-BA8F-E854D66750D6"><!-- --></a><code class="codeph">6</code></dt>
+<dd>
+<p>Synonym for 1.6.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-2A8DC871-5D1B-4DE5-B9FB-A594FD30E598"><!-- --></a><code class="codeph">1.7</code></dt>
+<dd>
+<p>The compiler accepts code with features introduced in Java SE 7.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-6ABAB141-07F8-41A4-82D6-2475671AED0D"><!-- --></a><code class="codeph">7</code></dt>
+<dd>
+<p>Synonym for 1.7.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-60E75177-D5BD-4A69-8BA5-66282E304FB2"><!-- --></a><code class="codeph">1.8</code></dt>
+<dd>
+<p>The compiler accepts code with features introduced in Java SE 8.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-57E82D10-91B4-420E-9121-5FDC6C83C153"><!-- --></a><code class="codeph">8</code></dt>
+<dd>
+<p>Synonym for 1.8.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-278208E9-7F94-4022-934B-2F138DD53F34"><!-- --></a><code class="codeph">9</code></dt>
+<dd>
+<p>The default value. The compiler accepts code with features introduced in Java SE 9.</p>
+</dd>
+</dl>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-241203C9-A6AE-44A5-935E-C7123FB4B53D"><!-- --></a> <code class="codeph">--source-path <span class="variable">path</span></code> or <code class="codeph">-sourcepath <span class="variable">path</span></code></dt>
+<dd>
+<p>Specifies where to find input source files. This is the source code path used to search for class or interface definitions. As with the user class path, source path entries are separated by colons (:) on Oracle Solaris and semicolons(;) on Windows. They can be directories, JAR archives, or ZIP archives. If packages are used, then the local path name within the directory or archive must reflect the package name.</p>
+<div class="infobox-note" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-AA322221-865E-4C43-8BF7-594431AC4EAA">
+<p class="notep1">Note:</p>
+<p>Classes found through the class path might be recompiled when their source files are also found. See <a href="javac.htm#GUID-4A09BB65-0213-4281-B832-257BC410373C" title="To compile a source file, the compiler often needs information about a type, but the type definition is not in the source files specified on the command line.">Searching for Types</a>.</p>
+</div>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-96B805B4-3A9B-45B7-887B-84D0897C9CA2"><!-- --></a><code class="codeph">--system <span class="variable">jdk</span> | none</code></dt>
+<dd>
+<p>Overrides the location of system modules.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-89CBDEA1-9FF4-4EA0-AB7D-B418FA2C3DE9"><!-- --></a><code class="codeph">-target <span class="variable">release</span></code></dt>
+<dd>
+<p>Generates class files for a specific VM version.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-455EC0B4-7635-4AB9-B1FF-E4186ECDF77C"><!-- --></a><code class="codeph">--upgrade-module&mdash;path <span class="variable">path</span></code></dt>
+<dd>
+<p>Overrides the location of upgradeable modules.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-3BD688A7-2071-4BE7-B2F7-BFF02601EF3C"><!-- --></a><code class="codeph">-verbose</code></dt>
+<dd>
+<p>Outputs messages about what the compiler is doing. Messages include information about each class loaded and each source file compiled.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-F2389260-6433-4CF5-B4EE-0526AFFC4ABE"><!-- --></a><code class="codeph">--version</code> or <code class="codeph">-version</code></dt>
+<dd>
+<p>Prints version information.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-403008C3-8D5C-4F57-B15C-A99A8F8182EC"><!-- --></a><code class="codeph">-Werror</code></dt>
+<dd>
+<p>Terminates compilation when warnings occur.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__CROSS-COMPILATIONOPTIONSFORJAVAC-7D3D83C3">
+<p class="subhead1">Cross-Compilation Options for javac</p>
+<p>By default, for releases prior to JDK 9, classes were compiled against the bootstrap classes of the platform that shipped with the<code class="codeph">javac</code> command. But <code class="codeph">javac</code> also supports cross-compiling, in which classes are compiled against bootstrap classes of a different Java platform implementation. It&rsquo;s important to use the <code class="codeph">-bootclasspath</code> and <code class="codeph">-extdirs</code> options when cross-compiling.</p>
+<div class="infobox-note" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-B08F8ACF-9DF7-4AF0-8AB5-7D7D6D76D94B">
+<p class="notep1">Note:</p>
+<p>Not supported when using <code class="codeph">--release <span class="variable">release</span></code> to compile for JDK 9. See the description of <code class="codeph">--release <span class="variable">release</span></code> for details about compiling for versions other than JDK 9.</p>
+</div>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__NONSTANDARDOPTIONSFORJAVAC-7D3DAA9D">
+<p class="subhead1">Extra Options for javac</p>
+<dl>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-D36F2388-557B-48E6-BEAA-ED7A26C1CA21"><!-- --></a><code class="codeph">--add-exports <span class="variable">module</span>/<span class="variable">package</span>=<span class="variable">other-module</span>(,<span class="variable">other-module</span>)</code>*</dt>
+<dd>
+<p>Specifies a package to be considered as exported from its defining module to additional modules or to all unnamed modules when the value of <code class="codeph"><span class="variable">other-module</span></code> is <code class="codeph">ALL-UNNAMED</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-530317E4-2DD5-411E-8BDD-62760BF97970"><!-- --></a><code class="codeph">--add-reads <span class="variable">module</span>=<span class="variable">other-module</span>(,<span class="variable">other-module</span>)</code>*</dt>
+<dd>
+<p>Specifies additional modules to be considered as required by a given module.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-6700F2F4-2526-40B7-B543-A215A1E91C71"><!-- --></a><code class="codeph">-Djava.endorsed.dirs=<span class="variable">dirs</span></code></dt>
+<dd>
+<p>Overrides the location of the endorsed standards path.</p>
+<div class="infobox-note" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-F67E72FF-72E3-44CC-9E14-F73C55BDDB60">
+<p class="notep1">Note:</p>
+<p>Not supported when using <code class="codeph">--release <span class="variable">release</span></code> to compile for JDK 9. See the description of <code class="codeph">--release <span class="variable">release</span></code> for details about compiling for versions other than JDK 9.</p>
+</div>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-25BBFC7C-51E8-4A57-9CF0-330E45EF40A3"><!-- --></a><code class="codeph">-Djava.ext.dirs=<span class="variable">dirs</span></code></dt>
+<dd>
+<p>Overrides the location of installed extensions.</p>
+<div class="infobox-note" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-8C4244B1-9970-48FE-86A4-4E4700DF97D7">
+<p class="notep1">Note:</p>
+<p>This option is not supported when using <code class="codeph">--release <span class="variable">release</span></code> to compile for JDK 9. See the description of <code class="codeph">--release <span class="variable">release</span></code> for details about compiling for versions other than JDK 9.</p>
+</div>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-EED08B32-F351-4D48-A941-35107ECB5E78"><!-- --></a> <code class="codeph">--doclint-format [html4|html5]</code></dt>
+<dd>
+<p>Specifies the format for documentation comments.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-63713474-1ECB-4A47-8087-0101B79F8903"><!-- --></a><code class="codeph">--patch-module <span class="variable">module</span>=<span class="variable">file</span>(:<span class="variable">file</span>)</code>*</dt>
+<dd>
+<p>Overrides or augments a module with classes and resources in JAR files or directories.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-82AC444A-7997-4AF8-A59A-E8DB3937860D"><!-- --></a><code class="codeph">-Xbootclasspath:<span class="variable">path</span></code></dt>
+<dd>
+<p>Overrides the location of the bootstrap class files.</p>
+<div class="infobox-note" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-91DBDF29-B1A3-4902-BED4-5E914319633B">
+<p class="notep1">Note:</p>
+<p>This option is not supported when using <code class="codeph">--release <span class="variable">release</span></code> to compile for JDK 9. See the description of <code class="codeph">--release <span class="variable">release</span></code> for details about compiling for versions other than JDK 9.</p>
+</div>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-E1D24DB1-B67C-49CD-9274-115D36A0B1CB"><!-- --></a><code class="codeph">-Xbootclasspath/a:<span class="variable">path</span></code></dt>
+<dd>
+<p>Adds a suffix to the bootstrap class path.</p>
+<div class="infobox-note" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-DB5FCC79-D051-4930-B8FE-15126280A0E5">
+<p class="notep1">Note:</p>
+<p>This option is not supported when using <code class="codeph">--release <span class="variable">release</span></code> to compile for JDK 9. See the description of <code class="codeph">--release <span class="variable">release</span></code> for details about compiling for versions other than JDK 9.</p>
+</div>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-B6032DE0-3C1C-4BF9-B3A5-37931EDC54CF"><!-- --></a><code class="codeph">-Xbootclasspath/p:<span class="variable">path</span></code></dt>
+<dd>
+<p>Adds a prefix to the bootstrap class path.</p>
+<div class="infobox-note" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-538C08CE-FFC0-4D53-B2B5-854EBF32EDDF">
+<p class="notep1">Note:</p>
+<p>This option is not supported when using <code class="codeph">--release <span class="variable">release</span></code> to compile for JDK 9. See the description of <code class="codeph">--release <span class="variable">release</span></code> for details about compiling for versions other than JDK 9.</p>
+</div>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-46E827B5-1037-44C7-9923-258DE14073B5"><!-- --></a><code class="codeph">-Xdiags:[compact, verbose]</code></dt>
+<dd>
+<p>Selects a diagnostic mode.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-8C409E30-BE1C-41BB-BDD2-9BFB43A8EED2"><!-- --></a><code class="codeph">-Xdoclint</code></dt>
+<dd>
+<p>Enables recommended checks for problems in <code class="codeph">javadoc</code> comments</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-6D478A97-C855-4353-961D-07987BA9997C"><!-- --></a><code class="codeph">-Xdoclint:(all|none|[-]<span class="variable">group</span>) [/<span class="variable">access</span>]</code></dt>
+<dd>
+<p>Enables or disables specific groups of checks, where <code class="codeph"><span class="variable">group</span></code> is one of the following values:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph">accessibility</code></p>
+</li>
+<li>
+<p><code class="codeph">html</code></p>
+</li>
+<li>
+<p><code class="codeph">missing</code></p>
+</li>
+<li>
+<p><code class="codeph">reference</code></p>
+</li>
+<li>
+<p><code class="codeph">syntax</code></p>
+</li>
+</ul>
+<p>For more information about these groups of checks, see the <code class="codeph">-Xdoclint</code> option of the <code class="codeph">javadoc</code> command. The <code class="codeph">-Xdoclint</code> option is disabled by default in the <code class="codeph">javac</code> command.</p>
+<p>The variable <code class="codeph"><span class="variable">access</span></code> specifies the minimum visibility level of classes and members that the <code class="codeph">-Xdoclint</code> option checks. It can have one of the following values (in order of most to least visible:)</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph">public</code></p>
+</li>
+<li>
+<p><code class="codeph">protected</code></p>
+</li>
+<li>
+<p><code class="codeph">package</code></p>
+</li>
+<li>
+<p><code class="codeph">private</code></p>
+</li>
+</ul>
+<p>The default access level is <code class="codeph">private</code>.</p>
+<p>For example, the following option checks classes and members (with all groups of checks) that have the access level of protected and higher (which includes protected and public):</p>
+<pre dir="ltr">
+-Xdoclint:all/protected
+</pre>
+<p>The following option enables all groups of checks for all access levels, except it won&rsquo;t check for HTML errors for classes and members that have the access level of package and higher (which includes package, protected and public :)</p>
+<pre dir="ltr">
+-Xdoclint:all,-html/package
+</pre></dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-BB41C30C-C526-403E-9517-A5CFBA1CFF35"><!-- --></a><code class="codeph">Xdoclint/package:[-]<span class="variable">packages</span>(,[-]<span class="variable">package</span>)</code>*</dt>
+<dd>
+<p>Enables or disables checks in specific packages. Each <code class="codeph"><span class="variable">package</span></code> is either the qualified name of a package or a package name prefix followed by <code class="codeph">.*</code>, which expands to all sub-packages of the given package. Each <code class="codeph"><span class="variable">package</span></code> can be prefixed with <code class="codeph">-</code> to disable checks for a specified package or packages.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-4263EF09-0434-4C9C-B11D-9E8204795DB9"><!-- --></a><code class="codeph">-Xlint</code></dt>
+<dd>
+<p>Enables all recommended warnings. In this release, enabling all available warnings is recommended.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-C2076F46-1200-4082-9634-06E7F4851EEA"><!-- --></a><code class="codeph">-Xlint:<span class="variable">key</span>(,<span class="variable">key</span>)</code>*</dt>
+<dd>
+<p>Supplies warnings to enable or disable, separated by comma. Precede a key by a hypen (-) to disable the specified warning.</p>
+<p>Supported values for <code class="codeph"><span class="variable">key</span></code> are:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph">all</code> &mdash; Enables all warnings.</p>
+</li>
+<li>
+<p><code class="codeph">auxiliaryclass</code> &mdash; Warns about an auxiliary class that&rsquo;s hidden in a source file, and is used from other files.</p>
+</li>
+<li>
+<p><code class="codeph">cast</code> &mdash; Warns about the use of unnecessary casts.</p>
+</li>
+<li>
+<p><code class="codeph">classfile</code> &mdash; Warns about the issues related to classfile contents.</p>
+</li>
+<li>
+<p><code class="codeph">deprecation</code> &mdash; Warns about the use of deprecated items.</p>
+</li>
+<li>
+<p><code class="codeph">dep-ann</code> &mdash; Warns about the items marked as deprecated in <code class="codeph">javadoc</code> but without the <code class="codeph">@Deprecated</code> annotation.</p>
+</li>
+<li>
+<p><code class="codeph">divzero</code> &mdash; Warns about the division by the constant integer 0.</p>
+</li>
+<li>
+<p><code class="codeph">empty</code> &mdash; Warns about an empty statement after <code class="codeph">if</code>.</p>
+</li>
+<li>
+<p><code class="codeph">exports</code> &mdash; Warns about the issues regarding module exports.</p>
+</li>
+<li>
+<p><code class="codeph">fallthrough</code> &mdash; Warns about the falling through from one case of a switch statement to the next.</p>
+</li>
+<li>
+<p><code class="codeph">finally</code> &mdash; Warns about <code class="codeph">finally</code> clauses that don&rsquo;t terminate normally.</p>
+</li>
+<li>
+<p><code class="codeph">module</code> &mdash; Warns about the module system-related issues.</p>
+</li>
+<li>
+<p><code class="codeph">opens</code> &mdash; Warns about the issues related to module opens.</p>
+</li>
+<li>
+<p><code class="codeph">options</code> &mdash; Warns about the issues relating to use of command line options.</p>
+</li>
+<li>
+<p><code class="codeph">overloads</code> &mdash; Warns about the issues related to method overloads.</p>
+</li>
+<li>
+<p><code class="codeph">overrides</code> &mdash; Warns about the issues related to method overrides.</p>
+</li>
+<li>
+<p><code class="codeph">path</code> &mdash; Warns about the invalid path elements on the command l ine.</p>
+</li>
+<li>
+<p><code class="codeph">processing</code> &mdash; Warns about the issues related to annotation processing.</p>
+</li>
+<li>
+<p><code class="codeph">rawtypes</code> &mdash; Warns about the use of raw types.</p>
+</li>
+<li>
+<p><code class="codeph">removal</code> &mdash; Warns about the use of an API that has been marked for removal.</p>
+</li>
+<li>
+<p><code class="codeph">serial</code> &mdash; Warns about the serializable classes that don&rsquo;t provide a serial version ID. Also warns about access to non-public members from a serializable element.</p>
+</li>
+<li>
+<p><code class="codeph">static</code> &mdash; Warns about the accessing a static member using an instance.</p>
+</li>
+<li>
+<p><code class="codeph">try</code> &mdash; Warns about the issues relating to the use of try blocks ( that is, try-with-resources).</p>
+</li>
+<li>
+<p><code class="codeph">unchecked</code> &mdash; Warns about the unchecked operations.</p>
+</li>
+<li>
+<p><code class="codeph">varargs</code> &mdash; Warns about the potentially unsafe <code class="codeph">vararg</code> methods.</p>
+</li>
+<li>
+<p><code class="codeph">none</code> &mdash; Disables all warnings.</p>
+</li>
+</ul>
+<p>See <a href="javac.htm#GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__ENABLEORDISABLEWARNINGSWITHTHE-XLIN-7D3DB0EE">Examples of Using -Xlint keys</a>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-E1E03677-F7CB-4B29-AD6D-E8D593CA7C06"><!-- --></a><code class="codeph">-Xmaxerrs <span class="variable">number</span></code></dt>
+<dd>
+<p>Sets the maximum number of errors to print.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-1EC131F1-E1AD-4446-B3D9-54C469B3E6B6"><!-- --></a><code class="codeph">-Xmaxwarns <span class="variable">number</span></code></dt>
+<dd>
+<p>Sets the maximum number of warnings to print.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-277D77C7-0F96-40A6-8411-A264B6F28A46"><!-- --></a><code class="codeph">-Xpkginfo:[always, legacy, nonempty]</code></dt>
+<dd>
+<p>Specifies when and how the <code class="codeph">javac</code> command generates <code class="codeph">package-info.class</code> files from <code class="codeph">package-info.java</code> files using one of the following options:</p>
+<dl>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__ALWAYSALWAYSGENERATEAPACKAGE-INFO.C-8EDC38C6"><!-- --></a><code class="codeph">always</code></dt>
+<dd>
+<p>Generates a <code class="codeph">package-info.class</code> file for every <code class="codeph">package-info.java</code> file. This option may be useful if you use a build system such as Ant, which checks that each <code class="codeph">.java</code> file has a corresponding <code class="codeph">.class</code> file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__LEGACYGENERATEAPACKAGE-INFO.CLASSFI-8EDC3894"><!-- --></a><code class="codeph">legacy</code></dt>
+<dd>
+<p>Generates a <code class="codeph">package-info.class</code> file only if <code class="codeph">package-info.java</code> contains annotations. This option doesn't generate a <code class="codeph">package-info.class</code> file if <code class="codeph">package-info.java</code> contains only comments.</p>
+<div class="infobox-note" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-5C488ACB-3830-4E37-AC8B-D7DC90634DB7">
+<p class="notep1">Note:</p>
+<p>A <code class="codeph">package-info.class</code> file might be generated but be empty if all the annotations in the <code class="codeph">package-info.java</code> file have <code class="codeph">RetentionPolicy.SOURCE</code>.</p>
+</div>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__NONEMPTYGENERATEAPACKAGE-INFO.CLASS-8EDC38A4"><!-- --></a><code class="codeph">nonempty</code></dt>
+<dd>
+<p>Generates a <code class="codeph">package-info.class</code> file only if <code class="codeph">package-info.java</code> contains annotations with <code class="codeph">RetentionPolicy.CLASS</code> or <code class="codeph">RetentionPolicy.RUNTIME</code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-B58E1946-3BBA-417C-A282-772C6BD16F6A"><!-- --></a><code class="codeph">-Xplugin:<span class="variable">name args</span></code></dt>
+<dd>
+<p>Specifies the name and optional arguments for a plug-in to be run.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-D7D03594-EE5F-4E5B-9CB8-44361684CD8B"><!-- --></a><code class="codeph">-Xprefer:[source</code> or <code class="codeph">newer]</code></dt>
+<dd>
+<p>Specifies which file to read when both a source file and class file are found for an implicitly compiled class using one of the following options. See <a href="javac.htm#GUID-4A09BB65-0213-4281-B832-257BC410373C" title="To compile a source file, the compiler often needs information about a type, but the type definition is not in the source files specified on the command line.">Searching for Types</a>.</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph">-Xprefer:newer</code> &mdash; Reads the newer of the source or class files for a type (default).</p>
+</li>
+<li>
+<p><code class="codeph">-Xprefer:source</code> &mdash; Reads the source file. Use <code class="codeph">-Xprefer:source</code> when you want to be sure that any annotation processors can access annotations declared with a retention policy of <code class="codeph">SOURCE</code>.</p>
+</li>
+</ul>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-299391B2-8166-446B-83D7-0F2C3116B5C3"><!-- --></a><code class="codeph">-Xprint</code></dt>
+<dd>
+<p>Prints a textual representation of specified types for debugging purposes. This doesn&rsquo;t perform annotation processing or compilation. The format of the output could change.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-071066EE-27AB-4888-8904-CC3E973704BF"><!-- --></a><code class="codeph">-XprintProcessorInfo</code></dt>
+<dd>
+<p>Prints information about which annotations a processor is asked to process.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-6AA88473-BD66-43DF-9DC1-020903BC97C4"><!-- --></a><code class="codeph">-XprintRounds</code></dt>
+<dd>
+<p>Prints information about initial and subsequent annotation processing rounds.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-BA79CD22-E91C-4488-B15F-5F1F4DDCB0F7"><!-- --></a><code class="codeph">-Xstdout <span class="variable">filename</span></code></dt>
+<dd>
+<p>Sends compiler messages to the named file. By default, compiler messages go to <code class="codeph">System.err</code>.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__BHCJEIBB">
+<p class="subhead1">javac Command-Line Argument Files</p>
+<p>An argument file can include <code class="codeph">javac</code> options and source file names in any combination. The arguments within a file can be separated by spaces or new line characters. If a file name contains embedded spaces, then put the whole file name in double quotation marks.</p>
+<p>File names within an argument file are relative to the current directory, not to the location of the argument file. Wildcards (*) aren&rsquo;t allowed in these lists (such as for specifying <code class="codeph">*.java</code>). Use of the at sign (<code class="codeph">@</code>) to recursively interpret files isn&rsquo;t supported. The <code class="codeph">-J</code> options aren&rsquo;t supported because they&rsquo;re passed to the launcher, which doesn&rsquo;t support argument files.</p>
+<p>When executing the <code class="codeph">javac</code> command, pass in the path and name of each argument file with the at sign (@) leading character. When the <code class="codeph">javac</code> command encounters an argument beginning with the at sign (<code class="codeph">@</code>), it expands the contents of that file into the argument list.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Examples of Using javac @filename</p>
+<dl>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-2FB91738-8E63-4E40-B8CA-52C6E4D7E222"><!-- --></a>Single Argument File</dt>
+<dd>
+<p>You could use a single argument file named <code class="codeph">argfile</code> to hold all <code class="codeph">javac</code> arguments:</p>
+<pre dir="ltr">
+javac @argfile
+</pre>
+<p>This argument file could contain the contents of both files shown in Example 2.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-F3E7E37C-790A-4CE2-8E4B-8E8E3C912512"><!-- --></a>Two Argument Files</dt>
+<dd>
+<p>You can create two argument files: one for the <code class="codeph">javac</code> options and the other for the source file names. Note that the following lists have no line-continuation characters.</p>
+<p>Create a file named options that contains the following:</p>
+<p><span class="bold"><span>Oracle Solaris, Linux, and OS X</span>:</span>:</p>
+<pre dir="ltr">
+-d classes
+-g
+-sourcepath /java/pubs/ws/1.3/src/share/classes
+</pre>
+<p><span class="bold">Windows</span>:</p>
+<pre dir="ltr">
+-d classes
+-g
+-sourcepath C:\java\pubs\ws\1.3\src\share\classes
+</pre>
+<p>Create a file named classes that contains the following:</p>
+<pre dir="ltr">
+MyClass1.java
+MyClass2.java
+MyClass3.java
+</pre>
+<p>Then, run the <code class="codeph">javac</code> command as follows:</p>
+<pre dir="ltr">
+javac @options @classes
+</pre></dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-B9ECC83C-F874-4721-875D-5151FF2E2F41"><!-- --></a>Argument Files with Paths</dt>
+<dd>
+<p>The argument files can have paths, but any file names inside the files are relative to the current working directory (not <code class="codeph">path1</code> or <code class="codeph">path2</code>):</p>
+<pre dir="ltr">
+javac @path1/options @path2/classes
+</pre></dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__ENABLEORDISABLEWARNINGSWITHTHE-XLIN-7D3DB0EE">
+<p class="subhead1">Examples of Using -Xlint keys</p>
+<dl class="1.22* 2.78*">
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-A3D51846-AFAB-4143-BF5B-F747526B605C"><!-- --></a><code class="codeph">cast</code></dt>
+<dd>
+<p>Warns about unnecessary and redundant casts, for example:</p>
+<pre dir="ltr">
+String s = (String) "Hello!"
+</pre></dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-4D1FEB16-CD8D-4169-9745-0193704E5374"><!-- --></a><code class="codeph">classfile</code></dt>
+<dd>
+<p>Warns about issues related to class file contents.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-B38DF7D0-78A5-4892-A515-72E961F77297"><!-- --></a><code class="codeph">deprecation</code></dt>
+<dd>
+<p>Warns about the use of deprecated items. For example:</p>
+<pre dir="ltr">
+java.util.Date myDate = new java.util.Date();
+int currentDay = myDate.getDay();
+</pre>
+<p>The method <code class="codeph">java.util.Date.getDay</code> has been deprecated since JDK 1.1.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-5C29902B-DCCC-4C7D-95D6-8AE083149BBF"><!-- --></a><code class="codeph">dep-ann</code></dt>
+<dd>
+<p>Warns about items that are documented with the <code class="codeph">@deprecated</code> Javadoc comment, but don&rsquo;t have the <code class="codeph">@Deprecated</code> annotation, for example:</p>
+<pre dir="ltr">
+/**
+  * @deprecated As of Java SE 7, replaced by {@link #newMethod()}
+  */
+public static void deprecatedMethod() { }
+public static void newMethod() { }
+</pre></dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-219EFFE2-A60D-490C-A697-0EC13BBA5F6C"><!-- --></a><code class="codeph">divzero</code></dt>
+<dd>
+<p>Warns about division by the constant integer 0, for example:</p>
+<pre dir="ltr">
+int divideByZero = 42 / 0;
+</pre></dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-EAC89F8F-B434-4BFB-BC1B-BE05D1382986"><!-- --></a><code class="codeph">empty</code></dt>
+<dd>
+<p>Warns about empty statements after <code class="codeph">if</code> statements, for example:</p>
+<pre dir="ltr">
+class E {
+    void m() {
+         if (true) ;
+    }
+}
+</pre></dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-9C8C22F6-140E-4299-A660-19E7646524CD"><!-- --></a><code class="codeph">fallthrough</code></dt>
+<dd>
+<p>Checks the switch blocks for fall-through cases and provides a warning message for any that are found. Fall-through cases are cases in a switch block, other than the last case in the block, whose code doesn&rsquo;t include a break statement, allowing code execution to fall through from that case to the next case. For example, the code following the case 1 label in this switch block doesn&rsquo;t end with a break statement:</p>
+<pre dir="ltr">
+switch (x) {
+case 1:
+  System.out.println("1");
+  // No break statement here.
+case 2:
+  System.out.println("2");
+}
+</pre>
+<p>If the <code class="codeph">-Xlint:fallthrough</code> option was used when compiling this code, then the compiler emits a warning about possible fall-through into case, with the line number of the case in question.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-E09BE57C-ACC9-4F04-8772-0FEAA910B982"><!-- --></a><code class="codeph">finally</code></dt>
+<dd>
+<p>Warns about <code class="codeph">finally</code> clauses that can&rsquo;t be completed normally, for example:</p>
+<pre dir="ltr">
+public static int m() {
+  try {
+     throw new NullPointerException();
+  }  catch (NullPointerException(); {
+     System.err.println("Caught NullPointerException.");
+     return 1;
+   } finally {
+     return 0;
+   }
+  }
+</pre>
+<p>The compiler generates a warning for the <code class="codeph">finally</code> block in this example. When the <code class="codeph">int</code> method is called, it returns a value of 0. A <code class="codeph">finally</code> block executes when the <code class="codeph">try</code> block exits. In this example, when control is transferred to the <code class="codeph">catch</code> block, the <code class="codeph">int</code> method exits. However, the <code class="codeph">finally</code> block must execute, so it&rsquo;s executed, even though control was transferred outside the method.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-FE16D0E8-2496-43A8-9E55-983CC8A31205"><!-- --></a><code class="codeph">options</code></dt>
+<dd>
+<p>Warns about issues that related to the use of command-line options. See <a href="javac.htm#GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__CROSS-COMPILATIONOPTIONSFORJAVAC-7D3D83C3">Cross-Compilation Options for javac</a>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-1C771123-E15B-413E-B58C-674E9F0F8583"><!-- --></a><code class="codeph">overrides</code></dt>
+<dd>
+<p>Warns about issues related to method overrides. For example, consider the following two classes:</p>
+<pre dir="ltr">
+public class ClassWithVarargsMethod {
+  void varargsMethod(String... s) { }
+}
+
+public class ClassWithOverridingMethod extends ClassWithVarargsMethod {
+   @Override
+   void varargsMethod(String[] s) { }
+}
+</pre>
+<p>The compiler generates a warning similar to the following:.</p>
+<pre dir="ltr">
+warning: [override] varargsMethod(String[]) in ClassWithOverridingMethod 
+overrides varargsMethod(String...) in ClassWithVarargsMethod; overriding
+method is missing '...'
+</pre>
+<p>When the compiler encounters a <code class="codeph">varargs</code> method, it translates the <code class="codeph">varargs</code> formal parameter into an array. In the method <code class="codeph">ClassWithVarargsMethod.varargsMethod</code>, the compiler translates the <code class="codeph">varargs</code> formal parameter <code class="codeph">String... s</code> to the formal parameter <code class="codeph">String[] s</code>, an array that matches the formal parameter of the method <code class="codeph">ClassWithOverridingMethod.varargsMethod</code>. Consequently, this example compiles.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-79F76F1A-8E63-4ABB-B0DA-984B2E2E3ABE"><!-- --></a><code class="codeph">path</code></dt>
+<dd>
+<p>Warns about invalid path elements and nonexistent path directories on the command line (with regard to the class path, the source path, and other paths). Such warnings can&rsquo;t be suppressed with the <code class="codeph">@SuppressWarnings</code> annotation. For example:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><span class="bold"><span>Oracle Solaris, Linux, and OS X</span>:</span>: <code class="codeph">javac -Xlint:path -classpath /nonexistentpath Example.java</code></p>
+</li>
+<li>
+<p><span class="bold">Windows</span>: <code class="codeph">javac -Xlint:path -classpath C:\nonexistentpath Example.java</code></p>
+</li>
+</ul>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-80E7093B-C0C9-4653-B592-774A2D988F99"><!-- --></a><code class="codeph">processing</code></dt>
+<dd>
+<p>Warns about issues related to annotation processing. The compiler generates this warning when you have a class that has an annotation, and you use an annotation processor that can&rsquo;t handle that type of exception. For example, the following is a simple annotation processor:</p>
+<p><span class="bold">Source file AnnocProc.java</span>:</p>
+<pre dir="ltr">
+import java.util.*;
+import javax.annotation.processing.*;
+import javax.lang.model.*;
+import.javaz.lang.model.element.*;
+
+@SupportedAnnotationTypes("NotAnno")
+public class AnnoProc extends AbstractProcessor {
+  public boolean process(Set&lt;? extends TypeElement&gt; elems, RoundEnvironment renv){
+     return true;
+  }
+
+  public SourceVersion getSupportedSourceVersion() {
+     return SourceVersion.latest();
+   }
+}
+</pre>
+<p><span class="bold">Source file AnnosWithoutProcessors.java</span>:</p>
+<pre dir="ltr">
+@interface Anno { }
+ 
+@Anno
+class AnnosWithoutProcessors { }
+</pre>
+<p>The following commands compile the annotation processor <code class="codeph">AnnoProc</code>, then run this annotation processor against the source file <code class="codeph">AnnosWithoutProcessors.java</code>:</p>
+<pre dir="ltr">
+javac AnnoProc.java
+javac -cp . -Xlint:processing -processor AnnoProc -proc:only AnnosWithoutProcessors.java
+</pre>
+<p>When the compiler runs the annotation processor against the source file <code class="codeph">AnnosWithoutProcessors.java</code>, it generates the following warning:</p>
+<pre dir="ltr">
+warning: [processing] No processor claimed any of these annotations: Anno
+ 
+</pre>
+<p>To resolve this issue, you can rename the annotation defined and used in the class <code class="codeph">AnnosWithoutProcessors</code> from <code class="codeph">Anno</code> to <code class="codeph">NotAnno</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-DD56FC61-D712-46AD-95CF-0A84354F7A48"><!-- --></a><code class="codeph">rawtypes</code></dt>
+<dd>
+<p>Warns about unchecked operations on raw types. The following statement generates a <code class="codeph">rawtypes</code> warning:</p>
+<pre dir="ltr">
+void countElements(List l) { ... }
+</pre>
+<p>The following example doesn&rsquo;t generate a <code class="codeph">rawtypes</code> warning:</p>
+<pre dir="ltr">
+void countElements(List&lt;?&gt; l) { ... }
+</pre>
+<p><code class="codeph">List</code> is a raw type. However, <code class="codeph">List&lt;?&gt;</code> is an unbounded wildcard parameterized type. Because <code class="codeph">List</code> is a parameterized interface, always specify its type argument. In this example, the <code class="codeph">List</code> formal argument is specified with an unbounded wildcard (<code class="codeph">?</code>) as its formal type parameter, which means that the <code class="codeph">countElements</code> method can accept any instantiation of the <code class="codeph">List</code> interface.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-95874D83-CF33-4BF2-8624-C7B370EB0CB8"><!-- --></a><code class="codeph">serial</code></dt>
+<dd>
+<p>Warns about missing <code class="codeph">serialVersionUID</code> definitions on serializable classes, for example:</p>
+<pre dir="ltr">
+public class PersistentTime implements Serializable
+{
+  private Date time;
+ 
+   public PersistentTime() {
+     time = Calendar.getInstance().getTime();
+   }
+ 
+   public Date getTime() {
+     return time;
+   }
+}
+</pre>
+<p>The compiler generates the following warning:</p>
+<pre dir="ltr">
+warning: [serial] serializable class PersistentTime has no definition of
+serialVersionUID
+</pre>
+<p>If a serializable class doesn&rsquo;t explicitly declare a field named <code class="codeph">serialVersionUID</code>, then the serialization runtime environment calculates a default <code class="codeph">serialVersionUID</code> value for that class based on various aspects of the class, as described in the Java Object Serialization Specification. However, it&rsquo;s strongly recommended that all serializable classes explicitly declare <code class="codeph">serialVersionUID</code> values because the default process of computing <code class="codeph">serialVersionUID</code> values is highly sensitive to class details that can vary depending on compiler implementations. As a result, might cause an unexpected <code class="codeph">InvalidClassExceptions</code> during deserialization. To guarantee a consistent <code class="codeph">serialVersionUID</code> value across different Java compiler implementations, a serializable class must declare an explicit <code class="codeph">serialVersionUID</code> value.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-88CFFEFC-82F5-48E1-AED2-97E1B5CF1B09"><!-- --></a><code class="codeph">static</code></dt>
+<dd>
+<p>Warns about issues relating to the use of statics variables, for example:</p>
+<pre dir="ltr">
+class XLintStatic {
+    static void m1() { }
+    void m2() { this.m1(); }
+}
+</pre>
+<p>The compiler generates the following warning:</p>
+<pre dir="ltr">
+warning: [static] static method should be qualified by type name, 
+XLintStatic, instead of by an expression
+</pre>
+<p>To resolve this issue, you can call the <code class="codeph">static</code> method <code class="codeph">m1</code> as follows:</p>
+<pre dir="ltr">
+XLintStatic.m1();
+</pre>
+<p>Alternately, you can remove the <code class="codeph">static</code> keyword from the declaration of the method <code class="codeph">m1</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-B85880F4-C0A2-4513-B1D4-F5D42DF3A43A"><!-- --></a><code class="codeph">try</code></dt>
+<dd>
+<p>Warns about issues relating to the use of <code class="codeph">try</code> blocks, including try-with-resources statements. For example, a warning is generated for the following statement because the resource <code class="codeph">ac</code> declared in the <code class="codeph">try</code> block isn&rsquo;t used:</p>
+<pre dir="ltr">
+try ( AutoCloseable ac = getResource() ) {    // do nothing}
+</pre></dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-B7BB48B3-02B3-41E4-B2E8-21014340542E"><!-- --></a><code class="codeph">unchecked</code></dt>
+<dd>
+<p>Gives more detail for unchecked conversion warnings that are mandated by the Java Language Specification, for example:</p>
+<pre dir="ltr">
+List l = new ArrayList&lt;Number&gt;();
+List&lt;String&gt; ls = l;       // unchecked warning
+</pre>
+<p>During type erasure, the types <code class="codeph">ArrayList&lt;Number&gt;</code> and <code class="codeph">List&lt;String&gt;</code> become <code class="codeph">ArrayList</code> and <code class="codeph">List</code>, respectively.</p>
+<p>The <code class="codeph">ls</code> command has the parameterized type <code class="codeph">List&lt;String&gt;</code>. When the <code class="codeph">List</code> referenced by <code class="codeph">l</code> is assigned to <code class="codeph">ls</code>, the compiler generates an unchecked warning. At compile time, the compiler and JVM can&rsquo;t determine whether <code class="codeph">l</code> refers to a <code class="codeph">List&lt;String&gt;</code> type. In this case, <code class="codeph">l</code> doesn&rsquo;t refer to a <code class="codeph">List&lt;String&gt;</code> type. As a result, heap pollution occurs.</p>
+<p>A heap pollution situation occurs when the <code class="codeph">List</code> object <code class="codeph">l</code>, whose static type is <code class="codeph">List&lt;Number&gt;</code>, is assigned to another <code class="codeph">List</code> object, <code class="codeph">ls</code>, that has a different static type, <code class="codeph">List&lt;String&gt;</code>. However, the compiler still allows this assignment. It must allow this assignment to preserve backward compatibility with releases of Java SE that don&rsquo;t support generics. Because of type erasure, <code class="codeph">List&lt;Number&gt;</code> and <code class="codeph">List&lt;String&gt;</code> both become <code class="codeph">List</code>. Consequently, the compiler allows the assignment of the object <code class="codeph">l</code><code class="codeph">,</code> which has a raw type of <code class="codeph">List</code>, to the object <code class="codeph">ls</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-09F66A22-2632-400A-9BAC-D1ED146F7CD9"><!-- --></a><code class="codeph">varargs</code></dt>
+<dd>
+<p>Warns about unsafe use of variable arguments (<code class="codeph">varargs</code>) methods, in particular, those that contain non-reifiable arguments, for example:</p>
+<pre dir="ltr">
+public class ArrayBuilder {
+  public static &lt;T&gt; void addToList (List&lt;T&gt; listArg, T... elements) {
+    for (T x : elements) {
+      listArg.add(x);
+    }
+  }
+}
+</pre>
+<p>A non-reifiable type is a type whose type information isn&rsquo;t fully available at runtime.</p>
+<p>The compiler generates the following warning for the definition of the method <code class="codeph">ArrayBuilder.addToList</code>:</p>
+<pre dir="ltr">
+warning: [varargs] Possible heap pollution from parameterized vararg type T
+</pre>
+<p>When the compiler encounters a varargs method, it translates the <code class="codeph">varargs</code> formal parameter into an array. However, the Java programming language doesn&rsquo;t permit the creation of arrays of parameterized types. In the method <code class="codeph">ArrayBuilder.addToList</code>, the compiler translates the <code class="codeph">varargs</code> formal parameter <code class="codeph">T...</code> elements to the formal parameter <code class="codeph">T[]</code> elements, an array. However, because of type erasure, the compiler converts the <code class="codeph">varargs</code> formal parameter to <code class="codeph">Object[]</code> elements. Consequently, there&rsquo;s a possibility of heap pollution.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Example of Compiling by Providing Command-Line Arguments</p>
+<p>To compile as though providing command-line arguments, use the following syntax:</p>
+<pre dir="ltr">
+JavaCompiler javac = ToolProvider.getSystemJavaCompiler();
+</pre>
+<p>The example writes diagnostics to the standard output stream and returns the exit code that <code class="codeph">javac</code> command would give when called from the command line.</p>
+<p>You can use other methods in the <code class="codeph">javax.tools.JavaCompiler</code> interface to handle diagnostics, control where files are read from and written to, and more.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Old Interface</p>
+<div class="infobox-note" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-6E3605A6-7BBB-4BA3-B0A0-D1F204051E8D">
+<p class="notep1">Note:</p>
+<p>This API is retained for backward compatibility only. All new code should use the Java Compiler API.</p>
+</div>
+<p>The <code class="codeph">com.sun.tools.javac.Main</code> class provides two static methods to call the compiler from a program:</p>
+<pre dir="ltr">
+public static int compile(String[] args);
+public static int compile(String[] args, PrintWriter out);
+</pre>
+<p>The <code class="codeph">args</code> parameter represents any of the command-line arguments that would typically be passed to the compiler.</p>
+<p>The <code class="codeph">out</code> parameter indicates where the compiler diagnostic output is directed.</p>
+<p>The <code class="codeph">return</code> value is equivalent to the <code class="codeph">exit</code> value from <code class="codeph">javac</code>.</p>
+<div class="infobox-note" id="GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__GUID-9213E505-A73B-45CC-A3E4-D7835A6BE903">
+<p class="notep1">Note:</p>
+<p>All other classes and methods found in a package with names that start with <code class="codeph">com.sun.tools.javac</code> (subpackages of <code class="codeph">com.sun.tools.javac</code>) are strictly internal and subject to change at any time.</p>
+</div>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1"></p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Example of Compiling Multiple Source Files</p>
+<p>This example compiles the <code class="codeph">Aloha.java</code>, <code class="codeph">GutenTag.java</code>, <code class="codeph">Hello.java</code>, and <code class="codeph">Hi.java</code> source files in the <code class="codeph">greetings</code> package.</p>
+<p><span class="bold"><span>Oracle Solaris, Linux, and OS X</span>:</span>:</p>
+<pre dir="ltr">
+% javac greetings/*.java
+% ls greetings
+Aloha.class         GutenTag.class      Hello.class         Hi.class
+Aloha.java          GutenTag.java       Hello.java          Hi.java
+</pre>
+<p><span class="bold">Windows</span>:</p>
+<pre dir="ltr">
+C:\&gt;javac greetings\*.java
+C:\&gt;dir greetings
+Aloha.class         GutenTag.class      Hello.class         Hi.class
+Aloha.java          GutenTag.java       Hello.java          Hi.java
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Example of Specifying a User Class Path</p>
+<p>After changing one of the source files in the previous example, recompile it:</p>
+<p><span class="bold"><span>Oracle Solaris, Linux, and OS X</span>:</span>:</p>
+<pre dir="ltr">
+pwd
+/examples
+javac greetings/Hi.java
+</pre>
+<p><span class="bold">Windows</span>:</p>
+<pre dir="ltr">
+C:\&gt;cd
+\examples
+C:\&gt;javac greetings\Hi.java
+</pre>
+<p>Because <code class="codeph">greetings.Hi</code> refers to other classes in the <code class="codeph">greetings</code> package, the compiler needs to find these other classes. The previous example works because the default user class path is the directory that contains the package directory. If you want to recompile this file without concern for which directory you are in, then add the examples directory to the user class path by setting <code class="codeph">CLASSPATH</code>. This example uses the <code class="codeph">-classpath</code> option.</p>
+<p><span class="bold"><span>Oracle Solaris, Linux, and OS X</span>:</span>:</p>
+<pre dir="ltr">
+javac -classpath /examples /examples/greetings/Hi.java
+</pre>
+<p><span class="bold">Windows</span>:</p>
+<pre dir="ltr">
+C:\&gt;javac -classpath \examples \examples\greetings\Hi.java
+</pre>
+<p>If you change <code class="codeph">greetings.Hi</code> to use a banner utility, then that utility also needs to be accessible through the user class path.</p>
+<p><span class="bold"><span>Oracle Solaris, Linux, and OS X</span>:</span>:</p>
+<pre dir="ltr">
+javac -classpath /examples:/lib/Banners.jar \
+            /examples/greetings/Hi.java
+</pre>
+<p><span class="bold">Windows</span>:</p>
+<pre dir="ltr">
+C:\&gt;javac -classpath \examples;\lib\Banners.jar ^
+            \examples\greetings\Hi.java
+</pre>
+<p>To execute a class in the <code class="codeph">greetings</code> package, the program needs access to the <code class="codeph">greetings</code> package, and to the classes that the <code class="codeph">greetings</code> classes use.</p>
+<p><span class="bold"><span>Oracle Solaris, Linux, and OS X</span>:</span>:</p>
+<pre dir="ltr">
+java -classpath /examples:/lib/Banners.jar greetings.Hi
+</pre>
+<p><span class="bold">Windows</span>:</p>
+<pre dir="ltr">
+C:\&gt;java -classpath \examples;\lib\Banners.jar greetings.Hi
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1"></p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1"></p>
+<p>The <code class="codeph">-source 1.7</code> option specifies that release 1.7 (or 7) of the Java programming language must be used to compile OldCode.java. The <code class="codeph">-target 1.7</code> option ensures that the generated class files are compatible with JVM 1.7.</p>
+</div>
+<!-- class="section" --></div>
+<div class="sect2"><a id="GUID-082C33A5-CBCA-471A-845E-E77F79B7B049"></a>
+<h2 id="JSWOR-GUID-082C33A5-CBCA-471A-845E-E77F79B7B049" class="sect2">Annotation Processing</h2>
+<div>
+<p>The <code class="codeph">javac</code> command provides direct support for annotation processing, superseding the need for the separate annotation processing command, <code class="codeph">apt</code>.</p>
+<p>The API for annotation processors is defined in the <code class="codeph">javax.annotation.processing</code> and <code class="codeph">javax.lang.model</code> packages and subpackages.</p>
+<div class="section">
+<p class="subhead2">How Annotation Processing Works</p>
+<p>Unless annotation processing is disabled with the <code class="codeph">-proc:none</code> option, the compiler searches for any annotation processors that are available. The search path can be specified with the <code class="codeph">-processorpath</code> option. If no path is specified, then the user class path is used. Processors are located by means of service provider-configuration files named <code class="codeph">META-INF/services/javax.annotation.processing</code>. Processor on the search path. Such files should contain the names of any annotation processors to be used, listed one per line. Alternatively, processors can be specified explicitly, using the <code class="codeph">-processor</code> option.</p>
+<p>After scanning the source files and classes on the command line to determine what annotations are present, the compiler queries the processors to determine what annotations they process. When a match is found, the processor is called. A processor can claim the annotations it processes, in which case no further attempt is made to find any processors for those annotations. After all of the annotations are claimed, the compiler does not search for additional processors.</p>
+<p>If any processors generate new source files, then another round of annotation processing occurs: Any newly generated source files are scanned, and the annotations processed as before. Any processors called on previous rounds are also called on all subsequent rounds. This continues until no new source files are generated.</p>
+<p>After a round occurs where no new source files are generated, the annotation processors are called one last time, to give them a chance to complete any remaining work. Finally, unless the <code class="codeph">-proc:only</code> option is used, the compiler compiles the original and all generated source files.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-4A09BB65-0213-4281-B832-257BC410373C"></a>
+<h2 id="JSWOR-GUID-4A09BB65-0213-4281-B832-257BC410373C" class="sect2">Searching for Types</h2>
+<div>
+<p>To compile a source file, the compiler often needs information about a type, but the type definition is not in the source files specified on the command line.</p>
+<p>To compile a source file, the compiler often needs information about a type, but the type definition is not in the source files specified on the command line. The compiler needs type information for every class or interface used, extended, or implemented in the source file. This includes classes and interfaces not explicitly mentioned in the source file, but that provide information through inheritance.</p>
+<div class="section" id="GUID-4A09BB65-0213-4281-B832-257BC410373C__BHCJJJAJ">
+<p>For example, when you create a subclass of <code class="codeph">java.awt.Window</code>, you are also using the ancestor classes of <code class="codeph">Window</code>: <code class="codeph">java.awt.Container</code>, <code class="codeph">java.awt.Component</code>, and <code class="codeph">java.lang.Object</code>.</p>
+<p>When the compiler needs type information, it searches for a source file or class file that defines the type. The compiler searches for class files first in the bootstrap and extension classes, then in the user class path (which by default is the current directory). The user class path is defined by setting the <code class="codeph">CLASSPATH</code> environment variable or by using the <code class="codeph">-classpath</code> option.</p>
+<p>If you set the <code class="codeph">-sourcepath</code> option, then the compiler searches the indicated path for source files. Otherwise, the compiler searches the user class path for both class files and source files.</p>
+<p>You can specify different bootstrap or extension classes with the <code class="codeph">-bootclasspath</code> and the <code class="codeph">-extdirs</code> options. See <a href="javac.htm#GUID-AEEC9F07-CB49-4E96-8BC7-BCC2C7F725C9__CROSS-COMPILATIONOPTIONSFORJAVAC-7D3D83C3">Cross-Compilation Options for javac</a>.</p>
+<p>A successful type search may produce a class file, a source file, or both. If both are found, then you can use the <code class="codeph">-Xprefer</code> option to instruct the compiler which to use. If <code class="codeph">newer</code> is specified, then the compiler uses the newer of the two files. If <code class="codeph">source</code> is specified, the compiler uses the source file. The default is <code class="codeph">newer</code>.</p>
+<p>If a type search finds a source file for a required type, either by itself, or as a result of the setting for the <code class="codeph">-Xprefer</code> option, then the compiler reads the source file to get the information it needs. By default the compiler also compiles the source file. You can use the <code class="codeph">-implicit</code> option to specify the behavior. If <code class="codeph">none</code> is specified, then no class files are generated for the source file. If <code class="codeph">class</code> is specified, then class files are generated for the source file.</p>
+<p>The compiler might not discover the need for some type information until after annotation processing completes. When the type information is found in a source file and no <code class="codeph">-implicit</code> option is specified, the compiler gives a warning that the file is being compiled without being subject to annotation processing. To disable the warning, either specify the file on the command line (so that it will be subject to annotation processing) or use the <code class="codeph">-implicit</code> option to specify whether or not class files should be generated for such source files.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment179">
+<tr>
+<td class="cellalignment191">
+<table class="cellalignment184">
+<tr>
+<td class="cellalignment183"><a href="main-tools-create-and-build-applications.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment183"><a href="javap.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment193">
+<table class="cellalignment182">
+<tr>
+<td class="cellalignment183"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment183"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment183"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

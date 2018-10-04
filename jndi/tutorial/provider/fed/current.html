@@ -1,0 +1,398 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>The Current Naming System</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="names.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="next.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Adding Federation Support</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    The Current Naming System
+</h2>
+<p>
+<blockquote>
+
+After extracting the name components that belong to your 
+current naming system, you must decide 
+how to process those components. You have three choices.
+<ul>
+<li>
+<a href=#TERM>Terminal</a>. Name resolution has
+reached the target naming system. Apply
+the operation to the name. 
+<li>
+<a href=#TERM_NNS>Terminal next naming system</a> (terminal nns).
+Name resolution has reached the target naming system.
+Apply the operation to the 
+<em>nns pointer</em> (next naming system pointer) of the name.
+<li>
+<a href=#INTER>Intermediate</a>.
+The current naming system is an intermediate naming
+system. Do the necessary name resolution
+to determine the nns to which to 
+pass the operation.
+</ul>
+Here is <a href=src/tut/FedCtx.java>a sample implementation</a> of
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><tt>bind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   that implements these three choices.
+<blockquote><pre>
+public void bind(Name name, Object bindObj) throws NamingException {
+    try {
+	Name[] nm = parseComponents(name);
+	Name mine = nm[0];
+	Name rest = nm[1];
+
+	if (rest == null || rest.isEmpty()) {
+	    // Terminal; just use head
+	    bind_internal(mine, bindObj);
+	} else if (rest.get(0).equals("") &amp;&amp; rest.size() == 1) {
+	    // Terminal nns
+	    bind_nns(mine, bindObj);
+	} else if (mine.isEmpty() || isAllEmpty(rest)) {
+	    // Intermediate; resolve current components as intermediate
+	    Object obj = lookup_nns(mine);
+
+	    // Skip the leading forward slash
+	    throw fillInCPE(obj, mine, rest.getSuffix(1));
+	} else {
+	    // Intermediate; resolve current components as intermediate
+	    Object obj = resolveIntermediate_nns(mine, rest);
+
+	    throw fillInCPE(obj, mine, rest);
+	}
+    } catch (CannotProceedException e) {
+	Context cctx = NamingManager.getContinuationContext(e);
+	cctx.bind(e.getRemainingName(), bindObj);
+    }
+}
+</blockquote></pre>
+This example and the three alternatives 
+are explained in more detail later in this lesson.
+Note that all other name-related methods in the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><tt>Context</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   interface should be implemented similarly.
+
+<a name=TERM></a>
+<h4>Terminal</h4>
+
+Once name resolution has reached the target naming system,
+you basically no longer need to worry about federation.
+In <a href=src/tut/FedCtx.java>the example here</a>, 
+this case is handled by defining an
+<tt>xxx_internal</tt> method for each methods the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><tt>Context</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. This technique is useful for clearly delineating
+the portion of the code that is local or internal to this
+context implementation.
+<p>
+Here is the example for <tt>bind()</tt>.
+<blockquote><pre>
+private void bind_internal(Name name, Object obj) throws NamingException {
+    if (name.isEmpty()) {
+        throw new InvalidNameException("Cannot bind empty name");
+    }
+
+    // Extract the components that belong to this namespace
+    String atom = getInternalName(name);
+    if (bindings.get(atom) != null) {
+	throw new NameAlreadyBoundException("Use rebind to override");
+    }
+
+    // Call getStateToBind for using any state factories
+    obj = NamingManager.getStateToBind(obj, name, this, myEnv);
+
+    // Add the object to the internal data structure
+    bindings.put(atom, obj);
+}
+</blockquote></pre>
+
+If the context implementation supports dynamic weak separation
+(that is, it determines the naming system boundary dynamically),
+then the <tt>xxx_internal()</tt> methods will resolve the name to
+determine which parts belong to the current naming system.
+If the current naming system is determined not to be the terminal
+naming system, then the methods will throw a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CannotProceedException.html"><tt>CannotProceedException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CannotProceedException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, with the remaining components as the remaining name.
+
+<a name=TERM_NNS></a>
+<h4>Terminal Next Naming System</h4>
+
+When name resolution has reached the target naming system
+with a remaining name that has a trailing forward slash character
+("/"), the operation is to be applied to the nns pointer 
+of the remaining name.
+Recall from the
+<a target="_top" href="../../beyond/fed/current.html">Federation</a> <a target="_top" href="../../beyond/fed/current.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>   lesson that context implementation may implement
+the nns pointer as <em>explicit</em>
+(also called a <em>junction</em>) or implicit.
+In <a href=src/tut/FedCtx.java>the example</a>, 
+this case is handled by defining an
+<tt>xxx_nns</tt> methods for each of methods in the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><tt>Context</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   interface. As with the case of the <tt>xxx_internal</tt>
+naming technique, this
+technique is useful for delineating the part of the
+the code that handles the nns pointer.
+<p>
+The implementation of the <tt>xxx_nns</tt> methods depend
+on how the context implementation handles 
+nns pointers. For example, a context implementation might
+support implicit nns by having a table that records the nns
+for each name bound in a context.
+In that case, its <tt>bind_nns()</tt> method might look as follows.
+<blockquote><pre>
+private void bind_nns(Name name, Object obj) throws NamingException {
+    if (name.isEmpty()) {
+	// Set your nns
+	myNNS = NamingManager.getStateToBind(obj, 
+	((Name)(name.clone())).add(""), this, myEnv);
+	return;
+    }
+    // Extract the components that belong to this namespace
+    String atom = getInternalName(name);
+    if (nnsBindings.get(atom) != null) {
+	throw new NameAlreadyBoundException("Use rebind to override");
+    }
+
+    // Call getStateToBind for using any state factories
+    obj = NamingManager.getStateToBind(obj, 
+	((Name)(name.clone())).add(""), this, myEnv);
+
+    // Add the object to the internal nns data structure
+    nnsBindings.put(atom, obj);
+}
+</pre></blockquote>
+If the context implementation supports junctions, 
+then it should look up the
+junction and apply the operation on  the nns of the junction.
+This is illustrated by <a href=src/tut/FedCtx.java>the example</a>.
+Since this is a common pattern used by other context methods, 
+an internal utility, <tt>processJunction_nns()</tt>, 
+is defined for this purpose, as follows.
+<blockquote><pre>
+protected void processJunction_nns(Name name) throws NamingException {
+    if (name.isEmpty()) {
+	// Construct a new Reference that contains this context
+	RefAddr addr = new RefAddr("nns") {
+	    public Object getContent() {
+		return FedCtx.this;
+	    }
+	};
+	Reference ref = new Reference("java.lang.Object", addr);
+
+	throw fillInCPE(ref, NNS_NAME, null);
+    } else {
+        // Look up the name to continue the operation in the nns
+	Object target;
+	try {
+	    target = lookup_internal(name);
+	} catch (NamingException e) {
+	    e.appendRemainingComponent(""); // Add the nns back in
+	    throw e;
+	}
+
+	throw fillInCPE(target, name, NNS_NAME);
+    }
+}
+</pre></blockquote>
+If the name is empty, then the user is requesting the nns
+of the current context. In that case, an nns reference
+(see the
+<a target="_top" href="../../beyond/fed/current.html">Federation</a> <a target="_top" href="../../beyond/fed/current.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>   lesson) is constructed by using 
+the current context as the resolved object
+and the trailing forward slash character ("/") as the "alt" name.
+The "alt" name is the name of the resolved object resolved
+relative to the "alt" name context (which in this case is the current context).
+This information is used to create and throw a
+<tt>CannotProceedException</tt>.
+If the name is not empty, 
+then you need to look up the named object from this
+current context and create a <tt>CannotProceedException</tt>
+that contains the trailing forward slash as the remaining name.
+The <tt>CannotProceedException</tt> is handled by the main <tt>bind()</tt>
+method, as discussed in the <a href=next.html>next section</a>.
+<tt>bind_nns()</tt>, like other methods for handling the nns,
+simply uses the internal utility <tt>processJunction_nns()</tt>.
+<blockquote><pre>
+private void bind_nns(Name name, Object obj) throws NamingException {
+    processJunction_nns(name);
+}
+</blockquote></pre>
+<tt>fillInCPE()</tt> is an internal utility that creates a 
+<tt>CannotProceedException</tt> by using this context as the
+"alt" name context and this context's environment.
+Here is its definition.
+<blockquote><pre>
+protected CannotProceedException fillInCPE(Object resolvedObj, 
+	Name altName, Name remainingName) {
+    CannotProceedException cpe = new CannotProceedException();
+
+    // Generic stuff
+    cpe.setEnvironment(myEnv);
+    cpe.setAltNameCtx(this);
+
+    // Specific stuff
+    cpe.setResolvedObj(resolvedObj);
+    cpe.setAltName(altName);
+    cpe.setRemainingName(remainingName);
+    return cpe;
+}
+</blockquote></pre>
+
+
+<a name=INTER></a>
+<h4>Intermediate</h4>
+
+If the <tt>parseComponents()</tt> utility method returns results
+that indicate that resolution is currently at an intermediate context,
+then you must resolve the name components intended for the current
+naming system to obtain the reference to the nns.
+How the resolution occurs depends on whether the implicit nns
+has been requested. The implicit nns has been requested if
+the name contains a leading forward slash character ("/") or if the name components
+that belong to the nns (<tt>rest</tt>) 
+are all empty (this is indicated by one or more trailing 
+forward slashes).
+In this case, the context implementation should use 
+the internal utility <tt>lookup_nns()</tt> to obtain the
+nns and then continue the operation on the rest of the name components.
+<p>
+If the implicit nns has not been requested, then the name components
+that belong to this current naming system (<tt>mine</tt>)
+might name a junction or an implicit nns.
+To process this case, a utility is defined that can be used
+by all context methods called <tt>resolveIntermediate_nns()</tt>.
+<blockquote><pre>
+protected Object resolveIntermediate_nns(Name name, Name rest, 
+    Name newName)
+    throws NamingException {
+    CannotProceedException cpe;
+    try {
+	final Object obj = lookup_internal(name);
+
+	if (obj != null &amp;&amp; getClass().isInstance(obj)) {
+	    // If "obj" is in the same type as this object, it must
+	    // not be a junction; continue the lookup with "/"
+
+	    cpe = fillInCPE(obj, name,
+		((Name)(NNS_NAME.clone())).addAll(rest));
+	    cpe.setRemainingNewName(newName);
+	} else if (obj != null &amp;&amp; !(obj instanceof Context)) {
+	    // obj is not even a context, so try to find its nns
+	    // dynamically by constructing a Reference that
+	    // contains obj
+	    RefAddr addr = new RefAddr("nns") {
+		public Object getContent() {
+		    return obj;
+		}
+	    };
+	    Reference ref = new Reference("java.lang.Object", addr);
+
+	    // Resolved name has a trailing slash to indicate the nns
+	    CompositeName resName = (CompositeName)name.clone();
+	    resName.add(""); // Add the trailing forward slash
+
+	    cpe = fillInCPE(ref, resName, rest);
+	    cpe.setRemainingNewName(newName);
+
+	} else {
+	    // Consume "/" and continue
+	    return obj;
+	}
+    } catch (NamingException e) {
+	e.appendRemainingComponent(""); // Add the nns back in
+	throw e;
+    }
+    throw cpe;
+}
+</blockquote></pre>
+As defined in 
+<a href=src/tut/FedCtx.java>the example</a>,
+this method supports junctions and dynamic implicit nns
+(see the
+<a target="_top" href="../../beyond/fed/current.html">Federation</a> <a target="_top" href="../../beyond/fed/current.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>   lesson). 
+If your context implementation supports static implicit nns, then
+it would probably look as follows instead.
+<blockquote><pre>
+private void resolveIntermediate_nns(Name name, Name rest, Name newName)
+    throws NamingException {
+    Object nns;
+    if (name.isEmpty()) {
+	nns = myNNS;   // Return this context's nns
+    } else {
+        // Extract the components that belong to this namespace
+        String atom = getInternalName(name);
+
+        // Get the nns from the internal table
+        nns  = nnsBindings.get(atom);
+        if (nns == null) {
+	    throw new NameNotFoundException(atom + "/");
+        }
+    }
+    // Call getObjectInstance for using any object factories
+    try {
+	return NamingManager.getObjectInstance(nns,
+	    ((Name)(name.clone())).add(""), this, myEnv);
+    } catch (Exception e) {
+	NamingException ne = new NamingException();
+	ne.setRootCause(e);
+	throw ne;
+    }
+}
+</blockquote></pre>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="names.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="next.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Adding Federation Support</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

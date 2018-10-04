@@ -1,0 +1,2515 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Permissions in the JDK</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="A permission represents access to a system resource. In order for a resource access to be allowed for an applet (or an application running with a security manager), the corresponding permission must be explicitly granted to the code attempting the access." />
+<meta name="dcterms.created" content="2018-03-13T07:25:33Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Security Developer&rsquo;s Guide" />
+<meta name="dcterms.identifier" content="E91076-01" />
+<meta name="dcterms.isVersionOf" content="JSSEC" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="java-security-standard-algorithm-names.htm" title="Previous" type="text/html" />
+<link rel="Next" href="troubleshooting-security.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSSEC.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-1E8E213A-D7F2-49F1-A2F0-EFB3397A8C95"></a> <span id="PAGE" style="display:none;">8/59</span> <!-- End Header -->
+<h1 id="JSSEC-GUID-1E8E213A-D7F2-49F1-A2F0-EFB3397A8C95" class="sect1">Permissions in the JDK</h1>
+<div>
+<p>A permission represents access to a system resource. In order for a resource access to be allowed for an applet (or an application running with a security manager), the corresponding permission must be explicitly granted to the code attempting the access.</p>
+<p>A permission typically has a name (often referred to as a "target name") and, in some cases, a comma-separated list of one or more actions. For example, the following code creates a <code class="codeph">FilePermission</code> object representing read access to the file named <code class="codeph">abc</code> in the <code class="codeph">/tmp</code> directory:</p>
+<pre class="codeblock" dir="ltr">
+perm = new java.io.FilePermission("/tmp/abc", "read");
+</pre>
+<p>Here, the target name is "<code class="codeph">/tmp/abc</code>" and the action string is "<code class="codeph">read</code>".</p>
+<div class="infobox-note" id="GUID-1E8E213A-D7F2-49F1-A2F0-EFB3397A8C95__GUID-832B417C-6149-414D-AB1A-4424471E317F">
+<p class="notep1">Important:</p>
+The above statement creates a permission object. A permission object represents, but does not grant access to, a system resource. Permission objects are constructed and assigned ("granted") to code based on the policy in effect. When a permission object is assigned to some code, that code is granted the permission to access the system resource specified in the permission object, in the specified manner. A permission object may also be constructed by the current security manager when making access decisions. In this case, the (target) permission object is created based on the requested access, and checked against the permission objects granted to and held by the code making the request.</div>
+<p>The policy for a Java application environment is represented by a Policy object. In the <code class="codeph">"JavaPolicy"</code> Policy implementation, the policy can be specified within one or more policy configuration files. The policy file(s) specify what permissions are allowed for code from specified code sources. The following is a sample policy file entry that grants code from the <code class="codeph">/home/sysadmin</code> directory read access to the file <code class="codeph">/tmp/abc</code>:</p>
+<pre class="codeblock" dir="ltr">
+grant codeBase "file:/home/sysadmin/" {
+    permission java.io.FilePermission "/tmp/abc", "read";
+};
+</pre>
+<p>To know more about policy file locations and granting permissions in policy files, see <a href="permissions-jdk1.htm#GUID-789089CA-8557-4017-B8B0-6899AD3BA18D">Default Policy Implementation and Policy File Syntax</a>.</p>
+<p>Technically, whenever a resource access is attempted, <span class="variable">all</span> code traversed by the execution thread up to that point must have permission for that resource access, unless some code on the thread has been marked as "privileged." See <a href="java-se-platform-security-architecture.htm#GUID-BB3C8FB3-1A1A-47F3-8536-3952B84F46F2" title="This section explains what privileged code is and what it is used for. It also shows you how to use the doPrivileged API.">Appendix A: API for Privileged Blocks</a>.</p>
+</div>
+<div class="sect2"><a id="GUID-8D0E8306-0DD8-4802-A71E-CFEE9BF8A287"></a>
+<h2 id="JSSEC-GUID-8D0E8306-0DD8-4802-A71E-CFEE9BF8A287" class="sect2">Permission Descriptions and Risks</h2>
+<div>
+<p>The following is a list of all built-in JDK permission types. The class summary for each permission type discusses the risks of granting each permission.</p>
+<ul style="list-style-type: disc;">
+<li><a href="https://docs.oracle.com/javase/10/docs/api/java/awt/AWTPermission.html" target="_blank"><span class="apiname">java.awt.AWTPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/java/io/FilePermission.html" target="_blank"><span class="apiname">java.io.FilePermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/java/io/SerializablePermission.html" target="_blank"><span class="apiname">java.io.SerializablePermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/java/lang/RuntimePermission.html" target="_blank"><span class="apiname">java.lang.RuntimePermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/java/lang/management/ManagementPermission.html" target="_blank"><span class="apiname">java.lang.management.ManagementPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/java/lang/reflect/ReflectPermission.html" target="_blank"><span class="apiname">java.lang.reflect.ReflectPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/java/net/NetPermission.html" target="_blank"><span class="apiname">java.net.NetPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/java/net/URLPermission.html" target="_blank"><span class="apiname">java.net.URLPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/java/net/SocketPermission.html" target="_blank"><span class="apiname">java.net.SocketPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/java/nio/file/LinkPermission.html" target="_blank"><span class="apiname">java.nio.file.LinkPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/java/security/AllPermission.html" target="_blank"><span class="apiname">java.security.AllPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/java/security/SecurityPermission.html" target="_blank"><span class="apiname">java.security.SecurityPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/java/security/UnresolvedPermission.html" target="_blank"><span class="apiname">java.security.UnresolvedPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/java/sql/SQLPermission.html" target="_blank"><span class="apiname">java.sql.SQLPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/java/util/logging/LoggingPermission.html" target="_blank"><span class="apiname">java.util.logging.LoggingPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/java/util/PropertyPermission.html" target="_blank"><span class="apiname">java.util.PropertyPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/javax/management/MBeanPermission.html" target="_blank"><span class="apiname">javax.management.MBeanPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/javax/management/MBeanServerPermission.html" target="_blank"><span class="apiname">javax.management.MBeanServerPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/javax/management/MBeanTrustPermission.html" target="_blank"><span class="apiname">javax.management.MBeanTrustPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/javax/management/remote/SubjectDelegationPermission.html" target="_blank"><span class="apiname">javax.management.remote.SubjectDelegationPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/javax/net/ssl/SSLPermission.html" target="_blank"><span class="apiname">javax.net.ssl.SSLPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/javax/security/auth/AuthPermission.html" target="_blank"><span class="apiname">javax.security.auth.AuthPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/javax/security/auth/PrivateCredentialPermission.html" target="_blank"><span class="apiname">javax.security.auth.PrivateCredentialPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/javax/security/auth/kerberos/DelegationPermission.html" target="_blank"><span class="apiname">javax.security.auth.kerberos.DelegationPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/javax/security/auth/kerberos/ServicePermission.html" target="_blank"><span class="apiname">javax.security.auth.kerberos.ServicePermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/javax/sound/sampled/AudioPermission.html" target="_blank"><span class="apiname">javax.sound.sampled.AudioPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/javax/xml/bind/JAXBPermission.html" target="_blank"><span class="apiname">javax.xml.bind.JAXBPermission</span></a></li>
+<li><a href="https://docs.oracle.com/javase/10/docs/api/javax/xml/ws/WebServicePermission.html" target="_blank"><span class="apiname">javax.xml.ws.WebServicePermission</span></a></li>
+</ul>
+<div class="infobox-note" id="GUID-8D0E8306-0DD8-4802-A71E-CFEE9BF8A287__GUID-B42850C7-683D-464E-B3B3-CCAEF05070B1">
+<p class="notep1">Note:</p>
+<p>See <a href="permissions-jdk1.htm#GUID-83063225-0ACB-4909-9BAB-7F7D4E3749E2" title="A canonical path is a path that doesn't contain any links or shortcuts. Performing path name canonicalization in a FilePermission object can negatively affect performance.">Appendix A: FilePermission Path Name Canonicalization Disabled By Default</a> for important information about a change in how <span class="apiname">FilePermission</span> path names are canonicalized.</p>
+</div>
+</div>
+<div class="sect3"><a id="GUID-8B521D4F-1502-42EA-BA70-8E3322A163B5"></a>
+<h3 id="JSSEC-GUID-8B521D4F-1502-42EA-BA70-8E3322A163B5" class="sect3">Methods and the Permissions They Require</h3>
+<div>
+<p>The following table is a list of methods that require permissions, which <span class="apiname">SecurityManager</span> method they call, and which permission is checked by the default implementation of that <span class="apiname">SecurityManager</span> method.</p>
+<div class="section">
+<div class="infobox-note" id="GUID-8B521D4F-1502-42EA-BA70-8E3322A163B5__GUID-68B0A7D8-17F4-4073-B38F-59C784F0ACC9">
+<p class="notep1">Note:</p>
+This list is not complete; other methods exist that require permissions. See the <a href="https://docs.oracle.com/javase/10/docs/api/overview-summary.html" target="_blank">Java SE and JDK API Specification</a> for additional information on methods that throw <code class="codeph">SecurityException</code> and the permissions that are required.</div>
+<p>In the default <code class="codeph">SecurityManager</code> method implementations, a call to a method in the <span class="bold">Method</span> column can only be successful if the permission specified in the corresponding entry in the <span class="bold">SecurityManager Method</span> column is allowed by the policy currently in effect. For example, consider the following table row:</p>
+<div class="tblformalwide" id="GUID-8B521D4F-1502-42EA-BA70-8E3322A163B5__GUID-B478774A-9BA6-4CE5-BD73-C20B438139BC">
+<table class="cellalignment469" summary="getSystemEventQueue method, the SecurityManager method it calls, and which permission is checked">
+<thead>
+<tr class="cellalignment456">
+<th class="cellalignment467" id="d16535e274">Method</th>
+<th class="cellalignment467" id="d16535e276">SecurityManager Method Called</th>
+<th class="cellalignment467" id="d16535e278">Permission</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment456">
+<td class="cellalignment456" id="d16535e282" headers="d16535e274">
+<pre dir="ltr">
+java.awt.Toolkit
+  public final EventQueue
+    getSystemEventQueue()
+</pre></td>
+<td class="cellalignment456" headers="d16535e282 d16535e276"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" headers="d16535e282 d16535e278"><code class="codeph">java.awt.AWTPermission "accessEventQueue";</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p>This table row specifies that a call to the <span class="apiname">getSystemEventQueue</span> method in the <span class="apiname">java.awt.Toolkit</span> class results in a call to the <span class="apiname">checkPermission</span> <span class="apiname">SecurityManager</span> method, which can only be successful if the following permission is granted to code on the call stack:</p>
+<pre dir="ltr">
+java.awt.AWTPermission "accessEventQueue";
+</pre>
+<p>The table rows have the following format, where the runtime value of <code class="codeph">foo</code> replaces the string <code class="codeph">{foo}</code> in the permission name.</p>
+<div class="tblformalwide" id="GUID-8B521D4F-1502-42EA-BA70-8E3322A163B5__GUID-6621EF67-3A46-40DE-96FA-50E97BEF78B5">
+<table class="cellalignment469" summary="Table row format">
+<thead>
+<tr class="cellalignment456">
+<th class="cellalignment467" id="d16535e324">Method</th>
+<th class="cellalignment467" id="d16535e326">SecurityManager Method Called</th>
+<th class="cellalignment467" id="d16535e328">Permission</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment456">
+<td class="cellalignment456" id="d16535e332" headers="d16535e324">
+<pre dir="ltr">
+some.package.class
+  public static void someMethod(String foo);
+</pre></td>
+<td class="cellalignment456" headers="d16535e332 d16535e326"><span class="apiname">checkXXX</span></td>
+<td class="cellalignment456" headers="d16535e332 d16535e328"><code class="codeph">SomePermission "{foo}";</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p>As an example, here is one table entry:</p>
+<div class="tblformal" id="GUID-8B521D4F-1502-42EA-BA70-8E3322A163B5__GUID-C1CA14D5-9BC1-48E5-BCE9-F2B09F4728B1">
+<table class="cellalignment468" summary="FileInputStream(String) method, the SecurityManager method it calls, and which permission is checked">
+<thead>
+<tr class="cellalignment456">
+<th class="cellalignment467" id="d16535e352">Method</th>
+<th class="cellalignment467" id="d16535e354">SecurityManager Method Called</th>
+<th class="cellalignment467" id="d16535e356">Permission</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment456">
+<td class="cellalignment456" id="d16535e360" headers="d16535e352">
+<pre dir="ltr">
+java.io.FileInputStream
+  FileInputStream(String name)
+</pre></td>
+<td class="cellalignment456" headers="d16535e360 d16535e354"><span class="apiname">checkRead(String)</span></td>
+<td class="cellalignment456" headers="d16535e360 d16535e356"><code class="codeph">java.io.FilePermission "{name}", "read";</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p>If the <code class="codeph">FileInputStream</code> method (in this case, a constructor) is called with <code>"/test/MyTestFile"</code> as the <code class="codeph">name</code> argument, as in</p>
+<pre class="codeblock" dir="ltr">
+FileInputStream("/test/MyTestFile");
+</pre>
+<p>then in order for the call to succeed, the following permission must be set in the current policy, allowing read access to the file <code>"/test/MyTestFile"</code>:</p>
+<pre class="codeblock" dir="ltr">
+java.io.FilePermission "/test/MyTestFile", "read";
+</pre>
+<p>More specifically, the permission must either be explicitly set, as above, or implied by another permission, such as the following:</p>
+<pre class="codeblock" dir="ltr">
+java.io.FilePermission "/test/*", "read";
+</pre>
+<p>which allows read access to any files in the <code class="codeph">"/test"</code> directory.</p>
+<p>In some cases, a term in braces is not exactly the same as the name of a specific method argument but is meant to represent the relevant value. Here is an example:</p>
+<div class="tblformalwide" id="GUID-8B521D4F-1502-42EA-BA70-8E3322A163B5__GUID-3464ACE0-73BF-4DB7-86C4-C4DB82BAE603">
+<table class="cellalignment469" summary="receive(DatagramPacket) method, the SecurityManager method it calls, and which permission is checked">
+<thead>
+<tr class="cellalignment456">
+<th class="cellalignment467" id="d16535e410">Method</th>
+<th class="cellalignment467" id="d16535e412">SecurityManager Method Called</th>
+<th class="cellalignment467" id="d16535e414">Permission</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment456">
+<td class="cellalignment456" id="d16535e418" headers="d16535e410"><code class="codeph">java.net.DatagramSocket public synchronized void receive(DatagramPacket p);</code></td>
+<td class="cellalignment456" headers="d16535e418 d16535e412"><span class="apiname">checkAccept({host}, {port})</span></td>
+<td class="cellalignment456" headers="d16535e418 d16535e414"><code class="codeph">java.net.SocketPermission "{host}:{port}", "accept";</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p>Here, the appropriate host and port values are calculated by the <code class="codeph">receive</code> method and passed to <code class="codeph">checkAccept</code>.</p>
+<p>In most cases, just the name of the SecurityManager method called is listed. Where the method is one of multiple methods of the same name, the argument types are also listed, for example for <code class="codeph">checkRead(String)</code> and <code class="codeph">checkRead(FileDescriptor)</code>. In other cases where arguments may be relevant, they are also listed.</p>
+<p>The following table is ordered by package name; the methods in classes in the <code class="codeph">java.awt</code> package are listed first, followed by methods in classes in the <code class="codeph">java.beans</code> package, and so on:</p>
+<div class="tblformalwide" id="GUID-8B521D4F-1502-42EA-BA70-8E3322A163B5__GUID-8F3D87EA-CF98-4725-95DB-5AFD77C58FE6">
+<p class="titleintable">Table 1-6 Methods and the Permissions</p>
+<table class="cellalignment469" title="Methods and the Permissions" summary="List of methods and the permissions that are required.">
+<thead>
+<tr class="cellalignment456">
+<th class="cellalignment467" rowspan="1" colspan="1" id="d16535e465">Method</th>
+<th class="cellalignment467" rowspan="1" colspan="1" id="d16535e467">SecurityManager Method</th>
+<th class="cellalignment467" rowspan="1" colspan="1" id="d16535e469">Permission</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e473" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.awt.Graphics2d
+  public abstract void
+    setComposite(Composite comp)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e473 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e473 d16535e469"><code class="codeph">java.awt.AWTPermission "readDisplayPixels"</code> if this <span class="apiname">Graphics2D</span> context is drawing to a <span class="apiname">Component</span> on the display screen and the <span class="apiname">Composite</span> is a custom object rather than an instance of the <span class="apiname">AlphaComposite</span> class. Note: The <span class="apiname">setComposite</span> method is actually abstract and thus can't invoke security checks. Each actual implementation of the method should call the <span class="apiname">java.lang.SecurityManager checkPermission</span> method with a <span class="apiname">java.awt.AWTPermission("readDisplayPixels")</span> permission under the conditions noted.</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e507" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.awt.Robot
+  public Robot()
+  public Robot(GraphicsDevice screen)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e507 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e507 d16535e469"><code class="codeph">java.awt.AWTPermission "createRobot"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e518" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.awt.Toolkit
+  public void addAWTEventListener(
+    AWTEventListener listener,
+    long eventMask)
+  public void removeAWTEventListener(
+    AWTEventListener listener)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e518 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e518 d16535e469"><code class="codeph">java.awt.AWTPermission "listenToAllAWTEvents"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e529" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.awt.Toolkit
+  public abstract PrintJob getPrintJob(
+    Frame frame, String jobtitle,
+    Properties props)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e529 d16535e467"><span class="apiname">checkPrintJobAccess</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e529 d16535e469">
+<p><code class="codeph">java.lang.RuntimePermission "queuePrintJob"</code></p>
+<p>Note: The <span class="apiname">getPrintJob</span> method is actually abstract and thus can't invoke security checks. Each actual implementation of the method should call the <span class="apiname">java.lang.SecurityManager checkPrintJobAccess</span> method, which is successful only if the <code class="codeph">java.lang.RuntimePermission "queuePrintJob"</code> permission is currently allowed.</p>
+</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e555" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.awt.Toolkit
+  public abstract Clipboard
+    getSystemClipboard()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e555 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e555 d16535e469">
+<p><code class="codeph">java.awt.AWTPermission "accessClipboard"</code></p>
+<p>Note: The <span class="apiname">getSystemClipboard</span> method is actually abstract and thus can't invoke security checks. Each actual implementation of the method should call the <span class="apiname">checkPermission</span> method, which is successful only if the <code class="codeph">java.awt.AWTPermission "accessClipboard"</code> permission is currently allowed.</p>
+</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e581" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.awt.Toolkit
+  public final EventQueue
+    getSystemEventQueue()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e581 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e581 d16535e469"><code class="codeph">java.awt.AWTPermission "accessEventQueue"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e592" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.awt.Window Window()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e592 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e592 d16535e469">If <code class="codeph">java.awt.AWTPermission "showWindowWithoutWarningBanner"</code> is set, the window will be displayed without a banner warning that the window was created by an applet. It it's not set, such a banner will be displayed.</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e605" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.beans.Beans
+  public static void setDesignTime(
+    boolean isDesignTime)
+  public static void setGuiAvailable(
+    boolean isGuiAvailable)
+
+java.beans.Introspector
+  public static synchronized void
+    setBeanInfoSearchPath(String path[])
+
+java.beans.PropertyEditorManager
+  public static void registerEditor(
+    Class targetType,
+    Class editorClass)
+  public static synchronized void
+    setEditorSearchPath(String path[])
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e605 d16535e467"><span class="apiname">checkPropertiesAccess</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e605 d16535e469"><code class="codeph">java.util.PropertyPermission "*", "read,write"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e616" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.io.File
+  public boolean delete()
+  public void deleteOnExit()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e616 d16535e467"><span class="apiname">checkDelete(String)</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e616 d16535e469"><code class="codeph">java.io.FilePermission "{name}", "delete"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e627" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.io.FileInputStream
+  FileInputStream(FileDescriptor fdObj)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e627 d16535e467"><span class="apiname">checkRead(FileDescriptor)</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e627 d16535e469"><code class="codeph">java.lang.RuntimePermission "readFileDescriptor"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e638" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.io.FileInputStream
+  FileInputStream(String name)
+  FileInputStream(File file)
+
+java.io.File
+  public boolean exists()
+  public boolean canRead()
+  public boolean isFile()
+  public boolean isDirectory()
+  public boolean isHidden()
+  public long lastModified()
+  public long length()
+  public String[] list()
+  public String[] list(
+    FilenameFilter filter)
+  public File[] listFiles()
+  public File[] listFiles(
+    FilenameFilter filter)
+  public File[] listFiles(
+    FileFilter filter)
+
+java.io.RandomAccessFile
+  RandomAccessFile(String name, String mode)
+  RandomAccessFile(File file, String mode)
+</pre>
+<p>(where mode is "r" in both <span class="apiname">RandomAccessFile</span> constructurs)</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e638 d16535e467"><span class="apiname">checkRead(String)</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e638 d16535e469"><code class="codeph">java.io.FilePermission "{name}", "read"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e655" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.io.FileOutputStream
+  FileOutputStream(FileDescriptor fdObj)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e655 d16535e467"><span class="apiname">checkWrite(FileDescriptor)</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e655 d16535e469"><code class="codeph">java.lang.RuntimePermission "writeFileDescriptor"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e666" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.io.FileOutputStream
+  FileOutputStream(File file)
+  FileOutputStream(String name)
+  FileOutputStream(
+    String name,
+    boolean append)
+
+java.io.File
+  public boolean canWrite()
+  public boolean createNewFile()
+  public static File createTempFile(
+    String prefix, String suffix)
+  public static File createTempFile(
+    String prefix,
+    String suffix,
+    File directory)
+  public boolean mkdir()
+  public boolean mkdirs()
+  public boolean renameTo(File dest)
+  public boolean setLastModified(long time)
+  public boolean setReadOnly()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e666 d16535e467"><span class="apiname">checkWrite(String)</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e666 d16535e469"><code class="codeph">java.io.FilePermission "{name}", "write"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e677" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.io.ObjectInputStream
+  protected final boolean
+    enableResolveObject(boolean enable);
+
+java.io.ObjectOutputStream
+  protected final boolean
+    enableReplaceObject(boolean enable)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e677 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e677 d16535e469"><code class="codeph">java.io.SerializablePermission "enableSubstitution"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e688" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.io.ObjectInputStream
+  protected ObjectInputStream()
+
+java.io.ObjectOutputStream
+  protected ObjectOutputStream()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e688 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e688 d16535e469"><code class="codeph">java.io.SerializablePermission "enableSubclassImplementation"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e699" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.io.RandomAccessFile
+  RandomAccessFile(String name, String mode)      
+</pre>
+<p>(where mode is "rw")</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e699 d16535e467"><span class="apiname">checkRead(String)</span> and <span class="apiname">checkWrite(String)</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e699 d16535e469"><code class="codeph">java.io.FilePermission "{name}", "read,write"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e715" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.Class
+  public static Class forName(
+    String name,
+    boolean initialize,
+    ClassLoader loader)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e715 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e715 d16535e469">If <code class="codeph">loader</code> is null, and the caller's class loader is not null, then <span class="apiname">java.lang.RuntimePermission("getClassLoader")</span></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e730" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.Class
+  public ClassLoader getClassLoader()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e730 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e730 d16535e469">If the caller's class loader is null, or is the same as or an ancestor of the class loader for the class whose class loader is being requested, no permission is needed. Otherwise, <code class="codeph">java.lang.RuntimePermission "getClassLoader"</code> is required.</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e743" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.Class
+  public Class[] getDeclaredClasses()
+  public Field[] getDeclaredFields()
+  public Method[] getDeclaredMethods()
+  public Constructor[]
+    getDeclaredConstructors()
+  public Field getDeclaredField(
+    String name)
+  public Method getDeclaredMethod(...)
+  public Constructor
+    getDeclaredConstructor(...)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e743 d16535e467"><span class="apiname">checkMemberAccess(this, Member.DECLARED)</span> and, if this class is in a package, <span class="apiname">checkPackageAccess({pkgName})</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e743 d16535e469">Default <span class="apiname">checkMemberAccess</span> does not require any permissions if "this" class's class loader is the same as that of the caller. Otherwise, it requires <code class="codeph">java.lang.RuntimePermission "accessDeclaredMembers"</code>. If this class is in a package, <code class="codeph">java.lang.RuntimePermission "accessClassInPackage.{pkgName}"</code> is also required.</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e765" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.Class
+  public Class[] getClasses()
+  public Field[] getFields()
+  public Method[] getMethods()
+  public Constructor[] getConstructors()
+  public Field getField(String name)
+  public Method getMethod(...)
+  public Constructor getConstructor(...)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e765 d16535e467"><span class="apiname">checkMemberAccess(this, Member.PUBLIC)</span> and, if class is in a package, <span class="apiname">checkPackageAccess({pkgName})</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e765 d16535e469">Default <span class="apiname">checkMemberAccess</span> does not require any permissions when the access type is <span class="apiname">Member.PUBLIC</span>. If this class is in a package, <code class="codeph">java.lang.RuntimePermission "accessClassInPackage.{pkgName}"</code> is required.</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e787" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.Class
+  public ProtectionDomain
+    getProtectionDomain()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e787 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e787 d16535e469"><code class="codeph">java.lang.RuntimePermission "getProtectionDomain"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e798" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.ClassLoader
+  ClassLoader()
+  ClassLoader(ClassLoader parent)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e798 d16535e467"><span class="apiname">checkCreateClassLoader</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e798 d16535e469"><code class="codeph">java.lang.RuntimePermission "createClassLoader"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e810" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.ClassLoader
+  public static ClassLoader
+    getSystemClassLoader()
+  public ClassLoader getParent()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e810 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e810 d16535e469">If the caller's class loader is null, or is the same as or an ancestor of the class loader for the class whose class loader is being requested, no permission is needed. Otherwise, <code class="codeph">java.lang.RuntimePermission "getClassLoader"</code> is required.</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e823" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.Runtime
+  public Process exec(String command)
+  public Process exec(
+    String command,
+    String envp[])
+  public Process exec(String cmdarray[])
+  public Process exec(
+    String cmdarray[],
+    String envp[])
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e823 d16535e467"><span class="apiname">checkExec</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e823 d16535e469"><code>java.io.FilePermission "{command}", "execute"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e834" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.Runtime
+  public void exit(int status)
+  public static void
+    runFinalizersOnExit(boolean value)
+
+java.lang.System
+  public static void exit(int status)
+  public static void
+    runFinalizersOnExit(boolean value)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e834 d16535e467"><span class="apiname">checkExit(status)</span> where status is 0 for <span class="apiname">runFinalizersOnExit</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e834 d16535e469"><code class="codeph">java.lang.RuntimePermission "exitVM.{status}"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e848" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.Runtime
+  public void addShutdownHook(Thread hook)
+  public boolean removeShutdownHook(Thread hook)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e848 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e848 d16535e469"><code class="codeph">java.lang.RuntimePermission "shutdownHooks"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e859" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.Runtime
+  public void load(String lib)
+  public void loadLibrary(String lib)
+
+java.lang.System
+  public static void load(String filename)
+  public static void loadLibrary(
+    String libname)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e859 d16535e467"><span class="apiname">checkLink({libName})</span> where <span class="apiname">{libName}</span> is the lib, filename or libname argument</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e859 d16535e469"><code class="codeph">java.lang.RuntimePermission "loadLibrary.{libName}"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e874" headers="d16535e465">
+<p><span class="apiname">java.lang.SecurityManager</span> methods</p>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e874 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e874 d16535e469">See <a href="permissions-jdk1.htm#GUID-7423481B-527F-4F15-AF01-992D63521D2E__JAVA.LANG.SECURITYMANAGERMETHODSAND-54E8CA5F" title="This table shows which permissions are checked for by the default implementations of the java.lang.SecurityManager methods.">Table 1-7</a>.</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e894" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.System
+  public static Properties
+    getProperties()
+  public static void
+    setProperties(Properties props)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e894 d16535e467"><span class="apiname">checkPropertiesAccess</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e894 d16535e469"><code class="codeph">java.util.PropertyPermission "*", "read,write"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e905" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.System
+  public static String
+    getProperty(String key)
+  public static String
+    getProperty(String key, String def)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e905 d16535e467"><span class="apiname">checkPropertyAccess</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e905 d16535e469"><code class="codeph">java.util.PropertyPermission "{key}", "read"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e916" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.System
+  public static void setIn(InputStream in)
+  public static void setOut(PrintStream out)
+  public static void setErr(PrintStream err)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e916 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e916 d16535e469"><code class="codeph">java.lang.RuntimePermission "setIO"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e927" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.System
+  public static String
+    setProperty(String key, String value)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e927 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e927 d16535e469"><code class="codeph">java.util.PropertyPermission "{key}", "write"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e938" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.System
+  public static synchronized void
+    setSecurityManager(SecurityManager s)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e938 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e938 d16535e469"><code class="codeph">java.lang.RuntimePermission "setSecurityManager"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e950" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.Thread
+  public ClassLoader getContextClassLoader()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e950 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e950 d16535e469">If the caller's class loader is null, or is the same as or an ancestor of the context class loader for the thread whose context class loader is being requested, no permission is needed. Otherwise, <code class="codeph">java.lang.RuntimePermission "getClassLoader"</code> is required.</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e963" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.Thread
+  public void setContextClassLoader(
+    ClassLoader cl)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e963 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e963 d16535e469"><code class="codeph">java.lang.RuntimePermission "setContextClassLoader"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e974" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.Thread
+  public final void checkAccess()
+  public void interrupt()
+  public final void suspend()
+  public final void resume()
+  public final void setPriority(
+    int newPriority)
+  public final void setName(
+    String name)
+  public final void setDaemon(
+    boolean on)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e974 d16535e467"><span class="apiname">checkAccess(this)</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e974 d16535e469"><code class="codeph">java.lang.RuntimePermission "modifyThread"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e985" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.Thread
+  public static int
+    enumerate(Thread tarray[])
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e985 d16535e467"><span class="apiname">checkAccess({threadGroup})</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e985 d16535e469"><code class="codeph">java.lang.RuntimePermission "modifyThreadGroup"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e996" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.Thread
+  public final void stop()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e996 d16535e467"><span class="apiname">checkAccess(this)</span>. Also <span class="apiname">checkPermission</span> if the current thread is trying to stop a thread other than itself.</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e996 d16535e469"><code class="codeph">java.lang.RuntimePermission "modifyThread".</code> .
+<p>Also <code class="codeph">java.lang.RuntimePermission "stopThread"</code> if the current thread is trying to stop a thread other than itself.</p>
+</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1017" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.Thread
+  public final synchronized void
+    stop(Throwable obj)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1017 d16535e467"><span class="apiname">checkAccess(this)</span>. Also <span class="apiname">checkPermission</span> if the current thread is trying to stop a thread other than itself or <span class="apiname">obj</span> is not an instance of <span class="apiname">ThreadDeath</span>.</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1017 d16535e469"><code class="codeph">java.lang.RuntimePermission "modifyThread".</code>
+<p>Also <code class="codeph">java.lang.RuntimePermission "stopThread"</code> if the current thread is trying to stop a thread other than itself or <span class="apiname">obj</span> is not an instance of <span class="apiname">ThreadDeath</span>.</p>
+</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1050" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.Thread
+  Thread()
+  Thread(Runnable target)
+  Thread(String name)
+  Thread(Runnable target, String name)
+
+java.lang.ThreadGroup
+  ThreadGroup(String name)
+  ThreadGroup(
+    ThreadGroup parent,
+    String name)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1050 d16535e467"><span class="apiname">checkAccess({parentThreadGroup})</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1050 d16535e469"><code class="codeph">java.lang.RuntimePermission "modifyThreadGroup"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1061" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.Thread
+  Thread(ThreadGroup group, ...)
+
+java.lang.ThreadGroup
+  public final void checkAccess()
+  public int enumerate(Thread list[])
+  public int enumerate(
+    Thread list[],
+    boolean recurse)
+  public int enumerate(ThreadGroup list[])
+  public int enumerate(
+    ThreadGroup list[],
+    boolean recurse)
+  public final ThreadGroup getParent()
+  public final void setDaemon(
+    boolean daemon)
+  public final void setMaxPriority(int pri)
+  public final void suspend()
+  public final void resume()
+  public final void destroy()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1061 d16535e467"><span class="apiname">checkAccess(this)</span> for <span class="apiname">ThreadGroup</span> methods, or <span class="apiname">checkAccess(group)</span> for <span class="apiname">Thread</span> methods</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1061 d16535e469"><code class="codeph">java.lang.RuntimePermission "modifyThreadGroup"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1082" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.ThreadGroup
+  public final void interrupt()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1082 d16535e467"><span class="apiname">checkAccess(this)</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1082 d16535e469">Requires <code class="codeph">java.lang.RuntimePermission "modifyThreadGroup"</code>. Also requires <code class="codeph">java.lang.RuntimePermission "modifyThread"</code>, since the <span class="apiname">java.lang.Thread interrupt()</span> method is called for each thread in the thread group and in all of its subgroups. See the <a href="https://docs.oracle.com/javase/10/docs/api/java/lang/Thread.html#interrupt--" target="_blank"><span class="apiname">Thread interrupt()</span></a> method.</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1106" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.ThreadGroup
+  public final void stop()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1106 d16535e467"><span class="apiname">checkAccess(this)</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1106 d16535e469">Requires <code class="codeph">java.lang.RuntimePermission "modifyThreadGroup"</code>. Also requires <code class="codeph">java.lang.RuntimePermission "modifyThread"</code> and possibly <code class="codeph">java.lang.RuntimePermission "stopThread"</code>, since the <span class="apiname">java.lang.Thread stop()</span> method is called for each thread in the thread group and in all of its subgroups. See the <a href="https://docs.oracle.com/javase/10/docs/api/java/lang/Thread.html#stop--" target="_blank"><span class="apiname">Thread stop()</span></a> method.</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1133" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.lang.reflect.AccessibleObject
+  public static void setAccessible(...)
+  public void setAccessible(...)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1133 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1133 d16535e469"><code class="codeph">java.lang.reflect.ReflectPermission "suppressAccessChecks"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1145" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.net.Authenticator
+  public static PasswordAuthentication
+    requestPasswordAuthentication(
+      InetAddress addr,
+      int port,
+      String protocol,
+      String prompt,
+      String scheme)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1145 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1145 d16535e469"><code class="codeph">java.net.NetPermission "requestPasswordAuthentication"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1156" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.net.Authenticator
+  public static void
+    setDefault(Authenticator a)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1156 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1156 d16535e469"><code class="codeph">java.net.NetPermission "setDefaultAuthenticator"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1167" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.net.MulticastSocket
+  public void
+    joinGroup(InetAddress mcastaddr)
+  public void
+    leaveGroup(InetAddress mcastaddr)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1167 d16535e467"><span class="apiname">checkMulticast(InetAddress)</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1167 d16535e469"><code class="codeph">java.net.SocketPermission( mcastaddr.getHostAddress(), "accept,connect")</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1178" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.net.DatagramSocket
+  public void send(DatagramPacket p)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1178 d16535e467"><span class="apiname">checkMulticast(p.getAddress())</span> or <span class="apiname">checkConnect( p.getAddress().getHostAddress(), p.getPort())</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1178 d16535e469">
+<pre dir="ltr">
+if (p.getAddress().isMulticastAddress()) {
+  java.net.SocketPermission(
+    (p.getAddress()).getHostAddress(),
+    "accept,connect")
+} else {
+  port = p.getPort();
+  host = p.getAddress().getHostAddress();
+  if (port == -1)
+    java.net.SocketPermission "{host}","resolve";
+  else
+    java.net.SocketPermission "{host}:{port}","connect";
+}
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1192" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.net.MulticastSocket
+  public synchronized void
+    send(DatagramPacket p, byte ttl)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1192 d16535e467"><span class="apiname">checkMulticast(p.getAddress(), ttl)</span> or <span class="apiname">checkConnect( p.getAddress().getHostAddress(), p.getPort())</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1192 d16535e469">
+<pre dir="ltr">
+if (p.getAddress().isMulticastAddress()) {
+  java.net.SocketPermission(
+    (p.getAddress()).getHostAddress(),
+    "accept,connect")
+} else {
+  port = p.getPort();
+  host = p.getAddress().getHostAddress();
+  if (port == -1)
+    java.net.SocketPermission "{host}","resolve";
+  else
+    java.net.SocketPermission "{host}:{port}","connect"
+}
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1206" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.net.InetAddress
+  public String getHostName()
+  public static InetAddress[]
+    getAllByName(String host)
+  public static InetAddress getLocalHost()
+
+java.net.DatagramSocket
+  public InetAddress getLocalAddress()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1206 d16535e467"><span class="apiname">checkConnect({host}, -1)</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1206 d16535e469"><code class="codeph">java.net.SocketPermission "{host}", "resolve"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1217" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.net.ServerSocket
+  ServerSocket(...)
+
+java.net.DatagramSocket
+  DatagramSocket(...)
+
+java.net.MulticastSocket
+  MulticastSocket(...)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1217 d16535e467"><span class="apiname">checkListen({port})</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1217 d16535e469"><code class="codeph">java.net.SocketPermission "localhost:{port}","listen";</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1229" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.net.ServerSocket
+  public Socket accept()
+  protected final void implAccept(Socket s)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1229 d16535e467"><span class="apiname">checkAccept({host}, {port})</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1229 d16535e469"><code class="codeph">java.net.SocketPermission "{host}:{port}", "accept"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1240" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.net.ServerSocket
+  public static synchronized void
+    setSocketFactory(...)
+
+java.net.Socket
+  public static synchronized void
+    setSocketImplFactory(...)
+
+java.net.URL
+  public static synchronized void
+    setURLStreamHandlerFactory(...)
+
+java.net.URLConnection
+  public static synchronized void
+    setContentHandlerFactory(...)
+  public static void
+    setFileNameMap(FileNameMap map)
+
+java.net.HttpURLConnection
+  public static void
+    setFollowRedirects(boolean set)
+
+java.rmi.activation.ActivationGroup
+  public static synchronized
+    ActivationGroup createGroup(...)
+  public static synchronized void
+    setSystem(ActivationSystem system)
+
+java.rmi.server.RMISocketFactory
+  public synchronized static void
+    setSocketFactory(...)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1240 d16535e467"><span class="apiname">checkSetFactory</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1240 d16535e469"><code class="codeph">java.lang.RuntimePermission "setFactory"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1251" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.net.Socket
+  Socket(...)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1251 d16535e467"><span class="apiname">checkConnect({host}, {port})</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1251 d16535e469"><code class="codeph">java.net.SocketPermission "{host}:{port}", "connect"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1262" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.net.DatagramSocket
+  public synchronized void
+    receive(DatagramPacket p)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1262 d16535e467"><span class="apiname">checkAccept({host}, {port})</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1262 d16535e469"><code class="codeph">java.net.SocketPermission "{host}:{port}", "accept"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1274" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.net.URL URL(...)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1274 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1274 d16535e469"><code class="codeph">java.net.NetPermission "specifyStreamHandler"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1285" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.net.URLClassLoader
+  URLClassLoader(...)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1285 d16535e467"><span class="apiname">checkCreateClassLoader</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1285 d16535e469"><code class="codeph">java.lang.RuntimePermission "createClassLoader"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1296" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.AccessControlContext
+  public AccessControlContext(
+    AccessControlContext acc,
+    DomainCombiner combiner)
+  public DomainCombiner getDomainCombiner()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1296 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1296 d16535e469"><code class="codeph">java.security.SecurityPermission "createAccessControlContext"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1307" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.Identity
+  public void addCertificate(...)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1307 d16535e467"><span class="apiname">checkSecurityAccess("addIdentityCertificate")</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1307 d16535e469"><code class="codeph">java.security.SecurityPermission "addIdentityCertificate"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1318" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.Identity
+  public void removeCertificate(...)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1318 d16535e467"><span class="apiname">checkSecurityAccess("removeIdentityCertificate")</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1318 d16535e469"><code class="codeph">java.security.SecurityPermission "removeIdentityCertificate"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1329" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.Identity
+  public void setInfo(String info)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1329 d16535e467"><span class="apiname">checkSecurityAccess("setIdentityInfo")</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1329 d16535e469"><code class="codeph">java.security.SecurityPermission "setIdentityInfo"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1340" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.Identity
+  public void setPublicKey(PublicKey key)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1340 d16535e467"><span class="apiname">checkSecurityAccess("setIdentityPublicKey")</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1340 d16535e469"><code class="codeph">java.security.SecurityPermission "setIdentityPublicKey"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1351" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.Identity
+  public String toString(...)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1351 d16535e467"><span class="apiname">checkSecurityAccess("printIdentity")</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1351 d16535e469"><code class="codeph">java.security.SecurityPermission "printIdentity"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1362" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.IdentityScope
+  protected static void setSystemScope()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1362 d16535e467"><span class="apiname">checkSecurityAccess("setSystemScope")</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1362 d16535e469"><code class="codeph">java.security.SecurityPermission "setSystemScope"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1373" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.Permission
+  public void checkGuard(Object object)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1373 d16535e467"><span class="apiname">checkPermission(this)</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1373 d16535e469">This <span class="apiname">Permission</span> object is the permission checked.</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1386" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.Policy
+  public static Policy getPolicy()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1386 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1386 d16535e469"><code class="codeph">java.security.SecurityPermission "getPolicy"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1398" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.Policy
+  public static void
+    setPolicy(Policy policy)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1398 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1398 d16535e469"><code class="codeph">java.security.SecurityPermission "setPolicy"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1409" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.Policy
+  public static Policy
+    getInstance(
+      String type,
+      SpiParameter params)
+    getInstance(
+      String type,
+      SpiParameter params,
+      String provider)
+    getInstance(
+      String type,
+      SpiParameter params,
+      Provider provider)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1409 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1409 d16535e469"><code class="codeph">java.security.SecurityPermission "createPolicy.{type}"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1420" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.Provider
+  public synchronized void clear()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1420 d16535e467"><span class="apiname">checkSecurityAccess("clearProviderProperties."+{name})</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1420 d16535e469"><code class="codeph">java.security.SecurityPermission "clearProviderProperties.{name}"</code> where <code class="codeph">name</code> is the provider name.</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1435" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.Provider
+  public synchronized Object
+    put(Object key, Object value)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1435 d16535e467"><span class="apiname">checkSecurityAccess("putProviderProperty."+{name})</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1435 d16535e469"><code class="codeph">java.security.SecurityPermission "putProviderProperty.{name}"</code> where <code class="codeph">name</code> is the provider name.</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1450" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.Provider
+  public synchronized Object
+    remove(Object key)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1450 d16535e467"><span class="apiname">checkSecurityAccess("removeProviderProperty."+{name})</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1450 d16535e469"><code class="codeph">java.security.SecurityPermission "removeProviderProperty.{name}"</code> where <code class="codeph">name</code> is the provider name.</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1465" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.SecureClassLoader
+  SecureClassLoader(...)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1465 d16535e467"><span class="apiname">checkCreateClassLoader</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1465 d16535e469"><code class="codeph">java.lang.RuntimePermission "createClassLoader"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1476" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.Security
+  public static void getProperty(String key)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1476 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1476 d16535e469"><code class="codeph">java.security.SecurityPermission "getProperty.{key}"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1487" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.Security
+  public static int
+    addProvider(Provider provider)
+  public static int
+    insertProviderAt(
+      Provider provider,
+      int position);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1487 d16535e467"><span class="apiname">checkSecurityAccess("insertProvider."+provider.getName())</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1487 d16535e469"><code class="codeph">java.security.SecurityPermission "insertProvider.{name}"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1498" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.Security
+  public static void
+    removeProvider(String name)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1498 d16535e467"><span class="apiname">checkSecurityAccess("removeProvider."+name)</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1498 d16535e469"><code class="codeph">java.security.SecurityPermission "removeProvider.{name}"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1509" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.Security
+  public static void
+    setProperty(String key, String datum)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1509 d16535e467"><span class="apiname">checkSecurityAccess("setProperty."+key)</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1509 d16535e469"><code class="codeph">java.security.SecurityPermission "setProperty.{key}"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1520" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.Signer
+  public PrivateKey getPrivateKey()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1520 d16535e467"><span class="apiname">checkSecurityAccess("getSignerPrivateKey")</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1520 d16535e469"><code class="codeph">java.security.SecurityPermission "getSignerPrivateKey"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1532" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.security.Signer
+  public final void
+    setKeyPair(KeyPair pair)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1532 d16535e467"><span class="apiname">checkSecurityAccess("setSignerKeypair")</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1532 d16535e469"><code class="codeph">java.security.SecurityPermission "setSignerKeypair"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1543" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.sql.DriverManager
+  public static synchronized void
+    setLogWriter(PrintWriter out)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1543 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1543 d16535e469"><code class="codeph">java.sql.SQLPermission "setLog"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1554" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.sql.DriverManager
+  public static synchronized void
+    setLogStream(PrintWriter out)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1554 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1554 d16535e469"><code class="codeph">java.sql.SQLPermission "setLog"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1565" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.util.Locale
+  public static synchronized void
+    setDefault(Locale newLocale)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1565 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1565 d16535e469"><code class="codeph">java.util.PropertyPermission "user.language","write"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1576" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+java.util.zip.ZipFile
+  ZipFile(String name)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1576 d16535e467"><span class="apiname">checkRead</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1576 d16535e469"><code class="codeph">java.io.FilePermission "{name}","read"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1587" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+javax.security.auth.Subject
+  public static Subject getSubject(
+    final AccessControlContext acc)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1587 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1587 d16535e469"><code class="codeph">javax.security.auth.AuthPermission "getSubject"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1598" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+javax.security.auth.Subject
+  public void setReadOnly()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1598 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1598 d16535e469"><code class="codeph">javax.security.auth.AuthPermission "setReadOnly"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1609" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+javax.security.auth.Subject
+  public static Object doAs(
+    final Subject subject,
+    final PrivilegedAction action)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1609 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1609 d16535e469"><code class="codeph">javax.security.auth.AuthPermission "doAs"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1620" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+javax.security.auth.Subject
+  public static Object doAs(
+    final Subject subject,
+    final PrivilegedExceptionAction action)
+    throws
+      java.security.PrivilegedActionException
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1620 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1620 d16535e469"><code class="codeph">javax.security.auth.AuthPermission "doAs"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1631" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+javax.security.auth.Subject
+  public static Object doAsPrivileged(
+    final Subject subject,
+    final PrivilegedAction action,
+    final AccessControlContext acc)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1631 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1631 d16535e469"><code class="codeph">javax.security.auth.AuthPermission "doAsPrivileged"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1642" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+javax.security.auth.Subject
+  public static Object doAsPrivileged(
+    final Subject subject,
+    final PrivilegedExceptionAction action,
+    final AccessControlContext acc)
+      throws
+        java.security.PrivilegedActionException
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1642 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1642 d16535e469"><code class="codeph">javax.security.auth.AuthPermission "doAsPrivileged"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1654" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+javax.security.auth.SubjectDomainCombiner
+  public Subject getSubject()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1654 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1654 d16535e469"><code class="codeph">javax.security.auth.AuthPermission "getSubjectFromDomainCombiner"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1665" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+javax.security.auth.SubjectDomainCombiner
+  public Subject getSubject()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1665 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1665 d16535e469"><code class="codeph">javax.security.auth.AuthPermission "getSubjectFromDomainCombiner"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1676" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+javax.security.auth.login.LoginContext
+  public LoginContext(String name)
+    throws LoginException
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1676 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1676 d16535e469"><code class="codeph">javax.security.auth.AuthPermission "createLoginContext.{name}"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1687" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+javax.security.auth.login.LoginContext
+  public LoginContext(
+    String name,
+    Subject subject)
+    throws LoginException
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1687 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1687 d16535e469"><code class="codeph">javax.security.auth.AuthPermission "createLoginContext.{name}"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1698" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+javax.security.auth.login.LoginContext
+  public LoginContext(
+    String name,
+    CallbackHandler callbackHandler)
+    throws LoginException
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1698 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1698 d16535e469"><code class="codeph">javax.security.auth.AuthPermission "createLoginContext.{name}"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1709" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+javax.security.auth.login.LoginContext
+  public LoginContext(
+    String name,
+    Subject subject,
+    CallbackHandler callbackHandler)
+    throws LoginException
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1709 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1709 d16535e469"><code class="codeph">javax.security.auth.AuthPermission "createLoginContext.{name}"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1720" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+javax.security.auth.login.Configuration
+  public static Configuration
+    getConfiguration()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1720 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1720 d16535e469"><code class="codeph">javax.security.auth.AuthPermission "getLoginConfiguration"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1731" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+javax.security.auth.login.Configuration
+  public static void setConfiguration(
+    Configuration configuration)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1731 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1731 d16535e469"><code class="codeph">javax.security.auth.AuthPermission "setLoginConfiguration"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1742" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+javax.security.auth.login.Configuration
+    public static void refresh()
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1742 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1742 d16535e469"><code class="codeph">javax.security.auth.AuthPermission "refreshLoginConfiguration"</code></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1753" headers="d16535e465">
+<pre class="codeblock" dir="ltr">
+javax.security.auth.login.Configuration
+  public static Configuration
+    getInstance(
+      String type,
+      SpiParameter params)
+    getInstance(
+      String type,
+      SpiParameter params,
+      String provider)
+    getInstance(String type,
+      SpiParameter params,
+      Provider provider)
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1753 d16535e467"><span class="apiname">checkPermission</span></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1753 d16535e469"><code class="codeph">javax.security.auth.AuthPermission "createLoginConfiguration.{type}"</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" --></div>
+</div>
+<div class="sect3"><a id="GUID-7423481B-527F-4F15-AF01-992D63521D2E"></a>
+<h3 id="JSSEC-GUID-7423481B-527F-4F15-AF01-992D63521D2E" class="sect3">java.lang.SecurityManager Method Permission Checks</h3>
+<div>
+<p>The following table shows which permissions are checked by the default implementations of the <span class="apiname">java.lang.SecurityManager</span> methods.</p>
+<div class="section">
+<p>Each of the specified <code class="codeph">check</code> methods calls the <code class="codeph">SecurityManager</code> <code class="codeph">checkPermission</code> method with the specified permission, except for the <code class="codeph">checkConnect</code> and <code class="codeph">checkRead</code> methods that take a context argument. Those methods expect the context to be an <code class="codeph">AccessControlContext</code> and they call the context's <code class="codeph">checkPermission</code> method with the specified permission.</p>
+<div class="tblformalwide" id="GUID-7423481B-527F-4F15-AF01-992D63521D2E__JAVA.LANG.SECURITYMANAGERMETHODSAND-54E8CA5F">
+<p class="titleintable">Table 1-7 java.lang.SecurityManager Methods and Permissions</p>
+<table class="cellalignment469" title="java.lang.SecurityManager Methods and Permissions" summary="This table shows which permissions are checked for by the default implementations of the java.lang.SecurityManager methods.">
+<thead>
+<tr class="cellalignment456">
+<th class="cellalignment467" rowspan="1" colspan="1" id="d16535e1816">Method</th>
+<th class="cellalignment467" rowspan="1" colspan="1" id="d16535e1818">Permission</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1822" headers="d16535e1816">
+<pre dir="ltr">
+public void checkAccept(String host, int port);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1822 d16535e1818">
+<pre dir="ltr">
+java.net.SocketPermission "{host}:{port}", "accept";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1829" headers="d16535e1816">
+<pre dir="ltr">
+public void checkAccess(Thread t);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1829 d16535e1818">
+<pre dir="ltr">
+java.lang.RuntimePermission "modifyThread";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1836" headers="d16535e1816">
+<pre dir="ltr">
+public void checkAccess(ThreadGroup g);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1836 d16535e1818">
+<pre dir="ltr">
+java.lang.RuntimePermission "modifyThreadGroup";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1843" headers="d16535e1816">
+<pre dir="ltr">
+public void checkAwtEventQueueAccess(); 
+</pre>
+<div class="infobox-note" id="GUID-7423481B-527F-4F15-AF01-992D63521D2E__GUID-341E78C2-61D6-4F73-9FDE-A4B190A7A675">
+<p class="notep1">Note:</p>
+This method is deprecated; use instead <span class="apiname">public void checkPermission(Permission perm);</span></div>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1843 d16535e1818">
+<pre dir="ltr">
+java.awt.AWTPermission "accessEventQueue";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1855" headers="d16535e1816">
+<pre dir="ltr">
+public void checkConnect(String host, int port);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1855 d16535e1818">
+<pre dir="ltr">
+if (port == -1) 
+  java.net.SocketPermission "{host}","resolve";
+else
+  java.net.SocketPermission "{host}:{port}","connect";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1862" headers="d16535e1816">
+<pre dir="ltr">
+public void checkConnect(
+  String host,
+  int port,
+  Object context);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1862 d16535e1818">
+<pre dir="ltr">
+if (port == -1)
+  java.net.SocketPermission "{host}","resolve";
+else
+  java.net.SocketPermission "{host}:{port}","connect";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1869" headers="d16535e1816">
+<pre dir="ltr">
+public void checkCreateClassLoader();
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1869 d16535e1818">
+<pre dir="ltr">
+java.lang.RuntimePermission "createClassLoader";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1876" headers="d16535e1816">
+<pre dir="ltr">
+public void checkDelete(String file);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1876 d16535e1818">
+<pre dir="ltr">
+java.io.FilePermission "{file}", "delete";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1883" headers="d16535e1816">
+<pre dir="ltr">
+public void checkExec(String cmd);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1883 d16535e1818">
+<p>if cmd is an absolute path:</p>
+<pre dir="ltr">
+  java.io.FilePermission "{cmd}", "execute";
+</pre>
+<p>else</p>
+<pre dir="ltr">
+  java.io.FilePermission "&lt;&lt;ALL_FILES&gt;&gt;", "execute";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1896" headers="d16535e1816">
+<pre dir="ltr">
+public void checkExit(int status);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1896 d16535e1818">
+<pre dir="ltr">
+java.lang.RuntimePermission "exitVM.{status}";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1903" headers="d16535e1816">
+<pre dir="ltr">
+public void checkLink(String lib);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1903 d16535e1818">
+<pre dir="ltr">
+java.lang.RuntimePermission "loadLibrary.{lib}";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1911" headers="d16535e1816">
+<pre dir="ltr">
+public void checkListen(int port);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1911 d16535e1818">
+<pre dir="ltr">
+java.net.SocketPermission "localhost:{port}","listen";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1920" headers="d16535e1816">
+<pre dir="ltr">
+public void checkMemberAccess(Class clazz, int which);
+</pre>
+<div class="infobox-note" id="GUID-7423481B-527F-4F15-AF01-992D63521D2E__GUID-DBC85F63-49B5-4D97-8D55-44DEDA9E85A8">
+<p class="notep1">Note:</p>
+This method is deprecated; use instead <span class="apiname">public void checkPermission(Permission perm);</span></div>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1920 d16535e1818">
+<pre class="codeblock" dir="ltr">
+if (which != Member.PUBLIC) {
+  if (currentClassLoader() != clazz.getClassLoader()) {
+    checkPermission(
+      new java.lang.RuntimePermission(
+        "accessDeclaredMembers"));
+  }
+}
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1932" headers="d16535e1816">
+<pre dir="ltr">
+public void checkMulticast(InetAddress maddr);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1932 d16535e1818">
+<pre dir="ltr">
+java.net.SocketPermission(
+  maddr.getHostAddress(),"accept,connect");
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1940" headers="d16535e1816">
+<pre dir="ltr">
+public void checkMulticast(InetAddress maddr, byte ttl); 
+</pre>
+<div class="infobox-note" id="GUID-7423481B-527F-4F15-AF01-992D63521D2E__GUID-F5833522-623D-4DDC-8982-E850310DB54B">
+<p class="notep1">Note:</p>
+This method is deprecated; use instead <span class="apiname">public void checkPermission(Permission perm);</span></div>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1940 d16535e1818">
+<pre dir="ltr">
+java.net.SocketPermission(
+  maddr.getHostAddress(),"accept,connect");
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1952" headers="d16535e1816">
+<pre dir="ltr">
+public void checkPackageAccess(String pkg);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1952 d16535e1818">
+<pre dir="ltr">
+java.lang.RuntimePermission "accessClassInPackage.{pkg}";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1959" headers="d16535e1816">
+<pre dir="ltr">
+public void checkPackageDefinition(String pkg);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1959 d16535e1818">
+<pre dir="ltr">
+java.lang.RuntimePermission "defineClassInPackage.{pkg}";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1966" headers="d16535e1816">
+<pre dir="ltr">
+public void checkPrintJobAccess();
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1966 d16535e1818">
+<pre dir="ltr">
+java.lang.RuntimePermission "queuePrintJob";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1973" headers="d16535e1816">
+<pre dir="ltr">
+public void checkPropertiesAccess();
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1973 d16535e1818">
+<pre dir="ltr">
+java.util.PropertyPermission "*", "read,write";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1980" headers="d16535e1816">
+<pre dir="ltr">
+public void checkPropertyAccess(String key);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1980 d16535e1818">
+<pre dir="ltr">
+java.util.PropertyPermission "{key}", "read,write";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1987" headers="d16535e1816">
+<pre dir="ltr">
+public void checkRead(FileDescriptor fd);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1987 d16535e1818">
+<pre dir="ltr">
+java.lang.RuntimePermission "readFileDescriptor";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e1994" headers="d16535e1816">
+<pre dir="ltr">
+public void checkRead(String file);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e1994 d16535e1818">
+<pre dir="ltr">
+java.io.FilePermission "{file}", "read";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e2002" headers="d16535e1816">
+<pre dir="ltr">
+public void checkRead(String file, Object context);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2002 d16535e1818">
+<pre dir="ltr">
+java.io.FilePermission "{file}", "read";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e2009" headers="d16535e1816">
+<pre dir="ltr">
+public void checkSecurityAccess(String target);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2009 d16535e1818">
+<pre dir="ltr">
+java.security.SecurityPermission "{target}";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e2016" headers="d16535e1816">
+<pre dir="ltr">
+public void checkSetFactory();
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2016 d16535e1818">
+<pre dir="ltr">
+java.lang.RuntimePermission "setFactory";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e2023" headers="d16535e1816">
+<pre dir="ltr">
+public void checkSystemClipboardAccess(); 
+</pre>
+<div class="infobox-note" id="GUID-7423481B-527F-4F15-AF01-992D63521D2E__GUID-71A2C528-CA6C-4E44-8477-07986428B883">
+<p class="notep1">Note:</p>
+This method is deprecated; use instead <span class="apiname">public void checkPermission(Permission perm);</span></div>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2023 d16535e1818">
+<pre dir="ltr">
+java.awt.AWTPermission "accessClipboard";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e2035" headers="d16535e1816">
+<pre dir="ltr">
+public boolean checkTopLevelWindow(Object window); 
+</pre>
+<div class="infobox-note" id="GUID-7423481B-527F-4F15-AF01-992D63521D2E__GUID-233879A0-8AD7-4324-8032-452BEC294AE0">
+<p class="notep1">Note:</p>
+This method is deprecated; use instead <span class="apiname">public void checkPermission(Permission perm);</span></div>
+</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2035 d16535e1818">
+<pre dir="ltr">
+java.awt.AWTPermission "showWindowWithoutWarningBanner";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e2047" headers="d16535e1816">
+<pre dir="ltr">
+public void checkWrite(FileDescriptor fd);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2047 d16535e1818">
+<pre dir="ltr">
+java.lang.RuntimePermission "writeFileDescriptor";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e2054" headers="d16535e1816">
+<pre dir="ltr">
+public void checkWrite(String file);
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2054 d16535e1818">
+<pre dir="ltr">
+java.io.FilePermission "{file}", "write";
+</pre></td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e2061" headers="d16535e1816">
+<pre dir="ltr">
+public SecurityManager();
+</pre></td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2061 d16535e1818">
+<pre dir="ltr">
+java.lang.RuntimePermission "createSecurityManager";
+</pre></td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" --></div>
+</div>
+</div>
+<div class="sect2"><a id="GUID-789089CA-8557-4017-B8B0-6899AD3BA18D"></a>
+<h2 id="JSSEC-GUID-789089CA-8557-4017-B8B0-6899AD3BA18D" class="sect2">Default Policy Implementation and Policy File Syntax</h2>
+<div>
+<p>The policy for a Java programming language application environment (specifying which permissions are available for code from various sources, and executing as various principals) is represented by a Policy object. More specifically, it is represented by a <code class="codeph">Policy</code> subclass providing an implementation of the abstract methods in the <code class="codeph">Policy</code> class (which is in the <code class="codeph">java.security</code> package).</p>
+<p>The source location for the policy information utilized by the Policy object is up to the Policy implementation. The Policy reference implementation obtains its information from static policy configuration files.</p>
+<p>The rest of this document pertains to the Policy reference implementation and the syntax that must be used in policy files it reads:</p>
+<ul style="list-style-type: disc;">
+<li><a href="permissions-jdk1.htm#GUID-233A73E2-33C6-4DD0-9EA9-8921ADF40358" title="In the Policy reference implementation, the policy can be specified within one or more policy configuration files. The configuration file(s) specify what permissions are allowed for code from a specified code source, and executed by a specified principal. Each configuration file must be encoded in UTF-8.">Default Policy Implementation</a></li>
+<li><a href="permissions-jdk1.htm#GUID-BFF84712-05CF-4C1E-926F-411FDF83AE32" title="There is by default a single system-wide policy file, and a single (optional) user policy file. When the Policy is initialized, the system policy is loaded in first, and then the user policy is added to it. If neither policy is present, a built-in policy is used. This built-in policy is the same as the java.policy file installed with the JRE.">Default Policy File Locations</a></li>
+<li><a href="permissions-jdk1.htm#GUID-75C71299-8B56-4AC9-A83F-41BC14535545" title="The Policy reference implementation can be modified by editing the security properties file, which is the java.security file in the conf/security directory of the JDK.">Modifying the Policy Implementation</a></li>
+<li><a href="permissions-jdk1.htm#GUID-7942E6F8-8AAB-4404-9FE9-E08DD6FFCFFA" title="The policy configuration file(s) for a JDK installation specifies what permissions (which types of system resource accesses) are granted to code from a specified code source, and executed as a specified principal.">Policy File Syntax</a></li>
+<li><a href="permissions-jdk1.htm#GUID-CE19E4A6-897A-47E1-B6AB-3E49327F7364">Policy File Examples</a></li>
+<li><a href="permissions-jdk1.htm#GUID-B614FBFF-0C3C-42F3-B766-DE709CA4D73A" title="Property expansion is possible in policy files and in the security properties file.">Property Expansion in Policy Files</a></li>
+<li><a href="permissions-jdk1.htm#GUID-6DB03078-DAD5-4A2C-9DF9-58A8F2FA802C" title="The file path specifications on Windows systems should include two backslashes for each actual single backslash.">Windows Systems, File Paths, and Property Expansion</a></li>
+<li><a href="permissions-jdk1.htm#GUID-6ACBD24A-F4B8-4B32-BAA4-949199273BE5">General Expansion in Policy Files</a></li>
+</ul>
+</div>
+<div class="sect3"><a id="GUID-233A73E2-33C6-4DD0-9EA9-8921ADF40358"></a>
+<h3 id="JSSEC-GUID-233A73E2-33C6-4DD0-9EA9-8921ADF40358" class="sect3">Default Policy Implementation</h3>
+<div>
+<p>In the Policy reference implementation, the policy can be specified within one or more policy configuration files. The configuration file(s) specify what permissions are allowed for code from a specified code source, and executed by a specified principal. Each configuration file must be encoded in UTF-8.</p>
+<p>There is by default a single system-wide policy file, and a single (optional) user policy file. By default, permissions required by JDK modules that are loaded by the platform class loader or its ancestors are always granted.</p>
+<p>The Policy reference implementation is initialized the first time its <span class="apiname">getPermissions</span> method is called, or whenever its <span class="apiname">refresh</span> method is called. Initialization involves parsing the policy configuration file(s) (see <a href="permissions-jdk1.htm#GUID-7942E6F8-8AAB-4404-9FE9-E08DD6FFCFFA" title="The policy configuration file(s) for a JDK installation specifies what permissions (which types of system resource accesses) are granted to code from a specified code source, and executed as a specified principal.">Policy File Syntax</a>), and then populating the <span class="apiname">Policy</span> object.</p>
+</div>
+</div>
+<div class="sect3"><a id="GUID-BFF84712-05CF-4C1E-926F-411FDF83AE32"></a>
+<h3 id="JSSEC-GUID-BFF84712-05CF-4C1E-926F-411FDF83AE32" class="sect3">Default Policy File Locations</h3>
+<div>
+<p>There is by default a single system-wide policy file, and a single (optional) user policy file. When the Policy is initialized, the system policy is loaded in first, and then the user policy is added to it. If neither policy is present, a built-in policy is used. This built-in policy is the same as the <code class="codeph">java.policy</code> file installed with the JRE.</p>
+<div class="section">
+<p class="subhead3">System Policy File Locations</p>
+<p>By default, the system policy file is <code><span class="variable">&lt;java-home&gt;</span>/conf/security/java.policy</code>.</p>
+<p>The system policy file is meant to grant system-wide code permissions. The <code class="codeph">java.policy</code> file installed with the JDK allows anyone to listen on dynamic ports, and allows any code to read certain "standard" properties that are not security-sensitive, such as the <code class="codeph">os.name</code> and <code class="codeph">file.separator</code> properties.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead3">User Policy File Location</p>
+<p>By default, the user policy file is <code><span class="variable">&lt;user-home&gt;</span>/.java.policy</code>.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead3">Policy File Location and Format</p>
+<p>Policy file locations are specified in the security properties file <code><span class="variable">&lt;java-home&gt;</span>/conf/security/java.security</code>.</p>
+<p>The policy file locations are specified as the values of properties whose names are of the following form:</p>
+<pre class="codeblock" dir="ltr">
+policy.url.<span class="variable">n</span>
+</pre>
+<p>Here, <code class="codeph"><span class="variable">n</span></code> is a number. You specify each such property value in a line of the following form:</p>
+<pre dir="ltr">
+policy.url.<span class="variable">n</span>=<span class="variable">URL</span>
+</pre>
+<p>Here, <code class="codeph"><span class="variable">URL</span></code> is a URL specification. For example, the default system and user policy files are defined in the security properties file as:</p>
+<pre class="codeblock" dir="ltr">
+policy.url.1=file:${java.home}/conf/security/java.policy
+policy.url.2=file:${user.home}/.java.policy
+</pre>
+<p>(See <a href="permissions-jdk1.htm#GUID-B614FBFF-0C3C-42F3-B766-DE709CA4D73A" title="Property expansion is possible in policy files and in the security properties file.">Property Expansion in Policy Files</a> for information about specifying property values via a special syntax, such as specifying the <code class="codeph">java.home</code> property value via <code class="codeph">${java.home}</code>.)</p>
+<p>You can actually specify a number of URLs (including ones of the form "<code class="codeph">http://</code>"), and all the designated policy files will get loaded. You can also comment out or change the second one to disable reading the default user policy file.</p>
+<p>The algorithm starts at <code class="codeph">policy.url.1</code>, and keeps incrementing until it does not find a URL. Thus if you have <code class="codeph">policy.url.1</code> and <code class="codeph">policy.url.3</code>, and <code class="codeph">policy.url.3</code> will never be read.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead3">Specifying an Additional Policy File at Runtime</p>
+<p>It is also possible to specify an additional or a different policy file when invoking execution of an application. This can be done via the <code class="codeph"><code>-Djava.security.policy</code></code> command line argument, which sets the value of the <code class="codeph">java.security.policy</code> property. For example, if you use following command, where <code class="codeph"><span class="variable">someURL</span></code> is a URL specifying the location of a policy file, then the specified policy file will be loaded in addition to all the policy files that are specified in the security properties file.</p>
+<pre class="codeblock" dir="ltr">
+java -Djava.security.manager -Djava.security.policy=<span class="variable">someURL</span> SomeApp
+</pre>
+<p>The URL can be any regular URL or simply the name of a policy file in the current directory, as in:</p>
+<pre dir="ltr">
+java -Djava.security.manager -Djava.security.policy=mypolicy SomeApp
+</pre>
+<p>The <code class="codeph">-Djava.security.manager</code> option ensures that the default security manager is installed, and thus the application is subject to policy checks. It is not required if the application <span class="apiname">SomeApp</span> installs a security manager.</p>
+<p>If you use the following command (note the double equals) then <span class="italic">just</span> the specified policy file will be used; all the ones indicated in the security properties file will be ignored.</p>
+<pre class="codeblock" dir="ltr">
+java -Djava.security.manager -Djava.security.policy==<span class="variable">someURL</span> SomeApp
+</pre>
+<div class="infobox-note" id="GUID-BFF84712-05CF-4C1E-926F-411FDF83AE32__GUID-0823E8DD-1B7F-4ACF-A012-5CB995B6F184">
+<p class="notep1">Note:</p>
+The policy file value of the <code class="codeph">-Djava.security.policy</code> option is ignored if the <code class="codeph">policy.allowSystemProperty</code>property in the security properties file is set to false. The default is true.</div>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect3"><a id="GUID-75C71299-8B56-4AC9-A83F-41BC14535545"></a>
+<h3 id="JSSEC-GUID-75C71299-8B56-4AC9-A83F-41BC14535545" class="sect3">Modifying the Policy Implementation</h3>
+<div>
+<p>The Policy reference implementation can be modified by editing the security properties file, which is the <code class="codeph">java.security</code> file in the <code>conf/security</code> directory of the JDK.</p>
+<p>An alternative policy class can be given to replace the Policy reference implementation class, as long as the former is a subclass of the abstract Policy class and implements the <span class="apiname">getPermissions</span> method (and other methods as necessary).</p>
+<p>One of the types of properties you can set in <code class="codeph">java.security</code> is of the following form:</p>
+<pre class="codeblock" dir="ltr">
+    policy.provider=<span class="variable">PolicyClassName</span>
+</pre>
+<p><span class="variable">PolicyClassName</span> must specify the fully qualified name of the desired <code class="codeph">Policy</code> implementation class.</p>
+<p>The default security properties file entry for this property is the following:</p>
+<pre class="codeblock" dir="ltr">
+    policy.provider=sun.security.provider.PolicyFile
+</pre>
+<p>To customize, you can change the property value to specify another class, as in</p>
+<pre class="codeblock" dir="ltr">
+    policy.provider=com.mycom.MyPolicy
+</pre></div>
+</div>
+<div class="sect3"><a id="GUID-7942E6F8-8AAB-4404-9FE9-E08DD6FFCFFA"></a>
+<h3 id="JSSEC-GUID-7942E6F8-8AAB-4404-9FE9-E08DD6FFCFFA" class="sect3">Policy File Syntax</h3>
+<div>
+<p>The policy configuration file(s) for a JDK installation specifies what permissions (which types of system resource accesses) are granted to code from a specified code source, and executed as a specified principal.</p>
+<p>For an applet (or an application running under a security manager) to be allowed to perform secured actions (such as reading or writing a file), the applet (or application) must be granted permission for that particular action. In the Policy reference implementation, that permission must be granted by a grant entry in a policy configuration file. See below and the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/spec/security-spec.doc.html" target="_blank">Java Security Architecture Specification</a> for more information. (The only exception is that code always automatically has permission to read files from its same (URL) location, and subdirectories of that location; it does not need explicit permission to do so.)</p>
+<p>A policy configuration file essentially contains a list of entries. It may contain a "keystore" entry, and contains zero or more "grant" entries.</p>
+</div>
+<div class="sect4"><a id="GUID-97EFF17D-2BD7-45E5-AA80-AF1F000B6B83"></a>
+<h4 id="JSSEC-GUID-97EFF17D-2BD7-45E5-AA80-AF1F000B6B83" class="sect4">Keystore Entry</h4>
+<div>
+<p>A <span class="variable">keystore</span> is a database of private keys and their associated digital certificates such as X.509 certificate chains authenticating the corresponding public keys. The <a class="olink JSWOR-GUID-5990A2E4-78E3-47B7-AE75-6D1826259549" target="_blank" href="../tools/keytool.htm#JSWOR-GUID-5990A2E4-78E3-47B7-AE75-6D1826259549">keytool</a> utility is used to create and administer keystores. The keystore specified in a policy configuration file is used to look up the public keys of the signers specified in the grant entries of the file. A keystore entry must appear in a policy configuration file if any grant entries specify signer aliases, or if any grant entries specify principal aliases.</p>
+<p>At this time, there can be only one <code class="codeph">keystore</code>/<code class="codeph">keystorePasswordURL</code> entry in the policy file (other entries following the first one are ignored). This entry can appear anywhere outside the file's grant entries. It has the following syntax:</p>
+<pre class="codeblock" dir="ltr">
+keystore "some_keystore_url", "keystore_type", "keystore_provider";
+keystorePasswordURL "some_password_url";
+</pre>
+<p>Here,</p>
+<dl>
+<dt class="dlterm"><a id="GUID-97EFF17D-2BD7-45E5-AA80-AF1F000B6B83__GUID-FA48724B-29BB-4C7C-A743-CC61DFD564A3"><!-- --></a>some_keystore_url</dt>
+<dd>Specifies the URL location of the keystore.</dd>
+<dt class="dlterm"><a id="GUID-97EFF17D-2BD7-45E5-AA80-AF1F000B6B83__GUID-B2EE8EF8-E6D6-477E-9B9F-2FC39C56A2B5"><!-- --></a>some_password_url</dt>
+<dd>Specifies the URL location of the keystore password.</dd>
+<dt class="dlterm"><a id="GUID-97EFF17D-2BD7-45E5-AA80-AF1F000B6B83__GUID-8F0D4F20-7003-4BE8-9D1B-40A9C65DF0ED"><!-- --></a>keystore_type</dt>
+<dd>Specifies the keystore type.</dd>
+<dt class="dlterm"><a id="GUID-97EFF17D-2BD7-45E5-AA80-AF1F000B6B83__GUID-03504CED-F2F0-43FE-8C89-3AC56AD7F31F"><!-- --></a>keystore_provider</dt>
+<dd>Specifies the keystore provider.</dd>
+</dl>
+<div class="p">
+<div class="infobox-note" id="GUID-97EFF17D-2BD7-45E5-AA80-AF1F000B6B83__GUID-13F2C15E-2BE1-4472-A851-140FC0A69AF5">
+<p class="notep1">Note:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>The input stream from <code class="codeph">some_keystore_url</code> is passed to the <span class="apiname">KeyStore.load</span> method.</p>
+</li>
+<li>
+<p>If NONE is specified as the URL, then a null stream is passed to the <span class="apiname">KeyStore.load</span> method. NONE should be specified in the URL if the KeyStore is not file-based. For example, if it resides on a hardware token device.</p>
+</li>
+<li>
+<p>The URL is relative to the policy file location. If the policy file is specified in the security properties file as:</p>
+<pre class="codeblock" dir="ltr">
+    policy.url.1=http://foo.example.com/fum/some.policy
+</pre>
+<p>and that policy file has an entry:</p>
+<pre class="codeblock" dir="ltr">
+    keystore ".keystore";
+</pre>
+<p>then the keystore will be loaded from:</p>
+<pre class="codeblock" dir="ltr">
+    http://foo.example.com/fum/.keystore
+</pre></li>
+<li>
+<p>The URL can also be absolute.</p>
+</li>
+</ul>
+</div>
+</div>
+<p>A <span class="bold">keystore type</span> defines the storage and data format of the keystore information, and the algorithms used to protect private keys in the keystore and the integrity of the keystore itself. The default type is "PKCS12". Thus, if the keystore type is "PKCS12", it does not need to be specified in the keystore entry.</p>
+</div>
+</div>
+<div class="sect4"><a id="GUID-6E1C0535-58D9-443E-9361-6C9BABB0DCD0"></a>
+<h4 id="JSSEC-GUID-6E1C0535-58D9-443E-9361-6C9BABB0DCD0" class="sect4">Grant Entries</h4>
+<div>
+<p>Code being executed is always considered to come from a particular "code source" (represented by an object of type <code class="codeph">CodeSource</code>). The code source includes not only the location (URL) where the code originated from, but also a reference to the certificate(s) containing the public key(s) corresponding to the private key(s) used to sign the code. Certificates in a code source are referenced by symbolic alias names from the user's keystore. Code is also considered to be executed as a particular principal (represented by an object of type <code class="codeph">Principal</code>), or group of principals.</p>
+<p>Each <span class="bold">grant entry</span> includes one or more "permission entries" preceded by optional <code class="codeph">codeBase</code>, <code class="codeph">signedBy</code>, and principal name/value pairs that specify which code you want to grant the permissions. The basic format of a grant entry is the following:</p>
+<pre class="codeblock" dir="ltr">
+  grant signedBy "<span class="variable">signer_names</span>", codeBase "<span class="variable">URL</span>",
+        principal <span class="variable">principal_class_name</span> "<span class="variable">principal_name</span>",
+        principal <span class="variable">principal_class_name</span> "<span class="variable">principal_name</span>",
+        ... {
+
+      permission <span class="variable">permission_class_name</span> "<span class="variable">target_name</span>", "<span class="variable">action</span>", 
+          signedBy "<span class="variable">signer_names</span>";
+      permission <span class="variable">permission_class_name</span> "<span class="variable">target_name</span>", "<span class="variable">action</span>", 
+          signedBy "<span class="variable">signer_names</span>";
+      ...
+  };
+        
+</pre>
+<p>All non-italicized items above must appear as is (although case doesn't matter and some are optional, as noted below). Italicized items represent variable values.</p>
+<p>A grant entry must begin with the word <code class="codeph">grant</code>.</p>
+</div>
+</div>
+<div class="sect4"><a id="GUID-7450CEFD-8EDC-495E-A7A3-6C2561FA4999"></a>
+<h4 id="JSSEC-GUID-7450CEFD-8EDC-495E-A7A3-6C2561FA4999" class="sect4">The SignedBy, Principal, and CodeBase Fields</h4>
+<div>
+<p>The <code class="codeph">signedBy</code>, <code class="codeph">codeBase</code>, and <code class="codeph">principal</code> values are optional, and the order of these fields does not matter.</p>
+<p>A <code class="codeph">signedBy</code> value indicates the alias for a certificate stored in the keystore. The public key within that certificate is used to verify the digital signature on the code; you grant the permission(s) to code signed by the private key corresponding to the public key in the keystore entry specified by the alias.</p>
+<p>The <code class="codeph">signedBy</code> value can be a comma-separated list of multiple aliases. An example is "Adam,Eve,Charles", which means "signed by Adam and Eve and Charles"; the relationship is AND, not OR. To be more exact, a statement like "Code signed by Adam" means "Code in a class file contained in a JAR which is signed using the private key corresponding to the public key certificate in the keystore whose entry is aliased by Adam".</p>
+<p>The <code class="codeph">signedBy</code> field is optional in that, if it is omitted, it signifies "any signer". It doesn't matter whether the code is signed or not or by whom.</p>
+<p>A principal value specifies a <code class="codeph">class_name</code>/<code class="codeph">principal_name</code> pair which must be present within the executing thread's principal set. The principal set is associated with the executing code by way of a Subject.</p>
+<p>The <code class="codeph">principal_class_name</code> may be set to the wildcard value, *, which allows it to match any <code class="codeph">Principal</code> class. In addition, the <code class="codeph">principal_name</code> may also be set to the wildcard value, *, allowing it to match any <code class="codeph">Principal</code> name. When setting the <code class="codeph">principal_class_name</code> or <code class="codeph">principal_name</code> to *, do not surround the * with quotes. Also, if you specify a wildcard principal class, you must also specify a wildcard principal name.</p>
+<p>The principal field is optional in that, if it is omitted, it signifies "any principals".</p>
+</div>
+</div>
+<div class="sect4"><a id="GUID-2636C14A-A783-447A-BE7F-3BF031076117"></a>
+<h4 id="JSSEC-GUID-2636C14A-A783-447A-BE7F-3BF031076117" class="sect4">KeyStore Alias Replacement</h4>
+<div>
+<p>If the principal <code class="codeph">class_name</code>/<code class="codeph">principal_name</code> pair is specified as a single quoted string, then it is treated as a keystore alias. The keystore is consulted and queried (via the alias) for an X509 Certificate. If one is found, the principal class_name is automatically treated as <code class="codeph">javax.security.auth.x500.X500Principal</code>, and the <code class="codeph">principal_name</code> is automatically treated as the subject distinguished name from the certificate. If an X509 Certificate mapping is not found, the entire grant entry is ignored.</p>
+<p>A <code class="codeph">codeBase</code> value indicates the code source location; you grant the permission(s) to code from that location. An empty <code class="codeph">codeBase</code> entry signifies "any code"; it doesn't matter where the code originates from.</p>
+<div class="p">
+<div class="infobox-note" id="GUID-2636C14A-A783-447A-BE7F-3BF031076117__GUID-797C0C75-D6F7-479D-A274-5836E058C003">
+<p class="notep1">Note:</p>
+A <code class="codeph">codeBase</code> value is a URL and thus should always utilize slashes (never backslashes) as the directory separator, even when the code source is actually on a Windows system. Thus, if the source location for code on a Windows system is actually <code>C:\somepath\api\</code>, then the policy <code class="codeph">codeBase</code> entry should look like:
+<pre class="codeblock" dir="ltr">
+    grant codeBase "file:/C:/somepath/api/" {
+        ...
+    };
+</pre></div>
+</div>
+<p>The exact meaning of a <code class="codeph">codeBase</code> value depends on the characters at the end. A <code class="codeph">codeBase</code> with a trailing <code class="codeph">"/"</code> matches all class files (not JAR files) in the specified directory. A <code class="codeph">codeBase</code> with a trailing <code class="codeph">"/*"</code> matches all files (both class and JAR files) contained in that directory. A <code class="codeph">codeBase</code> with a trailing <code class="codeph">"/-"</code> matches all files (both class and JAR files) in the directory and recursively all files in subdirectories contained in that directory. The following table illustrates the different cases:</p>
+<div class="tblformalwide" id="GUID-2636C14A-A783-447A-BE7F-3BF031076117__GUID-5FFCB962-D29F-444C-955E-7FD6F5F06472">
+<p class="titleintable">Table 1-8 KeyStore Alias</p>
+<table class="cellalignment469" title="KeyStore Alias" summary="Table with different cases">
+<thead>
+<tr class="cellalignment456">
+<th class="cellalignment467" rowspan="1" colspan="1" id="d16535e2728">Codebase URL of Downloaded Code</th>
+<th class="cellalignment467" rowspan="1" colspan="1" id="d16535e2730">Codebase URL in Policy</th>
+<th class="cellalignment467" rowspan="1" colspan="1" id="d16535e2732">Match?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e2736" headers="d16535e2728">www.example.com/people/gong/</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2736 d16535e2730">www.example.com/people/gong</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2736 d16535e2732">Yes</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e2743" headers="d16535e2728">www.example.com/people/gong/</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2743 d16535e2730">www.example.com/people/gong/</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2743 d16535e2732">Yes</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e2750" headers="d16535e2728">www.example.com/people/gong/</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2750 d16535e2730">www.example.com/people/gong/*</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2750 d16535e2732">Yes</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e2757" headers="d16535e2728">www.example.com/people/gong/</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2757 d16535e2730">www.example.com/people/gong/-</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2757 d16535e2732">Yes</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e2764" headers="d16535e2728">www.example.com/people/gong/appl.jar</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2764 d16535e2730">www.example.com/people/gong/</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2764 d16535e2732">No</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e2771" headers="d16535e2728">www.example.com/people/gong/appl.jar</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2771 d16535e2730">www.example.com/people/gong/-</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2771 d16535e2732">Yes</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e2778" headers="d16535e2728">www.example.com/people/gong/appl.jar</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2778 d16535e2730">www.example.com/people/gong/*</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2778 d16535e2732">Yes</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e2785" headers="d16535e2728">www.example.com/people/gong/appl.jar</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2785 d16535e2730">www.example.com/people/-</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2785 d16535e2732">Yes</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e2792" headers="d16535e2728">www.example.com/people/gong/appl.jar</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2792 d16535e2730">www.example.com/people/*</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2792 d16535e2732">No</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e2799" headers="d16535e2728">www.example.com/people/gong/</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2799 d16535e2730">www.example.com/people/-</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2799 d16535e2732">Yes</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" rowspan="1" colspan="1" id="d16535e2806" headers="d16535e2728">www.example.com/people/gong/</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2806 d16535e2730">www.example.com/people/*</td>
+<td class="cellalignment456" rowspan="1" colspan="1" headers="d16535e2806 d16535e2732">No</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+</div>
+<div class="sect4"><a id="GUID-696D4901-33DD-434E-9C25-09EC5AB4D3AB"></a>
+<h4 id="JSSEC-GUID-696D4901-33DD-434E-9C25-09EC5AB4D3AB" class="sect4">The Permission Entries</h4>
+<div>
+<p>A <span class="bold">permission entry</span> must begin with the word <code class="codeph">permission</code>. The word <code class="codeph"><span class="variable">permission_class_name</span></code> in the template above would actually be a specific permission type, such as <code class="codeph">java.io.FilePermission</code> or <code class="codeph">java.lang.RuntimePermission</code>.</p>
+<p>The "<span class="variable">action</span>" is required for many permission types, such as <code class="codeph">java.io.FilePermission</code> (where it specifies what type of file access is permitted). It is not required for categories such as <code class="codeph">java.lang.RuntimePermission</code> where it is not necessary, you either have the permission specified by the "<code class="codeph"><span class="variable">target_name</span></code>" value following the <span class="variable">permission_class_name</span> or you don't.</p>
+<p>The <code class="codeph">signedBy</code> name/value pair for a permission entry is optional. If present, it indicates a signed permission. That is, the permission class itself must be signed by the given alias(es) in order for the permission to be granted. For example, suppose you have the following grant entry:</p>
+<pre class="codeblock" dir="ltr">
+  grant {
+      permission Foo "foobar", signedBy "FooSoft";
+  };
+</pre>
+<p>Then this permission of type <span class="variable">Foo</span> is granted if the <code class="codeph">Foo.class</code> permission was placed in a JAR file and the JAR file was signed by the private key corresponding to the public key in the certificate specified by the "FooSoft" alias, or if <code class="codeph">Foo.class</code> is a system class, since system classes are not subject to policy restrictions.</p>
+<p>Items that appear in a permission entry must appear in the specified order (<code class="codeph">permission</code>, <span class="variable">permission_class_name</span>, "<span class="variable">target_name</span>", "<span class="variable">action</span>", and <code class="codeph">signedBy</code> "<span class="variable">signer_names</span>"). An entry is terminated with a semicolon.</p>
+<p>Case is unimportant for the identifiers (<code class="codeph">permission</code>, <code class="codeph">signedBy</code>, <code class="codeph">codeBase</code>, etc.) but is significant for the <span class="variable">permission_class_name</span> or for any string that is passed in as a value.</p>
+<div class="infobox-note" id="GUID-696D4901-33DD-434E-9C25-09EC5AB4D3AB__GUID-E18CACDE-E866-4B47-95A0-4DF104B3B717">
+<p class="notep1">Note:</p>
+<p>See <a href="permissions-jdk1.htm#GUID-83063225-0ACB-4909-9BAB-7F7D4E3749E2" title="A canonical path is a path that doesn't contain any links or shortcuts. Performing path name canonicalization in a FilePermission object can negatively affect performance.">Appendix A: FilePermission Path Name Canonicalization Disabled By Default</a> for important information about a change in how <span class="apiname">FilePermission</span> path names are canonicalized.</p>
+</div>
+</div>
+</div>
+<div class="sect4"><a id="GUID-9A8CEB0F-E717-4DAB-91B6-726A79BE4EEB"></a>
+<h4 id="JSSEC-GUID-9A8CEB0F-E717-4DAB-91B6-726A79BE4EEB" class="sect4">File Path Specifications on Windows Systems</h4>
+<div>
+<p>When you are specifying a <code class="codeph">java.io.FilePermission</code>, the "<span class="variable">target_name</span>" is a file path. On Windows systems, whenever you directly specify a file path in a string (but not in a codebase URL), you need to include two backslashes for each actual single backslash in the path, as in</p>
+<pre class="codeblock" dir="ltr">
+    grant {
+        permission java.io.FilePermission "C:\\users\\cathy\\foo.bat", "read";
+    };
+</pre>
+<p>The reason this is necessary is because the strings are processed by a tokenizer (<code class="codeph">java.io.StreamTokenizer</code>), which allows "\" to be used as an escape string (for example, "\n" to indicate a new line) and which thus requires two backslashes to indicate a single backslash. After the tokenizer has processed the above file path string, converting double backslashes to single backslashes, the end result is</p>
+<pre class="codeblock" dir="ltr">
+    "C:\users\cathy\foo.bat"
+</pre></div>
+</div>
+</div>
+<div class="sect3"><a id="GUID-CE19E4A6-897A-47E1-B6AB-3E49327F7364"></a>
+<h3 id="JSSEC-GUID-CE19E4A6-897A-47E1-B6AB-3E49327F7364" class="sect3">Policy File Examples</h3>
+<div>
+<div class="section">
+<p>The following policy configuration file contains two entries:</p>
+<pre class="codeblock" dir="ltr">
+  // If the code is signed by "Duke", grant it read/write access to all 
+  // files in /tmp:
+  grant signedBy "Duke" {
+      permission java.io.FilePermission "/tmp/*", "read,write";
+  };
+
+  // Grant everyone the following permission:
+  grant { 
+      permission java.util.PropertyPermission "java.vendor", "read";
+  }; 
+</pre>
+<p>The following policy configuration file specifies that <span class="italic">only</span> code that satisfies the following conditions can call methods in the <span class="apiname">Security</span> class to add or remove providers or to set Security Properties:</p>
+<ul style="list-style-type: disc;">
+<li>The code was loaded from a signed JAR file that is in the "<code class="codeph">/home/sysadmin/</code>" directory on the local file system.</li>
+<li>The signature can be verified using the public key referenced by the alias name "<code class="codeph">sysadmin</code>" in the keystore.</li>
+</ul>
+<pre class="codeblock" dir="ltr">
+  grant signedBy "sysadmin", codeBase "file:/home/sysadmin/*" {
+      permission java.security.SecurityPermission "Security.insertProvider.*";
+      permission java.security.SecurityPermission "Security.removeProvider.*";
+      permission java.security.SecurityPermission "Security.setProperty.*";
+  };
+</pre>
+<p>Either component of the policy entry (or both) may be missing.</p>
+<p>The following is a policy configuration file where <code class="codeph">codeBase</code> is missing:</p>
+<pre class="codeblock" dir="ltr">
+  grant signedBy "sysadmin" {
+      permission java.security.SecurityPermission "Security.insertProvider.*";
+      permission java.security.SecurityPermission "Security.removeProvider.*";
+  };
+</pre>
+<p>If this policy is in effect, then code that comes in a JAR file signed by "<code class="codeph">sysadmin</code>" can add/remove providers, regardless of where the JAR file originated from.</p>
+<p>The following is a policy configuration file without a signer:</p>
+<pre class="codeblock" dir="ltr">
+  grant codeBase "file:/home/sysadmin/-" {
+      permission java.security.SecurityPermission "Security.insertProvider.*";
+      permission java.security.SecurityPermission "Security.removeProvider.*";
+  };
+</pre>
+<p>In this case, code that comes from anywhere in the <code class="codeph">"home/sysadmin/"</code> directory on the local file system can add/remove providers. The code does not need to be signed.</p>
+<p>The following is a policy configuration file where neither <code class="codeph">codeBase</code> nor <code class="codeph">signedBy</code> is included:</p>
+<pre class="codeblock" dir="ltr">
+  grant {
+      permission java.security.SecurityPermission "Security.insertProvider.*";
+      permission java.security.SecurityPermission "Security.removeProvider.*";
+  };
+</pre>
+<p>Here, with both code source components missing, any code (regardless of where it originated from, or whether or not it is signed, or who signed it) can add/remove providers.</p>
+<p>The following represents a principal-based entry:</p>
+<pre class="codeblock" dir="ltr">
+  grant principal javax.security.auth.x500.X500Principal "cn=Alice" {
+      permission java.io.FilePermission "/home/Alice", "read, write";
+  };
+</pre>
+<p>This permits any code executing as the X500Principal, "<code class="codeph">cn=Alice</code>", permission to read and write to "<code class="codeph">/home/Alice</code>&rdquo;.</p>
+<p>The following represents a principal-based entry with a wildcard value:</p>
+<pre class="codeblock" dir="ltr">
+  grant principal javax.security.auth.x500.X500Principal * {
+      permission java.io.FilePermission "/tmp", "read, write";
+  };
+</pre>
+<p>This permits any code executing as an X500Principal (regardless of the distinguished name), permission to read and write to "<code class="codeph">/tmp</code>&rdquo;.</p>
+<p>The following example shows a grant statement with both codesource and principal information:</p>
+<pre class="codeblock" dir="ltr">
+  grant codebase "http://www.games.example.com",
+        signedBy "Duke",
+        principal javax.security.auth.x500.X500Principal "cn=Alice" {
+      permission java.io.FilePermission "/tmp/games", "read, write";
+  };
+</pre>
+<p>This allows code downloaded from "<code class="codeph">www.games.example.com</code>", signed by "<code class="codeph">Duke</code>", and executed by "<code class="codeph">cn=Alice</code>", permission to read and write into the "<code class="codeph">/tmp/games</code>" directory.</p>
+<p>The following example shows a grant statement with KeyStore alias replacement:</p>
+<pre class="codeblock" dir="ltr">
+  keystore "http://foo.example.com/blah/.keystore";
+
+  grant principal "alice" {
+      permission java.io.FilePermission "/tmp/games", "read, write";
+  };
+</pre>
+<p>"<code class="codeph">alice</code>" will be replaced by the following:</p>
+<pre class="codeblock" dir="ltr">
+    javax.security.auth.x500.X500Principal "cn=Alice"
+</pre>
+<p>This assumes that X.509 certificate associated with the keystore alias, <code class="codeph">alice</code>, has a subject distinguished name of "<code class="codeph">cn=Alice</code>". This allows code executed by the X500Principal "<code class="codeph">cn=Alice</code>" permission to read and write into the "<code class="codeph">/tmp/games</code>" directory.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect3"><a id="GUID-B614FBFF-0C3C-42F3-B766-DE709CA4D73A"></a>
+<h3 id="JSSEC-GUID-B614FBFF-0C3C-42F3-B766-DE709CA4D73A" class="sect3">Property Expansion in Policy Files</h3>
+<div>
+<p>Property expansion is possible in policy files and in the security properties file.</p>
+<div class="section">
+<p>Property expansion is similar to expanding variables in a shell. That is, when a string like</p>
+<pre class="codeblock" dir="ltr">
+    ${some.property}
+</pre>
+<p>appears in a policy file, or in the security properties file, it will be expanded to the value of the system property. For example,</p>
+<pre class="codeblock" dir="ltr">
+    permission java.io.FilePermission "${user.home}", "read";
+</pre>
+<p>will expand "<code class="codeph">${user.home}</code>" to use the value of the "user.home" system property. If that property's value is "<code class="codeph">/home/cathy</code>", then the above is equivalent to</p>
+<pre class="codeblock" dir="ltr">
+    permission java.io.FilePermission "/home/cathy", "read";
+</pre>
+<p>In order to assist in platform-independent policy files, you can also use the special notation of "<code class="codeph">${/}</code>", which is a shortcut for <code class="codeph">${file.separator}</code>". This allows things like</p>
+<pre class="codeblock" dir="ltr">
+    permission java.io.FilePermission "${user.home}${/}*", "read";
+</pre>
+<p>If the value of the "<code class="codeph">user.home</code> " property is <code class="codeph">/home/cathy</code>, and you are on Solaris, Linux, or macOS, the above gets converted to:</p>
+<pre class="codeblock" dir="ltr">
+    permission java.io.FilePermission "/home/cathy/*", "read";
+</pre>
+<p>If on the other hand the "<code class="codeph">user.home</code>" value is <code class="codeph">C:\users\cathy</code> and you are on a Windows system, the above gets converted to:</p>
+<pre class="codeblock" dir="ltr">
+    permission java.io.FilePermission "C:\users\cathy\*", "read";
+</pre>
+<p>Also, as a special case, if you expand a property in a codebase, such as</p>
+<pre class="codeblock" dir="ltr">
+    grant codeBase "file:${my.libraries}/api/"
+</pre>
+<p>then any file separator characters will be automatically converted to <code class="codeph">/</code> characters. For example, suppose the value of <code class="codeph">my.libraries</code> is <code>C:\Users\me\lib</code>. Thus on a Windows system, the above would get converted to</p>
+<pre class="codeblock" dir="ltr">
+    grant codeBase "file:C:/Users/me/lib/api/"
+</pre>
+<p>Thus you don't need to use <code class="codeph">${/}</code> in codebase strings (and you shouldn't). Property expansion takes place anywhere a double quoted string is allowed in the policy file. This includes the <span class="variable">"signer_names"</span>, <span class="variable">"URL"</span>, <span class="variable">"target_name"</span>, and <span class="variable">"action"</span> fields. Whether or not property expansion is allowed is controlled by the value of the "<code class="codeph">policy.expandProperties</code>" property in the security properties file. If the value of this property is true (the default), expansion is allowed.</p>
+<div class="infobox-note" id="GUID-B614FBFF-0C3C-42F3-B766-DE709CA4D73A__GUID-EA7920CD-C466-4CDA-A721-50FC4DE60EAA">
+<p class="notep1">Note:</p>
+<p>You can't use nested properties; they will not work. For example,</p>
+<pre class="codeblock" dir="ltr">
+    "${user.${foo}}"
+</pre>
+<p>doesn't work, even if the "<code class="codeph">foo</code>" property is set to "<code class="codeph">home</code>". The reason is the property parser doesn't recognize nested properties; it simply looks for the first "<code class="codeph">${</code>", and then keeps looking until it finds the first "<code class="codeph">}</code>" and tries to interpret the result (in this case, "<code class="codeph">${user.$foo}</code>") as a property, but fails if there is no such property.</p>
+</div>
+<div class="infobox-note" id="GUID-B614FBFF-0C3C-42F3-B766-DE709CA4D73A__GUID-F7E9BDFF-52F9-40A9-AD58-D924458266D5">
+<p class="notep1">Note:</p>
+<p>If a property can't be expanded in a grant entry, permission entry, or keystore entry, that entry is ignored. For example, if the system property "<code class="codeph">foo</code>" is not defined and you have:</p>
+<pre class="codeblock" dir="ltr">
+    grant codeBase "${foo}" {
+        permission ...;
+        permission ...;
+    };
+</pre>
+<p>then all the permissions in this grant entry are ignored. If you have</p>
+<pre class="codeblock" dir="ltr">
+    grant {
+        permission Foo "${foo}";
+        permission Bar "barTarget";
+    };
+</pre>
+<p>then only the "<code class="codeph">permission Foo...</code>" entry is ignored. And finally, if you have</p>
+<pre class="codeblock" dir="ltr">
+    keystore "${foo}";
+</pre>
+<p>then the keystore entry is ignored.</p>
+</div>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect3"><a id="GUID-6DB03078-DAD5-4A2C-9DF9-58A8F2FA802C"></a>
+<h3 id="JSSEC-GUID-6DB03078-DAD5-4A2C-9DF9-58A8F2FA802C" class="sect3">Windows Systems, File Paths, and Property Expansion</h3>
+<div>
+<p>The file path specifications on Windows systems should include two backslashes for each actual single backslash.</p>
+<div class="section">
+<p>As mentioned in <a href="permissions-jdk1.htm#GUID-9A8CEB0F-E717-4DAB-91B6-726A79BE4EEB">File Path Specifications on Windows Systems</a>, on Windows systems, when you directly specify a file path in a string (but not in a codebase URL), you need to include two backslashes for each actual single backslash in the path, as in</p>
+<pre class="codeblock" dir="ltr">
+    grant {
+        permission java.io.FilePermission "C:\\users\\cathy\\foo.bat", "read";
+    };
+</pre>
+<p>This is because the strings are processed by a tokenizer (<code class="codeph">java.io.StreamTokenizer</code>), which allows "<code class="codeph">\</code>" to be used as an escape string (e.g., "<code class="codeph">\n</code>" to indicate a new line) and which thus requires two backslashes to indicate a single backslash. After the tokenizer has processed the above file path string, converting double backslashes to single backslashes, the end result is</p>
+<div class="p">
+<pre class="codeblock" dir="ltr">
+    "C:\users\cathy\foo.bat"
+</pre></div>
+<p>Expansion of a property in a string takes place after the tokenizer has processed the string. Thus if you have the string</p>
+<pre class="codeblock" dir="ltr">
+    "${user.home}\\foo.bat"
+</pre>
+<p>then first the tokenizer processes the string, converting the double backslashes to a single backslash, and the result is</p>
+<pre class="codeblock" dir="ltr">
+    "${user.home}\foo.bat"
+</pre>
+Then the <code class="codeph">${user.home}</code> property is expanded and the end result is
+<pre class="codeblock" dir="ltr">
+    "C:\users\cathy\foo.bat"
+</pre>
+assuming the "<code class="codeph">user.home</code>" value is <code class="codeph">C:\users\cathy</code>. Of course, for platform independence, it would be better if the string was initially specified without any explicit slashes, i.e., using the <code class="codeph">${/}</code> property instead, as in
+<pre class="codeblock" dir="ltr">
+    "${user.home}${/}foo.bat"
+</pre></div>
+<!-- class="section" --></div>
+</div>
+<div class="sect3"><a id="GUID-6ACBD24A-F4B8-4B32-BAA4-949199273BE5"></a>
+<h3 id="JSSEC-GUID-6ACBD24A-F4B8-4B32-BAA4-949199273BE5" class="sect3">General Expansion in Policy Files</h3>
+<div>
+<div class="section">
+<p>Generalized forms of expansion are also supported in policy files. For example, permission names may contain a string of the following form:</p>
+<pre dir="ltr">
+${{protocol:protocol_data}}
+</pre>
+<p>If such a string occurs in a permission name, then the value in <span class="italic">protocol</span> determines the exact type of expansion that should occur, and <span class="italic">protocol_data</span> is used to help perform the expansion. <span class="italic">protocol_data</span> may be empty, in which case the above string should simply take the form:</p>
+<pre dir="ltr">
+${{protocol}}
+</pre>
+<p>There are two protocols supported in the default policy file implementation:</p>
+<ol>
+<li>
+<p><code class="codeph">${{self}}</code></p>
+<p>The protocol, <span class="bold"><code class="codeph">self</code></span>, denotes a replacement of the entire string, <code class="codeph">${{self}}</code>, with one or more principal class/name pairs. The exact replacement performed depends upon the contents of the grant clause to which the permission belongs.</p>
+<p>If the grant clause does not contain any principal information, the permission will be ignored (permissions containing <code class="codeph">${{self}}</code> in their target names are only valid in the context of a principal-based grant clause). For example, <code class="codeph">BarPermission</code> will always be ignored in the following grant clause:</p>
+<pre class="codeblock" dir="ltr">
+grant codebase "www.example.com", signedby "duke" {
+    permission BarPermission "... ${{self}} ...";
+};
+</pre>
+<p>If the grant clause contains principal information, <code class="codeph">${{self}}</code> will be replaced with that same principal information. For example, <code class="codeph">${{self}}</code> in <code class="codeph">BarPermission</code> will be replaced with <span class="bold"><code class="codeph">javax.security.auth.x500.X500Principal "cn=Duke"</code></span> in the following grant clause:</p>
+<pre class="codeblock" dir="ltr">
+grant principal javax.security.auth.x500.X500Principal "cn=Duke" {
+    permission BarPermission "... ${{self}} ...";
+};
+</pre>
+<p>If there is a comma-separated list of principals in the grant clause, then <code class="codeph">${{self}}</code> will be replaced by the same comma-separated list or principals. In the case where both the principal class and name are wildcarded in the grant clause, <code class="codeph">${{self}}</code> is replaced with all the principals associated with the <code class="codeph">Subject</code> in the current <code class="codeph">AccessControlContext</code>.</p>
+<p>The following example describes a scenario involving both <span class="bold"><code class="codeph">self</code></span> and <a href="permissions-jdk1.htm#GUID-2636C14A-A783-447A-BE7F-3BF031076117">KeyStore Alias Replacement</a> together:</p>
+<pre class="codeblock" dir="ltr">
+keystore "http://foo.example.com/blah/.keystore";
+
+grant principal "duke" {
+    permission BarPermission "... ${{self}} ...";
+};
+</pre>
+<p>In the above example, "<code class="codeph">duke</code>" will first be expanded into <code class="codeph"><span class="bold">javax.security.auth.x500.X500Principal "cn=Duke"</span></code> assuming the X.509 certificate associated with the <code class="codeph">KeyStore</code> alias, "<code class="codeph">duke</code>", has a subject distinguished name of "<code class="codeph">cn=Duke</code>". Next, <code class="codeph">${{self}}</code> will be replaced with the same principal information that was just expanded in the grant clause: <span class="bold"><code class="codeph">javax.security.auth.x500.X500Principal "cn=Duke"</code></span>.</p>
+</li>
+<li>
+<p><code class="codeph">${{alias:<span class="variable">alias_name</span>}}</code></p>
+<p>The protocol, <span class="bold"><code class="codeph">alias</code></span>, denotes a <span class="apiname">java.security.KeyStore</span> alias substitution. The <code class="codeph">KeyStore</code> used is the one specified in the <a href="permissions-jdk1.htm#GUID-97EFF17D-2BD7-45E5-AA80-AF1F000B6B83">Keystore Entry</a>. <span class="variable">alias_name</span> represents an alias into the <code class="codeph">KeyStore</code>. <code class="codeph">${{alias:<span class="variable">alias_name</span>}}</code> is replaced with <span class="bold"><code class="codeph">javax.security.auth.x500.X500Principal "DN"</code></span>, where <span class="variable">DN</span> represents the subject distinguished name of the certificate belonging to <span class="variable">alias_name</span>. For example:</p>
+<pre class="codeblock" dir="ltr">
+keystore "http://foo.example.com/blah/.keystore";
+
+grant codebase "www.example.com" {
+    permission BarPermission "... ${{alias:duke}} ...";
+};
+</pre>
+<p>In the above example the X.509 certificate associated with the alias, <span class="variable">duke</span>, is retrieved from the <code class="codeph">KeyStore</code>, <span class="variable">foo.example.com/blah/.keystore</span>. Assuming duke's certificate specifies "<code class="codeph">o=dukeOrg, cn=duke</code>" as the subject distinguished name, then <code class="codeph">${{alias:duke}}</code> is replaced with <span class="bold"><code class="codeph">javax.security.auth.x500.X500Principal "o=dukeOrg, cn=duke"</code></span>.</p>
+<p>The permission entry is ignored under the following error conditions:</p>
+<ul style="list-style-type: disc;">
+<li>The keystore entry is unspecified</li>
+<li>The <span class="variable">alias_name</span> is not provided</li>
+<li>The certificate for <span class="variable">alias_name</span> can not be retrieved</li>
+<li>The certificate retrieved is not an X.509 certificate</li>
+</ul>
+</li>
+</ol>
+</div>
+<!-- class="section" --></div>
+</div>
+</div>
+<div class="sect2"><a id="GUID-83063225-0ACB-4909-9BAB-7F7D4E3749E2"></a>
+<h2 id="JSSEC-GUID-83063225-0ACB-4909-9BAB-7F7D4E3749E2" class="sect2">Appendix A: FilePermission Path Name Canonicalization Disabled By Default</h2>
+<div>
+<p>A canonical path is a path that doesn't contain any links or shortcuts. Performing path name canonicalization in a <code class="codeph">FilePermission</code> object can negatively affect performance.</p>
+<p>Before JDK 9, path names were canonicalized when two <code class="codeph">FilePermission</code> objects were compared. This allowed a program to access a file using a different name than the name that was granted to a <code class="codeph">FilePermission</code> object in a policy file, as long as the object pointed to the same file. Because the canonicalization had to access the underlying file system, it could be quite slow.</p>
+<p>In JDK 9, path name canonicalization is disabled by default. This means two <code class="codeph">FilePermission</code> objects aren&rsquo;t equal to each other if one uses an absolute path and the other uses a relative path, or one uses a symbolic link and the other uses a target, or one uses a Windows long name and the other uses a DOS-style 8.3 name. This is true even if they all point to the same file in the file system.</p>
+<p>Therefore, if a path name is granted to a <code class="codeph">FilePermission</code> object in a policy file, then the program should also access that file using the same path name style. For example, if the path name in the policy file is using a symbolic link, then the program should also use that symbolic link. Accessing the file with the target path name will fail the permission check.</p>
+<div class="section">
+<p class="subhead2">Compatibility Layer</p>
+<p>A compatibility layer has been added to ensure that granting a <code class="codeph">FilePermission</code> object for a relative path will permit applications to access the file with an absolute path (and conversely). This works for the default Policy provider and the <a href="https://docs.oracle.com/javase/10/docs/api/java/security/AccessController.html#doPrivileged-java.security.PrivilegedExceptionAction-java.security.AccessControlContext-java.security.Permission...-" target="_blank">Limited <span class="apiname">doPrivileged</span></a> calls.</p>
+<p>For example, a <code class="codeph">FilePermission</code> object on a file with a relative path name of <code class="codeph">"a"</code> no longer implies a <code class="codeph">FilePermission</code> object on the same file with an absolute path name as <code>"/pwd/a"</code> (<code class="codeph">"pwd"</code> is the current working directory). Granting code a <code class="codeph">FilePermission</code> object to read <code class="codeph">"a"</code> allows that code to also read <code class="codeph">"/pwd/a"</code> when a Security Manager is enabled.</p>
+<p>The compatibility layer doesn&rsquo;t cover translations between symbolic links and targets, or Windows long names and DOS-style 8.3 names, or any other different name forms that can be canonicalized to the same name.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">Customizing Path Name Canonicalization</p>
+The system properties in <a href="permissions-jdk1.htm#GUID-83063225-0ACB-4909-9BAB-7F7D4E3749E2__LISTOFSYSTEMPROPERTIESTOCUSTOMIZEPA-C3268ADF" title="List of system properties to customize path name canonicalization.">Table 1-9</a> can be used to customize the <code class="codeph">FilePermission</code> path name canonicalization. See <a href="java-secure-socket-extension-jsse-reference-guide.htm#GUID-460C3E5A-A373-4742-9E84-EB42A7A3C363">How to Specify a java.lang.System Property</a>.
+<div class="tblformalwide" id="GUID-83063225-0ACB-4909-9BAB-7F7D4E3749E2__LISTOFSYSTEMPROPERTIESTOCUSTOMIZEPA-C3268ADF">
+<p class="titleintable">Table 1-9 System Properties to Customize Path Name Canonicalization</p>
+<table class="cellalignment469" title="System Properties to Customize Path Name Canonicalization" summary="List of system properties to customize path name canonicalization.">
+<thead>
+<tr class="cellalignment456">
+<th class="cellalignment467" id="d16535e3608">System Property</th>
+<th class="cellalignment467" id="d16535e3610">Default Value</th>
+<th class="cellalignment467" id="d16535e3612">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment456">
+<td class="cellalignment456" id="d16535e3616" headers="d16535e3608"><code class="codeph">jdk.io.permissionsUseCanonicalPath</code></td>
+<td class="cellalignment456" headers="d16535e3616 d16535e3610">false</td>
+<td class="cellalignment456" headers="d16535e3616 d16535e3612">
+<p>The system property can be used to enable or disable path name canonicalization in the <code class="codeph">FilePermission</code> object.</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>To disable <code class="codeph">FilePermission</code> path name canonicalization, set <code class="codeph">jdk.io.permissionsUseCanonicalPath=false</code>.</p>
+</li>
+<li>
+<p>To enable <code class="codeph">FilePermission</code> path name canonicalization, set <code class="codeph">jdk.io.permissionsUseCanonicalPath=true</code>.</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="cellalignment456">
+<td class="cellalignment456" id="d16535e3647" headers="d16535e3608"><code class="codeph">jdk.security.filePermCompat</code></td>
+<td class="cellalignment456" headers="d16535e3647 d16535e3610">false</td>
+<td class="cellalignment456" headers="d16535e3647 d16535e3612">
+<p>The system property can be used to extend the compatibility layer to support third-party Policy implementations.</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>To disable the system property, set <code class="codeph">jdk.security.filePermCompat=false</code>.</p>
+<p>The <code class="codeph">FilePermission</code> for a relative path will permit applications to access the file with an absolute path for the default Policy provider and the <a href="https://docs.oracle.com/javase/10/docs/api/java/security/AccessController.html#doPrivileged-java.security.PrivilegedExceptionAction-java.security.AccessControlContext-java.security.Permission...-" target="_blank">Limited <span class="apiname">doPrivileged</span></a> method.</p>
+</li>
+<li>
+<p>To extend the compatibility layer to support third-party Policy implementations, set <code class="codeph">jdk.security.filePermCompat=true</code>.</p>
+<p>The <code class="codeph">FilePermission</code> for a relative path will permit applications to access the file with an absolute path for the default Policy provider, the <a href="https://docs.oracle.com/javase/10/docs/api/java/security/AccessController.html#doPrivileged-java.security.PrivilegedExceptionAction-java.security.AccessControlContext-java.security.Permission...-" target="_blank">Limited <span class="apiname">doPrivileged</span></a> method, and for third-party Policy implementations.</p>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" --></div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment455">
+<tr>
+<td class="cellalignment462">
+<table class="cellalignment460">
+<tr>
+<td class="cellalignment459"><a href="java-security-standard-algorithm-names.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment459"><a href="troubleshooting-security.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment464">
+<table class="cellalignment458">
+<tr>
+<td class="cellalignment459"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment459"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment459"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

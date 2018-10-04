@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Deployment Rule Set</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="The Deployment Rule Set feature is for enterprises that manage their Java desktop environment directly, and provides a way for enterprises to continue using legacy business applications in an environment of ever-tightening Java applet and Java Web Start application security policies. This feature also provides the ability to control the version of the JRE that is used for specific applications." />
+<meta name="dcterms.created" content="2018-03-12T22:52:24Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Deployment Guide" />
+<meta name="dcterms.identifier" content="E92517-01" />
+<meta name="dcterms.isVersionOf" content="JSDPG" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="java-control-panel.htm" title="Previous" type="text/html" />
+<link rel="alternate" href="JSDPG.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-8B848BC1-5B1E-4B36-B70A-DE82486BBE2F"></a> <span id="PAGE" style="display:none;">17/17</span> <!-- End Header -->
+<a id="JSDPG927"></a><a id="JSDPG926"></a>
+<h1 id="JSDPG-GUID-8B848BC1-5B1E-4B36-B70A-DE82486BBE2F" class="sect1"><span class="enumeration_chapter">10</span> Deployment Rule Set</h1>
+<div>
+<div><span>The Deployment Rule Set feature is for enterprises that manage their Java desktop environment directly, and provides a way for enterprises to continue using legacy business applications in an environment of ever-tightening Java applet and Java Web Start application security policies. This feature also provides the ability to control the version of the JRE that is used for specific applications.</span></div>
+<div class="infobox-note" id="GUID-8B848BC1-5B1E-4B36-B70A-DE82486BBE2F__GUID-00B27CDE-6EC3-48F9-810A-BEC83ED56796">
+<p class="notep1">Note:</p>
+<p>The Deployment Rule Set feature is optional and shall only be used internally in an organization with a controlled environment. If a JAR file that contains a rule set is distributed or made available publicly, then the certificate used to sign the rule set will be blacklisted and blocked in Java.</p>
+</div>
+<p>This topic contains the following sections:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="deployment-rule-set.htm#GUID-3C4AC664-5747-46C7-B5CC-26725801E5BA">Overview of Deployment Rule Sets</a></p>
+</li>
+<li>
+<p><a href="deployment-rule-set.htm#GUID-33183E9A-C0FB-47E6-9A25-17A56D7EBD72">Create the Rule Set</a></p>
+</li>
+<li>
+<p><a href="deployment-rule-set.htm#GUID-6DFB22D5-39A4-4784-A823-A4444CC5064A">Packaging the Rule Set</a></p>
+</li>
+<li>
+<p><a href="deployment-rule-set.htm#GUID-730E7D65-A4A9-4DE8-8F6E-29FCB7D0E2B9">Installing the Rule Set</a></p>
+</li>
+<li>
+<p><a href="deployment-rule-set.htm#GUID-35BA8F34-128A-4779-95EA-ECB857560A2E">Viewing the Active Rule Set</a></p>
+</li>
+<li>
+<p><a href="deployment-rule-set.htm#GUID-42948732-2621-4229-8282-CA1EC44CD6E1">Security Considerations</a></p>
+</li>
+<li>
+<p><a href="deployment-rule-set.htm#GUID-749B4E9F-C06E-47E2-AF49-E94A0D6D8468">Examples</a></p>
+</li>
+<li>
+<p><a href="deployment-rule-set.htm#GUID-AE745E2A-BDD3-4A12-802D-03E5E038E71A">Java Deployment Rule Set DTD</a></p>
+</li>
+</ul>
+</div>
+<a id="JSDPG1099"></a>
+<div class="props_rev_3"><a id="GUID-3C4AC664-5747-46C7-B5CC-26725801E5BA"></a>
+<h2 id="JSDPG-GUID-3C4AC664-5747-46C7-B5CC-26725801E5BA" class="sect2">Overview of Deployment Rule Sets</h2>
+<div>
+<p>The Deployment Rule Set feature enables an enterprise to establish a whitelist of known applications that can run without security prompts.</p>
+<p>Java applets, Java Web Start applications, and JavaFX applications launched from or embedded in a browser are known collectively as Rich Internet Applications (RIAs). To protect the user and minimize the possibility that a RIA was compromised, security checks are performed when a RIA is started, and the user is prompted for permission to run the RIA. Applications on the whitelist defined by a Deployment Rule Set can be run without most security prompts, however, the following prompts are not suppressed:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>HTTPS security warnings</p>
+</li>
+<li>
+<p>Authentication dialogs that require the user to provide credentials to connect</p>
+</li>
+<li>
+<p>Security warnings from unsigned Java Web Start applications that want to perform such actions as creating a shortcut or an association</p>
+</li>
+</ul>
+<p>Rules for deployment are defined in an XML file and packaged in a signed JAR file. The rules are tested sequentially until one matches the RIA. Depending on the action assigned to the rule, the RIA is then run without security prompts, blocked from running, or run with default processing that shows any security prompts that are applicable. If no rules are matched, then default processing is used. The rules also provide the ability to specify the version of the JRE that is used to run the RIA and suppress the notification of out-of-date JREs.</p>
+<p>An active rule set that is installed on the system can be viewed from the Web Settings tab of the Java Control Panel.</p>
+</div>
+</div>
+<a id="JSDPG928"></a>
+<div class="props_rev_3"><a id="GUID-33183E9A-C0FB-47E6-9A25-17A56D7EBD72"></a>
+<h2 id="JSDPG-GUID-33183E9A-C0FB-47E6-9A25-17A56D7EBD72" class="sect2">Create the Rule Set</h2>
+<div>
+<div class="section">
+<p>The rule set is an XML file that must be named <code class="codeph">ruleset.xml</code>. Use any text editor to create this file.</p>
+</div>
+<!-- class="section" --></div>
+<a id="JSDPG929"></a>
+<div class="props_rev_3"><a id="GUID-FFEF26B9-2F00-4D8B-916E-42050DA594A3"></a>
+<h3 id="JSDPG-GUID-FFEF26B9-2F00-4D8B-916E-42050DA594A3" class="sect3">Define the Rules</h3>
+<div>
+<p>Define the rules that you need to run or block RIAs for your organization. See <a href="deployment-rule-set.htm#GUID-AE745E2A-BDD3-4A12-802D-03E5E038E71A">Java Deployment Rule Set DTD</a> for the syntax of the rule set. If unknown elements or attributes are included in the rule set, warnings are written to the Java Console.</p>
+<p>The following elements are valid:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="deployment-rule-set.htm#GUID-AB19D088-3061-428C-A2D0-EDF8E41FF43F">&lt;ruleset&gt;</a></p>
+</li>
+<li>
+<p><a href="deployment-rule-set.htm#GUID-1FEA2AC4-F2EB-4C4E-B754-C28D5296F1A8">&lt;rule&gt;</a></p>
+</li>
+<li>
+<p><a href="deployment-rule-set.htm#GUID-413F29CF-81B5-4154-9C52-22D993819C2B">&lt;id&gt;</a></p>
+</li>
+<li>
+<p><a href="deployment-rule-set.htm#GUID-44B46266-24A5-48BA-A1F9-EC9AF806F171">&lt;certificate&gt;</a></p>
+</li>
+<li>
+<p><a href="deployment-rule-set.htm#GUID-F20BE0C3-0F8B-4770-A799-BF5E490B9D15">&lt;checksum&gt;</a></p>
+</li>
+<li>
+<p><a href="deployment-rule-set.htm#GUID-E236504B-EC66-4961-B79E-368F46E2AA75">&lt;jnlp-checksum&gt;</a></p>
+</li>
+<li>
+<p><a href="deployment-rule-set.htm#GUID-7F0F7EF0-2F56-4CDC-BC91-9956BAF26BD6">&lt;action&gt;</a></p>
+</li>
+<li>
+<p><a href="deployment-rule-set.htm#GUID-D919E960-61C3-4CE4-9F4E-86D64C301976">&lt;message&gt;</a></p>
+</li>
+<li>
+<p><a href="deployment-rule-set.htm#GUID-3BE41138-5983-4CD5-9DD1-0C6FF6F77FF9">&lt;customer&gt;</a></p>
+</li>
+</ul>
+<p>If the rule set is invalid, then an error that describes the problem is shown and all RIAs are blocked. Either the <code class="codeph">ruleset.xml</code> file must be corrected, or the <code class="codeph">DeploymentRuleSet.jar</code> file must be removed from the deployment directory (see <a href="deployment-rule-set.htm#GUID-730E7D65-A4A9-4DE8-8F6E-29FCB7D0E2B9">Installing the Rule Set</a> for the location of this directory) before RIAs can be run. If a rule set is reported as invalid, then check for the following problems based on the error you received:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>The file is unreadable.</p>
+</li>
+<li>
+<p>The structure of the file is invalid.</p>
+</li>
+<li>
+<p>The rules are not properly defined.</p>
+</li>
+<li>
+<p>A rule with an action of <code class="codeph">run</code> has no selection criteria provided and therefore matches all RIAs.</p>
+</li>
+<li>
+<p>The JAR file is not properly signed with a valid certificate.</p>
+</li>
+</ul>
+<p>If the <code class="codeph">DeploymentRuleSet.jar</code> file is removed, RIAs are handled by the default deployment process.</p>
+<p>See <a href="deployment-rule-set.htm#GUID-749B4E9F-C06E-47E2-AF49-E94A0D6D8468">Examples</a> for some sample rule sets.</p>
+</div>
+<a id="JSDPG1006"></a><a id="JSDPG1005"></a>
+<div class="props_rev_3"><a id="GUID-AB19D088-3061-428C-A2D0-EDF8E41FF43F"></a>
+<h4 id="JSDPG-GUID-AB19D088-3061-428C-A2D0-EDF8E41FF43F" class="sect4">&lt;ruleset&gt;</h4>
+<div>
+<div class="section">
+<p>The <code class="codeph">&lt;ruleset&gt;</code> element is the top-level element of the policy file.</p>
+<p>The valid child elements are <a href="deployment-rule-set.htm#GUID-1FEA2AC4-F2EB-4C4E-B754-C28D5296F1A8">&lt;rule&gt;</a> and <a href="deployment-rule-set.htm#GUID-3BE41138-5983-4CD5-9DD1-0C6FF6F77FF9">&lt;customer&gt;</a>.</p>
+<p>The following table describes the valid attribute.</p>
+</div>
+<!-- class="section" -->
+<div class="tblformal" id="GUID-AB19D088-3061-428C-A2D0-EDF8E41FF43F__GUID-842263BD-695D-4F2C-B1FC-C58D60F93887">
+<p class="titleintable">Table 10-1 Attribute for &lt;ruleset&gt;</p>
+<table class="cellalignment407" title="Attribute for &lt;ruleset&gt;" summary="Table identifies the valid attribute for the ruleset element.">
+<thead>
+<tr class="cellalignment397">
+<th class="cellalignment408" id="d34443e222">Attribute</th>
+<th class="cellalignment409" id="d34443e225">Description</th>
+<th class="cellalignment408" id="d34443e228">Required</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment397">
+<td class="cellalignment410" id="d34443e233" headers="d34443e222">
+<p><code class="codeph">version</code></p>
+</td>
+<td class="cellalignment411" headers="d34443e233 d34443e225">
+<p>Minimum version of the Deployment Rule Set specification that is required to process this file. Use a plus sign (+) to indicate that later versions can also be used, for example <code class="codeph">1.0+</code>. If your JRE does not support the version specified, all RIAs are blocked.</p>
+</td>
+<td class="cellalignment410" headers="d34443e233 d34443e228">
+<p>Yes</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+</div>
+<a id="JSDPG1007"></a>
+<div class="props_rev_3"><a id="GUID-1FEA2AC4-F2EB-4C4E-B754-C28D5296F1A8"></a>
+<h4 id="JSDPG-GUID-1FEA2AC4-F2EB-4C4E-B754-C28D5296F1A8" class="sect4">&lt;rule&gt;</h4>
+<div>
+<div class="section">
+<p>The <code class="codeph">&lt;rule&gt;</code> element defines the action taken for the RIA or set of RIAs that is matched by the criteria specified for the rule.</p>
+<p>This element contains one <a href="deployment-rule-set.htm#GUID-413F29CF-81B5-4154-9C52-22D993819C2B">&lt;id&gt;</a> element, one <a href="deployment-rule-set.htm#GUID-7F0F7EF0-2F56-4CDC-BC91-9956BAF26BD6">&lt;action&gt;</a> element, and optional <a href="deployment-rule-set.htm#GUID-3BE41138-5983-4CD5-9DD1-0C6FF6F77FF9">&lt;customer&gt;</a> elements. Rules are processed sequentially until a rule is matched. When a match is found, no further rules are processed. If no rule is matched, then default processing is used, and any relevant security prompts or warnings are shown.</p>
+<div class="infobox-note" id="GUID-1FEA2AC4-F2EB-4C4E-B754-C28D5296F1A8__GUID-817CF586-75D2-416F-8F1F-B283863C4167">
+<p class="notep1">Note:</p>
+<p>When a RIA has artifacts that are signed with a different certificate or that are in a different location, ensure that the rule set contains rules for all artifacts of the RIA. For mixed code cases, which are calls between JAR files with different permission levels or calls from JavaScript code to privileged Java code, see <a href="deployment-rule-set.htm#GUID-2B08C0E9-62B0-4BB6-997E-62953C461138">Set Up Rules for Mixed Code</a>.</p>
+</div>
+<p>The valid parent element is <a href="deployment-rule-set.htm#GUID-AB19D088-3061-428C-A2D0-EDF8E41FF43F">&lt;ruleset&gt;</a>. The valid child elements are <a href="deployment-rule-set.htm#GUID-413F29CF-81B5-4154-9C52-22D993819C2B">&lt;id&gt;</a> and <a href="deployment-rule-set.htm#GUID-7F0F7EF0-2F56-4CDC-BC91-9956BAF26BD6">&lt;action&gt;</a>.</p>
+<p>This element has no attributes.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<a id="JSDPG1009"></a><a id="JSDPG1008"></a>
+<div class="props_rev_3"><a id="GUID-413F29CF-81B5-4154-9C52-22D993819C2B"></a>
+<h4 id="JSDPG-GUID-413F29CF-81B5-4154-9C52-22D993819C2B" class="sect4">&lt;id&gt;</h4>
+<div>
+<div class="section">
+<p>The <code class="codeph">&lt;id&gt;</code> element identifies the RIA or set of RIAs to which the rule applies. To be considered a match, the RIA must match all attributes and child elements present. If no attributes or child elements are present, then the rule matches all RIAs.</p>
+<div class="infobox-note" id="GUID-413F29CF-81B5-4154-9C52-22D993819C2B__GUID-4512355D-5190-4B13-9CE6-F2A20081D8E2">
+<p class="notep1">Note:</p>
+<p>If the action for a rule is <code class="codeph">run</code>, then at least one attribute or child element must be present.</p>
+</div>
+<p>The valid parent element is <a href="deployment-rule-set.htm#GUID-1FEA2AC4-F2EB-4C4E-B754-C28D5296F1A8">&lt;rule&gt;</a>. The valid child elements are <a href="deployment-rule-set.htm#GUID-44B46266-24A5-48BA-A1F9-EC9AF806F171">&lt;certificate&gt;</a>, <a href="deployment-rule-set.htm#GUID-F20BE0C3-0F8B-4770-A799-BF5E490B9D15">&lt;checksum&gt;</a>, and <a href="deployment-rule-set.htm#GUID-E236504B-EC66-4961-B79E-368F46E2AA75">&lt;jnlp-checksum&gt;</a>. Use the <code class="codeph">&lt;certificate&gt;</code> element for signed JAR files. Use the <code class="codeph">&lt;checksum&gt;</code> element in Deployment Rule Set 1.2 and higher for unsigned JAR files. Use the <code class="codeph">&lt;jnlp-checksum&gt;</code> element in Deployment Rule Set 1.3 and higher with a location-based run rule to allow insecure properties in an unsigned JNLP file to be used.</p>
+<p>The following table describes the valid attributes.</p>
+</div>
+<!-- class="section" -->
+<div class="tblformal" id="GUID-413F29CF-81B5-4154-9C52-22D993819C2B__GUID-B2A0FA3F-EB20-42E0-8178-140820E9DAA8">
+<p class="titleintable">Table 10-2 Attributes for &lt;id&gt;</p>
+<table class="cellalignment407" title="Attributes for &lt;id&gt;" summary="Table identifies the valid attributes for the id element.">
+<thead>
+<tr class="cellalignment397">
+<th class="cellalignment408" id="d34443e351">Attribute</th>
+<th class="cellalignment409" id="d34443e354">Description</th>
+<th class="cellalignment408" id="d34443e357">Required</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment397">
+<td class="cellalignment410" id="d34443e362" headers="d34443e351">
+<p><code class="codeph">location</code></p>
+</td>
+<td class="cellalignment411" headers="d34443e362 d34443e354">
+<p>URL of the source of the RIA. For RIAs that use JNLP, this value is matched to the <code class="codeph">href</code> attribute in the main JNLP file, or the <code class="codeph">jnlp_href</code> parameter for the applet tag. If there is no <code class="codeph">href</code> attribute or <code class="codeph">jnlp_href</code> parameter provided, use the <code class="codeph">&lt;jnlp-checksum&gt;</code> element with the location. For a JNLP extension, this value is matched to the location of the extension element in the resource element of the main artifact. For RIAs that do not use JNLP, this value is matched to the URL for the HTML file. The path is case sensitive and UTF-8 encoding is assumed.</p>
+<p>Use of the HTTPS protocol is strongly recommended to avoid potential man-in-the middle attacks.</p>
+<p>A location is matched based on the following guidelines:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>If provided, then the protocols must match exactly.</p>
+</li>
+<li>
+<p>The host name can start with an asterisk followed by a dot and a host name substring (*.<span class="variable">host-name-substring</span>), which then matches any host that ends with the host name substring provided after the dot. For example, <code class="codeph">*.example.com</code> matches <code class="codeph">host.example.com</code> and <code class="codeph">host.test.example.com</code>. The host name cannot be just an asterisk or an asterisk with no host name substring, such as *.com.</p>
+</li>
+<li>
+<p>If provided, then the port numbers must match exactly.</p>
+</li>
+<li>
+<p>If provided, then the beginning of the paths must match exactly. If the location attribute does not contain a path, then all paths from the host are considered a match. For example, <code class="codeph">host.example.com/samples</code> matches <code class="codeph">host.example.com/samples</code> and <code class="codeph">host.example.com/samples/test</code>, but does not match <code class="codeph">host.example.com/test</code>. However, <code class="codeph">host.example.com</code> matches <code class="codeph">host.example.com/samples</code>, <code class="codeph">host.example.com/samples/test</code>, and <code class="codeph">host.example.com/test</code>.</p>
+</li>
+</ul>
+<p>If the <code class="codeph">location</code> attribute is not present, or the value is null, then the location matches all RIAs.</p>
+</td>
+<td class="cellalignment410" headers="d34443e362 d34443e357">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment397">
+<td class="cellalignment410" id="d34443e447" headers="d34443e351">
+<p><code class="codeph">title</code></p>
+</td>
+<td class="cellalignment411" headers="d34443e447 d34443e354">
+<p>String used in the title element of the JNLP file, or as used by the Java Plug-in. If the <code class="codeph">title</code> attribute is present and the value is not null, then the value must match the title of the RIA exactly. If the <code class="codeph">title</code> attribute is not present, or the value is null, then the title matches all RIAs.</p>
+<p>If the action for a rule is <code class="codeph">run</code> or <code class="codeph">default</code> and the <code class="codeph">title</code> attribute is present, another <code class="codeph">id</code> attribute or child element must be specified with the <code class="codeph">title</code> attribute, otherwise the rule is invalid.</p>
+</td>
+<td class="cellalignment410" headers="d34443e447 d34443e357">
+<p>No</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+</div>
+<a id="JSDPG1011"></a><a id="JSDPG1010"></a>
+<div class="props_rev_3"><a id="GUID-44B46266-24A5-48BA-A1F9-EC9AF806F171"></a>
+<h4 id="JSDPG-GUID-44B46266-24A5-48BA-A1F9-EC9AF806F171" class="sect4">&lt;certificate&gt;</h4>
+<div>
+<div class="section">
+<p>The <code class="codeph">&lt;certificate&gt;</code> element identifies the certificate used to sign the RIA. The <code class="codeph">hash</code> attribute is required.</p>
+<p>The valid parent element is <a href="deployment-rule-set.htm#GUID-413F29CF-81B5-4154-9C52-22D993819C2B">&lt;id&gt;</a>. This element has no child elements.</p>
+<p>The following table describes the valid attributes:</p>
+</div>
+<!-- class="section" -->
+<div class="tblformal" id="GUID-44B46266-24A5-48BA-A1F9-EC9AF806F171__GUID-07DC2264-0A17-4F67-8A6B-7C016AC8A2B9">
+<p class="titleintable">Table 10-3 Attributes for &lt;certificate&gt;</p>
+<table class="cellalignment407" title="Attributes for &lt;certificate&gt;" summary="Table identifies the valid attributes for the certificate element">
+<thead>
+<tr class="cellalignment397">
+<th class="cellalignment408" id="d34443e517">Attribute</th>
+<th class="cellalignment409" id="d34443e520">Description</th>
+<th class="cellalignment408" id="d34443e523">Required</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment397">
+<td class="cellalignment410" id="d34443e528" headers="d34443e517">
+<p><code class="codeph">algorithm</code></p>
+</td>
+<td class="cellalignment411" headers="d34443e528 d34443e520">
+<p>String that defines the hashing algorithm used to generate the value for the hash attribute. Currently, only security hash algorithm SHA-256 is supported. If the value is null, then SHA-256 is used.</p>
+</td>
+<td class="cellalignment410" headers="d34443e528 d34443e523">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment397">
+<td class="cellalignment410" id="d34443e539" headers="d34443e517">
+<p><code class="codeph">hash</code></p>
+</td>
+<td class="cellalignment411" headers="d34443e539 d34443e520">
+<p>String of hexadecimal digits that represent the hash value of the code signing certificate. The value is based on the hashing algorithm specified for the <code class="codeph">algorithm</code> attribute. See <a href="deployment-rule-set.htm#GUID-213AEC3B-5E21-4C75-9CE9-CE2AF73B94EF">Get the Certificate Hash</a> for information on getting the value to use.</p>
+</td>
+<td class="cellalignment410" headers="d34443e539 d34443e523">
+<p>Yes</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+</div>
+<div class="props_rev_3"><a id="GUID-F20BE0C3-0F8B-4770-A799-BF5E490B9D15"></a>
+<h4 id="JSDPG-GUID-F20BE0C3-0F8B-4770-A799-BF5E490B9D15" class="sect4">&lt;checksum&gt;</h4>
+<div>
+<div class="section">
+<p>The <code class="codeph">&lt;checksum&gt;</code> element identifies the checksum for an unsigned JAR file. The <code class="codeph">hash</code> attribute is required. This element is available in Deployment Rule Set 1.2 and higher.</p>
+<p>The valid parent element is <a href="deployment-rule-set.htm#GUID-413F29CF-81B5-4154-9C52-22D993819C2B">&lt;id&gt;</a>. This element has no child elements.</p>
+<p>The following table describes the valid attributes:</p>
+</div>
+<!-- class="section" -->
+<div class="tblformal" id="GUID-F20BE0C3-0F8B-4770-A799-BF5E490B9D15__GUID-9503F725-73C2-45DF-8B21-A913B38B6311">
+<p class="titleintable">Table 10-4 Attributes for &lt;checksum&gt;</p>
+<table class="cellalignment407" title="Attributes for &lt;checksum&gt;" summary="Table identifies the valid attributes for the checksum element">
+<thead>
+<tr class="cellalignment397">
+<th class="cellalignment408" id="d34443e589">Attribute</th>
+<th class="cellalignment409" id="d34443e592">Description</th>
+<th class="cellalignment408" id="d34443e595">Required</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment397">
+<td class="cellalignment410" id="d34443e600" headers="d34443e589">
+<p><code class="codeph">algorithm</code></p>
+</td>
+<td class="cellalignment411" headers="d34443e600 d34443e592">
+<p>String that defines the hashing algorithm used to generate the value for the hash attribute. Currently, only security hash algorithm SHA-256 is supported. If the value is null, then SHA-256 is used. If a non-null value other than SHA-256 is used, a warning is issued and SHA-256 is used.</p>
+</td>
+<td class="cellalignment410" headers="d34443e600 d34443e595">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment397">
+<td class="cellalignment410" id="d34443e611" headers="d34443e589">
+<p><code class="codeph">hash</code></p>
+</td>
+<td class="cellalignment411" headers="d34443e611 d34443e592">
+<p>String of hexadecimal digits that represent the hash value of the checksum for the uncompressed form of the JAR file (compression level 0). The value is based on the hashing algorithm specified for the <code class="codeph">algorithm</code> attribute.</p>
+</td>
+<td class="cellalignment410" headers="d34443e611 d34443e595">
+<p>Yes</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+</div>
+<div class="props_rev_3"><a id="GUID-E236504B-EC66-4961-B79E-368F46E2AA75"></a>
+<h4 id="JSDPG-GUID-E236504B-EC66-4961-B79E-368F46E2AA75" class="sect4">&lt;jnlp-checksum&gt;</h4>
+<div>
+<div class="section">
+<p>The <code class="codeph">&lt;jnlp-checksum&gt;</code> element identifies the checksum for a JNLP file. The <code class="codeph">hash</code> attribute is required. This element is available in Deployment Rule Set 1.3 and higher.</p>
+<p>The valid parent element is <a href="deployment-rule-set.htm#GUID-413F29CF-81B5-4154-9C52-22D993819C2B">&lt;id&gt;</a>. This element has no child elements.</p>
+<p>If the <code class="codeph">location</code> attribute of the <code class="codeph">&lt;id&gt;</code> element is null, the <code class="codeph">&lt;jnlp-checksum&gt;</code> element is ignored. You can specify more than one <code class="codeph">&lt;jnlp-checksum&gt;</code> element. A rule matches if the checksum for the JNLP file equals the hash attribute of one of the <code class="codeph">&lt;jnlp-checksum&gt;</code> elements in the rule. The following table describes the valid attribute:</p>
+</div>
+<!-- class="section" -->
+<div class="tblformal" id="GUID-E236504B-EC66-4961-B79E-368F46E2AA75__GUID-E7DBF7E9-60AF-4755-BAA7-6842DD5EEE30">
+<p class="titleintable">Table 10-5 Attributes for &lt;jnlp-checksum&gt;</p>
+<table class="cellalignment407" title="Attributes for &lt;jnlp-checksum&gt;" summary="Table identifies the valid attribute for the jnlp-checksum element">
+<thead>
+<tr class="cellalignment397">
+<th class="cellalignment408" id="d34443e674">Attribute</th>
+<th class="cellalignment409" id="d34443e677">Description</th>
+<th class="cellalignment408" id="d34443e680">Required</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment397">
+<td class="cellalignment410" id="d34443e685" headers="d34443e674">
+<p><code class="codeph">hash</code></p>
+</td>
+<td class="cellalignment411" headers="d34443e685 d34443e677">
+<p>String of hexadecimal digits that represent the hash value of the checksum. The value is based on the hashing algorithm specified for the <code class="codeph">algorithm</code> attribute.</p>
+</td>
+<td class="cellalignment410" headers="d34443e685 d34443e680">
+<p>Yes</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+</div>
+<a id="JSDPG1013"></a><a id="JSDPG1012"></a>
+<div class="props_rev_3"><a id="GUID-7F0F7EF0-2F56-4CDC-BC91-9956BAF26BD6"></a>
+<h4 id="JSDPG-GUID-7F0F7EF0-2F56-4CDC-BC91-9956BAF26BD6" class="sect4">&lt;action&gt;</h4>
+<div>
+<div class="section">
+<p>The <code class="codeph">&lt;action&gt;</code> element defines the action taken for any RIA that matches the rule.</p>
+<p>The valid parent element is <a href="deployment-rule-set.htm#GUID-1FEA2AC4-F2EB-4C4E-B754-C28D5296F1A8">&lt;rule&gt;</a>. The valid child element is <a href="deployment-rule-set.htm#GUID-D919E960-61C3-4CE4-9F4E-86D64C301976">&lt;message&gt;</a>.</p>
+<p>The following table describes the valid attributes:</p>
+</div>
+<!-- class="section" -->
+<div class="tblformal" id="GUID-7F0F7EF0-2F56-4CDC-BC91-9956BAF26BD6__GUID-D0F1106B-A8EE-4FEA-80C5-72903EB2432B">
+<p class="titleintable">Table 10-6 Attributes for &lt;action&gt;</p>
+<table class="cellalignment407" title="Attributes for &lt;action&gt;" summary="Table describes the valid attributes for the action element">
+<thead>
+<tr class="cellalignment397">
+<th class="cellalignment412" id="d34443e735">Attribute</th>
+<th class="cellalignment413" id="d34443e738">Description</th>
+<th class="cellalignment408" id="d34443e741">Required</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment397">
+<td class="cellalignment414" id="d34443e746" headers="d34443e735">
+<p><code class="codeph">permission</code></p>
+</td>
+<td class="cellalignment415" headers="d34443e746 d34443e738">
+<p>Action taken. The valid values are <code class="codeph">block</code>, <code class="codeph">default</code>, and <code class="codeph">run</code>.</p>
+<p><code class="codeph">block</code> - RIA is not run. A message is shown to the user. To provide a custom message, include the <a href="deployment-rule-set.htm#GUID-D919E960-61C3-4CE4-9F4E-86D64C301976">&lt;message&gt;</a> element.</p>
+<p><code class="codeph">default</code> - RIA is run with default processing and any applicable security prompts are shown. To include a custom message when default processing blocks the RIA, use version 1.2 or higher of the Deployment Rule Set and include the &lt;message&gt; element.</p>
+<p><code class="codeph">run</code> - The following types of RIAs are allowed to run without prompts:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Signed with a valid certificate from a trusted certificate authority</p>
+</li>
+<li>
+<p>Signed with an expired certificate</p>
+</li>
+<li>
+<p>Self-signed</p>
+</li>
+<li>
+<p>Unsigned</p>
+</li>
+<li>
+<p>Missing required JAR file manifest attributes</p>
+</li>
+</ul>
+<p>To include a custom message with the run action, use version 1.2 or higher of the Deployment Rule Set and include the &lt;message&gt; element.</p>
+</td>
+<td class="cellalignment410" headers="d34443e746 d34443e741">
+<p>Yes</p>
+</td>
+</tr>
+<tr class="cellalignment397">
+<td class="cellalignment414" id="d34443e799" headers="d34443e735">
+<p><code class="codeph">version</code></p>
+</td>
+<td class="cellalignment415" headers="d34443e799 d34443e738">
+<p>String that identifies the version of the JRE to use to run the RIA. This attribute applies only when the value for the <code class="codeph">permission</code> attribute is <code class="codeph">run</code>. Use the <code class="codeph">version</code> attribute when an older JRE is needed for compatibility with specific RIAs. If the <code class="codeph">version</code> attribute is not present, the RIA is run with the latest JRE available.</p>
+<p>The following values are valid:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Platform version, such as 1.7, 1.7+, 1.8, 9. A platform version requests the use of any version of the specified platform, or the specified platform or later when a plus sign (+) follows the version.</p>
+</li>
+<li>
+<p>Implementation version, such as 1.7.0_40, 1.8.0_20. An implementation version requests the use of a specific version.</p>
+</li>
+<li>
+<p><code class="codeph">SECURE</code>. The <code class="codeph">SECURE</code> keyword requests the use of any version at or above the security baseline.</p>
+</li>
+<li>
+<p><code class="codeph">SECURE-version</code>, where <code class="codeph">version</code> is a valid platform version, such as <code class="codeph">SECURE-1.8</code>. The <code class="codeph">SECURE-version</code> keyword requests the use of any secure version of the specified platform, or the specified platform or later when a plus sign (+) follows the platform.</p>
+</li>
+</ul>
+<p>The version of the JRE that is used is determined by the following order of precedence:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>The current version of the JRE is used if it is available and matches both the <code class="codeph">version</code> attribute and the version requested by the RIA.</p>
+</li>
+<li>
+<p>The latest available version of the JRE is used if it matches both the <code class="codeph">version</code> attribute and the version requested by the RIA.</p>
+</li>
+<li>
+<p>The current version of the JRE is used if it is available and matches the <code class="codeph">version</code> attribute.</p>
+</li>
+<li>
+<p>The latest available version of the JRE is used if it matches the <code class="codeph">version</code> attribute.</p>
+</li>
+</ul>
+<p>If no version is available that meets the criteria, then the RIA is blocked, and a message is shown to the user. To provide a custom message, include the <code class="codeph">message</code> element.</p>
+</td>
+<td class="cellalignment410" headers="d34443e799 d34443e741">
+<p>No</p>
+</td>
+</tr>
+<tr class="cellalignment397">
+<td class="cellalignment414" id="d34443e885" headers="d34443e735">
+<p><code class="codeph">force</code></p>
+</td>
+<td class="cellalignment415" headers="d34443e885 d34443e738">
+<p>Boolean that indicates if the JRE specified for the <code class="codeph">version</code> attribute must be used to run the RIA. If this attribute is set to <code class="codeph">true</code>, the JRE specified in the rule overrides any JRE requested by the RIA. If the JRE specified in the rule is not available, the RIA is blocked. The default is <code class="codeph">false</code>.</p>
+<p>For example, if the RIA requests a JRE in the 1.7 family (1.7*) and you want only secure versions of JRE 8 run in your enterprise, you can create a rule that specifies <code class="codeph">SECURE-1.8</code> for the <code class="codeph">version</code> attribute and set the <code class="codeph">force</code> attribute to <code class="codeph">true</code>. This rule forces the RIA to run only with a secure version from the 1.8 family.</p>
+<p>This attribute is available in 1.1 and later versions of the Deployment Rule Set.</p>
+</td>
+<td class="cellalignment410" headers="d34443e885 d34443e741">
+<p>No</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+</div>
+<a id="JSDPG1015"></a><a id="JSDPG1014"></a>
+<div class="props_rev_3"><a id="GUID-D919E960-61C3-4CE4-9F4E-86D64C301976"></a>
+<h4 id="JSDPG-GUID-D919E960-61C3-4CE4-9F4E-86D64C301976" class="sect4">&lt;message&gt;</h4>
+<div>
+<div class="section">
+<p>The <code class="codeph">&lt;message&gt;</code> element defines a custom message shown to the user. This message can be used to explain why the RIA is blocked, or provide additional information to the user.</p>
+<p>Only plain text is allowed, HTML tags and other special formatting are not supported. If this element is not present, then a default message is shown when a RIA is blocked. In Deployment Rule Set 1.2 and higher, if this element is present for a rule with the action set to run, then an additional dialog is shown to the user. To support multiple locales, include a <code class="codeph">message</code> element for each locale.</p>
+<p>If the <code class="codeph">locale</code> attribute is not specified, then the message is used for any locale for which a <code class="codeph">message</code> element is not provided. If a <code class="codeph">message</code> element for the user's locale is not provided and a <code class="codeph">message</code> element without a locale is not present, then a default message is shown.</p>
+<p>To ensure that the dialog box that shows the message fits the screen, keep the message under 1024 characters and test for all locales provided.</p>
+<p>The valid parent element is <a href="deployment-rule-set.htm#GUID-7F0F7EF0-2F56-4CDC-BC91-9956BAF26BD6">&lt;action&gt;</a>. This element has no child elements.</p>
+<p>The following table describes the valid attribute:</p>
+</div>
+<!-- class="section" -->
+<div class="tblformal" id="GUID-D919E960-61C3-4CE4-9F4E-86D64C301976__GUID-58E68294-8125-4691-B74C-38D44C14C9F4">
+<p class="titleintable">Table 10-7 Attribute for the &lt;message&gt; element</p>
+<table class="cellalignment407" title="Attribute for the &lt;message&gt; element" summary="Table identifies the valid attributes for the message element">
+<thead>
+<tr class="cellalignment397">
+<th class="cellalignment408" id="d34443e975">Attribute</th>
+<th class="cellalignment409" id="d34443e978">Description</th>
+<th class="cellalignment408" id="d34443e981">Required</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment397">
+<td class="cellalignment410" id="d34443e986" headers="d34443e975">
+<p><code class="codeph">locale</code></p>
+</td>
+<td class="cellalignment411" headers="d34443e986 d34443e978">
+<p>Locale to which the message applies.</p>
+</td>
+<td class="cellalignment410" headers="d34443e986 d34443e981">
+<p>No</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+</div>
+<div class="props_rev_3"><a id="GUID-3BE41138-5983-4CD5-9DD1-0C6FF6F77FF9"></a>
+<h4 id="JSDPG-GUID-3BE41138-5983-4CD5-9DD1-0C6FF6F77FF9" class="sect4">&lt;customer&gt;</h4>
+<div>
+<div class="section">
+<p>Information provided in the <code class="codeph">&lt;customer&gt;</code> element is written to the deployment trace file and the Java console when tracing and the console are enabled. Use this element to provide debug information or associate custom data with a rule or rule set.</p>
+<p>You can enter any information in the <code class="codeph">&lt;customer&gt;</code> element as either plain text or valid XML. Include a <code class="codeph">&lt;customer&gt;</code> element within a rule to provide information specific to that rule. Include the element outside of the rules to provide information about the rule set. Prior to Deployment Rule Set 1.2, this element is ignored. In Deployment Rule Set 1.2 and higher, information from this element is copied to the trace file and Java console when they are enabled.</p>
+<p>The valid parent elements are <a href="deployment-rule-set.htm#GUID-AB19D088-3061-428C-A2D0-EDF8E41FF43F">&lt;ruleset&gt;</a> and <a href="deployment-rule-set.htm#GUID-1FEA2AC4-F2EB-4C4E-B754-C28D5296F1A8">&lt;rule&gt;</a>. This element has no child elements.</p>
+<p>This element has no attributes.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+</div>
+<a id="JSDPG930"></a>
+<div class="props_rev_3"><a id="GUID-7E87686D-0904-410B-A3BA-771407126950"></a>
+<h3 id="JSDPG-GUID-7E87686D-0904-410B-A3BA-771407126950" class="sect3">Set Up Rules for Calls From JavaScript Code (LiveConnect)</h3>
+<div>
+<div class="section">
+<p>If you need to make calls to your RIA from JavaScript code, then apply the following guidelines to prevent the calls from being blocked:</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<ul style="list-style-type: disc;">
+<li>
+<p>If the rule set contains a rule with the action of <code class="codeph">run</code> that matches your RIA, then the rule set must also contain a rule with the action of <code class="codeph">run</code> that matches the location of the JavaScript code.</p>
+</li>
+<li>
+<p>If the rule set contains a rule with the action of <code class="codeph">default</code> that matches your RIA, or no rule matches your RIA so default processing is used, then one of the following must be true:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>The rule set contains a rule with the action of <code class="codeph">run</code> that matches the location of the JavaScript code.</p>
+</li>
+<li>
+<p>The rule set contains a rule with the action of <code class="codeph">default</code> that matches the location of the JavaScript code.</p>
+</li>
+<li>
+<p>No rule matches the location of the JavaScript code, so default processing is used.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>If the JavaScript code is calling privileged code and you want to suppress mixed code warnings, see <a href="deployment-rule-set.htm#GUID-2B08C0E9-62B0-4BB6-997E-62953C461138">Set Up Rules for Mixed Code</a>.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<a id="JSDPG931"></a>
+<div class="props_rev_3"><a id="GUID-2B08C0E9-62B0-4BB6-997E-62953C461138"></a>
+<h3 id="JSDPG-GUID-2B08C0E9-62B0-4BB6-997E-62953C461138" class="sect3">Set Up Rules for Mixed Code</h3>
+<div>
+<p>When you create your rule set, ensure that you have rules for all of the artifacts that are associated with the RIAs. Additional rules might be needed to suppress mixed code security warnings that are generated when calls are made between code with different permission levels, or from JavaScript code to privileged Java code.</p>
+<p>To suppress the mixed code security warnings, include rules in your rule set based on the following requirements of your RIA:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>To make calls between Java code with different permission levels, add a rule with an action of <code class="codeph">run</code> that matches the code being called.</p>
+<p>For example, the following rule suppresses the mixed code prompt for calls to privileged code located at <code class="codeph">https://host.example.com/apps</code> from sandbox code:</p>
+<pre dir="ltr">
+&lt;rule&gt;
+ &lt;id location="https://host.example.com/apps"/&gt;
+ &lt;action permission="run"/&gt;
+ &lt;/rule&gt;
+</pre></li>
+<li>
+<p>To call privileged Java code from JavaScript code, add a rule with an action of <code class="codeph">run</code> that matches the location of the JavaScript code.</p>
+<p>For example, the following rule suppresses the mixed code prompt for calls to privileged Java code from JavaScript code that is located in any page on <code class="codeph">https://host.example.com</code>.</p>
+<pre dir="ltr">
+&lt;rule&gt;
+ &lt;id location="https://host.example.com/"/&gt;
+ &lt;action permission="run"/&gt;
+ &lt;/rule&gt;
+</pre>
+<p>If the rule set has no rule with an action of <code class="codeph">run</code> or <code class="codeph">default</code> that matches the location of the JavaScript code, then calls from JavaScript code are blocked. If you want any applicable security prompts to be shown for calls from JavaScript code, you must define a rule with an action of <code class="codeph">default</code> that matches the location of the JavaScript code.</p>
+</li>
+</ul>
+<p>Be aware that the rules shown in this section for suppressing the mixed code prompt also suppress the other security prompts for any RIA that matches the rule. Make sure that your rules are defined in the order needed to provide the control that you want.</p>
+</div>
+</div>
+<a id="JSDPG932"></a>
+<div class="props_rev_3"><a id="GUID-213AEC3B-5E21-4C75-9CE9-CE2AF73B94EF"></a>
+<h3 id="JSDPG-GUID-213AEC3B-5E21-4C75-9CE9-CE2AF73B94EF" class="sect3">Get the Certificate Hash</h3>
+<div>
+<div class="section">
+<p>If you want to define a rule that uses the certificate hash to match RIAs, you need to obtain the correct string of hexadecimal digits. Follow these steps:</p>
+</div>
+<!-- class="section" -->
+<ol>
+<li class="stepexpand"><span>Use the following command to print out the certificate information for your JAR file, replacing <code class="codeph">myjar.jar</code> with the name of your JAR file:</span>
+<div>
+<pre dir="ltr">
+keytool -printcert -jarfile myjar.jar | more
+</pre></div>
+</li>
+<li class="stepexpand"><span>At the beginning of the output, find <code class="codeph">Signer #1</code></span></li>
+<li class="stepexpand"><span>In the <code class="codeph">Certificate fingerprints</code> section under <code class="codeph">Signer #1</code>, find the line that begins with <code class="codeph">SHA256</code>.</span>
+<div>
+<p>The text that follows the <code class="codeph">SHA256</code> identifier contains 32 pairs of hexadecimal numbers separated by colons. Use this string for the <code class="codeph">hash</code> attribute of the <code class="codeph">certificate</code> element. The string can be used with or without the colons.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<a id="JSDPG1100"></a>
+<div class="props_rev_3"><a id="GUID-6DFB22D5-39A4-4784-A823-A4444CC5064A"></a>
+<h2 id="JSDPG-GUID-6DFB22D5-39A4-4784-A823-A4444CC5064A" class="sect2">Packaging the Rule Set</h2>
+<div>
+<div class="section">
+<p>The rule set defined in the <code class="codeph">ruleset.xml</code> file must be packaged in a signed JAR file named <code class="codeph">DeploymentRuleSet.jar</code>. The JAR file must be signed with a valid certificate from a trusted certificate authority.</p>
+<p>For information about creating and signing a JAR file, see the lesson <a href="http://docs.oracle.com/javase/tutorial/deployment/jar/index.html" target="_blank">Packaging Programs in JAR Files</a> in the Java Tutorials.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<a id="JSDPG1101"></a>
+<div class="props_rev_3"><a id="GUID-730E7D65-A4A9-4DE8-8F6E-29FCB7D0E2B9"></a>
+<h2 id="JSDPG-GUID-730E7D65-A4A9-4DE8-8F6E-29FCB7D0E2B9" class="sect2">Installing the Rule Set</h2>
+<div>
+<div class="section">
+<p>The rule set must be installed on every system on which you need to run Java applications.</p>
+<p>Install the <code class="codeph">DeploymentRuleSet.jar</code> file on your users' systems in the following directories:</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<ul style="list-style-type: disc;">
+<li>
+<p>On Windows platforms, install the file in the <span class="italic"><code class="codeph">&lt;Windows-directory&gt;</code></span><code class="codeph">\Sun\Java\Deployment</code> directory, for example, <code class="codeph">c:\Windows\Sun\Java\Deployment</code>.</p>
+</li>
+<li>
+<p>On Solaris and Linux platforms, install the file in the <code class="codeph">/etc/.java/deployment</code> directory.</p>
+</li>
+<li>
+<p>On macOS platforms, install the file in the <code class="codeph">/Library/Application Support/Oracle/Java/Deployment/</code> directory.</p>
+</li>
+</ul>
+</div>
+<!-- class="section" --></div>
+</div>
+<a id="JSDPG1102"></a>
+<div class="props_rev_3"><a id="GUID-35BA8F34-128A-4779-95EA-ECB857560A2E"></a>
+<h2 id="JSDPG-GUID-35BA8F34-128A-4779-95EA-ECB857560A2E" class="sect2">Viewing the Active Rule Set</h2>
+<div>
+<div class="section">
+<p>Only one deployment rule set can be active at a time. The active rule set can be viewed from the Java Control Panel.</p>
+<p>To view the active rule set:</p>
+</div>
+<!-- class="section" -->
+<ol>
+<li class="stepexpand"><span>Start the Java Control Panel.</span></li>
+<li class="stepexpand"><span>Go to the Web Settings tab.</span></li>
+<li class="stepexpand"><span>Go to the Deployment Rule Set tab.</span>
+<div>
+<p>If a rule set is active, a link to the rule set is shown. If no active rule set exists, a message is shown.</p>
+</div>
+</li>
+<li class="stepexpand"><span>Click the <span class="bold">View the active Deployment Rule Set</span> link.</span></li>
+</ol>
+</div>
+</div>
+<a id="JSDPG934"></a>
+<div class="props_rev_3"><a id="GUID-42948732-2621-4229-8282-CA1EC44CD6E1"></a>
+<h2 id="JSDPG-GUID-42948732-2621-4229-8282-CA1EC44CD6E1" class="sect2">Security Considerations</h2>
+<div>
+<div class="section">
+<p>The Deployment Rule Set feature enables RIAs to run without notifying users of potential security risks. Review the following security considerations to be aware of the risks of using a rule set, and follow any recommendations provided:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>The <code class="codeph">location</code> attribute of the <code class="codeph">id</code> element is compared to the following information:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Location of the HTML file, for applets that do not use JNLP</p>
+</li>
+<li>
+<p>Value of the <code class="codeph">href</code> attribute in the JNLP file, for Java Web Start applications and applets that do use JNLP</p>
+</li>
+<li>
+<p>Value of the <code class="codeph">jnlp_href</code> parameter for the applet tag, for applets that use JNLP and do not provide the <code class="codeph">href</code> attribute in the JNLP file</p>
+</li>
+</ul>
+<p>If matched, then all of the content in the HTML file or JNLP file is considered trusted. However, if the web site that hosts the file is vulnerable to cross-site scripting attacks, malicious content could be injected into the HTML file or JNLP file.</p>
+</li>
+<li>
+<p>For applets that use JNLP, the location of the HTML file is not checked, so the applet could potentially be started from anywhere.</p>
+</li>
+<li>
+<p>If the <code class="codeph">location</code> attribute is not used to match a rule to a RIA, then the HTML file or JNLP file that is used to start the RIA could be compromised. Use of the <code class="codeph">location</code> attribute is recommended.</p>
+</li>
+<li>
+<p>Only include a path in the <code class="codeph">location</code> attribute for a rule with an action of run if you trust the entire server. Using a path in a run rule when other locations on the server might not be trusted could present a security risk and is not recommended.</p>
+</li>
+<li>
+<p>When a path is included in the <code class="codeph">location</code> attribute, avoid using complex paths or multi-byte characters, if possible. The path is case sensitive and UTF-8 encoding is assumed. Security exceptions occur when any unsupported characters, decoding errors, or overlong encoding is encountered. If the web server, file system, or browser normalizes the path differently, a rule based on the <code class="codeph">location</code> attribute could return unexpected results.</p>
+</li>
+<li>
+<p>A blocking rule for a specific URI is not intended to be a robust security enforcement mechanism. For example, a rule established with a domain name can be bypassed if a user uses the IP address instead. The recommended practice is to have a final rule in your rule set with no identifiers and an action of block. Define the rules that you need to run RIAs without security prompts or with default processing, and let all other RIAs be matched by the final rule, which blocks them from running.</p>
+</li>
+<li>
+<p>Use of the HTTPS protocol is recommended for all locations.</p>
+</li>
+<li>
+<p>The order of the rules in the deployment rule set is critical. Rules are processed sequentially from the beginning of the file. When a match is found, no further rules are processed. Review your final rule set and look at both positive and negative cases to ensure that the rules cover the RIAs that you plan to manage without allowing matches to unknown RIAs.</p>
+</li>
+<li>
+<p>Rules are required for all artifacts of the RIA, such as multiple JAR files and JNLP extensions. Be careful when defining a rule for an artifact so that you do not inadvertently allow other RIAs that match the rule to run.</p>
+</li>
+<li>
+<p>Deployment rules allow RIAs to run with old versions of the JRE when needed for compatibility, however, older versions might have known security issues. Use the latest JRE whenever possible, and set the <code class="codeph">version</code> attribute to <code class="codeph">SECURE</code> or <code class="codeph">SECURE-version</code>. If an older version of the JRE must be used, make any rule that requests the old version as restrictive as possible to limit the RIAs that match the rule and run with the old version. Use of all of the identifiers-location, title, and certificate hash-is recommended in this case.</p>
+</li>
+<li>
+<p>If a rule with an action of <code class="codeph">run</code> exists for the RIA, the RIA is run even if the certificate used to sign the RIA is expired.</p>
+</li>
+</ul>
+</div>
+<!-- class="section" --></div>
+</div>
+<a id="JSDPG936"></a><a id="JSDPG937"></a><a id="JSDPG938"></a><a id="JSDPG939"></a><a id="JSDPG940"></a><a id="JSDPG941"></a><a id="JSDPG935"></a>
+<div class="props_rev_3"><a id="GUID-749B4E9F-C06E-47E2-AF49-E94A0D6D8468"></a>
+<h2 id="JSDPG-GUID-749B4E9F-C06E-47E2-AF49-E94A0D6D8468" class="sect2">Examples</h2>
+<div>
+<div class="section">
+<p>Sample deployment rule sets are provided to show how deployment rules are used to block or allow applications to run.</p>
+</div>
+<!-- class="section" -->
+<div class="example" id="GUID-749B4E9F-C06E-47E2-AF49-E94A0D6D8468__CIHJEGED">
+<p class="titleinexample">Example 10-1 Run RIAs from a Single Location</p>
+<p>This example allows all RIAs from <code class="codeph">https://host.example.com/</code> to run without security prompts. RIAs from other locations do not match the rule so default processing is used and security prompts are shown as applicable.</p>
+<pre dir="ltr">
+&lt;ruleset version="1.0+"&gt;
+  &lt;rule&gt;
+    &lt;id location="https://host.example.com" /&gt;
+    &lt;action permission="run" /&gt;
+  &lt;/rule&gt;
+&lt;/ruleset&gt;
+</pre></div>
+<!-- class="example" -->
+<div class="example" id="GUID-749B4E9F-C06E-47E2-AF49-E94A0D6D8468__CIHFGEBA">
+<p class="titleinexample">Example 10-2 Block Any RIAs Not Matched</p>
+<p>To ensure that all RIAs are handled by the rule set, you can provide a final rule that matches any RIA that was not matched by a previous rule. The action for this rule must be either <code class="codeph">block</code> or <code class="codeph">default</code>. This example allows all RIAs from <code class="codeph">https://host.example.com:8080</code> to run without security prompts and blocks all other RIAs. The default message is shown when a RIA is blocked because no custom message is provided.</p>
+<pre dir="ltr">
+&lt;ruleset version="1.0+"&gt;
+  &lt;rule&gt;
+    &lt;id location="https://host.example.com:8080" /&gt;
+    &lt;action permission="run" /&gt;
+  &lt;/rule&gt;
+
+  &lt;rule&gt;
+    &lt;id /&gt;
+    &lt;action permission="block" /&gt;
+  &lt;/rule&gt;
+&lt;/ruleset&gt;
+</pre></div>
+<!-- class="example" -->
+<div class="example" id="GUID-749B4E9F-C06E-47E2-AF49-E94A0D6D8468__CIHIAIIJ">
+<p class="titleinexample">Example 10-3 Rule Order Matters</p>
+<p>Rules are processed in the order in which they appear in the rule set. Complex patterns can be defined for matching rules by placing the rules in the correct order. This example allows RIAs from <code class="codeph">https://host.example.com</code> to run without security prompts using a secure version of the Java 1.7 platform, but uses default processing for RIAs from <code class="codeph">https://host.example.com/games</code>, which shows applicable security prompts. RIAs from other locations do not match either rule, so default processing is used.</p>
+<pre dir="ltr">
+&lt;ruleset version="1.0+"&gt;
+  &lt;rule&gt;
+    &lt;id location="https://host.example.com/games" /&gt;
+    &lt;action permission="default" /&gt;
+  &lt;/rule&gt;
+
+  &lt;rule&gt;
+    &lt;id location="https://host.example.com" /&gt;
+    &lt;action permission="run" version="SECURE-1.7" /&gt;
+  &lt;/rule&gt;
+&lt;/ruleset&gt;
+</pre></div>
+<!-- class="example" -->
+<div class="example" id="GUID-749B4E9F-C06E-47E2-AF49-E94A0D6D8468__CIHDAABH">
+<p class="titleinexample">Example 10-4 Manage a Specific RIA</p>
+<p>This example modifies the rule set in <a href="deployment-rule-set.htm#GUID-749B4E9F-C06E-47E2-AF49-E94A0D6D8468__CIHIAIIJ">Example 10-3</a> and requires only the RIA named <span class="italic">Solitaire</span> from <code class="codeph">https://host.example.com/games</code> to run with default processing. Other RIAs from <code class="codeph">https://host.example.com</code> are allowed to run without security prompts using a secure version of the Java 1.7 platform. All other RIAs are blocked, and a custom message is shown.</p>
+<pre dir="ltr">
+&lt;ruleset version="1.0+"&gt;
+  &lt;rule&gt;
+    &lt;id title="Solitaire" location="https://host.example.com/games" /&gt;
+    &lt;action permission="default" /&gt;
+  &lt;/rule&gt;
+
+  &lt;rule&gt;
+    &lt;id location="https://host.example.com" /&gt;
+    &lt;action permission="run" version="SECURE-1.7" /&gt;
+  &lt;/rule&gt;
+
+  &lt;rule&gt;
+    &lt;id /&gt; 
+    &lt;action permission="block"&gt;
+      &lt;message&gt;Blocked by corporate. Contact J. Smith, smith@host.example.com, if you need to run this app.&lt;/message&gt;
+    &lt;/action&gt;
+  &lt;/rule&gt;
+&lt;/ruleset&gt;
+</pre></div>
+<!-- class="example" -->
+<div class="example" id="GUID-749B4E9F-C06E-47E2-AF49-E94A0D6D8468__CIHICEGG">
+<p class="titleinexample">Example 10-5 Manage RIAs Based on Signing Certificate</p>
+<p>To allow multiple RIAs from multiple locations to run, and all RIAs are signed with the same certificate, you can use the <code class="codeph">certificate</code> element to identify the RIAs with one rule instead of creating rules for each location and title. This example allows all RIAs that are signed with the certificate used by Oracle to run without security prompts using a secure version of the Java platform. RIAs from any host ending with <code class="codeph">example.com</code> are allowed to run with default processing. All other RIAs are blocked, and a custom message is shown.</p>
+<pre dir="ltr">
+&lt;ruleset version="1.0+"&gt;
+  &lt;rule&gt; &lt;!-- allow anything signed with company's public cert --&gt; 
+    &lt;id&gt;
+      &lt;certificate hash="794F53C746E2AA77D84B843BE942CAB4309F258FD946D62A6C4CCEAB8E1DB2C6" /&gt;
+    &lt;/id&gt;
+    &lt;action permission="run" version="SECURE" /&gt;
+  &lt;/rule&gt;
+
+  &lt;rule&gt;
+    &lt;id location="*.example.com" /&gt;
+    &lt;action permission="default" /&gt;
+  &lt;/rule&gt;
+
+  &lt;rule&gt;
+    &lt;id /&gt;
+    &lt;action permission="block"&gt;
+      &lt;message&gt;Blocked by corporate. Contact J. Smith, smith@host.example.com, if you need to run this app.&lt;/message&gt;
+    &lt;/action&gt;
+  &lt;/rule&gt;
+&lt;/ruleset&gt; 
+</pre></div>
+<!-- class="example" -->
+<div class="example" id="GUID-749B4E9F-C06E-47E2-AF49-E94A0D6D8468__CIHJBDDG">
+<p class="titleinexample">Example 10-6 Force the Use of a Specific JRE</p>
+<p>To force the use of a specific JRE, use the <code class="codeph">force</code> attribute of the <code class="codeph">action</code> element. This attribute is introduced in the 1.1 version of the Deployment Rule Set. This example allows RIAs from <code class="codeph">https://host.example.com/apps</code> to run without security prompts using version 1.8_20 of the JRE. Any version requested by the RIA is ignored. If version 1.8_20 is not available, the RIA is blocked. All other RIAs are blocked, and a custom message is shown.</p>
+<pre dir="ltr">
+&lt;ruleset version="1.1+"&gt;
+  &lt;rule&gt;
+    &lt;id location="https://host.example.com/apps" /&gt;
+    &lt;action permission="run" version="1.8_20" force="true" /&gt;
+  &lt;/rule&gt;
+
+  &lt;rule&gt;
+    &lt;id /&gt;
+    &lt;action permission="block"&gt;
+      &lt;message&gt;Blocked by corporate. Contact J. Smith, smith@host.example.com, if you need to run this app.&lt;/message&gt;
+    &lt;/action&gt;
+  &lt;/rule&gt;
+&lt;/ruleset&gt; 
+</pre></div>
+<!-- class="example" -->
+<div class="example" id="GUID-749B4E9F-C06E-47E2-AF49-E94A0D6D8468__GUID-E81F9C2A-AC61-45DB-AA35-289980A03DAF">
+<p class="titleinexample">Example 10-7 Include Customer Data in the Rule Set</p>
+<p>The <code class="codeph">customer</code> element enables you to provide comments, debug information, or other data about the rules and rule set. Starting in Deployment Rule Set 1.2, this information is written to the deployment trace file and the Java console when they are enabled. This example shows customer information for the rule set and for two of the rules. The XML elements used in the <code class="codeph">customer</code> element is for illustration purposes, any valid XML can be used.</p>
+<pre dir="ltr">
+&lt;ruleset version="1.2+"&gt;
+  &lt;rule&gt;
+    &lt;id location="https://host.example.com/verified-apps" /&gt;
+    &lt;action permission="run" /&gt;
+    &lt;customer&gt;Allowing applications from https://host.example.com, which has been validated as a secure site&lt;/customer&gt;
+  &lt;/rule&gt;
+
+  &lt;customer&gt;
+     &lt;warning font=bold&gt;Run rule not matched.&lt;/warning&gt;
+     &lt;text&gt;Application will either be blocked or will show security dialogs.&lt;/text&gt;
+  &lt;/customer&gt;
+
+  &lt;rule&gt;
+    &lt;id location="*.example.com" /&gt;
+    &lt;action permission="default" /&gt;
+  &lt;/rule&gt;
+
+  &lt;rule&gt;
+    &lt;id /&gt; 
+    &lt;action permission="block"&gt;
+      &lt;message&gt;Blocked by corporate. Contact J. Smith, smith@host.example.com, if you need to run this app.&lt;/message&gt;
+    &lt;/action&gt;
+    &lt;customer&gt;
+       &lt;warning font=bold&gt;Blocked&lt;/warning&gt;
+       &lt;text&gt;No rule matched, application blocked by final rule.&lt;/text&gt;
+    &lt;/customer&gt;
+  &lt;/rule&gt;
+&lt;/ruleset&gt;
+</pre></div>
+<!-- class="example" --></div>
+</div>
+<a id="JSDPG942"></a>
+<div class="props_rev_3"><a id="GUID-AE745E2A-BDD3-4A12-802D-03E5E038E71A"></a>
+<h2 id="JSDPG-GUID-AE745E2A-BDD3-4A12-802D-03E5E038E71A" class="sect2">Java Deployment Rule Set DTD</h2>
+<div>
+<div class="section">
+<p>The following example shows the DTD for the version 1.3 of the Deployment Rule Set. Version 1.3 is supported by 8u72 and higher. Version 1.2 is supported by JRE 8u60 and higher. Version 1.1 is supported by JRE 8u20 and higher. Version 1.0 is supported by JRE 7u40 and higher. Items introduced after version 1.0 are noted.</p>
+<pre dir="ltr">
+&lt;!ELEMENT ruleset (rule*, customer*)&gt;
+&lt;!ATTLIST ruleset version CDATA #REQUIRED&gt;
+ 
+&lt;!ELEMENT rule (id, action, customer*)&gt;
+ 
+&lt;!-- checksum introduced in 1.2, jnlp-checksum introduced in 1.3 --&gt;
+&lt;!ELEMENT id (certificate?, checksum?, jnlp-checksum*)&gt;
+&lt;!ATTLIST id title CDATA #IMPLIED&gt;
+&lt;!ATTLIST id location CDATA #IMPLIED&gt;
+ 
+&lt;!-- jnlp-checksum introduced in 1.3 --&gt;
+&lt;!ELEMENT jnlp-checksum EMPTY&gt;
+&lt;!ATTLIST jnlp-checksum hash CDATA #REQUIRED&gt;
+ 
+&lt;!ELEMENT certificate EMPTY&gt;
+&lt;!ATTLIST certificate algorithm CDATA #IMPLIED&gt;
+&lt;!ATTLIST certificate hash CDATA #REQUIRED&gt;
+ 
+&lt;!-- checksum introduced in 1.2 --&gt;
+&lt;!ELEMENT checksum EMPTY&gt;
+&lt;!ATTLIST checksum algorithm CDATA #IMPLIED&gt;
+&lt;!ATTLIST checksum hash CDATA #REQUIRED&gt;
+ 
+&lt;!ELEMENT action (message?)&gt;
+&lt;!ATTLIST action permission (run | block | default) #REQUIRED&gt;
+&lt;!ATTLIST action version CDATA #IMPLIED&gt;
+&lt;!ATTLIST action force (true|false) "false"&gt;  &lt;!-- force introduced in 1.1 --&gt;
+ 
+&lt;!ELEMENT message (#PCDATA)&gt;
+&lt;!ATTLIST message locale CDATA #IMPLIED&gt;
+
+&lt;!ELEMENT customer ANY&gt;
+</pre></div>
+<!-- class="section" --></div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment396">
+<tr>
+<td class="cellalignment403">
+<table class="cellalignment406">
+<tr>
+<td class="cellalignment400"><a href="java-control-panel.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment405">
+<table class="cellalignment399">
+<tr>
+<td class="cellalignment400"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment400"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment400"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

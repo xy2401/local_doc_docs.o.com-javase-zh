@@ -1,0 +1,186 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Basic Search</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="search.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="filter.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/basicsHeader.gif" width=26 height=26 align=bottom border=0 alt="The Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Directory Operations</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Basic Search
+</h2>
+<p>
+<blockquote>
+
+The simplest form of search requires that you specify the set of attributes
+that an entry must have and the name of the target context in which to perform the search.
+<p>
+The following code
+creates an attribute set <tt>matchAttrs</tt>,
+which has two attributes <tt>"telephonenumber"</tt> and 
+<tt>"mail"</tt>.
+It specifies that the qualifying entries must have
+a surname (<tt>"sn"</tt>) attribute with a value of 
+<tt>"Geisel"</tt>
+and a <tt>"mail"</tt> attribute with any value.
+It then invokes
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, javax.naming.directory.Attributes)"><tt>DirContext.search()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     to search the
+context <tt>"ou=People"</tt> for entries that have the attributes
+specified by <tt>matchAttrs</tt>.
+<blockquote>
+<pre>
+// Specify the attributes to match
+// Ask for objects that has a surname ("sn") attribute with 
+// the value "Geisel" and the "mail" attribute
+Attributes matchAttrs = new BasicAttributes(true); // ignore attribute name case
+matchAttrs.put(new BasicAttribute("sn", "Geisel"));
+matchAttrs.put(new BasicAttribute("mail"));
+
+// Search for objects that have those matching attributes
+NamingEnumeration answer = ctx.search("ou=People", matchAttrs);
+</pre>
+</blockquote>
+
+
+You can then print the results as follows.
+<blockquote>
+<pre>
+while (answer.hasMore()) {
+    SearchResult sr = (SearchResult)answer.next();
+    System.out.println("&gt;&gt;&gt;" + sr.getName());
+    printAttrs(sr.getAttributes());
+}
+</pre>
+</blockquote>
+<tt>printAttrs()</tt>is similar to the code
+in <a href=getattrs.html>the <tt>getAttributes()</tt> example</a>
+that prints an attribute set.
+<p>
+Running <a href=src/SearchRetAll.java>this example</a> produces
+the following result.
+<blockquote>
+<pre>
+# java SearchRetAll
+&gt;&gt;&gt;cn=Ted Geisel
+attribute: sn
+value: Geisel
+attribute: objectclass
+value: top
+value: person
+value: organizationalPerson
+value: inetOrgPerson
+attribute: jpegphoto
+value: [B@1dacd78b
+attribute: mail
+value: Ted.Geisel@JNDITutorial.com
+attribute: facsimiletelephonenumber
+value: +1 408 555 2329
+attribute: cn
+value: Ted Geisel
+attribute: telephonenumber
+value: +1 408 555 5252
+</pre>
+</blockquote>
+
+<h4><a name=SELECT>Returning Selected Attributes</a></h4>
+
+The previous example returned all attributes associated with
+the entries that satisfy the specified query. You can select
+the attributes to return by passing <tt>search()</tt>
+an array of attribute identifiers that you want to include in
+the result. After creating the <tt>matchAttrs</tt> as shown previously,
+you also need to create the array of attribute identifiers,
+as shown next.
+
+<blockquote>
+<pre>
+// Specify the ids of the attributes to return
+String[] attrIDs = {"sn", "telephonenumber", "golfhandicap", "mail"};
+
+// Search for objects that have those matching attributes
+NamingEnumeration answer = ctx.search("ou=People", matchAttrs, attrIDs);
+</pre>
+</blockquote>
+
+<a href=src/Search.java>This example</a> returns the attributes
+<tt>"sn"</tt>, <tt>"telephonenumber"</tt>, 
+<tt>"golfhandicap"</tt>, and <tt>"mail"</tt> of entries that 
+have an attribute <tt>"mail"</tt> and have a <tt>"sn"</tt> attribute with the
+value <tt>"Geisel"</tt>. 
+This example produces the following result.
+(The entry does not have a 
+<tt>"golfhandicap"</tt> attribute,
+so it is not returned.)
+<blockquote>
+<pre>
+# java Search 
+&gt;&gt;&gt;cn=Ted Geisel
+attribute: sn
+value: Geisel
+attribute: mail
+value: Ted.Geisel@JNDITutorial.com
+attribute: telephonenumber
+value: +1 408 555 5252
+</pre>
+</blockquote>
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="search.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="filter.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/basicsHeader.gif" width=26 height=26 align=top border=0 alt="The Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Directory Operations</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

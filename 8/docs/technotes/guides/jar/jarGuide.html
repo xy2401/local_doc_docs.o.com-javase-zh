@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>JAR File Overview</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../webdesign/pubs8/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs8/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://docs.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>JAR File Overview</h1></div>
+<h2>What is JAR?</h2>
+<p>JAR stands for Java ARchive. It's a file format based on the
+popular ZIP file format and is used for aggregating many files into
+one. Although JAR can be used as a general archiving tool, the
+primary motivation for its development was so that Java applets and
+their requisite components (.class files, images and sounds) can be
+downloaded to a browser in a single HTTP transaction, rather than
+opening a new connection for each piece. This greatly improves the
+speed with which an applet can be loaded onto a web page and begin
+functioning. The JAR format also supports compression, which
+reduces the size of the file and improves download time still
+further. Additionally, individual entries in a JAR file may be
+digitally signed by the applet author to authenticate their
+origin.</p>
+<p>JAR is:</p>
+<ul>
+<li>the only archive format that is cross-platform</li>
+<li>the only format that handles audio and image files as well as
+class files</li>
+<li>backward-compatible with existing applet code</li>
+<li>an open standard, fully extendable, and written in java</li>
+<li>the preferred way to bundle the pieces of a java applet</li>
+</ul>
+<p>JAR consists of a zip archive, as defined by PKWARE, containing
+a manifest file and potentially signature files, as defined in the
+<a href="jar.html">JAR File Specification</a>.</p>
+<h2>The APPLET tag</h2>
+Changing the APPLET tag in your HTML page to accomodate a JAR file
+is simple. The JAR file on the server is identified by the
+<b>ARCHIVE</b> parameter, where the directory location of the jar
+file should be relative to the location of the html page:
+<pre>
+    &lt;applet code=Animator.class 
+      archive="jars/animator.jar"
+      width=460 height=160&gt;
+      &lt;param name=foo value="bar"&gt;
+    &lt;/applet&gt;
+</pre>
+Note that the familiar <b>CODE=myApplet.class</b> parameter must
+still be present. The <b>CODE</b> parameter, as always, identifies
+the name of the applet where execution begins. However, the class
+file for the applet and all of its helper classes are loaded from
+the JAR file.
+<p>Th ARCHIVE attribute describes one or more JAR files containing
+classes and other resources that will be "preloaded". The classes
+are loaded using an instance of an AppletClassLoader with the given
+CODEBASE. It takes the form
+<tt>archive&nbsp;=&nbsp;<em>archiveList</em></tt>. The archives in
+<em>archiveList</em> are separated by ",".</p>
+<p>Once the archive file is identified, it is downloaded and
+separated into its components. During the execution of the applet,
+when a new class, image or audio clip is requested by the applet,
+it is searched for first in the archives associated with the
+applet. If the file is not found amongst the archives that were
+downloaded, it is searched for on the applet's server, relative to
+the CODEBASE (that is, it is searched for as in JDK1.0.2).</p>
+<p>The archive tag may specify multiple JAR files. Each JAR file
+must be separated by "," (comma). Each file is downloaded in
+turn:</p>
+<pre>
+    &lt;applet code=Animator.class 
+      archive="classes.jar ,  images.jar ,  sounds.jar"
+      width=460 height=160&gt;
+      &lt;param name=foo value="bar"&gt;
+    &lt;/applet&gt;
+</pre>
+There can be any amount of white space between entries within the
+archive parameter. In addition, the archive tag itself is
+case-insensitive; it can be lower-case, upper-case, or any
+combination of lower- and upper-case letters, such as ArCHiVe.
+<h2>Executable JAR Files</h2>
+On Microsoft Windows systems, the Java 2 Runtime Environment's
+installation program will register a default association for JAR
+files so that double-clicking a JAR file on the desktop will
+automatically run it with <tt>javaw&nbsp;-jar</tt>. Dependent
+extensions bundled with the application will also be loaded
+automatically. This feature makes the end-user runtime environment
+easier to use on Microsoft Windows systems.
+<p>The Solaris 2.6 kernel has already been extended to recognize
+the special "magic" number that identifies a JAR file, and to
+invoke <tt>java -jar</tt> on such a JAR file as if it were a native
+Solaris executable. A application packaged in a JAR file can thus
+be executed directly from the command line or by clicking an icon
+on the CDE desktop.</p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

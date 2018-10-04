@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<!-- GenHTML revision 23965-->
+<meta http-equiv="Content-type" content=
+"text/html; charset=utf-8" />
+<title>Internationalization - Troubleshooting Guide for Java SE 7
+Desktop Technologies</title>
+<meta http-equiv="content-language" content="en-US" />
+<meta name="robots" content="index,follow" />
+<meta name="language" content="en" />
+<meta name="collection" content="reference" />
+<meta name="keywords" content="" />
+<meta name="description" content=
+"This document is a guide to help troubleshoot problems that might arise with applications that are deployed using the release of Java Platform, Standard Edition 7 (Java SE 7). Most of the information also applies to Java SE 5." />
+<meta name="date" content="2008-09-01" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/default.css" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/pagelayout.css" />
+<link rel="alternate stylesheet" type="text/css" title="print"
+href="css/print.css" />
+<script type="text/javascript">
+//<![CDATA[
+function setActiveStyleSheet(title) {
+  var i, a, main;
+  for (i=0; (a = document.getElementsByTagName("link")[i]); i++) {
+         if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+                a.disabled = true;
+                if(a.getAttribute("title") == title) a.disabled = false;
+         }
+  }
+}
+
+function ClearDefault(Element) {
+   if (Element.defaultValue == Element.value) {
+        Element.value = ""
+        Element.style.cssText = "font-weight: bold; color: #00000"
+   }
+}
+
+//]]>
+</script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<div class="MastheadPane">
+<table class="MastheadTable" width="100%">
+<tr class="closeprintview">
+<td align="right"><a href="#" onclick=
+"setActiveStyleSheet('screen')">Exit Print View</a></td>
+</tr>
+<tr class="titlebar">
+<td>
+<h4 class="contentpage-doctitle"><a href="toc.html">Troubleshooting
+Guide for Java SE 7 Desktop Technologies</a></h4>
+</td>
+<td class="smallLogo"><a href="http://www.oracle.com"><img src=
+"graphics/smallOracleLogo.gif" /></a></td>
+</tr>
+</table>
+</div>
+<div class="ButtonPane">
+<table class="pagecontrol">
+<tr>
+<td class="pagebuttons"><a href="#" onclick=
+"setActiveStyleSheet('print')"><img height="46" width="40" border=
+"0" src="graphics/print.gif" alt="Print View" title=
+"Print View" /></a></td>
+<td class="pagebreadcrumb"></td>
+<td class="pagenavlinks"><a href="swing.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="sound.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+<div class="TOCPane">
+<p class="toc level1"><a href="docinfo.html">Document
+Information</a></p>
+<p class="toc level1 tocsp"><a href="preface.html">Preface</a></p>
+<p class="toc level1 tocsp"><a href=
+"introduction.html">1.&#160;&#160;Introduction</a></p>
+<p class="toc level1 tocsp"><a href=
+"awt.html">2.&#160;&#160;AWT</a></p>
+<p class="toc level1 tocsp"><a href=
+"java2d.html">3.&#160;&#160;Java 2D</a></p>
+<p class="toc level1 tocsp"><a href=
+"swing.html">4.&#160;&#160;Swing</a></p>
+<div id="scrolltoc" class="onpage">
+<p class="toc level1 tocsp"><a href=
+"">5.&#160;&#160;Internationalization</a></p>
+<p class="toc level2"><a href="#gentextid-2083">5.1
+Introduction</a></p>
+<p class="toc level2"><a href="#gdkcz">5.2 Troubleshooting</a></p>
+</div>
+<p class="toc level1 tocsp"><a href="sound.html">6.&#160;&#160;Java
+Sound</a></p>
+<p class="toc level1 tocsp"><a href=
+"plugin.html">7.&#160;&#160;Applets and Java Web Start
+Applications</a></p>
+<p class="toc level1 tocsp"><a href=
+"bugreports.html">8.&#160;&#160;Submitting Bug Reports</a></p>
+<p class="toc level1 tocsp"><a href=
+"java2d-props.html">A.&#160;&#160;Java 2D Properties</a></p>
+<p class="toc level1 tocsp"><a href=
+"felog.html">B.&#160;&#160;Fatal Error Log</a></p>
+</div>
+<div class="ContentPane"><a name="i18n" id=
+"i18n"></a>Chapter&#160;5
+<h2>Internationalization</h2>
+<p>This chapter provides information and guidance on
+troubleshooting issues that might be found in the area of
+internationalization support. For detailed information, visit the
+<a href=
+"http://java.sun.com/javase/technologies/core/basic/intl/">Java
+Internationalization site</a>.</p>
+<a name="gentextid-2083" id="gentextid-2083"></a>
+<h3>5.1 Introduction</h3>
+<p>Before troubleshooting, make sure that you understand the
+difference between internationalization and localization:</p>
+<ul>
+<li>
+<p>Internationalization is the process of designing software so
+that it can be adapted (localized) to various languages and regions
+easily, in a cost-effective way, and without changes to the
+software. This process generally involves isolating the parts of a
+program that are dependent on language and culture. For example,
+the text of error messages are kept separate from program source
+code because the messages must be translated during
+localization.</p>
+</li>
+<li>
+<p>Localization is the process of adapting a program for use in a
+specific locale. A locale is a geographic or political region that
+shares the same language and customs. Localization includes the
+translation of text such as user interface labels, error messages,
+and online help. It also includes the culture-specific formatting
+of data items such as monetary values, times, dates, and
+numbers.</p>
+</li>
+</ul>
+<p>The user interface libraries in the Java SE platform enable the
+development of rich interactive applications. The
+internationalization aspects include text input, text display, and
+user interface layout. The following descriptions show the
+relationship between internationalization and the functionality
+provided by the AWT, Java 2D, and Swing APIs:</p>
+<ul>
+<li>
+<p>Text input is the process of entering new text into a document,
+whether by typing on a keyboard or through front-end software such
+as input methods, handwriting recognition, or speech input.</p>
+</li>
+<li>
+<p>Text display is a multistep process that includes selecting a
+font, arranging text into paragraphs and lines, selecting glyphs
+for characters or character sequences, and rendering these glyphs.
+Some writing systems require bidirectional text layout or complex
+character-to-glyph mappings. Text display is handled by the Java 2D
+graphics system and the Swing toolkit for lightweight user
+interface components and by AWT for peered user interface
+components.</p>
+</li>
+<li>
+<p>User interface layout needs to accommodate text expansion or
+shrinkage caused by localization, and match the direction of the
+user's writing system.</p>
+</li>
+</ul>
+<a name="gdkcz" id="gdkcz"></a>
+<h3>5.2 Troubleshooting</h3>
+<p>The <a href=
+"http://java.sun.com/javase/technologies/core/basic/intl/faq.jsp">Java
+Internationalization FAQ document</a> answers general questions, as
+well as specific questions such as the following:</p>
+<ul>
+<li>
+<p>Why doesn't my application display any Chinese, Japanese, or
+Korean characters even though I have fonts for these languages
+installed?</p>
+</li>
+<li>
+<p>Why can I see some characters in Swing components, but not in
+peered AWT components?</p>
+</li>
+<li>
+<p>Why can't my application display all Unicode characters even
+though I have a Unicode font installed?</p>
+</li>
+<li>
+<p>Why does the response character encoding in my JSP-based
+application change after I set it?</p>
+</li>
+</ul>
+</div>
+<div class="BottomPageControlPane">
+<table class="pagecontrol">
+<tr>
+<td>
+<div class="pagefooterlinks">Copyright &#169;1995, 2011, Oracle
+and/or its affiliates. All rights reserved. <a href=
+"docinfo.html">Legal Notices</a></div>
+</td>
+<td class="pagenavlinks"><a href="swing.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="sound.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+</body>
+</html>

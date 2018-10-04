@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<meta http-equiv="content-type" content=
+"text/html; charset=utf-8" />
+
+<title>Advanced JGSS Security Programming</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../../webdesign/pubs8/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../../webdesign/pubs8/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../../webdesign/pubs8/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../../webdesign/pubs8/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../../webdesign/pubs8/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../../../webdesign/pubs8/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../../webdesign/pubs8/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://docs.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<!-- part III -->
+<div class="smallpagetitle"><h1><a name="PART3" id="PART3">Part III : Deploying
+for Single Sign-On in a Kerberos Environment</a></h1></div>
+<h2><a name="SSO" id=
+"SSO"></a>Exercise 6: Deploying for Single Sign-On</h2>
+<h3>Goal of this exercise</h3>
+<p>The goal of this exercise is to learn how to configure a JAAS
+application that uses Kerberos for authentication to achieve
+<em>single sign-on</em>. Single sign-on means that the user needs
+only authenticate once to a system or a collection of services.
+After the initial authentication, the user can access other
+services in the system using the same identity as he used for the
+initial authentication.</p>
+<p>Single sign-on can be used to describe different types of
+authentication. There are HTTP-based network single sign-on
+protocols. There is Kerberos-based single sign-on for network
+services. In this particular exercise, we show how to achieve
+single sign-on in Kerberos-based systems by showing how to import
+already-acquired Kerberos credentials from the underlying native
+operating system.</p>
+<h3>Background and Resources for this exercise</h3>
+<p><a href="../../../security/jgss/single-signon.html">Single Sign-On Using Kerberos in Java</a></p>
+<p>In addition, see the information provided in <a href=
+"part1.html#KRB5BG">Exercise 2</a> and <a href=
+"part2.html#JGSSBG">Exercise 4</a> for background information about Kerberos
+and Java GSS.</p>
+<h3>Steps to follow</h3>
+<ol>
+<li><p>Edit the <a href="src/jaas-krb5.conf"><code>jaas-krb5.conf</code></a> configuration file.</p>
+<p>This file contains two entries: one named <i>client</i> and one named
+<i>server</i>. Add the line <code>useTicketCache=true</code>
+to the <code>client</code> entry.</p>
+</li>
+<li><p>Perform Kerberos login to the native operating system. To login to Kerberos, use <code>kinit</code> command as follows:</p>
+<pre class="codeblock">
+% kinit test
+</pre>
+<p>Provide a secure password.</p></li>
+<li>Run the client and server programs in Exercises 1 through 5 and you will note that the client applications no longer ask you to
+enter a password.</li>
+</ol>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

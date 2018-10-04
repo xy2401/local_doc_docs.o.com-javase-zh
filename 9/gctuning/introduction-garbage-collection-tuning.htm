@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Introduction to Garbage Collection Tuning</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="dcterms.created" content="2017-10-11T21:49:04Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition HotSpot Virtual Machine Garbage Collection Tuning Guide" />
+<meta name="dcterms.identifier" content="E76294-05" />
+<meta name="dcterms.isVersionOf" content="JSGCT" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;2014, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="preface.htm" title="Previous" type="text/html" />
+<link rel="Next" href="ergonomics.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSGCT.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSGCT.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSGCT.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-326EB4CF-8C8C-4267-8355-21AB04F0D304"></a> <span id="PAGE" style="display:none;">4/14</span> <!-- End Header -->
+<h1 id="JSGCT-GUID-326EB4CF-8C8C-4267-8355-21AB04F0D304" class="sect1"><span class="enumeration_chapter">1</span> Introduction to Garbage Collection Tuning</h1>
+<div>
+<p>A wide variety of applications, from small applets on desktops to web services on large servers, use the Java Platform, Standard Edition (Java SE). In support of this diverse range of deployments, the Java HotSpot VM provides multiple garbage collectors, each designed to satisfy different requirements. Java SE selects the most appropriate garbage collector based on the class of the computer on which the application is run. However, this selection may not be optimal for every application. Users, developers, and administrators with strict performance goals or other requirements may need to explicitly select the garbage collector and tune certain parameters to achieve the desired level of performance. This document provides information to help with these tasks.</p>
+<p>First, general features of a garbage collector and basic tuning options are described in the context of the serial, stop-the-world collector. Then specific features of the other collectors are presented along with factors to consider when selecting a collector.</p>
+<div class="section">
+<p class="subhead1">Topics</p>
+<ul style="list-style-type: disc;">
+<li><a href="introduction-garbage-collection-tuning.htm#GUID-8A443184-7E07-4B71-9777-4F12947C8184" title="The garbage collector (GC) automatically manages the application's dynamic memory allocation requests.">What Is a Garbage Collector?</a></li>
+<li><a href="introduction-garbage-collection-tuning.htm#GUID-A48F272E-A6C1-45A0-9A8B-6D5790EB454C" title="The purpose of a garbage collector is to free the application developer from manual dynamic memory management. The developer is freed of the requirement to match allocations with deallocations and closely take care of the lifetimes of allocated dynamic memory. This completely eliminates some classes of errors related to memory management at the cost of some additional runtime overhead. The Java HotSpot VM provides a selection of garbage collection algorithms to choose from.">Why Does the Choice of Garbage Collector Matter?</a></li>
+<li><a href="introduction-garbage-collection-tuning.htm#GUID-223394DF-2E27-4F5D-A7DF-83151EB577BB">Supported Operating Systems in Documentation</a></li>
+</ul>
+</div>
+<!-- class="section" --></div>
+<div class="props_rev_3"><a id="GUID-8A443184-7E07-4B71-9777-4F12947C8184"></a>
+<h2 id="JSGCT-GUID-8A443184-7E07-4B71-9777-4F12947C8184" class="sect2">What Is a Garbage Collector?</h2>
+<div>
+<p>The garbage collector (GC) automatically manages the application's dynamic memory allocation requests.</p>
+<p>A garbage collector performs automatic dynamic memory management through the following operations:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Allocates from and gives back memory to the operating system.</p>
+</li>
+<li>
+<p>Hands out that memory to the application as it requests it.</p>
+</li>
+<li>
+<p>Determines which parts of that memory is still in use by the application.</p>
+</li>
+<li>
+<p>Reclaims the unused memory for reuse by the application.</p>
+</li>
+</ul>
+<p>The Java HotSpot garbage collectors employ various techniques to improve the efficiency of these operations:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Use generational scavenging in conjunction with aging to concentrate their efforts on areas in the heap that most likely contain a lot of reclaimable memory areas.</p>
+</li>
+<li>
+<p>Use multiple threads to aggressively make operations parallel, or perform some long-running operations in the background concurrent to the application.</p>
+</li>
+<li>
+<p>Try to recover larger contiguous free memory by compacting live objects.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="props_rev_3"><a id="GUID-A48F272E-A6C1-45A0-9A8B-6D5790EB454C"></a>
+<h2 id="JSGCT-GUID-A48F272E-A6C1-45A0-9A8B-6D5790EB454C" class="sect2">Why Does the Choice of Garbage Collector Matter?</h2>
+<div>
+<p>The purpose of a garbage collector is to free the application developer from manual dynamic memory management. The developer is freed of the requirement to match allocations with deallocations and closely take care of the lifetimes of allocated dynamic memory. This completely eliminates some classes of errors related to memory management at the cost of some additional runtime overhead. The Java HotSpot VM provides a selection of garbage collection algorithms to choose from.</p>
+<p>When does the choice of a garbage collector matter? For some applications, the answer is never. That is, the application can perform well in the presence of garbage collection with pauses of modest frequency and duration. However, this isn't the case for a large class of applications, particularly those with large amounts of data (multiple gigabytes), many threads, and high transaction rates.</p>
+<p>Amdahl's law (parallel speedup in a given problem is limited by the sequential portion of the problem) implies that most workloads can't be perfectly parallelized; some portion is always sequential and doesn't benefit from parallelism. In the Java platform, there are currently four supported garbage collection alternatives and all but one of them, the serial GC, parallelize the work to improve performance. It's very important to keep the overhead of doing garbage collection as low as possible. This can be seen in the following example.</p>
+<p>The graph in <a href="introduction-garbage-collection-tuning.htm#GUID-A48F272E-A6C1-45A0-9A8B-6D5790EB454C__PERCENTAGE_TIME_GC">Figure 1-1</a> models an ideal system that's perfectly scalable with the exception of garbage collection. The red line is an application spending only 1% of the time in garbage collection on a uniprocessor system. This translates to more than a 20% loss in throughput on systems with 32 processors. The magenta line shows that for an application at 10% of the time in garbage collection (not considered an outrageous amount of time in garbage collection in uniprocessor applications), more than 75% of throughput is lost when scaling up to 32 processors.</p>
+<div class="figure" id="GUID-A48F272E-A6C1-45A0-9A8B-6D5790EB454C__PERCENTAGE_TIME_GC">
+<p class="titleinfigure">Figure 1-1 Comparing Percentage of Time Spent in Garbage Collection</p>
+<img width="564" height="362" src="img/jsgct_dt_005_gph_pc_vs_tp.png" alt="Description of Figure 1-1 follows" title="Description of Figure 1-1 follows" /><br />
+<a href="img_text/jsgct_dt_005_gph_pc_vs_tp.htm">Description of "Figure 1-1 Comparing Percentage of Time Spent in Garbage Collection"</a></div>
+<!-- class="figure" -->
+<p>This figure shows that negligible throughput issues when developing on small systems may become principal bottlenecks when scaling up to large systems. However, small improvements in reducing such a bottleneck can produce large gains in performance. For a sufficiently large system, it becomes worthwhile to select the right garbage collector and to tune it if necessary.</p>
+<p>The serial collector is usually adequate for most small applications, in particular those requiring heaps of up to approximately 100 megabytes on modern processors. The other collectors have additional overhead or complexity, which is the price for specialized behavior. If the application does not need the specialized behavior of an alternate collector, use the serial collector. One situation where the serial collector isn't expected to be the best choice is a large, heavily threaded application that runs on a machine with a large amount of memory and two or more processors. When applications are run on such server-class machines, the Garbage-First (G1) collector is selected by default; see <a href="ergonomics.htm#GUID-DB4CAE94-2041-4A16-90EC-6AE3D91EC1F1" title="Ergonomics is the process by which the Java Virtual Machine (JVM) and garbage collection heuristics, such as behavior-based heuristics, improve application performance.">Ergonomics</a>.</p>
+</div>
+</div>
+<div class="props_rev_3"><a id="GUID-223394DF-2E27-4F5D-A7DF-83151EB577BB"></a>
+<h2 id="JSGCT-GUID-223394DF-2E27-4F5D-A7DF-83151EB577BB" class="sect2">Supported Operating Systems in Documentation</h2>
+<div>
+<div class="section">
+<p>This document and its recommendations apply to all JDK 9 supported system configurations, limited by actual availability of some garbage collectors in a particular configuration. See <a href="http://www.oracle.com/pls/topic/lookup?ctx=javase9&amp;id=latest_certified_system_configurations" target="_blank">Oracle JDK 9 and JRE 9 Certified System Configurations</a>.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment56">
+<tr>
+<td class="cellalignment68">
+<table class="cellalignment61">
+<tr>
+<td class="cellalignment60"><a href="preface.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment60"><a href="ergonomics.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;2014, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment70">
+<table class="cellalignment59">
+<tr>
+<td class="cellalignment60"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment60"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment60"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

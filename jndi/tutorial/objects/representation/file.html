@@ -1,0 +1,107 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>File System</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="ldap.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="../end.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/objectsHeader.gif" width=26 height=26 align=bottom border=0 alt="Java Objects and the Directory | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Representation in the Directory</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    File System
+</h2>
+<p>
+<blockquote>
+
+
+<a href="http://java.sun.com/products/jndi/serviceproviders.html#filesystem12">
+Sun's file system service provider</a>
+supports storing Java objects in the file system.
+Specifically, it supports the binding of
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Referenceable.html><tt>Referenceable</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Referenceable.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     objects.
+Such objects are stored as a set of properties in
+a file called <tt>.bindings</tt>.
+The parent directory that contains this 
+<tt>.bindings</tt> file is
+the parent <em>context</em> of these bindings.
+<p>
+For example, if you have a file directory called <tt>food</tt>, 
+then you can add a binding to it as follows:
+<blockquote>
+<pre>
+ctx.bind("food/fav", new Fruit("orange"));
+</pre>
+</blockquote>
+<p>
+The binding for <tt>"fav"</tt> will be stored in the file 
+<tt>food/.bindings</tt>.
+You can subsequently look up the object
+<blockquote>
+<pre>
+Fruit f = (Fruit) ctx.lookup("food/fav");
+</pre>
+</blockquote>
+
+<p>
+See
+<a target="_top" href="../../basics/naming/bind.html">The Basics</a> <a href="../../basics/naming/bind.html"><img src="../../jndiimages/basicsIcon.gif" width=20 height=20 border=0 alt="(in the Basics trail)"></a>     trail for more examples.
+
+<a href=../../basics/naming/bind.html>
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="ldap.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="../end.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/objectsHeader.gif" width=26 height=26 align=top border=0 alt="Java Objects and the Directory | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Representation in the Directory</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Java SASL API Programming and Deployment Guide</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="Simple Authentication and Security Layer (SASL) protocol specifies the authentication and optional establishment of a security layer between client and server applications." />
+<meta name="dcterms.created" content="2017-10-12T19:32:24Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Security Developer&rsquo;s Guide" />
+<meta name="dcterms.identifier" content="E68624-04" />
+<meta name="dcterms.isVersionOf" content="JSSEC" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="java-pki-programmers-guide.htm" title="Previous" type="text/html" />
+<link rel="Next" href="xml-digital-signature1.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSSEC.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSSEC.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSSEC.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-6D78EE33-62E6-4D85-9695-322EED493F72"></a> <span id="PAGE" style="display:none;">21/28</span> <!-- End Header -->
+<h1 id="JSSEC-GUID-6D78EE33-62E6-4D85-9695-322EED493F72" class="sect1"><span class="enumeration_chapter">10</span> Java SASL API Programming and Deployment Guide</h1>
+<div>
+<p>Simple Authentication and Security Layer (SASL) protocol specifies the authentication and optional establishment of a security layer between client and server applications.</p>
+<p>SASL, is an Internet standard (<a href="http://www.ietf.org/rfc/rfc2222.txt" target="_blank">RFC 2222</a>) that specifies a protocol for authentication and optional establishment of a security layer between client and server applications. SASL defines how authentication data is to be exchanged but does not itself specify the contents of that data. It is a framework into which specific <span class="italic">authentication mechanisms</span> that specify the contents and semantics of the authentication data can fit.</p>
+<p>SASL is used by protocols, such as the Lightweight Directory Access Protocol, version 3 (<a href="http://www.ietf.org/rfc/rfc2251.txt" target="_blank">LDAP v3</a>), and the Internet Message Access Protocol, version 4 (<a href="http://www.ietf.org/rfc/rfc2060.txt" target="_blank">IMAP v4</a>) to enable pluggable authentication. Instead of hardwiring an authentication method into the protocol, LDAP v3 and IMAP v4 use SASL to perform authentication, thus enabling authentication via various SASL mechanisms.</p>
+<p>There are a number of standard SASL mechanisms defined by the Internet community for various levels of security and deployment scenarios. These range from no security (e.g., anonymous authentication) to high security (e.g., Kerberos authentication) and levels in between.</p>
+<div class="section">
+<p class="subhead1">The Java SASL API</p>
+<p>The Java SASL API defines classes and interfaces for applications that use SASL mechanisms. It is defined to be mechanism-neutral: the application that uses the API need not be hardwired into using any particular SASL mechanism. The API supports both client and server applications. It allows applications to select the mechanism to use based on desired security features, such as whether they are susceptible to passive dictionary attacks or whether they accept anonymous authentication.</p>
+<p>The Java SASL API also allows developers to use their own, custom SASL mechanisms. SASL mechanisms are installed by using the <a href="java-cryptography-architecture-jca-reference-guide.htm#GUID-2BCFDD85-D533-4E6C-8CE9-29990DEB0190" title='The Java Cryptography Architecture (JCA) is a major piece of the platform, and contains a "provider" architecture and a set of APIs for digital signatures, message digests (hashes), certificates and certificate validation, encryption (symmetric/asymmetric block/stream ciphers), key generation and management, and secure random number generation, to name a few.'>Java Cryptography Architecture (JCA) Reference Guide</a> (JCA).</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">When to Use SASL</p>
+<p>SASL provides pluggable authentication and security layer for network applications. There are other features in the Java SE that provide similar functionality, including the <a href="java-secure-socket-extension-jsse-reference-guide.htm#GUID-93DEEE16-0B70-40E5-BBE7-55C3FD432345" title="The Java Secure Socket Extension (JSSE) enables secure Internet communications. It provides a framework and an implementation for a Java version of the SSL, TLS, and DTLS protocols and includes functionality for data encryption, server authentication, message integrity, and optional client authentication.">Java Secure Socket Extension (JSSE) Reference Guide</a> and <a href="http://www.ietf.org/rfc/rfc2853.txt" target="_blank">Java Generic Security Service</a>.</p>
+<p>Java GSS is the Java language bindings for the Generic Security Service Application Programming Interface <a href="http://www.ietf.org/rfc/rfc2743.txt" target="_blank">GSS-API</a>.</p>
+<p>The only mechanism currently supported underneath this API on Java SE is Kerberos v5.</p>
+<p>When compared with JSSE and Java GSS, SASL is relatively lightweight and is popular among more recent protocols. It also has the advantage that several popular, lightweight (in terms infrastructure support) SASL mechanisms have been defined. Primary JSSE and Java GSS mechanisms, on the other hand, have relatively heavyweight mechanisms that require more elaborate infrastructures (Public Key Infrastructure and Kerberos, respectively).</p>
+<p>SASL, JSSE, and Java GSS are often used together. For example, a common pattern is for an application to use JSSE for establishing a secure channel, and to use SASL for client, username/password-based authentication. There are also SASL mechanisms layered on top of GSS-API mechanisms; one popular example is a SASL GSS-API/Kerberos v5 mechanism that is used with LDAP.</p>
+<p>Except when defining and building protocols from scratch, often the biggest factor determining which API to use is the protocol definition. For example, LDAP and IMAP are defined to use SASL, so software related to these protocols should use the Java SASL API. When building Kerberos applications and services, the API to use is Java GSS. When building applications and services that use SSL/TLS as their protocol, the API to use is JSSE.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p><a href="introduction-java-sasl-api.htm#GUID-6F735DD5-1648-4BB7-A4BC-D001DC3B82AC" title="The Java SASL API has interfaces SaslClient and SaslServer that represent the client-side and server-side APIs.">Java SASL API Overview</a></p>
+<p><a href="introduction-java-sasl-api.htm#GUID-93982F1C-AFFE-47B9-B4BA-41551ECCE2D2" title="SASL mechanism implementations are provided by SASL security providers. Each provider may support one or more SASL mechanisms and is registered with the JCA.">How SASL Mechanisms are Installed and Selected</a></p>
+<p><a href="introduction-java-sasl-api.htm#GUID-2F50B103-FE9F-459F-9EC5-B708358A7B59" title="Information about the SunSASL provider client and server mechanisms.">The SunSASL Provider</a></p>
+<p><a href="introduction-java-sasl-api.htm#GUID-A21D50AD-3730-4FE6-A13B-75529607E068" title="Procedure to implement a SASL Security Provider.">Implementing a SASL Security Provider</a></p>
+</div>
+<!-- class="section" --></div>
+<div class="sect2"><a id="GUID-6F735DD5-1648-4BB7-A4BC-D001DC3B82AC"></a>
+<h2 id="JSSEC-GUID-6F735DD5-1648-4BB7-A4BC-D001DC3B82AC" class="sect2">Java SASL API Overview</h2>
+<div>
+<p>The Java SASL API has interfaces <code class="codeph">SaslClient</code> and <code class="codeph">SaslServer</code> that represent the client-side and server-side APIs.</p>
+<p>SASL is a challenge-response protocol. The server issues a challenge to the client, and the client sends a response based on the challenge. This exchange continues until the server is satisfied and issues no further challenge. These challenges and responses are binary tokens of arbitrary length. The encapsulating protocol (such as LDAP or IMAP) specifies how these tokens are encoded and exchanged. For example, LDAP specifies how SASL tokens are encapsulated within LDAP bind requests and responses.</p>
+<p>The Java SASL API is modeled according to this style of interaction and usage. It has interfaces, <code class="codeph">SaslClient</code> and <code class="codeph">SaslServer</code> , that represent client-side and server-side mechanisms, respectively. The application interacts with the mechanisms via byte arrays that represent the challenges and responses. The server-side mechanism iterates, issuing challenges and processing responses, until it is satisfied, while the client-side mechanism iterates, evaluating challenges and issuing responses, until the server is satisfied. The application that is using the mechanism drives each iteration. That is, it extracts the challenge or response from a protocol packet and supplies it to the mechanism, and then puts the response or challenge returned by the mechanism into a protocol packet and sends it to the peer.</p>
+<p><a href="introduction-java-sasl-api.htm#GUID-7CFF731F-8330-40D6-8841-C1FB07C73655" title="The client and server code that uses the SASL mechanisms are not hardwired to use specific mechanism(s). In many protocols that use SASL, the server advertises (either statically or dynamically) a list of SASL mechanisms that it supports. The client then selects one of these based on its security requirements.">Creating the Mechanisms</a></p>
+<p><a href="introduction-java-sasl-api.htm#GUID-90092190-14A7-48F9-923A-A37FDCC28D6B" title="The API provides three ways by which an application gives input to a mechanism.">Passing Input to the Mechanisms</a></p>
+<p><a href="introduction-java-sasl-api.htm#GUID-F3774782-A395-48C9-A9BD-10C9F25FFE50" title="After the application has created a mechanism, it uses the mechanism to obtain SASL tokens to exchange with the peer.">Using the Mechanisms</a></p>
+<p><a href="introduction-java-sasl-api.htm#GUID-762BDD49-6EE8-419C-A45E-540462CB192B" title="Some SASL mechanisms support only authentication while others support use of a negotiated security layer after authentication. The security layer feature is often not used when the application uses some other means, such as SSL/TLS, to communicate securely with the peer.">Using the Negotiated Security Layer</a></p>
+</div>
+<div class="sect3"><a id="GUID-7CFF731F-8330-40D6-8841-C1FB07C73655"></a>
+<h3 id="JSSEC-GUID-7CFF731F-8330-40D6-8841-C1FB07C73655" class="sect3">Creating the Mechanisms</h3>
+<div>
+<p>The client and server code that uses the SASL mechanisms are not hardwired to use specific mechanism(s). In many protocols that use SASL, the server advertises (either statically or dynamically) a list of SASL mechanisms that it supports. The client then selects one of these based on its security requirements.</p>
+<div class="section">
+<p>The <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html" target="_blank"><code class="codeph">Sasl</code></a> class is used for creating instances of <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/SaslClient.html" target="_blank"><code class="codeph">SaslClient</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/SaslServer.html" target="_blank"><code class="codeph">SaslServer</code></a>. Here is an example of how an application creates a SASL client mechanism using a list of possible SASL mechanisms.</p>
+<pre class="codeblock" dir="ltr">
+String[] mechanisms = new String[]{"DIGEST-MD5", "PLAIN"}; 
+SaslClient sc = Sasl.createSaslClient(mechanisms, authzid, protocol, 
+                serverName, props, callbackHandler);
+</pre>
+<p>Based on the availability of the mechanisms supported by the platform and other configuration information provided via the parameters, the Java SASL framework selects one of the listed mechanisms and return an instance of <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/SaslClient.html" target="_blank"><code class="codeph">SaslClient</code></a>.</p>
+<p>The name of the selected mechanism is usually transmitted to the server via the application protocol. Upon receiving the mechanism name, the server creates a corresponding <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/SaslServer.html" target="_blank"><code class="codeph">SaslServer</code></a> object to process client-sent responses. Here is an example of how the server would create an instance of <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/SaslServer.html" target="_blank"><code class="codeph">SaslServer</code></a>.</p>
+<pre class="codeblock" dir="ltr">
+SaslServer ss = Sasl.createSaslServer(mechanism, protocol, 
+                  myName, props, callbackHandler);
+</pre></div>
+<!-- class="section" --></div>
+</div>
+<div class="sect3"><a id="GUID-90092190-14A7-48F9-923A-A37FDCC28D6B"></a>
+<h3 id="JSSEC-GUID-90092190-14A7-48F9-923A-A37FDCC28D6B" class="sect3">Passing Input to the Mechanisms</h3>
+<div>
+<p>The API provides three ways by which an application gives input to a mechanism.</p>
+<p>Because the Java SASL API is a general framework, it must be able to accommodate many different types of mechanisms. Each mechanism needs to be initialized with input and may need input to make progress. The API provides three means by which an application gives input to a mechanism:</p>
+<ol>
+<li><span class="bold">Common input parameters</span> The application uses predefined parameters to supply information that are defined by the SASL specification and commonly required by mechanisms. For <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/SaslClient.html" target="_blank"><code class="codeph">SaslClient</code></a> mechanisms, the input parameters are authorization id, protocol id, and server name. For <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/SaslServer.html" target="_blank"><code class="codeph">SaslServer</code></a> mechanisms, the common input parameters are prototol id and (its own fully qualified) server name.</li>
+<li><span class="bold">Properties parameter</span> The application uses the properties parameter, a mapping of property names to (possibly non-string) property values, to supply configuration information. The Java SASL API defines some standard properties, such as <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#QOP" target="_blank"><code class="codeph">Sasl.QOP</code></a>, <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#STRENGTH" target="_blank"><code class="codeph">Sasl.STRENGTH</code></a>, and <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#MAX_BUFFER" target="_blank"><code class="codeph">Sasl.MAX_BUFFER</code></a>. The parameter can also be used to pass in non-standard properties that are specific to particular mechanisms.</li>
+<li><span class="bold">Callbacks</span> The application uses the <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/callback/CallbackHandler.html" target="_blank"><code class="codeph">Interface CallbackHandler</code></a> parameter to supply input that cannot be predetermined or might not be common across mechanisms. When a mechanism requires input data, it uses the callback handler supplied by the application to collect the data, possibly from the end-user of the application. For example, a mechanism might require the end-user of the application to supply a name and password.
+<p>Mechanisms can use the callbacks defined in the <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/callback/package-summary.html" target="_blank"><code class="codeph">javax.security.auth.callback</code></a> package; these are generic callbacks useful for building applications that perform authentication. Mechanisms might also need SASL-specific callbacks, such as those for collecting realm and authorization information, or even (non-standardized) mechanism-specific callbacks. The application should be able to accommodate a variety of mechanisms. Consequently, its callback handler must be able to service all of the callbacks that the mechanisms might request. This is not possible in general for arbitrary mechanisms, but is usually feasible due to the limited number of mechanisms that are typically deployed and used.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3"><a id="GUID-F3774782-A395-48C9-A9BD-10C9F25FFE50"></a>
+<h3 id="JSSEC-GUID-F3774782-A395-48C9-A9BD-10C9F25FFE50" class="sect3">Using the Mechanisms</h3>
+<div>
+<p>After the application has created a mechanism, it uses the mechanism to obtain SASL tokens to exchange with the peer.</p>
+<div class="section">Some protocols allows the client to accompany the request with an optional initial response for mechanisms that have an initial response. This feature can be used to lower the number of message exchanges required for authentication. <a href="introduction-java-sasl-api.htm#GUID-F3774782-A395-48C9-A9BD-10C9F25FFE50__EXAMPLE-132-75463112">Example 10-1</a> illustrates how a client might use <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/SaslClient.html" target="_blank"><code class="codeph">SaslClient</code></a> for authentication.
+<p>The client application iterates through each step of the authentication by using the mechanism (<code class="codeph">sc</code>) to evaluate the challenge gotten from the server and to get a response to send back to the server. It continues this cycle until either the mechanism or application-level protocol indicates that the authentication has completed, or if the mechanism cannot evaluate a challenge. If the mechanism cannot evaluate the challenge, it throws an exception to indicate the error and terminates the authentication. Disagreement between the mechanism and protocol about the completion state must be treated as an error because it might indicate a compromise of the authentication exchange.</p>
+<p><a href="introduction-java-sasl-api.htm#GUID-F3774782-A395-48C9-A9BD-10C9F25FFE50__READREQUESTTHATCONTAINSMECHANISMNAM-7546332B">Example 10-2</a> illustrates how a server might use <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/SaslServer.html" target="_blank"><code class="codeph">SaslServer</code></a>.</p>
+<p>The server application iterates through each step of the authentication by giving the client's response to the mechanism (<code class="codeph">ss</code>) to process. If the response is incorrect, the mechanism indicates the error by throwing a <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/SaslException.html" target="_blank"><code class="codeph">SaslException</code></a> so that the server can report the error and terminate the authentication. If the response is correct, the mechanism returns challenge data to be sent to the client and indicates whether the authentication is complete. Note that challenge data can accompany a "success" indication. This might be used, for example, to tell the client to finalize some negotiated state.</p>
+</div>
+<!-- class="section" -->
+<div class="example" id="GUID-F3774782-A395-48C9-A9BD-10C9F25FFE50__EXAMPLE-132-75463112">
+<p class="titleinexample">Example 10-1 Sample Code for Using SASL Client for Authentication</p>
+<pre class="codeblock" dir="ltr">
+// Get optional initial response
+byte[] response = 
+    (sc.hasInitialResponse() ? sc.evaluateChallenge(new byte[]) : null);
+
+String mechanism = sc.getMechanismName();
+
+// Send selected mechanism name and optional initial response to server
+send(mechanism, response);
+
+// Read response
+msg = receive();
+while (!sc.isComplete() &amp;&amp; (msg.status == CONTINUE || msg.status == SUCCESS)) {
+    // Evaluate server challenge
+    response = sc.evaluateChallenge(msg.contents);
+
+    if (msg.status == SUCCESS) {
+        // done; server doesn't expect any more SASL data
+        if (response != null) {
+           throw new IOException(
+               "Protocol error: attempting to send response after completion");
+        }
+        break;
+    } else {
+        send(mechanism, response);
+        msg = receive();
+    }
+</pre></div>
+<!-- class="example" -->
+<div class="example" id="GUID-F3774782-A395-48C9-A9BD-10C9F25FFE50__READREQUESTTHATCONTAINSMECHANISMNAM-7546332B">
+<p class="titleinexample">Example 10-2 Sample Code for Using SASL Server for Authentication</p>
+<pre class="codeblock" dir="ltr">
+// Read request that contains mechanism name and optional initial response
+msg.receive();
+
+// Obtain a SaslServer to perform authentication
+SaslServer ss = Sasl.createSaslServer(msg.mechanism, 
+    protocol, myName, props, callbackHandler);
+
+// Perform authentication steps until done
+while (!ss.isComplete()) {
+    try {
+        // Process response
+        byte[] challenge = sc.evaluateResponse(msg.contents);
+
+        if (ss.isComplete()) {
+            send(mechanism, challenge, SUCCESS);
+        } else {
+            send(mechanism, challenge, CONTINUE);
+            msg.receive();
+        }
+    } catch (SaslException e) {
+        send(ERROR);
+        sc.dispose();
+        break;
+    }
+}
+</pre></div>
+<!-- class="example" --></div>
+</div>
+<div class="sect3"><a id="GUID-762BDD49-6EE8-419C-A45E-540462CB192B"></a>
+<h3 id="JSSEC-GUID-762BDD49-6EE8-419C-A45E-540462CB192B" class="sect3">Using the Negotiated Security Layer</h3>
+<div>
+<p>Some SASL mechanisms support only authentication while others support use of a negotiated security layer after authentication. The security layer feature is often not used when the application uses some other means, such as SSL/TLS, to communicate securely with the peer.</p>
+<div class="section">
+<p>When a security layer has been negotiated, all subsequent communication with the peer must take place using the security layer. To determine whether a security layer has been negotiated, get the negotiated <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#QOP" target="_blank"><code class="codeph">Sasl.QOP</code></a> from the mechanism. Here is an example of how to determine whether a security layer has been negotiated.</p>
+<pre class="codeblock" dir="ltr">
+String qop = (String) sc.getNegotiatedProperty(Sasl.QOP);
+boolean hasSecurityLayer = (qop != null &amp;&amp; 
+    (qop.equals("auth-int") || qop.equals("auth-conf")));
+</pre>
+<p>A security layer has been negotiated if the <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#QOP" target="_blank"><code class="codeph">Sasl.QOP</code></a> property indicates that either integrity and/or confidentiality has been negotiated.</p>
+<p>To communicate with the peer using the negotiated layer, the application first uses the <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/SaslClient.html#wrap-byte:A-int-int-" target="_blank"><code class="codeph">wrap</code></a> method to encode the data to be sent to the peer to produce a "wrapped" buffer. It then transfers a length field representing the number of octets in the wrapped buffer followed by the contents of the wrapped buffer to the peer. The peer receiving the stream of octets passes the buffer (without the length field) to <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/SaslClient.html#unwrap-byte:A-int-int-" target="_blank"><code class="codeph">unwrap</code></a> to obtain the decoded bytes sent by the peer. Details of this protocol are described in <a href="http://www.ietf.org/rfc/rfc2222.txt" target="_blank">RFC 2222</a>. <a href="introduction-java-sasl-api.htm#GUID-762BDD49-6EE8-419C-A45E-540462CB192B__SAMPLECODEFORSASLCLIENTSENDANDRECEI-7547A249">Example 10-3</a> illustrates how a client application sends and receives application data using a security layer.</p>
+</div>
+<!-- class="section" -->
+<div class="example" id="GUID-762BDD49-6EE8-419C-A45E-540462CB192B__SAMPLECODEFORSASLCLIENTSENDANDRECEI-7547A249">
+<p class="titleinexample">Example 10-3 Sample Code for SASL Client Send and Receive Data</p>
+<pre class="codeblock" dir="ltr">
+// Send outgoing application data to peer
+byte[] outgoing = ...;
+byte[] netOut = sc.wrap(outgoing, 0, outgoing.length);
+
+send(netOut.length, netOut);   // send to peer
+
+// Receive incoming application data from peer
+byte[] netIn = receive();      // read length and ensuing bytes from peer
+
+byte[] incoming = sc.unwrap(netIn, 0, netIn.length);
+</pre></div>
+<!-- class="example" --></div>
+</div>
+</div>
+<div class="sect2"><a id="GUID-93982F1C-AFFE-47B9-B4BA-41551ECCE2D2"></a>
+<h2 id="JSSEC-GUID-93982F1C-AFFE-47B9-B4BA-41551ECCE2D2" class="sect2">How SASL Mechanisms are Installed and Selected</h2>
+<div>
+<p>SASL mechanism implementations are provided by SASL security providers. Each provider may support one or more SASL mechanisms and is registered with the JCA.</p>
+<div class="section">By default, in J2SE 5, the SunSASL provider is automatically registered as a JCA provider. To remove it or reorder its priority as a JCA provider, change the line
+<pre class="codeblock" dir="ltr">
+security.provider.7=com.sun.security.sasl.Provider
+</pre>
+<p>in the Java security properties file (<code><span class="variable">java-home</span>/conf/security/java.security</code>).</p>
+<p>To add or remove a SASL provider, you add or remove the corresponding line in the security properties file. For example, if you want to add a SASL provider and have its mechanisms be chosen over the same ones implemented by the SunSASL provider, then you would add a line to the security properties file with a lower number.</p>
+<pre class="codeblock" dir="ltr">
+security.provider.7=com.example.MyProvider
+security.provider.8=com.sun.security.sasl.Provider
+</pre>
+<p>Alternatively, you can programmatically add your own provider using the <code class="codeph">java.security.Security</code> class. For example, the following sample code registers the <code class="codeph">com.example.MyProvider</code> to the list of available SASL security providers.</p>
+<pre class="codeblock" dir="ltr">
+Security.addProvider(new com.example.MyProvider());
+</pre>
+<p>When an application requests a SASL mechanism by supplying one or more mechanism names, the SASL framework looks for registered SASL providers that support that mechanism by going through, in order, the list of registered providers. The providers must then determine whether the requested mechanism matches the selection policy properties in the <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html" target="_blank"><code class="codeph">Sasl</code></a> and if so, return an implementation for the mechanism.</p>
+<p>The selection policy properties specify the security aspects of a mechanism, such as its susceptibility to certain attacks. These are characteristics of the mechanism (definition), rather than its implementation so all providers should come to the same conclusion about a particular mechanism. For example, the PLAIN mechanism is susceptible to plaintext attacks regardless of how it is implemented. If no selection policy properties are supplied, there are no restrictions on the selected mechanism. Using these properties, an application can ensure that it does not use unsuitable mechanisms that might be deployed in the execution environment. For example, an application might use the following sample code if it does not want to allow the use of mechanisms susceptible to plaintext attacks.</p>
+<pre class="codeblock" dir="ltr">
+Map props = new HashMap();
+props.add(Sasl.POLICY_NOPLAINTEXT, "true");
+SaslClient sc = Sasl.createSaslClient(mechanisms,
+    authzid, protocol, serverName, props, callbackHandler);
+</pre></div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-2F50B103-FE9F-459F-9EC5-B708358A7B59"></a>
+<h2 id="JSSEC-GUID-2F50B103-FE9F-459F-9EC5-B708358A7B59" class="sect2">The SunSASL Provider</h2>
+<div>
+<p>Information about the SunSASL provider client and server mechanisms.</p>
+<div class="section">
+<p>The SunSASL provider supports the following client and server mechanisms.</p>
+<ul style="list-style-type: disc;">
+<li>Client Mechanisms
+<ul style="list-style-type: disc;">
+<li>PLAIN (<a href="http://www.ietf.org/rfc/rfc2595.txt" target="_blank">RFC 2595</a>). This mechanism supports cleartext username/password authentication.</li>
+<li>CRAM-MD5 (<a href="http://www.ietf.org/rfc/rfc2195.txt" target="_blank">RFC 2195</a>). This mechanism supports a hashed username/password authentication scheme.</li>
+<li>DIGEST-MD5 (<a href="http://www.ietf.org/rfc/rfc2831.txt" target="_blank">RFC 2831</a>). This mechanism defines how HTTP Digest Authentication can be used as a SASL mechanism.</li>
+<li>EXTERNAL (<a href="http://www.ietf.org/rfc/rfc2222.txt" target="_blank">RFC 2222</a>). This mechanism obtains authentication information from an external channel (such as TLS or IPsec).</li>
+</ul>
+</li>
+<li>Server Mechanisms
+<ul style="list-style-type: disc;">
+<li>CRAM-MD5</li>
+<li>DIGEST-MD5</li>
+</ul>
+</li>
+</ul>
+</div>
+<!-- class="section" --></div>
+<div class="sect3"><a id="GUID-681CD78D-D2E4-43DE-9225-249AA83FF177"></a>
+<h3 id="JSSEC-GUID-681CD78D-D2E4-43DE-9225-249AA83FF177" class="sect3">The SunSASL Provider Client Mechanisms</h3>
+<div>
+<p>The SunSASL provider supports several SASL client mechanisms used in popular protocols such as LDAP, IMAP, and SMTP.</p>
+<div class="section">
+<p>The following table summarizes the client mechanisms and their required input.</p>
+<div class="tblformalwide" id="GUID-681CD78D-D2E4-43DE-9225-249AA83FF177__GUID-1D69316D-2076-406F-B36F-A36E7FF429FA">
+<p class="titleintable">Table 10-1 SunSASL Provider Client Mechanisms</p>
+<table class="cellalignment473" title="SunSASL Provider Client Mechanisms" summary="List of SunSASL Provider Client Mechanisms">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e483">Client Mechanism Name</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e485">Parameters/Input</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e487">Callbacks</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e489">Configuration Properties</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e491">Selection Policy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d134196e495" headers="d134196e483"><a href="introduction-java-sasl-api.htm#GUID-681CD78D-D2E4-43DE-9225-249AA83FF177__CRAM-MD5-20E3E27A">CRAM-MD5</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e495 d134196e485">authorization&nbsp;id (as default username)</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e495 d134196e487">
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/callback/PasswordCallback.html" target="_blank"><code class="codeph">PasswordCallback</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/callback/NameCallback.html" target="_blank"><code class="codeph">NameCallback</code></a></p>
+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e495 d134196e489">&nbsp;None</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e495 d134196e491">
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#POLICY_NOANONYMOUS" target="_blank"><code class="codeph">Sasl.POLICY_NOANONYMOUS</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#POLICY_NOPLAINTEXT" target="_blank"><code class="codeph">Sasl.POLICY_NOPLAINTEXT</code></a></p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d134196e526" headers="d134196e483"><a href="introduction-java-sasl-api.htm#GUID-681CD78D-D2E4-43DE-9225-249AA83FF177__DIGEST-MD5-20E3E4D3">DIGEST-MD5</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e526 d134196e485">
+<p>authorization&nbsp;id</p>
+<p>protocol&nbsp;id</p>
+<p>server&nbsp;name</p>
+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e526 d134196e487">
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/callback/NameCallback.html" target="_blank"><code class="codeph">NameCallback</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/callback/PasswordCallback.html" target="_blank"><code class="codeph">PasswordCallback</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/RealmCallback.html" target="_blank"><code class="codeph">RealmCallback</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/RealmChoiceCallback.html" target="_blank"><code class="codeph">RealmChoiceCallback</code></a></p>
+<p><code class="codeph">RealmChoiceCallback</code></p>
+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e526 d134196e489">
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#QOP" target="_blank"><code class="codeph">Sasl.QOP</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#STRENGTH" target="_blank"><code class="codeph">Sasl.STRENGTH</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#MAX_BUFFER" target="_blank"><code class="codeph">Sasl.MAX_BUFFER</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#SERVER_AUTH" target="_blank"><code class="codeph">Sasl.SERVER_AUTH</code></a></p>
+<p>"javax.security.sasl.sendmaxbuffer"</p>
+<p>"com.sun.security.sasl.digest.cipher"</p>
+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e526 d134196e491">
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#POLICY_NOANONYMOUS" target="_blank"><code class="codeph">Sasl.POLICY_NOANONYMOUS</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#POLICY_NOPLAINTEXT" target="_blank"><code class="codeph">Sasl.POLICY_NOPLAINTEXT</code></a></p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d134196e601" headers="d134196e483">EXTERNAL</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e601 d134196e485">
+<p>authorization&nbsp;id</p>
+<p>external&nbsp;channel</p>
+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e601 d134196e487">&nbsp;None</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e601 d134196e489">None&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e601 d134196e491">
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#POLICY_NOPLAINTEXT" target="_blank"><code class="codeph">Sasl.POLICY_NOPLAINTEXT</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#POLICY_NOACTIVE" target="_blank"><code class="codeph">Sasl.POLICY_NOACTIVE</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#POLICY_NODICTIONARY" target="_blank"><code class="codeph">Sasl.POLICY_NODICTIONARY</code></a></p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d134196e631" headers="d134196e483">PLAIN</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e631 d134196e485">authorization&nbsp;id</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e631 d134196e487">
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/callback/NameCallback.html" target="_blank"><code class="codeph">NameCallback</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/callback/PasswordCallback.html" target="_blank"><code class="codeph">PasswordCallback</code></a></p>
+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e631 d134196e489">&nbsp;None</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e631 d134196e491">
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#POLICY_NOANONYMOUS" target="_blank"><code class="codeph">Sasl.POLICY_NOANONYMOUS</code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p>An application that uses these mechanisms from the SunSASL provider must supply the required parameters, callbacks and properties. The properties have reasonable defaults and only need to be set if the application wants to override the defaults. Most of the parameters, callbacks, and properties are described in the API documentation. The following sections describe mechanism-specific behaviors and parameters not already covered by the API documentation.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-681CD78D-D2E4-43DE-9225-249AA83FF177__CRAM-MD5-20E3E27A">
+<p class="subhead3">Cram-MD5</p>
+<p>The Cram-MD5 client mechanism uses the authorization id parameter, if supplied, as the default username in the <code class="codeph">NameCallback</code> to solicit the application/end-user for the authentication id. The authorization id is otherwise not used by the Cram-MD5 mechanism; only the authentication id is exchanged with the server.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-681CD78D-D2E4-43DE-9225-249AA83FF177__DIGEST-MD5-20E3E4D3">
+<p class="subhead3">Digest-MD5</p>
+<p>The Digest-MD5 mechanism is used for digest authentication and optional establishment of a security layer. It specifies the following ciphers for use with the security layer: Triple DES, DES and RC4 (128, 56, and 40 bits). The Digest-MD5 mechanism can support only ciphers that are available on the platform. For example, if the platform does not support the RC4 ciphers, then the Digest-MD5 mechanism will not use those ciphers.</p>
+<p>The <code class="codeph">Sasl.STRENGTH</code> property supports "high", "medium", and "low" settings; its default is "high,medium,low". The ciphers are mapped to the strength settings as follows:</p>
+<div class="tblformalwide" id="GUID-681CD78D-D2E4-43DE-9225-249AA83FF177__GUID-F294490C-564E-4074-BE8B-B011BD34F308">
+<p class="titleintable">Table 10-2 Cipher Strength</p>
+<table class="cellalignment473" title="Cipher Strength " summary="List of Cipher strength">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e686">Strength</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e688">Cipher</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e690">Cipher Id</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d134196e694" headers="d134196e686">high</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e694 d134196e688">Triple&nbsp;DES
+<p>RC4&nbsp;128&nbsp;bits</p>
+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e694 d134196e690">3des rc4</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d134196e703" headers="d134196e686">medium</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e703 d134196e688">DES
+<p>RC4&nbsp;56&nbsp;bits</p>
+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e703 d134196e690">des rc4-56</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d134196e712" headers="d134196e686">low</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e712 d134196e688">RC4&nbsp;40&nbsp;bits</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e712 d134196e690">rc4-40</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p>When there is more than one choice for a particular strength, the cipher selected depends on the availability of the ciphers in the underlying platform. To explicitly name the cipher to use, set the <code class="codeph">"com.sun.security.sasl.digest.cipher"</code> property to the corresponding cipher id. Note that this property setting must be compatible with <code class="codeph">Sasl.STRENGTH</code> and the ciphers available in the underlying platform. For example, <code class="codeph">Sasl.STRENGTH</code> being set to "low" and <code class="codeph">"com.sun.security.sasl.digest.cipher"</code> being set to "3des" are incompatible. The <code class="codeph">"com.sun.security.sasl.digest.cipher"</code> property has no default.</p>
+<p>The "javax.security.sasl.sendmaxbuffer" property specifies (the string representation of) the maximum send buffer size in bytes. The default is 65536. The actual maximum number of bytes will be the minimum of this number and the peer's maximum receive buffer size.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect3"><a id="GUID-0D61D8E5-31E8-4F26-9BD2-9AF92F5318F9"></a>
+<h3 id="JSSEC-GUID-0D61D8E5-31E8-4F26-9BD2-9AF92F5318F9" class="sect3">The SunSASL Provider Server Mechanisms</h3>
+<div>
+<p>The SunSASL provider supports several SASL server mechanisms used in popular protocols such as LDAP, IMAP, and SMTP.</p>
+<div class="section">
+<p>The following table summarizes the server mechanisms and the required input:</p>
+<div class="tblformalwide" id="GUID-0D61D8E5-31E8-4F26-9BD2-9AF92F5318F9__GUID-FD50A5C2-E577-4CFC-AF11-5324E08ACA0A">
+<p class="titleintable">Table 10-3 Server Mechanisms</p>
+<table class="cellalignment473" title="Server Mechanisms" summary="The server mechanisms and the required input">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e762">Server Mechanism Name</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e764">Parameters/Input</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e766">Callbacks</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e768">Configuration Properties</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e770">Selection Policy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d134196e774" headers="d134196e762"><a href="introduction-java-sasl-api.htm#GUID-0D61D8E5-31E8-4F26-9BD2-9AF92F5318F9__CRAM-MD5-20E4303C">CRAM-MD5</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e774 d134196e764">server&nbsp;name</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e774 d134196e766">
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/AuthorizeCallback.html" target="_blank"><code class="codeph">AuthorizeCallback</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/callback/NameCallback.html" target="_blank"><code class="codeph">NameCallback</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/callback/PasswordCallback.html" target="_blank"><code class="codeph">PasswordCallback</code></a></p>
+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e774 d134196e768">&nbsp;None</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e774 d134196e770">
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#POLICY_NOANONYMOUS" target="_blank"><code class="codeph">Sasl.POLICY_NOANONYMOUS</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#POLICY_NOPLAINTEXT" target="_blank"><code class="codeph">Sasl.POLICY_NOPLAINTEXT</code></a></p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d134196e812" headers="d134196e762"><a href="introduction-java-sasl-api.htm#GUID-0D61D8E5-31E8-4F26-9BD2-9AF92F5318F9__DIGEST-MD5-20E43288">DIGEST-MD5</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e812 d134196e764">protocol&nbsp;id
+<p>server&nbsp;name</p>
+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e812 d134196e766">
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/AuthorizeCallback.html" target="_blank"><code class="codeph">AuthorizeCallback</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/callback/NameCallback.html" target="_blank"><code class="codeph">NameCallback</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/callback/PasswordCallback.html" target="_blank"><code class="codeph">PasswordCallback</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/RealmCallback.html" target="_blank"><code class="codeph">RealmCallback</code></a></p>
+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e812 d134196e768">
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#QOP" target="_blank"><code class="codeph">Sasl.QOP</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#STRENGTH" target="_blank"><code class="codeph">Sasl.STRENGTH</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#MAX_BUFFER" target="_blank"><code class="codeph">Sasl.MAX_BUFFER</code></a></p>
+<p><code class="codeph">"javax.security.sasl.sendmaxbuffer"</code></p>
+<p><code class="codeph">"com.sun.security.sasl.digest.realm"</code></p>
+<p><code class="codeph">"com.sun.security.sasl.digest.utf8"</code></p>
+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e812 d134196e770">
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#POLICY_NOANONYMOUS" target="_blank"><code class="codeph">Sasl.POLICY_NOANONYMOUS</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#POLICY_NOPLAINTEXT" target="_blank"><code class="codeph">Sasl.POLICY_NOPLAINTEXT</code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p>An application that uses these mechanisms from the SunSASL provider must supply the required parameters, callbacks and properties. The properties have reasonable defaults and only need to be set if the application wants to override the defaults.</p>
+<p>All users of server mechanisms must have a callback handler that deals with the <code class="codeph">AuthorizeCallback</code>. This is used by the mechanisms to determine whether the authenticated user is allowed to act on behalf of the requested authorization id, and also to obtain the canonicalized name of the authorized user (if canonicalization is applicable).</p>
+<p>Most of the parameters, callbacks, and properties are described in the API documentation. The following sections describe mechanism-specific behaviors and parameters not already covered by the API documentation.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-0D61D8E5-31E8-4F26-9BD2-9AF92F5318F9__CRAM-MD5-20E4303C">
+<p class="subhead3">Cram-MD5</p>
+<p>The Cram-MD5 server mechanism uses the <code class="codeph">NameCallback</code> and <code class="codeph">PasswordCallback</code> to obtain the password required to verify the SASL client's response. The callback handler should use the <code class="codeph">NameCallback.getDefaultName()</code> as the key to fetch the password.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-0D61D8E5-31E8-4F26-9BD2-9AF92F5318F9__DIGEST-MD5-20E43288">
+<p class="subhead3">Digest-MD5</p>
+<p>The Digest-MD5 server mechanism uses the <code class="codeph">RealmCallback</code>, <code class="codeph">NameCallback</code>, and <code class="codeph">PasswordCallback</code> to obtain the password required to verify the SASL client's response. The callback handler should use <code class="codeph">RealmCallback.getDefaultText()</code> and <code class="codeph">NameCallback.getDefaultName()</code> as keys to fetch the password.</p>
+<p>The "javax.security.sasl.sendmaxbuffer" property specifies (the string representation of) the maximum send buffer size in bytes. The default is 65536. The actual maximum number of bytes will be the minimum of this number and the peer's maximum receive buffer size.</p>
+<p>The "com.sun.security.sasl.digest.realm" property is used to specify a list of space-separated realm names that the server supports. The list is sent to the client as part of the challenge. If this property has not been set, the default realm is the server's name (supplied as a parameter).</p>
+<p>The "com.sun.security.sasl.digest.utf8" property is used to specify the character encoding to use. "true" means to use UTF-8 encoding; "false" means to use ISO Latin 1 (ISO-8859-1). The default is "true".</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect3"><a id="GUID-10BCFA2D-E33C-4A11-BDD4-012B5713F430"></a>
+<h3 id="JSSEC-GUID-10BCFA2D-E33C-4A11-BDD4-012B5713F430" class="sect3">Debugging and Monitoring</h3>
+<div>
+<p>The SunSASL and JdkSASL providers uses the Logging APIs to provide implementation logging output. This output can be controlled by using the logging configuration file and programmatic API (<code class="codeph">java.util.logging</code>)</p>
+<div class="section">
+<p>The logger name used by the SunSASL provider is "<code class="codeph">javax.security.sasl</code>&rdquo;</p>
+<p>Here is a sample logging configuration file that enables the <code class="codeph">FINEST</code> logging level for the SunSASL provider:</p>
+<pre class="codeblock" dir="ltr">
+javax.security.sasl.level=FINEST
+handlers=java.util.logging.ConsoleHandler
+java.util.logging.ConsoleHandler.level=FINEST
+</pre>
+<p>The table below shows the mechanisms and the logging output that they generate:</p>
+<div class="tblformalwide" id="GUID-10BCFA2D-E33C-4A11-BDD4-012B5713F430__GUID-767DB7F7-241D-465E-AEFC-D91959675CEE">
+<p class="titleintable">Table 10-4 Logging Output</p>
+<table class="cellalignment473" title="Logging Output" summary="List of mechanisms and the logging output that they generate.">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e973">Mechanism</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e975">Logging Level</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e977">Information Logged</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d134196e981" headers="d134196e973">CRAM-MD5</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e981 d134196e975"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/logging/Level.html#FINE" target="_blank"><code class="codeph">FINE</code></a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e981 d134196e977">Configuration properties; challenge/response messages</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d134196e991" headers="d134196e973">DIGEST-MD5</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e991 d134196e975"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/logging/Level.html#INFO" target="_blank"><code class="codeph">INFO</code></a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e991 d134196e977">Message discarded due to encoding problem (e.g., unmatched MACs, incorrect padding)</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d134196e1001" headers="d134196e973">DIGEST-MD5</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1001 d134196e975"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/logging/Level.html#FINE" target="_blank"><code class="codeph">FINE</code></a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1001 d134196e977">Configuration properties; challenge/response messages</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d134196e1011" headers="d134196e973">DIGEST-MD5</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1011 d134196e975"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/logging/Level.html#FINER" target="_blank"><code class="codeph">FINER</code></a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1011 d134196e977">More detailed information about challenge/response messages</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d134196e1021" headers="d134196e973">DIGEST-MD5</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1021 d134196e975"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/logging/Level.html#FINEST" target="_blank"><code class="codeph">FINEST</code></a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1021 d134196e977">Buffers exchanged at the security layer</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d134196e1031" headers="d134196e973">GSSAPI</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1031 d134196e975"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/logging/Level.html#FINE" target="_blank"><code class="codeph">FINE</code></a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1031 d134196e977">Configuration properties; challenge/response messages</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d134196e1041" headers="d134196e973">GSSAPI</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1041 d134196e975"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/logging/Level.html#FINER" target="_blank"><code class="codeph">FINER</code></a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1041 d134196e977">More detailed information about challenge/response messages</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d134196e1051" headers="d134196e973">GSSAPI</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1051 d134196e975"><a href="https://docs.oracle.com/javase/9/docs/api/java/util/logging/Level.html#FINEST" target="_blank"><code class="codeph">FINEST</code></a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1051 d134196e977">Buffers exchanged at the security layer</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" --></div>
+</div>
+</div>
+<div class="sect2"><a id="GUID-B6A1E089-0C59-413F-ABF6-E73F44F89E6A"></a>
+<h2 id="JSSEC-GUID-B6A1E089-0C59-413F-ABF6-E73F44F89E6A" class="sect2">The JdkSASL Provider</h2>
+<div>
+<p>Information about the JdkSASL provider client and server mechanisms.</p>
+<div class="section">
+<p>The JdkSASL provider supports the following client and server mechanisms.</p>
+<ul style="list-style-type: disc;">
+<li>Client Mechanisms
+<ul style="list-style-type: disc;">
+<li>GSSAPI (<a href="http://www.ietf.org/rfc/rfc2222.txt" target="_blank">RFC 2222</a>). This mechanism uses the <a href="http://www.ietf.org/rfc/rfc2078.txt" target="_blank">GSSAPI</a> for obtaining authentication information. It supports Kerberos v5 authentication.</li>
+</ul>
+</li>
+<li>Server Mechanisms
+<ul style="list-style-type: disc;">
+<li>GSSAPI (Kerberos v5)</li>
+</ul>
+</li>
+</ul>
+</div>
+<!-- class="section" --></div>
+<div class="sect3"><a id="GUID-6B2412AB-D5BC-4C8A-9DA7-515E32DDE971"></a>
+<h3 id="JSSEC-GUID-6B2412AB-D5BC-4C8A-9DA7-515E32DDE971" class="sect3">The JdkSASL Provider Client Mechanism</h3>
+<div>
+<p>The JdkSASL provider supports the GSSAPI client mechanism used in popular protocols such as LDAP, IMAP, and SMTP.</p>
+<div class="section">
+<p>The following table summarizes the GSSAPI client mechanism and its required input.</p>
+<div class="tblformalwide" id="GUID-6B2412AB-D5BC-4C8A-9DA7-515E32DDE971__GUID-1D69316D-2076-406F-B36F-A36E7FF429FA">
+<p class="titleintable">Table 10-5 JdkSASL Provider Client Mechanism</p>
+<table class="cellalignment473" title="JdkSASL Provider Client Mechanism" summary="JdkSASL Provider GSSAPI Client Mechanism">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e1118">Client Mechanism Name</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e1120">Parameters/Input</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e1122">Callbacks</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e1124">Configuration Properties</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e1126">Selection Policy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d134196e1130" headers="d134196e1118"><a href="introduction-java-sasl-api.htm#GUID-6B2412AB-D5BC-4C8A-9DA7-515E32DDE971__GSSAPI-20E4086B">GSSAPI</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1130 d134196e1120">JAAS&nbsp;Subject
+<p>authorization&nbsp;id</p>
+<p>protocol&nbsp;id</p>
+<p>server&nbsp;name</p>
+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1130 d134196e1122">&nbsp;None</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1130 d134196e1124">
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#QOP" target="_blank"><code class="codeph">Sasl.QOP</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#MAX_BUFFER" target="_blank"><code class="codeph">Sasl.MAX_BUFFER</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#SERVER_AUTH" target="_blank"><code class="codeph">Sasl.SERVER_AUTH</code></a></p>
+<p>"javax.security.sasl.sendmaxbuffer"</p>
+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1130 d134196e1126">
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#POLICY_NOACTIVE" target="_blank"><code class="codeph">Sasl.POLICY_NOACTIVE</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#POLICY_NOANONYMOUS" target="_blank"><code class="codeph">Sasl.POLICY_NOANONYMOUS</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#POLICY_NOPLAINTEXT" target="_blank"><code class="codeph">Sasl.POLICY_NOPLAINTEXT</code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p>An application that uses the GSSAPI mechanism from the JdkSASL provider must supply the required parameters, callbacks and properties. The properties have reasonable defaults and only need to be set if the application wants to override the defaults. Most of the parameters, callbacks, and properties are described in the API documentation. The following section describes further GSSAPI behaviors and parameters not already covered by the API documentation.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-6B2412AB-D5BC-4C8A-9DA7-515E32DDE971__GSSAPI-20E4086B">
+<p class="subhead3">GSSAPI</p>
+<p>The GSSAPI mechanism is used for Kerberos v5 authentication and optional establishment of a security layer. The mechanism expects the calling thread's <code class="codeph">Subject</code> to contain the client's Kerberos credentials or that the credentials could be obtained by implicitly logging in to Kerberos. To obtain the client's Kerberos credentials, use the <a href="http://www.oracle.com/technetwork/java/javase/jaas/index.html" target="_blank">Java Authentication and Authorization Service (JAAS)</a> to log in using the Kerberos login module. See the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/BasicClientServer.html" target="_blank">JAAS and Java GSS-API Tutorial</a> for details and examples. After using JAAS authentication to obtain the Kerberos credentials, you put the code that uses the SASL GSSAPI mechanism within <code class="codeph">doAs</code> or <code class="codeph">doAsPrivileged</code>.</p>
+<pre class="codeblock" dir="ltr">
+LoginContext lc = new LoginContext("JaasSample", new TextCallbackHandler());
+lc.login();
+lc.getSubject().doAs(new SaslAction());
+
+class SaslAction implements java.security.PrivilegedAction {
+   public class run() {
+       ...
+       String[] mechanisms = new String[]{"GSSAPI"};
+       SaslClient sc = Sasl.createSaslClient(mechanisms,
+           authzid, protocol, serverName, props, callbackHandler);
+       ...
+   }
+}
+</pre>
+<p>To obtain Kerberos credentials without doing explicit JAAS programming, see the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/BasicClientServer.html" target="_blank">JAAS and Java GSS-API Tutorial</a> . When using this approach, there is no need to wrap the code within <code class="codeph">doAs</code> or <code class="codeph">doAsPrivileged</code></p>
+<p>The <code class="codeph">"javax.security.sasl.sendmaxbuffer"</code> property specifies (the string representation of) the maximum send buffer size in bytes. The default is 65536. The actual maximum number of bytes will be the minimum of this number and the peer's maximum receive buffer size.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect3"><a id="GUID-F815A77D-744E-4914-9963-886A1B10FC3C"></a>
+<h3 id="JSSEC-GUID-F815A77D-744E-4914-9963-886A1B10FC3C" class="sect3">The JdkSASL Provider Server Mechanism</h3>
+<div>
+<p>The JdkSASL provider supports the GSSAPI mechanism used in popular protocols such as LDAP, IMAP, and SMTP.</p>
+<div class="section">
+<p>The following table summarizes the GSSAPI server mechanism and the required input:</p>
+<div class="tblformalwide" id="GUID-F815A77D-744E-4914-9963-886A1B10FC3C__GUID-FD50A5C2-E577-4CFC-AF11-5324E08ACA0A">
+<p class="titleintable">Table 10-6 Server mechanism</p>
+<table class="cellalignment473" title="Server mechanism" summary="The GSSAPI server mechanism and the required input">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e1250">Server Mechanism Name</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e1252">Parameters/Input</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e1254">Callbacks</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e1256">Configuration Properties</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d134196e1258">Selection Policy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d134196e1262" headers="d134196e1250"><a href="introduction-java-sasl-api.htm#GUID-F815A77D-744E-4914-9963-886A1B10FC3C__GSSAPI-20E4350D">GSSAPI</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1262 d134196e1252">
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/Subject.html" target="_blank"><code class="codeph">Subject</code></a></p>
+<p>protocol&nbsp;id</p>
+<p>server&nbsp;name</p>
+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1262 d134196e1254">
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/AuthorizeCallback.html" target="_blank"><code class="codeph">AuthorizeCallback</code></a></p>
+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1262 d134196e1256">
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#QOP" target="_blank"><code class="codeph">Sasl.QOP</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#MAX_BUFFER" target="_blank"><code class="codeph">Sasl.MAX_BUFFER</code></a></p>
+<p><code class="codeph">"javax.security.sasl.sendmaxbuffer"</code></p>
+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d134196e1262 d134196e1258">
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#POLICY_NOACTIVE" target="_blank"><code class="codeph">Sasl.POLICY_NOACTIVE</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#POLICY_NOANONYMOUS" target="_blank"><code class="codeph">Sasl.POLICY_NOANONYMOUS</code></a></p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/sasl/Sasl.html#POLICY_NOPLAINTEXT" target="_blank"><code class="codeph">Sasl.POLICY_NOPLAINTEXT</code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p>An application that uses the GSSAPI mechanism from the JdkSASL provider must supply the required parameters, callbacks and properties. The properties have reasonable defaults and only need to be set if the application wants to override the defaults.</p>
+<p>All users of server mechanism must have a callback handler that deals with the <code class="codeph">AuthorizeCallback</code>. This is used by the mechanism to determine whether the authenticated user is allowed to act on behalf of the requested authorization id, and also to obtain the canonicalized name of the authorized user (if canonicalization is applicable).</p>
+<p>Most of the parameters, callbacks, and properties are described in the API documentation. The following section describes GSSAPI mechanism-specific behaviors and parameters not already covered by the API documentation.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-F815A77D-744E-4914-9963-886A1B10FC3C__GSSAPI-20E4350D">
+<p class="subhead3">GSSAPI</p>
+<p>The GSSAPI mechanism is used for Kerberos v5 authentication and optional establishment of a security layer. The mechanism expects the calling thread's <code class="codeph">Subject</code> to contain the client's Kerberos credentials or that the credentials could be obtained by implicitly logging in to Kerberos. To obtain the client's Kerberos credentials, use the <a href="http://www.oracle.com/technetwork/java/javase/jaas/index.html" target="_blank">Java Authentication and Authorization Service (JAAS)</a> to log in using the Kerberos login module. See the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/BasicClientServer.html" target="_blank">JAAS and Java GSS-API Tutorial</a> for details and examples. After using JAAS authentication to obtain the Kerberos credentials, you put the code that uses the SASL GSSAPI mechanism within <code class="codeph">doAs</code> or <code class="codeph">doAsPrivileged</code>.</p>
+<pre class="codeblock" dir="ltr">
+LoginContext lc = new LoginContext("JaasSample", new TextCallbackHandler());
+lc.login();
+lc.getSubject().doAs(new SaslAction());
+
+class SaslAction implements java.security.PrivilegedAction {
+   public class run() {
+       ...
+       String[] mechanisms = new String[]{"GSSAPI"};
+       SaslClient sc = Sasl.createSaslClient(mechanisms,
+           authzid, protocol, serverName, props, callbackHandler);
+       ...
+   }
+}
+</pre>
+<p>To obtain Kerberos credentials without doing explicit JAAS programming, see the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/BasicClientServer.html" target="_blank">JAAS and Java GSS-API Tutorial</a> . When using this approach, there is no need to wrap the code within <code class="codeph">doAs</code> or <code class="codeph">doAsPrivileged</code></p>
+<p>The <code class="codeph">"javax.security.sasl.sendmaxbuffer"</code> property specifies (the string representation of) the maximum send buffer size in bytes. The default is 65536. The actual maximum number of bytes will be the minimum of this number and the peer's maximum receive buffer size.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+</div>
+<div class="sect2"><a id="GUID-A21D50AD-3730-4FE6-A13B-75529607E068"></a>
+<h2 id="JSSEC-GUID-A21D50AD-3730-4FE6-A13B-75529607E068" class="sect2">Implementing a SASL Security Provider</h2>
+<div>
+<p>Procedure to implement a SASL Security Provider.</p>
+<div class="section">There are three basic steps in implementing a SASL security provider:</div>
+<!-- class="section" -->
+<ol>
+<li class="stepexpand"><span>Write a class that implements the <code class="codeph">SaslClient</code> or <code class="codeph">SaslServer</code> interface.</span>
+<div>
+<p>This involves providing an implementation for the SASL mechanism. To implement a client mechanism, you need to implement the methods declared in the <code class="codeph">SaslClient</code> interface. Similarly, for a server mechanism, you need to implement the methods declared in the <code class="codeph">SaslServer</code> interface. For the purposes of this discussion, suppose you are developing an implementation for the client mechanism "SAMPLE-MECH", implemented by the class, <code class="codeph">com.example.SampleMechClient</code>. You must decide what input are needed by the mechanism and how the implementation is going to collect them. For example, if the mechanism is username/password-based, then the implementation would likely need to collect that information via the callback handler parameter.</p>
+</div>
+</li>
+<li class="stepexpand"><span>Write a factory class (that implements <code class="codeph">SaslClientFactory</code> or <code class="codeph">SaslServerFactory</code>) that creates instances of the class.</span>
+<div>This involves providing a factory class that will create instances of <code class="codeph">com.example.SampleMechClient</code>. The factory needs to determine the characteristics of the mechanism that it supports (as described by the <code class="codeph">Sasl.POLICY_*</code> properties) so that it can return an instance of the mechanism when the API user requests it using compatible policy properties. The factory may also check for validity of the parameters before creating the mechanism. For the purposes of this discussion, suppose the factory class is named <code class="codeph">com.example.MySampleClientFactory</code>. Although our sample factory is responsible for only one mechanism, a single factory can be responsible for any number of mechanisms.</div>
+</li>
+<li class="stepexpand"><span>Write a JCA provider that registers the factory.</span>
+<div>
+<p>This involves creating a JCA provider. The steps for creating a JCA provider is described in detail in the document, <a href="howtoimplaprovider.htm#GUID-CC161921-EBD2-48C6-B543-A956658B68B6" title="Follow these steps to implement a provider and integrate it into the JCA framework:">Steps to Implement and Integrate a Provider</a>. SASL client factories are registered using property names of the form <code class="codeph">SaslClientFactory.</code><span class="italic">mechName</span> while SASL server factories are registered using property names of the form <code class="codeph">SaslServerFactory.</code><span class="italic">mechName</span></p>
+<p><span class="italic">mechName</span> is the SASL mechanism's name. This is what's returned by <code class="codeph">SaslClient.getMechanismName()</code> and <code class="codeph">SaslServer.getMechanismName()</code>. Continuing with our example, here is how the provider would register the "SAMPLE-MECH" mechanism.</p>
+<pre class="codeblock" dir="ltr">
+put("SaslClientFactory.SAMPLE-MECH", "com.example.MySampleClientFactory");
+</pre>
+<p>A single SASL provider might be responsible for many mechanisms. Therefore, it might have many invocations of <code class="codeph">put</code> to register the relevant factories. The completed SASL provider can then be made available to applications using the instructions given above.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment446">
+<tr>
+<td class="cellalignment453">
+<table class="cellalignment451">
+<tr>
+<td class="cellalignment450"><a href="java-pki-programmers-guide.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment450"><a href="xml-digital-signature1.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment455">
+<table class="cellalignment449">
+<tr>
+<td class="cellalignment450"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment450"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment450"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

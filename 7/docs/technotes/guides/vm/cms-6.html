@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Concurrent Mark Sweep Collector Enhancements</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Concurrent Mark Sweep Collector
+Enhancements</h1></div>
+<ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#system_gc">System.gc() Performed
+Concurrently</a></li>
+<li><a href="#heap_size">Larger Default Young Generation
+Size</a></li>
+<li><a href="#parallel">Parallel Marking</a></li>
+<li><a href="#more_info">More Information</a></li>
+</ul>
+<div class="smallpagetitle"><h1><a name="description" id="description">Description</a></h1></div>
+<p>The concurrent mark sweep collector, also known as the
+concurrent collector or CMS, is targeted at applications that are
+sensitive to garbage collection pauses. It performs most garbage
+collection activity <em>concurrently</em>, i.e., while the
+application threads are running, to keep garbage collection-induced
+pauses short. The key performance enhancements made to the CMS
+collector in JDK&nbsp;6 are outlined below. See the <a href=
+"#more_info">documents referenced below</a> for more detailed
+information on these changes, the CMS collector, and garbage
+collection in HotSpot.</p>
+<p>Note that these features only apply when the CMS collector is in
+use; the option <code>-XX:+UseConcMarkSweepGC</code> selects the
+CMS collector.</p>
+<div class="smallpagetitle"><h1><a name="system_gc" id="system_gc">System.gc() Performed
+Concurrently</a></h1></div>
+<p>The <code>System.gc()</code> and
+<code>Runtime.getRuntime().gc()</code> methods instruct the JVM to
+run the garbage collector to recycle unused objects. The HotSpot
+implementation of these methods currently stops all application
+threads to collect the entire heap, which can result in a lengthy
+pause particularly when the heap is large. This works against the
+goal of the CMS collector to keep pauses short.</p>
+<p>In JDK&nbsp;6, the CMS collector can optionally perform these
+collections concurrently, to avoid a lengthy pause in response to a
+<code>System.gc()</code> or <code>Runtime.getRuntime().gc()</code>
+call. To enable this feature, add the option</p>
+<p align="center">
+<code><b>-XX:+ExplicitGCInvokesConcurrent</b></code></p>
+to the <code>java</code> command line.
+<div class="smallpagetitle"><h1><a name="heap_size" id="heap_size">Larger Default Young
+Generation Size</a></h1></div>
+<p>Several changes were made that increase the default size of the
+young generation when the CMS collector is used:</p>
+<ul>
+<li>the minimum young generation size was increased from 4MB to
+16MB.</li>
+<li>the proportion of the overall heap used for the young
+generation was increased from 1/15 to 1/7.</li>
+<li>the survivor spaces are now used by default, and their default
+size was increased. (In prior releases the survivor spaces were
+disabled by default with the CMS collector.)</li>
+</ul>
+<p>The primary effect of these changes is to improve application
+performance by reducing garbage collection overhead. However,
+because the default young generation size is larger, applications
+may also see larger young generation pause times and a larger
+memory footprint. If necessary, please see the <a href=
+"#more_info">documents referenced below</a> for more details on
+generations, survivor spaces and the options available for
+adjusting their sizes.</p>
+<div class="smallpagetitle"><h1><a name="parallel" id="parallel">Parallel Marking</a></h1></div>
+<p>The CMS collector now uses multiple threads to perform the
+concurrent marking task in parallel on platforms with multiple
+processors. This reduces the duration of the concurrent marking
+cycle, allowing the collector to support applications with larger
+numbers of threads and higher object allocation rates, particularly
+on large multiprocessor machines. Prior releases used only a single
+thread for concurrent marking, limiting the collector's ability to
+keep up with applications with very high object allocation
+rates.</p>
+<div class="smallpagetitle"><h1><a name="more_info" id="more_info">More Information</a></h1></div>
+<p>The HotSpot <a href=
+"http://www.oracle.com/technetwork/java/javase/tech/memorymanagement-whitepaper-1-150020.pdf">
+memory management whitepaper</a> provides more detail about the CMS
+collector and the other collectors available in HotSpot, as well as
+descriptions of the generations, survivor spaces and other memory
+management concepts.</p>
+<p>The HotSpot <a href="http://www.oracle.com/technetwork/java/javase/tech/index-jsp-136373.html">documentation
+page</a> contains links to Garbage Collection Tuning Guides,
+specific to each release, which include guidelines for choosing the
+garbage collector that best suits your application and techniques
+that can help reduce garbage collection overhead.</p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

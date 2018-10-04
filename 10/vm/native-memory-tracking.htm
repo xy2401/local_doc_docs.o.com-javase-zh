@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Native Memory Tracking</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="This chapter describes the Native Memory Tracking (NMT) feature. NMT is a Java Hotspot VM feature that tracks internal memory usage for a HotSpot VM. You can access NMT data by using the jcmd utility. NMT does not track memory allocations for third-party native code and Oracle Java Development Kit (JDK) class libraries. NMT does not include NMT MBean in HotSpot for Java Mission Control (JMC)." />
+<meta name="dcterms.created" content="2018-03-13T05:24:14Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Java Virtual Machine Guide" />
+<meta name="dcterms.identifier" content="E91108-01" />
+<meta name="dcterms.isVersionOf" content="JSJVM" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="signal-chaining.htm" title="Previous" type="text/html" />
+<link rel="Next" href="dtrace-probes-hotspot-vm.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSJVM.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-710CAEA1-7C6D-4D80-AB0C-B0958E329407"></a> <span id="PAGE" style="display:none;">14/17</span> <!-- End Header -->
+<h1 id="JSJVM-GUID-710CAEA1-7C6D-4D80-AB0C-B0958E329407" class="sect1"><span class="enumeration_chapter">8</span> Native Memory Tracking</h1>
+<div>
+<p>This chapter describes the Native Memory Tracking (NMT) feature. NMT is a Java Hotspot VM feature that tracks internal memory usage for a HotSpot VM. You can access NMT data by using the <code class="codeph">jcmd</code> utility. NMT does not track memory allocations for third-party native code and Oracle Java Development Kit (JDK) class libraries. NMT does not include NMT <code class="codeph">MBean</code> in HotSpot for Java Mission Control (JMC).</p>
+<div class="section">
+<p class="subhead1">Topics:</p>
+<ul style="list-style-type: disc;">
+<li><a href="native-memory-tracking.htm#GUID-39676837-DA61-4F8D-9C5B-9DB1F5147D80" title="When you use Native Memory Tracking with jcmd, you can track Java Virtual Machine (JVM) or HotSpot VM memory usage at different levels. NMT tracks only the memory that the JVM or HotSpot VM uses, not the user's native memory. NMT doesn't give complete information for the memory used by the class data sharing (CDS) archive.">Key Features</a></li>
+<li><a href="native-memory-tracking.htm#GUID-56C3FD2E-E227-4902-B361-3EEE3492D70D">Using Native Memory Tracking</a>
+<ul style="list-style-type: disc;">
+<li><a href="native-memory-tracking.htm#GUID-98C3E4BD-6DBC-4BE8-9369-B3EEB858F851">Enabling NMT</a></li>
+<li><a href="native-memory-tracking.htm#GUID-E3ABFB5F-92D3-4BF3-8226-B29AD080D792">Accessing NMT Data using jcmd</a></li>
+</ul>
+</li>
+<li><a href="native-memory-tracking.htm#GUID-0DB3B8D1-8D7D-447F-B6FF-15620103EE47">Obtaining NMT Data at VM Exit</a></li>
+</ul>
+</div>
+<!-- class="section" --></div>
+<div class="sect2"><a id="GUID-39676837-DA61-4F8D-9C5B-9DB1F5147D80"></a>
+<h2 id="JSJVM-GUID-39676837-DA61-4F8D-9C5B-9DB1F5147D80" class="sect2">Key Features</h2>
+<div>
+<p>When you use Native Memory Tracking with <code>jcmd</code>, you can track Java Virtual Machine (JVM) or HotSpot VM memory usage at different levels. NMT tracks only the memory that the JVM or HotSpot VM uses, not the user's native memory. NMT doesn't give complete information for the memory used by the class data sharing (CDS) archive.</p>
+<p>NMT for HotSpot VM is turned off by default. You can turn on NMT by using the JVM command-line option. See <a class="olink JSWOR624" target="_blank" href="../tools/java.htm#JSWOR624">java</a> in the <span><cite>Java Platform, Standard Edition Tools Reference</cite></span> for information about advanced runtime options.</p>
+<p>You can access NMT using the <code class="codeph">jcmd</code> utility. See <a href="native-memory-tracking.htm#GUID-E3ABFB5F-92D3-4BF3-8226-B29AD080D792">Use jcmd to Access NMT Data</a>. You can stop NMT by using the <code class="codeph">jcmd</code> utility, but you can't start or restart NMT by using the <code class="codeph">jcmd</code> utilty.</p>
+<p>NMT supports the following features:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Generate summary and detail reports.</p>
+</li>
+<li>
+<p>Establish an early baseline for later comparison.</p>
+</li>
+<li>
+<p>Request a memory usage report at JVM exit with the JVM command-line option. See <a href="native-memory-tracking.htm#GUID-0DB3B8D1-8D7D-447F-B6FF-15620103EE47">NMT at VM exit</a>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2"><a id="GUID-56C3FD2E-E227-4902-B361-3EEE3492D70D"></a>
+<h2 id="JSJVM-GUID-56C3FD2E-E227-4902-B361-3EEE3492D70D" class="sect2">Using Native Memory Tracking</h2>
+<div>
+<p>You must enable NMT and then use the <code class="codeph">jcmd</code> utility to access the NMT data.</p>
+</div>
+<div class="sect3"><a id="GUID-98C3E4BD-6DBC-4BE8-9369-B3EEB858F851"></a>
+<h3 id="JSJVM-GUID-98C3E4BD-6DBC-4BE8-9369-B3EEB858F851" class="sect3">Enabling NMT</h3>
+<div>
+<p>To enable NMT, use the following command-line options:</p>
+<p><code class="codeph">-XX:NativeMemoryTracking=[off | summary | detail]</code></p>
+<div class="infobox-note" id="GUID-98C3E4BD-6DBC-4BE8-9369-B3EEB858F851__GUID-50DEA470-7C47-429E-824E-90AD25626757">
+<p class="notep1">Note:</p>
+Enabling NMT causes a 5% -10% performance overhead.</div>
+<p>The following table describes the NMT command-line usage options:</p>
+<div class="tblformalwide" id="GUID-98C3E4BD-6DBC-4BE8-9369-B3EEB858F851__GUID-7985BE32-02EF-4CDB-8368-629C1812DC8E">
+<p class="titleintable">Table 8-1 NMT Usage Options</p>
+<table class="cellalignment107" title="NMT Usage Options" summary="NMT usage options">
+<thead>
+<tr class="cellalignment83">
+<th class="cellalignment108" id="d8555e163">NMT Options</th>
+<th class="cellalignment108" id="d8555e166">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment83">
+<td class="cellalignment83" rowspan="1" colspan="1" id="d8555e171" headers="d8555e163"><code class="codeph">off</code></td>
+<td class="cellalignment83" rowspan="1" colspan="1" headers="d8555e171 d8555e166">
+<p>NMT is turned <code class="codeph">off</code> by default.</p>
+</td>
+</tr>
+<tr class="cellalignment83">
+<td class="cellalignment83" rowspan="1" colspan="1" id="d8555e181" headers="d8555e163"><code class="codeph">summary</code></td>
+<td class="cellalignment83" rowspan="1" colspan="1" headers="d8555e181 d8555e166">
+<p>Collect only memory usage aggregated by subsystem.</p>
+</td>
+</tr>
+<tr class="cellalignment83">
+<td class="cellalignment83" rowspan="1" colspan="1" id="d8555e188" headers="d8555e163"><code class="codeph">detail</code></td>
+<td class="cellalignment83" rowspan="1" colspan="1" headers="d8555e188 d8555e166">
+<p>Collect the memory usage by individual call sites.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+</div>
+<div class="sect3"><a id="GUID-E3ABFB5F-92D3-4BF3-8226-B29AD080D792"></a>
+<h3 id="JSJVM-GUID-E3ABFB5F-92D3-4BF3-8226-B29AD080D792" class="sect3">Accessing NMT Data using jcmd</h3>
+<div>
+<p>Use <code class="codeph">jcmd</code> to dump the data that is collected and optionally compare the data to the last baseline.</p>
+<p><code class="codeph">jcmd &lt;pid&gt; VM.native_memory [summary | detail | baseline | summary.diff | detail.diff | shutdown] [scale= KB | MB | GB]</code></p>
+<div class="tblformalwide" id="GUID-E3ABFB5F-92D3-4BF3-8226-B29AD080D792__GUID-8875867A-DDC9-4A6B-B757-BF506A3811F7">
+<p class="titleintable">Table 8-2 jcmd NMT Options</p>
+<table class="cellalignment107" title="jcmd NMT Options" summary="jcmd nmt option details">
+<thead>
+<tr class="cellalignment83">
+<th class="cellalignment108" id="d8555e227">jcmd NMT Option</th>
+<th class="cellalignment108" id="d8555e229">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment83">
+<td class="cellalignment83" rowspan="1" colspan="1" id="d8555e233" headers="d8555e227"><code class="codeph">summary</code></td>
+<td class="cellalignment83" rowspan="1" colspan="1" headers="d8555e233 d8555e229">
+<p>Print a summary, aggregated by category.</p>
+</td>
+</tr>
+<tr class="cellalignment83">
+<td class="cellalignment83" rowspan="1" colspan="1" id="d8555e240" headers="d8555e227"><code class="codeph">detail</code></td>
+<td class="cellalignment83" rowspan="1" colspan="1" headers="d8555e240 d8555e229">
+<div class="p">
+<ul style="list-style-type: disc;">
+<li>Print memory usage, aggregated by category</li>
+<li>Print virtual memory map</li>
+<li>Print memory usage, aggregated by call site</li>
+</ul>
+</div>
+</td>
+</tr>
+<tr class="cellalignment83">
+<td class="cellalignment83" rowspan="1" colspan="1" id="d8555e253" headers="d8555e227"><code class="codeph">baseline</code></td>
+<td class="cellalignment83" rowspan="1" colspan="1" headers="d8555e253 d8555e229">
+<p>Create a new memory usage snapshot for comparison.</p>
+</td>
+</tr>
+<tr class="cellalignment83">
+<td class="cellalignment83" rowspan="1" colspan="1" id="d8555e260" headers="d8555e227"><code class="codeph">summary.diff</code></td>
+<td class="cellalignment83" rowspan="1" colspan="1" headers="d8555e260 d8555e229">
+<p>Print a new summary report against the last baseline.</p>
+</td>
+</tr>
+<tr class="cellalignment83">
+<td class="cellalignment83" rowspan="1" colspan="1" id="d8555e267" headers="d8555e227"><code class="codeph">detail.diff</code></td>
+<td class="cellalignment83" rowspan="1" colspan="1" headers="d8555e267 d8555e229">
+<p>Print a new detail report against the last baseline.</p>
+</td>
+</tr>
+<tr class="cellalignment83">
+<td class="cellalignment83" rowspan="1" colspan="1" id="d8555e274" headers="d8555e227"><code class="codeph">shutdown</code></td>
+<td class="cellalignment83" rowspan="1" colspan="1" headers="d8555e274 d8555e229">
+<p>Stop NMT.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+</div>
+</div>
+<div class="sect2"><a id="GUID-0DB3B8D1-8D7D-447F-B6FF-15620103EE47"></a>
+<h2 id="JSJVM-GUID-0DB3B8D1-8D7D-447F-B6FF-15620103EE47" class="sect2">Obtaining NMT Data at VM Exit</h2>
+<div>
+<p>To obtain data for the last memory usage at VM exit, when Native Memory Tracking is enabled, use the following VM diagnostic command-line options. The level of detail is based on tracking level.</p>
+<p><code class="codeph">-XX:+UnlockDiagnosticVMOptions -XX:+PrintNMTStatistics</code></p>
+<p>See <a class="olink JSTGD-JSTGD153" target="_blank" href="http://www.oracle.com/pls/topic/lookup?ctx=E92405-01&amp;id=JSTGD-JSTGD153">Native Memory Tracking</a> in the <span><cite>Java Platform, Standard Edition Troubleshooting Guide</cite></span> for information about how to monitor VM internal memory allocations and diagnose VM memory leaks.</p>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment82">
+<tr>
+<td class="cellalignment89">
+<table class="cellalignment87">
+<tr>
+<td class="cellalignment86"><a href="signal-chaining.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment86"><a href="dtrace-probes-hotspot-vm.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment91">
+<table class="cellalignment85">
+<tr>
+<td class="cellalignment86"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment86"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment86"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<!-- GenHTML revision 23965-->
+<meta http-equiv="Content-type" content=
+"text/html; charset=utf-8" />
+<title>Java Sound - Troubleshooting Guide for Java SE 7 Desktop
+Technologies</title>
+<meta http-equiv="content-language" content="en-US" />
+<meta name="robots" content="index,follow" />
+<meta name="language" content="en" />
+<meta name="collection" content="reference" />
+<meta name="keywords" content="" />
+<meta name="description" content=
+"This document is a guide to help troubleshoot problems that might arise with applications that are deployed using the release of Java Platform, Standard Edition 7 (Java SE 7). Most of the information also applies to Java SE 5." />
+<meta name="date" content="2008-09-01" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/default.css" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/pagelayout.css" />
+<link rel="alternate stylesheet" type="text/css" title="print"
+href="css/print.css" />
+<script type="text/javascript">
+//<![CDATA[
+function setActiveStyleSheet(title) {
+  var i, a, main;
+  for (i=0; (a = document.getElementsByTagName("link")[i]); i++) {
+         if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+                a.disabled = true;
+                if(a.getAttribute("title") == title) a.disabled = false;
+         }
+  }
+}
+
+function ClearDefault(Element) {
+   if (Element.defaultValue == Element.value) {
+        Element.value = ""
+        Element.style.cssText = "font-weight: bold; color: #00000"
+   }
+}
+
+//]]>
+</script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<div class="MastheadPane">
+<table class="MastheadTable" width="100%">
+<tr class="closeprintview">
+<td align="right"><a href="#" onclick=
+"setActiveStyleSheet('screen')">Exit Print View</a></td>
+</tr>
+<tr class="titlebar">
+<td>
+<h4 class="contentpage-doctitle"><a href="toc.html">Troubleshooting
+Guide for Java SE 7 Desktop Technologies</a></h4>
+</td>
+<td class="smallLogo"><a href="http://www.oracle.com"><img src=
+"graphics/smallOracleLogo.gif" /></a></td>
+</tr>
+</table>
+</div>
+<div class="ButtonPane">
+<table class="pagecontrol">
+<tr>
+<td class="pagebuttons"><a href="#" onclick=
+"setActiveStyleSheet('print')"><img height="46" width="40" border=
+"0" src="graphics/print.gif" alt="Print View" title=
+"Print View" /></a></td>
+<td class="pagebreadcrumb"></td>
+<td class="pagenavlinks"><a href="i18n.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="plugin.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+<div class="TOCPane">
+<p class="toc level1"><a href="docinfo.html">Document
+Information</a></p>
+<p class="toc level1 tocsp"><a href="preface.html">Preface</a></p>
+<p class="toc level1 tocsp"><a href=
+"introduction.html">1.&#160;&#160;Introduction</a></p>
+<p class="toc level1 tocsp"><a href=
+"awt.html">2.&#160;&#160;AWT</a></p>
+<p class="toc level1 tocsp"><a href=
+"java2d.html">3.&#160;&#160;Java 2D</a></p>
+<p class="toc level1 tocsp"><a href=
+"swing.html">4.&#160;&#160;Swing</a></p>
+<p class="toc level1 tocsp"><a href=
+"i18n.html">5.&#160;&#160;Internationalization</a></p>
+<div id="scrolltoc" class="onpage">
+<p class="toc level1 tocsp"><a href="">6.&#160;&#160;Java
+Sound</a></p>
+<p class="toc level2"><a href="#gdjzn">6.1 System Sound
+Configuration</a></p>
+<p class="toc level2"><a href="#gdjzj">6.2 Audio File
+Formats</a></p>
+<p class="toc level2"><a href="#gdjzg">6.3 Audio Formats</a></p>
+<p class="toc level2"><a href="#gdjzi">6.4 Overrun and Underrun
+Conditions</a></p>
+</div>
+<p class="toc level1 tocsp"><a href=
+"plugin.html">7.&#160;&#160;Applets and Java Web Start
+Applications</a></p>
+<p class="toc level1 tocsp"><a href=
+"bugreports.html">8.&#160;&#160;Submitting Bug Reports</a></p>
+<p class="toc level1 tocsp"><a href=
+"java2d-props.html">A.&#160;&#160;Java 2D Properties</a></p>
+<p class="toc level1 tocsp"><a href=
+"felog.html">B.&#160;&#160;Fatal Error Log</a></p>
+</div>
+<div class="ContentPane"><a name="sound" id=
+"sound"></a>Chapter&#160;6
+<h2>Java Sound</h2>
+<p>This chapter describes some issues that can arise with the Java
+Sound technology and suggests causes and workarounds.</p>
+<a name="gdjzn" id="gdjzn"></a>
+<h3>6.1 System Sound Configuration</h3>
+<p>Make sure that your audio system is correctly configured (sound
+card driver/DirectSound for Windows, ALSA for Linux, Audio Mixer
+for Solaris OS). In addition, ensure that your speakers are
+connected and that your sound card volume and mute state are
+adjusted to the appropriate value. To test your sound
+configuration, run any native sound application and play some sound
+through it.</p>
+<p>On Solaris OS and Linux, you might be unable to play sounds
+because an application (or sound daemon, such as <tt>esd</tt> or
+<tt>artsd</tt>) opens the audio device exclusively, thereby denying
+Java Sound access to the device.</p>
+<a name="gdjzj" id="gdjzj"></a>
+<h3>6.2 Audio File Formats</h3>
+<p>Java Sound supports a set of audio file formats, for example
+<tt>.au</tt>, <tt>.aif</tt>, and <tt>.wav</tt>. Most of the file
+formats are only containers and can contain audio data in various
+compressed audio formats. Java Sound file readers support some
+formats (uncompressed PCM, a-law, mu-law), but do not support
+ADPCM, mp3, and others.</p>
+<p>Java Sound also supports plug-ins for file readers and writers
+through the service provider interface (SPI). You can use Sun,
+third-party, or your own plug-ins to read various audio files. In
+any case you must handle the presence of the plug-in, for example,
+by distributing the required plug-ins with your application or by
+requiring plug-ins to be installed in the client Java
+environment.</p>
+<a name="gdjzg" id="gdjzg"></a>
+<h3>6.3 Audio Formats</h3>
+<p>Java Sound supports various audio formats, but their
+availability depends on the operating system. To use some audio
+format for recording or playing, the format must be supported by
+your system (sound card drivers). Use supported formats as much as
+possible: PCM; 8 or 16 bits; 8000, 11025, 22050, 44100 Hz. The
+formats are supported by most if not all present sound cards. Most
+sound cards support only PCM formats, and even if the driver
+supports mu-law, it requires some modification to the software. If
+you need to play or record mu-law data, the preferred way is to
+convert it to PCM format through a format converter.</p>
+<p>See the documentation for
+<tt>AudioSystem.getAudioInputStream</tt> for details about format
+conversion.</p>
+<a name="gdjzi" id="gdjzi"></a>
+<h3>6.4 Overrun and Underrun Conditions</h3>
+<p>Recorded data is kept in a <tt>DataLine</tt> buffer. If you did
+not read from the line for a long time, an &#8220;overrun&#8221;
+condition will occur, and older data will be replaced with new.
+This will produce artifacts in the recorded audio data.</p>
+<p>A similar situation occurs with playing. If all data from the
+buffer has been played and no new data has been written to the
+line, an &#8220;underrun&#8221; condition will occur and silence
+will be played until you write a new portion of audio data to the
+line.</p>
+<p>The preferred way to record is to read data in a separate thread
+to prevent the possible influence of other tasks (for example, UI
+handling). If you use <tt>SourceDataLine</tt> for playing, a
+separate thread for writing data into the line is also the
+preferred method to use. If you use <tt>Clip</tt> for playing, the
+<tt>Clip</tt> implementation creates such a thread itself.</p>
+<div class="BottomPageControlPane">
+<table class="pagecontrol">
+<tr>
+<td>
+<div class="pagefooterlinks">Copyright &#169;1995, 2011, Oracle
+and/or its affiliates. All rights reserved. <a href=
+"docinfo.html">Legal Notices</a></div>
+</td>
+<td class="pagenavlinks"><a href="i18n.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="plugin.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+</div>
+</body>
+</html>

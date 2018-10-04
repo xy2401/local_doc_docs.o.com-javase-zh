@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Runtime</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="dcterms.created" content="2018-03-13T05:53:20Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition JRockit to HotSpot Migration Guide" />
+<meta name="dcterms.identifier" content="E91473-01" />
+<meta name="dcterms.isVersionOf" content="JRHMG" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1995, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="garbage-collectors.htm" title="Previous" type="text/html" />
+<link rel="Next" href="compilation-optimization.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JRHMG.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-E60C4A1E-2C46-4F39-84F9-20DB17AE1525"></a> <span id="PAGE" style="display:none;">6/11</span> <!-- End Header -->
+<a id="JRHMG150"></a><a id="JRHMG149"></a>
+<h1 id="JRHMG-GUID-E60C4A1E-2C46-4F39-84F9-20DB17AE1525" class="sect1"><span class="enumeration_chapter">3</span> Runtime</h1>
+<div>
+<p>This topic describes important options that control the runtime behavior of the HotSpot.</p>
+</div>
+<a id="JRHMG116"></a><a id="JRHMG115"></a>
+<div class="props_rev_3"><a id="GUID-51F9DC78-E8A7-4768-8C20-F6B9407AC984"></a>
+<h2 id="JRHMG-GUID-51F9DC78-E8A7-4768-8C20-F6B9407AC984" class="sect2">Runtime Options</h2>
+<div>
+<p>The following table lists important equivalent options of the runtime subsystem in Oracle JRockit and HotSpot:</p>
+<div class="tblformalwide" id="GUID-51F9DC78-E8A7-4768-8C20-F6B9407AC984__GUID-152EE483-A509-422F-81D2-C353548D4DA9">
+<p class="titleintable">Table 3-1 Runtime Options</p>
+<table class="cellalignment301" title="Runtime Options" summary="Runtime Options">
+<thead>
+<tr class="cellalignment283">
+<th class="cellalignment302" id="d1280e47">Oracle JRockit</th>
+<th class="cellalignment303" id="d1280e50">HotSpot</th>
+<th class="cellalignment304" id="d1280e53">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment283">
+<td class="cellalignment305" id="d1280e58" headers="d1280e47">
+<p><code class="codeph">-XX:+UseLazyUnlocking</code></p>
+</td>
+<td class="cellalignment306" headers="d1280e58 d1280e50">
+<p><code class="codeph">-XX:+UseBiasedLocking</code></p>
+</td>
+<td class="cellalignment307" headers="d1280e58 d1280e53">
+<p><code class="codeph">UseBiasedLocking</code> improves the performance of uncontended synchronization. This option is enabled by default. However, if the application has high contended synchronization, then disable the <code class="codeph">UseBiasedLocking</code> option to enhance the performance.</p>
+</td>
+</tr>
+<tr class="cellalignment283">
+<td class="cellalignment305" id="d1280e75" headers="d1280e47">
+<p><code class="codeph">-XlargePages</code></p>
+</td>
+<td class="cellalignment306" headers="d1280e75 d1280e50">
+<p><code class="codeph">-XX:+UseLargePages</code></p>
+</td>
+<td class="cellalignment307" headers="d1280e75 d1280e53">
+<p>In HotSpot, this option is enabled by default on the Solaris platform. On the Linux platform, this option was disabled from version 7u60 onwards.</p>
+<p>Use <code class="codeph">-XX:+UseLargePages</code> to enable the use of large pages on the platforms where it is disabled by default. However, <code class="codeph">-XX:+UseLargePages</code> doesn&rsquo;t enable the use of large pages in the MetaSpace. To enable this option, add <code class="codeph">-XX:+UseLargePagesInMetaspace</code>.</p>
+</td>
+</tr>
+<tr class="cellalignment283">
+<td class="cellalignment305" id="d1280e98" headers="d1280e47">
+<p><code class="codeph">-XX:MaxLargePageSize</code></p>
+</td>
+<td class="cellalignment306" headers="d1280e98 d1280e50">
+<p><code class="codeph">-XX:LargePageSizeInBytes=size</code></p>
+</td>
+<td class="cellalignment307" headers="d1280e98 d1280e53">
+<p>Sets the maximum size (in bytes) for large pages used for the Java heap. By default, the size is set to 0, which implies that the JVM chooses the size for large pages automatically.</p>
+</td>
+</tr>
+<tr class="cellalignment283">
+<td class="cellalignment305" id="d1280e111" headers="d1280e47">
+<p><code class="codeph">-XXcompressedRefs</code></p>
+</td>
+<td class="cellalignment306" headers="d1280e111 d1280e50">
+<p><code class="codeph">-XX:+UseCompressedOops</code></p>
+</td>
+<td class="cellalignment307" headers="d1280e111 d1280e53">
+<p>Use of <code class="codeph">Compressed Oops</code> is the default for 64-bit HotSpot processes when <code class="codeph">-Xmx</code> isn&rsquo;t specified and the values of <code class="codeph">-Xmx</code> are less than 32 gigabytes.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment282">
+<tr>
+<td class="cellalignment298">
+<table class="cellalignment287">
+<tr>
+<td class="cellalignment286"><a href="garbage-collectors.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment286"><a href="compilation-optimization.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1995, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment300">
+<table class="cellalignment285">
+<tr>
+<td class="cellalignment286"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment286"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment286"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

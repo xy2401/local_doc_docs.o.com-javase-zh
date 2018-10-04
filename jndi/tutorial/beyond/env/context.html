@@ -1,0 +1,200 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>A Context's Environment</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="source.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="update.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=bottom border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Environment Properties</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    A Context's Environment
+</h2>
+<p>
+<blockquote>
+
+You can use application resource files, the environment parameter,
+system properties, and applet parameters to specify environment
+properties. What if you use more than one of these mechanisms at the
+same time? 
+
+<h4>Initialization</h4>
+When you use any of the constructors from the following classes,
+you can supply a <tt>Hashtable</tt> parameter that contains
+environment properties:
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html"><tt>InitialContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>,
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InitialDirContext.html"><tt>InitialDirContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InitialDirContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/InitialLdapContext.html"><tt>InitialLdapContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/InitialLdapContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+The initial context's environment is initialized from the following
+two sources, in the order specified.
+<ol>
+<li>
+The constructor's environment parameter. If the property is one of
+<blockquote><pre>
+java.naming.factory.initial
+java.naming.factory.object
+java.naming.factory.state
+java.naming.factory.control
+java.naming.factory.url.pkgs
+java.naming.provider.url
+java.naming.dns.url	
+</pre></blockquote>
+and it does <em>not</em> occur in the
+environment parameter, then it is obtained from the applet parameters, and
+if not present there, from the system properties.
+<li>
+All application resource files (<tt>jndi.properties</tt>).
+</ol>
+
+So the environment, effectively, is
+the union of the environment parameter and all application resource
+files, with the additional rule that some standard properties
+could be gotten from applet parameters or system properties.
+<p>
+If one of the following properties is found in both of these two sources or in more
+than one application resource file, then 
+all of the property's values are concatenated into a single colon-separated list.
+For other properties, only the first value found is used.
+<blockquote><pre>
+java.naming.factory.object
+java.naming.factory.state
+java.naming.factory.control
+java.naming.factory.url.pkgs
+</pre></blockquote>
+<p>
+When the constructor is called, 
+the JNDI constructs an environment according to these rules
+and passes the result to the underlying service provider.
+When you invoke methods that obtain context objects
+derived from the initial context, such as
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(java.lang.String)"><tt>Context.lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, the environment of the parent context is inherited.
+<p>
+Note that possibly not all of the environment properties
+will apply to a context.
+The context, however, is always required to record them and pass them on to any derived contexts.
+
+
+<h4>Getting a Context's Environment</h4>
+To obtain a context's environment, you use
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#getEnvironment()"><tt>getEnvironment()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#getEnvironment()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+Here is <a href=src/GetEnv.java>an example</a>.
+<blockquote><pre>
+// Initial environment with various properties
+Hashtable env = new Hashtable();
+env.put(Context.INITIAL_CONTEXT_FACTORY,  
+    "com.sun.jndi.fscontext.FSContextFactory");
+env.put(Context.PROVIDER_URL, "file:/");
+env.put(Context.OBJECT_FACTORIES, "foo.bar.ObjFactory");
+env.put("foo", "bar");
+
+// Call the constructor
+Context ctx = new InitialContext(env);
+
+// See what environment properties you have
+System.out.println(ctx.getEnvironment());
+</blockquote></pre>
+When you run this example with the following 
+<a href=src/jndi.properties>application resource file</a> in your classpath:
+<blockquote><pre>
+java.naming.factory.object=com.sun.jndi.ldap.AttrsToCorba:com.wiz.from.Person
+java.naming.factory.state=com.sun.jndi.ldap.CorbaToAttrs:com.wiz.from.Person
+java.naming.factory.control=com.sun.jndi.ldap.ResponseControlFactory
+java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory
+java.naming.provider.url=ldap://localhost:389/o=jnditutorial
+com.sun.jndi.ldap.netscape.schemaBugs=true
+</pre></blockquote>
+you get the following results.
+<blockquote><pre>
+com.sun.jndi.ldap.netscape.schemaBugs=true 
+java.naming.factory.object=foo.bar.ObjFactory:com.sun.jndi.ldap.AttrsToCorba:com.wiz.from.Person
+java.naming.factory.initial=com.sun.jndi.fscontext.FSContextFactory 
+foo=bar 
+java.naming.provider.url=file:/ 
+java.naming.factory.state=com.sun.jndi.ldap.CorbaToAttrs:com.wiz.from.Person
+java.naming.factory.control=com.sun.jndi.ldap.ResponseControlFactory
+</pre></blockquote>
+
+Notice the following from this output.
+<ul>
+<li>The properties found in only one source--<tt>"foo"</tt>
+from the environment parameter, and 
+<tt>"com.sun.jndi.ldap.netscape.schemaBugs"</tt> from the application resource 
+file--are in the
+resulting environment.
+<li>The list-of-factories properties
+(e.g., <tt>"java.naming.factory.object"</tt>) that occur in
+both sources are merged, with the one from the environment parameter 
+occurring first in the list.
+<li>All other properties
+(e.g., <tt>"java.naming.factory.initial"</tt>) that occur in
+both sources take their values from the environment parameter.
+</ul>
+Users often mistakenly update the result of
+<tt>getEnvironment()</tt> and then expect that the context's
+environment has been updated accordingly.
+Depending on the underlying provider implementation,
+updating the results of <tt>getEnvironment()</tt> might
+have no effect. In fact, you should think of the result
+of <tt>getEnvironment()</tt> as an immutable, read-only object
+and not attempt to update it.
+See the <a href=update.html>next section</a>
+for instructions on how to update a context's environment.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="source.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="update.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=top border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Environment Properties</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

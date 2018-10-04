@@ -1,0 +1,188 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Security Considerations</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="threads.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="../basics/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Ground Rules</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Security Considerations
+</h2>
+<p>
+<blockquote>
+
+Security considerations from the API user's perspective
+are discussed in the
+
+<a target="_top" href="../../beyond/misc/security.html">Miscellaneous</a> <a target="_top" href="../../beyond/misc/security.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson.
+
+As a service provider developer, you should be aware of the following
+additional considerations.
+
+<h4>Privileged Code</h4>
+
+The 
+<a href=http://java.sun.com/products/jdk/1.2>Java 2 Platform, 
+Standard Edition</a>, defines a
+<a href=http://java.sun.com/products/jdk/1.2/docs/guide/security>security
+model</a>
+for system administrators and users to use to dynamically configure the security policy
+for running applications.
+You should be familiar with that security model before writing
+any service provider code. 
+This discussion covers some issues pertinent
+to service provider code but is not a substitute for your reading
+and thoroughly understanding the 
+<a href=http://java.sun.com/products/jdk/1.2/docs/guide/security>Java Security Guide</a>.
+
+<p>
+The security model allows you to mark sections of your code as
+<em>privileged</em> by wrapping each section inside of a
+<tt>doPrivileged</tt> block.  The system administrator or user can then grant
+permissions to your code separate from those that it grants to other
+components of the application.  Because service provider code is often
+considered "system" code and is granted all permissions by system
+administrators and users, you must be careful which permissions
+that the service
+provider requests.  Or more precisely, you must be careful which
+sections of code that you put inside of <tt>doPrivileged</tt> blocks.
+Otherwise, you might be introducing security holes that can be
+exploited by malicious applications.
+<p>
+In general, a <tt>doPrivileged</tt> block should not be publicly accessible.
+Rather, it should be accessible in the smallest scope possible, with the
+package-private scope being the widest recommended scope.
+The code inside of a
+<tt>doPrivileged</tt> block should perform the narrowest functionality
+required. 
+<p>
+For example, you should never have a <tt>doPrivileged</tt>
+block for reading arbitrary system properties,
+accessing local files, or creating network connections.
+On the other hand, it might be reasonable to have a <tt>doPrivileged</tt>
+block for reading a specific system property, reading a specific
+configuration file, or creating
+a network connection to the local machine on a specific port number.
+<p>
+In general, keep the number of <tt>doPrivileged</tt> blocks to a minimum.
+Always ask yourself if it is reasonable for the administrator or user to know
+that an application requires such a permission
+(and therefore afforded the opportunity to deny the request) 
+or is the action harmless enough
+that the provider should request the permission for the action on behalf of the application.
+<p>
+See the 
+<a href=http://java.sun.com/products/jdk/1.2/docs/guide/security>Java Security 
+Guide</a>
+for a general discussion of the Java security model and <tt>doPrivileged</tt>
+blocks.
+
+
+<h4>Environment Properties</h4>
+
+The
+
+<a target="_top" href="../../beyond/misc/security.html">Miscellaneous</a> <a target="_top" href="../../beyond/misc/security.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson talks about security considerations associated
+with environment properties.
+The <a href=env.html>Environment Properties</a> section of this lesson
+describes how a provider should handle environment properties.
+The main security-related issue to note from these discussions is
+that, as a service provider writer, you should never return a context's
+copy of its environment properties. Rather, you should always return a clone
+or copy. This will forestall any possible tampering or accidental
+corruption of one of a <tt>Context</tt> instance's most important state--its
+environment properties.
+<p>
+If your context implementation is serializable, then you should
+avoid serializing any passwords or other security-sensitive
+environment properties.
+
+
+<h4>Network Security</h4>
+
+Most naming and directory services are accessed over the
+network. Although the data requested is protected by the server's
+authentication and access control mechanisms, some protocols do not
+protect (encrypt) the data that is sent as replies. This is not a
+problem particular to a client using the JNDI but
+rather a problem for any client accessing that service.
+Your service provider's documentation should describe the
+security implications associated with accessing its corresponding
+service over a network.
+
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+<strong>The Ground Rules: End of Lesson</strong>
+<p>
+What's next? 
+Now you can:
+<ul>
+<li> <a href=../basics/index.html>Continue</a> on in this trail
+to learn how to write a basic service provider.
+
+</ul>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="threads.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="../basics/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Ground Rules</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

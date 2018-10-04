@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Java IDL: Exceptions</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Exceptions</h1></div>
+<p>CORBA has two types of exceptions: standard system exceptions
+which are fully specified by the OMG and user exceptions which are
+defined by the individual application programmer. CORBA exceptions
+are a little different from Java exception objects, but those
+differences are largely handled in the mapping from IDL to
+Java.</p>
+<p>Topics in this section include:</p>
+<ul>
+<li><a href="#differences">Differences Between CORBA and Java
+Exceptions</a></li>
+<li><a href="#systemexceptions">System Exceptions</a>
+<ul>
+<li><a href="#structure">System Exception Structure</a></li>
+<li><a href="#minorcodes">Minor Codes</a></li>
+<li><a href="#compstatus">Completion Status</a></li>
+</ul>
+</li>
+<li><a href="#userexceptions">User Exceptions</a></li>
+<li><a href="#minorcodemeanings">Minor Code Meanings</a></li>
+</ul>
+<!--*********************DIFFERENCES****************-->
+<h2><a name="differences" id="differences">Differences Between
+CORBA and Java Exceptions</a></h2>
+<p>To specify an exception in IDL, the interface designer uses the
+<em>raises</em> keyword. This is similar to the <em>throws</em>
+specification in Java. When you use the exception keyword in IDL
+you create a user-defined exception. The standard system exceptions
+need not (and cannot) be specified this way. 
+<!--****************SYSTEM EXCEPTIONS***************--></p>
+<h2><a name="systemexceptions" id="systemexceptions">System
+Exceptions</a></h2>
+CORBA defines a set of standard system exceptions, which are
+generally raised by the ORB libraries to signal systemic error
+conditions like:
+<ul>
+<li>Server-side system exceptions, such as resource exhaustion or
+activation failure.</li>
+<li>Communication system exceptions, for example, losing contact
+with the object, host down, or cannot talk to ORB daemon
+(orbd).</li>
+<li>Client-side system exceptions, such as invalid operand type or
+anything that occurs before a request is sent or after the result
+comes back.</li>
+</ul>
+<p>All IDL operations can throw system exceptions when invoked. The
+interface designer need not specify anything to enable operations
+in the interface to throw system exceptions -- the capability is
+automatic.</p>
+<p>This makes sense because no matter how trivial an operation's
+implementation is, the potential of an operation invocation coming
+from a client that is in another process, and perhaps (likely) on
+another machine, means that a whole range of errors is
+possible.</p>
+<p>Therefore, a CORBA client should always catch CORBA system
+exceptions. Moreover, developers cannot rely on the Java compiler
+to notify them of a system exception they should catch, because
+CORBA system exceptions are descendants of
+<tt>java.lang.RuntimeException</tt>.</p>
+<h3><a name="structure" id="structure">System Exception
+Structure</a></h3>
+<p>All CORBA system exceptions have the same structure:</p>
+<pre class="codeblock">
+exception &lt;SystemExceptionName&gt; { // descriptive of error
+    unsigned long <a href=
+"#minorcodes">minor</a>;          // more detail about error
+    CompletionStatus <a href=
+"#compstatus">completed</a>;   // yes, no, maybe
+}
+&nbsp;
+</pre>
+<p>System exceptions are subtypes of
+<tt>java.lang.RuntimeException</tt> through
+<tt>org.omg.CORBA.SystemException</tt>:</p>
+
+<ul>
+  <li><code>java.lang.Exception</code>
+    <ul>
+      <li><code>java.lang.RuntimeException</code>
+        <ul>
+          <li><code>org.omg.CORBA.SystemException</code>
+		        <ul>
+              <li><code>BAD_PARAM</code></li>
+              <li><code>//etc.</code></li>
+				    </ul>
+					</li>
+			  </ul>
+			</li>
+	  </ul>
+  </li>
+</ul>
+				 
+<h3><a name="minorcodes" id="minorcodes">Minor Codes</a></h3>
+<p>All CORBA system exceptions have a minor code field, a number
+that provides additional information about the nature of the
+failure that caused the exception. Minor code meanings are not
+specified by the OMG; each ORB vendor specifies appropriate minor
+codes for that implementation. For the meaning of minor codes
+thrown by the Java&nbsp; ORB, see <a href=
+"#minorcodemeanings">Minor code meanings</a> .</p>
+<h3><a name="compstatus" id="compstatus">Completion Status</a></h3>
+<p>All CORBA system exceptions have a completion status field,
+indicating the status of the operation that threw the exception.
+The completion codes are:</p>
+<dl>
+<dt>COMPLETED_YES</dt>
+<dd>The object implementation has completed processing prior to the
+exception being raised.</dd>
+<dt>COMPLETED_NO</dt>
+<dd>The object implementation was not invoked prior to the
+exception being raised.</dd>
+<dt>COMPLETED_MAYBE</dt>
+<dd>The status of the invocation is unknown.</dd>
+</dl>
+<!--****************USER EXCEPTIONS***************-->
+<h2><a name="userexceptions" id="userexceptions">User
+Exceptions</a></h2>
+<p>CORBA user exceptions are subtypes of
+<tt>java.lang.Exception</tt> through
+<tt>org.omg.CORBA.UserException</tt>:</p>
+
+<ul>
+<li><code>java.lang.Exception</code>
+  <ul>
+    <li><code>org.omg.CORBA.UserException</code>
+      <ul>
+			  <li><code>Stocks.BadSymbol</code></li>
+        <li><code>//etc.</code></li>
+			</ul></li>
+	</ul></li>
+</ul> 
+
+<p>Each user-defined exception specified in IDL results in a
+generated Java exception class. These exceptions are entirely
+defined and implemented by the programmer 
+<!--*****************MINOR CODE MEANINGS********************--></p>
+<h2><a name="minorcodemeanings" id="minorcodemeanings">Minor Code
+Meanings</a></h2>
+<p>System exceptions all have a field <i>minor</i> that allows
+CORBA vendors to provide additional information about the cause of
+the exception. For a list of standard OMG minor code exceptions
+(OMGVMCID), see the <a href="http://www.omg.org">Object
+Management Group</a> website.</p>
+<p>Some of the most common Sun minor code exceptions are the
+following:</p>
+<ul>
+<li><strong>COMM_FAILURE/201</strong>. <em>vmcid: SUN minor code:
+201</em> literally means "CONNECT_FAILURE". This may be caused by a
+<code>java.net.SocketException</code>, usually one of
+<code>BindException</code>, <code>ConnectException</code>, or
+<code>NoRouteToHostException</code>.
+<p>Some things to verify are:</p>
+<ul>
+<li>Is a naming service running? If not, start the ORBD naming
+service as described in the document <a href=
+"../../tools/share/orbd.html#starting">Starting and Stopping
+ORBD</a>.</li>
+<li>Are the <code>-ORBInitialHost</code> and
+<code>-ORBInitialPort</code> values being set correctly for the
+naming service? If you are uncertain about what the settings should
+be, read the document <a href=
+"../../tools/share/orbd.html#starting">Starting and Stopping
+ORBD</a>.</li>
+<li>Are the client and server applications aware of the port number
+(and machine name, if applicable) where the Naming Service is
+running? Read <a href=
+"../../tools/share/orbd.html#starting">Starting and Stopping
+ORBD</a> for more information on how to do this.</li>
+</ul>
+</li>
+<li><strong>COMM_FAILURE/208</strong>. <em>vmcid: SUN minor code:
+208</em> literally means "CONNECTION ABORT", which generally means
+the connection has been dropped.</li>
+<li><strong>COMM_FAILURE/209</strong>. <em>vmcid: SUN minor code:
+209</em> literally means "CREATE_LISTENER_FAILED": <code>Unable to
+create the listener thread on the specific port. Either the post is
+taken or there was an error creating the daemon thread</code>. This
+generally indicates that the port on which you are trying to run
+the naming service is in use by another process. If you are running
+on Solaris, you could discover whether or not something is running
+on this port using the following terminal prompt command:
+<pre class="codeblock">
+netstat | grep <em>port_number</em>
+</pre></li>
+<li><strong>OBJECT_NOT_EXIST/204</strong>. <em>vmcid: SUN minor
+code: 204</em> literally means "SERVANT_NOT_FOUND". It is only
+thrown in one place:
+<code>corba.INSSubcontract.getINSReference</code>.</li>
+<li><strong>MARSHAL/217</strong>. <em>vmcid: SUN minor code:
+217</em> means that your client tried to send either a
+<code>wchar</code> or <code>wstring</code> in GIOP 1.0, which is
+not legal in the spec.</li>
+<li><strong>MARSHAL/202</strong>. <em>vmcid: SUN minor code:
+202</em> means that the code is attempting to marshal an object
+that derives from <code>org.omg.CORBA.Object</code>, but that
+particular instance has never been connected to an ORB. When using
+the POA, you need to register the object with the POA first. If you
+need more information on how to register an object with the POA,
+refer to the <a href="POA.html">POA</a> document or the <a href=
+"GShome.html">tutorial</a>.</li>
+<li><strong>BAD_PARAM/201</strong>. <em>vmcid: SUN minor code:
+201</em> literally means "NULL_PARAM". This exception often occurs
+because a Java <code>null</code> was given to a <code>write</code>
+method such as <code>write_string</code>,
+<code>write_octet_array</code>, etc. You cannot return a Java
+<code>null</code> as the result of a Java method.</li>
+<li><strong>org.omg.CORBA.INTERNAL</strong>. <em>vmcid: SUN minor
+code: 208</em> means <code>Unable to determine local hostname using
+InetAddress.getLocalHost().getHostName()</code>.
+<p>The ORB uses
+<code>InetAddress.getLocalHost().getHostName()</code> to create a
+reference to the name service for looking for and/or binding
+references. It also uses
+<code>InetAddress.getLocalHost().getHostName()</code> on the server
+side to create remote object references (i.e., IORs) that contain
+the name/port of the server (rather than a dotted-decimal/port
+pair).</p>
+<p>To avoid the call to <code>getHostName</code>, you can set the
+following properties (refer to <a href=
+"../../tools/share/orbd.html#starting">Starting and Stopping
+ORBD</a> if you are not sure how to do this):</p>
+<ul>
+<li>Set <code>com.sun.CORBA.ORBServerHost</code> to the DNS name or
+dotted-decimal address of the server if the ORB is acting as a
+server.</li>
+<li>Set <code>com.sun.CORBA.ORBInitialHost</code> to the DNS name
+or dotted-decimal address of the name server.</li>
+</ul>
+<p><strong>NOTE: These properties are proprietary and are subject
+to deletion or change.</strong></p>
+</li>
+</ul>
+<p>If none of these suggestions work for you, or if you encounter a
+different Sun minor code exception, post a message to the developer
+forum at <a href="https://forums.oracle.com/forums/main.jspa?categoryID=84">Oracle Forum Home</a>.</p>
+<p>When requesting the meaning of a minor code, include the
+following information:</p>
+<ul>
+<li>The platform on which the client and server are running (e.g.,
+Solaris, Linux, Win32)</li>
+<li>The version of Java SE you are using (e.g., 1.5.0_01)</li>
+<li>A complete stack trace</li>
+<li>If you are using a naming service or an ORB from a different
+vendor, provide the information on the vendor and version of
+the product.</li>
+</ul>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

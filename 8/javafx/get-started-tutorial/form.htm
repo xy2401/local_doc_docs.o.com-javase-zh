@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>4 Creating a Form in JavaFX (Release 8)</title>
+<meta name="description" content="Creating a form is a common activity when developing an application. This tutorial teaches you the basics of screen layout, how to add controls to a layout pane, and how to create input events.">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXST.pdf">PDF</a> | <a href="../JFXST.epub">ePub</a> | <a href="../JFXST.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Getting Started with JavaFX</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="hello_world.htm">Previous Page</a><a class="button" title="Next Page" href="css.htm">Next Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="BABCIIBJ" name="BABCIIBJ" class="anchor"></a><a id="JFXST165" name="JFXST165" class="anchor"></a> <a id="BABDDGEE" name="BABDDGEE" class="anchor"></a>
+<h1 class="chapter"><span class="secnum">4</span> Creating a Form in JavaFX</h1>
+<a id="JFXST166" name="JFXST166" class="anchor"></a>
+<p>Creating a form is a common activity when developing an application. This tutorial teaches you the basics of screen layout, how to add controls to a layout pane, and how to create input events.</p>
+<p>In this tutorial, you will use JavaFX to build the login form shown in <a href="#BABJHICA">Figure 4-1</a>.</p>
+<div class="figure"><a id="BABJHICA" name="BABJHICA" class="anchor"></a><a id="JFXST245" name="JFXST245" class="anchor"></a>
+<p class="titleinfigure">Figure 4-1 Login Form</p>
+<img width="316" height="313" src="img/login.png" alt="Description of Figure 4-1 follows" title="Description of Figure 4-1 follows" longdesc="img_text/login.htm" /><br />
+<a id="sthref21" name="sthref21" href="img_text/login.htm">Description of "Figure 4-1 Login Form"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>The tool used in this Getting Started tutorial is NetBeans IDE. Before you begin, ensure that the version of NetBeans IDE that you are using supports JavaFX 8. See the Certified System Configurations page of the <a target="_blank" href="http://www.oracle.com/technetwork/java/javase/downloads/">Java SE Downloads page</a> for details.</p>
+<a id="JFXST168" name="JFXST168" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref22" name="sthref22" class="anchor"></a>
+<h2 class="sect1">Create the Project</h2>
+<p>Your first task is to create a JavaFX project in NetBeans IDE and name it Login:</p>
+<ol>
+<li>
+<p>From the <span class="bold">File</span> menu, choose <span class="bold">New Project</span>.</p>
+</li>
+<li>
+<p>In the <span class="bold">JavaFX</span> application category, choose <span class="bold">JavaFX Application</span>. Click <span class="bold">Next</span>.</p>
+</li>
+<li>
+<p>Name the project <span class="bold">Login</span> and click <span class="bold">Finish</span>.</p>
+<p>When you create a JavaFX project, NetBeans IDE provides a Hello World application as a starting point, which you have already seen if you followed the <a href="hello_world.htm">Hello World</a> tutorial.</p>
+</li>
+<li>
+<p>Remove the <code>start()</code> method that NetBeans IDE generated and replace it with the code in <a href="#CFHIBBBH">Example 4-1</a>.</p>
+<div class="example"><a id="CFHIBBBH" name="CFHIBBBH" class="anchor"></a><a id="JFXST169" name="JFXST169" class="anchor"></a>
+<p class="titleinexample">Example 4-1 Application Stage</p>
+<pre xml:space="preserve" class="oac_no_warn">@Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("JavaFX Welcome");
+        
+        primaryStage.show();
+    }
+</pre></div>
+<!-- class="example" --></li>
+</ol>
+<p><span class="bold">Tip:</span> After you add sample code into a NetBeans project, press Ctrl (or Cmd) + Shift + I to import the required packages. When there is a choice of import statements, choose the one that starts with <code>javafx</code>.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXST170" name="JFXST170" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref23" name="sthref23" class="anchor"></a>
+<h2 class="sect1">Create a GridPane Layout</h2>
+<p>For the login form, use a <code>GridPane</code> layout because it enables you to create a flexible grid of rows and columns in which to lay out controls. You can place controls in any cell in the grid, and you can make controls span cells as needed.</p>
+<p>The code to create the <code>GridPane</code> layout is in <a href="#CFHEAHGB">Example 4-2</a>. Add the code before the line <code>primaryStage.show();</code></p>
+<div class="example"><a id="CFHEAHGB" name="CFHEAHGB" class="anchor"></a><a id="JFXST171" name="JFXST171" class="anchor"></a>
+<p class="titleinexample">Example 4-2 GridPane with Gap and Padding Properties</p>
+<pre xml:space="preserve" class="oac_no_warn">GridPane grid = new GridPane();
+grid.setAlignment(Pos.CENTER);
+grid.setHgap(10);
+grid.setVgap(10);
+grid.setPadding(new Insets(25, 25, 25, 25));
+
+Scene scene = new Scene(grid, 300, 275);
+primaryStage.setScene(scene);
+</pre></div>
+<!-- class="example" -->
+<p><a href="#CFHEAHGB">Example 4-2</a> creates a <code>GridPane</code> object and assigns it to the variable named <code>grid</code>. The alignment property changes the default position of the grid from the top left of the scene to the center. The gap properties manage the spacing between the rows and columns, while the padding property manages the space around the edges of the grid pane. The insets are in the order of top, right, bottom, and left. In this example, there are <code>25</code> pixels of padding on each side.</p>
+<p>The scene is created with the grid pane as the root node, which is a common practice when working with layout containers. Thus, as the window is resized, the nodes within the grid pane are resized according to their layout constraints. In this example, the grid pane remains in the center when you grow or shrink the window. The padding properties ensure there is a padding around the grid pane when you make the window smaller.</p>
+<p>This code sets the scene width and height to 300 by 275. If you do not set the scene dimensions, the scene defaults to the minimum size needed to display its contents.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXST172" name="JFXST172" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref24" name="sthref24" class="anchor"></a>
+<h2 class="sect1">Add Text, Labels, and Text Fields</h2>
+<p>Looking at <a href="#BABJHICA">Figure 4-1</a>, you can see that the form requires the title &#x201D;Welcome &#x201D;and text and password fields for gathering information from the user. The code for creating these controls is in <a href="#CFHFDFHJ">Example 4-3</a>. Add this code after the line that sets the grid padding property.</p>
+<div class="example"><a id="CFHFDFHJ" name="CFHFDFHJ" class="anchor"></a><a id="JFXST173" name="JFXST173" class="anchor"></a>
+<p class="titleinexample">Example 4-3 Controls</p>
+<pre xml:space="preserve" class="oac_no_warn">Text scenetitle = new Text("Welcome");
+scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+grid.add(scenetitle, 0, 0, 2, 1);
+
+Label userName = new Label("User Name:");
+grid.add(userName, 0, 1);
+
+TextField userTextField = new TextField();
+grid.add(userTextField, 1, 1);
+
+Label pw = new Label("Password:");
+grid.add(pw, 0, 2);
+
+PasswordField pwBox = new PasswordField();
+grid.add(pwBox, 1, 2);
+</pre></div>
+<!-- class="example" -->
+<p>The first line creates a <code>Text</code> object that cannot be edited, sets the text to <code>Welcome</code>, and assigns it to a variable named <code>scenetitle</code>. The next line uses the <code>setFont()</code> method to set the font family, weight, and size of the <code>scenetitle</code> variable. Using an inline style is appropriate where the style is bound to a variable, but a better technique for styling the elements of your user interface is by using a style sheet. In the next tutorial, <a href="css.htm#BABBGJBI">Fancy Forms with JavaFX CSS</a>, you will replace the inline style with a style sheet.</p>
+<p>The <code>grid.add()</code> method adds the <code>scenetitle</code> variable to the layout <code>grid</code>. The numbering for columns and rows in the grid starts at zero, and <code>scenetitle</code> is added in column 0, row 0. The last two arguments of the <code>grid.add</code><code>()</code> method set the column span to 2 and the row span to 1.</p>
+<p>The next lines create a <code>Label</code> object with text <code>User Name</code> at column 0, row 1 and a <code>Text Field</code> object that can be edited. The text field is added to the grid pane at column 1, row 1. A password field and label are created and added to the grid pane in a similar fashion.</p>
+<p>When working with a grid pane, you can display the grid lines, which is useful for debugging purposes. In this case, you can add <code>grid.setGridLinesVisible(true)</code> after the line that adds the password field. Then, when you run the application, you see the lines for the grid columns and rows as well as the gap properties, as shown in <a href="#BABFFDCJ">Figure 4-2</a>.</p>
+<div class="figure"><a id="BABFFDCJ" name="BABFFDCJ" class="anchor"></a><a id="JFXST246" name="JFXST246" class="anchor"></a>
+<p class="titleinfigure">Figure 4-2 Login Form with Grid Lines</p>
+<img width="486" height="313" src="img/login_gridlines_co.png" alt="Description of Figure 4-2 follows" title="Description of Figure 4-2 follows" longdesc="img_text/login_gridlines_co.htm" /><br />
+<a id="sthref25" name="sthref25" href="img_text/login_gridlines_co.htm">Description of "Figure 4-2 Login Form with Grid Lines"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXST175" name="JFXST175" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref26" name="sthref26" class="anchor"></a>
+<h2 class="sect1">Add a Button and Text</h2>
+<p>The final two controls required for the application are a <code>Button</code> control for submitting the data and a <code>Text</code> control for displaying a message when the user presses the button.</p>
+<p>First, create the button and position it on the bottom right, which is a common placement for buttons that perform an action affecting the entire form. The code is in <a href="#CFHIJGHC">Example 4-4</a>. Add this code before the code for the scene.</p>
+<div class="example"><a id="CFHIJGHC" name="CFHIJGHC" class="anchor"></a><a id="JFXST176" name="JFXST176" class="anchor"></a>
+<p class="titleinexample">Example 4-4 Button</p>
+<pre xml:space="preserve" class="oac_no_warn">Button btn = new Button("Sign in");
+HBox hbBtn = new HBox(10);
+hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+hbBtn.getChildren().add(btn);
+grid.add(hbBtn, 1, 4);
+</pre></div>
+<!-- class="example" -->
+<p>The first line creates a button named <code>btn</code> with the label <code>Sign in,</code> and the second line creates an <code>HBox</code> layout pane named <code>hbBtn</code> with spacing of <code>10</code> pixels. The <code>HBox</code> pane sets an alignment for the button that is different from the alignment applied to the other controls in the grid pane. The <code>alignment</code> property has a value of <code>Pos.BOTTOM_RIGHT</code>, which positions a node at the bottom of the space vertically and at the right edge of the space horizontally. The button is added as a child of the <code>HBox</code> pane, and the <code>HBox</code> pane is added to the grid in column 1, row 4.</p>
+<p>Now, add a <code>Text</code> control for displaying the message, as shown in <a href="#BABHGHFI">Example 4-5</a>. Add this code before the code for the scene.</p>
+<div class="example"><a id="BABHGHFI" name="BABHGHFI" class="anchor"></a><a id="JFXST177" name="JFXST177" class="anchor"></a>
+<p class="titleinexample">Example 4-5 Text</p>
+<pre xml:space="preserve" class="oac_no_warn">final Text actiontarget = new Text();
+        grid.add(actiontarget, 1, 6);
+</pre></div>
+<!-- class="example" -->
+<p><a href="#BABFICHF">Figure 4-3</a> shows the form now. You will not see the text message until you work through the next section of the tutorial, <a href="#BABHABBF">Add Code to Handle an Event</a>.</p>
+<div class="figure"><a id="BABFICHF" name="BABFICHF" class="anchor"></a><a id="JFXST247" name="JFXST247" class="anchor"></a>
+<p class="titleinfigure">Figure 4-3 Login Form with Button</p>
+<img width="316" height="313" src="img/login.png" alt="Description of Figure 4-3 follows" title="Description of Figure 4-3 follows" longdesc="img_text/login.htm" /><br />
+<a id="sthref27" name="sthref27" href="img_text/login.htm">Description of "Figure 4-3 Login Form with Button"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXST179" name="JFXST179" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="BABHABBF" name="BABHABBF" class="anchor"></a>
+<h2 class="sect1">Add Code to Handle an Event</h2>
+<p>Finally, make the button display the text message when the user presses it. Add the code in <a href="#CFHDCFFD">Example 4-6</a> before the code for the scene.</p>
+<div class="example"><a id="CFHDCFFD" name="CFHDCFFD" class="anchor"></a><a id="JFXST180" name="JFXST180" class="anchor"></a>
+<p class="titleinexample">Example 4-6 Button Event</p>
+<pre xml:space="preserve" class="oac_no_warn">btn.setOnAction(new EventHandler&lt;ActionEvent&gt;() {
+ 
+    @Override
+    public void handle(ActionEvent e) {
+        actiontarget.setFill(Color.FIREBRICK);
+        actiontarget.setText("Sign in button pressed");
+    }
+});
+</pre></div>
+<!-- class="example" -->
+<p>The <code>setOnAction()</code> method is used to register an event handler that sets the <code>actiontarget</code> object to <code>Sign in button pressed</code> when the user presses the button. The color of the <code>actiontarget</code> object is set to firebrick red.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXST181" name="JFXST181" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref28" name="sthref28" class="anchor"></a>
+<h2 class="sect1">Run the Application</h2>
+<p>Right-click the <span class="bold">Login</span> project node in the Projects window, choose <span class="bold">Run</span>, and then click the Sign in button. <a href="#BABIAIFI">Figure 4-4</a> shows the results. If you run into problems, then take a look at the code in the <code>Login.java</code> file that is included in the downloadable <a href="../sample-apps/Login.zip">Login.zip</a> file.</p>
+<div class="figure"><a id="BABIAIFI" name="BABIAIFI" class="anchor"></a><a id="JFXST248" name="JFXST248" class="anchor"></a>
+<p class="titleinfigure">Figure 4-4 Final Login Form</p>
+<img width="316" height="313" src="img/login_final.png" alt="Description of Figure 4-4 follows" title="Description of Figure 4-4 follows" longdesc="img_text/login_final.htm" /><br />
+<a id="sthref29" name="sthref29" href="img_text/login_final.htm">Description of "Figure 4-4 Final Login Form"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXST183" name="JFXST183" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref30" name="sthref30" class="anchor"></a>
+<h2 class="sect1">Where to Go from Here</h2>
+<p>This concludes the basic form tutorial, but you can continue reading the following tutorials on developing JavaFX applications.</p>
+<ul>
+<li>
+<p><a href="css.htm#BABBGJBI">Fancy Forms with JavaFX CSS</a> provides tips on how to add a background image and radically change the style of the text, label, and button in the login form.</p>
+</li>
+<li>
+<p><a href="fxml_tutorial.htm#CIHHGHJJ">Using FXML to Create a User Interface</a> shows an alternate method for creating the login user interface. FXML is an XML-based language that provides the structure for building a user interface separate from the application logic of your code.</p>
+</li>
+<li>
+<p><a class="olink JFXLY" href="http://www.oracle.com/pls/topic/lookup?ctx=javase80&id=JFXLY">Working With Layouts in JavaFX</a> explains the built-in JavaFX layout panes, and tips and tricks for using them.</p>
+</li>
+</ul>
+<p>Also try out the JavaFX samples, which you can download from the JDK Demos and Samples section of the Java SE Downloads page at <code><a target="_blank" href="http://www.oracle.com/technetwork/java/javase/downloads/">http://www.oracle.com/technetwork/java/javase/downloads/</a></code>. The Ensemble sample contains examples of layouts and their source code.</p>
+</div>
+<!-- class="sect1" -->
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Getting Started with JavaFX</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">About This Tutorial</a></li>
+        <li><a href="preface.htm#JFXST823">Audience</a></li>
+        <li><a href="preface.htm#JFXST824">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref5">Related Documents</a></li>
+        <li><a href="preface.htm#JFXST827">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a href="whatsnew.htm#sthref6">What's New</a></li>
+    <li><a href="javafx_get_started.htm#JFXST783">Part I What Is JavaFX?</a>
+    <ul>
+    <li><a href="jfx-overview.htm#JFXST784">1 JavaFX Overview</a>
+      <ul>
+        <li><a href="jfx-overview.htm#JFXST786">JavaFX Applications</a></li>
+        <li><a href="jfx-overview.htm#JFXST103">Availability</a></li>
+        <li><a href="jfx-overview.htm#JFXST787">Key Features</a></li>
+        <li><a href="jfx-overview.htm#JFXST828">What Can I Build with JavaFX?</a></li>
+        <li><a href="jfx-overview.htm#JFXST830">How Do I Run a Sample Application?</a></li>
+        <li><a href="jfx-overview.htm#JFXST832">How Do I Run a Sample in an IDE?</a></li>
+        <li><a href="jfx-overview.htm#JFXST834">How Do I Create a JavaFX Application?</a></li>
+        <li><a href="jfx-overview.htm#JFXST836">Resources</a></li>
+      </ul>
+    </li>
+    <li><a href="jfx-architecture.htm#JFXST788">2 Understanding the JavaFX Architecture</a>
+      <ul>
+        <li><a href="jfx-architecture.htm#JFXST790">Scene Graph</a></li>
+        <li><a href="jfx-architecture.htm#JFXST104">Java Public APIs for JavaFX Features</a></li>
+        <li><a href="jfx-architecture.htm#JFXST105">Graphics System</a></li>
+        <li><a href="jfx-architecture.htm#JFXST106">Glass Windowing Toolkit</a>
+          <ul>
+          <li><a href="jfx-architecture.htm#sthref12">Threads</a></li>
+          <li><a href="jfx-architecture.htm#sthref13">Pulse</a></li>
+          </ul>
+        </li>
+        <li><a href="jfx-architecture.htm#JFXST109">Media and Images</a></li>
+        <li><a href="jfx-architecture.htm#JFXST110">Web Component</a></li>
+        <li><a href="jfx-architecture.htm#JFXST111">CSS</a></li>
+        <li><a href="jfx-architecture.htm#JFXST113">UI Controls</a></li>
+        <li><a href="jfx-architecture.htm#JFXST115">Layout</a></li>
+        <li><a href="jfx-architecture.htm#JFXST116">2-D and 3-D Transformations</a></li>
+        <li><a href="jfx-architecture.htm#JFXST117">Visual Effects</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="get_start_apps.htm#JFXST804">Part II Getting Started with JavaFX Sample Applications</a>
+    <ul>
+    <li><a href="hello_world.htm#CHDBCAII">3 Hello World, JavaFX Style</a>
+      <ul>
+        <li><a href="hello_world.htm#sthref16">Construct the Application</a></li>
+        <li><a href="hello_world.htm#sthref18">Run the Application</a></li>
+        <li><a href="hello_world.htm#sthref20">Where to Go Next</a></li>
+      </ul>
+    </li>
+    <li><a class="selected" href="form.htm#BABDDGEE">4 Creating a Form in JavaFX</a>
+      <ul>
+        <li><a href="form.htm#sthref22">Create the Project</a></li>
+        <li><a href="form.htm#sthref23">Create a GridPane Layout</a></li>
+        <li><a href="form.htm#sthref24">Add Text, Labels, and Text Fields</a></li>
+        <li><a href="form.htm#sthref26">Add a Button and Text</a></li>
+        <li><a href="form.htm#BABHABBF">Add Code to Handle an Event</a></li>
+        <li><a href="form.htm#sthref28">Run the Application</a></li>
+        <li><a href="form.htm#sthref30">Where to Go from Here</a></li>
+      </ul>
+    </li>
+    <li><a href="css.htm#BEIBBBCI">5 Fancy Forms with JavaFX CSS</a>
+      <ul>
+        <li><a href="css.htm#sthref32">Create the Project</a></li>
+        <li><a href="css.htm#sthref33">Create the CSS File</a></li>
+        <li><a href="css.htm#sthref34">Add a Background Image</a></li>
+        <li><a href="css.htm#sthref36">Style the Labels</a></li>
+        <li><a href="css.htm#sthref38">Style Text</a></li>
+        <li><a href="css.htm#sthref40">Style the Button</a></li>
+        <li><a href="css.htm#sthref43">Where to Go from Here</a></li>
+      </ul>
+    </li>
+    <li><a href="fxml_tutorial.htm#CHDCCHII">6 Using FXML to Create a User Interface</a>
+      <ul>
+        <li><a href="fxml_tutorial.htm#JFXST806">Set Up the Project</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST807">Load the FXML Source File</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST207">Modify the Import Statements</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST209">Create a GridPane Layout</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST211">Add Text and Password Fields</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST212">Add a Button and Text</a></li>
+        <li><a href="fxml_tutorial.htm#CHDJDGCE">Add Code to Handle an Event</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST213">Use a Scripting Language to Handle Events</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST129">Style the Application with CSS</a></li>
+        <li><a href="fxml_tutorial.htm#sthref49">Where to Go from Here</a></li>
+      </ul>
+    </li>
+    <li><a href="animation.htm#BABCJFJC">7 Animation and Visual Effects in JavaFX</a>
+      <ul>
+        <li><a href="animation.htm#sthref52">Set Up the Application</a></li>
+        <li><a href="animation.htm#sthref53">Set Up the Project</a></li>
+        <li><a href="animation.htm#sthref54">Add Graphics</a></li>
+        <li><a href="animation.htm#sthref56">Add a Visual Effect</a></li>
+        <li><a href="animation.htm#sthref58">Create a Background Gradient</a></li>
+        <li><a href="animation.htm#sthref61">Apply a Blend Mode</a></li>
+        <li><a href="animation.htm#sthref63">Add Animation</a></li>
+        <li><a href="animation.htm#sthref65">Where to Go from Here</a></li>
+      </ul>
+    </li>
+    <li><a href="backgroundjpg.htm#JFXST840">A background.jpg</a>
+      <ul>
+        <li><a href="backgroundjpg.htm#JFXST843">background.jpg</a></li>
+      </ul>
+    </li>
+</ul>
+
+</li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="hello_world.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a><a class="button" title="Next Page" href="css.htm">Next Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2008, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

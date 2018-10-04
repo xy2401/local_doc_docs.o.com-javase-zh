@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Java Print Service API User Guide: 4 - Printing and
+Streaming Documents</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs8/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../../webdesign/pubs8/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../webdesign/pubs8/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://docs.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<a href="JPSTOC.fm.html">CONTENTS</a> | <a href=
+"printing.fm5.html">PREV</a> | <a href=
+"printing.fm7.html">NEXT</a><br />
+<h2><a name="a999512" id="a999512">Submitting the Print
+Job</a></h2>
+<a name="a999057" id="a999057"><!-- --></a> Once you have the Doc
+and DocPrintJob, you can call the DocPrintJob object&#39;s print
+method to submit the document to the service. The <a href=
+"printing.fm6.html#a1000147"><em>Submitting the Print Job to the
+Printer</em></a> section completes the printin g example. The
+<a href="printing.fm6.html#a1000151"><em>Submitting the Print Job to
+the Stream</em></a> section completes the streaming example.<br />
+<h3><a name="a1000147" id="a1000147"><!-- --></a> Submitting the
+Print Job to the Printer</h3>
+<a name="a998693" id="a998693"><!-- --></a> This section completes
+the printing application explained in this chapter. This example
+prints five copies of a PostScript document, double-sided on A4
+paper, and stapled.
+<p><a name="a1000191" id="a1000191"><!-- --></a></p>
+<p><a name="a998409" id="a998409"><!-- --></a></p>
+<pre class="codeblock">
+       DocFlavor psFlavor = DocFlavor.INPUT_STREAM.POSTSCRIPT;
+        PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+        aset.add(new Copies(2));
+        aset.add(MediaSizeName.ISO_A4);
+        aset.add(Sides.TWO_SIDED_LONG_EDGE);
+        aset.add(Finishings.STAPLE);
+        PrintService[] pservices = PrintServiceLookup.lookupPrintServices(psFlavor,
+                                                        aset);
+        if (services.length &gt; 0) {
+                DocPrintJob pj = pservices[0].createPrintJob();
+                try {
+                        FileInputStream fis = new FileInputStream(&#34;example.ps&#34;);
+                        Doc doc = new SimpleDoc(fis, psFlavor, null);
+                        pj.print(doc, aset);
+                } catch (IOException e) {
+                        System.err.println(e);
+                } catch (PrintException e) {
+                        System.err.println(e);
+                }
+        }
+</pre>
+<a name="a999093" id="a999093"></a> See <a href= "PrintPS.java"><em>Example: PrintPS.java</em></a>
+for the complete application.<br />
+<h3><a name="a1000151" id="a1000151"><!-- --></a> Submitting the
+Print Job to the Stream</h3>
+<a name="a1000192" id="a1000192"><!-- --></a> This section
+completes the streaming example explained in this chapter. This
+example converts a GIF document to PostScript and embeds the
+specified printing attributes into the PostScript document.
+<p><a name="a1000220" id="a1000220"><!-- --></a></p>
+<p><a name="a1000195" id="a1000195"><!-- --></a></p>
+<pre class="codeblock">
+       DocFlavor flavor = DocFlavor.INPUT_STREAM.GIF;
+        String psMimeType = DocFlavor.BYTE_ARRAY.POSTSCRIPT.getMimeType();
+        PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+        aset.add(new Copies(2));
+        aset.add(MediaSizeName.ISO_A4);
+        aset.add(Sides.TWO_SIDED_LONG_EDGE);
+        aset.add(Finishings.STAPLE);
+        StreamPrintServiceFactory[] factories =
+                StreamPrintServiceFactory.lookupStreamPrintServiceFactories(
+                                flavor, psMimeType);
+        if(factories.length==0) {
+                System.err.println(&#34;No suitable factories&#34;);
+                System.exit(0);
+        }
+        try {
+                FileInputStream fis = new FileInputStream(&#34;java2dlogo.gif&#34;);
+                String filename = &#34;newfile.ps&#34;;
+                FileOutputStream fos = new FileOutputSteam(filename);
+                StreamPrintService sps= factories[0].getPrintService(fos);
+                DocPrintJob pj = sps.createPrintJob();
+                Doc doc = new SimpleDoc(fos, psFlavor, aset);
+                pj.print(doc, aset);
+        } catch (IOException e) {
+                System.err.println(e);
+        } catch (PrintException e) {
+                System.err.println(e);
+        }
+}
+</pre>
+See <a href= "PrintGIFtoStream.java"><em>Example: PrintGIFtoStream.java</em></a> for the complete application.
+<p>&nbsp;</p>
+<hr />
+<a href="JPSTOC.fm.html">CONTENTS</a> | <a href=
+"printing.fm5.html">PREV</a> | <a href="printing.fm7.html">NEXT</a>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

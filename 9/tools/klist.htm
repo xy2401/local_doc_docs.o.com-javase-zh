@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>klist</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="You use the klist tool to display the entries in the local credentials cache and key table. The ktab tool enables you to view entries in the local credentials cache and key table." />
+<meta name="dcterms.created" content="2017-10-12T08:04:07Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Tools Reference" />
+<meta name="dcterms.identifier" content="E61612-05" />
+<meta name="dcterms.isVersionOf" content="JSWOR" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="kinit.htm" title="Previous" type="text/html" />
+<link rel="Next" href="ktab.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSWOR.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSWOR.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSWOR.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-205BCE0D-F5D4-4A9C-ACBC-46423BAF616F"></a> <span id="PAGE" style="display:none;">24/65</span> <!-- End Header -->
+<a id="JSWOR700"></a>
+<h1 id="JSWOR-GUID-205BCE0D-F5D4-4A9C-ACBC-46423BAF616F" class="sect1">klist</h1>
+<div>
+<p><span>You use the <code class="codeph">klist</code> tool to display the entries in the local credentials cache and key table.</span> The <code class="codeph">ktab</code> tool enables you to view entries in the local credentials cache and key table.</p>
+<div class="section">
+<p class="subhead1">Synopsis</p>
+<pre dir="ltr">
+klist [ [-c] [-f] [-e] [-a [-n]] ] [-k [-t] [-K] ] [<span class="variable">name</span>] [-help]]
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Description</p>
+<p>The <code class="codeph">klist</code> tool displays the entries in the local credentials cache and key table. After you modify the credentials cache with the <code class="codeph">kinit</code> tool or modify the keytab with the <code class="codeph">ktab</code> tool, the only way to verify the changes is to view the contents of the credentials cache or keytab using the <code class="codeph">klist</code> tool. The <code class="codeph">klist</code> tool doesn&rsquo;t change the Kerberos database.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Commands</p>
+<dl>
+<dt class="dlterm"><a id="GUID-205BCE0D-F5D4-4A9C-ACBC-46423BAF616F__GUID-4AC36F74-FDF4-42E4-9539-5586D484A4BA"><!-- --></a><code class="codeph">-c</code></dt>
+<dd>
+<p>Specifies that the credential cache is to be listed.</p>
+<p>The following are the options for credential cache entries:</p>
+<dl>
+<dt class="dlterm"><a id="GUID-205BCE0D-F5D4-4A9C-ACBC-46423BAF616F__GUID-CC770847-19FC-40C9-9100-FAA9ECB0FF10"><!-- --></a><code class="codeph">-f</code></dt>
+<dd>
+<p>Show credential flags.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-205BCE0D-F5D4-4A9C-ACBC-46423BAF616F__GUID-7852622D-C14F-4289-9F34-1B3C87D75021"><!-- --></a><code class="codeph">-e</code></dt>
+<dd>
+<p>Show the encryption type.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-205BCE0D-F5D4-4A9C-ACBC-46423BAF616F__GUID-49841252-7845-4D1E-B16B-410289F8A859"><!-- --></a><code class="codeph">-a</code></dt>
+<dd>
+<p>Show addresses.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-205BCE0D-F5D4-4A9C-ACBC-46423BAF616F__GUID-1A48BC2D-1201-4286-A205-7ADCB7AE98AF"><!-- --></a><code class="codeph">-n</code></dt>
+<dd>
+<p>If the <code class="codeph">-a</code> option is specified, don&rsquo;t reverse resolve addresses.</p>
+</dd>
+</dl>
+</dd>
+<dt class="dlterm"><a id="GUID-205BCE0D-F5D4-4A9C-ACBC-46423BAF616F__GUID-21B5AED1-00E6-4B10-A64E-804A82FEBBBB"><!-- --></a><code class="codeph">-k</code></dt>
+<dd>
+<p>Specifies that key tab is to be listed.</p>
+<p>List the keytab entries. The following are the options for keytab entries:</p>
+<dl>
+<dt class="dlterm"><a id="GUID-205BCE0D-F5D4-4A9C-ACBC-46423BAF616F__GUID-D2581E60-32A6-4900-B4E0-B90740C03C95"><!-- --></a><code class="codeph">-t</code></dt>
+<dd>
+<p>Show keytab entry timestamps.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-205BCE0D-F5D4-4A9C-ACBC-46423BAF616F__GUID-96EACBE0-B6D4-4955-8A43-56CBF3FA85B5"><!-- --></a><code class="codeph">-K</code></dt>
+<dd>
+<p>Show keytab entry DES keys.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-205BCE0D-F5D4-4A9C-ACBC-46423BAF616F__GUID-4CBA504A-5974-4524-AF13-E8FB43A35ADE"><!-- --></a><code class="codeph">-e</code></dt>
+<dd>
+<p>Shows keytab entry key type.</p>
+</dd>
+</dl>
+</dd>
+<dt class="dlterm"><a id="GUID-205BCE0D-F5D4-4A9C-ACBC-46423BAF616F__GUID-DEC51A36-1BFA-4943-819A-53983CD6E7E3"><!-- --></a><code class="codeph"><span class="variable">name</span></code></dt>
+<dd>
+<p>Specifies the credential cache name or the keytab name. File-based cache or keytab's prefix is <code class="codeph">FILE:</code>. If the name isn&rsquo;t specified, the <code class="codeph">klist</code> tool uses default values for the cache name and keytab. The <code class="codeph">kinit</code> documentation lists these default values.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-205BCE0D-F5D4-4A9C-ACBC-46423BAF616F__GUID-D189751C-70D5-42DB-9304-1CD5B1AE34D2"><!-- --></a><code class="codeph">-help</code></dt>
+<dd>
+<p>Displays instructions.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Examples</p>
+<p>List entries in the keytable specified including keytab entry timestamps and DES keys:</p>
+<pre dir="ltr">
+klist -k -t -K FILE:\temp\mykrb5cc
+</pre>
+<p>List entries in the credentials cache specified including credentials flag and address list:</p>
+<pre dir="ltr">
+klist -c -f FILE:\temp\mykrb5cc
+</pre></div>
+<!-- class="section" --></div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment179">
+<tr>
+<td class="cellalignment191">
+<table class="cellalignment184">
+<tr>
+<td class="cellalignment183"><a href="kinit.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment183"><a href="ktab.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment193">
+<table class="cellalignment182">
+<tr>
+<td class="cellalignment183"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment183"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment183"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

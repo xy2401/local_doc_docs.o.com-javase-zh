@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Batch Size</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="result.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="../referral/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Searches</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Batch Size
+</h2>
+<p>
+<blockquote>
+
+When you invoke
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><tt>list()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>,
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#(listBindings(javax.naming.Name)"><tt>listBindings()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#(listBindings(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, or any of the 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, javax.naming.directory.Attributes)"><tt>search()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    methods, the LDAP service provider interacts with the LDAP server to
+retrieve the results and returns them in the form of
+a 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html"><tt>NamingEnumeration</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.  The LDAP service provider can collect all the results
+before returning the <tt>NamingEnumeration</tt>, or it can
+return each result as the caller invokes 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html#next()"><tt>NamingEnumeration.next()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html#next()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    or <tt>NamingEnumeration.nextElement()</tt>.
+You can control how the LDAP service provider behaves in this respect
+by using the 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><tt>Context.BATCHSIZE</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     (<tt>"java.naming.batchsize"</tt>) environment property.
+This property contains the string representation of a decimal integer.  The
+LDAP service provider uses its value to determine how
+many results to read from the server before unblocking--this number of results is called
+the <em>batch size</em>--and allowing the client program to get the
+results by using <tt>next()</tt> or <tt>nextElement()</tt>.
+When the client program exhausts the batch, the LDAP service provider
+fetches another batch so that the client program can continue with
+the enumeration. If the batch size is zero, then
+the service provider will
+block until all results have been read.
+If this property was not set, then the default batch size is 1.
+<p>
+When you invoke <tt>search()</tt>, for example by using
+a batch size of <em>n</em>, the LDAP provider will block
+until it reads <em>n</em> results from the server before returning.
+So, setting the batch size to a smaller number allows the
+program to unblock sooner.
+However, some overhead attaches to processing each batch.
+If you are expecting a large number of results, 
+then you might want to use
+a larger batch size to lower the number of context switches 
+between the provider and your code.
+On the other hand, having a large batch also means that you need 
+more memory to hold the results. 
+These are the trade-offs that you'll need to consider when choosing
+a batch size.
+<p>
+Here's <a href=src/Batchsize.java>an example</a> that sets the batch size to 10.
+<blockquote><pre>
+// Set the batch size to 10
+env.put("java.naming.batchsize", "10");
+
+// Create the initial context
+DirContext ctx = new InitialDirContext(env);
+
+// Perform the list
+NamingEnumeration answer = ctx.list("ou=People"); 
+</pre></blockquote>
+
+
+<h4>Relationship to <tt>SearchControls.setCountLimit()</tt></h4>
+Note that the <tt>Context.BATCHSIZE</tt> environment property
+does not in any way affect how
+many results are returned or the order in which they are returned.
+It is completely unrelated to
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/SearchControls.html#setCountLimit()"><tt>SearchControls.setCountLimit()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/SearchControls.html#setCountLimit()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+
+<h4>Batches at the Protocol Level</h4>
+<tt>Context.BATCHSIZE</tt> controls the batch size only at the
+programmatic level. At the protocol level, an LDAP "search"
+operation causes the LDAP server to send all of the results to
+the client immediately. The LDAP provider stores all of the results
+that it receives--this might cause memory overflow problems.
+<p>
+LDAP servers that support either the 
+<a href="https://datatracker.ietf.org/doc/draft-ietf-ldapext-ldapv3-vlv/">Virtual List View</a> or
+<a href=http://www.ietf.org/rfc/rfc2696.txt>Paged Results</a>
+control can be made to send results in batches
+at the protocol level.
+See the 
+<a target="_top" href="../ext/context.html">Controls and Extensions</a> <a href="../ext/context.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson for details on how to use request controls with
+LDAP "search" operations.
+
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+<strong>Searches: End of Lesson</strong>
+<p>
+What's next?
+Now you can:
+<ul>
+<li> <a href=../referral/index.html>Continue</a> on to the next lesson in this trail 
+     for tips on handling referrals.
+
+<li> Go to the 
+<a target="_top" href="../schema/index.html">Schema</a> <a href="../schema/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>     lesson for tips on accessing the schema.
+
+<li> Go to the 
+<a target="_top" href="../ext/index.html">Controls and Extensions</a> <a href="../ext/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>     to learn about LDAP controls and extensions.
+
+<li> Go to the 
+<a target="_top" href="../connect/index.html">Connections</a> <a href="../connect/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>     lesson for information on how connections are managed.
+
+
+<li> Go to the 
+<a target="_top" href="../faq/index.html">Frequently Asked Questions</a> <a href="../faq/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>     lesson to read about questions that LDAP 
+users have when using the JNDI.
+
+</ul>
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="result.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="../referral/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Searches</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>
+

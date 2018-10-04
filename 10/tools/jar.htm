@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>jar</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="You can use the jar command to create an archive for classes and resources, and to manipulate or restore individual classes or resources from an archive." />
+<meta name="dcterms.created" content="2018-03-13T12:23:13Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Tools Reference" />
+<meta name="dcterms.identifier" content="E91146-01" />
+<meta name="dcterms.isVersionOf" content="JSWOR" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="appletviewer.htm" title="Previous" type="text/html" />
+<link rel="Next" href="jlink.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSWOR.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867"></a> <span id="PAGE" style="display:none;">11/63</span> <!-- End Header -->
+<a id="JSWOR615"></a><a id="JSWOR616"></a><a id="JSWOR617"></a><a id="JSWOR618"></a><a id="JSWOR619"></a><a id="JSWOR620"></a><a id="JSWOR621"></a><a id="JSWOR622"></a><a id="JSWOR623"></a><a id="JSWOR614"></a>
+<h1 id="JSWOR-GUID-51C11B76-D9F6-4BC2-A805-3C847E857867" class="sect1">jar</h1>
+<div>
+<p><span>You can use the <code class="codeph">jar</code> command to create an archive for classes and resources, and to manipulate or restore individual classes or resources from an archive.</span></p>
+<div class="section">
+<p class="subhead1">Synopsis</p>
+<pre dir="ltr">
+ jar [<span class="variable">OPTION...</span>] [ [--release <span class="variable">VERSION</span>] [-C <span class="variable">dir</span>] <span class="variable">files</span>] ...
+</pre></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Description</p>
+<p>The <code class="codeph">jar</code> command is a general-purpose archiving and compression tool, based on the ZIP and ZLIB compression formats. Initially, the <code class="codeph">jar</code> command was designed to package Java applets or applications; however, beginning with JDK 9, users can use the <code class="codeph">jar</code> command to create modular JARs. For transportation and deployment, it&rsquo;s usually more convenient to package modules as modular JARs.</p>
+<p>The syntax for the <code class="codeph">jar</code> command resembles the syntax for the <code class="codeph">tar</code> command. It has several main operation modes, defined by one of the mandatory operation arguments. Other arguments are either options that modify the behavior of the operation or are required to perform the operation.</p>
+<div class="infobox-note" id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-9CD08F3E-DA00-45FE-9246-ABC0C58C3774">
+<p class="notep1">Note:</p>
+<span>Although available and supported in JDK 9, the Applet API is marked as deprecated in preparation for removal in a future release. Instead of applets, consider alternatives such as Java Web Start or self-contained applications.</span></div>
+<p>When modules or the components of an applet or application (files, images and sounds) are combined into a single archive, they can be downloaded by a Java agent (such as a browser) in a single HTTP transaction, rather than requiring a new connection for each piece. This dramatically improves download times. The <code class="codeph">jar</code> command also compresses files, which further improves download time. The <code class="codeph">jar</code> command also enables individual entries in a file to be signed so that their origin can be authenticated. A JAR file can be used as a class path entry, whether or not it&rsquo;s compressed.</p>
+<p>An archive becomes a modular JAR when you include a module descriptor, <code class="codeph">module-info.class</code>, in the root of the given directories or in the root of the <code class="codeph">.jar</code> archive. The following operations described in <a href="jar.htm#GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__OPERATIONMODIFIERSVALIDONLYINCREATE-8D4AF6EF">Operation Modifiers Valid Only in Create and Update Modes</a> are valid only when creating or updating a modular jar or updating an existing non-modular jar:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><code class="codeph">--module-version</code></p>
+</li>
+<li>
+<p><code class="codeph">--hash-modules</code></p>
+</li>
+<li>
+<p><code class="codeph">--module-path</code></p>
+</li>
+</ul>
+<div class="infobox-note" id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-5E3D0581-2CB9-457D-B571-D497FF22A110">
+<p class="notep1">Note:</p>
+<p>All mandatory or optional arguments for long options are also mandatory or optional for any corresponding short options.</p>
+</div>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Main Operation Modes</p>
+<p>When using the <code class="codeph">jar</code> command, you must specify the operation for it to perform. You specify the operation mode for the <code class="codeph">jar</code> command by including the appropriate operation arguments described in this section. You can mix an operation argument with other one-letter options. Generally the operation argument is the first argument specified on the command line.</p>
+<dl>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-FE6CBBDC-33EE-4993-A307-CB9DFD9ED23D"><!-- --></a><code class="codeph">&mdash;c</code> or <code class="codeph">--create</code></dt>
+<dd>
+<p>Creates the archive.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-DB7A760E-07A1-4869-8D77-D802196D564D"><!-- --></a><code class="codeph">&mdash;i=<span class="variable">FILE</span></code> or <code class="codeph">--generate-index=<span class="variable">FILE</span></code></dt>
+<dd>
+<p>Generates index information for the specified JAR file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-305170DA-37D1-4DFB-A21E-6BEACAA5BF3F"><!-- --></a><code class="codeph">&mdash;t</code> or <code class="codeph">--list</code></dt>
+<dd>
+<p>Lists the table of contents for the archive.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-BCB0C9C1-65B7-4AEA-8FCF-23E455D5A7B4"><!-- --></a><code class="codeph">&mdash;u</code> or <code class="codeph">--update</code></dt>
+<dd>
+<p>Updates an existing JAR file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-B8A1E257-22C9-4E48-BC1A-31C3FC4B0F04"><!-- --></a><code class="codeph">&mdash;x</code> or <code class="codeph">--extract</code></dt>
+<dd>
+<p>Extracts the named (or all) files from the archive.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-CC48351F-DD37-4364-9052-6B5C7FC539C6"><!-- --></a><code class="codeph">-d</code> or <code class="codeph">--describe-module</code></dt>
+<dd>
+<p>Prints the module descriptor or automatic module name.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__OPERATIONMODIFIERSVALIDINANYMODE-8D4A7274">
+<p class="subhead1">Operation Modifiers Valid in Any Mode</p>
+<p>You can use the following options to customize the actions of any operation mode included in the <code class="codeph">jar</code> command.</p>
+<dl>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-EB79D215-66A1-4126-BC33-78868673F255"><!-- --></a> <code class="codeph">-C <span class="variable">DIR</span></code></dt>
+<dd>
+<p>Changes the specified directory and includes the <code class="codeph"><span class="variable">files</span></code> specified at the end of the command line.</p>
+<pre dir="ltr">
+ jar [<span class="variable">OPTION...</span>] [ [--release <span class="variable">VERSION</span>] [-C <span class="variable">dir</span>] <span class="variable">files</span>]
+</pre></dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-490675D8-4CD7-448B-BB5A-48E69334212A"><!-- --></a><code class="codeph">-f=<span class="variable">FILE</span></code> or <code class="codeph">--file=<span class="variable">FILE</span></code></dt>
+<dd>
+<p>Specifies the archive file name.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-3FF14776-A05C-4B78-A675-4FB10456BE58"><!-- --></a><code class="codeph">--release <span class="variable">VERSION</span></code></dt>
+<dd>
+<p>Creates a multirelease JAR file. Places all files specified after the option into a versioned directory of the JAR file named <code class="codeph">META-INF/versions/<span class="variable">VERSION</span>/</code>, where <span class="variable">VERSION</span> must be must be a positive integer whose value is 9 or greater.</p>
+<p>At run time, where more than one version of a class exists in the JAR, the JDK will use the first one it finds, searching initially in the directory tree whose <code class="codeph"><span class="variable">VERSION</span></code> number matches the JDK's major version number. It will then look in directories with successively lower <code class="codeph"><span class="variable">VERSION</span></code> numbers, and finally look in the root of the JAR.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-B5B3EB4D-200D-4B14-B768-FE81AF385099"><!-- --></a><code class="codeph">-v</code> or <code class="codeph">--verbose</code></dt>
+<dd>
+<p>Sends or prints verbose output to standard output.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__OPERATIONMODIFIERSVALIDONLYINCREATE-8D4AF6EF">
+<p class="subhead1">Operation Modifiers Valid Only in Create and Update Modes</p>
+<p>You can use the following options to customize the actions of the create and the update main operation modes:</p>
+<dl>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-1CB0F1E4-51A9-47DC-8F8E-B6318C62A92E"><!-- --></a><code class="codeph">&mdash;e=<span class="variable">CLASSNAME</span></code> or <code class="codeph">--main-class=<span class="variable">CLASSNAME</span></code></dt>
+<dd>
+<p>Specifies the application entry point for standalone applications bundled into a modular or executable modular JAR file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-6D486F48-9FBC-4B9D-8D7D-0AC4FD1F8AFC"><!-- --></a><code class="codeph">-m=<span class="variable">FILE</span></code> or <code class="codeph">--manifest=<span class="variable">FILE</span></code></dt>
+<dd>
+<p>Includes the manifest information from the given manifest file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-235D923D-E475-4CBE-95EC-07C30673106C"><!-- --></a><code class="codeph">-M</code> or <code class="codeph">--no-manifest</code></dt>
+<dd>
+<p>Doesn&rsquo;t create a manifest file for the entries.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-37A4CF5B-7DF6-40EB-9EE3-B3206EB970F1"><!-- --></a> <code class="codeph">--module-version=<span class="variable">VERSION</span></code></dt>
+<dd>
+<p>Specifies the module version, when creating or updating a modular JAR file, or updating a non-modular JAR file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-44BCC07B-1A03-4FEE-884B-EF057B22299F"><!-- --></a> <code class="codeph">--hash-modules=<span class="variable">PATTERN</span></code></dt>
+<dd>
+<p>Computes and records the hashes of modules matched by the given pattern and that depend upon directly or indirectly on a modular JAR file being created or a non-modular JAR file being updated.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-06DB35F5-8C6D-4717-839A-7A08EE892952"><!-- --></a><code class="codeph">-p</code> or <code class="codeph">--module-path</code></dt>
+<dd>
+<p>Specifies the location of module dependence for generating the hash.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-22596C1E-01F8-49BE-8156-455B6AE1908F"><!-- --></a><code class="codeph">@<span class="variable">files</span></code></dt>
+<dd>
+<p>Reads <code class="codeph">jar</code> options and file names from a text file.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Operation Modifiers Valid Only in Create, Update, and Generate-index Modes</p>
+<p>You can use the following options to customize the actions of the create (<code class="codeph">&mdash;c</code> or <code class="codeph">--create</code>) the update (<code class="codeph">&mdash;u</code> or <code class="codeph">--update</code> ) and the generate-index (<code class="codeph">&mdash;i</code> or <code class="codeph">--generate-index=<span class="variable">FILE</span></code> ) main operation modes:</p>
+<dl>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-F6A52822-5697-4535-BC08-A307E59938E7"><!-- --></a><code class="codeph">-0</code> or <code class="codeph">--no-compress</code></dt>
+<dd>
+<p>Stores without using ZIP compression.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Other Options</p>
+<p>The following options are recognized by the <code class="codeph">jar</code> command and not used with operation modes:</p>
+<dl>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-5097D19B-F5E9-4D28-B2BD-0A1E5D3BF2B6"><!-- --></a><code class="codeph">-h</code> or <code class="codeph">--help[:compat]</code></dt>
+<dd>
+<p>Displays the command-line help for the <code class="codeph">jar</code> command or optionally the compatibility help.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-DC1A17B2-A9E1-41FC-9150-5778C6936977"><!-- --></a><code class="codeph">--help-extra</code></dt>
+<dd>
+<p>Displays help on extra options.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-8A92CC14-4746-49BA-9BC0-48234388A258"><!-- --></a><code class="codeph">--version</code></dt>
+<dd>
+<p>Prints the program version.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__CHDJAEBE">
+<p class="subhead1">Examples of jar Command Syntax</p>
+<dl>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-25E3AB79-4A27-4B9F-94EB-F61BFF33D69B"><!-- --></a> Create an archive, <code class="codeph">classes.jar</code>, that contains two class files, <code class="codeph">Foo.class</code> and <code class="codeph">Bar.class</code>.</dt>
+<dd>
+<pre dir="ltr">
+ jar --create --file classes.jar Foo.class Bar.class
+</pre></dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-A0143E74-708D-4AFD-9AA0-A4DC02F51CCE"><!-- --></a>Create an archive, <code class="codeph">classes.jar</code>, by using an existing manifest, <code class="codeph">mymanifest</code>, that contains all of the files in the directory <code class="codeph">foo/</code>.</dt>
+<dd>
+<pre dir="ltr">
+ jar --create --file classes.jar --manifest mymanifest -C foo/
+</pre></dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-1FC83CB1-BCB3-4E5D-B627-B1CE6CF5733E"><!-- --></a>Create a modular JAR archive,<code class="codeph">foo.jar</code> , where the module descriptor is located in <code class="codeph">classes/module-info.class</code>.</dt>
+<dd>
+<pre dir="ltr">
+ jar --create --file foo.jar --main-class com.foo.Main --module-version 1.0 -C foo/classes resources
+</pre></dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-0B657043-BFC9-41BD-9A91-690F622C04AE"><!-- --></a>Update an existing non-modular JAR, <code class="codeph">foo.jar</code>, to a modular JAR file.</dt>
+<dd>
+<pre dir="ltr">
+ jar --update --file foo.jar --main-class com.foo.Main --module-version 1.0 -C foo/module-info.class
+</pre></dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-B36C6207-A576-4180-AE0C-D6523FB44BF7"><!-- --></a>Create a versioned or multi-release JAR, <code class="codeph">foo.jar</code>, that places the files in the <code class="codeph">classes</code> directory at the root of the JAR, and the files in the <code class="codeph">classes&mdash;10</code> directory in the <code class="codeph">META-INF/versions/10</code> directory of the JAR.</dt>
+<dd>
+<p>In this example, the <code class="codeph">classes/com/foo</code> directory contains two classes, <code class="codeph">com.foo.Hello</code> (the entry point class) and <code class="codeph">com.foo.NameProvider</code>, both compiled for JDK 8. The <code class="codeph">classes-10/com/foo</code> directory contains a different version of the <code class="codeph">com.foo.NameProvider</code> class, this one containing JDK 10 specific code and compiled for JDK 10.</p>
+<p>Given this setup, create a multirelease JAR file <code class="codeph">foo.jar</code> by running the following command from the directory containing the directories <code class="codeph">classes</code> and <code class="codeph">classes-10</code> .</p>
+<pre dir="ltr">
+ jar --create --file foo.jar --main-class com.foo.Hello -C classes . --release 10 -C classes-10 .
+</pre>
+<p>The JAR file <code class="codeph">foo.jar</code> now contains:</p>
+<pre dir="ltr">
+% jar -tf foo.jar
+
+META-INF/ 
+META-INF/MANIFEST.MF 
+com/ 
+com/foo/ 
+com/foo/Hello.class 
+com/foo/NameProvider.class 
+META-INF/versions/10/com/ 
+META-INF/versions/10/com/foo/ 
+META-INF/versions/10/com/foo/NameProvider.class 
+</pre>
+<p>As well as other information, the file <code class="codeph">META-INF/MANIFEST.MF</code>, will contain the following lines to indicate that this is a multirelease JAR file with an entry point of <code class="codeph">com.foo.Hello</code>.</p>
+<pre dir="ltr">
+...
+Main-Class: com.foo.Hello
+Multi-Release: true
+</pre>
+<p>Assuming that the <code class="codeph">com.foo.Hello</code> class calls a method on the <code class="codeph">com.foo.NameProvider</code> class, running the program using JDK 10 will ensure that the <code class="codeph">com.foo.NameProvider</code> class is the one in <code class="codeph">META-INF/versions/10/com/foo/</code>. Running the program using JDK 8 will ensure that the <code class="codeph">com.foo.NameProvider</code> class is the one at the root of the JAR, in <code class="codeph">com/foo</code>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-296A1217-5A5F-4F0E-8E93-0880817ADF93"><!-- --></a>Create an archive, <code class="codeph">my.jar</code>, by reading options and lists of class files from the file <code class="codeph">classes.list</code>.</dt>
+<dd>
+<div class="infobox-note" id="GUID-51C11B76-D9F6-4BC2-A805-3C847E857867__GUID-4E227A82-A35F-439B-8921-DE03F4C9A5F2">
+<p class="notep1">Note:</p>
+<p>To shorten or simplify the <code class="codeph">jar</code> command, you can specify arguments in a separate text file and pass it to the <code class="codeph">jar</code> command with the at sign (<code class="codeph">@</code>) as a prefix.</p>
+</div>
+<pre dir="ltr">
+ jar --create --file my.jar @classes.list
+</pre></dd>
+</dl>
+</div>
+<!-- class="section" --></div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment186">
+<tr>
+<td class="cellalignment198">
+<table class="cellalignment191">
+<tr>
+<td class="cellalignment190"><a href="appletviewer.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment190"><a href="jlink.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment200">
+<table class="cellalignment189">
+<tr>
+<td class="cellalignment190"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment190"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment190"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

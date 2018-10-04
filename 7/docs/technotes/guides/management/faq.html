@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Windows (vers 1st March 2004), s ee www.w3.org" />
+<meta http-equiv="content-type" content=
+"text/html; charset=utf-8" />
+<title>Frequently Asked Questions (JConsole and Remote
+Management)</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1><a name="FAQ" id="FAQ"></a></h1></div>
+
+<div class="smallpagetitle"><h1>Frequently Asked Questions<br />
+JConsole and Remote Management</h1></div>
+
+<h2>JConsole and JMX Remote Management</h2>
+<ol>
+<li><a href="#win1">I run JConsole on <b>Windows</b>. Why does the
+Local tab in Connect dialog not list any Java processes?</a></li>
+<li><a href="#win2">JDK 5 jconsole and jps commands do not work if
+your username contains '_' (underscore) on <b>Windows</b>. JConsole
+is unable to find your Java processes.</a></li>
+<li><a href="#win3">How to secure the password file on Windows
+systems?</a></li>
+<li><a href="#config1">JConsole fails to connect to an application
+remotely or locally running on the same machine using the Remote
+Tab. However, it works when connecting to it using the Local Tab on
+the same machine.</a></li>
+<li><a href="#linux1">I am having problem using JConsole to connect
+to a JVM running on <b>Linux</b>. Connecting to JVM running on
+Windows and Solaris works fine.</a></li>
+<li><a href="#ssl1">My application has remote management enabled
+with SSL. How to setup JConsole to connect to my
+application?</a></li>
+<li><a href="#rmi1">Can I use JConsole to monitor an application
+through a firewall?</a></li>
+</ol>
+<h2>SNMP Based Management</h2>
+<ol>
+<li><a href="#snmp1">Where is the standard MIB for SNMP management
+of the Java virtual machine? What version of SNMP protocol does it
+require?</a></li>
+<li><a href="#snmp2">I'm not able to see all objects the JVM MIB
+tree. For example, the jvmMemoryHeapUsed OID is missing. Is it a
+known problem?</a></li>
+</ol>
+<hr />
+<h2>JConsole and JMX Remote Management</h2>
+<ol>
+<li><a name="win1" id="win1"><b>I run JConsole on Windows. Why does
+the Local tab in Connect dialog not list any Java process?</b></a>
+<p>The problem is most likely that your default Windows temporary
+directory is on a FAT file system. If your TMP file system is NTFS
+and JConsole does not show your processes, check your username as
+described in <a href="#win2">FAQ #2</a>.</p>
+<p>For security reasons, local monitoring and management is only
+supported if your default Windows temporary directory is on a file
+system that supports setting permissions on files and directories
+(for example, on an NTFS file system). It is not supported on a FAT
+file system that provide insufficient access controls.</p>
+<p>A potential workaround for this issue:<br />
+Set the TMP environment variable to refer to a directory on an NTFS
+file system, or any file system that supports setting permissions
+on files and directories before you run your application with local
+or remote management enabled. Note that this file system should be
+local to the machine. Setting this option for target applications
+is application specific. To set this variable in a command prompt
+or in a batch script, simply enter the following:</p>
+<p>set TMP=<i>path</i></p>
+<p>The environment variable can be set globally by adding it to the
+list of environment variables in the System Properties (Control
+Panel-&gt;System, select the "Advanced" tab and click on the
+"Environment Variables" button). Through this interface, you can
+choose to set the variable for all processes run by the current
+user or globally as a system variable for all processes run by the
+system.</p>
+</li>
+<li><a name="win2" id="win2"><b>JDK 5 jconsole and jps commands do
+not work if your username contains '_' (underscore) on Windows.
+JConsole is unable to find your Java processes.</b></a>
+<p>It is a known problem in JDK 5 that jconsole and jps commands do
+not work on Windows if your username contains '_' (underscore). Bug
+<a href=
+"http://bugs.sun.com/view_bug.do?bug_id=6301562">6301562</a>
+will be fixed in a future release.</p>
+</li>
+<li><a name="win3" id="win3"><b>How to secure the password file on
+Windows systems?</b></a>
+<p>Please see the <a href="security-windows.html">"How to secure a
+password file on Windows systems"</a> document for details.</p>
+</li>
+<li><a name="config1" id="config1"><b>JConsole fails to connect to
+an application remotely or locally running on the same machine
+using the Remote Tab. However, it works when connecting to it using
+the Local Tab on the same machine.</b></a>
+<p>It is most likely a configuration problem. First, make sure your
+application was started with remote management enabled. (See
+details from the <a href="agent.html">"Monitoring and Management
+using JMX"</a> document.) Second, check if SSL is enabled in the
+management properties to enable remote management and if it is
+configured properly.</p>
+<p>SSL is enabled by default when the remote management is enabled.
+You can disable SSL by setting
+<tt>com.sun.management.jmxremote.ssl</tt> property to
+<tt>false</tt>. If your application is not set up with SSL properly
+but SSL is enabled for remote management, JConsole will fail to
+connect to the application. Please see <a href=
+"agent.html#gdemv">"Using SSL"</a> section in the "Monitoring and
+Management Using JMX" document for information about using SSL for
+remote management.</p>
+<p>If the connection failure problem occurs only when your
+application runs on <b>Linux</b>, please see <a href="#linux1">FAQ
+#5</a>.</p>
+</li>
+<li><a name="linux1" id="linux1"><b>I am having problem using
+JConsole to connect to a JVM running on Linux. Connecting to JVM
+running on Windows and Solaris works fine.</b></a>
+<p>This is most likely a configuration problem on the Linux machine
+or the management properties specified to run the application.
+Please also see <a href="#config1">FAQ #4</a> about using SSL.</p>
+<p>You should check the following:</p>
+<ul>
+<li>Check if the hostname correctly resolves to the host address.
+<p>Run <tt>"hostname -i"</tt> command. If it reports 127.0.0.1,
+JConsole would not be able to connect to the JVM running on that
+Linux machine. To fix this issue, edit /etc/hosts so that the
+hostname resolves to the host address.</p>
+</li>
+<li>Check if the Linux machine is configured to accept packets from
+the host where JConsole runs on to connect to the application.
+<p>Packet filtering is built in the Linux kernel. You can run
+<tt>"/sbin/iptables --list"</tt> to determine if an external client
+is allowed to connect to the JMX agent created for remote
+management. You can use the following command to add a rule to
+allow an external client such as JConsole to connect:</p>
+<p><tt>/usr/sbin/iptables -I INPUT -s <i>jconsole-host</i> -p tcp
+--destination-port <i>jmxremote-port</i> -j ACCEPT</tt></p>
+<p>where <i>jconsole-host</i> is either the hostname or the host
+address on which JConsole runs on and <i>jmxremote-port</i> is the
+port number set for <tt>com.sun.management.jmxremote.port</tt> for
+remote management.</p>
+</li>
+</ul>
+</li>
+<li><a name="ssl1" id="ssl1"><b>My application has remote
+management enabled with SSL. How to setup JConsole to connect to my
+application?</b></a>
+<p>When you enable the application for remote management with SSL,
+you have set up a digital certificate on the system where the JMX
+agent (MBean server) is running and configured SSL properly.</p>
+<p>Assuming you created a keystore as described in the <a href=
+"../security/jsse/JSSERefGuide.html#CreateKeystore">JSSE Guide</a>
+and started your application (<tt>Server</tt>) as follows:</p>
+<pre class="codeblock">
+% java -Djavax.net.ssl.keyStore=keystore \<br />  -Djavax.net.ssl.keyStorePassword=password Server<br />
+</pre>
+<p>To connect to this application, you need to run jconsole as
+follows:</p>
+<pre class="codeblock">
+% jconsole -J-Djavax.net.ssl.trustStore=truststore \<br />  -J-Djavax.net.ssl.trustStorePassword=trustword<br />
+</pre>
+The above configuration authenticates the server only. If client
+authentication is set up, you will need to provide a similar
+keystore for the JConsole's keys, and an appropriate truststore for
+the application.</li>
+<li><a name="rmi1" id="rmi1"><b>Can I use JConsole to monitor an
+application through a firewall?</b></a>
+<p>The <tt>com.sun.management.jmxremote.port</tt> management
+property specifies the port where the RMI Registry can be reached
+but the ports where the <tt>RMIServer</tt> and
+<tt>RMIConnection</tt> remote objects are exported is chosen by the
+RMI stack. To export the remote objects (<tt>RMIServer</tt> and
+<tt>RMIConnection</tt>) on a given port you need to create your own
+RMI connector server programmatically, as described in the section
+<i>Mimicking Out-of-the-Box Management Using the JMX Remote API</i>
+in the <a href="agent.html#gdfvv">Java SE Monitoring and Management
+Guide</a>. You must specify the <tt>JMXServiceURL</tt> as
+follows:</p>
+<pre class="codeblock">
+<tt>JMXServiceURL url = new
+JMXServiceURL("service:jmx:rmi://localhost:" + <i>port1</i> +
+"/jndi/rmi://localhost:" + <i>port2</i> +
+"/jmxrmi");</tt>
+</pre>
+In the command above, <i>port1</i> is the port number on which the
+<tt>RMIServer</tt> and <tt>RMIConnection</tt> remote objects are
+exported and <i>port2</i> is the port number of the RMI
+Registry.</li>
+</ol>
+<hr />
+<h2>SNMP Based Management</h2>
+<ol>
+<li><a name="snmp1" id="snmp1"><b>Where can I find the standard MIB
+for SNMP management of the Java virtual machine? What version of
+SNMP protocol does it require?</b></a>
+<p>The standard MIB for the Java virtual machine can be found at:
+<a href="http://docs.oracle.com/javase/1.5.0/docs/guide/management/JVM-MANAGEMENT-MIB.mib">
+http://docs.oracle.com/javase/1.5.0/docs/guide/management/JVM-MANAGEMENT-MIB.mib</a>.
+Some objects exposed in the JVM MIB are 64-bit quantities. To see
+these objects, you need to use the SNMP v2 protocol. If you can
+walk the JVM MIB using SNMP v1 protocol, the 64-bit objects are
+skipped.</p>
+</li>
+<li><a name="snmp2" id="snmp2"><b>I'm not able to see all objects
+the JVM MIB tree. For example, the jvmMemoryHeapUsed OID is
+missing. Is it a known problem?</b></a>
+<p>The JVM MIB includes 64-bit objects which require to use the
+SNMP v2 protocol. All the 64-bit objects are skipped if you walk
+the JVM MIB using SNMP v1.</p>
+</li>
+</ol>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

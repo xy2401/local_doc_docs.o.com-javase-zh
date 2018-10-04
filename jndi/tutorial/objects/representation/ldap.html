@@ -1,0 +1,420 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>LDAP Directories</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="file.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/objectsHeader.gif" width=26 height=26 align=bottom border=0 alt="Java Objects and the Directory | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Representation in the Directory</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    LDAP Directories
+</h2>
+<p>
+<blockquote>
+
+The details of how LDAP attributes are used to store data about
+Java objects are described in <A HREF="http://www.ietf.org/rfc/rfc2713.txt">RFC 2713</A>.
+<A HREF="http://www.ietf.org/rfc/rfc2714.txt">RFC 2714</A> describes how CORBA object references
+are stored in an LDAP directory.
+This section offers a quick summary of those documents.
+It is intended primarily for developers of LDAP service providers
+and of object/state factories for LDAP directories.
+API users will generally not need this information.
+Service providers and object/state factories implement the details here
+so that API users can simply use methods such as
+
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><tt>Context.bind()</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     and
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><tt>Context.lookup()</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    as described in the
+<a target="_top" href="../storing/index.html">Storing Objects in the Directory</a> <a href="../storing/index.html"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>     lesson and the
+<a target="_top" href="../reading/index.html">Reading Objects from the Directory</a> <a href="../reading/index.html"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>    lesson.
+
+<p>
+Developers of LDAP service providers and object/state factories,
+as well as those needing to add the Java/CORBA schema to servers,
+should consult these documents in addition to reading this section.
+<p>
+
+<h4>Types of Objects</h4>
+As indicated in the
+<a target="_top" href="../state/provider.html">State Factories</a> <a href="../state/provider.html"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>    lesson, service providers are encouraged to 
+support storing the following types of objects:
+<ul>
+<li>
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Referenceable.html"><tt>Referenceable</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Referenceable.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    objects
+<li>
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Reference.html"><tt>Reference</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Reference.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    objects
+<li>
+<tt>java.io.Serializable</tt> objects
+<li>
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/directory/DirContext.html"><tt>DirContext</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/directory/DirContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    objects
+</ul>
+
+In addition to these types, Sun's LDAP provider has state factories
+that support storing <tt>java.rmi.Remote</tt> and CORBA objects.
+<p>
+The Java objects are represented in the LDAP as subclasses of the
+<tt>"javaObject"</tt> abstract object class. 
+This object class
+defines the attributes listed in the following table.
+<p>
+<table border="1" cellpadding=3 width="85%">
+<tr>
+<th width="30%">LDAP Attribute Name</th>
+<th>Content</th>
+</tr>
+
+<tr>
+<td><tt>javaClassName</tt> (mandatory)
+<td>The <em>distinguished</em> class name of the object
+</tr>
+
+<tr>
+<td><tt>javaClassNames</tt>
+<td>All other names of classes and interfaces implemented by the object
+</tr>
+
+<tr>
+<td><tt>javaCodebase</tt>
+<td>The location of the object's class files
+</tr>
+
+<tr>
+<td><tt>javaDoc</tt>
+<td>The location of the object's class document
+</tr>
+
+<tr>
+<td><tt>description</tt>
+<td>The textual description of the object
+</tr>
+</table>
+
+
+<h4>DirContext</h4>
+
+A <tt>DirContext</tt> object is stored straightforwardly in the directory
+as an LDAP entry that has attributes.
+In other words, an LDAP service provider extracts the attributes 
+by using
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/directory/DirContext.html#getAttributes(javax.naming.Name)"><tt>DirContext.getAttributes("")</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/directory/DirContext.html#getAttributes(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and stores them in the directory.
+
+When such an entry is read from the directory, it is returned as a
+<tt>DirContext</tt> (unless an object factory was used).
+
+<h4>Referenceable Objects</h4>
+
+A 
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Referenceable.html"><tt>Referenceable</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Referenceable.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     object is represented in the directory by its reference (
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Referenceable.html#getReference()"><tt>Referenceable.getReference()</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Referenceable.html#getReference()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>).
+
+A 
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Reference.html"><tt>Reference</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Reference.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    is represented in the directory as a 
+<tt>"javaNamingReference"</tt> object class.
+This object class defines the
+attributes listed in the following table.
+<p>
+
+<table border="1" cellpadding=3 width="85%">
+<tr>
+<th width="30%">LDAP Attribute Name</th>
+<th>Content</th>
+</tr>
+
+<tr>
+<td><tt>javaClassName</tt> (mandatory)
+</td>
+<td>
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Reference.html#getClassName()"><tt>Reference.getClassName()</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Reference.html#getClassName()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></td>
+</tr>
+
+<tr>
+<td><tt>javaFactoryName</tt>
+</td>
+<td>
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Reference.html#getFactoryClassName()"><tt>Reference.getFactoryClassName()</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Reference.html#getFactoryClassName()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></td>
+</tr>
+
+<tr>
+<td><tt>javaCodebase</tt>
+</td>
+<td>
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Reference.html#getFactoryClassLocation()"><tt>Reference.getFactoryClassLocation()</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Reference.html#getFactoryClassLocation()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></td>
+</tr>
+
+<tr>
+<td><tt>javaReferenceAddress</tt>
+</td>
+<td>
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Reference.html#get(int)"><tt>Reference.get()</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/Reference.html#get(int)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a></td>
+</tr>
+
+</table>
+
+<p>
+
+<tt>"javaReferenceAddress"</tt> is a multivalued attribute consisting of one
+or more values. Each value represents a
+
+<a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/RefAddr.html"><tt>RefAddr</tt></a><a target="_top" href="http://download.oracle.com/javase/6/docs/api/javax/naming/RefAddr.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. Details of how a <tt>RefAddr</tt> is encoded are given in
+<A HREF="http://www.ietf.org/rfc/rfc2713.txt">RFC 2713</A>.
+See the 
+<a target="_top" href="../../ldap/misc/ref.html">Tips for LDAP Users</a> <a href="../../ldap/misc/ref.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    trail for an example.
+
+<p>
+An LDAP entry that has these attributes must include
+<tt>"javaObject"</tt> and <tt>"javaNamingReference"</tt>
+in its list of object classes.
+When these attributes are read from an LDAP entry, they are used
+to construct a <tt>Reference</tt>, which is then used to
+construct an object represented by the information in the reference.
+
+
+<h4>Serializable Objects</h4>
+
+A <tt>java.io.Serializable</tt> object is 
+represented in the directory as a <tt>"javaSerializedObject"</tt>
+object class.
+This object class defines the attributes listed in the
+following table.
+
+<p>
+<table border="1" cellpadding=3 width="85%">
+<tr>
+<th width="30%">LDAP Attribute Name</th>
+<th>Content</th>
+</tr>
+
+<tr>
+<td><tt>javaClassName</tt>  (mandatory)
+</td>
+<td>
+<tt>Object.getClass().getName()</tt>
+</td>
+</tr>
+
+<tr>
+<td><tt>javaSerializedData</tt>  (mandatory)
+</td>
+<td>
+Serialized form of object
+</td>
+</tr>
+
+<tr>
+<td><tt>javaClassNames</tt>
+<td>Names of all interfaces and classes implemented by the object
+</tr>
+
+<tr>
+<td><tt>javaCodebase</tt>
+</td>
+<td>
+Space-separated list of URLs of directories or JAR files containing classes of 
+the serialized object
+</td>
+</tr>
+
+</table> 
+
+<p> 
+An LDAP entry that has these attributes must include
+<tt>"javaObject"</tt> and 
+<tt>"javaSerializedObject"</tt> in its list of object classes.
+When these attributes are read from an LDAP entry, they are used
+to reconstruct a copy of the serialized object.  The content of the
+<tt>"javaSerializedData"</tt> attribute is deserialized into a
+<tt>java.lang.Object</tt>.  If the 
+<tt>"javaCodebase"</tt> attribute is
+available, then the classes needed for the deserialization are loaded from
+the specified codebase.
+
+<h4>Marshalled Objects</h4>
+
+To <em>marshal</em> an object means to record its state and codebase(s) in
+such a way that when the marshalled object is <em>unmarshalled</em>, a copy
+of the original object is obtained, possibly by automatically loading
+the class definitions of the object.
+You can marshal any object that is serializable or remote (that is, implements
+the <tt>java.rmi.Remote</tt> interface).
+<p>
+Marshalling is like serialization, except that it also records
+codebases. It differs from serialization in that
+it treats remote objects specially. If an object is a
+<tt>java.rmi.Remote</tt> object, 
+then marshalling records the remote object's
+stub, instead of the remote object itself.
+As with serialization, 
+when an object is marshalled the entire tree of objects rooted
+at the object is marshalled. When it is unmarshalled, the
+tree is reconstructed. 
+A marshalled object is represented by the <tt>java.rmi.MarshalledObject</tt>
+class. It is
+represented in the directory as a <tt>"javaMarshalledObject"</tt>
+object class. This object class defines the attributes listed
+in the following table.
+
+<p>
+<table border="1" cellpadding=3 width="85%">
+<tr>
+<th width="30%">LDAP Attribute Name</th>
+<th>Content</th>
+</tr>
+
+<tr>
+<td><tt>javaClassName</tt>  (mandatory)
+</td>
+<td>
+<tt>Object.getClass().getName()</tt> (of the unmarshalled object)
+</td>
+</tr>
+
+<tr>
+<td><tt>javaSerializedData</tt>  (mandatory)
+</td>
+<td>
+Serialized form of the marshalled object
+</td>
+</tr>
+
+<tr>
+<td><tt>javaClassNames</tt>
+<td>Names of all interfaces and classes implemented by the 
+(unmarshalled) object
+</tr>
+
+</table> 
+
+<p> 
+An LDAP entry that has these attributes must include
+<tt>"javaObject"</tt> and <tt>"javaMarshalledObject"</tt> in its list of object classes.
+When these attributes are read from an LDAP entry, they are used
+to reconstruct a copy of the marshalled object.  The content of the
+<tt>"javaSerializedData"</tt> attribute is deserialized into a
+<tt>java.rmi.MarshalledObject</tt>. 
+An object factory responsible for marshalled objects can then
+unmarshal the object by invoking <tt>java.rmi.MarshalledObject.get()</tt>.
+
+
+<h4>CORBA Objects</h4>
+
+The CORBA objects are represented in the LDAP as subclasses of the
+<tt>"corbaObject"</tt> abstract object class. 
+This object class
+defines the attributes listed in the following table.
+<p>
+<table border="1" cellpadding=3 width="85%">
+<tr>
+<th width="30%">LDAP Attribute Name</th>
+<th>Content</th>
+</tr>
+
+<tr>
+<td><tt>corbaRepositoryId</tt>
+<td>Ids of the interfaces implemented by the object
+</tr>
+
+<tr>
+<td><tt>description</tt>
+<td>Textual description of the object
+</tr>
+</table>
+<p>
+A CORBA object is stored in the directory by recording its
+CORBA object reference.
+A CORBA object reference is represented in the directory as a
+<tt>"corbaObjectReference"</tt> object class.
+This object class defines the attribute listed in the
+following table.
+<p>
+<table border="1" cellpadding=3 width="85%">
+<tr>
+<th width="30%">LDAP Attribute Name</th>
+<th>Content</th>
+</tr>
+
+<tr>
+<td><tt>corbaObjectReference</tt>  (mandatory)
+</td>
+<td>
+Stringified form of the CORBA object reference
+</td>
+</tr>
+
+</table> 
+
+<p> 
+An LDAP entry that has this attribute must include
+<tt>"corbaObject"</tt> and 
+<tt>"corbaObjectReference"</tt> in its list of object classes.
+When this attribute is read from an LDAP entry, it is used
+to reconstruct the stringified object reference, which then is used
+by an object factory to get the corresponding "live" CORBA object.
+
+
+<h4>Remote Objects</h4>
+
+A <tt>java.rmi.Remote</tt> object that uses the JRMP protocol is 
+stored in the directory either as
+a <tt>Reference</tt> that contains an RMI URL or as a marshalled object.
+
+A <tt>java.rmi.Remote</tt> object that uses the IIOP protocol is
+stored in the directory as a CORBA object; that is, the CORBA object
+reference of the object's CORBA tie is stored.
+
+<h4>Schema</h4>
+
+<a href=../../config/LDAP/java.schema>The Java schema</a>
+and 
+<a href=../../config/LDAP/corba.schema>the CORBA schema</a>
+that you need to add to your directory are included with this tutorial.
+
+See <A HREF="http://www.ietf.org/rfc/rfc2713.txt">RFC 2713</A> and <A HREF="http://www.ietf.org/rfc/rfc2714.txt">RFC 2714</A> for details.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="file.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/objectsHeader.gif" width=26 height=26 align=top border=0 alt="Java Objects and the Directory | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Representation in the Directory</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html lang="en-US">
+<head>
+<title>Compound Names</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="composite.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="parse.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=bottom border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>What's in a Name?</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Compound Names
+</h2>
+<p>
+<blockquote>
+
+A 
+<a href=../../getStarted/concepts/glossary.html#COMPOUNDNAME>compound name</a>
+is a name in a single naming system.
+Here's an example of a compound name:
+<blockquote><pre>
+cn=homedir,cn=Jon Ruiz,ou=People
+</pre></blockquote>
+This is the string representation of an LDAP name that contains three components:
+<blockquote><pre>
+ou=People
+cn=Jon Ruiz
+cn=homedir
+</pre></blockquote>
+<h4>Relationship of a Compound Name to a Composite Name</h4>
+<p>
+When you pass a string name to a 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html><tt>Context</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   method, such as 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(java.lang.String)"><tt>lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, the method expects a composite name.  The composite name might
+have just one component. You may pass an LDAP string name, for
+instance to <tt>lookup()</tt>.  The only restriction to keep in mind concerns whether
+the string name contains characters that conflict with the
+composite name syntax.
+In that case, those characters need to be properly
+escaped or quoted. For example, the compound name <tt>cn=a/b</tt>
+needs to be specified as <tt>cn=a\/b</tt> to prevent it from being
+interpreted as a composite name that has two components.
+<p>
+When you pass a 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Name.html><tt>Name</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Name.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   argument to a <tt>Context</tt> method, such as
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><tt>lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, the method can accept either a composite name or a compound name,
+as explained in a <a href=string.html>previous section</a>.
+To have the argument interpreted as a composite name, use an
+instance of
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html><tt>CompositeName</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+
+
+<h4>String Representations</h4>
+
+As shown in the previous example, a compound name consists of
+<em>components</em>. The components are separated according to
+the naming system's syntax. For example, in the LDAP, 
+components are ordered from right to left 
+and separated by a comma character (",").
+Thus the string representation of the following components
+<blockquote><pre>
+ou=People
+cn=Jon Ruiz
+cn=homedir
+</pre></blockquote>
+is
+<blockquote><pre>
+cn=homedir,cn=Jon Ruiz,ou=People
+</pre></blockquote>
+
+
+<h4>The <tt>CompoundName</tt> Class</h4>
+
+The
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompoundName.html><tt>CompoundName</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompoundName.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    class is a convenience class for
+representing the structural form of a compound name.
+Its
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompoundName.html#CompoundName(java.lang.String, java.util.Properties)">constructor</a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompoundName.html#CompoundName(java.lang.String, java.util.Properties)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    accepts a string representation of the compound name and a set
+of properties that describe the naming syntax of the name.
+The set of properties and the <tt>CompoundName</tt> class are intended to
+be flexible enough to describe the syntaxes of most naming systems.
+However, implementors may choose to provide their own implementations
+of compound names that are either subclasses of <tt>CompoundName</tt>
+or any class that
+ implements the 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Name.html><tt>Name</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Name.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     interface. 
+<p>
+Typically, you use the <tt>CompoundName</tt> constructor only if
+you are writing a service provider.
+As an application developer, you usually encounter compound names
+(either <tt>CompoundName</tt> or direct implementations of <tt>Name</tt>)
+when you want to parse a name from a particular naming system.
+<p>
+Here's <a href=src/ParseCompound.java>an example</a> that gets the name 
+parser for a context in a naming system
+and uses the parser to parse a name from that naming system.
+<blockquote><pre>
+NameParser parser = ctx.getNameParser("");
+Name compoundName = parser.parse(compoundStringName);
+</pre></blockquote>
+
+<a name=ACCESS><h4>Manipulating a Compound Name</h4></a>
+Notice that 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameParser.html#parse(java.lang.String)"><tt>NameParser.parse()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameParser.html#parse(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    returns an object that implements the <tt>Name</tt> interface.
+This interface is implemented by both the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html"><tt>CompositeName</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompoundName.html"><tt>CompoundName</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompoundName.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    classes.
+This means that you can access and update the components of a compound name
+in a way similar to how you would a composite name. 
+<p>
+Following is
+<a href=src/ModifyCompound.java>example code</a>
+that replaces the second component of a compound name
+and adds components to the head and tail of the name.
+<blockquote><pre>
+// Get the parser for this namespace
+NameParser parser = ctx.getNameParser("");
+
+// Parse the name
+Name cn = parser.parse("cn=John,ou=People,ou=Marketing");
+
+// Remove the second component from the head
+System.out.println(cn.remove(1));          // ou=People
+
+// Add to the head (first)
+System.out.println(cn.add(0, "ou=East"));  // cn=John,ou=Marketing,ou=East
+
+// Add to the tail (last)
+System.out.println(cn.add("cn=HomeDir"));  // cn=HomeDir,cn=John,ou=Marketing,ou=East
+</pre></blockquote>
+
+Running <a href=src/ModifyCompound.java>this program</a>
+produces the following output.
+<blockquote><pre>
+ou=People
+cn=John,ou=Marketing,ou=East
+cn=HomeDir,cn=John,ou=Marketing,ou=East
+</pre></blockquote>
+Note that the notions of <em>head</em> and <em>tail</em> are independent
+of the name's syntax. For example, the LDAP syntax specifies that components
+are ordered right to left. 
+This means that the rightmost component is the
+head and the leftmost component the tail. 
+For such a name, 
+a component added to the head (<tt>"cn=East"</tt>) is added to the right
+and a component added to the tail (<tt>"cn=HomeDir"</tt>) is added
+to the left.
+<p>
+Following is the output produced by a
+<a href=src/ModifyCompoundFile.java>modified version</a>
+of the previous example.
+This example uses UNIX filename syntax instead of
+the LDAP syntax.
+<blockquote><pre>
+People
+East/Marketing/John
+East/Marketing/John/HomeDir
+</pre></blockquote>
+
+<h4>Compound Name as an Argument to Context Methods</h4>
+
+A <tt>Name</tt> instance that is <em>not</em> a
+<tt>CompositeName</tt> passed to methods in the
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html><tt>Context</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     and
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html><tt>DirContext</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     interfaces is treated
+as a compound name. Following is <a href=src/LookupCompoundName.java>an example</a>
+that looks up an LDAP entry by using a compound name.
+It first gets a context handle into an LDAP namespace.
+Then it obtains a parser for that namespace by calling
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#getNameParser(javax.naming.Name)"><tt>Context.getNameParser()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#getNameParser(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, which is then used to parse an LDAP string name into a compound name.
+The compound name is subsequently used in the <tt>lookup()</tt> call.
+<p>
+<blockquote><pre>
+// Create the initial context
+Context ctx = new InitialContext(env);
+
+// Get the parser for the namespace
+NameParser parser = ctx.getNameParser("");
+
+// Parse the string name into a compound name
+Name compound = parser.parse("cn=Jon Ruiz,ou=people");
+
+// Perform the lookup using the compound name
+Object obj = ctx.lookup(compound);
+</blockquote></pre>
+
+<h4>Fully Qualified Compound Names</h4>
+
+Sometimes you want to obtain the fully qualified
+name of an object. For example, in the DNS, you might want
+to know a machine's fully qualified Internet name so that it
+can be used in Kerberos authentication or as an address for
+Internet mail delivery. In the LDAP, a fully qualified distinguished
+name might be inserted into an X.509 certificate or be given
+out as an e-mail address or as part of a URL. 
+<p>
+The
+use of this fully qualified name is typically outside the scope of the
+JNDI. 
+That is, once the name is obtained, it is passed to and used in other subsystems
+rather than fed back into one of the JNDI APIs.
+Furthermore, the definition of <em>fully qualified</em> 
+is determined by
+the service provider and/or underlying naming/directory system.
+
+<p>
+The JNDI provides
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#getNameInNamespace()"><tt>Context.getNameInNamespace()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#getNameInNamespace()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    for obtaining an object's fully
+qualified name, relative to its own namespace. That is, the result is a
+name in the namespace served by the underlying naming system.
+
+<p>
+Here's <a href=src/GetNameInNamespace.java>an example</a> that
+looks up an entry (<tt>"cn=Jon Ruiz, ou=people"</tt>) and then
+invokes <tt>getNameInNamespace()</tt> to get its fully qualified LDAP name.
+<blockquote><pre>
+// Create the initial context
+Context ctx = new InitialContext(env);
+
+// Perform the lookup 
+Context jon = (Context)ctx.lookup("cn=Jon Ruiz,ou=people");
+
+String fullname = jon.getNameInNamespace();
+</blockquote></pre>
+When you run this program, it produces the following output.
+<blockquote><pre>
+cn=Jon Ruiz,ou=people,o=JNDItutorial
+</pre></blockquote>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="composite.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="parse.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=top border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>What's in a Name?</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

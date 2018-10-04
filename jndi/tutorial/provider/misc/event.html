@@ -1,0 +1,180 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Adding Event Notification Support</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="link.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="ldap.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Adding Event Notification Support
+</h2>
+<p>
+<blockquote>
+
+<blockquote>
+<hr>
+<strong>Prerequisite:</strong> 
+You should be familiar with the event model used by the JNDI
+before reading this section.
+The event model is covered in the
+<a target="_top" href="../../beyond/event/index.html">Event Notification</a> <a target="_top" href="../../beyond/event/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson.
+<hr>
+</blockquote>
+
+A service provider typically supports event notification only
+when the underlying naming/directory service provides such a feature.
+However, a service provider may support event notification
+even if the underlying service does not. It simply needs
+to do more work and perhaps offer the feature by polling
+the underlying service for changes.
+<p>
+<h4>Architectural Overview</h4>
+Event notification can be implemented in several different
+ways. Following is one sample architecture. However,
+the one that works 
+for your service provider will depend on the features
+of the underlying naming/directory service.
+<p>
+To add event notification support, you need the following
+three components.
+<ul>
+<li><b>Bookkeeper.</b>  Maintains the list of 
+listeners and is responsible for implementing the
+registration/deregistration methods in the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html"><tt>EventContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventDirContext.html"><tt>EventDirContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/event/EventDirContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interfaces.
+
+<li><b>Notifier.</b> Notifies
+the listener(s) of an event. The occurrence of an event is typically
+triggered by an asynchronous change in the underlying service. 
+The notifier detects the change
+(for example, via a message from the underlying service or by
+polling the state of the underlying service) and 
+puts a corresponding event in the event queue.
+
+<li><b>Event Queue.</b> Maintains
+a queue of events that have occurred and 
+fires the events to the registered listeners.
+</ul>
+
+To implement event notification, your context implementation must
+implement either the <tt>EventContext</tt> or <tt>EventDirContext</tt>
+interface. The bookkeeper might be a part of the context
+implementation or a utility used by the context
+implementation.  When a program registers a listener, the bookkeeper
+records the listener and the target in which it is interested.
+It then uses--creates or uses one from a thread pool--a 
+notifier to track the target. Typically, the notifier is a thread
+that listens for changes to the target.  When the notifier detects a
+change that will trigger an event, it creates an event that contains the
+appropriate information and puts it in the event queue. The notifier
+then returns to listening for future changes.  The event queue is
+monitored by an event queue manager thread, whose job is to remove an
+event from the queue and dispatch it to the appropriate listeners.
+
+<h4>Implementation Tips</h4>
+
+Here are some tips to keep in mind when developing your
+context implementation.
+
+<ul>
+<li>Handling listener registration.
+<br>Listener registration is associated
+with a <tt>Context</tt> <em>instance</em>
+and not the representation of the
+context in the underlying service. For example, suppose that you are
+using the LDAP service.
+You cannot expect to register a listener with one 
+<tt>Context</tt> instance
+and remove it from another <tt>Context</tt> instance,
+even if both represent the same LDAP entry.
+Therefore your implementation should maintain separate listener lists for
+separate <tt>Context</tt> instances.
+
+<li>When to deregister.
+<br>
+Some events cause automatic deregistration. If a listener receives
+an exception or if the <tt>Context</tt> instance with 
+which it has registered
+is closed, then the listener is automatically deregistered
+and  will receive
+no further events. Your notifier implementation should pay attention
+to the exception events that it generates and tell the bookkeeper
+to deregister listeners that receive such events
+(but only <em>after</em> the exception events have been delivered).
+
+<li>Using threads.
+<br>
+Regardless of
+whether you choose to follow the sample
+architecture described previously in this section, 
+support for event notification
+requires the use of threads. Furthermore, these threads manipulate
+shared data such as <tt>Context</tt> instances, event queues, and listener
+lists.  Be sure to have a good understanding of the threads model in
+the Java programming language. 
+
+</ul>
+
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="link.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="ldap.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

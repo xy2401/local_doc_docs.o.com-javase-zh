@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Class Data Sharing</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../webdesign/pubs8/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs8/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://docs.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Class Data Sharing</h1></div>
+<h2>Overview</h2>
+<p>Class data sharing (CDS) helps reduce the startup time for Java programming language
+applications, in particular smaller applications, as well as reduce
+footprint. When the JRE is installed using the installer,
+the installer loads a set of classes from
+the system jar file into a private internal representation, and
+dumps that representation to a file, called a "shared archive".
+If the JRE installer is not being used, this can be done
+manually, as explained below. During subsequent JVM invocations,
+the shared archive is memory-mapped in, saving the cost of loading
+those classes and allowing much of the JVM's metadata for these
+classes to be shared among multiple JVM processes.</p>
+<p>Class data sharing is supported only with the Java
+HotSpot Client VM, and only with the serial garbage collector.</p>
+<p>The primary motivation for including CDS in Java SE is
+the decrease in startup time it provides. CDS produces better
+results for smaller applications because it eliminates a fixed
+cost: that of loading certain core classes. The smaller the
+application relative to the number of core classes it uses, the
+larger the saved fraction of startup time.</p>
+<p>The footprint cost of new JVM instances has been reduced in two
+ways. First, a portion of the shared archive, currently between
+five and six megabytes, is mapped read-only and therefore shared
+among multiple JVM processes. Previously this data was replicated
+in each JVM instance. Second, since the shared archive contains
+class data in the form in which the Java Hotspot VM uses it, the
+memory which would otherwise be required to access the original
+class information in <code>rt.jar</code> is not needed. These
+savings allow more applications to be run concurrently on the same
+machine. On Microsoft Windows, the footprint of a process, as
+measured by various tools, may appear to increase, because a larger
+number of pages are being mapped in to the process' address space.
+This is offset by the reduction in the amount of memory (inside
+Microsoft Windows) which is needed to hold portions on
+<code>rt.jar</code>. Reducing footprint remains a high
+priority.</p>
+<h2>Regenerating the Shared Archive</h2>
+<p>Under some circumstances the system administrator may need to
+manually regenerate the shared archive. This is typically only
+necessary on Solaris if the Java SE packages were installed over
+the network to a machine of a different architecture than that
+performing the installation. Regardless, these regeneration
+instructions apply to all supported platforms.</p>
+<p>The shared archive file is colocated with the shared library for
+the JVM. On Solaris, Linux, or Mac OS X platforms, it is stored in
+<code>jre/lib/[arch]/client/classes.jsa</code> and on Microsoft
+Windows platforms in <code>jre/bin/[client or server]/classes.jsa</code>. If
+this file exists, it must be manually removed before
+regeneration.</p>
+<p>To regenerate the archive, log in as the administrator; in
+networked situations, log on to a machine of the same architecture
+as the Java SE installation and ensure that you have permission to
+write to the installation directory. Then execute the command</p>
+<code>java -Xshare:dump</code> Diagnostic information will be
+printed as the archive is generated.
+<h2>Manually Controlling Class Data Sharing</h2>
+<p>The class data sharing feature is automatically enabled when
+conditions allow it to be used. The following command line options
+are present primarily for diagnostic and debugging purposes and may
+change or be removed in future releases.</p>
+<dl>
+<dt><code>-Xshare:off</code></dt>
+<dd>Disable class data sharing.</dd>
+<dt><code>-Xshare:on</code></dt>
+<dd>Require class data sharing to be enabled. If it could not be
+enabled for various reasons, print an error message and exit.</dd>
+<dt><code>-Xshare:auto</code></dt>
+<dd>The default; enable class data sharing whenever possible.</dd>
+</dl>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

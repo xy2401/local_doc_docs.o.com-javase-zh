@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>8 PaperDoll Drag-and-Drop Application (Release 8)</title>
+<meta name="description" content="This chapter further illustrates the drag-and-drop feature using the PaperDoll application.">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXED.pdf">PDF</a> | <a href="../JFXED.epub">ePub</a> | <a href="../JFXED.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Handling Events</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="drag-drop.htm">Previous Page</a><a class="button" title="Next Page" href="sample-source-code.htm">Next Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="CBHFHJID" name="CBHFHJID" class="anchor"></a><a id="JFXED260" name="JFXED260" class="anchor"></a>
+<h1 class="chapter"><span class="secnum">8</span> PaperDoll Drag-and-Drop Application</h1>
+<a id="JFXED261" name="JFXED261" class="anchor"></a>
+<p>This chapter further illustrates the drag-and-drop feature using the <code>PaperDoll</code> application.</p>
+<p>The basic principles explained in the <a href="drag-drop.htm#CHDJFJDH">Drag-and-Drop Operation</a> are used here in a more advanced application that enables the user to drag the images of dresses and drop them on the image of a paper doll, and drag the images of dresses from the image of a paper doll.</p>
+<a id="JFXED262" name="JFXED262" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref86" name="sthref86" class="anchor"></a>
+<h2 class="sect1">Layout of the PaperDoll Application</h2>
+<p>The <code>PaperDoll</code> application displays four images that represent dresses (pieces of clothing) and a paper doll that participate in a drag-and-drop operation. The application window is shown in <a href="#CBHFFFCF">Figure 8-1</a>.</p>
+<div class="figure"><a id="CBHFFFCF" name="CBHFFFCF" class="anchor"></a><a id="JFXED263" name="JFXED263" class="anchor"></a>
+<p class="titleinfigure">Figure 8-1 Paper Doll Application</p>
+<img width="816" height="938" src="img/paper_doll.png" alt="Description of Figure 8-1 follows" title="Description of Figure 8-1 follows" longdesc="img_text/paper_doll.htm" /><br />
+<a id="sthref87" name="sthref87" href="img_text/paper_doll.htm">Description of "Figure 8-1 Paper Doll Application"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>The graphical scene of the application consists of two parts:</p>
+<ul>
+<li>
+<p>A <code>VBox</code> object is displayed in the upper part of the window. It contains an image and the <span class="italic">Paper Doll</span> text, and is used for decoration only.</p>
+</li>
+<li>
+<p>A <code>GridPane</code> object is displayed in the bottom part of the window.</p>
+<ul>
+<li>
+<p>The first column contains a <code>FlowPane</code> object with the images of clothing.</p>
+</li>
+<li>
+<p>The second column contains a <code>Pane</code> object with an image of a paper doll.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>The images of the clothing can be dragged and dropped on an image of a paper doll and back to their original locations. The <code>PaperDoll</code> application provides an example of a drag-and-drop operation in which the same object can be both the source and the target of the operation.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXED264" name="JFXED264" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref88" name="sthref88" class="anchor"></a>
+<h2 class="sect1">Organization of the PaperDoll Application</h2>
+<p>The <code>PaperDoll</code> application contains the following packages and classes:</p>
+<ul>
+<li>
+<p><code><a href="paperdolljava.htm#BGBDGGGD">PaperDoll.java</a></code> is the main application class, which lays out the user interface (UI) elements and implements the application logic.</p>
+</li>
+<li>
+<p><code>paperdoll.body</code> contains classes that define a container for the body that accepts drops of the data.</p>
+<ul>
+<li>
+<p><code><a href="paperdolljava.htm#BGBICFDH">Body.java</a></code></p>
+</li>
+<li>
+<p><code><a href="paperdolljava.htm#BGBFBIIG">BodyElement.java</a></code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>paperdoll.clothes</code> contains classes that define a draggable piece of clothing.</p>
+<ul>
+<li>
+<p><code><a href="paperdolljava.htm#BGBBGDHB">Cloth.java</a></code></p>
+</li>
+<li>
+<p><code><a href="paperdolljava.htm#BGBHJFDJ">ClothListBuilder.java</a></code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>paperdoll.images</code> contains the graphical resources for the application.</p>
+</li>
+</ul>
+<div class="infoboxnote">
+<p class="notep1">Note:</p>
+<p>This chapter does not provide a step-by-step procedure to build the <code>PaperDoll</code> application.</p>
+<p>You can download the <a href="../sample-apps/PaperDoll.zip"><code>PaperDoll.zip</code></a> to see the completed NetBeans project.</p>
+</div>
+<p>The UI of the <code>PaperDoll</code> application is created as shown in <a href="#CBHEGEHG">Example 8-1</a>.</p>
+<div class="example"><a id="CBHEGEHG" name="CBHEGEHG" class="anchor"></a><a id="JFXED265" name="JFXED265" class="anchor"></a>
+<p class="titleinexample">Example 8-1</p>
+<pre xml:space="preserve" class="oac_no_warn">package paperdoll;
+
+import paperdoll.clothes.Cloth;
+import paperdoll.clothes.ClothListBuilder;
+import paperdoll.body.Body;
+import paperdoll.images.ImageManager;
+import java.util.HashMap;
+import java.util.List;
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+
+public class PaperDoll extends Application {
+ 
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+    /**
+     * All laying out goes here.
+     * @param primaryStage 
+     */
+    
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Paper Doll");
+        
+        ImageView header = new ImageView(ImageManager.getImage("ui/flowers.jpg")); 
+        VBox title = new VBox();
+        title.getChildren().addAll(header);
+        title.setPadding(new Insets(10.0));
+        
+        GridPane content = new GridPane();
+        content.add(Body.getBody().getNode(), 1, 1);
+        content.add(createItemPane(Body.getBody().getBodyPane()), 0, 1);
+        ColumnConstraints c1 = new ColumnConstraints();
+        c1.setHgrow(Priority.ALWAYS);
+        ColumnConstraints c2 = new ColumnConstraints();
+        c2.setHgrow(Priority.NEVER);
+        c2.setPrefWidth(Body.getBody().getBodyPane().getMinWidth() + 20);
+        content.getColumnConstraints().addAll(c1, c2);
+        
+        items = new HashMap&lt;&gt;();
+        Body.getBody().setItemsInfo(itemPane, items);
+        populateClothes();
+        
+        VBox root = new VBox();
+        root.getChildren().addAll(title, content);
+        primaryStage.setScene(new Scene(root, 800, 900));
+        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(900);
+        primaryStage.show();
+    }
+    
+    private FlowPane itemPane = null;
+    
+    private HashMap&lt;String, Cloth&gt; items;
+    
+    /**
+     * A container for unequipped items is created here.
+     * @param bodyPane body container is needed so that the item is removed from
+     * it when dropped here.
+     * @return 
+     */
+    private FlowPane createItemPane(final Pane bodyPane) {
+    // code for creating the itemPane container
+    
+    }
+
+    private void populateClothes() {
+    //code for adding items to the itemPane container
+    }
+}
+</pre></div>
+<!-- class="example" -->
+<p>The <code>itemPane</code> object represents separate pieces of clothing and the <code>bodyPane</code> object represents the body of the doll with pieces of clothing that can be put on.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXED266" name="JFXED266" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref89" name="sthref89" class="anchor"></a>
+<h2 class="sect1">Starting the Drag-And-Drop Operation</h2>
+<p>The source for the drag-and-drop operation is one of the <code>ImageView</code> objects that represent a <code>Cloth</code> item. At any moment, each <code>currentImage</code> is either a node in the <code>itemPane</code> or in the <code>bodyPane</code>. The <code>setOnDragDetected</code> method is implemented as shown in bold in <a href="#CBHEHJHD">Example 8-2</a>.</p>
+<div class="example"><a id="CBHEHJHD" name="CBHEHJHD" class="anchor"></a><a id="JFXED267" name="JFXED267" class="anchor"></a>
+<p class="titleinexample">Example 8-2</p>
+<pre xml:space="preserve" class="oac_no_warn">public class Cloth {
+    
+    private final Image previewImage;
+    private final Image activeImage;
+    private final Image equippedImage;
+    
+    private final ImageView currentImage;
+    
+    public void putOn() {
+        currentImage.setImage(equippedImage);
+    }
+    
+    public void takeOff() {
+        currentImage.setImage(previewImage);
+    }
+    
+    private void activate() {
+        currentImage.setImage(activeImage);
+    }
+    
+    public String getImageViewId() {
+        return currentImage.getId();
+    }
+    
+    public Node getNode() {
+        return currentImage;
+    }
+    
+    public Cloth(Image[] images) {
+        this.previewImage = images[0];
+        this.activeImage = images[1];
+        this.equippedImage = images[2];
+        
+        currentImage = new ImageView();
+        currentImage.setImage(previewImage);
+        currentImage.setId(this.getClass().getSimpleName() + System.currentTimeMillis());
+        
+<span class="bold">        currentImage.setOnDragDetected((MouseEvent event) -&gt; {</span>
+<span class="bold">            activate();</span>
+<span class="bold">            Dragboard db = currentImage.startDragAndDrop(TransferMode.MOVE);</span>
+<span class="bold">            ClipboardContent content = new ClipboardContent();</span>
+            // Store node ID in order to know what is dragged.
+<span class="bold">            content.putString(currentImage.getId());</span>
+<span class="bold">            db.setContent(content);</span>
+<span class="bold">            event.consume();</span>
+<span class="bold">        });</span>
+    }
+}
+</pre></div>
+<!-- class="example" -->
+<p>Note the usage of a lambda expression in this example. The <code>setOnDragDetected</code> method starts the drag-and-drop gesture that supports only the <code>MOVE</code> transfer mode by calling the <code>startDragAndDrop(TransferMode.MOVE)</code> method.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXED268" name="JFXED268" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref90" name="sthref90" class="anchor"></a>
+<h2 class="sect1">Handling the Drop of the Data</h2>
+<p>The target of the drag-and-drop gesture can be either the <code>itemPane</code> or the <code>bodyPane</code> object depending on where the drag-and-drop gesture was started, which means that the <code>setOnDragOver</code> and <code>setOnDragDropped</code> methods must be implemented for the both objects, <code>itemPane</code> and <code>bodyPane</code>.</p>
+<p>As described earlier, the <code>itemPane</code> object is created in the <code>PaperDoll.java</code> class. <a href="#CBHHBAJI">Example 8-3</a> complements the code in <a href="#CBHEGEHG">Example 8-1</a>, and provides the complete code to create the <code>itemPane</code> container.</p>
+<div class="example"><a id="CBHHBAJI" name="CBHHBAJI" class="anchor"></a><a id="JFXED269" name="JFXED269" class="anchor"></a>
+<p class="titleinexample">Example 8-3</p>
+<pre xml:space="preserve" class="oac_no_warn">/**
+     * A container for unequipped items is created here.
+     * @param bodyPane body container is needed so that an item is removed from
+     * the bodyPane when dropped on the itemPane.
+     * @return 
+     */
+    private FlowPane createItemPane(final Pane bodyPane) {
+        if (!(itemPane == null))
+            return itemPane;
+        
+        itemPane = new FlowPane();
+        itemPane.setPadding(new Insets(10.0));
+        
+        itemPane.setOnDragDropped((DragEvent event) -&gt; {
+            Dragboard db = event.getDragboard();
+            // Get item id here, which was stored when the drag started.
+            boolean success = false;
+            // If this is a meaningful drop...
+            if (db.hasString()) {
+                String nodeId = db.getString();
+                // ...search for the item on body. If it is there...
+                ImageView cloth = (ImageView) bodyPane.lookup("#" + nodeId);
+                if (cloth != null) {
+                    // ... the item is removed from body
+                    // and added to an unequipped container.
+<span class="bold">                    bodyPane.getChildren().remove(cloth);</span>
+<span class="bold">                    itemPane.getChildren().add(cloth);</span>
+<span class="bold">                    success = true;</span>
+                }
+                // ...anyway, the item is not active or equipped anymore.
+                items.get(nodeId).takeOff();
+            }
+<span class="bold">            event.setDropCompleted(success);</span>
+            event.consume();
+        });
+        
+<span class="bold">        itemPane.setOnDragOver((DragEvent event) -&gt; {</span>
+<span class="bold">            if (event.getGestureSource() != itemPane &amp;&amp;</span>
+<span class="bold">                    event.getDragboard().hasString()) {</span>
+<span class="bold">                event.acceptTransferModes(TransferMode.MOVE);</span>
+<span class="bold">            }</span>
+<span class="bold">            event.consume();</span>
+<span class="bold">        });        </span>
+        
+        return itemPane;
+    }
+    
+    /**
+     * Here items are added to an unequipped items container.
+     */
+    private void populateClothes() {
+        ClothListBuilder clothBuilder = new ClothListBuilder();
+        if (itemPane == null)
+            throw new IllegalStateException("Should call getItems() before populating!");
+        List&lt;Cloth&gt; clothes = clothBuilder.getClothList();
+        clothes.stream().map((c) -&gt; {
+            itemPane.getChildren().add(c.getNode());
+            return c;
+        }).forEach((c) -&gt; {
+            items.put(c.getImageViewId(), c);
+        });
+    }
+</pre></div>
+<!-- class="example" -->
+<p>Note that the <code>itemPane.setOnDrageOver</code> method must accept the transfer mode only if the source of the drag-and-drop gesture was not the <code>itemPane</code> object itself and the dragboard contains a string.</p>
+<p>The <code>itemPane.setOnDragDropped</code> method is called when the mouse button is released over the <code>itemPane</code> object, which accepted the previous <code>DRAG_OVER</code> event. It is here that the draggable piece of clothing is added to the <code>itemPane</code> container and removed from the <code>bodyPane</code> object, and the drag-and-drop gesture is completed by calling the <code>setDropCompleted (Boolean)</code> method on the event.</p>
+<p>Similarly, the <code>setOnDragOver</code> and <code>setOnDragDropped</code> methods for the <code>bodyPane</code> container are implemented as shown in <a href="#CBHCJDHF">Example 8-4</a>.</p>
+<div class="example"><a id="CBHCJDHF" name="CBHCJDHF" class="anchor"></a><a id="JFXED270" name="JFXED270" class="anchor"></a>
+<p class="titleinexample">Example 8-4</p>
+<pre xml:space="preserve" class="oac_no_warn">bodyPane.setOnDragDropped((DragEvent event) -&gt; {
+    Dragboard db = event.getDragboard();
+    boolean success = false;
+    // If this is a meaningful drop...
+    if (db.hasString()) {
+        // Get an item ID here, which was stored when the drag started.
+        String nodeId = db.getString();
+        // ...search for the item in unequipped items. If it is there...
+        ImageView cloth = (ImageView) itemPane.lookup("#" + nodeId);
+        if (cloth != null) {
+            // ... the item is removed from the unequipped list
+            // and attached to body.
+            itemPane.getChildren().remove(cloth);
+            bodyPane.getChildren().add(cloth);
+            cloth.relocate(0, 0);
+            success = true;
+        }
+        // ...anyway, the item is now equipped.
+        items.get(nodeId).putOn();
+    }
+    event.setDropCompleted(success);
+    event.consume();
+});
+
+bodyPane.setOnDragOver((DragEvent event) -&gt; {
+    if (event.getGestureSource() != bodyImage &amp;&amp;
+            event.getDragboard().hasString()) {
+        event.acceptTransferModes(TransferMode.MOVE);
+    }
+    event.consume();
+});
+</pre></div>
+<!-- class="example" -->
+<p><a href="#CBHHEHJF">Example 8-5</a> shows the complete code for the <code>BodyElement</code> class.</p>
+<div class="example"><a id="CBHHEHJF" name="CBHHEHJF" class="anchor"></a><a id="JFXED271" name="JFXED271" class="anchor"></a>
+<p class="titleinexample">Example 8-5</p>
+<pre xml:space="preserve" class="oac_no_warn">package paperdoll.body;
+ 
+import paperdoll.clothes.Cloth;
+import paperdoll.images.ImageManager;
+import java.util.Map;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.Pane;
+ 
+/**
+ * Container for body that accepts drops. Draggable details dropped here
+ * are equipped.
+ * 
+ */
+ 
+public class BodyElement {
+    private final Pane bodyPane;
+    private final ImageView bodyImage;
+    private Pane itemPane;
+    private Map&lt;String, Cloth&gt; items;
+    
+    public void setItemsInfo(Pane p, Map&lt;String, Cloth&gt; m) {
+        itemPane = p;
+        items = m;
+    }
+ 
+    public Pane getBodyPane() {
+        return bodyPane;
+    }
+    
+    public BodyElement() {
+        bodyPane = new Pane();
+        bodyImage = new ImageView(ImageManager.getResource("body.png"));
+        
+        bodyPane.setOnDragDropped((DragEvent event) -&gt; {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            // If this is a meaningful drop...
+            if (db.hasString()) {
+                // Get an item ID here, which was stored when the drag started.
+                String nodeId = db.getString();
+                // ... search for the item in unequipped items. If it is there...
+                ImageView cloth = (ImageView) itemPane.lookup("#" + nodeId);
+                if (cloth != null) {
+                    // ... the item is removed from the unequipped list
+                    // and attached to body.
+                    itemPane.getChildren().remove(cloth);
+                    bodyPane.getChildren().add(cloth);
+                    cloth.relocate(0, 0);
+                    success = true;
+                }
+                // ...anyway, the item is now equipped.
+                items.get(nodeId).putOn();
+            }
+            event.setDropCompleted(success);
+            event.consume();
+        });
+        
+        bodyPane.setOnDragOver((DragEvent event) -&gt; {
+            if (event.getGestureSource() != bodyImage &amp;&amp;
+                    event.getDragboard().hasString()) {
+                event.acceptTransferModes(TransferMode.MOVE);
+            }
+            event.consume();
+        });
+        
+        bodyPane.getChildren().add(bodyImage);
+        bodyPane.setMinWidth(bodyImage.getImage().getWidth());
+        bodyPane.setPadding(new Insets(10.0));
+    }
+    
+    public Node getNode() {
+        return bodyPane;
+    }
+}
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect1" -->
+<a id="JFXED272" name="JFXED272" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref91" name="sthref91" class="anchor"></a>
+<h2 class="sect1">Application Files</h2>
+<p class="itemizedlisttitle">Source Code&nbsp;</p>
+<ul>
+<li>
+<p><code><a href="paperdolljava.htm#BGBDGGGD">PaperDoll.java</a></code></p>
+</li>
+<li>
+<p><code><a href="paperdolljava.htm#BGBBGDHB">Cloth.java</a></code></p>
+</li>
+<li>
+<p><code><a href="paperdolljava.htm#BGBHJFDJ">ClothListBuilder.java</a></code></p>
+</li>
+<li>
+<p><code><a href="paperdolljava.htm#BGBICFDH">Body.java</a></code></p>
+</li>
+<li>
+<p><code><a href="paperdolljava.htm#BGBFBIIG">BodyElement.java</a></code></p>
+</li>
+</ul>
+<p class="itemizedlisttitle">Netbeans Projects&nbsp;</p>
+<ul>
+<li>
+<p><a href="../sample-apps/PaperDoll.zip"><code>PaperDoll.zip</code></a></p>
+</li>
+</ul>
+</div>
+<!-- class="sect1" -->
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Handling Events</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">Audience</a></li>
+        <li><a href="preface.htm#sthref4">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref6">Related Documents</a></li>
+        <li><a href="preface.htm#sthref7">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a href="events.htm#sthref8">Part I Handling Events</a>
+    <ul>
+    <li><a href="processing.htm#JFXED118">1 Processing Events</a>
+      <ul>
+        <li><a href="processing.htm#sthref9">Events</a>
+          <ul>
+          <li><a href="processing.htm#JFXED122">Event Types</a></li>
+          <li><a href="processing.htm#sthref12">Event Targets</a></li>
+          </ul>
+        </li>
+        <li><a href="processing.htm#sthref13">Event Delivery Process</a>
+          <ul>
+          <li><a href="processing.htm#JFXED126">Target Selection</a></li>
+          <li><a href="processing.htm#sthref15">Route Construction</a></li>
+          <li><a href="processing.htm#sthref17">Event Capturing Phase</a></li>
+          <li><a href="processing.htm#sthref18">Event Bubbling Phase</a></li>
+          </ul>
+        </li>
+        <li><a href="processing.htm#sthref19">Event Handling</a>
+          <ul>
+          <li><a href="processing.htm#JFXED133">Event Filters</a></li>
+          <li><a href="processing.htm#sthref20">Event Handlers</a></li>
+          <li><a href="processing.htm#sthref21">Consuming of an Event</a></li>
+          </ul>
+        </li>
+        <li><a href="processing.htm#sthref22">Additional Resources</a></li>
+      </ul>
+    </li>
+    <li><a href="convenience_methods.htm#JFXED101">2 Working with Convenience Methods</a>
+      <ul>
+        <li><a href="convenience_methods.htm#sthref23">Using Convenience Methods</a>
+          <ul>
+          <li><a href="convenience_methods.htm#sthref25">Examples for Mouse Events</a></li>
+          <li><a href="convenience_methods.htm#sthref26">Examples for Keyboard Events</a></li>
+          </ul>
+        </li>
+        <li><a href="convenience_methods.htm#sthref27">Additional Resources</a></li>
+      </ul>
+    </li>
+    <li><a href="filters.htm#JFXED137">3 Working with Event Filters</a>
+      <ul>
+        <li><a href="filters.htm#sthref28">Registering and Removing an Event Filter</a></li>
+        <li><a href="filters.htm#sthref29">Using Event Filters</a>
+          <ul>
+          <li><a href="filters.htm#sthref30">Draggable Panels Example</a></li>
+          <li><a href="filters.htm#sthref33">Filters for the Draggable Panels Example</a></li>
+          </ul>
+        </li>
+        <li><a href="filters.htm#sthref34">Additional Resources</a></li>
+        <li><a href="filters.htm#sthref35">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a href="handlers.htm#JFXED149">4 Working with Event Handlers</a>
+      <ul>
+        <li><a href="handlers.htm#sthref38">Registering and Removing an Event Handler</a></li>
+        <li><a href="handlers.htm#sthref39">Using Event Handlers</a>
+          <ul>
+          <li><a href="handlers.htm#sthref40">Keyboard Example</a></li>
+          <li><a href="handlers.htm#sthref43">Handlers for the Keyboard Example</a></li>
+          </ul>
+        </li>
+        <li><a href="handlers.htm#sthref44">Additional Resources</a></li>
+        <li><a href="handlers.htm#sthref45">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a href="gestures.htm#JFXED166">5 Working with Events from Touch-Enabled Devices</a>
+      <ul>
+        <li><a href="gestures.htm#sthref48">Gesture and Touch Events</a>
+          <ul>
+          <li><a href="gestures.htm#sthref50">Targets of Gestures</a></li>
+          <li><a href="gestures.htm#sthref51">Other Events Generated</a></li>
+          </ul>
+        </li>
+        <li><a href="gestures.htm#sthref52">Gesture Events Example</a>
+          <ul>
+          <li><a href="gestures.htm#sthref54">Creating the Shapes</a></li>
+          <li><a href="gestures.htm#JFXED173">Handling the Events</a></li>
+          <li><a href="gestures.htm#sthref60">Managing the Log</a></li>
+          </ul>
+        </li>
+        <li><a href="gestures.htm#sthref61">Additional Resources</a></li>
+        <li><a href="gestures.htm#sthref62">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a href="touch_events.htm#JFXED192">6 Working with Touch Events</a>
+      <ul>
+        <li><a href="touch_events.htm#sthref65">Overview of Touch Actions</a>
+          <ul>
+          <li><a href="touch_events.htm#JFXED195">Touch Points</a></li>
+          <li><a href="touch_events.htm#JFXED196">Touch Events</a></li>
+          <li><a href="touch_events.htm#JFXED197">Event Sets</a></li>
+          <li><a href="touch_events.htm#sthref67">Touch Point Targets and Touch Event Targets</a></li>
+          <li><a href="touch_events.htm#sthref68">Additional Events Generated from Touches</a></li>
+          </ul>
+        </li>
+        <li><a href="touch_events.htm#JFXED201">Touch Events Example</a>
+          <ul>
+          <li><a href="touch_events.htm#JFXED203">Handling Concurrent Touch Points Independently</a></li>
+          <li><a href="touch_events.htm#JFXED205">Changing the Target of a Touch Point</a></li>
+          </ul>
+        </li>
+        <li><a href="touch_events.htm#sthref70">Additional Resources</a></li>
+        <li><a href="touch_events.htm#sthref71">Application Files</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="drag_drop_feature.htm#sthref74">Part II Drag-and-Drop Feature in JavaFX Applications</a>
+    <ul>
+    <li><a href="drag-drop.htm#JFXED219">7 Drag-and-Drop Operation</a>
+      <ul>
+        <li><a href="drag-drop.htm#sthref75">Objects and Data Types for Drag-and-Drop Operation</a>
+          <ul>
+          <li><a href="drag-drop.htm#sthref76">Transfer Modes</a></li>
+          </ul>
+        </li>
+        <li><a href="drag-drop.htm#JFXED223">Implementing a Basic Drag-and-Drop Gesture</a>
+          <ul>
+          <li><a href="drag-drop.htm#sthref77">Starting the Drag-and-Drop Gesture on a Source</a></li>
+          <li><a href="drag-drop.htm#sthref78">Handling a DRAG_OVER Event on a Target</a></li>
+          <li><a href="drag-drop.htm#sthref79">Providing Visual Feedback by a Gesture Target</a></li>
+          <li><a href="drag-drop.htm#sthref80">Handling a DRAG_DROPPED Event on a Target</a></li>
+          <li><a href="drag-drop.htm#sthref81">Handling a DRAG_DONE Event on a Source</a></li>
+          <li><a href="drag-drop.htm#sthref82">Dragging Custom Data</a></li>
+          </ul>
+        </li>
+        <li><a href="drag-drop.htm#sthref83">Application Files</a></li>
+      </ul>
+    </li>
+    <li><a class="selected" href="paper-doll.htm#JFXED260">8 PaperDoll Drag-and-Drop Application</a>
+      <ul>
+        <li><a href="paper-doll.htm#sthref86">Layout of the PaperDoll Application</a></li>
+        <li><a href="paper-doll.htm#sthref88">Organization of the PaperDoll Application</a></li>
+        <li><a href="paper-doll.htm#sthref89">Starting the Drag-And-Drop Operation</a></li>
+        <li><a href="paper-doll.htm#sthref90">Handling the Drop of the Data</a></li>
+        <li><a href="paper-doll.htm#sthref91">Application Files</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="sample-source-code.htm#sthref94">Part III Source Code for the Handling Events Tutorial</a>
+    <ul>
+    <li><a href="draggablepanelsexamplejava.htm#JFXED240">A DraggablePanelsExample.java</a></li>
+    <li><a href="keyboardexamplejava.htm#JFXED244">B KeyboardExample.java</a></li>
+    <li><a href="gestureeventsjava.htm#JFXED248">C GestureEvents.java</a></li>
+    <li><a href="toucheventsjava.htm#JFXED252">D TouchEvents.java</a></li>
+    <li><a href="hellodraganddropjava.htm#JFXED256">E HelloDragAndDrop.java</a></li>
+    <li><a href="paperdolljava.htm#sthref95">F Paper Doll Drag-and-Drop Sample</a>
+      <ul>
+        <li><a href="paperdolljava.htm#JFXED275">PaperDoll.java</a></li>
+        <li><a href="paperdolljava.htm#JFXED278">Cloth.java</a></li>
+        <li><a href="paperdolljava.htm#JFXED281">ClothListBuilder.java</a></li>
+        <li><a href="paperdolljava.htm#JFXED284">Body.java</a></li>
+        <li><a href="paperdolljava.htm#JFXED287">BodyElement.java</a></li>
+      </ul>
+    </li>
+</ul>
+
+</li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="drag-drop.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a><a class="button" title="Next Page" href="sample-source-code.htm">Next Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2011, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

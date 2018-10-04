@@ -1,0 +1,913 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<!-- GenHTML revision 23965-->
+<meta http-equiv="Content-type" content=
+"text/html; charset=utf-8" />
+<title>Diagnostic Tools and Options - Troubleshooting Guide for
+HotSpot VM</title>
+<meta http-equiv="content-language" content="en-US" />
+<meta name="robots" content="index,follow" />
+<meta name="language" content="en" />
+<meta name="collection" content="reference" />
+<meta name="keywords" content="" />
+<meta name="description" content=
+"This document is a guide to help troubleshoot problems that might arise with applications that are developed using the release of Java Platform, Standard Edition Development Kit 7 (JDK 7). In particular, this guide addresses possible problems between the applications and the Java HotSpot virtual machine. The document provides a description of the tools, command line options, and other help in analyzing a problem. The document also provides guidance on how to approach some general issues such as a crash, hang, or memory resource issues. Finally, the document provides direction for data collection and bug report preparation." />
+<meta name="date" content="2008-11-01" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/default.css" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/pagelayout.css" />
+<link rel="alternate stylesheet" type="text/css" title="print"
+href="css/print.css" />
+<script type="text/javascript">
+//<![CDATA[
+function setActiveStyleSheet(title) {
+  var i, a, main;
+  for (i=0; (a = document.getElementsByTagName("link")[i]); i++) {
+         if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+                a.disabled = true;
+                if(a.getAttribute("title") == title) a.disabled = false;
+         }
+  }
+}
+
+function ClearDefault(Element) {
+   if (Element.defaultValue == Element.value) {
+        Element.value = ""
+        Element.style.cssText = "font-weight: bold; color: #00000"
+   }
+}
+
+//]]>
+</script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<div class="MastheadPane">
+<table class="MastheadTable" width="100%">
+<tr class="closeprintview">
+<td align="right"><a href="#" onclick=
+"setActiveStyleSheet('screen')">Exit Print View</a></td>
+</tr>
+<tr class="titlebar">
+<td>
+<h4 class="contentpage-doctitle"><a href="toc.html">Troubleshooting
+Guide for HotSpot VM</a></h4>
+</td>
+<td class="smallLogo"><a href="http://www.oracle.com"><img src=
+"graphics/smallOracleLogo.gif" /></a></td>
+</tr>
+</table>
+</div>
+<div class="ButtonPane">
+<table class="pagecontrol">
+<tr>
+<td class="pagebuttons"><a href="#" onclick=
+"setActiveStyleSheet('print')"><img height="46" width="40" border=
+"0" src="graphics/print.gif" alt="Print View" title=
+"Print View" /></a></td>
+<td class="pagebreadcrumb"></td>
+<td class="pagenavlinks"><a href="preface.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="tooldescr.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+<div class="TOCPane">
+<p class="toc level1"><a href="docinfo.html">Document
+Information</a></p>
+<p class="toc level1 tocsp"><a href="preface.html">Preface</a></p>
+<div id="scrolltoc" class="onpage">
+<p class="toc level1 tocsp"><a href="">1.&#160;&#160;Diagnostic
+Tools and Options</a></p>
+<p class="toc level2"><a href="#gentextid-305">1.1
+Introduction</a></p>
+<p class="toc level3"><a href="#gbmok">1.1.1 Command-Line Options
+With <tt>-XX</tt></a></p>
+<p class="toc level3"><a href="#gbmnr">1.1.2 Limitations</a></p>
+<p class="toc level3"><a href="#gbmkw">1.1.3 Developing New
+Tools</a></p>
+<p class="toc level2 tocsp"><a href="#sumry">1.2 Summary of Tools,
+Options, and Commands</a></p>
+<p class="toc level3"><a href="#gbdux">1.2.1 Tools and Options for
+Post-mortem Diagnostics</a></p>
+<p class="toc level3"><a href="#gblep">1.2.2 Tools and Options for
+Hung Processes</a></p>
+<p class="toc level3"><a href="#gblfd">1.2.3 Tools and Options for
+Monitoring</a></p>
+<p class="toc level3"><a href="#gbldz">1.2.4 Other Tools, Options,
+Variables, and Properties</a></p>
+</div>
+<p class="toc level1 tocsp"><a href=
+"tooldescr.html">2.&#160;&#160;Detailed Tool Descriptions</a></p>
+<p class="toc level1 tocsp"><a href=
+"memleaks.html">3.&#160;&#160;Troubleshooting Memory Leaks</a></p>
+<p class="toc level1 tocsp"><a href=
+"crashes.html">4.&#160;&#160;Troubleshooting System Crashes</a></p>
+<p class="toc level1 tocsp"><a href=
+"hangloop.html">5.&#160;&#160;Troubleshooting Hanging or Looping
+Processes</a></p>
+<p class="toc level1 tocsp"><a href=
+"signals.html">6.&#160;&#160;Integrating Signal and Exception
+Handling</a></p>
+<p class="toc level1 tocsp"><a href=
+"bugreports.html">7.&#160;&#160;Submitting Bug Reports</a></p>
+<p class="toc level1 tocsp"><a href=
+"envvars.html">A.&#160;&#160;Environment Variables and System
+Properties</a></p>
+<p class="toc level1 tocsp"><a href=
+"clopts.html">B.&#160;&#160;Command-Line Options</a></p>
+<p class="toc level1 tocsp"><a href=
+"felog.html">C.&#160;&#160;Fatal Error Log</a></p>
+<p class="toc level1 tocsp"><a href=
+"tools-by-rel.html">D.&#160;&#160;Summary of Tools in This
+Release</a></p>
+</div>
+<div class="ContentPane"><a name="tools" id=
+"tools"></a>Chapter&#160;1
+<h2>Diagnostic Tools and Options</h2>
+<p>This chapter introduces the various diagnostic and monitoring
+tools which can be used with Java Platform, Standard Edition
+Development Kit 7 (JDK 7). The tools are described in
+detail in <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html">Chapter&#160;2,
+Detailed Tool Descriptions</a>.</p>
+<p>See <img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"tools-by-rel.html">Appendix&#160;D, Summary of Tools in This
+Release</a> for a list of tools available in this release of the JDK,
+as well as the changes since the previous release.</p>
+<div class="note">
+<hr />
+<p><b>Note -</b> Some of the command-line utilities described in
+this chapter are experimental. The <tt>jstack</tt>, <tt>jinfo</tt>,
+and <tt>jmap</tt> utilities are examples of utilities that are
+experimental. These utilities are subject to change in future JDK
+releases, and might not be included in future releases.</p>
+<hr /></div>
+<a name="gentextid-305" id="gentextid-305"></a>
+<h3>1.1 Introduction</h3>
+<p>Most of the command-line utilities described in this chapter are
+either included in the JDK release or are operating system tools
+and utilities. Although the JDK command-line utilities are included
+in the JDK download, it is important to note that they can be used
+to diagnose issues and monitor applications that are deployed with
+the Java runtime environment (JRE).</p>
+<p>In general, the diagnostic tools and options described in this
+chapter use various mechanisms to obtain the information they
+report. In many cases the mechanisms are specific to the virtual
+machine implementation, operating system, and version of each.
+Consequently, there is some overlap of the information reported by
+some of the tools. This should be viewed in the context of the
+various problems and issues for which these tools are intended. In
+many cases only a subset of the tools will be applicable to a given
+issue at a particular point in time.</p>
+<a name="gbmok" id="gbmok"></a>
+<h4>1.1.1 Command-Line Options With <tt>-XX</tt></h4>
+<p>Command-line options that are prefixed with <tt>-XX</tt> are
+specific to the Java HotSpot Virtual Machine. Many of these options
+are important for performance tuning and diagnostic purposes, and
+are therefore described in this guide. See <img class="linkicon"
+src="graphics/linkicon.gif" /><a href="clopts.html#gdaog">B.1
+HotSpot VM Command-Line Options</a>.</p>
+<p>However, it is important to note that these <tt>-XX</tt> options
+are not part of the Java API and can vary from one release to the
+next.</p>
+<a name="gbmnr" id="gbmnr"></a>
+<h4>1.1.2 Limitations</h4>
+<p>In some cases, the tools described here are available only for
+some operating systems. In addition, Solaris 10 OS introduced many
+advanced diagnostic features and tools that can be used in
+production environments, and many of the native tools are capable
+of providing information that is specific to the Java runtime
+environment.</p>
+<p>The format of log files and of other output from command-line
+utilities or options is version-specific. For example, if you
+develop a script that relies on the format of the fatal error log,
+then this script might cease to work as expected if the format of
+the log file changes in the future.</p>
+<a name="gbmkw" id="gbmkw"></a>
+<h4>1.1.3 Developing New Tools</h4>
+<p>In addition to the tools described in this document, you can
+develop new tools using the APIs that are provided with the JDK
+release. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gbmmt">2.17
+Developing Diagnostic Tools</a>.</p>
+<a name="sumry" id="sumry"></a>
+<h3>1.2 Summary of Tools, Options, and Commands</h3>
+<p>The tools and options are divided into the following categories,
+where certain tools might fall into more than one category. The
+tools and options are described in detail in further sections.</p>
+<ul>
+<li>
+<p>Post-mortem diagnostics. These tools and options can be used to
+diagnose a problem after an application has crashed. See
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"#gbdux">1.2.1 Tools and Options for Post-mortem
+Diagnostics</a>.</p>
+</li>
+<li>
+<p>Hung processes. These tools can be used to investigate a hung or
+deadlocked process. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="#gblep">1.2.2 Tools and Options
+for Hung Processes</a>.</p>
+</li>
+<li>
+<p>Monitoring. These tools can be used to monitor a running
+application. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="#gblfd">1.2.3 Tools and Options
+for Monitoring</a>.</p>
+</li>
+<li>
+<p>Other. These tools and options can be used to help diagnose
+other issues. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="#gbldz">1.2.4 Other Tools,
+Options, Variables, and Properties</a>.</p>
+</li>
+<li>
+<p>Operating system tools. These tools are provided by the specific
+operating systems. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gbmoy">2.16
+Operating-System-Specific Tools</a>.</p>
+</li>
+</ul>
+<a name="gbdux" id="gbdux"></a>
+<h4>1.2.1 Tools and Options for Post-mortem Diagnostics</h4>
+<p>This section summarizes the options and tools that are designed
+for post-mortem diagnostics. If an application crashes, these
+options and tools can be used to obtain additional information,
+either at the time of the crash or later using information from the
+crash dump.</p>
+<table border="0" cellpadding="0" cellspacing="0" class="dkgrey1"
+width="100%">
+<tr>
+<td>
+<table border="0" cellpadding="0" cellspacing="1" width="100%"
+class="vatop">
+<col width="38%" />
+<col width="61%" />
+<tr>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Tool or Option</div>
+</th>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Description and Usage</div>
+</th>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">Fatal Error Log</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">When a fatal error occurs, an error log is
+created. This file contains much information obtained at the time
+of the fatal error. In many cases it is the first item to examine
+when a crash occurs. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="felog.html">Appendix&#160;C,
+Fatal Error Log</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>-XX:+HeapDumpOnOutOfMemoryError</tt>
+option</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This command-line option specifies the
+generation of a heap dump when the VM detects a native
+out-of-memory error. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="clopts.html#gbzrr">B.1.2
+<tt>-XX:+HeapDumpOnOutOfMemoryError</tt> Option</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>-XX:OnError</tt> option</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This command-line option specifies a sequence
+of user-supplied scripts or commands to be executed when a fatal
+error occurs. For example, on Windows, this option can execute a
+command to force a crash dump. This option is very useful on
+systems where a post-mortem debugger is not configured. See
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"clopts.html#gbmum">B.1.3 <tt>-XX:OnError=</tt> Option</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>-XX:+ShowMessageBoxOnError</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This command-line option suspends a process
+when a fatal error occurs. Depending on the user response, the
+option can launch the native debugger (for example, <tt>dbx</tt>,
+<tt>gdb</tt>, <tt>msdev</tt>) to attach to the VM. See <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href=
+"clopts.html#gbmui">B.1.4 <tt>-XX:+ShowMessageBoxOnError</tt>
+Option</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">Other <tt>-XX</tt> options</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Several other <tt>-XX</tt> command-line
+options can be useful in troubleshooting. See <img class="linkicon"
+src="graphics/linkicon.gif" /><a href="clopts.html#gbzza">B.1.5
+Other <tt>-XX</tt> Options</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">Java VisualVM
+<p>(post-mortem use on Solaris OS and Linux only)</p>
+</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This utility can analyze a core dump by
+providing a readable display of the core dump in the form of a heap
+dump and a thread dump, as well as overview information (for
+example, JVM arguments, system properties, and so forth).</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jdb</tt> utility</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Debugger support includes an
+<tt>AttachingConnector</tt>, which allows <tt>jdb</tt> and other
+Java language debuggers to attach to a core file. This can be
+useful when trying to understand what each thread was doing at the
+time of a crash. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gbldt">2.4
+<tt>jdb</tt> Utility</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jhat</tt> utility</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This utility provides a convenient means to
+browse the object topology in a heap dump. See <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gblfj">2.5 <tt>jhat</tt> Utility</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jinfo</tt> utility
+<p>(post-mortem use on Solaris OS and Linux only)</p>
+</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This utility can obtain configuration
+information from a core file obtained from a crash or from a core
+file obtained using the <tt>gcore</tt> utility. See <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gbdio">2.6 <tt>jinfo</tt> Utility</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jmap</tt> utility
+<p>(post-mortem use on Solaris OS and Linux only)</p>
+</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This utility can obtain memory map
+information, including a heap histogram, from a core file obtained
+from a crash or from a core obtained using the <tt>gcore</tt>
+utility. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gbdid">2.7
+<tt>jmap</tt> Utility</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jsadebugd</tt> daemon
+<p>(Solaris OS and Linux only)</p>
+</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">The Serviceability Agent Debug Daemon
+(<tt>jsadebugd</tt>) attaches to a Java process or to a core file
+and acts as a debug server. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gcaqg">2.10
+<tt>jsadebugd</tt> Daemon</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jstack</tt> utility</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This utility can obtain Java and native stack
+information from a Java process. On Solaris OS and Linux the
+utility can get the information also from a core file or a remote
+debug server. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gblfh">2.11
+<tt>jstack</tt> Utility</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">Native tools</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Each operating system has native tools and
+utilities that can be used for post-mortem diagnosis. See
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gbmoy">2.16 Operating-System-Specific
+Tools</a>.</div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<a name="gblep" id="gblep"></a>
+<h4>1.2.2 Tools and Options for Hung Processes</h4>
+<p>The options and tools in this list can help in scenarios
+involving a hung or deadlocked process. These tools do not require
+any special options to start the application.</p>
+<table border="0" cellpadding="0" cellspacing="0" class="dkgrey1"
+width="100%">
+<tr>
+<td>
+<table border="0" cellpadding="0" cellspacing="1" width="100%"
+class="vatop">
+<col width="33%" />
+<col width="66%" />
+<tr>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Tool or Option</div>
+</th>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Description and Usage</div>
+</th>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">Ctrl-Break handler
+<p>(Ctrl-\ or <tt>kill -QUIT</tt> <var>pid</var> on Solaris OS and
+Linux, Ctrl-Break on Windows)</p>
+</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This key combination performs a thread dump as
+well as deadlock detection. The Ctrl-Break handler can optionally
+print a list of concurrent locks and their owners, as well as a
+heap histogram. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gbmps">2.15
+Ctrl-Break Handler</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jdb</tt> utility</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Debugger support includes attaching
+connectors, which allow <tt>jdb</tt> and other Java language
+debuggers to attach to a process. This can help show what each
+thread is doing at the time of a hang or deadlock. See <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gbldt">2.4 <tt>jdb</tt> Utility</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jhat</tt> utility</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This utility provides a convenient means to
+browse the object topology in a heap dump. See <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gblfj">2.5 <tt>jhat</tt> Utility</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jinfo</tt> utility</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This utility can obtain configuration
+information from a Java process. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gbdio">2.6
+<tt>jinfo</tt> Utility</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jmap</tt> utility</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This utility can obtain memory map
+information, including a heap histogram, from a Java process. On
+Solaris OS and Linux, the <tt>-F</tt> option can be used if the
+process is hung. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gbdid">2.7
+<tt>jmap</tt> Utility</a></div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jsadebugd</tt> daemon
+<p>(Solaris OS and Linux only)</p>
+</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">The Serviceability Agent Debug Daemon
+(<tt>jsadebugd</tt>) attaches to a Java process or to a core file
+and acts as a debug server. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gcaqg">2.10
+<tt>jsadebugd</tt> Daemon</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jstack</tt> utility</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This utility can obtain Java and native stack
+information from a Java process. On Solaris OS and Linux the
+<tt>-F</tt> option can be used if the process is hung. See
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gblfh">2.11 <tt>jstack</tt> Utility</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">Native tools</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Each operating system has native tools and
+utilities that can be useful in hang or deadlock situations. See
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gbmoy">2.16 Operating-System-Specific
+Tools</a>.</div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<a name="gblfd" id="gblfd"></a>
+<h4>1.2.3 Tools and Options for Monitoring</h4>
+<p>These tools are designed for monitoring applications that are
+running at the time.</p>
+<table border="0" cellpadding="0" cellspacing="0" class="dkgrey1"
+width="100%">
+<tr>
+<td>
+<table border="0" cellpadding="0" cellspacing="1" width="100%"
+class="vatop">
+<col width="38%" />
+<col width="61%" />
+<tr>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Tool or Option</div>
+</th>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Description and Usage</div>
+</th>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">Java VisualVM</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This utility provides a visual interface for
+viewing detailed information about Java applications while they are
+running on a Java virtual machine. This information can be used in
+troubleshooting local and remote applications, as well as for
+profiling local applications. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#ghscd">2.2 Java
+VisualVM</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">JConsole utility</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This utility is a monitoring tool that is
+based on Java Management Extensions (JMX). The tool uses the
+built-in JMX instrumentation in the Java virtual machine to provide
+information on performance and resource consumption of running
+applications. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gblfi">2.3
+JConsole Utility</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jmap</tt> utility</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This utility can obtain memory map
+information, including a heap histogram, from a Java process, a
+core file, or a remote debug server. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gbdid">2.7
+<tt>jmap</tt> Utility</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jps</tt> utility</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This utility lists the instrumented HotSpot
+Virtual Machines on the target system. The utility is very useful
+in environments where the VM is embedded, that is, it is started
+using the JNI Invocation API rather than the <tt>java</tt>
+launcher. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gblry">2.8
+<tt>jps</tt> Utility</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jstack</tt> utility</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This utility can obtain Java and native stack
+information from a Java process. On Solaris OS and Linux the
+utility can get the information also from a core file or a remote
+debug server. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gblfh">2.11
+<tt>jstack</tt> Utility</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jstat</tt> utility</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This utility uses the built-in instrumentation
+in the HotSpot VM to provide information on performance and
+resource consumption of running applications. The tool can be used
+when diagnosing performance issues, and in particular issues
+related to heap sizing and garbage collection. See <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gblfb">2.12 <tt>jstat</tt> Utility</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jstatd</tt> daemon</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This tool is an RMI server application that
+monitors the creation and termination of instrumented Java virtual
+machines and provides an interface to allow remote monitoring tools
+to attach to VMs running on the local host. See <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gcfdd">2.13 <tt>jstatd</tt> Daemon</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>visualgc</tt> utility</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This utility provides a graphical view of the
+garbage collection system. As with <tt>jstat</tt>, it uses the
+built-in instrumentation of the HotSpot VM. See <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gblsf">2.14 <tt>visualgc</tt> Tool</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">Native tools</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Each operating system has native tools and
+utilities that can be useful for monitoring purposes. For example,
+the dynamic tracing (DTrace) capability introduced in Solaris 10 OS
+performs advanced monitoring. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gbmoy">2.16
+Operating-System-Specific Tools</a>.</div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<a name="gbldz" id="gbldz"></a>
+<h4>1.2.4 Other Tools, Options, Variables, and Properties</h4>
+<p>In addition to the tools that are designed for specific types of
+problems, these tools, options, variables, and properties can help
+in diagnosing other issues.</p>
+<table border="0" cellpadding="0" cellspacing="0" class="dkgrey1"
+width="100%">
+<tr>
+<td>
+<table border="0" cellpadding="0" cellspacing="1" width="100%"
+class="vatop">
+<col width="36%" />
+<col width="63%" />
+<tr>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Tool or Option</div>
+</th>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Description and Usage</div>
+</th>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">HPROF profiler</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This simple profiler can present CPU usage,
+heap allocation statistics, contention profiles, heap dumps, and
+states of all the monitors and threads in the Java virtual machine.
+HPROF is useful in analyzing performance, lock contention, memory
+leaks, and other issues. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gblvj">2.1 HPROF
+- Heap Profiler</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jhat</tt> utility</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This utility is useful in diagnosing
+unnecessary object retention (or memory leaks). It can be used to
+browse an object dump, view all reachable objects in the heap, and
+show which references are keeping an object alive. See <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gblfj">2.5 <tt>jhat</tt> Utility</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jinfo</tt> utility</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This utility can dynamically set, unset, and
+change the values of certain Java VM flags for a specified Java
+process. On Solaris OS and Linux, it can also print configuration
+information. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="tooldescr.html#gbdio">2.6
+<tt>jinfo</tt> Utility</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>jrunscript</tt> utility</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This utility is a command-line script shell,
+which supports both interactive and batch-mode script execution.
+See <img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"tooldescr.html#gcbcv">2.9 <tt>jrunscript</tt> Utility</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">Sun Studio <tt>dbx</tt> debugger</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This is an interactive, command-line debugging
+tool, which allows you to have complete control of the dynamic
+execution of a program, including stopping the program and
+inspecting its state. For details, see the latest <tt>dbx</tt>
+documentation, located at the <a href=
+"http://developers.sun.com/sunstudio/debug_index.html">Sun Studio
+Program Debugging site</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">Sun Studio Performance Analyzer</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This tool can help you assess the performance
+of your code, identify potential performance problems, and locate
+the part of the code where the problems occur. The Performance
+Analyzer can be used from the command line or from a graphical user
+interface. For details, see the <a href=
+"http://developers.sun.com/sunstudio/analyzer_index.html">Sun
+Studio Performance Analyzer site</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10">Sun's Dataspace Profiling: DProfile</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This tool provides insight into the flow of
+data within Sun computing systems, helping you identify bottlenecks
+in both software and hardware. DProfile is supported in the Sun
+Studio 11 compiler suite through the Performance Analyzer GUI. For
+information, see the <a href=
+"http://cooltools.sunsource.net/nonav/index.html">Cool Tools
+Community site</a> under Other Sun Tools.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>-Xcheck:jni</tt> option</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This option is useful in diagnosing problems
+with applications that use the Java Native Interface (JNI) or that
+employ third-party libraries (some JDBC drivers, for example). See
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"clopts.html#gbmtq">B.2.1 <tt>-Xcheck:jni</tt> Option</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>-verbose:class</tt> option</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This option enables logging of class loading
+and unloading. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="clopts.html#gbmtm">B.2.2
+<tt>-verbose:class</tt> Option</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>-verbose:gc</tt> option</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This option enables logging of garbage
+collection information. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="clopts.html#gbmpt">B.2.3
+<tt>-verbose:gc</tt> Option</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>-verbose:jni</tt> option</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This option enables logging of JNI. See
+<img class="linkicon" src="graphics/linkicon.gif" /><a href=
+"clopts.html#gbmtv">B.2.4 <tt>-verbose:jni</tt> Option</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>JAVA_TOOL_OPTIONS</tt> environment
+variable</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This environment variable allows you to
+specify the initialization of tools, specifically the launching of
+native or Java programming language agents using the
+<tt>-agentlib</tt> or <tt>-javaagent</tt> options. See <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href=
+"envvars.html#gbmsy">A.2 <tt>JAVA_TOOL_OPTIONS</tt> Environment
+Variable</a>.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>java.security.debug</tt> system
+property</div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">This system property controls whether the
+security checks in the JRE of the Java print trace messages during
+execution. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="envvars.html#gbmuf">A.3
+<tt>java.security.debug</tt> System Property</a>.</div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="BottomPageControlPane">
+<table class="pagecontrol">
+<tr>
+<td>
+<div class="pagefooterlinks">Copyright &#169;1995, 2011, Oracle
+and/or its affiliates. All rights reserved. <a href=
+"docinfo.html">Legal Notices</a></div>
+</td>
+<td class="pagenavlinks"><a href="preface.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="tooldescr.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+</body>
+</html>

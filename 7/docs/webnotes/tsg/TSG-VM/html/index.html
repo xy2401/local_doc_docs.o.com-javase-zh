@@ -1,0 +1,454 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en-US">
+<head>
+<!-- GenHTML revision 23965-->
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<title>Troubleshooting Guide for HotSpot VM</title>
+<meta http-equiv="content-language" content="en-US">
+<meta name="robots" content="index,follow">
+<meta name="date" content="2008-11-01">
+
+<link rel="stylesheet" type="text/css" href="css/advanced.css">
+<link rel="stylesheet" type="text/css" href="css/default.css">
+<link rel="stylesheet" type="text/css" href="css/pagelayout.css">
+
+<link rel="stylesheet" type="text/css" href="http://download.oracle.com/javase/webdesign/pubs/css/default_developer.css">
+
+<script language="javascript1.2" type="text/javascript" src="css/sniff.js"></script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+
+<body>
+
+<!-- BEGIN G23 COMPONENT V.0 -->
+
+<table border="0" cellpadding="5" cellspacing="0" width="100%">
+<tbody>
+	<tr valign="top">
+		<td width="30%">
+			
+			<!-- BEGIN G23 COMPONENT V.0 -->
+			<div class="g23 g23v0">
+				<div class="g23w1">
+					<div class="g23w2">
+						<div class="g23w3">
+							<div class="g23w4">
+								<ul class="g23tree">
+
+									<ul>
+<li><a href="docinfo.html">Document Information</a></li>
+
+<li><a href="preface.html">Preface</a></li>
+
+<li><a href="tools.html">1.&#160;&#160;Diagnostic Tools and Options</a><ul>
+<li><a href="tools.html#gentextid-305">1.1 Introduction</a><ul>
+<li><a href="tools.html#gbmok">1.1.1 Command-Line Options With <tt>-XX</tt></a></li>
+
+<li><a href="tools.html#gbmnr">1.1.2 Limitations</a></li>
+
+<li><a href="tools.html#gbmkw">1.1.3 Developing New Tools</a></ul></li>
+
+<li><a href="tools.html#sumry">1.2 Summary of Tools, Options, and Commands</a><ul>
+<li><a href="tools.html#gbdux">1.2.1 Tools and Options for Post-mortem Diagnostics</a></li>
+
+<li><a href="tools.html#gblep">1.2.2 Tools and Options for Hung Processes</a></li>
+
+<li><a href="tools.html#gblfd">1.2.3 Tools and Options for Monitoring</a></li>
+
+<li><a href="tools.html#gbldz">1.2.4 Other Tools, Options, Variables, and Properties</a></ul></li>
+</ul></li>
+
+<li><a href="tooldescr.html">2.&#160;&#160;Detailed Tool Descriptions</a><ul>
+<li><a href="tooldescr.html#gblvj">2.1 HPROF - Heap Profiler</a><ul>
+<li><a href="tooldescr.html#gbluz">2.1.1 Heap Allocation Profiles (<tt>heap=sites</tt>)</a></li>
+
+<li><a href="tooldescr.html#gbltw">2.1.2 Heap Dump (<tt>heap=dump</tt>)</a></li>
+
+<li><a href="tooldescr.html#gblvd">2.1.3 CPU Usage Sampling Profiles (<tt>cpu=samples</tt>)</a></li>
+
+<li><a href="tooldescr.html#gbluw">2.1.4 CPU Usage Times Profile (<tt>cpu=times</tt>)</a></ul></li>
+
+<li><a href="tooldescr.html#ghscd">2.2 Java VisualVM</a></li>
+
+<li><a href="tooldescr.html#gblfi">2.3 JConsole Utility</a></li>
+
+<li><a href="tooldescr.html#gbldt">2.4 <tt>jdb</tt> Utility</a><ul>
+<li><a href="tooldescr.html#gbmlq">2.4.1 Attaching to a Process</a></li>
+
+<li><a href="tooldescr.html#gbmnc">2.4.2 Attaching to a Core File on the Same Machine</a></li>
+
+<li><a href="tooldescr.html#gbmog">2.4.3 Attaching to a Core File or a Hung Process from a Different Machine</a></ul></li>
+
+<li><a href="tooldescr.html#gblfj">2.5 <tt>jhat</tt> Utility</a><ul>
+<li><a href="tooldescr.html#gcadr">2.5.1 Standard Queries</a><ul>
+<li><a href="tooldescr.html#gcacg">2.5.1.1 All Classes Query</a></li>
+
+<li><a href="tooldescr.html#gcadu">2.5.1.2 Class Query</a></li>
+
+<li><a href="tooldescr.html#gcadh">2.5.1.3 Object Query</a></li>
+
+<li><a href="tooldescr.html#gcabt">2.5.1.4 Instances Query</a></li>
+
+<li><a href="tooldescr.html#gcadg">2.5.1.5 Roots Query</a></li>
+
+<li><a href="tooldescr.html#gcadq">2.5.1.6 Reachable Objects Query</a></li>
+
+<li><a href="tooldescr.html#gcacl">2.5.1.7 Instance Counts for All Classes Query</a></li>
+
+<li><a href="tooldescr.html#gcabw">2.5.1.8 All Roots Query</a></li>
+
+<li><a href="tooldescr.html#gcaci">2.5.1.9 New Instances Query</a></li>
+
+<li><a href="tooldescr.html#gdyha">2.5.1.10 Histogram Queries</a></ul></li>
+
+<li><a href="tooldescr.html#gcbdr">2.5.2 Custom Queries</a></li>
+
+<li><a href="tooldescr.html#gcaep">2.5.3 Heap Analysis Hints</a><ul>
+<li><a href="tooldescr.html#gcaen">2.5.3.1 What is keeping an object alive?</a></li>
+
+<li><a href="tooldescr.html#gcaem">2.5.3.2 Where was this object allocated?</a></ul></li>
+</ul></li>
+
+<li><a href="tooldescr.html#gbdio">2.6 <tt>jinfo</tt> Utility</a></li>
+
+<li><a href="tooldescr.html#gbdid">2.7 <tt>jmap</tt> Utility</a><ul>
+<li><a href="tooldescr.html#gblmn">2.7.1 Heap Configuration and Usage</a></li>
+
+<li><a href="tooldescr.html#gblmi">2.7.2 Heap Histogram of Running Process</a></li>
+
+<li><a href="tooldescr.html#gdvsh">2.7.3 Heap Histogram of Core File</a></li>
+
+<li><a href="tooldescr.html#gblmm">2.7.4 Getting Information on the Permanent Generation</a></ul></li>
+
+<li><a href="tooldescr.html#gblry">2.8 <tt>jps</tt> Utility</a></li>
+
+<li><a href="tooldescr.html#gcbcv">2.9 <tt>jrunscript</tt> Utility</a></li>
+
+<li><a href="tooldescr.html#gcaqg">2.10 <tt>jsadebugd</tt> Daemon</a></li>
+
+<li><a href="tooldescr.html#gblfh">2.11 <tt>jstack</tt> Utility</a><ul>
+<li><a href="tooldescr.html#gdvsu">2.11.1 Forcing a Stack Dump</a></li>
+
+<li><a href="tooldescr.html#gdvte">2.11.2 Printing Stack Trace From Core Dump</a></li>
+
+<li><a href="tooldescr.html#gdvst">2.11.3 Printing a Mixed Stack</a></ul></li>
+
+<li><a href="tooldescr.html#gblfb">2.12 <tt>jstat</tt> Utility</a><ul>
+<li><a href="tooldescr.html#gdvvs">2.12.1 Example of <tt>-gcutil</tt> Option</a></li>
+
+<li><a href="tooldescr.html#gdvxc">2.12.2 Example of <tt>-gcnew</tt> Option</a></li>
+
+<li><a href="tooldescr.html#gdvwc">2.12.3 Example of <tt>-gcoldcapacity</tt> Option</a></ul></li>
+
+<li><a href="tooldescr.html#gcfdd">2.13 <tt>jstatd</tt> Daemon</a></li>
+
+<li><a href="tooldescr.html#gblsf">2.14 <tt>visualgc</tt> Tool</a></li>
+
+<li><a href="tooldescr.html#gbmps">2.15 Ctrl-Break Handler</a><ul>
+<li><a href="tooldescr.html#gbmpn">2.15.1 Thread Dump</a></li>
+
+<li><a href="tooldescr.html#gbmpe">2.15.2 Deadlock Detection</a></li>
+
+<li><a href="tooldescr.html#gdtkh">2.15.3 Heap Summary</a></ul></li>
+
+<li><a href="tooldescr.html#gbmoy">2.16 Operating-System-Specific Tools</a><ul>
+<li><a href="tooldescr.html#gbmtd">2.16.1 Solaris Operating System</a></li>
+
+<li><a href="tooldescr.html#gbmtf">2.16.2 Linux Operating System</a></li>
+
+<li><a href="tooldescr.html#gbmtr">2.16.3 Windows Operating System</a></li>
+
+<li><a href="tooldescr.html#gbmtk">2.16.4 Tools Introduced in Solaris 10 OS</a><ul>
+<li><a href="tooldescr.html#gbmtl">2.16.4.1 Improvements in <tt>pmap</tt> Tool</a></li>
+
+<li><a href="tooldescr.html#gbmvd">2.16.4.2 Improvements in <tt>pstack</tt> Tool</a></li>
+
+<li><a href="tooldescr.html#gbmvp">2.16.4.3 Using the DTrace Tool</a><ul>
+<li><a href="tooldescr.html#gcvrl">Probe Providers in Java HotSpot VM</a></li>
+
+<li><a href="tooldescr.html#gcvrb">Example of Using DTrace</a></ul></li>
+</ul></li>
+</ul></li>
+
+<li><a href="tooldescr.html#gbmmt">2.17 Developing Diagnostic Tools</a><ul>
+<li><a href="tooldescr.html#gbmmi">2.17.1 <tt>java.lang.management</tt> Package</a></li>
+
+<li><a href="tooldescr.html#gbmla">2.17.2 <tt>java.lang.instrument</tt> Package</a></li>
+
+<li><a href="tooldescr.html#gbmmk">2.17.3 <tt>java.lang.Thread</tt> Class</a></li>
+
+<li><a href="tooldescr.html#gbmls">2.17.4 Java Virtual Machine Tools Interface</a></li>
+
+<li><a href="tooldescr.html#gbmlg">2.17.5 Java Platform Debugger Architecture</a></ul></li>
+</ul></li>
+
+<li><a href="memleaks.html">3.&#160;&#160;Troubleshooting Memory Leaks</a><ul>
+<li><a href="memleaks.html#gbywc">3.1 Meaning of <tt>OutOfMemoryError</tt></a><ul>
+<li><a href="memleaks.html#gbyvh">3.1.1 Detail Message: <tt>Java heap space</tt></a></li>
+
+<li><a href="memleaks.html#gbyuu">3.1.2 Detail Message: <tt>PermGen space</tt></a></li>
+
+<li><a href="memleaks.html#gbyvi">3.1.3 Detail Message: <tt>Requested array size exceeds VM limit</tt></a></li>
+
+<li><a href="memleaks.html#gbyvj">3.1.4 Detail Message: <tt>request &#60;size> bytes for &#60;reason>. Out of swap space?</tt></a></li>
+
+<li><a href="memleaks.html#gbyvb">3.1.5 Detail Message: <tt>&#60;reason> &#60;stack trace> (Native method)</tt></a></ul></li>
+
+<li><a href="memleaks.html#gbyvp">3.2 Crash Instead of <tt>OutOfMemoryError</tt></a></li>
+
+<li><a href="memleaks.html#gbywf">3.3 Diagnosing Leaks in Java Language Code</a><ul>
+<li><a href="memleaks.html#gbywh">3.3.1 NetBeans Profiler</a></li>
+
+<li><a href="memleaks.html#gbywe">3.3.2 Using the <tt>jhat</tt> Utility</a></li>
+
+<li><a href="memleaks.html#gcaql">3.3.3 Creating a Heap Dump</a><ul>
+<li><a href="memleaks.html#gdyth">3.3.3.1 HPROF Profiler</a></li>
+
+<li><a href="memleaks.html#gdysp">3.3.3.2 <tt>jmap</tt> Utility</a></li>
+
+<li><a href="memleaks.html#gdyta">3.3.3.3 JConsole Utility</a></li>
+
+<li><a href="memleaks.html#gdyrr">3.3.3.4 <tt>-XX:+HeapDumpOnOutOfMemoryError</tt> Command-line Option</a></ul></li>
+
+<li><a href="memleaks.html#gbyvz">3.3.4 Obtaining a Heap Histogram on a Running Process</a></li>
+
+<li><a href="memleaks.html#gbywi">3.3.5 Obtaining a Heap Histogram at OutOfMemoryError</a></li>
+
+<li><a href="memleaks.html#gbywm">3.3.6 Monitoring the Number of Objects Pending Finalization</a></li>
+
+<li><a href="memleaks.html#gbyvs">3.3.7 Third Party Memory Debuggers</a></ul></li>
+
+<li><a href="memleaks.html#gbyvk">3.4 Diagnosing Leaks in Native Code</a><ul>
+<li><a href="memleaks.html#gcaqm">3.4.1 Tracking All Memory Allocation and Free Calls</a></li>
+
+<li><a href="memleaks.html#gcaqu">3.4.2 Tracking Memory Allocation in a JNI Library</a></li>
+
+<li><a href="memleaks.html#gcaqr">3.4.3 Tracking Memory Allocation With OS Support</a></li>
+
+<li><a href="memleaks.html#gbyza">3.4.4 Using <tt>dbx</tt> to Find Leaks</a></li>
+
+<li><a href="memleaks.html#gbyzn">3.4.5 Using <tt>libumem</tt> to Find Leaks</a></ul></li>
+</ul></li>
+
+<li><a href="crashes.html">4.&#160;&#160;Troubleshooting System Crashes</a><ul>
+<li><a href="crashes.html#gbyzx">4.1 Sample Crashes</a><ul>
+<li><a href="crashes.html#gdywn">4.1.1 Determining Where the Crash Occurred</a></li>
+
+<li><a href="crashes.html#gbyzj">4.1.2 Crash in Native Code</a></li>
+
+<li><a href="crashes.html#gbyzz">4.1.3 Crash due to Stack Overflow</a></li>
+
+<li><a href="crashes.html#gbyzu">4.1.4 Crash in the HotSpot Compiler Thread</a></li>
+
+<li><a href="crashes.html#gbyzb">4.1.5 Crash in Compiled Code</a></li>
+
+<li><a href="crashes.html#gbyyz">4.1.6 Crash in <tt>VMThread</tt></a></ul></li>
+
+<li><a href="crashes.html#gbyzo">4.2 Finding a Workaround</a><ul>
+<li><a href="crashes.html#gbyzd">4.2.1 Crash in HotSpot Compiler Thread or Compiled Code</a></li>
+
+<li><a href="crashes.html#gbyzq">4.2.2 Crash During Garbage Collection</a></li>
+
+<li><a href="crashes.html#gbyzf">4.2.3 Class Data Sharing</a></ul></li>
+
+<li><a href="crashes.html#gbyzp">4.3 Microsoft Visual C++ Version Considerations</a></ul></li>
+
+<li><a href="hangloop.html">5.&#160;&#160;Troubleshooting Hanging or Looping Processes</a><ul>
+<li><a href="hangloop.html#gbyzy">5.1 Diagnosing a Looping Process</a></li>
+
+<li><a href="hangloop.html#gbzay">5.2 Diagnosing a Hung Process</a><ul>
+<li><a href="hangloop.html#gbzbf">5.2.1 Deadlock Detected</a></li>
+
+<li><a href="hangloop.html#gbzbe">5.2.2 Deadlock Not Detected</a></li>
+
+<li><a href="hangloop.html#gbzbv">5.2.3 No Thread Dump</a></ul></li>
+
+<li><a href="hangloop.html#gbzaw">5.3 Solaris 8 OS Thread Library</a></ul></li>
+
+<li><a href="signals.html">6.&#160;&#160;Integrating Signal and Exception Handling</a><ul>
+<li><a href="signals.html#gbzbl">6.1 Signal Handling on Solaris OS and Linux</a><ul>
+<li><a href="signals.html#gbzcj">6.1.1 Reducing Signal Usage</a></li>
+
+<li><a href="signals.html#gbzbh">6.1.2 Alternative Signals</a></li>
+
+<li><a href="signals.html#gbzcz">6.1.3 Signal Chaining</a></ul></li>
+
+<li><a href="signals.html#gbzdn">6.2 Exception Handling on Windows</a><ul>
+<li><a href="signals.html#gbzdi">6.2.1 Signal Handling in the HotSpot Virtual Machine</a></li>
+
+<li><a href="signals.html#gbzcv">6.2.2 Console Handlers</a></ul></li>
+</ul></li>
+
+<li><a href="bugreports.html">7.&#160;&#160;Submitting Bug Reports</a><ul>
+<li><a href="bugreports.html#gbvge">7.1 Checking for Existing Fixes in Update Releases</a></li>
+
+<li><a href="bugreports.html#gentextid-3147">7.2 Preparing to Submit a Bug Report</a></li>
+
+<li><a href="bugreports.html#gbkxq">7.3 Collecting Data for a Bug Report</a><ul>
+<li><a href="bugreports.html#gbkwm">7.3.1 Hardware Details</a></li>
+
+<li><a href="bugreports.html#gbkxm">7.3.2 Operating System</a></li>
+
+<li><a href="bugreports.html#gbkwp">7.3.3 JDK Version</a></li>
+
+<li><a href="bugreports.html#gbkyf">7.3.4 Command-Line Options</a></li>
+
+<li><a href="bugreports.html#gbkwl">7.3.5 Environment Variables</a></li>
+
+<li><a href="bugreports.html#gbkyz">7.3.6 Fatal Error Log</a></li>
+
+<li><a href="bugreports.html#gbkyo">7.3.7 Core or Crash Dump</a></li>
+
+<li><a href="bugreports.html#gbkyv">7.3.8 Detailed Description of the Problem</a></li>
+
+<li><a href="bugreports.html#gbkyn">7.3.9 Logs and Traces</a></li>
+
+<li><a href="bugreports.html#gbkzl">7.3.10 Results from Troubleshooting Steps</a></ul></li>
+
+<li><a href="bugreports.html#gbkyy">7.4 Collecting Core Dumps</a><ul>
+<li><a href="bugreports.html#gbkyt">7.4.1 Collecting Core Dumps on Solaris OS</a><ul>
+<li><a href="bugreports.html#gbkzo">7.4.1.1 Using the <tt>ShowMessageBoxOnError</tt> Option on Solaris OS</a></li>
+
+<li><a href="bugreports.html#gbkzh">7.4.1.2 Suspending a Process using <tt>truss</tt></a></ul></li>
+
+<li><a href="bugreports.html#gbkyp">7.4.2 Collecting Core Dumps on Linux</a><ul>
+<li><a href="bugreports.html#gbkyj">7.4.2.1 Using the <tt>ShowMessageBoxOnError</tt> Option on Linux</a></ul></li>
+
+<li><a href="bugreports.html#gbkzk">7.4.3 Reasons for Not Getting a Core File</a></li>
+
+<li><a href="bugreports.html#gbkzq">7.4.4 Collecting Crash Dumps on Windows</a><ul>
+<li><a href="bugreports.html#gblau">7.4.4.1 Configuring Dr. Watson</a></li>
+
+<li><a href="bugreports.html#gblav">7.4.4.2 Forcing a Crash Dump</a></ul></li>
+</ul></li>
+</ul></li>
+
+<li><a href="envvars.html">A.&#160;&#160;Environment Variables and System Properties</a><ul>
+<li><a href="envvars.html#gcbjw">A.1 <tt>JAVA_HOME</tt> Environment Variable</a></li>
+
+<li><a href="envvars.html#gbmsy">A.2 <tt>JAVA_TOOL_OPTIONS</tt> Environment Variable</a></li>
+
+<li><a href="envvars.html#gbmuf">A.3 <tt>java.security.debug</tt> System Property</a></ul></li>
+
+<li><a href="clopts.html">B.&#160;&#160;Command-Line Options</a><ul>
+<li><a href="clopts.html#gdaog">B.1 HotSpot VM Command-Line Options</a><ul>
+<li><a href="clopts.html#gdaxd">B.1.1 Dynamic Changing of Flag Values</a></li>
+
+<li><a href="clopts.html#gbzrr">B.1.2 <tt>-XX:+HeapDumpOnOutOfMemoryError</tt> Option</a></li>
+
+<li><a href="clopts.html#gbmum">B.1.3 <tt>-XX:OnError=</tt> Option</a></li>
+
+<li><a href="clopts.html#gbmui">B.1.4 <tt>-XX:+ShowMessageBoxOnError</tt> Option</a></li>
+
+<li><a href="clopts.html#gbzza">B.1.5 Other <tt>-XX</tt> Options</a></ul></li>
+
+<li><a href="clopts.html#gdano">B.2 Other Command-Line Options</a><ul>
+<li><a href="clopts.html#gbmtq">B.2.1 <tt>-Xcheck:jni</tt> Option</a></li>
+
+<li><a href="clopts.html#gbmtm">B.2.2 <tt>-verbose:class</tt> Option</a></li>
+
+<li><a href="clopts.html#gbmpt">B.2.3 <tt>-verbose:gc</tt> Option</a></li>
+
+<li><a href="clopts.html#gbmtv">B.2.4 <tt>-verbose:jni</tt> Option</a></ul></li>
+</ul></li>
+
+<li><a href="felog.html">C.&#160;&#160;Fatal Error Log</a><ul>
+<li><a href="felog.html#gbwcy">C.1 Location of Fatal Error Log</a></li>
+
+<li><a href="felog.html#gbmuz">C.2 Description of Fatal Error Log</a></li>
+
+<li><a href="felog.html#header">C.3 Header Format</a></li>
+
+<li><a href="felog.html#gbvki">C.4 Thread Section Format</a><ul>
+<li><a href="felog.html#gbwbw">C.4.1 Thread Information</a></li>
+
+<li><a href="felog.html#gbwcw">C.4.2 Signal Information</a></li>
+
+<li><a href="felog.html#gbwcu">C.4.3 Register Context</a></li>
+
+<li><a href="felog.html#gbwbx">C.4.4 Machine Instructions</a></li>
+
+<li><a href="felog.html#gbwcm">C.4.5 Thread Stack</a></li>
+
+<li><a href="felog.html#gbwcn">C.4.6 Further Details</a></ul></li>
+
+<li><a href="felog.html#gbvkd">C.5 Process Section Format</a><ul>
+<li><a href="felog.html#gbwcc">C.5.1 Thread List</a></li>
+
+<li><a href="felog.html#gbwbz">C.5.2 VM State</a></li>
+
+<li><a href="felog.html#gbwbv">C.5.3 Mutexes and Monitors</a></li>
+
+<li><a href="felog.html#gbwbu">C.5.4 Heap Summary</a></li>
+
+<li><a href="felog.html#gbwcl">C.5.5 Memory Map</a></li>
+
+<li><a href="felog.html#gbwck">C.5.6 VM Arguments and Environment Variables</a></li>
+
+<li><a href="felog.html#gdysd">C.5.7 Signal Handlers</a></ul></li>
+
+<li><a href="felog.html#gbvla">C.6 System Section Format</a></ul></li>
+
+<li><a href="tools-by-rel.html">D.&#160;&#160;Summary of Tools in This Release</a><ul>
+<li><a href="tools-by-rel.html#gciyg">D.1 Troubleshooting Tools Available in JDK 7</a><ul>
+<li><a href="tools-by-rel.html#gfmlt">D.1.1 Solaris OS and Linux</a></li>
+
+<li><a href="tools-by-rel.html#gfmlo">D.1.2 Windows Operating System</a></ul></li>
+
+<li><a href="tools-by-rel.html#gentextid-4507">D.2 Changes to Troubleshooting Tools in JDK 7</a></ul></li>
+</ul>
+
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+      </td>
+
+		<td width="70%">
+			<table class="MastheadTable" width="100%">
+				<tr>
+					<td cols="2">
+						<div class="header-links-top">
+						</div>
+					</td>
+				</tr>
+
+			</table>
+
+
+			<div class="TitleDiv">      	 
+				<h2 class="DocTitle">Troubleshooting Guide for HotSpot VM</h2>
+				<h3 class="SubTitle"></h3>
+				<h4 class="TitleDate">June 2011</h4>
+				<p class="AbstractTitlePage">
+          This document is a guide to help troubleshoot problems that might arise
+          with applications that are developed using the release of Java Platform,
+          Standard Edition Development Kit 7 (JDK 7). In particular,
+          this guide addresses possible problems between the applications and the
+          Java HotSpot virtual machine. The document provides a description of the
+          tools, command line options, and other help in analyzing a problem. The
+          document also provides guidance on how to approach some general issues
+          such as a crash, hang, or memory resource issues. Finally, the document
+          provides direction for data collection and bug report preparation.
+				</p>
+			</div>
+
+			<div class="largeLogo">
+				<img src="graphics/smallOracleLogo.gif">
+			</div>
+
+
+			<div class="tocpagefooterlinks">
+				Copyright &#169;1995, 2011,  Oracle and/or its affiliates. All rights reserved. <a href="docinfo.html">Legal Notices</a>
+			</div>
+		</td>
+	</tr>
+</tbody>
+</table>
+
+</body>
+</html>
+

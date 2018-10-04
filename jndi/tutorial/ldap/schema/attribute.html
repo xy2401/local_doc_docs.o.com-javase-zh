@@ -1,0 +1,339 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Attribute Type Definitions</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="object.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="syntax.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Schema</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Attribute Type Definitions
+</h2>
+<p>
+<blockquote>
+
+An attribute type definition specifies
+the attribute's syntax and how attributes of that
+type are compared and sorted.
+The attribute types in the directory form a class hierarchy.
+For example, the <tt>"commonName"</tt> attribute type is a subclass of
+the <tt>"name"</tt> attribute type. However, 
+not many LDAP servers support
+attribute subclassing.
+<p>
+In the schema tree, 
+the name <tt>"AttributeDefinition"</tt> is bound to a flat context 
+that contains
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html"><tt>DirContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     objects that represent attribute type definitions in the schema. For example,
+if a directory supports a <tt>"commonName"</tt> attribute, then the 
+<tt>"AttributeDefinition"</tt>
+context will have a binding with the name <tt>"commonName"</tt> that is bound to a
+<TT>DirContext</TT>
+object.
+<P>Each object in the <tt>"AttributeDefinition"</tt> context has the mandatory and optional attributes listed in 
+the following table.
+<BR>&nbsp;
+<CENTER><TABLE BORDER CELLPADDING=3 WIDTH="70%">
+<TR>
+<TH>Attribute Identifier</TH>
+
+<TH>Attribute Value Description</TH>
+</TR>
+
+<TR>
+<TD>NUMERICOID (<FONT COLOR="#CC0000">mandatory</FONT>)</TD>
+
+<TD>Unique object identifier (OID)</TD>
+</TR>
+
+<TR>
+<TD>NAME</TD>
+
+<TD>Attribute's name</TD>
+</TR>
+
+<TR>
+<TD>DESC</TD>
+
+<TD>Attribute's description</TD>
+</TR>
+
+<TR>
+<TD>OBSOLETE</TD>
+
+<TD><tt>"true"</tt> if obsolete; <tt>"false"</tt> or absent otherwise</TD>
+</TR>
+
+<TR>
+<TD>SUP</TD>
+
+<TD>Name of superior attribute type from which this attribute's type is
+derived</TD>
+</TR>
+
+<TR>
+<TD>EQUALITY</TD>
+
+<TD>Name or OID of the matching rule if equality matching is allowed; absent
+otherwise</TD>
+</TR>
+
+<TR>
+<TD>ORDERING</TD>
+
+<TD>Name or OID of the matching rule if ordering matching is allowed; absent otherwise</TD>
+</TR>
+
+<TR>
+<TD>SUBSTRING</TD>
+
+<TD>Name or OID of the matching rule if substring matching is allowed; absent
+otherwise</TD>
+</TR>
+
+<TR>
+<TD>SYNTAX</TD>
+
+<TD>Numeric OID of the syntax of values of this type</TD>
+</TR>
+
+<TR>
+<TD>SINGLE-VALUE</TD>
+
+<TD><tt>"true"</tt> if the attribute not multivalued; <tt>"false"</tt> or absent otherwise.</TD>
+</TR>
+
+<TR>
+<TD>COLLECTIVE</TD>
+
+<TD><tt>"true"</tt> if the attribute is collective; <tt>"false"</tt> or absent otherwise.</TD>
+</TR>
+
+<TR>
+<TD>NO-USER-MODIFICATION</TD>
+
+<TD><tt>"true"</tt> if the attribute is not user-modifiable; <tt>"false"</tt> or absent otherwise.</TD>
+</TR>
+
+<TR>
+<TD>USAGE</TD>
+
+<TD>Description of attribute usage</TD>
+
+</TR>
+</TABLE></CENTER>
+
+<P>These attributes correspond to the definition of "AttributeTypeDescription" in
+<A HREF="http://www.ietf.org/rfc/rfc2252.txt">RFC 2252</A>.
+All of the attribute values are represented by the <TT>java.lang.String</TT>
+class.
+Some directories do not publish all of the schema data. For example, 
+the <a href="http://www.sun.com/">SunONE Directory Server v5.1</a>
+does not publish the equality, ordering, and substring rules for its
+attribute definitions even though the server does support them for
+certain attributes.  In these cases, the schema objects do not completely
+describe the attribute definitions.
+
+<h4>Retrieving the Schema Object of an Attribute Type Definition</h4>
+
+To retrieve the schema object of an attribute type definition,
+you look for it in the schema tree.
+For example, you can obtain the schema object representing the 
+<tt>"cn"</tt> attribute
+by using the <a href=src/LookupAttributeDefn.java>following code</a>.
+<BLOCKQUOTE>
+<PRE>
+// Get the schema tree root
+DirContext schema = ctx.getSchema("");
+
+// Get the schema object for "cn"
+DirContext cnSchema = (DirContext)schema.lookup("AttributeDefinition/cn");
+</pre></blockquote>
+If you get the attributes of the <tt>cnSchema</tt> schema object, 
+then you will see the following.
+<blockquote><pre>
+NUMERICOID: 2.5.4.3
+NAME: cn 
+SYNTAX: 1.3.6.1.4.1.1466.115.121.1.15 
+DESC: Standard Attribute
+</pre></blockquote>
+<p>
+You can use not only <tt>lookup()</tt> 
+to retrieve schema objects from the schema tree, but also
+methods such as
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><tt>list()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    or 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.directory.SearchControls)"><tt>search()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(javax.naming.Name, java.lang.String, javax.naming.directory.SearchControls)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<h4>Getting an Attribute's Type Definition</h4>
+<p>
+Given an
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attribute.html"><tt>Attribute</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attribute.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   object that represents an LDAP attribute, 
+you can get its schema object by invoking
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attribute.html#getAttributeDefinition()"><tt>getAttributeDefinition()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attribute.html#getAttributeDefinition()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    on it.
+Thus another way of getting the schema object for <tt>"cn"</tt> is to
+get a <tt>"cn"</tt> attribute and then invoke <tt>getAttributeDefinition()</tt>.
+Here's <a href=src/GetAttributeDefn.java>an example</a>.
+<blockquote><pre>
+// Get an attribute of that type
+Attributes attrs = ctx.getAttributes("cn=Ted Geisel, ou=People",
+    new String[]{"cn"});
+Attribute cnAttr = attrs.get("cn");
+
+// Get its attribute type definition
+DirContext cnSchema = cnAttr.getAttributeDefinition();
+</pre></blockquote>
+
+<h4>Adding a New Attribute Type Definition</h4>
+
+<blockquote>
+<hr>
+<strong>Before you go on: </strong>
+See the <a href="object.html#ADD">Object Class Definitions section</a>
+for notes regarding updating the schema.
+<hr>
+</blockquote>
+<p>
+Adding a new attribute type definition to the schema is like adding a new entry
+to the directory.
+This is because the schema tree and schema objects are
+<tt>DirContext</tt> objects.
+<p>
+Here's <a href=src/AddAttributeDefn.java>an example</a> that adds a new
+attribute type definition 
+(<tt>"fooAttr"</tt>)
+to the schema. It first declares the attributes that
+describe the new attribute type definition and then adds the definition
+to the schema by using
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#createSubcontext(java.lang.String, javax.naming.directory.Attributes)"><tt>DirContext.createSubcontext()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#createSubcontext(java.lang.String, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<blockquote><pre>
+// Specify attributes for the schema object
+Attributes attrs = new BasicAttributes(true); // Ignore case
+attrs.put("NUMERICOID", "1.3.6.1.4.1.42.2.27.4.2.3.1.1.2");
+attrs.put("NAME", "fooAttr");
+attrs.put("DESC", "for JNDITutorial example only");
+attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15");
+
+// Get the schema tree root
+DirContext schema = ctx.getSchema("");
+
+// Add the new schema object for "fooAttr"
+DirContext newAttr = schema.createSubcontext("AttributeDefinition/fooAttr", attrs);
+</pre></blockquote>
+
+Some servers might modify the definition before adding it to the schema.
+To check the newly added definition, use a new initial context
+to read the definition so that any cached definition is not used.
+
+<h4>Modifying an Attribute Type Definition</h4>
+
+<blockquote>
+<hr>
+<strong>Note:</strong>
+In versions of the LDAP provider prior to the Java 2 SDK, v1.4,
+you cannot modify an existing attribute definition.
+In those releases, you must first delete the existing definition 
+and then add the updated version.
+<p>
+<strong>Before you go on: </strong>
+See the <a href="object.html#ADD">Adding a New Object Class section</a>
+for notes regarding updating the schema.
+<hr>
+</blockquote>
+
+Modifying an existing attribute definition in the schema is like modifying an entry
+in the directory.
+Here's <a href=src/ModifyAttributeDefn.java>an example</a> that modifies
+the <tt>"fooAttr"</tt> attribute definition to be single-valued by using
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#modifyAttributes(java.lang.String, javax.naming.directory.ModificationItem[])"><tt>DirContext.modifyAttributes()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#modifyAttributes(java.lang.String, javax.naming.directory.ModificationItem[])"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+
+<blockquote><pre>
+// Get the schema tree root
+DirContext schema = ctx.getSchema("");
+
+// Modify the schema object for "fooAttr"
+schema.modifyAttributes("AttributeDefinition/fooAttr",
+    new ModificationItem[]{new ModificationItem(
+	DirContext.ADD_ATTRIBUTE, 
+	new BasicAttribute("SINGLE-VALUE", "true"))});
+</pre></blockquote>
+
+Some servers might modify the definition before performing
+the update on the schema or ignore the update.
+To check the newly updated definition, use a new 
+initial context to read the definition
+so that any cached definition is not used.
+
+<h4>Deleting an Attribute Type Definition</h4>
+
+<blockquote>
+<hr>
+<strong>Before you go on: </strong>
+See the <a href=object.html#ADD>Object Class Definitions section</a> 
+for notes regarding updating the schema.
+<hr>
+</blockquote>
+
+Deleting an existing attribute type definition
+from the schema is like deleting an entry from the directory.
+Here's <a href=src/DeleteAttributeDefn.java>an example</a> that removes
+the attribute type definition <tt>"fooAttr"</tt> from the schema by using
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#destroySubcontext(java.lang.String)"><tt>DirContext.destroySubcontext()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#destroySubcontext(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<blockquote><pre>
+// Get the schema tree root
+DirContext schema = ctx.getSchema("");
+
+// Remove the schema object for "fooAttr"
+schema.destroySubcontext("AttributeDefinition/fooAttr");
+</blockquote></pre>
+
+Some servers might not let you delete an attribute type definition that's being used
+by entries in the directory. You might be able to get around this restriction by
+turning off schema checking.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="object.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="syntax.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Schema</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

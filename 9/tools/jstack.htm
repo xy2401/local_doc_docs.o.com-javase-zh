@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>jstack</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="You use the jstack command to print Java stack traces of Java threads for a specified Java process. This command is experimental and unsupported." />
+<meta name="dcterms.created" content="2017-10-12T08:04:07Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Tools Reference" />
+<meta name="dcterms.identifier" content="E61612-05" />
+<meta name="dcterms.isVersionOf" content="JSWOR" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="jmap.htm" title="Previous" type="text/html" />
+<link rel="Next" href="scripting-commands.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSWOR.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSWOR.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSWOR.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-721096FC-237B-473C-A461-DBBBB79E4F6A"></a> <span id="PAGE" style="display:none;">62/65</span> <!-- End Header -->
+<a id="JSWOR748"></a>
+<h1 id="JSWOR-GUID-721096FC-237B-473C-A461-DBBBB79E4F6A" class="sect1">jstack</h1>
+<div>
+<p><span>You use the <code class="codeph">jstack</code> command to print Java stack traces of Java threads for a specified Java process. This command is experimental and unsupported.</span></p>
+<div class="section">
+<p class="subhead1">Synopsis</p>
+<pre dir="ltr">
+jstack [<span class="variable">options</span>] <span class="variable">pid</span>
+</pre>
+<dl>
+<dt class="dlterm"><a id="GUID-721096FC-237B-473C-A461-DBBBB79E4F6A__GUID-53F10D6E-23C4-42D8-8660-F3540E9F0F5C"><!-- --></a><code class="codeph"><span class="variable">options</span></code></dt>
+<dd>
+<p>This represents the <code class="codeph">jstack</code> command-line options. See <a href="jstack.htm#GUID-721096FC-237B-473C-A461-DBBBB79E4F6A__BABHGEEI">Options for the jstack Command</a>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-721096FC-237B-473C-A461-DBBBB79E4F6A__GUID-E1627029-8F9B-4BDB-B189-41F2BFED82C2"><!-- --></a><code class="codeph"><span class="variable">pid</span></code></dt>
+<dd>
+<p>The process ID for which the stack trace is printed. The process must be a Java process. To get a list of Java processes running on a machine, use the <a href="jps.htm#GUID-6EB65B96-F9DD-4356-B825-6146E9EEC81E" title="You use the jps command to list the instrumented JVMs on the target system. This command is experimental and unsupported.">jps</a> command.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Description</p>
+<p>The <code class="codeph">jstack</code> command prints Java stack traces of Java threads for a specified Java process. For each Java frame, the full class name, method name, byte code index (BCI), and line number, when available, are printed. C++ mangled names aren&rsquo;t demangled. To demangle C++ names, the output of this command can be piped to <code class="codeph">c++filt</code>. When the specified process is running on a 64-bit JVM, you might need to specify the <code class="codeph">-J-d64</code> option, for example: <code class="codeph">jstack -J-d64<span class="variable">pid</span></code> .</p>
+<div class="infobox-note" id="GUID-721096FC-237B-473C-A461-DBBBB79E4F6A__GUID-E41BB25D-6D09-4660-9049-3FD7AE11D129">
+<p class="notep1">Note:</p>
+<p>This command is unsupported and might not be available in future releases of the JDK. In Windows Systems where the <code class="codeph">dbgeng.dll</code> file isn&rsquo;t present, the Debugging Tools for Windows must be installed so that these tools work. The <code class="codeph">PATH</code> environment variable needs to contain the location of the <code class="codeph">jvm.dll</code> that is used by the target process, or the location from which the core dump file was produced.</p>
+</div>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-721096FC-237B-473C-A461-DBBBB79E4F6A__BABHGEEI">
+<p class="subhead1">Options for the jstack Command</p>
+<dl>
+<dt class="dlterm"><a id="GUID-721096FC-237B-473C-A461-DBBBB79E4F6A__GUID-AA57AD1F-DF99-49E3-9B17-E05528971B75"><!-- --></a><code class="codeph">-l</code></dt>
+<dd>
+<p>The long listing option prints additional information about locks.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-721096FC-237B-473C-A461-DBBBB79E4F6A__GUID-3990D2BB-258B-489C-ABA4-964BA98AEEBA"><!-- --></a><code class="codeph">-h</code> or <code class="codeph">&mdash;help</code></dt>
+<dd>
+<p>Prints a help message.</p>
+</dd>
+</dl>
+</div>
+<!-- class="section" --></div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment179">
+<tr>
+<td class="cellalignment191">
+<table class="cellalignment184">
+<tr>
+<td class="cellalignment183"><a href="jmap.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment183"><a href="scripting-commands.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment193">
+<table class="cellalignment182">
+<tr>
+<td class="cellalignment183"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment183"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment183"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

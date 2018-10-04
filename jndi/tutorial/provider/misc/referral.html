@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Adding Referral Support</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="bundle.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="link.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Adding Referral Support
+</h2>
+<p>
+<blockquote>
+
+<blockquote>
+<hr>
+<strong>Prerequisite:</strong> 
+You should be familiar with referrals before reading this section.
+Referrals are covered in the
+
+<a target="_top" href="../../ldap/referral/index.html">Referrals</a> <a href="../../ldap/referral/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson.
+<hr>
+</blockquote>
+
+A service provider typically supports referrals only
+when the underlying naming/directory service provides such a feature.
+Only the <a href=http://www.ietf.org/rfc/rfc2251.txt>LDAP</a>
+and LDAP-like services support referrals.
+<p>
+How referrals are supported is an integral part of
+the service provider implementation.
+It permeates every aspect of how
+responses from the underlying LDAP service are processed.
+This section touches on only a few topics related to implementing
+referrals.
+
+<h4>Referral Exception</h4>
+
+A referral is represented by the abstract class
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html"><tt>ReferralException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   or its subclass
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapReferralException.html"><tt>LdapReferralException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapReferralException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+The latter should be used by service providers that support
+<a href=http://www.ietf.org/rfc/rfc2251.txt>LDAP</a> controls.
+<p>
+Providing a concrete implementation for this class is key
+to providing referral support.
+The implementation's main task is to return a <em>referral context</em> for
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html#getReferralContext()"><tt>getReferralContext()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html#getReferralContext()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. 
+This method has a couple of overloads, including one 
+declared in
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapReferralException.html"><tt>LdapReferralException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapReferralException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+It is responsible for generating a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><tt>Context</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   instance that represents the location identified by the referral.
+A referral is defined as a URL in the LDAP. 
+One way to create the referral context is to use the 
+JNDI's support for URLs, for example by creating a 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html"><tt>Reference</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    using the URL and then using
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/NamingManager.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable)"><tt>NamingManager.getObjectInstance()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/NamingManager.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    to get the context. 
+<p>
+Once the user program has a referral context, it is supposed to invoke on
+the context the original method that caused the <tt>ReferralException</tt>
+to be thrown by using the
+original arguments.  Some of the original arguments might be affected
+by the referral's contents, including the name, search scope,
+search filter, and returning attributes.
+(See 
+<A HREF="http://tools.ietf.org/id/draft-ietf-ldapext-namedref-00.txt">draft-ietf-ldapext-namedref-00.txt</A> for details.)
+Your implementation of the referral context is responsible 
+for modifying and/or replacing
+the supplied arguments with the ones from the referral.
+Here is an example of how 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><tt>bind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   might be implemented in the referral context.
+<blockquote><pre>
+public void bind(Name name, Object obj) throws NamingException {
+    // This referral has been skipped; throw a ReferralException
+    if (skipThisReferral) {
+	throw new ReferralExceptionImpl(untriedReferrals);
+    }
+
+    // Override the name from the referral URL if appropriate
+    Name nm = (urlName == null ? name : urlName);
+
+    // Invoke the method on the real referral context
+    refCtx.bind(nm, obj);
+}
+</blockquote></pre>
+
+<h4>Skipping Referrals</h4>
+
+A single LDAP referral entry might contain several alternate but
+equivalent referral URLs.  A <tt>ReferralException</tt> actually
+represents a single referral URL. As a result, the user program can choose from
+the alternates by using
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html#skipReferral()"><tt>skipReferral()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ReferralException.html#skipReferral()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+The implementation of a <tt>ReferralException</tt> must take this into
+account and generate possibly multiple <tt>ReferralException</tt>s
+from a single LDAP referral entry.
+After the user program calls <tt>skipReferral()</tt>, it must then call
+<tt>getReferralContext()</tt> to get to a valid context.
+That context's sole purpose is to provide a context whose methods simply
+throw a <tt>ReferralException</tt> for the <em>next</em> referral URL in the list
+of alternates.
+<p>
+Note that if the user program successfully follows one alternate,
+then all other untried alternates should be discarded.
+
+<h4>Referral Modes</h4>
+
+A JNDI program determines how it wants to handle referrals by using the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#REFERRAL"><tt>Context.REFERRAL</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#REFERRAL"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     (<tt>"java.naming.referral"</tt>)
+environment property.
+In this way, the user program can specify whether
+it wants referrals to be followed automatically, followed
+manually, or ignored.
+As a service provider developer, you must handle all three cases.
+<p>
+When referrals are followed automatically, you should put
+in a mechanism to limit the number of referrals followed
+so as to prevent referrals from being followed indefinitely due 
+to misconfigured servers.
+This can be done by, for example, maintaining a count in
+the referral exception and referral context and then updating them
+as each referral exception is processed.
+<p>
+When referrals are followed manually, you must do some
+bookkeeping to track which is the "current" referral, as explained 
+in the previous section.
+<p>
+LDAP referrals currently are specified by an Internet-draft,
+<A HREF="http://tools.ietf.org/id/draft-ietf-ldapext-namedref-00.txt">draft-ietf-ldapext-namedref-00.txt</A>.
+Not all servers support this Internet-draft.
+Your LDAP service provider must decide how to support referrals.
+If it uses this Internet-draft, then it might not be fully interoperable
+with servers that do not.
+This might cause the servers always to return referrals in LDAP responses
+regardless of what your provider does.
+One way to handle this mismatch is for your provider to throw a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/PartialResultException.html"><tt>PartialResultException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/PartialResultException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    to indicate that there might be more results than those returned.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="bundle.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="link.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>
+

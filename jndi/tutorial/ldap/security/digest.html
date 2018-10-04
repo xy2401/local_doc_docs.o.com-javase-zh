@@ -1,0 +1,422 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Digest-MD5 Authentication</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="sasl.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="crammd5.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Security</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Digest-MD5 Authentication
+</h2>
+<p>
+<blockquote>
+
+<blockquote>
+<hr>
+<strong>Note:</strong>
+The LDAP provider's Digest-MD5 implementation uses the
+<a href=http://java.sun.com/products/jce>Java Cryptography Extension (JCE)</a>,
+version 1.2 or higher.
+If you are using the <a href=http://java.sun.com/j2se/1.4>Java 2 SDK, v1.4</a>, then the JCE is already included so you
+need to take no further action.
+Otherwise, you need to install the JCE and JCE providers in order for
+the Digest-MD5 examples to work.
+<hr>
+</blockquote>
+
+<em>Digest-MD5 authentication</em> is the required authentication
+mechanism for LDAP v3 servers 
+(<a href="http://www.ietf.org/rfc/rfc2829.txt">RFC 2829</a>).
+Because the use of SASL is part of the LDAP v3
+(<A HREF="http://www.ietf.org/rfc/rfc2251.txt">RFC 2251</A>), 
+servers that support only the LDAP v2 do not support Digest-MD5.
+<p>
+The Digest-MD5 mechanism is described in
+<a href="http://www.ietf.org/rfc/rfc2831.txt">RFC 2831</a>.
+It is based on the HTTP Digest Authentication 
+(<a href="http://www.ietf.org/rfc/rfc2617.txt">RFC 2617</a>).
+In Digest-MD5, the LDAP server sends data that includes
+various authentication options that it is willing to support plus
+a special token to the LDAP client.
+The client responds by sending an encrypted response that indicates the
+authentication options that it has selected. The response is encrypted
+in such a way that proves that the client knows its password.
+The LDAP server then decrypts and verifies the client's response.
+<p>
+To use the Digest-MD5 authentication mechanism, you must set the
+authentication environment properties as follows.
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_AUTHENTICATION><tt>Context.SECURITY_AUTHENTICATION</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_AUTHENTICATION><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<dd>
+Set to the string <tt>"DIGEST-MD5"</tt>.
+</dd>
+</dl>
+
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_PRINCIPAL><tt>Context.SECURITY_PRINCIPAL</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_PRINCIPAL><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<dd>
+Set to the principal name.
+This is a server-specific format. Some servers support a login user id
+format, such as that defined for Unix or Windows login screens.
+Others accept a distinguished name.
+Yet others use the authorization id formats defined in
+<a href="http://www.ietf.org/rfc/rfc2829.txt">RFC 2829</a>. In that RFC,
+the name should be either the string <tt>"dn:"</tt>, followed by the
+fully qualified DN of the entity being authenticated,
+or the string <tt>"u:"</tt>, followed by the user id.
+Some servers accept multiple formats.
+Examples of some of these formats are <tt>"cuser"</tt>,
+<tt>"dn: cn=C. User, ou=NewHires, o=JNDITutorial"</tt>, and
+<tt>"u: cuser"</tt>
+The data type of this property must be <tt>java.lang.String</tt>.
+</dd>
+</dl>
+<dl>
+<dt>
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_CREDENTIALS><tt>Context.SECURITY_CREDENTIALS</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#SECURITY_CREDENTIALS><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<dd>
+Set to the password of the principal (e.g., <tt>"mysecret"</tt>).
+It is of type <tt>java.lang.String</tt>, <tt>char</tt> array (<tt>char[]</tt>),
+or <tt>byte</tt> array (<tt>byte[]</tt>).
+If the password is a <tt>java.lang.String</tt> or <tt>char[]</tt>, 
+then it is encoded by using UTF-8 for transmission to the server.
+If the password is a <tt>byte[]</tt>, then it is transmitted as is to the server.
+</dd>
+</dl>
+
+<p>
+The <a href=src/Digest.java>following example</a> shows how a 
+client performs authentication using Digest-MD5 to an LDAP server.
+<blockquote><pre>
+// Set up the environment for creating the initial context
+Hashtable env = new Hashtable();
+env.put(Context.INITIAL_CONTEXT_FACTORY, 
+    "com.sun.jndi.ldap.LdapCtxFactory");
+env.put(Context.PROVIDER_URL, "ldap://localhost:389/o=JNDITutorial");
+
+// Authenticate as C. User and password "mysecret"
+env.put(Context.SECURITY_AUTHENTICATION, "DIGEST-MD5");
+env.put(Context.SECURITY_PRINCIPAL, "dn:cn=C. User, ou=NewHires, o=JNDITutorial");
+env.put(Context.SECURITY_CREDENTIALS, "mysecret");
+
+// Create the initial context
+DirContext ctx = new InitialDirContext(env);
+
+// ... do something useful with ctx
+</blockquote></pre>
+
+<blockquote>
+<hr>
+<strong>Note:</strong>
+
+The <a href="http://www.sun.com/">SunONE Directory Server, v5</a>
+supports the Digest-MD5 authentication mechanism for users that have
+clear-text passwords. You must set the password encryption mode <em>before</em>
+you create the user. If you have already created the user, delete it
+and recreate it.
+To set the password encryption mode using
+the Administration Console, select the Configuration tab and the Data
+node. In the Passwords pane, select the
+"No encryption (CLEAR)" option for
+"Password encryption."
+The server accepts simple user names (that is, the value of the
+<tt>"uid"</tt> attribute for entries that have one) and the "dn:" format
+of user names.
+See the server's documentation for detailed information.
+<hr>
+</blockquote>
+
+
+<h4>Specifying the Realm</h4>
+
+A <em>realm</em> defines the namespace from which the authentication
+entity (the value of the <tt>Context.SECURITY_PRINCIPAL</tt> property)
+is selected. A server might have multiple realms.  For example, a
+server for a university might be configured to have two realms, one
+for its student users and another for faculty users.  Realm
+configuration is done by the directory administrator.  Some
+directories have a default single realm. For example, the i-Planet
+Directory Server, v5, uses the fully qualified hostname of the machine
+as the default realm.
+<p>
+In Digest-MD5 authentication, you must authenticate to a specific realm.
+You may use the following authentication environment property to
+specify the realm. If you do not specify a realm, then any one of the
+realms offered by the server will be used.
+<dl>
+<dt>
+<tt>java.naming.security.sasl.realm</tt>
+<dd>
+Set to the realm of the principal.
+This is a deployment-specific and/or server-specific case-sensitive string. 
+It identifies the realm or domain
+from which the principal name 
+(<tt>Context.SECURITY_PRINCIPAL</tt>) should be chosen.
+If this realm does not match one of the realms offered by the server,
+then the authentication fails.
+</dd>
+</dl>
+<p>
+The <a href=src/DigestRealm.java>following example</a> shows how to
+set the environment properties for
+performing authentication using Digest-MD5 and a specified realm.
+To make this example work in your environment, you must change
+the source code so that the realm value reflects what has been
+configured on your directory server.
+
+<blockquote><pre>
+// Authenticate as C. User and password "mysecret" in realm "JNDITutorial"
+env.put(Context.SECURITY_AUTHENTICATION, "DIGEST-MD5");
+env.put(Context.SECURITY_PRINCIPAL, "dn:cn=C. User, ou=NewHires, o=JNDITutorial");
+env.put(Context.SECURITY_CREDENTIALS, "mysecret");
+env.put("java.naming.security.sasl.realm", "JNDITutorial");
+</pre></blockquote>
+
+<h4>More Than Just Authentication</h4>
+
+The Digest-MD5 SASL mechanism 
+also supports the establishment of a negotiated security layer after
+successful authentication. The security layer can perform
+integrity and privacy protection. The security layer is specified by
+the quality of protection (qop), which is negotiated with the server during 
+authentication. You specify the qops that your application can tolerate,
+listing the most desirable qop first. For example, if your application
+prefers privacy protection but can live with integrity-only protection,
+then you would specify <tt>"auth-conf,auth-int"</tt> as the value of
+<a href=sasl.html#qop><tt>"javax.security.sasl.qop"</tt></a> property. 
+If the server supports
+only authentication, then the authentication would fail; otherwise,
+either privacy or integrity would be selected depending on
+server support, with priority given to privacy.
+<p>
+The <a href=src/DigestIntegrity.java>following example</a> shows how to
+set the environment properties for
+performing authentication using Digest-MD5 with integrity
+protection.
+<blockquote><pre>
+// Authenticate as C. User and password "mysecret"
+env.put(Context.SECURITY_AUTHENTICATION, "DIGEST-MD5");
+env.put(Context.SECURITY_PRINCIPAL, "dn:cn=C. User, ou=NewHires, o=JNDITutorial");
+env.put(Context.SECURITY_CREDENTIALS, "mysecret");
+
+// Request integrity protection
+env.put("javax.security.sasl.qop", "auth-int");
+</pre></blockquote>
+<p>
+
+Digest-MD5 supports five different ciphers for privacy protection.
+The cipher selected is negotiated between the client and server during
+authentication. These five ciphers are mapped to
+the <tt>"high"</tt>, <tt>"medium"</tt>, and <tt>"low"</tt> settings defined for the
+<a href=sasl.html#strength><tt>"javax.security.sasl.strength"</tt></a>
+environment property. Here is a table that lists the ciphers, their
+mappings and descriptions.
+<p>
+<center><table border cellpadding=3 width="70%">
+<tr>
+<th>Cipher</th>
+<th>QOP Mapping</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>RC4 (40 bit)</td>
+<td>low</td>
+<td>
+The RC4 cipher with 40 bit key.
+</td>
+</tr>
+
+<tr>
+<td>RC4 (56 bit)</td>
+<td>medium</td>
+<td>
+The RC4 cipher with 56 bit key.
+</td>
+</tr>
+
+<tr>
+<td>RC4 (128 bit)</td>
+<td>high</td>
+<td>
+The RC4 cipher with 128 bit key.
+</td>
+</tr>
+
+<tr>
+<td>DES</td>
+<td>medium</td>
+<td>
+The Data Encryption Standard (DES) cipher in cipher
+block chaining (CBC) mode with a 56 bit key.
+</td>
+</tr>
+
+<tr>
+<td>Triple DES</td>
+<td>high</td>
+<td>
+The "triple DES" cipher in CBC mode with EDE with the same key
+for each E stage (aka "two keys mode") for a total key length
+of 112 bits.
+</td>
+</tr>
+
+</table>
+</center>
+
+<p>
+In the Digest-MD5 protocol, the server sends the client a list of
+ciphers that it supports. The client must select a cipher from this
+list. The selection is determined by the setting of the
+<tt>"javax.security.sasl.strength"</tt> environment property and the
+ciphers configured on the client's platform.  For example, 
+suppose the server offers all five ciphers and the client has not
+set the <tt>"javax.security.sasl.strength"</tt> property.
+This effectively means that the client is requesting 
+strengths in order of preference of <tt>"high"</tt>, <tt>"medium"</tt>, and 
+<tt>"low"</tt>.
+If triple DES or RC4 with 128 bits is available on the client's platform, 
+then it will be the selected cipher.
+Otherwise, if DES or RC4 with 56 bits
+is available on the client's platform, then it will be selected. And so on.
+If the client supports none of the listed ciphers,
+then the SASL authentication fails.
+<p>
+The LDAP provider uses the 
+<a href=http://java.sun.com/products/jce>Java Cryptography Extension (JCE)</a>
+for cipher support.  For information about installing and configuring
+Java security providers, including JCE providers, see the 
+<a href=http://java.sun.com/j2se/1.4.1/docs/guide/security/CryptoSpec.html#ProviderInstalling><em>Installing Providers</em> section</a> 
+of the Java Cryptography Architecture API Specification & Reference document.
+The ciphers available from the installed JCE providers will determine
+which ciphers the LDAP provider supports.
+
+<blockquote>
+<hr>
+<strong>Note 1:</strong>
+
+The default JCE provider that is in the <a href=http://java.sun.com/j2se/1.4>Java 2 SDK, v1.4</a>, 
+supports only
+DES and triple DES with a key length limit of 64. To use the
+<tt>"high"</tt> privacy strength setting, you need to remove from the JCE
+the restriction on cryptographic strengths.
+Such restrictions are specified in <em>jurisdiction policy files</em>.
+See the
+<a href=http://java.sun.com/products/jce>JCE documentation</a>
+for information on how to replace jurisdiction policy files.
+To use the RC4 ciphers, you must install a JCE provider that supports RC4.
+<p>
+<strong>Note 2:</strong>
+The i-Planet Directory Server, v5, supports only authentication
+for Digest-MD5. It does not support integrity or privacy protection.
+<hr>
+</blockquote>
+
+<p>
+The <a href=src/DigestPrivacy.java>following example</a> shows how to
+set the environment properties for
+performing authentication using Digest-MD5 with medium-strength
+privacy protection.
+<blockquote><pre>
+// Authenticate as C. User and password "mysecret"
+env.put(Context.SECURITY_AUTHENTICATION, "DIGEST-MD5");
+env.put(Context.SECURITY_PRINCIPAL, "dn:cn=C. User, ou=NewHires, o=JNDITutorial");
+env.put(Context.SECURITY_CREDENTIALS, "mysecret");
+
+// Request privacy protection
+env.put("javax.security.sasl.qop", "auth-conf");
+
+// Request medium-strength cryptographic protection
+env.put("javax.security.sasl.strength", "medium");
+</pre></blockquote>
+
+<h4>Specifying the Maximum Receive Buffer Size</h4>
+
+When requesting integrity or privacy protection, you may
+specify the maximum receive buffer size to use by using
+the <a href=sasl.html#maxbuf><tt>"javax.security.sasl.maxbuffer"</tt></a>
+environment property.
+If you do not specify a maximum, it defaults to the Digest-MD5 default
+of 65536 bytes.
+The <a href=src/DigestBuffer.java>following example</a> shows how to
+set the environment properties for
+performing authentication using Digest-MD5 with integrity protection and
+a maximum receive buffer size of 16384 bytes.
+<blockquote><pre>
+// Authenticate as C. User and password "mysecret"
+env.put(Context.SECURITY_AUTHENTICATION, "DIGEST-MD5");
+env.put(Context.SECURITY_PRINCIPAL, "dn:cn=C. User, ou=NewHires, o=JNDITutorial");
+env.put(Context.SECURITY_CREDENTIALS, "mysecret");
+
+// Request integrity protection
+env.put("javax.security.sasl.qop", "auth-int");
+
+// Request a maximum receive buffer size of 16384 bytes
+env.put("javax.security.sasl.maxbuf", "16384");
+</pre></blockquote>
+<p>
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="sasl.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="crammd5.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Security</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>
+

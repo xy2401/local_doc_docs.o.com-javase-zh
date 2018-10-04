@@ -1,0 +1,174 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>URLs as Names Returned by Naming Enumerations</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="initctx.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="fed.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=bottom border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>URLs</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    URLs as Names Returned by Naming Enumerations
+</h2>
+<p>
+<blockquote>
+
+You can enumerate the contents of a context by using
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(java.lang.String)"><tt>list()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#list(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>,
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#listBindings(java.lang.String)"><tt>listBindings()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#listBindings(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, or
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(java.lang.String, java.lang.String, javax.naming.directory.SearchControls)"><tt>search()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#search(java.lang.String, java.lang.String, javax.naming.directory.SearchControls)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+When you invoke one of these, you get back a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html"><tt>NamingEnumeration</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingEnumeration.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. 
+Each item of the enumeration is an instance of
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameClassPair.html"><tt>NameClassPair</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameClassPair.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>  or one of its subclasses.
+To get the name of the item, that is, the name of the object
+relative to the target context (the context that you're listing 
+or searching), you use  
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameClassPair.html#getName()"><tt>NameClassPair.getName()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameClassPair.html#getName()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+The string name returned by this method is a composite name.
+For example, you should be able to feed this name back into
+one of the 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><tt>Context</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     methods of the target context.
+<p>
+However, sometimes the underlying service
+or service provider cannot return a name relative to the target context,
+for example, if the item was retrieved by following a 
+<a href=../../getStarted/concepts/glossary.html#REFERRAL>referral</a>
+or an <a href=../../getStarted/concepts/glossary.html#ALIAS>alias</a>.
+When a relative name cannot be returned, the service provider returns
+a URL string. 
+You use this URL string by passing it to the 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html"><tt>InitialContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InitialContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    methods, as described in the <a href=initctx.html>previous section</a>.
+<p>
+To determine whether the name returned by <tt>getName()</tt> is
+relative, you use 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameClassPair.html#isRelative()"><tt>NameClassPair.isRelative()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameClassPair.html#isRelative()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<p>
+Following is <a href=src/IsRelative.java>an example</a>
+that searches a context for entries whose <tt>"cn"</tt> attribute
+starts with the letter "S." It then
+retrieves the <tt>"telephonenumber"</tt> attribute of the item by using
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#getAttributes(java.lang.String, java.lang.String[])"><tt>DirContext.getAttributes()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#getAttributes(java.lang.String, java.lang.String[])"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. You could have been done this much more easily by 
+using the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/SearchControls.html"><tt>SearchControls</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/SearchControls.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   argument to request the attributes.
+Here, the attribute retrieval is separated out so that 
+the use of <tt>isRelative()</tt> can be illustrated.
+<p>
+When the example gets an item containing a URL string as a name
+(that is, <tt>isRelative()</tt> returns <tt>false</tt>),
+it uses the <tt>InitialContext</tt> to process the URL string. 
+<blockquote><pre>
+// Set up the environment for creating the initial context
+Hashtable env = new Hashtable(11);
+env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+env.put(Context.PROVIDER_URL, "ldap://localhost:489/o=JNDItutorial");
+
+// Enable referrals so that we get some nonrelative names
+env.put(Context.REFERRAL, "follow");
+
+// Create the initial context
+DirContext initCtx = new InitialDirContext(env);
+
+// Get the target context
+DirContext targetCtx = (DirContext)initCtx.lookup("ou=All");
+
+SearchControls constraints = new SearchControls();
+constraints.setSearchScope(SearchControls.SUBTREE_SCOPE);
+
+// Perform the search on the target context
+NamingEnumeration namingEnum = targetCtx.search("", "(cn=S*)", constraints);
+Attributes attrs;
+NameClassPair item;
+String[] attrIds = new String[]{"telephonenumber"};
+	    
+// For each answer found, get its "telephonenumber" attribute
+// If relative, resolve it relative to the target context
+// If not relative, resolve it relative to the initial context
+while (namingEnum.hasMore()) {
+    item = (NameClassPair)namingEnum.next();
+    System.out.println("&gt;&gt;&gt;&gt;&gt;" + item.getName() + " ");
+    if (item.isRelative()) {
+        attrs = targetCtx.getAttributes(item.getName(), attrIds);
+    } else {
+        attrs = initCtx.getAttributes(item.getName(), attrIds);
+    }
+    System.out.println(attrs);
+}
+</pre></blockquote>
+Here is the output from running this program.
+<blockquote><pre>
+&gt;&gt;&gt;&gt;&gt;ldap://localhost:389/cn=Scott%20Seligman,ou=People,o=JNDITutorial
+{telephonenumber=telephonenumber: +1 408 555 5252}
+&gt;&gt;&gt;&gt;&gt;ldap://localhost:389/cn=Samuel%20Clemens,ou=People,o=JNDITutorial
+{telephonenumber=telephonenumber: +1 408 555 0186}
+&gt;&gt;&gt;&gt;&gt;ldap://localhost:389/cn=Spuds%20Mackenzie,ou=People,o=JNDITutorial
+{telephonenumber=telephonenumber: +1 408 555 4420}
+&gt;&gt;&gt;&gt;&gt;ldap://localhost:389/cn=S.%20User,ou=NewHires,o=JNDITutorial
+No attributes
+</pre></blockquote>
+
+
+
+<p>
+See also the
+<a target="_top" href="../../ldap/referral/index.html">Referrals</a> <a href="../../ldap/referral/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>   lesson and 
+<a target="_top" href="../../ldap/misc/aliases.html">Dereferencing Aliases</a> <a href="../../ldap/misc/aliases.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    section for more examples and descriptions.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="initctx.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="fed.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=top border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>URLs</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

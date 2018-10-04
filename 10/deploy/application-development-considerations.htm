@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Application Development Considerations</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="dcterms.created" content="2018-03-12T22:52:24Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Deployment Guide" />
+<meta name="dcterms.identifier" content="E92517-01" />
+<meta name="dcterms.isVersionOf" content="JSDPG" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="overview.htm" title="Previous" type="text/html" />
+<link rel="Next" href="migrating-java-applets-jnlp.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSDPG.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-D8321169-A6B1-4E54-BB32-ADDEDD442C6D"></a> <span id="PAGE" style="display:none;">11/17</span> <!-- End Header -->
+<h1 id="JSDPG-GUID-D8321169-A6B1-4E54-BB32-ADDEDD442C6D" class="sect1"><span class="enumeration_chapter">5</span> Application Development Considerations</h1>
+<div>
+<p>This chapter includes the following topics:</p>
+<ul style="list-style-type: disc;">
+<li><a href="application-development-considerations.htm#GUID-8958F7C9-93CD-4FB9-852D-7E7AF5E513B6">Introduction to Web Deployment</a></li>
+<li><a href="application-development-considerations.htm#GUID-D29972EC-7CDB-4E1E-8B5C-44A8EEC2B320">Retrieving Resources from JAR files</a></li>
+<li><a href="application-development-considerations.htm#GUID-8904FF22-9ED1-4EC1-A50E-CDB8C42FAD60">Accessing the Client Using JNLP API</a></li>
+<li><a href="application-development-considerations.htm#GUID-D664B716-B60B-42F0-B9AD-65C132CD0180">Security and Code Signing</a></li>
+<li><a href="application-development-considerations.htm#GUID-DFB94AF1-1CC6-43CC-9770-3309396DB225">Signing JAR Files With a Test Certificate</a></li>
+<li><a href="application-development-considerations.htm#GUID-A4EBCFA5-D584-4C99-8829-0477A0F6CC02">How to Encode JNLP Files</a></li>
+<li><a href="application-development-considerations.htm#GUID-6431B63C-1ED6-4E56-8A25-AD10153EF6AE">Dynamic Download of HTTPS Certificates</a></li>
+</ul>
+</div>
+<div class="sect2"><a id="GUID-8958F7C9-93CD-4FB9-852D-7E7AF5E513B6"></a>
+<h2 id="JSDPG-GUID-8958F7C9-93CD-4FB9-852D-7E7AF5E513B6" class="sect2">Introduction to Web Deployment</h2>
+<div>
+<p>Developing applications for deployment with Java Web Start is generally the same as developing standalone applications for the Java Platform, Standard Edition. For instance, the entry point for the application is the standard <code class="codeph">public static void main(String[] argv)</code>.</p>
+<p>However, to support web deployment&mdash;automatic downloading and launching of an application&mdash;and to ensure that an application can run in a secure sandbox, there are some additional considerations:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>An application must be delivered as a set of signed JAR files. All entries in each JAR file must be signed.</p>
+</li>
+<li>
+<p>All application resources, such as files and images, must be stored in JAR files. The resources must be referenced using the <code class="codeph">getResource</code> mechanism in the Java Platform, Standard Edition.</p>
+</li>
+<li>
+<p>If an application is written to run in a secure sandbox, it must follow these restrictions:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>No access to a local disk.</p>
+</li>
+<li>
+<p>All JAR files must be downloaded from the same host.</p>
+</li>
+<li>
+<p>Network connections without user prompts are enabled only for the host from which the JAR files are downloaded. Connections to other hosts require approval from the user.</p>
+</li>
+<li>
+<p>No security manager can be installed.</p>
+</li>
+<li>
+<p>No native libraries can be used.</p>
+</li>
+<li>
+<p>Limited access to system properties. The application has read/write access to all secure system properties defined in the JNLP file, as well as read-only access to the same set of properties that an applet has access to.</p>
+</li>
+</ul>
+<p>Some of these restrictions can be overcome by the use of the JNLP API to access the file system and other system resources.</p>
+</li>
+<li>
+<p>An application is allowed to use the <code class="codeph">System.exit</code> call.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2"><a id="GUID-D29972EC-7CDB-4E1E-8B5C-44A8EEC2B320"></a>
+<h2 id="JSDPG-GUID-D29972EC-7CDB-4E1E-8B5C-44A8EEC2B320" class="sect2">Retrieving Resources from JAR Files</h2>
+<div>
+<p>Java Web Start only transfers JAR files from the Web server to the client machine. It determines where to store the JAR files on the local machine. Thus, an application cannot use disk-relative references to resources such as images and configuration files.</p>
+<p>All application resources must be retrieved from the JAR files specified in the <code class="codeph">resources</code> section of the JNLP file, or retrieved explicitly using an HTTP request to the web server. Storing resources in JAR files is recommended, because they will be cached on the local machine by Java Web Start.</p>
+<p>The following code example shows how to retrieve images from a JAR file:</p>
+<pre dir="ltr">
+// Get current classloader
+ClassLoader cl = <span class="bold">this</span>.getClass().getClassLoader();
+// Create icons
+Icon saveIcon  = <span class="bold">new</span> ImageIcon(cl.getResource("images/save.gif"));
+Icon cutIcon   = <span class="bold">new</span> ImageIcon(cl.getResource("images/cut.gif"));
+...
+</pre>
+<p>The example assumes that the following entries exist in one of the JAR files for the application:</p>
+<pre dir="ltr">
+images/save.gif
+images/cut.gif
+</pre></div>
+</div>
+<div class="sect2"><a id="GUID-8904FF22-9ED1-4EC1-A50E-CDB8C42FAD60"></a>
+<h2 id="JSDPG-GUID-8904FF22-9ED1-4EC1-A50E-CDB8C42FAD60" class="sect2">Accessing the Client Using the JNLP API</h2>
+<div>
+<p>The JNLP API can be used to access the client's file system and other resources. See the following topics for more information about using the JNLPI API to access the client:</p>
+<ul style="list-style-type: disc;">
+<li><a href="jnlp-api-examples.htm#GUID-1D63A4F0-B1F3-4762-8F7F-2E570ACBA75B">JNLP API Examples</a></li>
+<li><a href="http://docs.oracle.com/javase/tutorial/deployment/doingMoreWithRIA/usingJNLPAPI.html" target="_blank">Accessing the Client Using JNLP API</a> topic in the Deployment Trail of the Java Tutorials. The information for the sample applet also applies to Java Web Start applications.</li>
+</ul>
+</div>
+</div>
+<div class="sect2"><a id="GUID-D664B716-B60B-42F0-B9AD-65C132CD0180"></a>
+<h2 id="JSDPG-GUID-D664B716-B60B-42F0-B9AD-65C132CD0180" class="sect2">Security and Code Signing</h2>
+<div>
+<p>Java Web Start addresses the following security issues:</p>
+<ul style="list-style-type: disc;">
+<li>Protecting users against malicious code (intentional and unintentional) that may affect local files</li>
+<li>Protecting enterprises against code that may attempt to access or destroy data on networks</li>
+</ul>
+<p>Applications launched with Java Web Start are, by default, run in a restricted environment where they have limited access to local computing resources, such as storage devices and the local network.</p>
+<p>An additional security feature supported by Java Web Start is digital code signing. If an application being invoked is delivered in one or more signed JAR files, then Java Web Start will verify that the contents of the JAR file have not been modified since they were signed. If verification of a digital signature fails, then Java Web Start will not run the application, because it might have been compromised by a third party.</p>
+<p>The support for code signing is important for both users and for application service providers. This service makes it possible for users to verify that an application comes from a trusted source. A signed application that is trusted by the user can also request additional system privileges, such as access to a local disk.</p>
+<p>Java Web Start presents a dialog box that displays the application's origin, based on the signer's certificate, before the application is launched. This enables the user to make an informed decision about whether or not to grant additional privileges to the downloaded code.</p>
+<p>By including the following settings in the JNLP file, an application can request full access to a client system if all its JAR files are signed:</p>
+<pre dir="ltr">
+&lt;<span class="bold">security</span>&gt;
+   &lt;<span class="bold">all-permissions</span>/&gt;
+&lt;/<span class="bold">security</span>&gt;
+</pre>
+<p>The implementation of code signing in Java Web Start is based on the security API in the core Java Platform, Standard Edition.</p>
+<p>Developers sign code for use with Java Web Start in the same way as for Java applets&mdash;by using the standard <code class="codeph">jarsigner</code> tool from the Java Platform, Standard Edition. The <a class="olink JSWOR-GUID-925E7A1B-B3F3-44D2-8B49-0B3FA2C54864" target="_blank" href="../tools/jarsigner.htm#JSWOR-GUID-925E7A1B-B3F3-44D2-8B49-0B3FA2C54864"><code class="codeph">jarsigner</code></a> tool documentation provides examples of how to sign code and create test certificates, and it discusses other issues related to signing.</p>
+</div>
+</div>
+<div class="sect2"><a id="GUID-DFB94AF1-1CC6-43CC-9770-3309396DB225"></a>
+<h2 id="JSDPG-GUID-DFB94AF1-1CC6-43CC-9770-3309396DB225" class="sect2">Signing JAR Files with a Test Certificate</h2>
+<div>
+<p>For testing purposes, a self-signed certificate can be used to sign a JAR file. For production, use a code signing certificate issued by a trusted certificate authority.</p>
+<p>These are the steps to sign a JAR file with a self-signed test certificate:</p>
+<ol>
+<li>
+<p>Ensure that you have an SDK <code class="codeph">keytool</code> and <code class="codeph">jarsigner</code> in your path. These tools are located in the SDK bin directory.</p>
+</li>
+<li>
+<p>Create a new key in a new <code class="codeph">keystore</code> as follows:</p>
+<pre dir="ltr">
+keytool -genkey -keystore myKeystore -alias myself
+</pre>
+<p>You are prompted for information about the new key, such as password and name. This creates the <code class="codeph">myKeystore</code> file on the disk.</p>
+</li>
+<li>
+<p>Create a self-signed test certificate as follows:</p>
+<pre dir="ltr">
+keytool -selfcert -alias myself -keystore myKeystore
+</pre>
+<p>This prompts for the password. Generating the certificate might take a few minutes.</p>
+</li>
+<li>
+<p>Check to ensure that everything is OK. To list the contents of the keystore, use this command:</p>
+<pre dir="ltr">
+keytool -list -keystore myKeystore
+</pre>
+<p>The output should look similar to:</p>
+<pre dir="ltr">
+Keystore type: jks
+Keystore provider: SUN
+
+Your keystore contains 1 entry:
+
+myself, Tue Jan 23 19:29:32 PST 2001, keyEntry,
+Certificate fingerprint (MD5):
+C2:E9:BF:F9:D3:DF:4C:8F:3C:5F:22:9E:AF:0B:42:9D
+</pre></li>
+<li>
+<p>Sign the JAR file with the test certificate as follows:</p>
+<pre dir="ltr">
+jarsigner -keystore myKeystore test.jar myself
+</pre>
+<p>Repeat this step with all of your JAR files.</p>
+<p>Note that a self-signed test certificate should only be used for internal testing, because it does not guarantee the identity of the user and therefore cannot be trusted. A trustworthy certificate can be obtained from a certificate authority, such as <a href="http://www.verisign.com" target="_blank">VeriSign</a> or <a href="http://www.thawte.com" target="_blank">Thawte</a>, and should be used when the application is put into production.</p>
+</li>
+</ol>
+<p>To run an application that is signed with a self-signed test certificate, do one of the following on the computer where the application will run:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Add the location of the application to the Exception Site List, which is managed from the Java Control Panel.</p>
+</li>
+<li>
+<p>Import the test certificate into the User Signer CA store using the Java Control Panel or into the System Signer CA store using the <code class="codeph">keytool</code> utility.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2"><a id="GUID-A4EBCFA5-D584-4C99-8829-0477A0F6CC02"></a>
+<h2 id="JSDPG-GUID-A4EBCFA5-D584-4C99-8829-0477A0F6CC02" class="sect2">How to Encode JNLP Files</h2>
+<div>
+<p>Encode JNLP files in any character encoding supported by the Java Platform, Standard Edition. See <a class="olink JSINT-GUID-187BA718-195F-4C39-B0D5-F3FDF02C7205" target="_blank" href="../intl/supported-encodings.htm#JSINT-GUID-187BA718-195F-4C39-B0D5-F3FDF02C7205">Supported Encodings</a> in the <span><cite>Java Platform, Standard Edition Internationalization Guide</cite></span> for a list.</p>
+<p>To encode a JNLP file, specify an encoding in the XML prolog of that file. For example, the following line indicates that the JNLP file will be encoded in UTF-16.</p>
+<pre dir="ltr">
+&lt;?xml version="1.0" encoding="utf-16"?&gt;
+</pre>
+<p>The XML prolog itself must be UTF-8-encoded.</p>
+</div>
+</div>
+<div class="sect2"><a id="GUID-6431B63C-1ED6-4E56-8A25-AD10153EF6AE"></a>
+<h2 id="JSDPG-GUID-6431B63C-1ED6-4E56-8A25-AD10153EF6AE" class="sect2">Dynamic Download of HTTPS Certificates</h2>
+<div>
+<p>Java Web Start dynamically imports certificates in a similar way as browsers do. To make this work, Java Web Start sets its own HTTPS handler, using the <code class="codeph">java.protocol.handler.pkgs</code> system properties, to initialize defaults for <code class="codeph">SSLSocketFactory</code> and <code class="codeph">HostnameVerifier</code>. It sets the defaults with <code class="codeph">HttpsURLConnection.setDefaultSSLSocketFactory</code> and <code class="codeph">HttpsURLConnection.setDefaultHostnameVerifier</code>.</p>
+<p>If your application uses those two methods, ensure that they are called after the Java Web Start HTTPS handler is initialized, otherwise your custom handler will be replaced by the Java Web Start default handler. You can ensure that your own customized <code class="codeph">SSLSocketFactory</code> and <code class="codeph">HostnameVerifier</code> are used by doing either of the following:</p>
+<ol>
+<li>Install your own HTTPS handler, which will completely replace the Java Web Start HTTPS handler.</li>
+<li>Call <code class="codeph">HttpsURLConnection.setDefaultSSLSocketFactory</code> or <code class="codeph">HttpsURLConnection.setDefaultHostnameVerifier</code> only after the first <code class="codeph">HttpsURLConnection</code> object is created, which executes the Java Web Start HTTPS handler initialization code first.</li>
+</ol>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment396">
+<tr>
+<td class="cellalignment403">
+<table class="cellalignment401">
+<tr>
+<td class="cellalignment400"><a href="overview.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment400"><a href="migrating-java-applets-jnlp.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment405">
+<table class="cellalignment399">
+<tr>
+<td class="cellalignment400"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment400"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment400"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

@@ -1,0 +1,182 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Link References</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="classloader.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="policy.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=bottom border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Link References
+</h2>
+<p>
+<blockquote>
+
+A <a href=../../getStarted/concepts/glossary.html#LINK><em>link reference</em></a>
+is a symbolic link that can span multiple naming systems.
+It is represented by the 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/LinkRef.html"><tt>LinkRef</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/LinkRef.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    class.
+Its content is a URL string or a
+<a href=../../getStarted/concepts/glossary.html#COMPOSITENAME><em>composite name</em></a>.
+If the first component of the composite name is the string 
+"<tt><b>.</b></tt>"
+(a string consisting of a period character (".")), 
+then the composite name is to be
+resolved relative to the context in which the link reference is bound.
+Otherwise, the URL or composite name is to be resolved relative to
+the initial context.
+
+<h4>Relationship to Context Operations</h4>
+
+You bind a link reference, like any other object, in a context by using
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><tt>Context.bind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a> and its related methods. 
+The underlying service provider must support binding
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html"><tt>Reference</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Referenceable.html"><tt>Referenceable</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Referenceable.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    objects.
+When you subsequently perform a 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><tt>Context.lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    or other context operation involving the link reference, 
+the link reference is automatically dereferenced. 
+<p>
+For example, suppose there is the
+following composite name in the initial context:
+<blockquote><pre>
+some/where/over/there
+</pre></blockquote>
+You create a link reference to <tt>"some/where"</tt> and bind it
+to the name <tt>"here"</tt> in the initial context.
+Subsequently listing the context by using the name
+<tt>"here/over/there"</tt> is effectively the same
+as using the name <tt>"some/where/over/there"</tt>.
+<p>
+A link reference is not dereferenced only when you use
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookupLink(javax.naming.Name)"><tt>Context.lookupLink()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookupLink(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. In this case, a link reference bound to the terminal component
+of the composite name is returned as is without being dereferenced.
+In the previous example, if you invoke this statement:
+<blockquote><pre>
+Object obj = ctx.lookupLink("here");
+</pre></blockquote>
+then the result will be a <tt>LinkRef</tt> that contains the composite name
+<tt>"some/where"</tt>.
+If the name that you supply to <tt>lookupLink()</tt> contains a 
+component bound to a link reference
+as a nonterminal component, then the link reference 
+will still be dereferenced.
+In the previous example, if you invoke this statement:
+<blockquote><pre>
+Object obj = ctx.lookupLink("here/over/there");
+</pre></blockquote>
+then the result will be the object bound to 
+<tt>"some/where/over/there"</tt>.
+
+<blockquote>
+<hr>
+<strong>Note:</strong>
+Support for link references is implemented by the underlying service provider.
+Neither Sun's LDAP service provider nor its file system service provider
+currently supports link references. 
+<hr>
+</blockquote>
+
+<h4>Relationship to Aliases, Referrals, URL References,
+and Other Symbolic Links</h4>
+
+Symbolic links are common in naming and directory systems.
+For example, the UNIX file system supports symbolic links
+for files and directories, the LDAP supports 
+<a href=../../getStarted/concepts/glossary.html#ALIAS>aliases</a> and 
+<a href=../../getStarted/concepts/glossary.html#REFERRAL>referrals</a>, and
+the JNDI supports URL references (see the
+<a target="_top" href="../url/fed.html">URLs</a> <a target="_top" href="../url/fed.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>  lesson).
+The JNDI link reference differs from all of these.
+<p>
+An LDAP alias is an LDAP entry that 
+contains the distinguished name of another LDAP entry on the same LDAP server.
+LDAP servers are responsible for dereferencing aliases.
+A link reference differs from an alias in that it
+is not LDAP-specific and can name objects outside of the LDAP 
+namespace or server. Unlike an alias, a link reference is processed
+on the client side (by the service provider).
+<p>
+An LDAP referral is an LDAP entry that contains the URL of another
+LDAP entry, possibly on another LDAP server.
+The URL need not be an LDAP URL, but the entry it names must be
+an LDAP entry.
+LDAP clients are responsible for dereferencing referrals.
+A link reference differs from a referral in that it
+is not LDAP-specific. It need not name another LDAP entry.
+A link reference can be <em>relative</em>; that is, it can name another
+object relative to the context in which the link reference is bound.
+A referral always contains an absolute URL.
+<p>
+A UNIX symbolic link contains a relative or absolute name of
+a file or directory.
+It differs from a link reference in that it
+can name only another file or directory.
+<p>
+A link reference differs from a URL reference in that
+it is explicitly typed and designed to support
+links, whereas a URL reference is intended primarily to
+support federation.
+URL references are processed by URL context factories/implementations.
+Link references are supported by service providers, which are responsible
+for dereferencing them and performing link loop or link limit detections.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="classloader.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="policy.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/beyondHeader.gif" width=26 height=26 align=top border=0 alt="Beyond the Basics | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

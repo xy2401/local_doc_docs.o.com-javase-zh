@@ -1,0 +1,312 @@
+<HTML lang="en-US" >
+<HEAD>
+<!-- updated 5/2001 dcarson1 -->
+   <TITLE>servertool - The Java&trade; IDL Server Tool</TITLE>
+     <meta name="collection" content="reference" />
+     <meta name="copyright" content="2001, 2011" />
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+</HEAD>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+
+<div class="smallpagetitle"><H1>
+servertool - The Java&trade; IDL Server Tool</H1></div>
+
+<B>servertool</B> provides a command-line interface for application 
+programmers to register, unregister, startup, and shutdown a persistent 
+server.
+
+<H2>
+SYNOPSIS</H2>
+
+
+<PRE>servertool -ORBInitialPort <em>nameserverport</em> <a 
+href="#Options">options</a> [ <a href="#Commands">commands</a> ]</PRE>
+
+<P>If you did not enter a command when starting <tt>servertool</tt>, the command-line 
+tool displays with a <tt>servertool ></tt> prompt.  Enter <a 
+href="#Commands">commands</a> at the <TT>servertool &gt;</TT> prompt.
+
+</p><P>If you enter a command when starting <tt>servertool</tt>, the Java IDL Server Tool 
+starts, runs the command, and exits. 
+
+</p><P>The <code>-ORBInitialPort</code> <em>nameserverport</em> option is 
+<strong>required</strong>.  The value for  <em>nameserverport</em> must specify the 
+port on which <tt>orbd</tt> is running and listening for incoming requests. When 
+using Solaris software, you must become root to start a process on a port under 1024. 
+ For this reason, we recommend that you use a port number greater than or equal to 
+1024 for the <em>nameserverport</em>.  
+</p>
+
+<H2>
+DESCRIPTION</H2>
+
+
+
+<P>The <TT>servertool</TT> provides the command-line interface for the application 
+programmers to register, unregister, startup, and shutdown a persistent server.  
+Other commands are provided to obtain various statistical information about the 
+server.
+</p>
+
+
+<A NAME="Options"></A>
+<H2>
+OPTIONS</H2>
+
+
+<DL>
+<DT>
+<B>-ORBInitialHost <em>nameserverhost</em></B></DT>
+<DD>Specifies the host machine on which the name server is running and listening for 
+incoming requests. The <em>nameserverhost</em> defaults to <em>localhost</em> if this 
+option is not specified.  If <tt>orbd</tt> and <tt>servertool</tt> are running on 
+different machines, you must specify the name or IP address of the host on which 
+<tt>orbd</tt> is running.
+</DD>
+<p>
+
+    </p><dt><b>-J</b><i>option</i>
+        </dt><dd>Pass <i>option</i> to the Java virtual machine, where 
+        <i>option</i> is one of the options described on the 
+        reference page for
+        <a href="../index.html#java">the java application launcher</a>.
+        For example, <b>-J-Xms48m</b> sets the startup
+        memory to 48 megabytes.  It is a common convention for <b>-J</b> 
+        to pass options to the underlying virtual machine.
+
+
+</dd></DL>
+
+
+
+<A NAME="Commands"></A>
+<H2>
+COMMANDS</H2>
+
+
+<DL>
+<DT>
+<B>register -server&nbsp;&lt;server&nbsp;class&nbsp;name&gt;
+ &nbsp;-classpath&nbsp;&lt;classpath&nbsp;to&nbsp;server&gt;
+ [&nbsp;-applicationName&nbsp;&lt;application&nbsp;name&gt;  
+-args&nbsp;&lt;args&nbsp;to&nbsp;server&gt; 
+-vmargs&nbsp;&lt;flags&nbsp;to&nbsp;be&nbsp;passed&nbsp;to&nbsp;Java&nbsp;VM&gt;
+ &nbsp;]</B></DT>
+<DD>
+Register a new persistent server with the Object Request Broker Daemon (ORBD).  If 
+the server is not already registered, it is registered and activated.  This command 
+causes an install method to be invoked in the main class of the server identified by 
+the <tt>-server</tt> option.   The install method must be <tt>public static void 
+install(org.omg.CORBA.ORB)</tt>.  The install method is optional and enables the 
+developer to provide their own server installation behavior (for example, creating 
+database schema). </DD>
+<p>
+
+</p><DT>
+<B>unregister -serverid&nbsp;&lt;server&nbsp;id&nbsp;&gt;&nbsp;| 
+-applicationName&nbsp;&lt;application&nbsp;name&gt;</B></DT>
+<DD>Unregister a server from the ORBD by using either its server id or its 
+application name.  This command causes an uninstall method to be invoked in the main 
+class of the server identified by the <tt>-server</tt> option.   The uninstall method 
+must be <tt>public static void uninstall(org.omg.CORBA.ORB)</tt>.  The uninstall 
+method is optional and enables the developer to provide their own server uninstall 
+behavior (for example, undoing the behavior of the install method).
+</DD>
+<p>
+
+</p><DT>
+<B>getserverid -applicationName&nbsp;&lt;application&nbsp;name&gt;</B></DT>
+<DD>Return the server id that corresponds with an application.
+</DD>
+<p>
+
+</p><DT>
+<B>list</B></DT>
+<DD>List information about all persistent servers registered with the ORBD. </DD>
+<p>
+
+</p><DT>
+<B>listappnames</B></DT>
+<DD>List the application names for all servers currently registered with the ORBD.
+</DD>
+<p>
+
+</p><DT>
+<B>listactive</B></DT>
+<DD>List information about all persistent servers that have been launched by the ORBD 
+and are currently running. 
+</DD>
+<p>
+
+</p><DT>
+<B>locate -serverid&nbsp;&lt;server&nbsp;id&nbsp;&gt;&nbsp;| 
+-applicationName&nbsp;&lt;application&nbsp;name&gt;   
+[-endpointType&nbsp;&lt;endpointType&gt;&nbsp;]</B></DT>
+<DD>Locate the endpoints (ports) of a specific type for all ORBs created by a 
+registered server.  If a server is not already running, it is activated.  If an 
+endpoint type is not specified, then the plain/non-protected endpoint associated with 
+each ORB in a server is returned.
+</DD>
+<p>
+
+</p><DT>
+<B>locateperorb -serverid&nbsp;&lt;server&nbsp;id&nbsp;&gt;&nbsp;| 
+-applicationName&nbsp;&lt;application&nbsp;name&gt;  
+[-orbid&nbsp;&lt;ORB&nbsp;name&gt;&nbsp;]</B></DT>
+<DD>Locate all the endpoints (ports) registered by a specific ORB of registered 
+server.  If a server is not already running, then it is activated.  If an 
+<em>orbid</em> is not specified, the default value of "" is assigned to the 
+<em>orbid</em>.  If any ORBs are created with an <em>orbid</em> of empty string, all 
+ports registered by it are returned.
+</DD>
+<p>
+
+</p><DT>
+<B>orblist -serverid&nbsp;&lt;server&nbsp;id&nbsp;&gt;&nbsp;| 
+-applicationName&nbsp;&lt;application&nbsp;name&gt;</B></DT>
+<DD>Lists the ORBId of the ORBs defined on a server.  An ORBId is the string name for 
+the ORB created by the server. If the server is not already running, it is activated.
+</DD>
+<p>
+
+</p><DT>
+<B>shutdown -serverid&nbsp;&lt;server&nbsp;id&nbsp;&gt;&nbsp;| 
+-applicationName&nbsp;&lt;application&nbsp;name&gt; </B></DT>
+<DD>Shutdown an active server that is registered with ORBD.  During execution of this 
+command, the <TT>shutdown()</TT> method defined in the class specified by either the 
+<tt>-serverid</tt> or <tt>-applicationName</tt> parameter is also invoked to shutdown 
+the server process appropriately. 
+</DD>
+<p>
+
+</p><DT>
+<B>startup -serverid&nbsp;&lt;server&nbsp;id&nbsp;&gt;&nbsp;| 
+-applicationName&nbsp;&lt;application&nbsp;name&gt; </B></DT>
+<DD>Startup or activate a server that is registered with ORBD.  If the server is not 
+running, this command launches the server.  If the server is already running, an 
+error message is returned to the user.
+</DD>
+<p>
+
+</p><DT>
+<B>help</B></DT>
+<DD>List all the commands available to the server through the server tool.
+</DD>
+<p>
+
+</p><DT>
+<B>quit</B></DT>
+<DD>Exit the server tool.
+</DD>
+<p>
+
+</p>
+</DL>
+
+<p>
+
+
+</p><H2>
+SEE ALSO</H2>
+
+ 
+
+
+<A HREF="orbd.html">orbd</A>
+<P>
+</p><P>
+
+
+</p>
+
+
+
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</BODY>
+</HTML>
+
+

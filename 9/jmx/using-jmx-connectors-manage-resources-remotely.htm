@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Using JMX Connectors to Manage Resources Remotely</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="dcterms.created" content="2017-09-14T12:05:30Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Java Management Extensions Guide" />
+<meta name="dcterms.identifier" content="E79011-02" />
+<meta name="dcterms.isVersionOf" content="JSJMX" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;2006, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="using-jmx-agents.htm" title="Previous" type="text/html" />
+<link rel="Next" href="discovery-and-lookup-services.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSJMX.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSJMX.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSJMX.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-86B27FC6-3FA2-4749-AA4D-E3F8726A6C4C"></a> <span id="PAGE" style="display:none;">9/95</span> <!-- End Header -->
+<h1 id="JSJMX-GUID-86B27FC6-3FA2-4749-AA4D-E3F8726A6C4C" class="sect1"><span class="enumeration_chapter">5</span> Using JMX Connectors to Manage Resources Remotely</h1>
+<div>
+<p>The <cite>Java Management Extensions Instrument and Agent Specification</cite> defines the concept of <span class="italic">connectors</span>. A connector makes a Java Management Extensions (JMX) technology MBean server accessible to remote Java technology-based clients. The client end of a connector exports essentially the same interface as the MBean server.</p>
+<p>A connector consists of a connector client and a connector server. The connector server is attached to an MBean server and listens for connection requests from clients. The connector client establishes a connection with the connector server. A connector client is usually be in a different Java Virtual Machine (JVM) from the connector server, and will often be running on a different machine.</p>
+<p>Many different implementations of connectors are possible. In particular, there are many possibilities for the protocol used to communicate over a connection between client and server.</p>
+<p>A connector server usually has an address, used to establish connections between connector clients and the connector server. Alternatively, some connectors can provide connection stubs to establish connections. The way in which connections are established depends on the discovery and lookup technology that you use. See <a href="discovery-and-lookup-services.htm#GUID-7DC77004-E453-4612-87B4-0179CA899C27">Discovery and Lookup Services</a>.</p>
+<p>This chapter outlines the different types of connector defined by the JMX Remote API specification and the protocols they use, in the following sections:</p>
+<ul style="list-style-type: disc;">
+<li><a href="using-jmx-connectors-manage-resources-remotely.htm#GUID-1B47B911-6070-4402-AEC6-070EB0C77E75">RMI Connector</a>: The standard Remote Method Invocation (RMI) protocol must be supported by every implementation that conforms to the JMX Remote API standard.</li>
+<li><a href="using-jmx-connectors-manage-resources-remotely.htm#GUID-897901FD-D0F3-4B9D-B530-627E748E059F">Generic Connector</a>: The JMX Remote API standard also defines an optional protocol based directly on TCP sockets, called the JMX Messaging Protocol (JMXMP). An implementation of the standard can omit the JMXMP connector, but must not omit the RMI connector. The Java SE platform does not include the optional JMXMP connector.</li>
+<li><a href="using-jmx-connectors-manage-resources-remotely.htm#GUID-F7AEABAE-9074-432A-AD33-EB7AD65D5172">User-Defined Protocols</a>: A connector can also implement a protocol that is not defined in the JMX technology.</li>
+</ul>
+</div>
+<div class="sect2"><a id="GUID-1B47B911-6070-4402-AEC6-070EB0C77E75"></a>
+<h2 id="JSJMX-GUID-1B47B911-6070-4402-AEC6-070EB0C77E75" class="sect2">RMI Connector</h2>
+<div>
+<p>The JMX Remote API standard defines a standard protocol based on RMI. The RMI connector must be present in every implementation of the JMX Remote API.</p>
+<p>The RMI connector supports the Java Remote Method Protocol (JRMP) transport.</p>
+<p>The RMI connector over JRMP provides a simple mechanism for securing and authenticating the connection between a client and a server. This mechanism provides a basic level of security for environments using the RMI connector. Note that the generic JMXMP connector provides a more advanced level of security.</p>
+<p>You can improve the security of the RMI connector over JRMP by using an RMI socket factory so that the connection between the client and the server uses the Secure Socket Layer (SSL).</p>
+</div>
+</div>
+<div class="sect2"><a id="GUID-897901FD-D0F3-4B9D-B530-627E748E059F"></a>
+<h2 id="JSJMX-GUID-897901FD-D0F3-4B9D-B530-627E748E059F" class="sect2">Generic Connector</h2>
+<div>
+<p>The JMX Remote API specification defines an optional, generic connector, which is not included in the Java SE platform. This connector can be configured by adding pluggable modules to define the following:</p>
+<ul style="list-style-type: disc;">
+<li>The transport protocol used to send requests from the client to the server, and to send responses and notifications from the server to the clients</li>
+<li>The object wrapping for objects that are sent from the client to the server and whose class loader can depend on the target MBean</li>
+</ul>
+<p>The JMX Messaging Protocol (JMXMP) connector is a configuration of the generic connector where the transport protocol is based on TCP and the object wrapping is native Java serialization. Security is more advanced than for the RMI connector. Security is based on the Java Secure Socket Extension (JSSE), the Java Authentication and Authorization Service (JAAS), and the Simple Authentication and Security Layer (SASL).</p>
+<p>The generic connector and its JMXMP configuration are optional, which means that they are not always included in an implementation of the JMX Remote API. The Java SE platform does not include the optional generic connector.</p>
+</div>
+</div>
+<div class="sect2"><a id="GUID-F7AEABAE-9074-432A-AD33-EB7AD65D5172"></a>
+<h2 id="JSJMX-GUID-F7AEABAE-9074-432A-AD33-EB7AD65D5172" class="sect2">User-Defined Protocols</h2>
+<div>
+<p>The JMX Remote API specification does not define a connector for every protocol. You can implement a connector based on a protocol that is not defined in the JMX Remote API standard. For example, you can implement connector based on a protocol that uses HTTP/S. The JMX Specification describes how to implement a connector based on a user-defined protocol.</p>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment256">
+<tr>
+<td class="cellalignment263">
+<table class="cellalignment261">
+<tr>
+<td class="cellalignment260"><a href="using-jmx-agents.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment260"><a href="discovery-and-lookup-services.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;2006, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment265">
+<table class="cellalignment259">
+<tr>
+<td class="cellalignment260"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment260"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment260"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

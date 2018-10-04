@@ -1,0 +1,592 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<!-- GenHTML revision 23965-->
+<meta http-equiv="Content-type" content=
+"text/html; charset=utf-8" />
+<title>Integrating Signal and Exception Handling - Troubleshooting
+Guide for HotSpot VM</title>
+<meta http-equiv="content-language" content="en-US" />
+<meta name="robots" content="index,follow" />
+<meta name="language" content="en" />
+<meta name="collection" content="reference" />
+<meta name="keywords" content="" />
+<meta name="description" content=
+"This document is a guide to help troubleshoot problems that might arise with applications that are developed using the release of Java Platform, Standard Edition Development Kit 7 (JDK 7). In particular, this guide addresses possible problems between the applications and the Java HotSpot virtual machine. The document provides a description of the tools, command line options, and other help in analyzing a problem. The document also provides guidance on how to approach some general issues such as a crash, hang, or memory resource issues. Finally, the document provides direction for data collection and bug report preparation." />
+<meta name="date" content="2008-11-01" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/default.css" />
+<link rel="stylesheet" type="text/css" title="screen" href=
+"css/pagelayout.css" />
+<link rel="alternate stylesheet" type="text/css" title="print"
+href="css/print.css" />
+<script type="text/javascript">
+//<![CDATA[
+function setActiveStyleSheet(title) {
+  var i, a, main;
+  for (i=0; (a = document.getElementsByTagName("link")[i]); i++) {
+         if (a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+                a.disabled = true;
+                if(a.getAttribute("title") == title) a.disabled = false;
+         }
+  }
+}
+
+function ClearDefault(Element) {
+   if (Element.defaultValue == Element.value) {
+        Element.value = ""
+        Element.style.cssText = "font-weight: bold; color: #00000"
+   }
+}
+
+//]]>
+</script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<div class="MastheadPane">
+<table class="MastheadTable" width="100%">
+<tr class="closeprintview">
+<td align="right"><a href="#" onclick=
+"setActiveStyleSheet('screen')">Exit Print View</a></td>
+</tr>
+<tr class="titlebar">
+<td>
+<h4 class="contentpage-doctitle"><a href="toc.html">Troubleshooting
+Guide for HotSpot VM</a></h4>
+</td>
+<td class="smallLogo"><a href="http://www.oracle.com"><img src=
+"graphics/smallOracleLogo.gif" /></a></td>
+</tr>
+</table>
+</div>
+<div class="ButtonPane">
+<table class="pagecontrol">
+<tr>
+<td class="pagebuttons"><a href="#" onclick=
+"setActiveStyleSheet('print')"><img height="46" width="40" border=
+"0" src="graphics/print.gif" alt="Print View" title=
+"Print View" /></a></td>
+<td class="pagebreadcrumb"></td>
+<td class="pagenavlinks"><a href="hangloop.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="bugreports.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+<div class="TOCPane">
+<p class="toc level1"><a href="docinfo.html">Document
+Information</a></p>
+<p class="toc level1 tocsp"><a href="preface.html">Preface</a></p>
+<p class="toc level1 tocsp"><a href=
+"tools.html">1.&#160;&#160;Diagnostic Tools and Options</a></p>
+<p class="toc level1 tocsp"><a href=
+"tooldescr.html">2.&#160;&#160;Detailed Tool Descriptions</a></p>
+<p class="toc level1 tocsp"><a href=
+"memleaks.html">3.&#160;&#160;Troubleshooting Memory Leaks</a></p>
+<p class="toc level1 tocsp"><a href=
+"crashes.html">4.&#160;&#160;Troubleshooting System Crashes</a></p>
+<p class="toc level1 tocsp"><a href=
+"hangloop.html">5.&#160;&#160;Troubleshooting Hanging or Looping
+Processes</a></p>
+<div id="scrolltoc" class="onpage">
+<p class="toc level1 tocsp"><a href="">6.&#160;&#160;Integrating
+Signal and Exception Handling</a></p>
+<p class="toc level2"><a href="#gbzbl">6.1 Signal Handling on
+Solaris OS and Linux</a></p>
+<p class="toc level3"><a href="#gbzcj">6.1.1 Reducing Signal
+Usage</a></p>
+<p class="toc level3"><a href="#gbzbh">6.1.2 Alternative
+Signals</a></p>
+<p class="toc level3"><a href="#gbzcz">6.1.3 Signal
+Chaining</a></p>
+<p class="toc level2 tocsp"><a href="#gbzdn">6.2 Exception Handling
+on Windows</a></p>
+<p class="toc level3"><a href="#gbzdi">6.2.1 Signal Handling in the
+HotSpot Virtual Machine</a></p>
+<p class="toc level3"><a href="#gbzcv">6.2.2 Console
+Handlers</a></p>
+</div>
+<p class="toc level1 tocsp"><a href=
+"bugreports.html">7.&#160;&#160;Submitting Bug Reports</a></p>
+<p class="toc level1 tocsp"><a href=
+"envvars.html">A.&#160;&#160;Environment Variables and System
+Properties</a></p>
+<p class="toc level1 tocsp"><a href=
+"clopts.html">B.&#160;&#160;Command-Line Options</a></p>
+<p class="toc level1 tocsp"><a href=
+"felog.html">C.&#160;&#160;Fatal Error Log</a></p>
+<p class="toc level1 tocsp"><a href=
+"tools-by-rel.html">D.&#160;&#160;Summary of Tools in This
+Release</a></p>
+</div>
+<div class="ContentPane"><a name="signals" id=
+"signals"></a>Chapter&#160;6
+<h2>Integrating Signal and Exception Handling</h2>
+<p>Sometimes developers have to integrate Java applications with
+code that uses signal or exception handlers. This chapter provides
+information on how signals are handled in the HotSpot Virtual
+Machine. It also describes the signal chaining facility that
+facilitates writing applications that need to install their own
+signal handlers. The signal chaining facility is available on
+Solaris OS and Linux.</p>
+<a name="gbzbl" id="gbzbl"></a>
+<h3>6.1 Signal Handling on Solaris OS and Linux</h3>
+<p>The HotSpot Virtual Machine installs signal handlers to
+implement various features and to handle fatal error conditions.
+For example, in an optimization to avoid explicit null checks in
+cases where <tt>java.lang.NullPointerException</tt> will be thrown
+rarely, the <tt>SIGSEGV</tt> signal is caught and handled, and the
+<tt>NullPointerException</tt> is thrown.</p>
+<p>In general there are two categories of situations where
+signal/traps arise.</p>
+<ul>
+<li>
+<p>Situations in which signals are expected and handled. Examples
+include the implicit null handling cited above. Another example is
+the safepoint polling mechanism, which protects a page in memory
+when a safepoint is required. Any thread that accesses that page
+causes a <tt>SIGSEGV</tt>, which results in the execution of a stub
+that brings the thread to a safepoint.</p>
+</li>
+<li>
+<p>Unexpected signals. This includes a <tt>SIGSEGV</tt> when
+executing in VM code, JNI code, or native code. In these cases the
+signal is unexpected, so fatal error handling is invoked to create
+the error log and terminate the process.</p>
+</li>
+</ul>
+<p>The following table lists the signals that are currently used on
+Solaris OS and Linux. The mention &#8220;optional&#8221; means that
+the signal is not necessary when the <tt>-Xrs</tt> option is
+specified, as explained in <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="#gbzcj">6.1.1 Reducing Signal
+Usage</a>. The mention &#8220;configurable&#8221; means that
+alternative signals may be specified, as explained in <img class=
+"linkicon" src="graphics/linkicon.gif" /><a href="#gbzbh">6.1.2
+Alternative Signals</a>. See <img class="linkicon" src=
+"graphics/linkicon.gif" /><a href="#gbzcz">6.1.3 Signal
+Chaining</a> for detailed information about signal chaining.</p>
+<table border="0" cellpadding="0" cellspacing="0" class="dkgrey1"
+width="100%">
+<tr>
+<td>
+<table border="0" cellpadding="0" cellspacing="1" width="100%"
+class="vatop">
+<col width="33%" />
+<col width="66%" />
+<tr>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Signal</div>
+</th>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Description</div>
+</th>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>SIGSEGV</tt>, <tt>SIGBUS</tt>,
+<tt>SIGFPE</tt>, <tt>SIGPIPE</tt>, <tt>SIGILL</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Used in the implementation for implicit null
+check, and so forth.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>SIGQUIT</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Thread dump support: To dump Java stack traces
+at the standard error stream. (Optional.)</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>SIGTERM</tt>, <tt>SIGINT</tt>,
+<tt>SIGHUP</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Used to support the shutdown hook mechanism
+(<tt>java.lang.Runtime.addShutdownHook</tt>) when the VM is
+terminated abnormally. (Optional.)</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>SIGUSR1</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Used in the implementation of the
+<tt>java.lang.Thread.interrupt</tt> method. (Configurable.) Not
+used starting with Solaris 10 OS. Reserved on Linux.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>SIGUSR2</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Used internally. (Configurable.) Not used
+starting with Solaris 10 OS.</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>SIGABRT</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">The HotSpot VM does not handle this signal.
+Instead it calls the abort function after fatal error handling. If
+an application uses this signal then it should terminate the
+process to preserve the expected semantics.</div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<a name="gbzcj" id="gbzcj"></a>
+<h4>6.1.1 Reducing Signal Usage</h4>
+<p>The <tt>-Xrs</tt> option instructs the HotSpot VM to reduce its
+signal usage. With this option fewer signals are used, although the
+VM installs its own signal handler for essential signals such as
+<tt>SIGSEGV</tt>. In the above table the signals tagged as optional
+are not used when the <tt>-Xrs</tt> option is specified. Specifying
+this option means that the shutdown hook mechanism will not execute
+if the process receives a <tt>SIGQUIT</tt>, <tt>SIGTERM</tt>,
+<tt>SIGINT</tt>, or <tt>SIGHUP</tt>. Shutdown hooks will execute,
+as expected, if the VM terminates normally (last non-daemon thread
+completes or the <tt>System.exit</tt> method is used).</p>
+<a name="gbzbh" id="gbzbh"></a>
+<h4>6.1.2 Alternative Signals</h4>
+<p>On Solaris 8 and 9 OS, the <tt>-XX:+UseAltSigs</tt> option can
+be used to instruct the HotSpot VM to use alternative signals to
+<tt>SIGUSR1</tt> and <tt>SIGUSR2</tt>. Starting with Solaris 10 OS,
+this option is ignored, as the operating system reserves two
+additional signals (called <tt>SIGJVM1</tt> and
+<tt>SIGJVM2</tt>).</p>
+<p>On Linux, the handler for <tt>SIGUSR1</tt> cannot be overridden.
+<tt>SIGUSR2</tt> is used to implement suspend and resume. However
+it is possible to specify an alternative signal to be used instead
+of <tt>SIGUSR2</tt>. This is done by specifying the
+<tt>_JAVA_SR_SIGNUM</tt> environment variable. If this environment
+variable is set, it must be set to a value larger than the maximum
+of <tt>SIGSEGV</tt> and <tt>SIGBUS</tt>.</p>
+<a name="gbzcz" id="gbzcz"></a>
+<h4>6.1.3 Signal Chaining</h4>
+<p>If an application with native code requires its own signal
+handlers, then it might need to be used with the signal chaining
+facility. The signal chaining facility offers the following
+features:</p>
+<ul>
+<li>
+<p>Support for pre-installed signal handlers when the HotSpot VM is
+created.</p>
+<p>When the VM is first created, existing signal handlers, that is,
+handlers for signals that are used by the VM, are saved. During
+execution, when any of these signals are raised and found not to be
+targeted at the Java HotSpot VM, the pre-installed handlers are
+invoked. In other words, pre-installed handlers are <b>chained</b>
+behind the VM handlers for these signals.</p>
+</li>
+<li>
+<p>Support for signal handler installation after the HotSpot VM is
+created, either inside JNI code or from another native thread.</p>
+<p>An application can link and load the <tt>libjsig.so</tt> shared
+library before <tt>libc/libthread/libpthread</tt>. This library
+ensures that calls such as <tt>signal()</tt>, <tt>sigset()</tt>,
+and <tt>sigaction()</tt> are intercepted so that they do not
+actually replace the Java HotSpot VM's signal handlers if the
+handlers conflict with those already installed by the Java HotSpot
+VM. Instead, these calls save the new signal handlers, or
+<b>chain</b> them behind the VM-installed handlers. During
+execution, when any of these signals are raised and found not to be
+targeted at the Java HotSpot VM, the pre-installed handlers are
+invoked.</p>
+<p>If support for signal handler installation after the creation of
+the VM is not required, then the <tt>libjsig.so</tt> shared library
+is not needed.</p>
+<p>Perform one of these two procedures to use the
+<tt>libjsig.so</tt> shared library.</p>
+<ul>
+<li>
+<p>Link it with the application that creates/embeds a HotSpot VM,
+for example:</p>
+<p><tt><b>cc -L <var>libjvm.so-directory</var> -ljsig -ljvm
+java_application.c</b></tt></p>
+</li>
+<li>
+<p>Use the <tt>LD_PRELOAD</tt> environment variable, for
+example:</p>
+<p><tt><b>export
+LD_PRELOAD=</b></tt><var>libjvm.so-directory</var><tt><b>/libjsig.so;
+java_application(ksh)</b></tt></p>
+<p><tt><b>setenv LD_PRELOAD
+<var>libjvm.so-directory</var>/libjsig.so;
+java_application(csh)</b></tt></p>
+</li>
+</ul>
+<p>The interposed <tt>signal()</tt>, <tt>sigset()</tt>, and
+<tt>sigaction()</tt> return the saved signal handlers, not the
+signal handlers installed by the Java HotSpot VM and which are seen
+by the operating system.</p>
+</li>
+</ul>
+<p>Note that <tt>SIGUSR1</tt> cannot be chained. If an application
+attempts to chain this signal on Solaris OS, then the HotSpot VM
+terminates with the following fatal error:</p>
+<pre>
+Signal chaining detected for VM interrupt signal, try -XX:+UseAltSigs
+</pre>
+<p>In addition, the <tt>SIGQUIT</tt>, <tt>SIGTERM</tt>,
+<tt>SIGINT</tt>, and <tt>SIGHUP</tt> signals cannot be chained. If
+the application needs to handle these signals, consider using the
+<tt>-Xrs</tt> option.</p>
+<p>On Solaris OS, the <tt>SIGUSR2</tt> signal can be chained, but
+only for non-Java and non-VM threads; that is, it can only be used
+for native threads created by the application that do not attach to
+the VM.</p>
+<a name="gbzdn" id="gbzdn"></a>
+<h3>6.2 Exception Handling on Windows</h3>
+<p>On Windows, an exception is an event that occurs during the
+execution of a program. There are two kinds of exceptions: hardware
+exceptions and software exceptions. Hardware exceptions are
+comparable to signals such as <tt>SIGSEGV</tt> and <tt>SIGKILL</tt>
+on Solaris OS and Linux. Software exceptions are initiated
+explicitly by applications or the operating system using the
+<tt>RaiseException()</tt> API.</p>
+<p>On Windows, the mechanism for handling both hardware and
+software exceptions is called <b>structured exception handling
+(SEH)</b>. This is stack frame-based exception handling similar to
+the C++ and Java exception handling mechanism. In C++ the
+<tt>__try</tt> and <tt>__except</tt> keywords are used to guard a
+section of code that might result in an exception, as in the
+following example:</p>
+<pre>
+__try {
+     // guarded body of code
+ } __except (filter-expression) {
+     // exception-handler block
+ }
+</pre>
+<p>The <tt>__except</tt> block is filtered by a filter expression
+that uses an exception code (integer code returned by the
+<tt>GetExceptionCode()</tt> API), or exception information
+(<tt>GetExceptionInformation()</tt> API), or both.</p>
+<p>The filter expression should evaluate to one of the following
+values:</p>
+<ul>
+<li>
+<p><tt>EXCEPTION_CONTINUE_EXECUTION</tt> = -1</p>
+<p>The filter expression has repaired the situation, and execution
+continues where the exception occurred. Unlike some exception
+schemes, SEH supports the <b>resumption model</b> as well. This is
+much like Unix signal handling in the sense that after the signal
+handler finishes, the execution continues where the program was
+interrupted. The difference is that the handler in this case is
+just the filter expression itself and not the <tt>__except</tt>
+block. However, the filter expression might also involve a function
+call.</p>
+</li>
+<li>
+<p><tt>EXCEPTION_CONTINUE_SEARCH</tt> = 0</p>
+<p>The current handler cannot handle this exception. Continue the
+handler search for the next handler. This is similar to the catch
+block not matching an exception type in C++ and Java.</p>
+</li>
+<li>
+<p><tt>EXCEPTION_EXECUTE_HANDLER</tt> = 1</p>
+<p>The current handler matches and can handle the exception. The
+<tt>__except</tt> block is executed.</p>
+</li>
+</ul>
+<p>The <tt>__try</tt> and <tt>__finally</tt> keywords are used to
+construct a termination handler as shown below.</p>
+<pre>
+__try { 
+    // guarded body of code  
+} __finally { 
+    // __finally block  
+}
+</pre>
+<p>When control leaves the <tt>__try</tt> block (after exception or
+without exception), the <tt>__finally</tt> block is executed.
+Inside the <tt>__finally</tt> block, the
+<tt>AbnormalTermination()</tt> API can be called to test whether
+control continued after the exception or not.</p>
+<p>Windows programs can also install a top-level <b>unhandled
+exception filter</b> function to catch exceptions that are not
+handled in a <tt>__try</tt>/<tt>__except</tt> block. This function
+is installed on a process-wide basis using the
+<tt>SetUnhandledExceptionFilter()</tt> API. If there is no handler
+for an exception, then <tt>UnhandledExceptionFilter()</tt> is
+called, and this will call the top-level unhandled exception filter
+function, if any, to catch that exception. This function also shows
+a message box to notify the user about the unhandled exception.</p>
+<p>Windows exceptions are comparable to Unix synchronous signals
+that are attributable to the current execution stream. In Windows,
+asynchronous events such as console events (for example, the user
+pressing Ctrl-C at the console) are handled by the console control
+handler registered using the <tt>SetConsoleCtlHandler()</tt>
+API.</p>
+<p>If an application uses the <tt>signal()</tt> API on Windows,
+then the C runtime library (CRT) maps both Windows exceptions and
+console events to appropriate signals or C runtime errors. For
+example, CRT maps Ctrl-C to <tt>SIGINT</tt> and all other console
+events to <tt>SIGBREAK</tt>. Similarly, if you register the
+<tt>SIGSEGV</tt> handler, the C runtime library translates the
+corresponding exception to a signal. The CRT library startup code
+implements a <tt>__try</tt>/<tt>__except</tt> block around the
+<tt>main()</tt> function. The CRT's exception filter function
+(named <tt>_XcptFilter</tt>) maps the Win32 exceptions to signals
+and dispatches signals to their appropriate handlers. If a signal's
+handler is set to <tt>SIG_DFL</tt> (default handling), then
+<tt>_XcptFilter</tt> calls <tt>UnhandledExceptionFilter</tt>.</p>
+<p>With Windows XP or Windows 2003, the <b>vectored exception
+handling</b> mechanism can also be used. Vectored handlers are not
+frame-based handlers. A program can register zero or more vectored
+exception handlers using the <tt>AddVectoredExceptionHandler</tt>
+API. Vectored handlers are invoked before structured exception
+handlers, if any, are invoked, regardless of where the exception
+occurred.</p>
+<p>Vectored exception handler returns one of the following
+values:</p>
+<ul>
+<li>
+<p><tt>EXCEPTION_CONTINUE_EXECUTION</tt>: Skip next vectored and
+SEH handlers.</p>
+</li>
+<li>
+<p><tt>EXCEPTION_CONTINUE_SEARCH</tt>: Continue next vectored or
+SEH handler.</p>
+</li>
+</ul>
+<p>Refer to the Microsoft web site at <a href=
+"http://www.microsoft.com">http://www.microsoft.com</a> for further
+information on Windows exception handling.</p>
+<a name="gbzdi" id="gbzdi"></a>
+<h4>6.2.1 Signal Handling in the HotSpot Virtual Machine</h4>
+<p>The HotSpot VM installs a top-level exception handler using the
+<tt>SetUnhandledExceptionFilter</tt> API (or the
+<tt>AddVectoredExceptionHandler</tt> API for 64-bit) during VM
+initialization.</p>
+<p>It also installs win32 SEH using a <tt>__try</tt>
+/<tt>__except</tt> block in C++ around the thread (internal) start
+function call for each thread created.</p>
+<p>Finally, it installs an exception handler around JNI
+functions.</p>
+<p>If an application must handle structured exceptions in JNI code,
+it can use <tt>__try</tt> /<tt>__except</tt> statements in C++.
+However, if it must use the vectored exception handler in JNI code
+then the handler must return <tt>EXCEPTION_CONTINUE_SEARCH</tt> to
+continue to the VMs exception handler.</p>
+<p>In general, there are two categories of situations in which
+exceptions arise:</p>
+<ul>
+<li>
+<p>Situations where signals are expected and handled. Examples
+include the implict null handling cited above where accessing a
+null causes an <tt>EXCEPTION_ACCESS_VIOLATION</tt>, which is
+handled.</p>
+</li>
+<li>
+<p>Unexpected exceptions. An example is
+<tt>EXCEPTION_ACCESS_VIOLATION</tt> when executing in VM code or in
+JNI or native code. In these cases the signal is unexpected, and
+fatal error handling is invoked to create the error log and
+terminate the process.</p>
+</li>
+</ul>
+<a name="gbzcv" id="gbzcv"></a>
+<h4>6.2.2 Console Handlers</h4>
+<p>The HotSpot Virtual Machine registers console events as shown in
+the following table.</p>
+<table border="0" cellpadding="0" cellspacing="0" class="dkgrey1"
+width="100%">
+<tr>
+<td>
+<table border="0" cellpadding="0" cellspacing="1" width="100%"
+class="vatop">
+<col width="29%" />
+<col width="22%" />
+<col width="48%" />
+<tr>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Console Event</div>
+</th>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Signal</div>
+</th>
+<th class="columncaption" align="left" valign="top">
+<div class="headerpadding">Usage</div>
+</th>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>CTRL_C_EVENT</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10"><tt>SIGINT</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Terminate process. (optional)</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>CTRL_CLOSE_EVENT</tt>
+<tt>CTRL_LOGOFF_EVENT</tt> <tt>CTRL_SHUTDOWN_EVENT</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10"><tt>SIGTERM</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Used by the shutdown hook mechanism when the
+VM is terminated abnormally. (optional)</div>
+</td>
+</tr>
+<tr class="yellow2">
+<td align="left" valign="top">
+<div class="pad5x10"><tt>CTRL_BREAK_EVENT</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10"><tt>SIGBREAK</tt></div>
+</td>
+<td align="left" valign="top">
+<div class="pad5x10">Thread dump support. To dump Java stack traces
+at the standard error stream. (optional)</div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<p>If an application must register its own console handler, then
+the <tt>-Xrs</tt> option can be used. With this option, shutdown
+hooks are not run on <tt>SIGTERM</tt> (with above mapping of
+events) and thread dump support is not available on
+<tt>SIGBREAK</tt> (with above mapping Ctrl-Break event).</p>
+</div>
+<div class="BottomPageControlPane">
+<table class="pagecontrol">
+<tr>
+<td>
+<div class="pagefooterlinks">Copyright &#169;1995, 2011, Oracle
+and/or its affiliates. All rights reserved. <a href=
+"docinfo.html">Legal Notices</a></div>
+</td>
+<td class="pagenavlinks"><a href="hangloop.html"><img src=
+"graphics/leftButton.gif" border="0" alt="Previous" title=
+"Previous" /></a> <a href="bugreports.html"><img src=
+"graphics/rightButton.gif" border="0" alt="Next" title=
+"Next" /></a></td>
+</tr>
+</table>
+</div>
+</body>
+</html>

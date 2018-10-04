@@ -1,0 +1,401 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Remote Objects</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="dircontext.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="corba.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/objectsHeader.gif" width=26 height=26 align=bottom border=0 alt="Java Objects and the Directory | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Storing Objects in the Directory</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Remote Objects
+</h2>
+<p>
+<blockquote>
+
+The 
+<a href="http://www.oracle.com/technetwork/java/javase/tech/index-jsp-136424.html">RMI (Java Remote Method Invocation) system</a>
+is a mechanism that enables an object on one Java virtual machine to
+invoke methods on an object in another Java virtual machine. Any
+object whose methods can be invoked in this way must implement the
+<tt>java.rmi.Remote</tt> interface.  When such an object is invoked,
+its arguments are <em>marshalled</em> and sent from the local virtual
+machine to the remote one, where the arguments are
+<em>unmarshalled</em> and used.  When the method terminates, the
+results are marshalled from the remote machine and sent to the
+caller's virtual machine.
+<p>
+To make a remote object accessible to other virtual machines, a
+program typically registers it with the RMI registry.  The program
+supplies to the registry the string name of the remote object as
+well as the remote object itself.  
+When a program wants to access a remote
+object, it supplies the object's string name to the registry that
+is on the same machine as the remote object.  The registry returns to
+the caller a reference (called <em>stub</em>) to the remote object.  When the
+program receives the stub for the remote object, it can invoke methods
+on the object (through the stub).  
+<p>
+A program can also obtain
+references to remote objects as a result of remote calls to other
+remote objects or from other naming services.  For example, the
+program can look up a reference to a remote object from an LDAP server
+that supports the schema defined <A HREF="http://www.ietf.org/rfc/rfc2713.txt">RFC 2713</A>.
+<p>
+The string name accepted by the RMI registry has the 
+syntax "rmi://<em>hostname</em>:<em>port</em>/<em>remoteObjectName</em>",
+where <em>hostname</em> and <em>port</em>
+identify the machine and port, respectively,
+on which the RMI registry is running
+and <em>remoteObjectName</em> is the string name of the remote
+object.  <em>hostname</em>, <em>port</em>, and the prefix, 
+<tt>"rmi:"</tt>, are optional.  
+If <em>hostname</em> is not specified, then it defaults to the local host.  
+If <em>port</em> is not specified, then it defaults to 1099.  
+If <em>remoteObjectName</em> is not
+specified, then the object being named is the RMI registry itself.
+See the <a href="http://www.oracle.com/technetwork/java/javase/tech/index-jsp-136424.html">RMI specification</a>
+for details.
+<p>
+RMI can be supported by using the Java Remote Method
+Protocol (JRMP) and the Internet Inter-ORB Protocol (IIOP).  The JRMP
+is a specialized protocol designed for RMI; the IIOP is the standard
+protocol for communication between CORBA objects.  
+<a href="http://www.oracle.com/technetwork/java/javase/tech/index-jsp-136424.html">RMI over IIOP</a>
+allows Java remote objects to communicate with CORBA objects that
+might be written in a non-Java programming language.
+
+<p>
+
+Some service providers, such as Sun's LDAP service provider, support
+the binding of <tt>java.rmi.Remote</tt> objects into directories.  
+When <tt>java.rmi.Remote</tt> objects and/or RMI registries are
+bound into an
+enterprise-wide shared namespace such as the LDAP, RMI clients can
+look up <tt>java.rmi.Remote</tt> objects without knowing on which machine
+the objects are running.
+
+<a name=MARSH><h4>Binding a Remote Object</h4></a>
+
+<blockquote>
+<hr>
+<strong>Before you go on:</strong>
+To run this example, you need the
+<a href=http://java.sun.com/products/jdk/1.2/>Java 2 Platform, v1.2</a>
+or higher release. You also need <tt>ldapbp.jar</tt>,
+as stated in the <a href=index.html#REQ>introduction of this lesson</a>.
+<hr>
+</blockquote>
+
+<p>
+The following example defines a <tt>java.rmi.Remote</tt> interface
+<tt><a href=src/Hello.java>Hello</a></tt> that has one method,
+<tt>sayHello()</tt>. 
+
+<blockquote><pre>
+public interface Hello extends Remote {
+    public String sayHello() throws RemoteException;
+}
+</pre></blockquote>
+
+It also defines an implementation of this interface,
+<tt><a href=src/HelloImpl.java>HelloImpl</a></tt>.
+<blockquote><pre>
+public class HelloImpl extends UnicastRemoteObject implements Hello {
+    public HelloImpl() throws RemoteException {
+    }
+
+    public String sayHello() throws RemoteException {
+        return ("Hello, the time is " + new java.util.Date());
+    }
+}
+</pre></blockquote>
+<p>
+<a href=src/RemoteObj.java>This example</a> also creates an instance of
+<tt>HelloImpl</tt> and binds it in the directory, assigning it the name
+<tt>"cn=RemoteHello"</tt>.
+
+<blockquote><pre>
+// Create the remote object to be bound, and give it a name
+Hello h = new HelloImpl();
+
+// Bind the object to the directory
+ctx.bind("cn=RemoteHello", h);
+</pre></blockquote>
+
+<p>
+After the object has been bound in the directory, an application can look
+it up by using the following code.
+<blockquote><pre>
+Hello h2 = (Hello)ctx.lookup("cn=RemoteHello");
+h2.sayHello();
+</blockquote></pre>
+
+<p>
+To run this example, you must do the following.
+<ol>
+<li>Compile <tt>Hello.java</tt>, <tt>HelloImpl.java</tt> and this example:
+<blockquote><pre>
+# javac Hello.java HelloImpl RemoteObj.java
+</pre></blockquote>
+<li>Run <tt>rmic</tt> with <tt>HelloImpl</tt> as the argument to produce
+the stubs for the remote object:
+<blockquote><pre>
+# rmic HelloImpl
+</pre></blockquote>
+<li>Copy <tt>Hello.class</tt>, <tt>HelloImpl.class</tt> 
+and the class files generated by <tt>rmic</tt> to a directory on a Web server.
+<li>Specify this directory as the codebase to the Java interpreter.
+<blockquote><pre>
+# java -Djava.rmi.server.codebase=http://web1/example/classes/ RemoteObj
+</pre></blockquote>
+</ol>
+
+<tt>RemoteObj</tt> does not terminate, because it created the remote object
+<tt>HelloImpl</tt> that other RMI clients can contact and use.
+However, this program will terminate eventually, when the remote
+object becomes garbage collected. To prevent the
+object's being garbage
+collected, you must maintain a (live) reference to the remote object.
+If you had registered the object in the RMI registry instead,
+then maintaining a reference would not be necessary 
+because the registry would automatically maintain a
+reference to the object.
+<p>
+When you later look up this object from the directory, the directory
+will return the bound <tt>HelloImpl</tt> remote object.
+The RMI will automatically download the necessary class files
+from the codebase specified in the <tt>"java.rmi.server.codebase"</tt>
+property. See the 
+<a target="_top" href="../reading/lookup.html">Reading Objects from the Directory</a> <a href="../reading/lookup.html"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>    lesson for an example.
+
+
+
+<a name=REF><h4>Binding a Remote Object by Using a Reference</h4></a>
+
+<blockquote>
+<hr>
+<strong>Before you go on:</strong> 
+This example requires that you have started the 
+RMI registry on your machine.
+You also need <tt>rmiregistry.jar</tt>,
+as stated in the <a href=index.html#REQ>introduction of this lesson</a>.
+<hr>
+</blockquote>
+
+The following example uses the same 
+<tt><a href=src/Hello.java>Hello</a></tt> and
+<tt><a href=src/HelloImpl.java>HelloImpl</a></tt>
+classes used in the <a href=#MARSH>previous example</a>.
+<a href=src/RemoteRef.java>It</a> creates a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html"><tt>Reference</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Reference.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   containing an RMI URL (<tt>"rmi://mymachine/hello"</tt>)
+and binds it in the directory.
+<blockquote>
+<pre>
+String rmiurl = "rmi://mymachine/hello";
+
+// Create the reference containing the (future) location of the object
+Reference ref = new Reference("Hello", new StringRefAddr("URL", rmiurl));
+
+// Bind the object to the directory
+ctx.bind("cn=RefHello", ref);
+</pre>
+</blockquote>
+<p>
+It then creates an instance of
+<tt>HelloImpl</tt> and binds it in the local RMI registry by using
+the same RMI URL (<tt>"rmi://mymachine/hello"</tt>).
+<blockquote><pre>
+// Create the remote object to be bound
+Hello h = new HelloImpl();
+
+// Bind the object to the RMI registry
+ctx.rebind(rmiurl, h);
+</pre></blockquote>
+
+<p>
+After the object has been bound in both the directory and
+the RMI registry,
+an application can look up the object by using the following code.
+<blockquote>
+<pre>
+Hello h2 = (Hello)ctx.lookup("cn=RefHello");
+System.out.println(h2.sayHello());
+</pre>
+</blockquote>
+<p>
+In effect, this method has one more level of indirection than
+the previous example offered. The information stored in the directory
+(the <tt>Reference</tt>) is actually a pointer to information stored 
+in another naming service (the RMI registry), which in turn,
+contains the reference to the <tt>java.rmi.Remote</tt> object.
+<p>
+To run this example, you must do the following.
+<ol>
+<li>Perform Steps 1-3 from the <a href=#MARSH>previous example</a>.
+<li>Compile this example:
+<blockquote><pre>
+# javac RemoteRef.java
+</pre></blockquote>
+<li>Specify the codebase directory as the codebase to the Java interpreter.
+<blockquote><pre>
+# java -Djava.rmi.server.codebase=http://web1/example/classes/ RemoteRef
+</pre></blockquote>
+</ol>
+<tt>RemoteRef</tt> does not terminate, because it created the remote object
+<tt>HelloImpl</tt> that other RMI clients can contact and use.
+<p>
+When you later look up this object from the directory, the directory
+will return the bound <tt>HelloImpl</tt> remote object.
+The RMI will automatically download the necessary class files
+from the codebase specified in the <tt>"java.rmi.server.codebase"</tt>
+property. See the 
+<a target="_top" href="../reading/lookup.html">Reading Objects from the Directory</a> <a href="../reading/lookup.html"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>    lesson for an example.
+
+<a name=RMIIIOP><h4>Binding a Remote Object That Uses IIOP</h4></a>
+
+<blockquote>
+<hr>
+<strong>Before you go on:</strong> 
+This example requires that you have <tt>ldapbp.jar</tt>,
+as stated in the <a href=index.html#REQ>introduction of this lesson</a>.
+If you are not using the
+<a href=http://java.sun.com/j2se/1.3>Java 2 SDK, v1.3</a>,
+then you also need to install the
+<a href="http://java.sun.com/products/rmi-iiop/">RMI-IIOP Standard Extension</a>.
+If you are not using the
+<a href=http://java.sun.com/products/jdk/1.2/>Java 2 SDK, v1.2</a> 
+or higher release, then you also need to install Java IDL,
+a version of which comes with the
+<a href="http://java.sun.com/products/rmi-iiop/">RMI-IIOP Standard Extension</a>.
+<hr>
+</blockquote>
+
+The procedure for binding a <tt>java.rmi.Remote</tt> object that uses IIOP or JRMP is identical as far as the JNDI is concerned.
+From the user/application's perspective, they
+differ only in how the stubs for the <tt>java.rmi.Remote</tt> object are generated.
+Looking up the object presents a bigger difference:
+When the object is looked up from the directory (or some other naming
+service), the result must be narrowed by using
+<tt>javax.rmi.PortableRemoteObject.narrow()</tt> instead of the
+Java type cast operator.
+<p>
+The following example uses the
+<tt><a href=src/Hello.java>Hello</tt></a> interface from the
+<a href=#MARSH>JRMP example</a>.
+It defines an implementation of this interface,
+<tt><a href=src/RiHelloImpl.java>RiHelloImpl</a></tt>, that is
+analogous to <tt><a href=src/HelloImpl.java>HelloImpl</a></tt>,
+except that it extends from <tt>javax.rmi.PortableRemoteObject</tt>
+instead of from <tt>java.rmi.server.UnicastRemoteObject</tt>.
+<blockquote><pre>
+public class RiHelloImpl extends PortableRemoteObject implements Hello {
+    public RiHelloImpl() throws RemoteException {         
+    }
+
+    public String sayHello() throws RemoteException {
+        String date = new String((new java.util.Date()).toString());
+        return ("RMI/IIOP hello | " + date);
+    }
+}
+</pre></blockquote>
+
+<a href=src/RmiiiopObj.java>The example</a> creates an instance of
+<tt>RiHelloImpl</tt> and binds it in the directory, assigning it the name
+<tt>"cn=RmiiiopHello"</tt>.
+
+<blockquote><pre>
+// Create the remote object to be bound, and give it a name
+Hello h = new RiHelloImpl();
+
+// Bind the object to the directory
+ctx.bind("cn=RmiiiopHello", h);
+</pre></blockquote>
+<p>
+After the object has been bound in the directory, an application can look
+it up by using the following code.
+<blockquote><pre>
+// Look up the object
+org.omg.CORBA.Object cobj = (org.omg.CORBA.Object)ctx.lookup("cn=RmiiiopHello");
+
+// Narrow the object to the desired type
+Hello robj = (Hello)PortableRemoteObject.narrow(cobj, Hello.class);
+
+// Invoke the method
+System.out.println(robj.sayHello());
+</pre></blockquote>
+To run this example, you must do the following.
+<ol>
+<li>Compile <tt>Hello.java</tt>, <tt>RiHelloImpl.java</tt> and this example:
+<blockquote><pre>
+# javac Hello.java RiHelloImpl RmiiiopObj.java
+</pre></blockquote>
+<li>Run <tt>rmic</tt> with <tt>RiHelloImpl</tt> as the argument and
+the <tt>"-iiop"</tt> option to produce the IIOP stubs for the remote object:
+<blockquote><pre>
+# rmic -iiop RiHelloImpl
+</pre></blockquote>
+<li>Copy <tt>Hello.class</tt>, <tt>RiHelloImpl.class</tt> 
+and the class files generated by <tt>rmic</tt> to a directory on a Web server.
+<li>Specify this directory as the codebase to the Java interpreter.
+<blockquote><pre>
+# java -Djava.rmi.server.codebase=http://web1/example/classes/ RmiiiopObj
+</pre></blockquote>
+</ol>
+<tt>RmiiiopObj</tt> does not terminate, because it created the remote object
+<tt>RiHelloImpl</tt> that other RMI clients can contact and use.
+<p>
+When you later look up this object from the directory, the directory
+will return the bound <tt>RiHelloImpl</tt> remote object.
+The RMI will automatically download the necessary class files
+from the codebase specified in the <tt>"java.rmi.server.codebase"</tt>
+property. See the 
+<a target="_top" href="../reading/lookup.html">Reading Objects from the Directory</a> <a href="../reading/lookup.html"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>    lesson for an example.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="dircontext.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="corba.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/objectsHeader.gif" width=26 height=26 align=top border=0 alt="Java Objects and the Directory | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Storing Objects in the Directory</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

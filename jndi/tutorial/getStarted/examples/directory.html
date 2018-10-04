@@ -1,0 +1,273 @@
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Directory Example</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="naming.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="../faq/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/getStartedHeader.gif" width=26 height=26 align=bottom border=0 alt="Getting Started | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Examples</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Directory Example
+</h2>
+<p>
+<blockquote>
+
+<a href=src/Getattr.java>This example</a> shows you how to write a 
+program that
+retrieves attributes from a directory object.
+It uses an LDAP 
+<a href=../concepts/glossary.html#PROVIDER>service provider</a>
+to access an LDAP service.
+
+<h4>Importing the JNDI Directory Classes</h4>
+Using your favorite text editor, create a file named <tt>Getattr.java</tt>.
+You can import either the entire package or only individual classes
+and interfaces. The following code imports each class that is
+used from the 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/package-summary.html><tt>javax.naming</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/package-summary.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>      and
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/package-summary.html><tt>javax.naming.directory</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/package-summary.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     packages.
+
+<blockquote>
+<pre>
+import javax.naming.Context;
+import javax.naming.directory.InitialDirContext;
+import javax.naming.directory.DirContext;
+import javax.naming.directory.Attributes;
+import javax.naming.NamingException;
+</pre>
+</blockquote>
+
+<h4>Creating an Initial Directory Context</h4>
+
+In the <tt>main()</tt> method of the program, create 
+an initial directory context.
+This is similar to creating an initial context in the previous
+<a href=naming.html>naming example</a>, 
+except that you use the constructor for 
+
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InitialDirContext.html><tt>InitialDirContext</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InitialDirContext.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+
+<blockquote>
+<pre>
+Hashtable env = new Hashtable();
+env.put(Context.INITIAL_CONTEXT_FACTORY,
+    "com.sun.jndi.ldap.LdapCtxFactory");
+env.put(Context.PROVIDER_URL, "ldap://localhost:389/o=JNDITutorial");
+
+DirContext ctx = new InitialDirContext(env);
+</pre>
+</blockquote>
+
+<p>
+Similar to the naming example,
+you indicate that you're using the LDAP service provider
+by setting the <tt>Hashtable</tt> parameter to the 
+
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InitialDirContext.html#constructor_detail><tt>InitialDirContext</tt> constructor</a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/InitialDirContext.html#constructor_detail><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     appropriately. 
+Details on how to set up the parameters for this constructor
+are given in
+<a target="_top" href="../../basics/index.html">The Basics</a> <a href="../../basics/index.html"><img src="../../jndiimages/basicsIcon.gif" width=20 height=20 border=0 alt="(in the Basics trail)"></a>     trail.
+For now, the only thing to understand is that the program
+by default identifies an LDAP server on the local machine.
+If your LDAP server is located on another machine
+or is using another port, then you need to edit
+the LDAP URL (<tt>"ldap://localhost:389/o=JNDITutorial"</tt>)
+accordingly. Instructions for setting up 
+a sample LDAP server for this tutorial are given in the
+<a target="_top" href="../../basics/prepare/software.html#SERVER">Preparations</a> <a href="../../basics/prepare/software.html#SERVER"><img src="../../jndiimages/basicsIcon.gif" width=20 height=20 border=0 alt="(in the Basics trail)"></a>     lesson. 
+
+
+
+<h4>Getting a Directory Object's Attributes</h4>
+
+Next, use 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#getAttributes(javax.naming.Name)"><tt>getAttributes()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#getAttributes(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     to get an object's attributes.
+The following code retrieves all of the attributes associated with
+the object bound to the name <tt>"cn=Ted Geisel, ou=People"</tt>:
+
+<blockquote>
+<pre>
+Attributes attrs = ctx.getAttributes("cn = Ted Geisel, ou=People");
+</pre>
+</blockquote>
+
+<h4>Extracting the Desired Attribute</h4>
+
+From a set of attributes, 
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attributes.html><tt>Attributes</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attributes.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, you can
+ask for a particular attribute by using 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attributes.html#get(java.lang.String)"><tt>Attributes.get()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attributes.html#get(java.lang.String)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and then from that attribute get its value.
+The following line first gets the surname attribute <tt>"sn"</tt>
+and then invokes 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attribute.html#get()"><tt>Attribute.get()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/Attribute.html#get()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     on it to get its value:
+
+<blockquote>
+<pre>
+attrs.get("sn").get();
+</pre>
+</blockquote>
+
+<h4>Catching NamingException</h4>
+
+The method calls shown so far can throw a 
+
+<a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html><tt>NamingException</tt></a><a target="_top" href=http://java.sun.com/j2se/1.3/docs/api/javax/naming/NamingException.html><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.  For this reason, you need to wrap these calls inside a 
+<tt>try/catch</tt> clause. Here's the code fragment repeated
+with the <tt>try/catch</tt> clause.
+
+<blockquote>
+<pre>
+try {
+
+    // Create the initial directory context
+    DirContext ctx = new InitialDirContext(env);
+	    
+    // Ask for all attributes of the object 
+    Attributes attrs = ctx.getAttributes("cn=Ted Geisel, ou=People");
+
+    // Find the surname attribute ("sn") and print it
+    System.out.println("sn: " + attrs.get("sn").get());
+
+} catch (NamingException e) {
+    System.err.println("Problem getting attribute:" + e);
+}
+</pre>
+</blockquote>
+
+
+<h4>Compiling the Program</h4>
+Next, compile the source file using the Java compiler.
+As with the naming example,  to do this you need
+access to the JNDI classes.
+<p>
+If the compilation succeeds,
+then the compiler creates a file named <code>Getattr.class</code>
+in the same directory (folder) as the Java source 
+file (<code>Getattr.java</code>). 
+If the compilation fails,
+then make sure that you typed in and named the program
+exactly as shown here, using the capitalization shown.  If you are
+still having problems, then see the
+<a target="_top" href="../faq/compile.html">Common Problems</a> <a target="_top" href="../faq/compile.html"><img src="../../jndiimages/getStartedIcon.gif" width=20 height=20 border=0 alt="(in the Getting Started trail)"></a>     lesson for help.
+<p>
+
+<h4>
+Running the Program
+</h4>
+
+As with the naming example, 
+you need access to both the JNDI classes and your example class,
+<tt>Getattr.class</tt>.
+You also need access to the LDAP service provider classes
+(<tt>ldap.jar</tt> and <tt>providerutil.jar</tt>).
+If you are using the
+<a href=http://java.sun.com/j2se/1.3>Java 2 SDK, v1.3</a>,
+then these classes are already included.
+
+<p>
+Here's an example of a command line for running <tt>Getattr</tt> and
+the output it generates.
+
+<blockquote>
+<pre>
+# java Getattr 
+sn: Geisel
+</pre>
+</blockquote>
+Recall that the program was configured with the following
+property.
+<blockquote><pre>
+env.put(Context.PROVIDER_URL, "ldap://localhost:389/o=JNDITutorial");
+</pre></blockquote>
+With this configuration, this command queries the LDAP server on machine <tt>localhost</tt> that is
+listening on port 389, serving the <tt>"o=JNDITutorial"</tt> namespace.
+(See the
+<a target="_top" href="../../basics/prepare/initial.html">Preparations</a> <a href="../../basics/prepare/initial.html"><img src="../../jndiimages/basicsIcon.gif" width=20 height=20 border=0 alt="(in the Basics trail)"></a>     lesson for details on this configuration step.) 
+
+It asks for the attributes of the entry
+<tt>"cn=Ted Geisel, ou=People"</tt>.
+Once it has the attributes, it extracts the surname attribute (<tt>"sn"</tt>).
+If you have any trouble running this example, then see the
+<a target="_top" href="../faq/runtime.html">Common Problems</a> <a target="_top" href="../faq/runtime.html"><img src="../../jndiimages/getStartedIcon.gif" width=20 height=20 border=0 alt="(in the Getting Started trail)"></a>    lesson.
+
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<strong>Examples: End of Lesson</strong>
+<p>
+What's next?
+Now you can:
+<ul>
+<li> <a href=../faq/index.html>Continue</a> on in this trail
+to read about common problems that you might encounter
+when running or compiling JNDI programs.
+
+<li> Go to the 
+<a target="_top" href="../../basics/index.html">The Basics</a> <a href="../../basics/index.html"><img src="../../jndiimages/basicsIcon.gif" width=20 height=20 border=0 alt="(in the Basics trail)"></a>     trail for more in-depth lessons on performing
+naming and directory operations using the JNDI.
+</ul>
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="naming.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="../faq/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/getStartedHeader.gif" width=26 height=26 align=top border=0 alt="Getting Started | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Examples</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>
+

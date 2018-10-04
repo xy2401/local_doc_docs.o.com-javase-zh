@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Overview of Java Web Start Technology</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="dcterms.created" content="2018-03-12T22:52:24Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Deployment Guide" />
+<meta name="dcterms.identifier" content="E92517-01" />
+<meta name="dcterms.isVersionOf" content="JSDPG" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="http://docs.oracle.com/javase/10/index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="java-web-start-technology.htm" title="Previous" type="text/html" />
+<link rel="Next" href="application-development-considerations.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSDPG.pdf" title="PDF version" type="application/pdf" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-A74B325E-2EB1-49EE-B86D-8AAA1B6D6C3A"></a> <span id="PAGE" style="display:none;">10/17</span> <!-- End Header -->
+<h1 id="JSDPG-GUID-A74B325E-2EB1-49EE-B86D-8AAA1B6D6C3A" class="sect1"><span class="enumeration_chapter">4</span> Overview of Java Web Start Technology</h1>
+<div>
+<p>This chapter includes the following topics:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="overview.htm#GUID-85BCB5A2-A2DD-4603-BD1D-B00D546577EE">Introduction to Java Web Start</a></p>
+</li>
+<li>
+<p><a href="overview.htm#GUID-51B77469-1F7E-42A8-B7E5-171BBB36EBC9">Using Java Web Start Software</a></p>
+</li>
+<li>
+<p><a href="overview.htm#GUID-432B039D-9849-4007-99CD-8B6CE2E421D6">Setting Up the Web Server</a></p>
+</li>
+<li>
+<p><a href="overview.htm#GUID-E2442793-A04A-4F07-8BFB-50A6E983F78A" title="Java Web Start includes a protocol handler to handle the custom URI schemes jnlp: and jnlps:. Use these schemes as a direct way to start Java Web Start applications.">Installing the Java Web Start Protocol Handler</a></p>
+</li>
+</ul>
+</div>
+<div class="sect2"><a id="GUID-85BCB5A2-A2DD-4603-BD1D-B00D546577EE"></a>
+<h2 id="JSDPG-GUID-85BCB5A2-A2DD-4603-BD1D-B00D546577EE" class="sect2">Introduction to Java Web Start</h2>
+<div>
+<p>Java Web Start is an application-deployment technology that enables your users to launch full-featured applications with a single click from any web browser. Users can download and launch applications without going through complicated installation procedures.</p>
+<p>With Java Web Start, your users launch applications by clicking a web page link. If the application is not present on their computer, Java Web Start automatically downloads all necessary files. It then caches the files on the computer so that the application is always ready to be relaunched anytime the user wants&mdash;either from an icon on the desktop or from the browser link. No matter which method is used to launch the application, the most current version of the application is always presented.</p>
+<p>The technology underlying Java Web Start is the Java Network Launching Protocol &amp; API (JNLP). This technology was developed through the Java Community Process (JCP). Java Web Start is the reference implementation (RI) for the JNLP specification. The JNLP technology defines, among other things, the JNLP file, which is a standard file format that describes how to launch an application. The JNLP specification is available at <a href="http://jcp.org/en/jsr/detail?id=56" target="_blank">JSR 56: Java Network Launching Protocol and API</a>.</p>
+</div>
+<div class="sect3"><a id="GUID-8BB16EEA-43D3-4C3A-8F94-C0EC587CE9DE"></a>
+<h3 id="JSDPG-GUID-8BB16EEA-43D3-4C3A-8F94-C0EC587CE9DE" class="sect3">Benefits of Java Web Start</h3>
+<div>
+<p>From a technology standpoint, Java Web Start has a number of key benefits that make it an attractive platform to use for deploying applications.</p>
+<p>The benefits include the following:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Java Web Start is built exclusively to launch applications written to the Java Platform, Standard Edition. Thus, a single application can be made available on a web server and then deployed on a wide variety of platforms, including Windows 7+, Linux, and macOS.</p>
+</li>
+<li>
+<p>Java Web Start supports multiple revisions of the Java Platform, Standard Edition. Thus, an application can request a particular version of the platform it requires, such as Java SE 9. Several applications can run at the same time on different platform revisions without causing conflicts.</p>
+</li>
+<li>
+<p>Java Web Start enables applications to be launched independently of a web browser. This can be used for off-line operation of an application, where launching the application through the browser is inconvenient or impossible. The application can also be launched through desktop shortcuts, making launching the web-deployed application similar to launching a native application.</p>
+</li>
+<li>
+<p>Java Web Start takes advantage of security features of the Java Platform. Sandbox applications are run in a protective environment with restricted access to local disk and network resources. Users must also agree to run the application the first time it is launched.</p>
+</li>
+<li>
+<p>Applications launched with Java Web Start are cached locally. Thus, an already-downloaded application is launched similar to a traditionally installed application.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3"><a id="GUID-E5B84F04-EA31-4722-A29F-D03EEB583516"></a>
+<h3 id="JSDPG-GUID-E5B84F04-EA31-4722-A29F-D03EEB583516" class="sect3">Where to Find Java Web Start</h3>
+<div>
+<p>Java Web Start is included in the Java Platform, Standard Edition development kit (JDK) and Java Runtime Environment (JRE), and includes the security features of the Java platform.</p>
+<p>The JDK and JRE are available from the <a href="http://java.com/" target="_blank">java.com</a> website.</p>
+</div>
+</div>
+</div>
+<div class="sect2"><a id="GUID-51B77469-1F7E-42A8-B7E5-171BBB36EBC9"></a>
+<h2 id="JSDPG-GUID-51B77469-1F7E-42A8-B7E5-171BBB36EBC9" class="sect2">Using Java Web Start Software</h2>
+<div>
+<p>Java Web Start allows you to launch Java-technology-based applications directly from the Web. An application can be launched in three different ways:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>From a web browser by clicking a link</p>
+</li>
+<li>
+<p>From desktop icons or the Start Menu</p>
+</li>
+<li>
+<p>From the Java Cache Viewer</p>
+</li>
+</ul>
+<p>Regardless of which way is used, Java Web Start will connect back to the web server each time an application is launched, to check whether an updated version of the application is available.</p>
+</div>
+<div class="sect3"><a id="GUID-BC5AB268-75AE-4E1B-8144-D1B9E7066B8A"></a>
+<h3 id="JSDPG-GUID-BC5AB268-75AE-4E1B-8144-D1B9E7066B8A" class="sect3">Launching from a Web Browser</h3>
+<div>
+<p>Point your web browser to a page with a link to a JNLP application, and click that link.</p>
+<p>A security dialog box will pop up with information about the origin of the application based on who digitally signed the code, and the level of access requested. The application will run only if you decide to trust the vendor.</p>
+<p id="GUID-BC5AB268-75AE-4E1B-8144-D1B9E7066B8A__APPMAN">That is really all there is to using Java Web Start, but how does it work? The HTML links that launch the applications are, in fact, standard HTML links. However, instead of pointing to another web page, they link to a special configuration file called a JNLP file. The web browser examines the file extension or the MIME type of the file, and sees that it belongs to Java Web Start. It then launches Java Web Start with the downloaded JNLP file as an argument. Java Web Start proceeds with downloading, caching, and running the application as directed by the JNLP file.&nbsp;</p>
+</div>
+</div>
+<div class="sect3"><a id="GUID-8B49B285-2E9F-4C7A-93A6-529A489C4203"></a>
+<h3 id="JSDPG-GUID-8B49B285-2E9F-4C7A-93A6-529A489C4203" class="sect3">Launching from Desktop Icons and the Start Menu (Microsoft Windows and Linux Running GNOME 2.0+)</h3>
+<div>
+<p>Java Web Start technology can automatically create shortcuts for your application on the desktop and in the Start Menu for web-deployed applications developed with Java technology. You can use the Java Control Panel to control the shortcut settings. Shortcuts can also be added by using the Java Web Start Cache Viewer, using the install shortcut menu item.</p>
+</div>
+</div>
+<div class="sect3"><a id="GUID-7FD127D2-2D59-412D-A4A8-7207E0137EBC"></a>
+<h3 id="JSDPG-GUID-7FD127D2-2D59-412D-A4A8-7207E0137EBC" class="sect3">Using Java Web Start Software Behind a Proxy Server or Firewall</h3>
+<div>
+<p>Java Web Start software must be configured with the correct proxy settings in order to launch applications from outside your firewall. Java Web Start software automatically tries to detect the proxy settings from the default browser on your system (Internet Explorer or Mozilla browsers on Microsoft Windows, and Mozilla browsers on the Solaris Operating Environment and Linux). Java Web Start technology supports most web proxy auto-configuration scripts. It can detect proxy settings in almost all environments.</p>
+<p>You can also use the <a href="java-control-panel.htm#GUID-A8B5109E-7CDC-4F41-8CAB-D5B0B11E9B5B">Network Settings Tab</a> in the Java Control Panel to view or edit the proxy configuration.</p>
+</div>
+</div>
+</div>
+<div class="sect2"><a id="GUID-432B039D-9849-4007-99CD-8B6CE2E421D6"></a>
+<h2 id="JSDPG-GUID-432B039D-9849-4007-99CD-8B6CE2E421D6" class="sect2">Setting Up the Web Server</h2>
+<div>
+<p>Applications can be deployed from any standard web server. Java Web Start leverages existing internet technology, such as the HTTP protocol and web servers, so existing infrastructure for deploying HTML-based content can be reused to deploy Java Technology-based applications using Java Web Start.</p>
+<p>To deploy your application to client machines, ensure that all files that contain your application are accessible through a web server. This typically requires copying one or more JAR files and a JNLP file into the web server's directories. Enabling the website to support Java Web Start is similar to deploying HTML-based content. In addition, to use Java Web Start, the web server must be configured to support the <code class="codeph">application/x-java-jnlp-file</code> MIME type.</p>
+<dl>
+<dt class="dlterm"><a id="GUID-432B039D-9849-4007-99CD-8B6CE2E421D6__GUID-08EC4EB9-8DBA-42AB-A3DF-57D17B590487"><!-- --></a>Step 1&nbsp;&nbsp;&nbsp;Configure the web server to use the Java Web Start MIME type.</dt>
+<dd>
+<p>Many web servers come with the Java Web Start MIME type configured by default. If your web server does not, configure it so that all files with the <code class="codeph">.jnlp</code> file extension are set to the <code class="codeph">application/x-java-jnlp-file</code> MIME type.</p>
+<p>Most web browsers use the MIME type returned with the contents from the web server to determine how to handle the particular content. The server must return the <code class="codeph">application/x-java-jnlp-file</code> MIME type for JNLP files in order for Java Web Start to be invoked.</p>
+<p>Each web server has a specific way in which to add MIME types. For example, for the Apache web server, you add the following line to the <code class="codeph">.mime.types</code> configuration file:</p>
+<p><code class="codeph">application/x-java-jnlp-file JNLP</code></p>
+<p>Check the documentation for the specifics of your web server.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-432B039D-9849-4007-99CD-8B6CE2E421D6__GUID-800FB88A-CB1E-48DB-843C-E5BFDF0E4CF4"><!-- --></a>Step 2&nbsp;&nbsp;&nbsp;Create a JNLP file for the application.</dt>
+<dd>
+<p>The easiest way to create this file is to modify an existing JNLP file with your requirements. A simple JNLP file is shown in the following example:</p>
+<pre dir="ltr">
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;jnlp spec="9.0+"
+  codebase="http://example.com/demos/helloworld" 
+  href="HelloWorld.jnlp"&gt;
+  &lt;information&gt;
+    &lt;title&gt;HelloWorld&lt;/title&gt;
+    &lt;description&gt;HelloWorld demo application&lt;/description&gt;
+  &lt;/information&gt;
+
+  &lt;resources&gt;
+    &lt;j2se version="9"/&gt;
+    &lt;jar href="HelloWorld.jar" size="47013" download="eager" /&gt;
+  &lt;/resources&gt;
+
+  &lt;application-desc main-class="HelloWorld"/&gt;
+&lt;/jnlp&gt;
+</pre>
+<p>The syntax and format for the JNLP file is described in <a href="jnlp-file-syntax.htm#GUID-8644B881-8C5E-41C1-8F92-659FC2F62A12">JNLP File Syntax</a>.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-432B039D-9849-4007-99CD-8B6CE2E421D6__GUID-0B9B33F2-A047-4E00-A634-59E1982030CD"><!-- --></a>Step 3&nbsp;&nbsp;&nbsp;Make the application accessible on the web server.</dt>
+<dd>
+<p>Ensure that your application's JAR files and the JNLP file are accessible at the URLs listed in the JNLP file.</p>
+</dd>
+<dt class="dlterm"><a id="GUID-432B039D-9849-4007-99CD-8B6CE2E421D6__GUID-83713EA4-FF12-4AB1-A411-EBD709669F5D"><!-- --></a>Step 4&nbsp;&nbsp;&nbsp;Create the web page that launches the application.</dt>
+<dd>
+<p>Create the web page and include one of the following options for starting a Java Web Start application:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Use a link to the JNLP file, as shown in the following examples:</p>
+<pre dir="ltr">
+&lt;a href="/some/path/HelloWorld.jnlp"&gt;Launch HelloWorld demo&lt;/a&gt;
+
+&lt;a href="https://docs.oracle.com/javase/tutorialJWS/samples/deployment/dynamictree_webstartJWSProject/dynamictree_webstart.jnlp"&gt;Launch DynamicTree demo&lt;/a&gt;
+
+&lt;a href="http://docs.oracle.com/javase/tutorialJWS/samples/deployment/dynamictree_webstartJWSProject/dynamictree_webstart.jnlp"&gt;Launch DynamicTree demo&lt;/a&gt;
+</pre></li>
+<li>
+<p>Use JavaScript, as shown in the following example:</p>
+<pre dir="ltr">
+&lt;script src="https://www.java.com/js/deployJava.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    var url = "https://docs.oracle.com/javase/tutorialJWS/samples/deployment/dynamictree_webstartJWSProject/dynamictree_webstart.jnlp";
+    deployJava.createWebStartLaunchButton(url, '1.6.0');
+&lt;/script&gt;
+</pre></li>
+<li>
+<p>Use a link with the <code class="codeph">jnlp:</code> schema, as shown in the following example:</p>
+<pre dir="ltr">
+&lt;a href="jnlp:https://docs.oracle.com/javase/tutorialJWS/samples/deployment/dynamictree_webstartJWSProject/dynamictree_webstart.jnlp"&gt;Launch DynamicTree demo&lt;/a&gt;
+</pre></li>
+<li>
+<p>Copy the JavaScript code from the HTML file generated by the Java Packager tool.</p>
+<p>If you are using the Java Packager tool, see <a href="getting-started.htm#GUID-84E147F0-EEC9-40B9-8C8A-5C8BCCA2AF85">Create the Web Page</a>.</p>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2"><a id="GUID-E2442793-A04A-4F07-8BFB-50A6E983F78A"></a>
+<h2 id="JSDPG-GUID-E2442793-A04A-4F07-8BFB-50A6E983F78A" class="sect2">Installing the Java Web Start Protocol Handler</h2>
+<div>
+<p>Java Web Start includes a protocol handler to handle the custom URI schemes <code class="codeph">jnlp:</code> and <code class="codeph">jnlps:</code>. Use these schemes as a direct way to start Java Web Start applications.</p>
+<p>The protocol handler is automatically installed on Windows and macOS systems. It must be manually installed on Linux systems.</p>
+<ul style="list-style-type: disc;">
+<li>
+<p><a href="overview.htm#GUID-BC1669F9-7238-462D-80AA-3D42BAF99FA7" title="If you use the Chrome browser on Linux, manually install the protocol handler that enables you to start Java Web Start applications using the jnlp or jnlps protocol.">Installing the Protocol Handler for Chrome</a></p>
+</li>
+<li>
+<p><a href="overview.htm#GUID-3771E26F-20B1-4FB8-B6FD-E108636A0825" title="If you use the Firefox browser on Linux, manually install the protocol handler that enables you to start Java Web Start applications using the jnlp or jnlps protocol.">Installing the Protocol Handler in Firefox</a></p>
+</li>
+</ul>
+</div>
+<div class="sect3"><a id="GUID-BC1669F9-7238-462D-80AA-3D42BAF99FA7"></a>
+<h3 id="JSDPG-GUID-BC1669F9-7238-462D-80AA-3D42BAF99FA7" class="sect3">Installing the Protocol Handler for Chrome</h3>
+<div>
+<p>If you use the Chrome browser on Linux, manually install the protocol handler that enables you to start Java Web Start applications using the <code class="codeph">jnlp</code> or <code class="codeph">jnlps</code> protocol.</p>
+<div class="section">In Linux, the <code class="codeph">xdg-open</code> command is used to open a file or URL in the user's preferred application. To install the protocol handler, configure <code class="codeph">xdg-open</code> to use Java Web Start for URLs that include the <code class="codeph">jnlp</code> or <code class="codeph">jnlps</code> protocol:</div>
+<!-- class="section" -->
+<ol>
+<li class="stepexpand"><span>Use a text editor to create a file named <code>javaws.desktop</code> in the <code>~/.local/share/applications</code> directory.</span></li>
+<li class="stepexpand"><span>Include the statements shown in the following example.</span>
+<div>
+<pre dir="ltr">
+[Desktop Entry] 
+Encoding=UTF-8 
+Name=Java(TM) Web Launcher 
+Exec=<span class="variable">jre-home</span>/bin/javaws %U 
+Terminal=false 
+Type=Application 
+MimeType=x-scheme-handler/jnlp;x-scheme-handler/jnlps 
+</pre></div>
+</li>
+<li class="stepexpand"><span>Save the file.</span></li>
+<li class="stepexpand"><span>Run the following commands:</span>
+<div>
+<pre dir="ltr">
+xdg-mime default javaws.desktop x-scheme-handler/jnlp 
+xdg-mime default javaws.desktop x-scheme-handler/jnlps 
+</pre></div>
+</li>
+</ol>
+<div class="section">After installing the protocol handler, Java Web Start is used to launch applications when the URL contains the <code class="codeph">jnlp</code> or <code class="codeph">jnlps</code> protocol. For example, the following URL starts the Dynamic Tree sample from the Java Tutorials:
+<pre dir="ltr">
+jnlps://docs.oracle.com/javase/tutorialJWS/samples/deployment/dynamictree_webstartJWSProject/dynamictree_webstart.jnlp
+</pre></div>
+<!-- class="section" --></div>
+</div>
+<div class="sect3"><a id="GUID-3771E26F-20B1-4FB8-B6FD-E108636A0825"></a>
+<h3 id="JSDPG-GUID-3771E26F-20B1-4FB8-B6FD-E108636A0825" class="sect3">Installing the Protocol Handler in Firefox</h3>
+<div>
+<p>If you use the Firefox browser on Linux, manually install the protocol handler that enables you to start Java Web Start applications using the <code class="codeph">jnlp</code> or <code class="codeph">jnlps</code> protocol.</p>
+<div class="section">To install the protocol handler, add properties to the Firefox configuration:</div>
+<!-- class="section" -->
+<ol>
+<li class="stepexpand"><span>In the address bar in Firefox, enter <kbd class="userinput">about:config</kbd>.</span>
+<div>If you see a page with a warning about voiding your warranty, click <span class="bold">I&rsquo;ll be careful, I promise!</span> to continue to the configuration page.</div>
+</li>
+<li class="stepexpand"><span>Add a Boolean property.</span>
+<ol>
+<li><span>Right-click on the page and select <span class="bold">New</span>, and then select <span class="bold">Boolean</span>.</span></li>
+<li><span>In the <span class="wintitle">New Boolean Value</span> window, enter the name <kbd class="userinput">network.protocol-handler.expose.jnlp</kbd> and click <span class="bold">OK</span>.</span></li>
+<li><span>Select <span class="bold">false</span> for the value and click <span class="bold">OK</span>.</span></li>
+</ol>
+<div>The property is added to the configuration.</div>
+</li>
+<li class="stepexpand"><span>Repeat the previous step to add the property <kbd class="userinput">network.protocol-handler.expose.jnlps</kbd> with the value <span class="bold">false</span>.</span></li>
+</ol>
+<div class="section">When you enter a URL or click a link that uses the <code class="codeph">jnlp</code> or <code class="codeph">jnlps</code> protocol, you are prompted to choose the application to use to open the file. Select <span class="bold">Java Web Start Launcher</span> or browse to the <code>javaws.exe</code> file in <code><span class="variable">jre-home</span>/bin</code>.</div>
+<!-- class="section" --></div>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment396">
+<tr>
+<td class="cellalignment403">
+<table class="cellalignment401">
+<tr>
+<td class="cellalignment400"><a href="java-web-start-technology.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment400"><a href="application-development-considerations.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2018, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment405">
+<table class="cellalignment399">
+<tr>
+<td class="cellalignment400"><a href="http://docs.oracle.com/javase/10/index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment400"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment400"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

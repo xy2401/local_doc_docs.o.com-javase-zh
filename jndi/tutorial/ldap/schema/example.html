@@ -1,0 +1,268 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Two Practical Examples</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="matching.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="../ext/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Schema</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Two Practical Examples
+</h2>
+<p>
+<blockquote>
+
+How could you use this schema facility?
+This section shows two examples
+that use the schema.  The first is a program that creates a new
+entry in the directory.  It uses the schema to find out what
+attributes are required for the new entry.  The second example is more
+ambitious.  It creates an entry that may use new object classes, 
+which in turn may use new attribute type definitions.
+
+<h4>Using the Existing Schema</h4>
+
+The following example is called <tt><a href=src/UseSchema.java>UseSchema</a></tt>.
+It accepts as a command line argument the name of the entry to create.
+For example, to create a new entry called <tt>"cn=TestPerson"</tt> in the
+<tt>"ou=People"</tt> subtree, you enter at the prompt
+<blockquote><pre>
+# java UseSchema "cn=TestPerson, ou=People"
+</pre></blockquote>
+<p>
+The program starts by asking you to enter the list of object
+classes for the new entry. 
+After entering a list of object class names,
+you terminate the list by pressing Return.
+Working with this list of object class names, the program uses
+the schema to determine the list of mandatory and optional attributes
+required to create the new entry.
+This determination process is implemented by <tt>getAttributeLists()</tt>.
+<blockquote><pre>
+static Vector[] getAttributeLists(DirContext schema, Vector objectClasses) 
+    throws NamingException {
+    Vector mandatory = new Vector();
+    Vector optional = new Vector();
+
+    for (int i = 0; i &lt; objectClasses.size(); i++) {
+        String oc = (String)objectClasses.elementAt(i);
+        Attributes ocAttrs = 
+  	    schema.getAttributes("ClassDefinition/" + oc);
+	Attribute must = ocAttrs.get("MUST");
+	Attribute may = ocAttrs.get("MAY");
+
+	if (must != null) {
+	    addAttrNameToList(mandatory, must.getAll());
+	}
+	if (may != null) {
+	    addAttrNameToList(optional, may.getAll());
+	}
+    }
+    return new Vector[] {mandatory, optional};
+}
+</pre></blockquote>
+Note that for completeness, you should modify this example to recursively
+fetch the parents of the object classes and include them in your list
+of object classes to process.
+This is because some servers might follow subclassing rules 
+and list only attributes of the most derived object class.
+Some servers list all of the attributes of the object class, including
+those inherited from superclasses.
+<p>
+The program looks up each object class name in the 
+<tt>"ClassDefinition"</tt> portion of
+the schema tree and extracts from it the 
+<tt>"MUST"</tt>/<tt>"MAY"</tt> attributes.
+These contain lists of names of attributes that an entry of that object
+class must and may have.
+<p>
+After constructing the list of mandatory and optional attribute names,
+the program uses <tt>getAttributeValues()</tt>
+to ask you to enter values for each attribute.
+(Press Return if you do not want to enter a value
+for an attribute.) 
+The program uses each attribute's schema definition to get the attribute's syntax
+and then uses that syntax as part of the user prompt.
+<blockquote><pre>
+Attributes attrSchema = schema.getAttributes("AttributeDefinition/" + name);
+Attribute syntax = attrSchema.get("SYNTAX");
+</pre></blockquote>
+In practice, this is not very helpful because the syntax is an OID
+and few users will recognize what it represents.
+However, you can use the attribute schema definition in more
+useful ways, such as displaying its description and
+looking up the syntax to get its description.
+<p>
+After getting the attributes for the new entry, the program invokes
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#createSubcontext(java.lang.String, javax.naming.directory.Attributes)"><tt>DirContext.createSubcontext()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#createSubcontext(java.lang.String, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     to create the new entry.
+
+<h4>Augmenting the Existing Schema</h4>
+
+<blockquote>
+<hr>
+<strong>Before you go on: </strong>
+See the <a href=object.html#ADD>Object Class Definitions section</a>
+for notes regarding updating the schema.
+<hr>
+</blockquote>
+
+In the <tt>UseSchema</tt> example, you can only enter object classes
+defined in the schema.
+If you enter an object class that does not exist in the schema, 
+then the program
+throws a 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameNotFoundException.html"><tt>NameNotFoundException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/NameNotFoundException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<p>
+The next example, <tt><a href=src/AugmentSchema.java>AugmentSchema</a></tt>,
+allows you to enter object classes that have not been defined yet.
+You run the program by supplying the name of the entry to create
+as a command line argument as follows:
+<blockquote><pre>
+# java AugmentSchema "cn=TestPerson, ou=People"
+</pre></blockquote>
+As with the <tt>UseSchema</tt> program, 
+you next enter a list of object classes for the new entry.
+With the <tt>AugmentSchema</tt> program, 
+you may enter object classes that have not
+yet been defined. After getting this list, the program uses
+<tt>checkDefinition()</tt> to check whether the object classes
+have been defined.  This method accepts as arguments the root of the schema tree,
+the list of object class names to check, the type of schema object
+(e.g., <tt>"ClassDefinition"</tt> or 
+<tt>"AttributeDefinition"</tt>), and the
+list of attributes required for defining a schema object of that type.
+Here is the code for <tt>checkDefinition()</tt>.
+<blockquote><pre>
+static void checkDefinition(DirContext schema, Vector names,
+    String schemaType, String[]schemaAttrIDs) throws NamingException, IOException {
+        DirContext root = (DirContext)schema.lookup(schemaType);
+        for (int i = 0; i &lt; names.size(); i++) {
+  	    String name = (String)names.elementAt(i);
+	    try {
+		// Check if the definition already exists in the schema
+		root.lookup(name);
+    	    } catch (NameNotFoundException e) {
+ 	        // Get the definition from the user
+	        Attributes schemaAttrs = getDefinition(schemaType, name, schemaAttrIDs);
+
+	        // Add the definition to the schema
+	        root.createSubcontext(name, schemaAttrs);
+            }
+	}
+    }
+}
+</pre></blockquote>
+For each object class that does not have a schema
+definition, the program creates a schema definition by asking
+you for the attributes needed to define it in the schema, such as its
+OID, name, and its list of mandatory and optional attributes.
+The program then creates an object class definition by invoking
+<tt>createSubcontext()</tt> on the schema tree.
+<blockquote>
+<hr>
+<strong>Note: </strong>
+When using
+the <a href="http://www.netscape.com/">Netscape Directory Server v4.1</a>
+you need to ensure that an object class's <tt>"MUST"</tt>/<tt>"MAY"</tt> attributes have more 
+than one attribute value. 
+See the <a href=object.html#ADD>Object Class Definitions section</a> for details.
+<hr>
+</blockquote>
+
+
+<p>After doing this for all object classes in the list, the program
+gets the object classes' lists of mandatory and optional attributes
+from the schema.
+It then checks these lists to make sure that they have
+attribute definitions in the schema, again by using <tt>checkDefinition()</tt>.
+For each attribute that does not have a definition in the schema, 
+the program creates a schema definition by asking
+you for the attributes needed to define it in the schema, such as its
+OID, name, and syntax.
+The program then creates an attribute definition by invoking
+<tt>createSubcontext()</tt> on the schema tree.
+<p>
+The program gathers data for the attributes for the
+new entry and uses <tt>createSubcontext()</tt> to create the new entry.
+
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+<strong>Schema: End of Lesson</strong>
+<p>
+What's next?
+Now you can:
+<ul>
+<li> <a href=../ext/index.html>Continue</a> on in this trail 
+     to learn about LDAP controls and extensions.
+
+<li> Go to the 
+<a target="_top" href="../connect/index.html">Connections</a> <a href="../connect/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>     lesson for information on how connections are managed.
+
+<li> Go to the 
+<a target="_top" href="../faq/index.html">Frequently Asked Questions</a> <a href="../faq/index.html"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>     lesson to read about questions that LDAP users have when using the JNDI.
+</ul>
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="matching.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="../ext/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Schema</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

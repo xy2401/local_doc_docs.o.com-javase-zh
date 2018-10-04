@@ -1,0 +1,171 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Custom Object Example</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="dircontext.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="../representation/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/objectsHeader.gif" width=26 height=26 align=bottom border=0 alt="Java Objects and the Directory | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Object Factories</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Custom Object Example
+</h2>
+<p>
+<blockquote>
+
+The 
+<a target="_top" href="../state/custom.html">custom object example</a> <a href="../state/custom.html"><img src="../../jndiimages/objectsIcon.gif" width=20 height=20 border=0 alt="(in the Java Objects and the Directory trail)"></a>     illustrates how an instance of a user-defined class
+<a href=../state/src/Person.java><tt>Person</tt></a>
+is stored and subsequently 
+looked up from the directory. 
+When the <tt>Person</tt> object's attributes are looked up from the directory, the
+
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><tt>Context.lookup()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     method turns these attributes into an
+instance of <tt>Person</tt>.
+<blockquote>
+<pre>
+Person john2 = (Person) ctx.lookup("cn=John Smith");
+</pre>
+</blockquote>
+
+This was made possible because of the following.
+<ol>
+<li>
+The service provider being used (Sun's LDAP provider) invoked
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable, javax.naming.directory.Attributes)"><tt>DirectoryManager.getObjectInstance()</tt> </a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/spi/DirectoryManager.html#getObjectInstance(java.lang.Object, javax.naming.Name, javax.naming.Context, java.util.Hashtable, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>      and supplied to the method the object 
+(an LDAP context object) and attributes 
+that the provider read from the directory for the entry 
+<tt>"cn=John Smith"</tt>.
+<li>
+<a href=../state/src/CustomObj.java>The client program</a>
+identified the object factory 
+(<a href=../state/src/PersonObjectFactory.java><tt>PersonObjectFactory</tt></a>)
+to use by using 
+an <a href=../state/src/jndi.properties>application resource file</a>
+that named <tt>PersonObjectFactory</tt> as one of the object factories to try.
+<li>
+<tt>PersonObjectFactory.getObjectInstance()</tt>
+returned an instance of <tt>Person</tt>.
+</ol>
+<tt>PersonObjectFactory.getObjectInstance()</tt> first verifies that
+the object is intended for its factory.
+It does this by checking that the 
+<tt>"objectclass"</tt> attribute has a value
+of <tt>"person"</tt>.
+If this verification fails, then the method returns <tt>null</tt>.
+Otherwise, it constructs an instance of <tt>Person</tt>
+by supplying the constructor values obtained from the entry's other attributes,
+such as the <tt>"surname"</tt> and <tt>"commonname"</tt> attributes.
+<p>
+The definition of 
+<tt>PersonObjectFactory.getObjectInstance()</tt> is as follows.
+<blockquote>
+<pre>
+public Object getObjectInstance(
+    Object obj, Name name, Context ctx, Hashtable env, Attributes attrs)
+    throws Exception {
+
+    // Only interested in Attributes with "person" objectclass
+    // System.out.println("object factory: " + attrs);
+    Attribute oc = (attrs != null ? attrs.get("objectclass") : null);
+    if (oc != null &amp;&amp; oc.contains("person")) {
+        Attribute attr;
+	String passwd = null;
+
+	// Extract the password
+	attr = attrs.get("userPassword");
+	if (attr != null) {
+	    passwd = new String((byte[])attr.get());
+	}
+        Person per = new Person(
+          (String)attrs.get("sn").get(),
+          (String)attrs.get("cn").get(),
+	  passwd,
+          (attr=attrs.get("telephoneNumber")) != null ? (String)attr.get() : null,
+          (attr=attrs.get("seealso")) != null ? (String)attr.get() : null,
+          (attr=attrs.get("description")) != null ? (String)attr.get() : null);
+        return per;
+    }
+    return null;
+}
+</pre>
+</blockquote>
+
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<strong>Object Factories: End of Lesson</strong>
+<p>
+What's next? 
+Now you can:
+<ul>
+<li> <a href=../representation/index.html>Continue</a> on in this trail
+     lesson to read about the physical representation of
+Java objects in the directory.
+<li> Go to the 
+<a target="_top" href="../../beyond/index.html">Beyond the Basics</a> <a target="_top" href="../../beyond/index.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    trail to learn about advanced JNDI topics.
+</ul>
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="dircontext.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="../representation/index.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/objectsHeader.gif" width=26 height=26 align=top border=0 alt="Java Objects and the Directory | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Object Factories</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

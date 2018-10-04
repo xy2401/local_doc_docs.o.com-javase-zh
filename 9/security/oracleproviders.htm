@@ -1,0 +1,2595 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>JDK Providers Documentation</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="This document contains the technical details of the providers that are included in the JDK. It is assumed that readers have a strong understanding of the Java Cryptography Architecture and Provider Architecture." />
+<meta name="dcterms.created" content="2017-10-12T19:32:24Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Security Developer&rsquo;s Guide" />
+<meta name="dcterms.identifier" content="E68624-04" />
+<meta name="dcterms.isVersionOf" content="JSSEC" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="howtoimplaprovider.htm" title="Previous" type="text/html" />
+<link rel="Next" href="pkcs11-reference-guide1.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSSEC.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSSEC.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSSEC.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-FE2D2E28-C991-4EF9-9DBE-2A4982726313"></a> <span id="PAGE" style="display:none;">12/28</span> <!-- End Header -->
+<h1 id="JSSEC-GUID-FE2D2E28-C991-4EF9-9DBE-2A4982726313" class="sect1"><span class="enumeration_chapter">4</span> JDK Providers Documentation</h1>
+<div>
+<p>This document contains the technical details of the providers that are included in the JDK. It is assumed that readers have a strong understanding of the Java Cryptography Architecture and Provider Architecture.</p>
+<div class="infobox-note" id="GUID-FE2D2E28-C991-4EF9-9DBE-2A4982726313__GUID-D14F4574-125A-48DF-80D9-1C0F7F853122">
+<p class="notep1">Note:</p>
+The <a href="http://www.oracle.com/pls/topic/lookup?ctx=javase9&amp;id=security_standard_algorithm_spec" target="_blank">Java Security Standard Algorithm Names Specification</a> contains more information about the standard names used in this document.</div>
+<div class="section">
+<p class="subhead1">Topics</p>
+<p><a href="oracleproviders.htm#GUID-F41EE1C9-DD6A-4BAB-8979-EB7654094029" title="The Java platform defines a set of APIs spanning major security areas, including cryptography, public key infrastructure, authentication, secure communication, and access control. These APIs enable developers to easily integrate security mechanisms into their application code.">Introduction to JDK Providers</a></p>
+<p><a href="oracleproviders.htm#GUID-9224B90B-7B2F-41F9-BB96-C0A1B6A0FEAA">Import Limits on Cryptographic Algorithms</a></p>
+<p><a href="oracleproviders.htm#GUID-BC92B7F1-D15C-432A-B725-9BBA9FEF61DB" title="The javax.crypto.Cipher.getInstance(String transformation) factory method generates Cipher objects using transformations of the form algorithm/mode/padding. If the mode/padding are omitted, the SunJCE and SunPKCS11 providers use ECB as the default mode and PKCS5Padding as the default padding for many symmetric ciphers.">Cipher Transformations</a></p>
+<p><a href="oracleproviders.htm#GUID-9DC4ADD5-6D01-4B2E-9E85-B88E3BEE7453" title="The following table lists the default preference order of the available SecureRandom implementations.">SecureRandom Implementations</a></p>
+<p><a href="oracleproviders.htm#GUID-C4706FFE-D08F-4E29-B0BE-CCE8C93DD940">The SunPKCS11 Provider</a></p>
+<p><a href="oracleproviders.htm#GUID-3A80CC46-91E1-4E47-AC51-CB7B782CEA7D" title="JDK 1.1 introduced the Provider architecture. The first JDK provider was named SUN, and contained two types of cryptographic services (MessageDigestand Signature). In later releases, other mechanisms were added (SecureRandom, KeyPairGenerator, KeyFactory, and so on).">The SUN Provider</a></p>
+<p><a href="oracleproviders.htm#GUID-17E3589E-E4BA-4881-9B12-9880DD2D128D" title="The SunRsaSign provider was introduced in JDK 1.3 as an enhanced replacement for the RSA signature in the SunJSSE provider.">The SunRsaSign Provider</a></p>
+<p><a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2">The SunJSSE Provider</a></p>
+<p><a href="oracleproviders.htm#GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7" title="As described briefly in The SUN Provider, US export regulations at the time restricted the type of cryptographic functionality that could be available in the JDK. A separate API and reference implementation was developed that allowed applications to encrypt/decrypt date. The Java Cryptographic Extension (JCE) was released as a separate &rdquo;Optional Package&rdquo; (also briefly known as a &ldquo;Standard Extension&rdquo;), and was available for JDK 1.2x and 1.3x. During the development of JDK 1.4, regulations were relaxed enough that JCE (and SunJSSE) could be bundled as part of the JDK.">The SunJCE Provider</a></p>
+<p><a href="oracleproviders.htm#GUID-9CAAC18D-CFF0-4602-A1B7-53C9FAA98C9F" title="The following algorithms are available in the SunJGSS provider:">The SunJGSS Provider</a></p>
+<p><a href="oracleproviders.htm#GUID-EB759F08-B8D8-424A-9357-10F9002AE177" title="The following algorithms are available in the SunSASL provider:">The SunSASL Provider</a></p>
+<p><a href="oracleproviders.htm#GUID-D09DE3FE-237F-4B7B-A323-0A370137E0F3" title="The following algorithms are available in the XMLDSig provider:">The XMLDSig Provider</a></p>
+<p><a href="oracleproviders.htm#GUID-DEAD6543-FB59-46F3-B4E7-EE1AFE246EA0">The SunPCSC Provider</a></p>
+<p><a href="oracleproviders.htm#GUID-4F1737D6-1569-4340-B140-678C70E63CD5" title="The SunMSCAPI provider enables applications to use the standard JCA/JCE APIs to access the native cryptographic libraries, certificates stores and key containers on the Microsoft Windows platform. The SunMSCAPI provider itself does not contain cryptographic functionality, it is simply a conduit between the Java environment and the native cryptographic services on Windows.">The SunMSCAPI Provider</a></p>
+<p><a href="oracleproviders.htm#GUID-091BF58C-82AB-4C9C-850F-1660824D5254" title="The SunEC provider implements Elliptical Curve Cryptography (ECC). Compared to traditional cryptosystems such as RSA, ECC offers equivalent security with smaller key sizes, which results in faster computations, lower power consumption, and memory and bandwidth savings.">The SunEC Provider</a></p>
+<p><a href="oracleproviders.htm#GUID-B1F2B3F3-F2A4-4FF5-8887-3B3335343B2A" title="The Solaris-only security provider OracleUcrypto leverages the Solaris Ucrypto library to offload and delegate cryptographic operations supported by the Oracle SPARC T4 based on-core cryptographic instructions. The OracleUcrypto provider itself does not contain cryptographic functionality; it is simply a conduit between the Java environment and the Solaris Ucrypto library.">The OracleUcrypto Provider</a></p>
+<p><a href="oracleproviders.htm#GUID-3185649A-C316-45F2-A70E-2B3FF6BDC34F" title="The Apple provider implements a java.security.KeyStore that provides access to the macOS Keychain.">The Apple Provider</a></p>
+<p><a href="oracleproviders.htm#GUID-67D4652C-2551-4BBE-9941-50A9348AEA84" title="The JdkLDAP provider was introduced in JDK 9 as a replacement for the LDAP CertStore implementation in the SUN provider.">The JdkLDAP Provider</a></p>
+<p><a href="oracleproviders.htm#GUID-D08B5350-6653-4FC6-B350-2B009A9E7FD6" title="The following algorithms are available in the JdkSASL provider:">The JdkSASL Provider</a></p>
+</div>
+<!-- class="section" --></div>
+<div class="sect2"><a id="GUID-F41EE1C9-DD6A-4BAB-8979-EB7654094029"></a>
+<h2 id="JSSEC-GUID-F41EE1C9-DD6A-4BAB-8979-EB7654094029" class="sect2">Introduction to JDK Providers</h2>
+<div>
+<p>The Java platform defines a set of APIs spanning major security areas, including cryptography, public key infrastructure, authentication, secure communication, and access control. These APIs enable developers to easily integrate security mechanisms into their application code.</p>
+<p>The <a href="java-cryptography-architecture-jca-reference-guide.htm#GUID-815542FE-CF3D-407A-9673-CAE9840F6231" title="The Java platform strongly emphasizes security, including language safety, cryptography, public key infrastructure, authentication, secure communication, and access control.">Java Cryptography Architecture (JCA)</a> and its <a href="java-cryptography-architecture-jca-reference-guide.htm#GUID-EAB9FF73-4C69-4FD5-8A0C-5CF48211A859" title="Providers contain a package (or a set of packages) that supply concrete implementations for the advertised cryptographic algorithms.">Provider Architecture</a> are core concepts of the Java Development Kit (JDK). It is assumed that readers have a solid understanding of this architecture.</p>
+<p><span class="bold">Reminder:</span> Cryptographic implementations in the JDK are distributed through several different providers ("SUN", "SunJSSE", "SunJCE", "SunRsaSign") for both historical reasons and by the types of services provided. General purpose applications <span class="bold">SHOULD NOT</span> request cryptographic services from specific providers. That is:</p>
+<pre dir="ltr">
+getInstance("...", <span class="variable">"SunJCE"</span>);  // not recommended
+</pre>
+<p>versus</p>
+<pre dir="ltr">
+getInstance("...");            // recommended
+</pre>
+<p>Otherwise, applications are tied to specific providers that may not be available on other Java implementations. They also might not be able to take advantage of available optimized providers (for example, hardware accelerators via PKCS11 or native OS implementations such as Microsoft's MSCAPI) that have a higher preference order than the specific requested provider.</p>
+<div class="p">The following table lists the modules and the supported Java Cryptographic Service Providers:
+<div class="tblformal" id="GUID-F41EE1C9-DD6A-4BAB-8979-EB7654094029__GUID-5A03EFB6-97B8-486D-8ECA-8850B80DA513">
+<p class="titleintable">Table 4-1 Modules and the Java Cryptographic Service Providers</p>
+<table class="cellalignment456" title="Modules and the Java Cryptographic Service Providers" summary="List of modules and the Java Cryptography Service Providers that support each one">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e237">Module</th>
+<th class="cellalignment457" id="d46439e239">Provider(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e243" headers="d46439e237">
+<p>java.base</p>
+</td>
+<td class="cellalignment447" headers="d46439e243 d46439e239">
+<p>SUN, SunRsaSign, SunJSSE, SunJCE <a href="oracleproviders.htm#GUID-F41EE1C9-DD6A-4BAB-8979-EB7654094029__INDICATESJCECRYPTOPROVIDERSPREVIOUS-DC5F6D2B">[1]</a>, Apple</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e254" headers="d46439e237">
+<p>java.naming</p>
+</td>
+<td class="cellalignment447" headers="d46439e254 d46439e239">
+<p>JdkLDAP</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e261" headers="d46439e237">
+<p>java.security.jgss</p>
+</td>
+<td class="cellalignment447" headers="d46439e261 d46439e239">
+<p>SunJGSS</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e268" headers="d46439e237">
+<p>java.security.sasl</p>
+</td>
+<td class="cellalignment447" headers="d46439e268 d46439e239">
+<p>SunSASL</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e275" headers="d46439e237">
+<p>java.smartcardio</p>
+</td>
+<td class="cellalignment447" headers="d46439e275 d46439e239">
+<p>SunPCSC</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e282" headers="d46439e237">
+<p>java.xml.crypto</p>
+</td>
+<td class="cellalignment447" headers="d46439e282 d46439e239">
+<p>XMLDSig</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e289" headers="d46439e237">
+<p>jdk.crypto.cryptoki</p>
+</td>
+<td class="cellalignment447" headers="d46439e289 d46439e239">
+<p>SunPKCS11 <a href="oracleproviders.htm#GUID-F41EE1C9-DD6A-4BAB-8979-EB7654094029__INDICATESJCECRYPTOPROVIDERSPREVIOUS-DC5F6D2B">[1]</a></p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e299" headers="d46439e237">
+<p>jdk.crypto.ec</p>
+</td>
+<td class="cellalignment447" headers="d46439e299 d46439e239">
+<p>SunEC <a href="oracleproviders.htm#GUID-F41EE1C9-DD6A-4BAB-8979-EB7654094029__INDICATESJCECRYPTOPROVIDERSPREVIOUS-DC5F6D2B">[1]</a></p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e309" headers="d46439e237">
+<p>jdk.crypto.mscapi</p>
+</td>
+<td class="cellalignment447" headers="d46439e309 d46439e239">
+<p>SunMSCAPI <a href="oracleproviders.htm#GUID-F41EE1C9-DD6A-4BAB-8979-EB7654094029__INDICATESJCECRYPTOPROVIDERSPREVIOUS-DC5F6D2B">[1]</a></p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e319" headers="d46439e237">
+<p>jdk.crypto.ucrypto</p>
+</td>
+<td class="cellalignment447" headers="d46439e319 d46439e239">
+<p>OracleUcrypto <a href="oracleproviders.htm#GUID-F41EE1C9-DD6A-4BAB-8979-EB7654094029__INDICATESJCECRYPTOPROVIDERSPREVIOUS-DC5F6D2B">[1]</a></p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e329" headers="d46439e237">
+<p>jdk.security.jgss</p>
+</td>
+<td class="cellalignment447" headers="d46439e329 d46439e239">
+<p>JdkSASL</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<p id="GUID-F41EE1C9-DD6A-4BAB-8979-EB7654094029__INDICATESJCECRYPTOPROVIDERSPREVIOUS-DC5F6D2B">Footnote 1: Indicates JCE crypto providers previously distributed as signed JAR files (JCE providers contain <code class="codeph">Cipher/KeyAgreement/KeyGenerator/Mac/SecretKeyFactory</code> implementations).</p>
+</div>
+</div>
+<div class="sect2"><a id="GUID-9224B90B-7B2F-41F9-BB96-C0A1B6A0FEAA"></a>
+<h2 id="JSSEC-GUID-9224B90B-7B2F-41F9-BB96-C0A1B6A0FEAA" class="sect2">Import Limits on Cryptographic Algorithms</h2>
+<div>
+<div class="section">
+<p>By default, an application can use cryptographic algorithms of any strength. However, due to import regulations in some locations, you may have to limit the strength of those algorithms. The JDK provides two different sets of jurisdiction policy files in the directory <code>&lt;<span class="variable">java_home</span>&gt;/conf/security/policy</code> that determine the strength of cryptographic algorithms. Information about jurisdiction policy files and how to activate them is available in <a href="java-cryptography-architecture-jca-reference-guide.htm#GUID-EFA5AC2D-644E-4CD9-8523-C6D3936D5FB1">Cryptographic Strength Configuration</a>.</p>
+<p>Consult your export/import control counsel or attorney to determine the exact requirements for your location.</p>
+<p>For the "limited" configuration, the following table lists the maximum key sizes allowed by the "limited" set of jurisdiction policy files:</p>
+</div>
+<!-- class="section" -->
+<div class="tblformal" id="GUID-9224B90B-7B2F-41F9-BB96-C0A1B6A0FEAA__GUID-006A1477-5038-4A83-99DC-23B0D69AFF49">
+<p class="titleintable">Table 4-2 Maximum Keysize of Cryptographic Algorithms</p>
+<table class="cellalignment458" title="Maximum Keysize of Cryptographic Algorithms">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" rowspan="1" colspan="1" id="d46439e376">Algorithm</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d46439e378">Maximum Keysize</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e382" headers="d46439e376">DES</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e382 d46439e378">64</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e387" headers="d46439e376">DESede</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e387 d46439e378">*</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e392" headers="d46439e376">RC2</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e392 d46439e378">128</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e397" headers="d46439e376">RC4</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e397 d46439e378">128</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e402" headers="d46439e376">RC5</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e402 d46439e378">128</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e407" headers="d46439e376">RSA</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e407 d46439e378">*</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e412" headers="d46439e376">all others</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e412 d46439e378">128</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+</div>
+<div class="sect2"><a id="GUID-BC92B7F1-D15C-432A-B725-9BBA9FEF61DB"></a>
+<h2 id="JSSEC-GUID-BC92B7F1-D15C-432A-B725-9BBA9FEF61DB" class="sect2">Cipher Transformations</h2>
+<div>
+<p>The <code class="codeph">javax.crypto.Cipher.getInstance(String transformation)</code> factory method generates <code class="codeph">Cipher</code> objects using transformations of the form <span class="bold">algorithm/mode/padding</span>. If the mode/padding are omitted, the SunJCE and SunPKCS11 providers use ECB as the default mode and PKCS5Padding as the default padding for many symmetric ciphers.</p>
+<p>It is recommended to use transformations that fully specify the algorithm, mode, and padding instead of relying on the defaults. The defaults are provider specific and can vary among providers.</p>
+<div class="infobox-note" id="GUID-BC92B7F1-D15C-432A-B725-9BBA9FEF61DB__GUID-D633DB9E-D0F2-469A-91D7-ABD905E7C157">
+<p class="notep1">Note:</p>
+ECB works well for single blocks of data and can be parallelized, but absolutely should not be used for multiple blocks of data.</div>
+</div>
+</div>
+<div class="sect2"><a id="GUID-9DC4ADD5-6D01-4B2E-9E85-B88E3BEE7453"></a>
+<h2 id="JSSEC-GUID-9DC4ADD5-6D01-4B2E-9E85-B88E3BEE7453" class="sect2">SecureRandom Implementations</h2>
+<div>
+<p>The following table lists the default preference order of the available <code class="codeph">SecureRandom</code> implementations.</p>
+<div class="section">
+<div class="tblformal" id="GUID-9DC4ADD5-6D01-4B2E-9E85-B88E3BEE7453__GUID-7EA67F86-3611-44DA-B52F-2031BEFA26E7">
+<p class="titleintable">Table 4-3 Default SecureRandom Implementations</p>
+<table class="cellalignment456" title="Default SecureRandom Implementations" summary="Lists the default preference order of the available SecureRandom implementations.">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment459" id="d46439e463">OS</th>
+<th class="cellalignment460" id="d46439e465">Algorithm Name</th>
+<th class="cellalignment459" id="d46439e467">Provider Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="6" colspan="1" id="d46439e471" headers="d46439e463">Solaris</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e471 d46439e465">1. PKCS11 <a href="oracleproviders.htm#GUID-9DC4ADD5-6D01-4B2E-9E85-B88E3BEE7453__THESUNPKCS11PROVIDERISAVAILABLEONAL-6B0EC312">[1]</a> <a href="oracleproviders.htm#GUID-9DC4ADD5-6D01-4B2E-9E85-B88E3BEE7453__THEPKCS11SECURERANDOM-08E8BB67">[4]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e471 d46439e467">SunPKCS11</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e471 d46439e465">2. NativePRNG <a href="oracleproviders.htm#GUID-9DC4ADD5-6D01-4B2E-9E85-B88E3BEE7453__ONSOLARISLINUXANDOSXIFTHEENTROPYGAT-6B0EC60A">[2]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e471 d46439e467">SUN</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment461" headers="d46439e471 d46439e465">3. DRBG</td>
+<td class="cellalignment462" headers="d46439e471 d46439e467">SUN</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e471 d46439e465">4. SHA1PRNG <a href="oracleproviders.htm#GUID-9DC4ADD5-6D01-4B2E-9E85-B88E3BEE7453__ONSOLARISLINUXANDOSXIFTHEENTROPYGAT-6B0EC60A">[2]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e471 d46439e467">SUN</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e471 d46439e465">5. NativePRNGBlocking</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e471 d46439e467">SUN</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e471 d46439e465">6. NativePRNGNonBlocking</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e471 d46439e467">SUN</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="5" colspan="1" id="d46439e516" headers="d46439e463">Linux</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e516 d46439e465">1. NativePRNG <a href="oracleproviders.htm#GUID-9DC4ADD5-6D01-4B2E-9E85-B88E3BEE7453__ONSOLARISLINUXANDOSXIFTHEENTROPYGAT-6B0EC60A">[2]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e516 d46439e467">SUN</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment461" headers="d46439e516 d46439e465">2. DRGB</td>
+<td class="cellalignment462" headers="d46439e516 d46439e467">SUN</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e516 d46439e465">3. SHA1PRNG <a href="oracleproviders.htm#GUID-9DC4ADD5-6D01-4B2E-9E85-B88E3BEE7453__ONSOLARISLINUXANDOSXIFTHEENTROPYGAT-6B0EC60A">[2]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e516 d46439e467">SUN</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e516 d46439e465">4. NativePRNGBlocking</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e516 d46439e467">SUN</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e516 d46439e465">5. NativePRNGNonBlocking</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e516 d46439e467">SUN</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="5" colspan="1" id="d46439e550" headers="d46439e463">macOS</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e550 d46439e465">1. NativePRNG <a href="oracleproviders.htm#GUID-9DC4ADD5-6D01-4B2E-9E85-B88E3BEE7453__ONSOLARISLINUXANDOSXIFTHEENTROPYGAT-6B0EC60A">[2]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e550 d46439e467">SUN</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment461" headers="d46439e550 d46439e465">2. DRGB</td>
+<td class="cellalignment462" headers="d46439e550 d46439e467">SUN</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e550 d46439e465">3. SHA1PRNG <a href="oracleproviders.htm#GUID-9DC4ADD5-6D01-4B2E-9E85-B88E3BEE7453__ONSOLARISLINUXANDOSXIFTHEENTROPYGAT-6B0EC60A">[2]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e550 d46439e467">SUN</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e550 d46439e465">4. NativePRNGBlocking</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e550 d46439e467">SUN</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e550 d46439e465">5. NativePRNGNonBlocking</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e550 d46439e467">SUN</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="3" colspan="1" id="d46439e583" headers="d46439e463">Windows</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e583 d46439e465">1. DRGB</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e583 d46439e467">SUN</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment461" headers="d46439e583 d46439e465">2. SHA1PRNG</td>
+<td class="cellalignment462" headers="d46439e583 d46439e467">SUN</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e583 d46439e465">3. Windows-PRNG <a href="oracleproviders.htm#GUID-9DC4ADD5-6D01-4B2E-9E85-B88E3BEE7453__THEREISCURRENTLYNONATIVEPRNGONWINDO-6B0EC813">[3]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e583 d46439e467">SunMSCAPI</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p id="GUID-9DC4ADD5-6D01-4B2E-9E85-B88E3BEE7453__THESUNPKCS11PROVIDERISAVAILABLEONAL-6B0EC312">Footnote 1: The SunPKCS11 provider is available on all platforms, but is only enabled by default on Solaris as it is the only OS with a native PKCS11 implementation automatically installed and configured. On other platforms, applications or deployers must specifically install and configure a native PKCS11 library, and then configure and enable the SunPKCS11 provider to use it.</p>
+<p id="GUID-9DC4ADD5-6D01-4B2E-9E85-B88E3BEE7453__ONSOLARISLINUXANDOSXIFTHEENTROPYGAT-6B0EC60A">Footnote 2: On Solaris, Linux, and OS X, if the <span class="variable">entropy gathering device</span> in <code class="codeph">java.security</code> is set to <code class="codeph">file:/dev/urandom</code> or <code class="codeph">file:/dev/random</code>, then NativePRNG is preferred to SHA1PRNG. Otherwise, SHA1PRNG is preferred.</p>
+<p id="GUID-9DC4ADD5-6D01-4B2E-9E85-B88E3BEE7453__THEREISCURRENTLYNONATIVEPRNGONWINDO-6B0EC813">Footnote 3: There is currently no NativePRNG on Windows. Access to the equivalent functionality is via the SunMSCAPI provider.</p>
+<p id="GUID-9DC4ADD5-6D01-4B2E-9E85-B88E3BEE7453__THEPKCS11SECURERANDOM-08E8BB67">Footnote 4: The PKCS11 <code class="codeph">SecureRandom</code> implementation for Solaris has been disabled due to the performance overhead of small-sized requests. Edit <code>sunpkcs11-solaris.cfg</code> to reenable.</p>
+<p>If no <code class="codeph">SecureRandom</code> implementations are registered in the JCA framework, <code class="codeph">java.security.SecureRandom</code> uses the hardcoded SHA1PRNG.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-C4706FFE-D08F-4E29-B0BE-CCE8C93DD940"></a>
+<h2 id="JSSEC-GUID-C4706FFE-D08F-4E29-B0BE-CCE8C93DD940" class="sect2">The SunPKCS11 Provider</h2>
+<div>
+<div class="section">
+<p>The Cryptographic Token Interface Standard (<a href="http://india.emc.com/emc-plus/rsa-labs/standards-initiatives/pkcs-11-cryptographic-token-interface-standard.htm" target="_blank">PKCS#11</a>) provides native programming interfaces to cryptographic mechanisms, such as hardware cryptographic accelerators and Smart Cards. When properly configured, the <code class="codeph">SunPKCS11</code> provider enables applications to use the standard JCA/JCE APIs to access native PKCS#11 libraries. <span class="bold">The <code class="codeph">SunPKCS11</code> provider itself does not contain cryptographic functionality</span>, it is simply a conduit between the Java environment and the native PKCS11 providers. The <a href="pkcs11-reference-guide1.htm#GUID-6DA72F34-6C6A-4F7D-ADBA-5811576A9331" title="The SunPKCS11 provider, in contrast to most other providers, does not implement cryptographic algorithms itself. Instead, it acts as a bridge between the Java JCA and JCE APIs and the native PKCS#11 cryptographic API, translating the calls and conventions between the two.">Java PKCS#11 Reference Guide</a> has a much more detailed treatment of this provider.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-3A80CC46-91E1-4E47-AC51-CB7B782CEA7D"></a>
+<h2 id="JSSEC-GUID-3A80CC46-91E1-4E47-AC51-CB7B782CEA7D" class="sect2">The SUN Provider</h2>
+<div>
+<p>JDK 1.1 introduced the <code class="codeph">Provider</code> architecture. The first JDK provider was named <code class="codeph">SUN</code>, and contained two types of cryptographic services (<code class="codeph">MessageDigest</code>and <code class="codeph">Signature</code>). In later releases, other mechanisms were added (<code class="codeph">SecureRandom</code>, <code class="codeph">KeyPairGenerator</code>, <code class="codeph">KeyFactory</code>, and so on).</p>
+<div class="section">
+<p>United States export regulations in effect at the time placed significant restrictions on the type of cryptographic functionality that could be made available internationally in the JDK. For this reason, the <code class="codeph">SUN</code> provider has historically contained cryptographic engines that did not directly encrypt or decrypt data.</p>
+<p>The following algorithms are available in the <code class="codeph">SUN</code> provider:</p>
+<div class="tblformal" id="GUID-3A80CC46-91E1-4E47-AC51-CB7B782CEA7D__GUID-44F15A48-44CB-4160-957D-5CAC7AA7CA74">
+<p class="titleintable">Table 4-4 Algorithms in SUN provider</p>
+<table class="cellalignment456" title="Algorithms in SUN provider" summary="The algorithms supported by SUN Provider">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e719">Engine</th>
+<th class="cellalignment457" id="d46439e721">Algorithm Names</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e725" headers="d46439e719"><code class="codeph">AlgorithmParameterGenerator</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e725 d46439e721">DSA</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e731" headers="d46439e719"><code class="codeph">AlgorithmParameters</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e731 d46439e721">DSA</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e737" headers="d46439e719"><code class="codeph">CertificateFactory</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e737 d46439e721">X.509</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e743" headers="d46439e719"><code class="codeph">CertPathBuilder</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e743 d46439e721">PKIX</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e749" headers="d46439e719"><code class="codeph">CertPathValidator</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e749 d46439e721">PKIX</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e755" headers="d46439e719"><code class="codeph">CertStore</code></td>
+<td class="cellalignment447" headers="d46439e755 d46439e721">Collection</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e761" headers="d46439e719"><code class="codeph">Configuration</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e761 d46439e721">JavaLoginConfig</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e767" headers="d46439e719"><code class="codeph">KeyFactory</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e767 d46439e721">DSA</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e773" headers="d46439e719"><code class="codeph">KeyPairGenerator</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e773 d46439e721">DSA</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e779" headers="d46439e719"><code class="codeph">KeyStore</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e779 d46439e721">
+<p>PKCS12</p>
+<p>JKS</p>
+<p>DKS</p>
+<p>CaseExactJKS</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e792" headers="d46439e719"><code class="codeph">MessageDigest</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e792 d46439e721">
+<p>MD2</p>
+<p>MD5</p>
+<p>SHA-1</p>
+<p>SHA-224</p>
+<p>SHA-256</p>
+<p>SHA-384</p>
+<p>SHA-512</p>
+<p>SHA-512/224</p>
+<p>SHA-512/256</p>
+<p>SHA3-224</p>
+<p>SHA3-256</p>
+<p>SHA3-384</p>
+<p>SHA3-512</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e825" headers="d46439e719"><code class="codeph">Policy</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e825 d46439e721">JavaPolicy</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e831" headers="d46439e719"><code class="codeph">SecureRandom</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e831 d46439e721">
+<p>DRBG</p>
+<p>(The following mechanisms and algorithms are supported: Hash_DRBG and HMAC_DRBG with SHA-224, SHA-512/224, SHA-256, SHA-512/256, SHA-384 and SHA-512. CTR_DRBG (both use derivation function and not use) with AES-128, AES-192 and AES-256. Prediction resistance and reseeding supported for each combination, and security strength can be requested from 112 up to the highest strength one supports.)</p>
+<p>SHA1PRNG</p>
+<p>(Initial seeding is currently done via a combination of system attributes and the <code class="codeph">java.security</code> entropy gathering device.)</p>
+<p>NativePRNG</p>
+<p>(<code class="codeph">nextBytes()</code> uses <code class="codeph">/dev/urandom</code>, <code class="codeph">generateSeed()</code> uses <code class="codeph">/dev/random</code>)</p>
+<p>NativePRNGBlocking</p>
+<p>(<code class="codeph">nextBytes()</code> and <code class="codeph">generateSeed()</code> use <code class="codeph">/dev/random</code>)</p>
+<p>NativePRNGNonBlocking</p>
+<p>(<code class="codeph">nextBytes()</code> and <code class="codeph">generateSeed()</code> use <code class="codeph">/dev/urandom</code>)</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e889" headers="d46439e719"><code class="codeph">Signature</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e889 d46439e721">
+<p>NONEwithDSA</p>
+<p>SHA1withDSA</p>
+<p>SHA224withDSA</p>
+<p>SHA256withDSA</p>
+<p>NONEwithDSAinP1363Format</p>
+<p>SHA1withDSAinP1363Format</p>
+<p>SHA224withDSAinP1363Format</p>
+<p>SHA256withDSAinP1363Format</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p>The following table lists OIDs associated with SHA Message Digests:</p>
+<div class="tblformal" id="GUID-3A80CC46-91E1-4E47-AC51-CB7B782CEA7D__GUID-7C3B53BC-BFD3-4AD7-AC12-B55255948556">
+<p class="titleintable">Table 4-5 OIDs associated with SHA Message Digests</p>
+<table class="cellalignment456" title="OIDs associated with SHA Message Digests" summary="List of OIDs associated with SHA Message Digests">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e921">SHA Message Digest</th>
+<th class="cellalignment457" id="d46439e923">OID</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e927" headers="d46439e921">SHA-224</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e927 d46439e923">2.16.840.1.101.3.4.2.4</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e932" headers="d46439e921">SHA-256</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e932 d46439e923">2.16.840.1.101.3.4.2.1</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e937" headers="d46439e921">SHA-384</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e937 d46439e923">2.16.840.1.101.3.4.2.2</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e942" headers="d46439e921">SHA-512</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e942 d46439e923">2.16.840.1.101.3.4.2.3</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e947" headers="d46439e921">SHA-512/224</td>
+<td class="cellalignment447" headers="d46439e947 d46439e923">2.16.840.1.101.3.4.2.5</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e952" headers="d46439e921">SHA-512/256</td>
+<td class="cellalignment447" headers="d46439e952 d46439e923">2.16.840.1.101.3.4.2.6</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e957" headers="d46439e921">SHA3-224</td>
+<td class="cellalignment447" headers="d46439e957 d46439e923">2.16.840.1.101.3.4.2.7</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e962" headers="d46439e921">SHA3-256</td>
+<td class="cellalignment447" headers="d46439e962 d46439e923">2.16.840.1.101.3.4.2.8</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e967" headers="d46439e921">SHA3-384</td>
+<td class="cellalignment447" headers="d46439e967 d46439e923">2.16.840.1.101.3.4.2.9</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e972" headers="d46439e921">SHA3-512</td>
+<td class="cellalignment447" headers="d46439e972 d46439e923">2.16.840.1.101.3.4.2.10</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p>The following table lists OIDs associated with DSA Signatures:</p>
+<div class="tblformal" id="GUID-3A80CC46-91E1-4E47-AC51-CB7B782CEA7D__GUID-9D4E5B7E-1E05-4D04-A2EB-1FAAE33E536C">
+<p class="titleintable">Table 4-6 OIDs associated with DSA Signatures</p>
+<table class="cellalignment456" title="OIDs associated with DSA Signatures" summary="List of OIDs associated with DSA Signatures">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e988">DSA Signature</th>
+<th class="cellalignment457" id="d46439e990">OID</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e994" headers="d46439e988">SHA1withDSA</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e994 d46439e990">
+<p>1.2.840.10040.4.3</p>
+<p>1.3.14.3.2.13</p>
+<p>1.3.14.3.2.27</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1004" headers="d46439e988">SHA224withDSA</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1004 d46439e990">2.16.840.1.101.3.4.3.1</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1009" headers="d46439e988">SHA256withDSA</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1009 d46439e990">2.16.840.1.101.3.4.3.2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">Keysize Restrictions</p>
+<p>The <code class="codeph">SUN</code> provider uses the following default keysizes (in bits) and enforces the following restrictions:</p>
+<p><span class="bold">KeyPairGenerator</span></p>
+<div class="tblformal" id="GUID-3A80CC46-91E1-4E47-AC51-CB7B782CEA7D__GUID-A1D286EF-8BE6-49FF-BD0A-079AB8E32A3E">
+<table class="cellalignment456" summary="The KeyPairGenerator Algorithm Name">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e1033">Alg. Name</th>
+<th class="cellalignment457" id="d46439e1035">Default Keysize</th>
+<th class="cellalignment457" id="d46439e1037">Restrictions/Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e1041" headers="d46439e1033">DSA</td>
+<td class="cellalignment447" headers="d46439e1041 d46439e1035">1024</td>
+<td class="cellalignment447" headers="d46439e1041 d46439e1037">Keysize must be a multiple of 64, ranging from 512 to 1024, plus 2048 and 3072.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p><span class="bold">AlgorithmParameterGenerator</span></p>
+<div class="tblformal" id="GUID-3A80CC46-91E1-4E47-AC51-CB7B782CEA7D__GUID-1AAB9D55-B839-4DC8-9637-8325388B091D">
+<table class="cellalignment456" summary="The AlgorithmParameterGenerator Name">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" rowspan="1" colspan="1" id="d46439e1059">Alg. Name</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d46439e1061">Default Keysize</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d46439e1063">Restrictions/Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1067" headers="d46439e1059">DSA</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1067 d46439e1061">1024</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1067 d46439e1063">Keysize must be a multiple of 64, ranging from 512 to 1024, plus 2048 and 3072.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">CertificateFactory/CertPathBuilder/CertPathValidator/CertStore Implementations</p>
+<p>Additional details on the <code class="codeph">SUN</code> provider implementations for <code class="codeph">CertificateFactory</code>, <code class="codeph">CertPathBuilder</code>, <code class="codeph">CertPathValidator</code> and <code class="codeph">CertStore</code> are documented in <a href="java-pki-programmers-guide.htm#GUID-EB250086-0AC1-4D60-AE2A-FC7461374746">Appendix B: CertPath Implementation in SUN Provider</a> of the PKI Programmer's Guide.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-17E3589E-E4BA-4881-9B12-9880DD2D128D"></a>
+<h2 id="JSSEC-GUID-17E3589E-E4BA-4881-9B12-9880DD2D128D" class="sect2">The SunRsaSign Provider</h2>
+<div>
+<p>The <code class="codeph">SunRsaSign</code> provider was introduced in JDK 1.3 as an enhanced replacement for the RSA signature in the <code class="codeph">SunJSSE</code> provider.</p>
+<div class="section">
+<p>The following algorithms are available in the <code class="codeph">SunRsaSign</code> provider:</p>
+<div class="tblformal" id="GUID-17E3589E-E4BA-4881-9B12-9880DD2D128D__GUID-244A1C15-C97D-447C-AF41-B92C14A8ED20">
+<p class="titleintable">Table 4-7 The SunRsaSign Provider Algorithm Names for Engine Classes</p>
+<table class="cellalignment456" title="The SunRsaSign Provider Algorithm Names for Engine Classes" summary="List of SunRsaSign Provider Algorithm Names for Engine Classes">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e1129">Engine</th>
+<th class="cellalignment457" id="d46439e1131">Algorithm Names</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1135" headers="d46439e1129"><code class="codeph">KeyFactory</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1135 d46439e1131">RSA</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1141" headers="d46439e1129"><code class="codeph">KeyPairGenerator</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1141 d46439e1131">RSA</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1147" headers="d46439e1129"><code class="codeph">Signature</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1147 d46439e1131">
+<p>MD2withRSA</p>
+<p>MD5withRSA</p>
+<p>SHA1withRSA</p>
+<p>SHA224withRSA</p>
+<p>SHA256withRSA</p>
+<p>SHA384withRSA</p>
+<p>SHA512withRSA</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">Keysize Restrictions</p>
+<p>The <code class="codeph">SunRsaSign</code> provider uses the following default keysize (in bits) and enforces the following restriction:</p>
+<p>KeyPairGenerator</p>
+<div class="tblformal" id="GUID-17E3589E-E4BA-4881-9B12-9880DD2D128D__GUID-9AD6A1F3-7AD5-48C0-B6D0-FED06FF653BD">
+<p class="titleintable">Table 4-8 The SunRsaSign Provider Keysize Restrictions</p>
+<table class="cellalignment456" title="The SunRsaSign Provider Keysize Restrictions" summary="The SunRsaSign Provider Keysize Restrictions">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" rowspan="1" colspan="1" id="d46439e1186">Alg. Name</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d46439e1188">Default Keysize</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d46439e1190">Restrictions/Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1194" headers="d46439e1186">RSA</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1194 d46439e1188">2048</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1194 d46439e1190">Keysize must range between 512 and 65536 bits</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-7093246A-31A3-4304-AC5F-5FB6400405E2"></a>
+<h2 id="JSSEC-GUID-7093246A-31A3-4304-AC5F-5FB6400405E2" class="sect2">The SunJSSE Provider</h2>
+<div>
+<div class="section">
+<p class="subhead2">Algorithms</p>
+<p>The Java Secure Socket Extension (JSSE) was originally released as a separate "Optional Package" (also briefly known as a "Standard Extension"), and was available for JDK 1.2.<span class="variable">n</span> and 1.3.<span class="variable">n</span>. The <code class="codeph">SunJSSE</code> provider was introduced as part of this release.</p>
+<p>In earlier JDK releases, there were no RSA signature providers available in the JDK, therefore <code class="codeph">SunJSSE</code> had to provide its own RSA implementation in order to use commonly available RSA-based certificates. JDK 5 introduced the <code class="codeph">SunRsaSign</code> provider, which provides all the functionality (and more) of the <code class="codeph">SunJSSE</code> provider. Applications targeted at JDK 5.0 and later should request instances of the <code class="codeph">SunRsaSign</code> provider instead. For backward compatibility, the RSA algorithms are still available through this provider, but are actually implemented in the <code class="codeph">SunRsaSign</code> provider.</p>
+<p>The following algorithms are available in the <code class="codeph">SunJSSE</code> provider:</p>
+<div class="tblformal" id="GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__GUID-58EB24A8-0520-44C5-B54A-1FA0E437F203">
+<table class="cellalignment456" summary="List of SunJSSE provider engines and the algorithm names.">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e1251">Engine</th>
+<th class="cellalignment457" id="d46439e1253">Algorithm Name(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1257" headers="d46439e1251"><code class="codeph">KeyFactory</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1257 d46439e1253">
+<p>RSA</p>
+<p><span class="bold">Note:</span> The SunJSSE provider is for backwards compatibility with older releases, and should no longer be used for <code class="codeph">KeyFactory</code>.</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1271" headers="d46439e1251"><code class="codeph">KeyManagerFactory</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1271 d46439e1253">
+<p>PKIX: A factory for <code class="codeph">X509ExtendedKeyManager</code> instances that manage X.509 certificate-based key pairs for local side authentication according to the rules defined by the IETF PKIX working group in <a href="http://www.ietf.org/rfc/rfc5280.txt" target="_blank">RFC 5280</a>. This <code class="codeph">KeyManagerFactory</code> currently supports initialization using a <code class="codeph">KeyStore</code> object or <code class="codeph">javax.net.ssl.KeyStoreBuilderParameters</code>.</p>
+<p>SunX509: A factory for <code class="codeph">X509ExtendedKeyManager</code> instances that manage X.509 certificate-based key pairs for local side authentication, but with less strict checking of certificate usage/validity and chain verification. This <code class="codeph">KeyManagerFactory</code> supports initialization using a <code class="codeph">Keystore</code> object, but does not currently support initialization using the class <code class="codeph">javax.net.ssl.ManagerFactoryParameters</code>.</p>
+<p><span class="bold">Note:</span> The SunX509 factory is for backwards compatibility with older releases, and should no longer be used.</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1314" headers="d46439e1251"><code class="codeph">KeyPairGenerator</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1314 d46439e1253">
+<p>RSA</p>
+<p><span class="bold">Note:</span> The SunJSSE provider is for backwards compatibility with older releases, and should no longer be used for <code class="codeph">KeyPairGenerator</code>.</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1328" headers="d46439e1251"><code class="codeph">KeyStore</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1328 d46439e1253">
+<p>PKCS12</p>
+<p><span class="bold">Note:</span> The SunJSSE provider is for backwards compatibility with older releases, and should no longer be used for <code class="codeph">KeyStore</code>.</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1342" headers="d46439e1251"><code class="codeph">Signature</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1342 d46439e1253">
+<p>MD2withRSA</p>
+<p>MD5withRSA</p>
+<p>SHA1withRSA</p>
+<p><span class="bold">Note:</span> The SunJSSE provider is for backwards compatibility with older releases, and should no longer be used for <code class="codeph">Signature</code>.</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1360" headers="d46439e1251"><code class="codeph">SSLContext</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1360 d46439e1253">
+<p>SSLv3</p>
+<p>TLSv1</p>
+<p>TLSv1.1</p>
+<p>TLSv1.2</p>
+<p>DTLSv1.0</p>
+<p>DTLSv1.2</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1377" headers="d46439e1251"><code class="codeph">TrustManagerFactory</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1377 d46439e1253">
+<p>PKIX: A factory for <code class="codeph">X509ExtendedTrustManager</code> instances that validate certificate chains according to the rules defined by the IETF PKIX working group in <a href="http://www.ietf.org/rfc/rfc5280.txt" target="_blank">RFC 5280</a>. This <code class="codeph">TrustManagerFactory</code> currently supports initialization using a <code class="codeph">KeyStore</code> object or <code class="codeph">javax.net.ssl.CertPathTrustManagerParameters</code>.</p>
+<p>SunX509: A factory for <code class="codeph">X509ExtendedTrustManager</code> instances that validate certificate chains, but with less strict checking of certificate usage/validity and chain verification. This <code class="codeph">TrustManagerFactory</code> supports initialization using a <code class="codeph">Keystore</code> object, but does not currently support initialization using the class <code class="codeph">javax.net.ssl.ManagerFactoryParameters</code>.</p>
+<p><span class="bold">Note:</span> The SunX509 factory is for backwards compatibility with older releases, and should no longer be used.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" -->
+<div class="section" id="GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__SUNJSSEPROVIDERPROTOCOLPARAMETERS-BBF75009">
+<p class="subhead2">SunJSSE Provider Protocol Parameters</p>
+<p>The <code class="codeph">SunJSSE</code> provider supports the following <code class="codeph">protocol</code> parameters:</p>
+<div class="tblformal" id="GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__SUNJSSEPROVIDERPROTOCOLPARAMETERS-61B2BFC2">
+<p class="titleintable">Table 4-9 SunJSSE Provider Protocol Parameters</p>
+<table class="cellalignment456" title="SunJSSE Provider Protocol Parameters " summary="List of SunJSSE provider protocol parameters and the status on the client and server.">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e1440">Protocol</th>
+<th class="cellalignment457" id="d46439e1442">Enabled by Default for Client</th>
+<th class="cellalignment457" id="d46439e1444">Enabled by Default for Server</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1448" headers="d46439e1440">
+<p>SSLv3</p>
+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1448 d46439e1442">No (Unavailable <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__SSLV3ISENABLEDSTARTINGWITHJDK8U31TH-EAC6D34D">[3]</a>)</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1448 d46439e1444">No (Unavailable <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__SSLV3ISENABLEDSTARTINGWITHJDK8U31TH-EAC6D34D">[3]</a>)</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1464" headers="d46439e1440">TLSv1</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1464 d46439e1442">Yes</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1464 d46439e1444">Yes</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1471" headers="d46439e1440">TLSv1.1</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1471 d46439e1442">Yes</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1471 d46439e1444">Yes</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1478" headers="d46439e1440">TLSv1.2</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1478 d46439e1442">Yes</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1478 d46439e1444">Yes</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1485" headers="d46439e1440">SSLv2Hello <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__THESSLV3TLSV1TLSV1.1ANDTLSV1.2PROTO-EAC5E6F8">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1485 d46439e1442">No</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1485 d46439e1444">Yes</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e1495" headers="d46439e1440">DTLSv1.0</td>
+<td class="cellalignment447" headers="d46439e1495 d46439e1442">Yes</td>
+<td class="cellalignment447" headers="d46439e1495 d46439e1444">Yes</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e1502" headers="d46439e1440">DTLSv1.2 <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__BOTHDTLSV1.0ANDDTLSV1.2AREENABLED.-EAC6024A">[2]</a></td>
+<td class="cellalignment447" headers="d46439e1502 d46439e1442">Yes</td>
+<td class="cellalignment447" headers="d46439e1502 d46439e1444">Yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p id="GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__THESSLV3TLSV1TLSV1.1ANDTLSV1.2PROTO-EAC5E6F8">Footnote 1: The SSLv3, TLSv1, TLSv1.1 and TLSv1.2 protocols allow you to send SSLv3, TLSv1, TLSv1.1 and TLSv1.2 ClientHellos encapsulated in an SSLv2 format hello by using the SSLv2Hello psuedo-protocol.</p>
+<p id="GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__BOTHDTLSV1.0ANDDTLSV1.2AREENABLED.-EAC6024A">Footnote 2: Both DTLSv1.0 and DTLSv1.2 are enabled.</p>
+<div class="p" id="GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__SSLV3ISENABLEDSTARTINGWITHJDK8U31TH-EAC6D34D">Footnote 3: SSLv3 is enabled:
+<ul style="list-style-type: disc;">
+<li>
+<p>Starting with JDK 8u31, the SSLv3 protocol (Secure Socket Layer) has been deactivated and is not available by default. See the <code class="codeph">java.security.Security</code> property <code class="codeph">jdk.tls.disabledAlgorithms</code> in the <code class="codeph">&lt;java_home&gt;/conf/security/java.security</code> file.</p>
+</li>
+<li>
+<p>If SSLv3 is absolutely required, the protocol can be reactivated by removing "SSLv3" from the <code class="codeph">jdk.tls.disabledAlgorithms</code> property in the <code>java.security</code> file or by dynamically setting this Security Property before JSSE is initialized.</p>
+</li>
+<li>
+<p>To enable SSLv3 protocol at deploy level, after following the above steps, edit the <code>deployment.properties</code> file and add the following : <code class="codeph">deployment.security.SSLv3=true</code></p>
+</li>
+</ul>
+</div>
+<p>The following table illustrates which connection combinations are possible when using SSLv2Hellos:</p>
+<div class="tblformal" id="GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__CONNECTIONSPOSSIBLEUSINGSSLV2HELLOS-61B2CF09">
+<p class="titleintable">Table 4-10 Connections Possible Using SSLv2Hellos</p>
+<table class="cellalignment456" title="Connections Possible Using SSLv2Hellos" summary="List of possible connection combinations and the status on the client and server.">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e1560">Client</th>
+<th class="cellalignment457" id="d46439e1562">Server</th>
+<th class="cellalignment457" id="d46439e1564">Connection Possible?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1568" headers="d46439e1560">Enabled</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1568 d46439e1562">Enabled</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1568 d46439e1564">Yes</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1575" headers="d46439e1560">Not enabled</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1575 d46439e1562">Enabled</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1575 d46439e1564">Yes (most interoperable: SunJSSE default)</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1582" headers="d46439e1560">Enabled</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1582 d46439e1562">Not enabled</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1582 d46439e1564">No</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1589" headers="d46439e1560">Not enabled</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1589 d46439e1562">Not enabled</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1589 d46439e1564">Yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">Cipher Suites</p>
+<p><code class="codeph">SunJSSE</code> supports a large number of cipher suites. The tables <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__GUID-088B3F61-A049-414A-A8A4-58A49637427F" title="List of cipher suites that are enable by default.">Table 4-11</a> and <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__GUID-88098010-2E6E-4F60-ACD9-C46FB6232114" title="List of cipher suites that are supported by SunJSSE but not enabled by default.">Table 4-12</a> show the cipher suites supported by <code class="codeph">SunJSSE</code> in preference order and the release in which they were introduced.</p>
+<p><a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__GUID-088B3F61-A049-414A-A8A4-58A49637427F" title="List of cipher suites that are enable by default.">Table 4-11</a> lists the cipher suites that are enabled by default. <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__GUID-88098010-2E6E-4F60-ACD9-C46FB6232114" title="List of cipher suites that are supported by SunJSSE but not enabled by default.">Table 4-12</a> shows cipher suites that are supported by <code class="codeph">SunJSSE</code> but not enabled by default.</p>
+<div class="infobox-note" id="GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__GUID-5093AD09-4FE7-44ED-8657-DCE787676AF5">
+<p class="notep1">Note:</p>
+According to <a href="http://tools.ietf.org/html/rfc4347" target="_blank">DTLS Version 1.0</a> and <a href="http://tools.ietf.org/html/rfc6347" target="_blank">DTLS Version 1.2</a>, RC4 cipher suites must not be used with DTLS connections.</div>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">Cipher Suites That Are Enabled by Default</p>
+<div class="tblformal" id="GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__GUID-088B3F61-A049-414A-A8A4-58A49637427F">
+<p class="titleintable">Table 4-11 Enabled Cipher Suites</p>
+<table class="cellalignment456" title="Enabled Cipher Suites" summary="List of cipher suites that are enable by default.">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment463" id="d46439e1655">Cipher Suite</th>
+<th class="cellalignment464" id="d46439e1657">JDK 6</th>
+<th class="cellalignment464" id="d46439e1659">JDK 7</th>
+<th class="cellalignment465" id="d46439e1661">JDK 8</th>
+<th class="cellalignment464" id="d46439e1663">JDK 9</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1667" headers="d46439e1655"><code class="codeph">TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1667 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1667 d46439e1659">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__CIPHERSUITESWITHSHA384ANDSHA256AREA-EACC4037">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1667 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1667 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1682" headers="d46439e1655"><code class="codeph">TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1682 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1682 d46439e1659">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__CIPHERSUITESWITHSHA384ANDSHA256AREA-EACC4037">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1682 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1682 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1697" headers="d46439e1655"><code class="codeph">TLS_RSA_WITH_AES_256_CBC_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1697 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1697 d46439e1659">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__CIPHERSUITESWITHSHA384ANDSHA256AREA-EACC4037">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1697 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1697 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1712" headers="d46439e1655"><code class="codeph">TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA384</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1712 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1712 d46439e1659">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__CIPHERSUITESWITHSHA384ANDSHA256AREA-EACC4037">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1712 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1712 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1727" headers="d46439e1655"><code class="codeph">TLS_ECDH_RSA_WITH_AES_256_CBC_SHA384</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1727 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1727 d46439e1659">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__CIPHERSUITESWITHSHA384ANDSHA256AREA-EACC4037">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1727 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1727 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1742" headers="d46439e1655"><code class="codeph">TLS_DHE_RSA_WITH_AES_256_CBC_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1742 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1742 d46439e1659">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__CIPHERSUITESWITHSHA384ANDSHA256AREA-EACC4037">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1742 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1742 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1757" headers="d46439e1655"><code class="codeph">TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1757 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1757 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1757 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1757 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1769" headers="d46439e1655"><code class="codeph">TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1769 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1769 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1769 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1769 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1781" headers="d46439e1655"><code class="codeph">TLS_RSA_WITH_AES_256_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1781 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1781 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1781 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1781 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1793" headers="d46439e1655"><code class="codeph">TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1793 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1793 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1793 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1793 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1805" headers="d46439e1655"><code class="codeph">TLS_ECDH_RSA_WITH_AES_256_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1805 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1805 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1805 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1805 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1818" headers="d46439e1655"><code class="codeph">TLS_DHE_RSA_WITH_AES_256_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1818 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1818 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1818 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1818 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1830" headers="d46439e1655"><code class="codeph">TLS_DHE_DSS_WITH_AES_256_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1830 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1830 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1830 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1830 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1842" headers="d46439e1655"><code class="codeph">TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1842 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1842 d46439e1659">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__CIPHERSUITESWITHSHA384ANDSHA256AREA-EACC4037">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1842 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1842 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1857" headers="d46439e1655"><code class="codeph">TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1857 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1857 d46439e1659">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__CIPHERSUITESWITHSHA384ANDSHA256AREA-EACC4037">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1857 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1857 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1872" headers="d46439e1655"><code class="codeph">TLS_RSA_WITH_AES_128_CBC_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1872 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1872 d46439e1659">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__CIPHERSUITESWITHSHA384ANDSHA256AREA-EACC4037">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1872 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1872 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1887" headers="d46439e1655"><code class="codeph">TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1887 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1887 d46439e1659">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__CIPHERSUITESWITHSHA384ANDSHA256AREA-EACC4037">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1887 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1887 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1902" headers="d46439e1655"><code class="codeph">TLS_ECDH_RSA_WITH_AES_128_CBC_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1902 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1902 d46439e1659">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__CIPHERSUITESWITHSHA384ANDSHA256AREA-EACC4037">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1902 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1902 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1917" headers="d46439e1655"><code class="codeph">TLS_DHE_RSA_WITH_AES_128_CBC_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1917 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1917 d46439e1659">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__CIPHERSUITESWITHSHA384ANDSHA256AREA-EACC4037">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1917 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1917 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1932" headers="d46439e1655"><code class="codeph">TLS_DHE_DSS_WITH_AES_128_CBC_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1932 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1932 d46439e1659">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__CIPHERSUITESWITHSHA384ANDSHA256AREA-EACC4037">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1932 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1932 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1947" headers="d46439e1655"><code class="codeph">TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1947 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1947 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1947 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1947 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1959" headers="d46439e1655"><code class="codeph">TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1959 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1959 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1959 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1959 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1972" headers="d46439e1655"><code class="codeph">TLS_RSA_WITH_AES_128_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1972 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1972 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1972 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1972 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1984" headers="d46439e1655"><code class="codeph">TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1984 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1984 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1984 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1984 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e1996" headers="d46439e1655"><code class="codeph">TLS_ECDH_RSA_WITH_AES_128_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1996 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1996 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e1996 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e1996 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2008" headers="d46439e1655"><code class="codeph">TLS_DHE_RSA_WITH_AES_128_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2008 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2008 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2008 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2008 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2020" headers="d46439e1655"><code class="codeph">TLS_DHE_DSS_WITH_AES_128_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2020 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2020 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2020 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2020 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2032" headers="d46439e1655"><code class="codeph">TLS_ECDHE_ECDSA_WITH_RC4_128_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2032 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2032 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2032 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2032 d46439e1663">&nbsp;</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2043" headers="d46439e1655"><code class="codeph">TLS_ECDHE_RSA_WITH_RC4_128_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2043 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2043 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2043 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2043 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2055" headers="d46439e1655"><code class="codeph">SSL_RSA_WITH_RC4_128_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2055 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2055 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2055 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2055 d46439e1663">&nbsp;</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2066" headers="d46439e1655"><code class="codeph">TLS_ECDH_ECDSA_WITH_RC4_128_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2066 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2066 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2066 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2066 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2078" headers="d46439e1655"><code class="codeph">TLS_ECDH_RSA_WITH_RC4_128_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2078 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2078 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2078 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2078 d46439e1663">&nbsp;</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2089" headers="d46439e1655"><code class="codeph">TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2089 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2089 d46439e1659">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2089 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2089 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2102" headers="d46439e1655"><code class="codeph">TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2102 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2102 d46439e1659">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2102 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2102 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2114" headers="d46439e1655"><code class="codeph">TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2114 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2114 d46439e1659">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2114 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2114 d46439e1663">&nbsp;</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2125" headers="d46439e1655"><code class="codeph">TLS_RSA_WITH_AES_256_GCM_SHA384</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2125 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2125 d46439e1659">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2125 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2125 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2137" headers="d46439e1655"><code class="codeph">TLS_ECDH_ECDSA_WITH_AES_256_GCM_SHA384</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2137 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2137 d46439e1659">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2137 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2137 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2149" headers="d46439e1655"><code class="codeph">TLS_ECDH_RSA_WITH_AES_256_GCM_SHA384</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2149 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2149 d46439e1659">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2149 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2149 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2161" headers="d46439e1655"><code class="codeph">TLS_DHE_RSA_WITH_AES_256_GCM_SHA384</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2161 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2161 d46439e1659">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2161 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2161 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2173" headers="d46439e1655"><code class="codeph">TLS_DHE_DSS_WITH_AES_256_GCM_SHA384</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2173 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2173 d46439e1659">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2173 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2173 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2185" headers="d46439e1655"><code class="codeph">TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2185 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2185 d46439e1659">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2185 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2185 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2197" headers="d46439e1655"><code class="codeph">TLS_RSA_WITH_AES_128_GCM_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2197 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2197 d46439e1659">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2197 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2197 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2209" headers="d46439e1655"><code class="codeph">TLS_ECDH_ECDSA_WITH_AES_128_GCM_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2209 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2209 d46439e1659">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2209 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2209 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2221" headers="d46439e1655"><code class="codeph">TLS_ECDH_RSA_WITH_AES_128_GCM_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2221 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2221 d46439e1659">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2221 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2221 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2234" headers="d46439e1655"><code class="codeph">TLS_DHE_RSA_WITH_AES_128_GCM_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2234 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2234 d46439e1659">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2234 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2234 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2246" headers="d46439e1655"><code class="codeph">TLS_DHE_DSS_WITH_AES_128_GCM_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2246 d46439e1657">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2246 d46439e1659">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2246 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2246 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2258" headers="d46439e1655"><code class="codeph">TLS_ECDHE_ECDSA_WITH_3DES_EDE_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2258 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2258 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2258 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2258 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2270" headers="d46439e1655"><code class="codeph">TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2270 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2270 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2270 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2270 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2282" headers="d46439e1655"><code class="codeph">SSL_RSA_WITH_3DES_EDE_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2282 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2282 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2282 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2282 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2294" headers="d46439e1655"><code class="codeph">TLS_ECDH_ECDSA_WITH_3DES_EDE_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2294 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2294 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2294 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2294 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2306" headers="d46439e1655"><code class="codeph">TLS_ECDH_RSA_WITH_3DES_EDE_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2306 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2306 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2306 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2306 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2318" headers="d46439e1655"><code class="codeph">SSL_DHE_RSA_WITH_3DES_EDE_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2318 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2318 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2318 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2318 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2330" headers="d46439e1655"><code class="codeph">SSL_DHE_DSS_WITH_3DES_EDE_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2330 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2330 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2330 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2330 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment467" id="d46439e2342" headers="d46439e1655"><code class="codeph">TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384</code></td>
+<td class="cellalignment466" headers="d46439e2342 d46439e1657">&nbsp;</td>
+<td class="cellalignment466" headers="d46439e2342 d46439e1659">&nbsp;</td>
+<td class="cellalignment468" headers="d46439e2342 d46439e1661">&nbsp;</td>
+<td class="cellalignment466" headers="d46439e2342 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment467" id="d46439e2351" headers="d46439e1655"><code class="codeph">TLS_DHE_DSS_WITH_AES_256_CBC_SHA256</code></td>
+<td class="cellalignment466" headers="d46439e2351 d46439e1657">&nbsp;</td>
+<td class="cellalignment466" headers="d46439e2351 d46439e1659">&nbsp;</td>
+<td class="cellalignment468" headers="d46439e2351 d46439e1661">&nbsp;</td>
+<td class="cellalignment466" headers="d46439e2351 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment467" id="d46439e2361" headers="d46439e1655"><code class="codeph">TLS_DHE_DSS_WITH_AES_256_CBC_SHA256</code></td>
+<td class="cellalignment466" headers="d46439e2361 d46439e1657">&nbsp;</td>
+<td class="cellalignment466" headers="d46439e2361 d46439e1659">&nbsp;</td>
+<td class="cellalignment468" headers="d46439e2361 d46439e1661">&nbsp;</td>
+<td class="cellalignment466" headers="d46439e2361 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2370" headers="d46439e1655"><code class="codeph">SSL_RSA_WITH_RC4_128_MD5</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2370 d46439e1657">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2370 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2370 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2370 d46439e1663">&nbsp;</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2381" headers="d46439e1655"><code class="codeph">TLS_EMPTY_RENEGOTIATION_INFO_SCSV</code><a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__TLS_EMPTY_RENEGOTIATION_INFO_SCSVIS-EACC4465">[2]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2381 d46439e1657">u22+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2381 d46439e1659">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2381 d46439e1661">X</td>
+<td class="cellalignment466" headers="d46439e2381 d46439e1663">&nbsp;</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment467" id="d46439e2395" headers="d46439e1655"><code class="codeph">TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384</code></td>
+<td class="cellalignment466" headers="d46439e2395 d46439e1657">&nbsp;</td>
+<td class="cellalignment466" headers="d46439e2395 d46439e1659">&nbsp;</td>
+<td class="cellalignment468" headers="d46439e2395 d46439e1661">&nbsp;</td>
+<td class="cellalignment466" headers="d46439e2395 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment467" id="d46439e2404" headers="d46439e1655"><code class="codeph">TLS_DHE_DSS_WITH_AES_256_CBC_SHA256</code></td>
+<td class="cellalignment466" headers="d46439e2404 d46439e1657">&nbsp;</td>
+<td class="cellalignment466" headers="d46439e2404 d46439e1659">&nbsp;</td>
+<td class="cellalignment468" headers="d46439e2404 d46439e1661">&nbsp;</td>
+<td class="cellalignment466" headers="d46439e2404 d46439e1663">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment467" id="d46439e2413" headers="d46439e1655"><code class="codeph">TLS_DHE_DSS_WITH_AES_256_CBC_SHA256</code></td>
+<td class="cellalignment466" headers="d46439e2413 d46439e1657">&nbsp;</td>
+<td class="cellalignment466" headers="d46439e2413 d46439e1659">&nbsp;</td>
+<td class="cellalignment468" headers="d46439e2413 d46439e1661">&nbsp;</td>
+<td class="cellalignment466" headers="d46439e2413 d46439e1663">X</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p id="GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__CIPHERSUITESWITHSHA384ANDSHA256AREA-EACC4037">Footnote 1: Cipher suites with SHA384 and SHA256 are available only for TLS 1.2 or later.</p>
+<p id="GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__TLS_EMPTY_RENEGOTIATION_INFO_SCSVIS-EACC4465">Footnote 2: <code class="codeph">TLS_EMPTY_RENEGOTIATION_INFO_SCSV</code> is a new pseudo-cipher suite to support RFC 5746. See <a href="java-secure-socket-extension-jsse-reference-guide.htm#GUID-9C767872-3A6C-4AD1-9805-49F112A0FA28" title="In the fall of 2009, a flaw was discovered in the SSL/TLS protocols. A fix to the protocol was developed by the IETF TLS Working Group, and current versions of the JDK contain this fix. This section describes the situation in much more detail, along with interoperability issues when communicating with older implementations that do not contain this protocol fix.">Transport Layer Security (TLS) Renegotiation Issue</a> in <a href="java-secure-socket-extension-jsse-reference-guide.htm#GUID-93DEEE16-0B70-40E5-BBE7-55C3FD432345" title="The Java Secure Socket Extension (JSSE) enables secure Internet communications. It provides a framework and an implementation for a Java version of the SSL, TLS, and DTLS protocols and includes functionality for data encryption, server authentication, message integrity, and optional client authentication.">Java Secure Socket Extension (JSSE) Reference Guide</a>.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">Cipher Suites That Are Not Enabled by Default</p>
+<div class="tblformal" id="GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__GUID-88098010-2E6E-4F60-ACD9-C46FB6232114">
+<p class="titleintable">Table 4-12 Not Enabled Cipher Suites</p>
+<table class="cellalignment456" title="Not Enabled Cipher Suites" summary="List of cipher suites that are supported by SunJSSE but not enabled by default.">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment469" id="d46439e2456">Cipher Suite</th>
+<th class="cellalignment470" id="d46439e2458">JDK 6</th>
+<th class="cellalignment470" id="d46439e2460">JDK 7</th>
+<th class="cellalignment470" id="d46439e2462">JDK 8</th>
+<th class="cellalignment470" id="d46439e2464">JDK 9</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2468" headers="d46439e2456"><code class="codeph">TLS_DH_anon_WITH_AES_256_GCM_SHA384</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2468 d46439e2458">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2468 d46439e2460">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2468 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2468 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2480" headers="d46439e2456"><code class="codeph">TLS_DH_anon_WITH_AES_128_GCM_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2480 d46439e2458">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2480 d46439e2460">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2480 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2480 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2492" headers="d46439e2456"><code class="codeph">TLS_DH_anon_WITH_AES_256_CBC_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2492 d46439e2458">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2492 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2492 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2492 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2504" headers="d46439e2456"><code class="codeph">TLS_ECDH_anon_WITH_AES_256_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2504 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2504 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2504 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2504 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2516" headers="d46439e2456"><code class="codeph">TLS_DH_anon_WITH_AES_256_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2516 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2516 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2516 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2516 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2528" headers="d46439e2456"><code class="codeph">TLS_DH_anon_WITH_AES_128_CBC_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2528 d46439e2458">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2528 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2528 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2528 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2540" headers="d46439e2456"><code class="codeph">TLS_ECDH_anon_WITH_AES_128_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2540 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2540 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2540 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2540 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2552" headers="d46439e2456"><code class="codeph">TLS_DH_anon_WITH_AES_128_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2552 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2552 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2552 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2552 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2564" headers="d46439e2456"><code class="codeph">TLS_ECDH_anon_WITH_RC4_128_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2564 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2564 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2564 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2564 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2576" headers="d46439e2456"><code class="codeph">SSL_DH_anon_WITH_RC4_128_MD5</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2576 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2576 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2576 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2576 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2588" headers="d46439e2456"><code class="codeph">TLS_ECDH_anon_WITH_3DES_EDE_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2588 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2588 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2588 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2588 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2601" headers="d46439e2456"><code class="codeph">SSL_DH_anon_WITH_3DES_EDE_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2601 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2601 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2601 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2601 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2613" headers="d46439e2456"><code class="codeph">TLS_RSA_WITH_NULL_SHA256</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2613 d46439e2458">&nbsp;</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2613 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2613 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2613 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2625" headers="d46439e2456"><code class="codeph">TLS_ECDHE_ECDSA_WITH_NULL_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2625 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2625 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2625 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2625 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2637" headers="d46439e2456"><code class="codeph">TLS_ECDHE_RSA_WITH_NULL_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2637 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2637 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2637 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2637 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2649" headers="d46439e2456"><code class="codeph">SSL_RSA_WITH_NULL_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2649 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2649 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2649 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2649 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2661" headers="d46439e2456"><code class="codeph">TLS_ECDH_ECDSA_WITH_NULL_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2661 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2661 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2661 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2661 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2673" headers="d46439e2456"><code class="codeph">TLS_ECDH_RSA_WITH_NULL_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2673 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2673 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2673 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2673 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2685" headers="d46439e2456"><code class="codeph">TLS_ECDH_anon_WITH_NULL_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2685 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2685 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2685 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2685 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2697" headers="d46439e2456"><code class="codeph">SSL_RSA_WITH_NULL_MD5</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2697 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2697 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2697 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2697 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2709" headers="d46439e2456"><code class="codeph">SSL_RSA_WITH_DES_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2709 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2709 d46439e2460">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__RFC5246TLS1.2FORBIDSTHEUSEOFTHESESU-6D120E34">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2709 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2709 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2724" headers="d46439e2456"><code class="codeph">SSL_DHE_RSA_WITH_DES_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2724 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2724 d46439e2460">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__RFC5246TLS1.2FORBIDSTHEUSEOFTHESESU-6D120E34">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2724 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2724 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2740" headers="d46439e2456"><code class="codeph">SSL_DHE_DSS_WITH_DES_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2740 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2740 d46439e2460">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__RFC5246TLS1.2FORBIDSTHEUSEOFTHESESU-6D120E34">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2740 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2740 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2755" headers="d46439e2456"><code class="codeph">SSL_DH_anon_WITH_DES_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2755 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2755 d46439e2460">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__RFC5246TLS1.2FORBIDSTHEUSEOFTHESESU-6D120E34">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2755 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2755 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2770" headers="d46439e2456"><code class="codeph">SSL_RSA_EXPORT_WITH_RC4_40_MD5</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2770 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2770 d46439e2460">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__RFC4346TLS1.1FORBIDSTHEUSEOFTHESESU-6D120102">[2]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2770 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2770 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2785" headers="d46439e2456"><code class="codeph">SSL_DH_anon_EXPORT_WITH_RC4_40_MD5</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2785 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2785 d46439e2460">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__RFC4346TLS1.1FORBIDSTHEUSEOFTHESESU-6D120102">[2]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2785 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2785 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2800" headers="d46439e2456"><code class="codeph">SSL_RSA_EXPORT_WITH_DES40_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2800 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2800 d46439e2460">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__RFC4346TLS1.1FORBIDSTHEUSEOFTHESESU-6D120102">[2]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2800 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2800 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2815" headers="d46439e2456"><code class="codeph">SSL_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2815 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2815 d46439e2460">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__RFC4346TLS1.1FORBIDSTHEUSEOFTHESESU-6D120102">[2]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2815 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2815 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2830" headers="d46439e2456"><code class="codeph">SSL_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2830 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2830 d46439e2460">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__RFC4346TLS1.1FORBIDSTHEUSEOFTHESESU-6D120102">[2]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2830 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2830 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2845" headers="d46439e2456"><code class="codeph">SSL_DH_anon_EXPORT_WITH_DES40_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2845 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2845 d46439e2460">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__RFC4346TLS1.1FORBIDSTHEUSEOFTHESESU-6D120102">[2]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2845 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2845 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2860" headers="d46439e2456"><code class="codeph">TLS_KRB5_WITH_RC4_128_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2860 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2860 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2860 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2860 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2872" headers="d46439e2456"><code class="codeph">TLS_KRB5_WITH_RC4_128_MD5</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2872 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2872 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2872 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2872 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2884" headers="d46439e2456"><code class="codeph">TLS_KRB5_WITH_3DES_EDE_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2884 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2884 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2884 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2884 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2897" headers="d46439e2456"><code class="codeph">TLS_KRB5_WITH_3DES_EDE_CBC_MD5</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2897 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2897 d46439e2460">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2897 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2897 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2909" headers="d46439e2456"><code class="codeph">TLS_KRB5_WITH_DES_CBC_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2909 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2909 d46439e2460">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__RFC5246TLS1.2FORBIDSTHEUSEOFTHESESU-6D120E34">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2909 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2909 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2924" headers="d46439e2456"><code class="codeph">TLS_KRB5_WITH_DES_CBC_MD5</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2924 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2924 d46439e2460">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__RFC5246TLS1.2FORBIDSTHEUSEOFTHESESU-6D120E34">[1]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2924 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2924 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2939" headers="d46439e2456"><code class="codeph">TLS_KRB5_EXPORT_WITH_RC4_40_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2939 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2939 d46439e2460">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__RFC4346TLS1.1FORBIDSTHEUSEOFTHESESU-6D120102">[2]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2939 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2939 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2954" headers="d46439e2456"><code class="codeph">TLS_KRB5_EXPORT_WITH_RC4_40_MD5</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2954 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2954 d46439e2460">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__RFC4346TLS1.1FORBIDSTHEUSEOFTHESESU-6D120102">[2]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2954 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2954 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2969" headers="d46439e2456"><code class="codeph">TLS_KRB5_EXPORT_WITH_DES_CBC_40_SHA</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2969 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2969 d46439e2460">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__RFC4346TLS1.1FORBIDSTHEUSEOFTHESESU-6D120102">[2]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2969 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2969 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e2984" headers="d46439e2456"><code class="codeph">TLS_KRB5_EXPORT_WITH_DES_CBC_40_MD5</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2984 d46439e2458">X</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2984 d46439e2460">X <a href="oracleproviders.htm#GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__RFC4346TLS1.1FORBIDSTHEUSEOFTHESESU-6D120102">[2]</a></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e2984 d46439e2462">X</td>
+<td class="cellalignment471" headers="d46439e2984 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment472" id="d46439e2999" headers="d46439e2456"><code class="codeph">TLS_ECDHE_ECDSA_WITH_RC4_128_SHA</code></td>
+<td class="cellalignment471" headers="d46439e2999 d46439e2458">&nbsp;</td>
+<td class="cellalignment471" headers="d46439e2999 d46439e2460">&nbsp;</td>
+<td class="cellalignment471" headers="d46439e2999 d46439e2462">&nbsp;</td>
+<td class="cellalignment471" headers="d46439e2999 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment472" id="d46439e3008" headers="d46439e2456"><code class="codeph">TLS_ECDHE_RSA_WITH_RC4_128_SHA</code></td>
+<td class="cellalignment471" headers="d46439e3008 d46439e2458">&nbsp;</td>
+<td class="cellalignment471" headers="d46439e3008 d46439e2460">&nbsp;</td>
+<td class="cellalignment471" headers="d46439e3008 d46439e2462">&nbsp;</td>
+<td class="cellalignment471" headers="d46439e3008 d46439e2464">X</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment472" id="d46439e3017" headers="d46439e2456"><code class="codeph">SSL_RSA_WITH_RC4_128_MD5</code></td>
+<td class="cellalignment471" headers="d46439e3017 d46439e2458">&nbsp;</td>
+<td class="cellalignment471" headers="d46439e3017 d46439e2460">&nbsp;</td>
+<td class="cellalignment471" headers="d46439e3017 d46439e2462">&nbsp;</td>
+<td class="cellalignment471" headers="d46439e3017 d46439e2464">X</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p id="GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__RFC5246TLS1.2FORBIDSTHEUSEOFTHESESU-6D120E34">Footnote 1: <a href="http://www.ietf.org/rfc/rfc5246.txt" target="_blank">RFC 5246 TLS 1.2</a> forbids the use of these suites. These can be used in the SSLv3/TLS1.0/TLS1.1 protocols, but cannot be used in TLS 1.2 and later.</p>
+<p id="GUID-7093246A-31A3-4304-AC5F-5FB6400405E2__RFC4346TLS1.1FORBIDSTHEUSEOFTHESESU-6D120102">Footnote 2: <a href="http://www.ietf.org/rfc/rfc4346.txt" target="_blank">RFC 4346 TLS 1.1</a> forbids the use of these suites. These can be used in the SSLv3/TLS1.0 protocols, but cannot be used in TLS 1.1 and later.</p>
+<p>Cipher suites that use AES_256 require the appropriate Java Cryptography Extension (JCE) unlimited strength jurisdiction policy file set, which is included in the JDK. By default, the active cryptography policy is unlimited. See <a href="oracleproviders.htm#GUID-9224B90B-7B2F-41F9-BB96-C0A1B6A0FEAA">Import Limits on Cryptographic Algorithms</a>.</p>
+<p>Cipher suites that use Elliptic Curve Cryptography (ECDSA, ECDH, ECDHE, ECDH_anon) require a JCE cryptographic provider that meets the following requirements:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>The provider must implement ECC as defined by the classes and interfaces in the packages <code class="codeph">java.security.spec</code> and <code class="codeph">java.security.interfaces</code>. The <code class="codeph">getAlgorithm()</code> method of elliptic curve key objects must return the string "EC".</p>
+</li>
+<li>
+<p>The provider must support the <code class="codeph">Signature</code> algorithms SHA1withECDSA and NONEwithECDSA, the <code class="codeph">KeyAgreement</code> algorithm ECDH, and a <code class="codeph">KeyPairGenerator</code> and a <code class="codeph">KeyFactory</code> for algorithm EC. If one of these algorithms is missing, SunJSSE does not allow EC cipher suites to be used.</p>
+</li>
+<li>
+<p>The provider must support all the SECG curves referenced in <a href="http://www.ietf.org/rfc/rfc4492.txt" target="_blank">RFC 4492</a> specification, section 5.1.1 (see also appendix A). In certificates, points should be encoded using the uncompressed form and curves should be encoded using the <code class="codeph">namedCurve</code> choice, that is, using an object identifier.</p>
+</li>
+</ul>
+<p>If these requirements are not met, EC cipher suites may not be negotiated correctly.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">Tighter Checking of EncryptedPreMasterSecret Version Numbers</p>
+<p>Prior to the JDK 7 release, the SSL/TLS implementation did not check the version number in PreMasterSecret, and the SSL/TLS client did not send the correct version number by default. Unless the system property <code class="codeph">com.sun.net.ssl.rsaPreMasterSecretFix</code> is set to <code class="codeph">true</code>, the TLS client sends the active negotiated version, but not the expected maximum version supported by the client.</p>
+<p>For compatibility, this behavior is preserved for SSL version 3.0 and TLS version 1.0. However, for TLS version 1.1 or later, the implementation tightens checking the PreMasterSecret version numbers as required by <a href="http://www.ietf.org/rfc/rfc5246.txt" target="_blank">RFC 5246</a>. Clients always send the correct version number, and servers check the version number strictly. The system property, <code class="codeph">com.sun.net.ssl.rsaPreMasterSecretFix</code>, is not used in TLS 1.1 or later.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7"></a>
+<h2 id="JSSEC-GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7" class="sect2">The SunJCE Provider</h2>
+<div>
+<p>As described briefly in The SUN Provider, US export regulations at the time restricted the type of cryptographic functionality that could be available in the JDK. A separate API and reference implementation was developed that allowed applications to encrypt/decrypt date. The Java Cryptographic Extension (JCE) was released as a separate &rdquo;Optional Package&rdquo; (also briefly known as a &ldquo;Standard Extension&rdquo;), and was available for JDK 1.2x and 1.3x. During the development of JDK 1.4, regulations were relaxed enough that JCE (and SunJSSE) could be bundled as part of the JDK.</p>
+<div class="section">
+<p>The following algorithms are available in the SunJCE provider:</p>
+<div class="tblformal" id="GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7__GUID-C2F51EF7-FFB7-4113-960C-DE484E8274C8">
+<p class="titleintable">Table 4-13 The SunJCE Provider Algorithm Names for Engine Classes</p>
+<table class="cellalignment456" title="The SunJCE Provider Algorithm Names for Engine Classes" summary="List of SunJCE Provider Algorithm Names for Engine Classes">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e3136">Engine</th>
+<th class="cellalignment457" id="d46439e3138">Algorithm Names</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3142" headers="d46439e3136"><code class="codeph">AlgorithmParameterGenerator</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3142 d46439e3138">DiffieHellman</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3148" headers="d46439e3136"><code class="codeph">AlgorithmParameters</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3148 d46439e3138">
+<p>AES</p>
+<p>Blowfish</p>
+<p>DES</p>
+<p>DESede</p>
+<p>DiffieHellman</p>
+<p>GCM</p>
+<p>OAEP</p>
+<p>PBE</p>
+<p>PBES2</p>
+<p>PBEWithHmacSHA1AndAES_128</p>
+<p>PBEWithHmacSHA224AndAES_128</p>
+<p>PBEWithHmacSHA256AndAES_128</p>
+<p>PBEWithHmacSHA384AndAES_128</p>
+<p>PBEWithHmacSHA512AndAES_128</p>
+<p>PBEWithHmacSHA1AndAES_256</p>
+<p>PBEWithHmacSHA224AndAES_256</p>
+<p>PBEWithHmacSHA256AndAES_256</p>
+<p>PBEWithHmacSHA384AndAES_256</p>
+<p>PBEWithHmacSHA512AndAES_256</p>
+<p>PBEWithMD5AndDES</p>
+<p>PBEWithMD5AndTripleDES</p>
+<p>PBEWithSHA1AndDESede</p>
+<p>PBEWithSHA1AndRC2_40</p>
+<p>PBEWithSHA1AndRC2_128</p>
+<p>PBEWithSHA1AndRC4_40</p>
+<p>PBEWithSHA1AndPC4_128</p>
+<p>RC2</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3210" headers="d46439e3136"><code class="codeph">Cipher</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3210 d46439e3138">See <a href="oracleproviders.htm#GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7__GUID-5AB84158-7D99-4604-98EC-1E2F755CCB1C" title="List of SunJCE Provider Cipher Transformations; includes algorithm names, modes, and paddings.">Table 4-14</a></td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3220" headers="d46439e3136"><code class="codeph">KeyAgreement</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3220 d46439e3138">DiffieHellman</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3226" headers="d46439e3136"><code class="codeph">KeyFactory</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3226 d46439e3138">DiffieHellman</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3232" headers="d46439e3136"><code class="codeph">KeyGenerator</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3232 d46439e3138">
+<p>AES</p>
+<p>ARCFOUR</p>
+<p>Blowfish</p>
+<p>DES</p>
+<p>DESede</p>
+<p>HmacMD5</p>
+<p>HmacSHA1</p>
+<p>HmacSHA224</p>
+<p>HmacSHA256</p>
+<p>HmacSHA384</p>
+<p>HmacSHA512</p>
+<p>RC2</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3263" headers="d46439e3136"><code class="codeph">KeyPairGenerator</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3263 d46439e3138">DiffieHellman</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3269" headers="d46439e3136"><code class="codeph">KeyStore</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3269 d46439e3138">JCEKS</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3275" headers="d46439e3136"><code class="codeph">Mac</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3275 d46439e3138">
+<p>HmacMD5</p>
+<p>HmacSHA1</p>
+<p>HmacSHA224</p>
+<p>HmacSHA384</p>
+<p>HmacSHA512</p>
+<p>HmacSHA256</p>
+<p>HmacSHA512/224</p>
+<p>HmacSHA512/256</p>
+<p>HmacPBESHA1</p>
+<p>PBEWithHmacSHA1</p>
+<p>PBEWithHmacSHA224</p>
+<p>PBEWithHmacSHA256</p>
+<p>PBEWithHmacSHA384</p>
+<p>PBEWithHmacSHA512</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3310" headers="d46439e3136"><code class="codeph">SecretKeyFactory</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3310 d46439e3138">
+<p>DES</p>
+<p>DESede</p>
+<p>PBEWithMD5AndDES</p>
+<p>PBEWithMD5AndTripleDES</p>
+<p>PBEWithSHA1AndDESede</p>
+<p>PBEWithSHA1AndRC2_40</p>
+<p>PBEWithSHA1AndRC2_128</p>
+<p>PBEWithSHA1AndRC4_40</p>
+<p>PBEWithSHA1AndRC4_128</p>
+<p>PBKDF2WithHmacSHA1</p>
+<p>PBKDF2WithHmacSHA224</p>
+<p>PBKDF2WithHmacSHA256</p>
+<p>PBKDF2WithHmacSHA384</p>
+<p>PBKDF2WithHmacSHA512</p>
+<p>PBEWithHmacSHA1AndAES_128</p>
+<p>PBEWithHmacSHA224AndAES_128</p>
+<p>PBEWithHmacSHA256AndAES_128</p>
+<p>PBEWithHmacSHA384AndAES_128</p>
+<p>PBEWithHmacSHA512AndAES_128</p>
+<p>PBEWithHmacSHA1AndAES_256</p>
+<p>PBEWithHmacSHA224AndAES_256</p>
+<p>PBEWithHmacSHA256AndAES_256</p>
+<p>PBEWithHmacSHA384AndAES_256</p>
+<p>PBEWithHmacSHA512AndAES_256</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p>The following table lists cipher transformations available in the SunJCE provider.</p>
+<div class="tblformal" id="GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7__GUID-5AB84158-7D99-4604-98EC-1E2F755CCB1C">
+<p class="titleintable">Table 4-14 The SunJCE Provider Cipher Transformations</p>
+<table class="cellalignment456" title="The SunJCE Provider Cipher Transformations" summary="List of SunJCE Provider Cipher Transformations; includes algorithm names, modes, and paddings.">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" rowspan="1" colspan="1" id="d46439e3377">Algorithm Names</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d46439e3379">Modes</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d46439e3381">Paddings</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3385" headers="d46439e3377">AES</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3385 d46439e3379">ECB, CBC, PCBC, CTR, CTS, CFB<a href="oracleproviders.htm#GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7__CFBOFBWITHNOSPECIFIEDVALUE-00B67027">[1]</a>, CFB8..CFB128, OFB<a href="oracleproviders.htm#GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7__CFBOFBWITHNOSPECIFIEDVALUE-00B67027">[1]</a>, OFB8..OFB128</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3385 d46439e3381">NoPadding, PKCS5Padding, ISO10126Padding</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e3400" headers="d46439e3377">AES</td>
+<td class="cellalignment447" headers="d46439e3400 d46439e3379">GCM</td>
+<td class="cellalignment447" headers="d46439e3400 d46439e3381">NoPadding</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3407" headers="d46439e3377">AESWrap</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3407 d46439e3379">ECB</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3407 d46439e3381">NoPadding</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e3414" headers="d46439e3377">AESWrap_128</td>
+<td class="cellalignment447" headers="d46439e3414 d46439e3379">ECB</td>
+<td class="cellalignment447" headers="d46439e3414 d46439e3381">NoPadding</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e3421" headers="d46439e3377">AESWrap_192</td>
+<td class="cellalignment447" headers="d46439e3421 d46439e3379">ECB</td>
+<td class="cellalignment447" headers="d46439e3421 d46439e3381">NoPadding</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e3428" headers="d46439e3377">AESWrap_256</td>
+<td class="cellalignment447" headers="d46439e3428 d46439e3379">ECB</td>
+<td class="cellalignment447" headers="d46439e3428 d46439e3381">NoPadding</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3435" headers="d46439e3377">ARCFOUR</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3435 d46439e3379">ECB</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3435 d46439e3381">NoPadding</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3442" headers="d46439e3377">Blowfish, DES, DESede, RC2</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3442 d46439e3379">ECB, CBC, PCBC, CTR, CTS, CFB<a href="oracleproviders.htm#GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7__CFBOFBWITHNOSPECIFIEDVALUE-00B67027">[1]</a>, CFB8..CFB64, OFB<a href="oracleproviders.htm#GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7__CFBOFBWITHNOSPECIFIEDVALUE-00B67027">[1]</a>, OFB8..OFB64</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3442 d46439e3381">NoPadding, PKCS5Padding, ISO10126Padding</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3457" headers="d46439e3377">DESedeWrap</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3457 d46439e3379">CBC</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3457 d46439e3381">NoPadding</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3464" headers="d46439e3377">
+<p>PBEWithMD5AndDES,</p>
+<p>PBEWithMD5AndTripleDES <a href="oracleproviders.htm#GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7__PBEWITHMD5ANDTRIPLEDESISAPROPRIETAR-127140E8">[2]</a>,</p>
+<p>PBEWithSHA1AndDESede,</p>
+<p>PBEWithSHA1AndRC2_40,</p>
+<p>PBEWithSHA1AndRC2_128,</p>
+<p>PBEWithSHA1AndRC4_40,</p>
+<p>PBEWithSHA1AndRC4_128,</p>
+<p>PBEWithHmacSHA1AndAES_128,</p>
+<p>PBEWithHmacSHA224AndAES_128,</p>
+<p>PBEWithHmacSHA256AndAES_128,</p>
+<p>PBEWithHmacSHA384AndAES_128,</p>
+<p>PBEWithHmacSHA512AndAES_128,</p>
+<p>PBEWithHmacSHA1AndAES_256,</p>
+<p>PBEWithHmacSHA224AndAES_256,</p>
+<p>PBEWithHmacSHA256AndAES_256,</p>
+<p>PBEWithHmacSHA384AndAES_256,</p>
+<p>PBEWithHmacSHA512AndAES_256</p>
+</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3464 d46439e3379">CBC</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3464 d46439e3381">PKCS5Padding</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3518" headers="d46439e3377">RSA</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3518 d46439e3379">ECB</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3518 d46439e3381">
+<p>NoPadding,</p>
+<p>PKCS1Padding,</p>
+<p>OAEPPadding</p>
+<p>OAEPWithMD5AndMGF1Padding,</p>
+<p>OAEPWithSHA1AndMGF1Padding,</p>
+<p>OAEPWithSHA-1AndMGF1Padding,</p>
+<p>OAEPWithSHA-224AndMGF1Padding,</p>
+<p>OAEPWithSHA-256AndMGF1Padding,</p>
+<p>OAEPWithSHA-384AndMGF1Padding,</p>
+<p>OAEPWithSHA-512AndMGF1Padding</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<p id="GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7__CFBOFBWITHNOSPECIFIEDVALUE-00B67027">Footnote 1: CFB/OFB with no specified value defaults to the block size of the algorithm. (i.e. AES is 128; Blowfish, DES, DESede, and RC2 are 64.)</p>
+<p id="GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7__PBEWITHMD5ANDTRIPLEDESISAPROPRIETAR-127140E8">Footnote 2: PBEWithMD5AndTripleDES is a proprietary algorithm that has not been standardized.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">Keysize Restrictions</p>
+<p>The SunJCE provider uses the following default key sizes (in bits) and enforces the following restrictions:</p>
+<p><span class="bold">KeyGenerator</span></p>
+<div class="tblformal" id="GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7__GUID-0954AB50-8C28-4173-A9D7-1A76A41F1F02">
+<p class="titleintable">Table 4-15 The SunJCE Provider Key Size Restrictions</p>
+<table class="cellalignment456" title="The SunJCE Provider Key Size Restrictions" summary="List of SunJCE Provider Key Size Restrictions">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e3571">Algorithm Name</th>
+<th class="cellalignment457" id="d46439e3573">Default Key size</th>
+<th class="cellalignment457" id="d46439e3575">Restrictions/Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e3579" headers="d46439e3571">AES</td>
+<td class="cellalignment447" headers="d46439e3579 d46439e3573">128</td>
+<td class="cellalignment447" headers="d46439e3579 d46439e3575">Key size must be equal to 128, 192, or 256.</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e3586" headers="d46439e3571">ARCFOUR (RC4)</td>
+<td class="cellalignment447" headers="d46439e3586 d46439e3573">128</td>
+<td class="cellalignment447" headers="d46439e3586 d46439e3575">Key size must range between 40 and 1024 (inclusive).</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e3593" headers="d46439e3571">Blowfish</td>
+<td class="cellalignment447" headers="d46439e3593 d46439e3573">128</td>
+<td class="cellalignment447" headers="d46439e3593 d46439e3575">Key size must be a multiple of 8, ranging from 32 to 448 (inclusive).</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e3600" headers="d46439e3571">DES</td>
+<td class="cellalignment447" headers="d46439e3600 d46439e3573">56</td>
+<td class="cellalignment447" headers="d46439e3600 d46439e3575">Key size must be equal to 56.</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e3607" headers="d46439e3571">DESede (Triple DES)</td>
+<td class="cellalignment447" headers="d46439e3607 d46439e3573">168</td>
+<td class="cellalignment447" headers="d46439e3607 d46439e3575">
+<p>Key size must be equal to 112 or 168.</p>
+<p>A key size of 112 will generate a Triple DES key with 2 intermediate keys, and a key size of 168 will generate a Triple DES key with 3 intermediate keys.</p>
+<p>Due to the "Meet-In-The-Middle" problem, even though 112 or 168 bits of key material are used, the <span class="bold">effective</span> key size is 80 or 112 bits respectively.</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e3624" headers="d46439e3571">HmacMD5</td>
+<td class="cellalignment447" headers="d46439e3624 d46439e3573">512</td>
+<td class="cellalignment447" headers="d46439e3624 d46439e3575">No key size restriction.</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e3631" headers="d46439e3571">HmacSHA1</td>
+<td class="cellalignment447" headers="d46439e3631 d46439e3573">512</td>
+<td class="cellalignment447" headers="d46439e3631 d46439e3575">No key size restriction.</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e3638" headers="d46439e3571">HmacSHA224</td>
+<td class="cellalignment447" headers="d46439e3638 d46439e3573">224</td>
+<td class="cellalignment447" headers="d46439e3638 d46439e3575">No key size restriction.</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e3645" headers="d46439e3571">HmacSHA256</td>
+<td class="cellalignment447" headers="d46439e3645 d46439e3573">256</td>
+<td class="cellalignment447" headers="d46439e3645 d46439e3575">No key size restriction.</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e3652" headers="d46439e3571">HmacSHA384</td>
+<td class="cellalignment447" headers="d46439e3652 d46439e3573">384</td>
+<td class="cellalignment447" headers="d46439e3652 d46439e3575">No key size restriction.</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e3659" headers="d46439e3571">HmacSHA512</td>
+<td class="cellalignment447" headers="d46439e3659 d46439e3573">512</td>
+<td class="cellalignment447" headers="d46439e3659 d46439e3575">No key size restriction.</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e3667" headers="d46439e3571">RC2</td>
+<td class="cellalignment447" headers="d46439e3667 d46439e3573">128</td>
+<td class="cellalignment447" headers="d46439e3667 d46439e3575">Key size must range between 40 and 1024 (inclusive).</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<div class="infobox-note" id="GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7__GUID-466583F9-CC6C-433B-A710-6D1B14894E47">
+<p class="notep1">Note:</p>
+The various Password-Based Encryption (PBE) algorithms use various algorithms to generate key data, and ultimately depends on the targeted Cipher algorithm. For example,
+<p>&rdquo;PBEWithMD5AndDES&rdquo; will always generate 56&ndash;bit keys.</p>
+</div>
+<div class="tblformal" id="GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7__GUID-FF45E2E3-47F7-4696-956C-31CD2902DA38">
+<p class="titleintable">Table 4-16 KeyPairGenerator</p>
+<table class="cellalignment456" title="KeyPairGenerator" summary="List of KeyPairGenerator algorithms.">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e3689">Algorithm Name</th>
+<th class="cellalignment457" id="d46439e3691">Default Key size</th>
+<th class="cellalignment457" id="d46439e3693">Restrictions/Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3697" headers="d46439e3689">Diffie-Hellman (DH)</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3697 d46439e3691">2048</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3697 d46439e3693">Key size must be a multiple of 64, ranging from 512 to 1024, plus 1536, 2048, 3072, 4096, 6144, 8192.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" -->
+<div class="tblformal" id="GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7__GUID-5625E033-160D-4E27-9624-C2567D54032D">
+<p class="titleintable">Table 4-17 AlgorithmParameterGenerator</p>
+<table class="cellalignment456" title="AlgorithmParameterGenerator" summary="List of AlgorithmParameterGenerator algorithms.">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e3715">Algorithm Name</th>
+<th class="cellalignment457" id="d46439e3717">Default Key size</th>
+<th class="cellalignment457" id="d46439e3719">Restrictions/Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e3723" headers="d46439e3715">Diffie-Hellman (DH)</td>
+<td class="cellalignment447" headers="d46439e3723 d46439e3717">2048</td>
+<td class="cellalignment447" headers="d46439e3723 d46439e3719">Key size must be a multiple of 64, ranging from 512 to 1024, plus 2048 and 3072.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-9CAAC18D-CFF0-4602-A1B7-53C9FAA98C9F"></a>
+<h2 id="JSSEC-GUID-9CAAC18D-CFF0-4602-A1B7-53C9FAA98C9F" class="sect2">The SunJGSS Provider</h2>
+<div>
+<p>The following algorithms are available in the SunJGSS provider:</p>
+<div class="section">
+<div class="tblformal" id="GUID-9CAAC18D-CFF0-4602-A1B7-53C9FAA98C9F__GUID-E91D0A1B-CA28-45D5-A198-225215137A64">
+<p class="titleintable">Table 4-18 The SunJGSS Provider</p>
+<table class="cellalignment456" title="The SunJGSS Provider" summary="List of SunJGSS Providers">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e3749">OID</th>
+<th class="cellalignment457" id="d46439e3751">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e3755" headers="d46439e3749"><code class="codeph">1.2.840.113554.1.2.2</code></td>
+<td class="cellalignment447" headers="d46439e3755 d46439e3751">Kerberos v5</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e3761" headers="d46439e3749"><code class="codeph">1.3.6.1.5.5.2</code></td>
+<td class="cellalignment447" headers="d46439e3761 d46439e3751">SPNEGO</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-EB759F08-B8D8-424A-9357-10F9002AE177"></a>
+<h2 id="JSSEC-GUID-EB759F08-B8D8-424A-9357-10F9002AE177" class="sect2">The SunSASL Provider</h2>
+<div>
+<p>The following algorithms are available in the <code class="codeph">SunSASL</code> provider:</p>
+<div class="section">
+<div class="tblformal" id="GUID-EB759F08-B8D8-424A-9357-10F9002AE177__GUID-A6BA0CF3-8021-49B4-A8DC-A15A2A242B10">
+<p class="titleintable">Table 4-19 The SunSASL Provider Algorithm Names for Engine Classes</p>
+<table class="cellalignment456" title="The SunSASL Provider Algorithm Names for Engine Classes" summary="List of SunSASL Provider Algorithm Names">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e3789">Engine</th>
+<th class="cellalignment457" id="d46439e3791">Algorithm Names</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3795" headers="d46439e3789"><code class="codeph">SaslClient</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3795 d46439e3791">
+<p>CRAM-MD5</p>
+<p>DIGEST-MD5</p>
+<p>EXTERNAL</p>
+<p>NTLM</p>
+<p>PLAIN</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3810" headers="d46439e3789"><code class="codeph">SaslServer</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3810 d46439e3791">
+<p>CRAM-MD5</p>
+<p>DIGEST-MD5</p>
+<p>NTLM</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-D09DE3FE-237F-4B7B-A323-0A370137E0F3"></a>
+<h2 id="JSSEC-GUID-D09DE3FE-237F-4B7B-A323-0A370137E0F3" class="sect2">The XMLDSig Provider</h2>
+<div>
+<p>The following algorithms are available in the <code class="codeph">XMLDSig</code> provider:</p>
+<div class="section">
+<div class="tblformalwide" id="GUID-D09DE3FE-237F-4B7B-A323-0A370137E0F3__GUID-6F042179-8A59-4B17-ABBA-F2D6CF20B6B1">
+<p class="titleintable">Table 4-20 The XMLDSig Provider Algorithm Names for Engine Classes</p>
+<table class="cellalignment473" title="The XMLDSig Provider Algorithm Names for Engine Classes" summary="List of XMLDSig Provider Algorithm Names">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e3844">Engine</th>
+<th class="cellalignment457" id="d46439e3846">Algorithm Names</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3850" headers="d46439e3844"><code class="codeph">KeyInfoFactory</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3850 d46439e3846">DOM</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3856" headers="d46439e3844"><code class="codeph">TransformService</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3856 d46439e3846">
+<p>http://www.w3.org/TR/2001/REC-xml-c14n-20010315 - <span class="italic">(CanonicalizationMethod.INCLUSIVE)</span></p>
+<p>http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments - <span class="italic">(CanonicalizationMethod.INCLUSIVE_WITH_COMMENTS)</span></p>
+<p>http://www.w3.org/2001/10/xml-exc-c14n# - <span class="italic">(CanonicalizationMethod.EXCLUSIVE)</span></p>
+<p>http://www.w3.org/2001/10/xml-exc-c14n#WithComments - <span class="italic">(CanonicalizationMethod.EXCLUSIVE_WITH_COMMENTS)</span></p>
+<p>http://www.w3.org/2000/09/xmldsig#base64 - <span class="italic">(Transform.BASE64)</span></p>
+<p>http://www.w3.org/2000/09/xmldsig#enveloped-signature - <span class="italic">(Transform.ENVELOPED)</span></p>
+<p>http://www.w3.org/TR/1999/REC-xpath-19991116 - <span class="italic">(Transform.XPATH)</span></p>
+<p>http://www.w3.org/2002/06/xmldsig-filter2 - <span class="italic">(Transform.XPATH2)</span></p>
+<p>http://www.w3.org/TR/1999/REC-xslt-19991116 - <span class="italic">(Transform.XSLT)</span></p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3897" headers="d46439e3844"><code class="codeph">XMLSignatureFactory</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3897 d46439e3846">DOM</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-DEAD6543-FB59-46F3-B4E7-EE1AFE246EA0"></a>
+<h2 id="JSSEC-GUID-DEAD6543-FB59-46F3-B4E7-EE1AFE246EA0" class="sect2">The SunPCSC Provider</h2>
+<div>
+<div class="section">
+<p>The SunPCSC provider enables applications to use the <a href="http://docs.oracle.com/javase/8/docs/jre/api/security/smartcardio/spec/" target="_blank">Java Smart Card I/O API</a> to interact with the PC/SC Smart Card stack of the underlying operating system. Consult your operating system documentation for details.</p>
+<p>On Solaris and Linux platforms, SunPCSC accesses the PC/SC stack via the <code class="codeph">libpcsclite.so</code> library. It looks for this library in the directories <code class="codeph">/usr/$LIBISA</code> and <code class="codeph">/usr/local/$LIBISA</code>, where <code class="codeph">$LIBISA</code> is expanded to <code class="codeph">lib/64</code> on 64-bit Solaris platforms and <code class="codeph">lib64</code> on 64-bit Linux platforms. The system property <code class="codeph">sun.security.smartcardio.library</code> may also be set to the full filename of an alternate <code class="codeph">libpcsclite.so</code> implementation. On Windows platforms, SunPCSC always calls into <code class="codeph">winscard.dll</code> and no Java-level configuration is necessary or possible.</p>
+<p>If PC/SC is available on the host platform, the SunPCSC implementation can be obtained via <code class="codeph">TerminalFactory.getDefault()</code> and <code class="codeph">TerminalFactory.getInstance("PC/SC")</code>. If PC/SC is not available or not correctly configured, a <code class="codeph">getInstance()</code> call will fail with a <code class="codeph">NoSuchAlgorithmException</code> and <code class="codeph">getDefault()</code> will return a JRE built-in implementation that does not support any terminals.</p>
+<p>The following algorithms are available in the <code class="codeph">SunPCSC</code> provider:</p>
+<div class="tblformal" id="GUID-DEAD6543-FB59-46F3-B4E7-EE1AFE246EA0__GUID-349B246C-F05B-4013-90C8-D231F7B817A8">
+<p class="titleintable">Table 4-21 The SunPCSC Provider Algorithm Names for Engine Classes</p>
+<table class="cellalignment456" title="The SunPCSC Provider Algorithm Names for Engine Classes" summary="List of SunPCSC Provider Algorithm Names for Engine Classes">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" rowspan="1" colspan="1" id="d46439e3978">Engine</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d46439e3980">Algorithm Names</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e3984" headers="d46439e3978"><code class="codeph">TerminalFactory</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e3984 d46439e3980">PC/SC</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-4F1737D6-1569-4340-B140-678C70E63CD5"></a>
+<h2 id="JSSEC-GUID-4F1737D6-1569-4340-B140-678C70E63CD5" class="sect2">The SunMSCAPI Provider</h2>
+<div>
+<p>The SunMSCAPI provider enables applications to use the standard JCA/JCE APIs to access the native cryptographic libraries, certificates stores and key containers on the Microsoft Windows platform. The SunMSCAPI provider itself does not contain cryptographic functionality, it is simply a conduit between the Java environment and the native cryptographic services on Windows.</p>
+<div class="section">
+<p>The following algorithms are available in the <code class="codeph">SunMSCAPI</code> provider:</p>
+<div class="tblformal" id="GUID-4F1737D6-1569-4340-B140-678C70E63CD5__GUID-BD31F123-97D0-4F61-84D4-645461A12C00">
+<p class="titleintable">Table 4-22 The SunMSCAPI Algorithm Names for Engine Classes</p>
+<table class="cellalignment456" title="The SunMSCAPI Algorithm Names for Engine Classes" summary="List of SunMSCAPI Algorithm Names for Engine Classes">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e4014">Engine</th>
+<th class="cellalignment457" id="d46439e4016">Algorithm Names</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e4020" headers="d46439e4014"><code class="codeph">Cipher</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e4020 d46439e4016">RSA <span class="italic">RSA/ECB/PKCS1Padding only</span></td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e4028" headers="d46439e4014"><code class="codeph">KeyPairGenerator</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e4028 d46439e4016">RSA</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e4034" headers="d46439e4014"><code class="codeph">KeyStore</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e4034 d46439e4016">
+<p><span class="bold">Windows-MY</span> : The keystore type that identifies the native Microsoft Windows MY keystore. It contains the user's personal certificates and associated private keys.</p>
+<p><span class="bold">Windows-ROOT</span>: The keystore type that identifies the native Microsoft Windows ROOT keystore. It contains the certificates of Root certificate authorities and other self-signed trusted certificates.</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e4048" headers="d46439e4014"><code class="codeph">SecureRandom</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e4048 d46439e4016">
+<p><span class="bold">Windows-PRNG</span> : The name of the native pseudo-random number generation (PRNG) algorithm.</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e4058" headers="d46439e4014"><code class="codeph">Signature</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e4058 d46439e4016">
+<p>MD5withRSA</p>
+<p>MD2withRSA</p>
+<p>NONEwithRSA</p>
+<p>SHA1withRSA</p>
+<p>SHA256withRSA</p>
+<p>SHA384withRSA</p>
+<p>SHA512withRSA</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">Keysize Restrictions</p>
+<p>The SunMSCAPI provider uses the following default keysizes (in bits) and enforce the following restrictions:</p>
+<p><span class="bold">KeyGenerator</span></p>
+<div class="tblformal" id="GUID-4F1737D6-1569-4340-B140-678C70E63CD5__GUID-75AEA4F7-03AD-4067-A9F2-AF720D93D115">
+<p class="titleintable">Table 4-23 The SunMSCAPI Provider Keysize Restrictions</p>
+<table class="cellalignment456" title="The SunMSCAPI Provider Keysize Restrictions" summary="The SunMSCAPI Provider Keysize Restrictions">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e4095">Alg. Name</th>
+<th class="cellalignment457" id="d46439e4097">Default Keysize</th>
+<th class="cellalignment457" id="d46439e4099">Restrictions/Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e4103" headers="d46439e4095">RSA</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e4103 d46439e4097">2048</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e4103 d46439e4099">Keysize ranges from 512 bits to 16,384 bits (depending on the underlying Microsoft Windows cryptographic service provider).</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-091BF58C-82AB-4C9C-850F-1660824D5254"></a>
+<h2 id="JSSEC-GUID-091BF58C-82AB-4C9C-850F-1660824D5254" class="sect2">The SunEC Provider</h2>
+<div>
+<p>The SunEC provider implements Elliptical Curve Cryptography (ECC). Compared to traditional cryptosystems such as RSA, ECC offers equivalent security with smaller key sizes, which results in faster computations, lower power consumption, and memory and bandwidth savings.</p>
+<div class="section">
+<p>Applications can now use the standard JCA/JCE APIs to access ECC functionality without the dependency on external ECC libraries (via SunPKCS11), as was the case in the JDK 6 release.</p>
+<p>The following algorithms are available in the <code class="codeph">SunEC</code> provider:</p>
+<div class="tblformal" id="GUID-091BF58C-82AB-4C9C-850F-1660824D5254__GUID-5DC56502-18CE-4855-920E-B70C12B74016">
+<p class="titleintable">Table 4-24 The SunEC Provider Names for Engine Classes</p>
+<table class="cellalignment456" title="The SunEC Provider Names for Engine Classes" summary="List of SunEC Provider Names">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e4137">Engine</th>
+<th class="cellalignment457" id="d46439e4139">Algorithm Name(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e4143" headers="d46439e4137"><code class="codeph">AlgorithmParameters</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e4143 d46439e4139">EC</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e4149" headers="d46439e4137"><code class="codeph">KeyAgreement</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e4149 d46439e4139">ECDH</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e4155" headers="d46439e4137"><code class="codeph">KeyFactory</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e4155 d46439e4139">EC</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e4161" headers="d46439e4137"><code class="codeph">KeyPairGenerator</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e4161 d46439e4139">EC</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e4167" headers="d46439e4137"><code class="codeph">Signature</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e4167 d46439e4139">
+<p>NONEwithECDSA</p>
+<p>SHA1withECDSA</p>
+<p>SHA224withECDSA</p>
+<p>SHA256withECDSA</p>
+<p>SHA384withECDSA</p>
+<p>SHA512withECDSA</p>
+<p>NONEwithECDSAinP1363Format</p>
+<p>SHA1withECDSAinP1363Format</p>
+<p>SHA224withECDSAinP1363Format</p>
+<p>SHA256withECDSAinP1363Format</p>
+<p>SHA384withECDSAinP1363Format</p>
+<p>SHA512withECDSAinP1363Format</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">Keysize Restrictions</p>
+<p>The SunEC provider uses the following default keysizes (in bits) and enforces the following restrictions:</p>
+<p><span class="bold">KeyPairGenerator</span></p>
+<div class="tblformal" id="GUID-091BF58C-82AB-4C9C-850F-1660824D5254__GUID-F4C47EF1-0E9B-48CA-B060-91B085ADA199">
+<p class="titleintable">Table 4-25 The SunEC Provider Keysize Restrictions</p>
+<table class="cellalignment456" title="The SunEC Provider Keysize Restrictions" summary="List of SunEC Providers Keysize Restrictions">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e4215">Alg. Name</th>
+<th class="cellalignment457" id="d46439e4217">Default Keysize</th>
+<th class="cellalignment457" id="d46439e4219">Restrictions/Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" id="d46439e4223" headers="d46439e4215">EC</td>
+<td class="cellalignment447" headers="d46439e4223 d46439e4217">256</td>
+<td class="cellalignment447" headers="d46439e4223 d46439e4219">Keysize must range from 112 to 571 (inclusive).</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-B1F2B3F3-F2A4-4FF5-8887-3B3335343B2A"></a>
+<h2 id="JSSEC-GUID-B1F2B3F3-F2A4-4FF5-8887-3B3335343B2A" class="sect2">The OracleUcrypto Provider</h2>
+<div>
+<p>The Solaris-only security provider <code class="codeph">OracleUcrypto</code> leverages the Solaris Ucrypto library to offload and delegate cryptographic operations supported by the Oracle SPARC T4 based on-core cryptographic instructions. The <code class="codeph">OracleUcrypto</code> provider itself does not contain cryptographic functionality; it is simply a conduit between the Java environment and the Solaris Ucrypto library.</p>
+<div class="section">
+<p>If the underlying Solaris Ucrypto library does not support a particular algorithm, then the <code class="codeph">OracleUcrypto</code> provider will not support it either. Consequently, at runtime, the supported algorithms consists of the intersection of those that the Solaris Ucrypto library supports and those that the <code class="codeph">OracleUcrypto</code> provider recognizes.</p>
+<p>The following algorithms are available in the <code class="codeph">OracleUcrypto</code> provider:</p>
+<div class="tblformal" id="GUID-B1F2B3F3-F2A4-4FF5-8887-3B3335343B2A__GUID-090F3F16-D42B-4185-9F51-6FC31B75752B">
+<p class="titleintable">Table 4-26 The OracleUcrypto Provider Algorithm Names for Engine Classes</p>
+<table class="cellalignment456" title="The OracleUcrypto Provider Algorithm Names for Engine Classes" summary="List of OracleUcrypto Provider Algorithm Names for Engine Classes">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e4268">Engine</th>
+<th class="cellalignment457" id="d46439e4270">Algorithm Name(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e4274" headers="d46439e4268"><code class="codeph">Cipher</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e4274 d46439e4270">
+<p>AES</p>
+<p>RSA</p>
+<p>AES/ECB/NoPadding</p>
+<p>AES/ECB/PKCS5Padding</p>
+<p>AES/CBC/NoPadding</p>
+<p>AES/CBC/PKCS5Padding</p>
+<p>AES/CTR/NoPadding</p>
+<p>AES/GCM/NoPadding</p>
+<p>AES/CFB128/NoPadding</p>
+<p>AES/CFB128/PKCS5Padding</p>
+<p>AES_128/ECB/NoPadding</p>
+<p>AES_192/ECB/NoPadding</p>
+<p>AES_256/ECB/NoPadding</p>
+<p>AES_128/CBC/NoPadding</p>
+<p>AES_192/CBC/NoPadding</p>
+<p>AES_256/CBC/NoPadding</p>
+<p>AES_128/GCM/NoPadding</p>
+<p>AES_192/GCM/NoPadding</p>
+<p>AES_256/GCM/NoPadding</p>
+<p>RSA/ECB/PKCS1Padding</p>
+<p>RSA/ECB/NoPadding</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e4322" headers="d46439e4268"><code class="codeph">Signature</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e4322 d46439e4270">
+<p>MD5withRSA</p>
+<p>SHA1withRSA</p>
+<p>SHA256withRSA</p>
+<p>SHA384withRSA</p>
+<p>SHA512withRSA</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e4337" headers="d46439e4268"><code class="codeph">MessageDigest</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e4337 d46439e4270">
+<p>MD5</p>
+<p>SHA</p>
+<p>SHA-224</p>
+<p>SHA-256</p>
+<p>SHA-384</p>
+<p>SHA-512</p>
+<p>SHA3&ndash;224</p>
+<p>SHA3&ndash;256</p>
+<p>SHA3&ndash;384</p>
+<p>SHA3&ndash;512</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">Keysize Restrictions</p>
+<p>The <code class="codeph">OracleUcrypto</code> provider does not specify any default keysizes or keysize restrictions; these are specified by the underlying Solaris Ucrypto library.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead2">OracleUcrypto Provider Configuration File</p>
+<div class="p">The <code class="codeph">OracleUcrypto</code> provider has a configuration file named <code class="codeph">ucrypto-solaris.cfg</code> that resides in the <code class="codeph">$<span class="variable">JAVA_HOME</span>/conf/security</code> directory. Modify this configuration file to specify which algorithms to disable by default. For example, the following configuration file disables AES with CFB128 mode by default:
+<pre class="codeblock" dir="ltr">
+#
+# Configuration file for the OracleUcrypto provider
+#
+disabledServices = {
+  Cipher.AES/CFB128/PKCS5Padding
+  Cipher.AES/CFB128/NoPadding
+}
+</pre></div>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-3185649A-C316-45F2-A70E-2B3FF6BDC34F"></a>
+<h2 id="JSSEC-GUID-3185649A-C316-45F2-A70E-2B3FF6BDC34F" class="sect2">The Apple Provider</h2>
+<div>
+<p>The <code class="codeph">Apple</code> provider implements a <code class="codeph">java.security.KeyStore</code> that provides access to the macOS Keychain.</p>
+<div class="section">
+<p>The following algorithms are available in the <code class="codeph">Apple</code> provider:</p>
+<div class="tblformal" id="GUID-3185649A-C316-45F2-A70E-2B3FF6BDC34F__GUID-E9F859FE-70A6-4665-A7C7-34ECDD0A193C">
+<p class="titleintable">Table 4-27 The Apple Provider Algorithm Name for Engine Classes</p>
+<table class="cellalignment456" title="The Apple Provider Algorithm Name for Engine Classes" summary="The Apple Provider Algorithm Name for Engine Classes">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e4419">Engine</th>
+<th class="cellalignment457" id="d46439e4421">Algorithm Name(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e4425" headers="d46439e4419"><code class="codeph">KeyStore</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e4425 d46439e4421">KeychainStore</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-67D4652C-2551-4BBE-9941-50A9348AEA84"></a>
+<h2 id="JSSEC-GUID-67D4652C-2551-4BBE-9941-50A9348AEA84" class="sect2">The JdkLDAP Provider</h2>
+<div>
+<p>The JdkLDAP provider was introduced in JDK 9 as a replacement for the LDAP CertStore implementation in the SUN provider.</p>
+<div class="section">
+<p>The following algorithms are available in the <code class="codeph">JdkLDAP</code> provider:</p>
+<div class="tblformal" id="GUID-67D4652C-2551-4BBE-9941-50A9348AEA84__GUID-44F15A48-44CB-4160-957D-5CAC7AA7CA74">
+<p class="titleintable">Table 4-28 The JdkLDAP Provider Algorithm Names for Engine Classes</p>
+<table class="cellalignment456" title="The JdkLDAP Provider Algorithm Names for Engine Classes" summary="The algorithms supported by JdkLDAP Provider">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d46439e4456">Engine</th>
+<th class="cellalignment457" id="d46439e4458">Algorithm Names</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e4462" headers="d46439e4456"><code class="codeph">CertStore</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e4462 d46439e4458">
+<p>LDAP</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" --></div>
+</div>
+<div class="sect2"><a id="GUID-D08B5350-6653-4FC6-B350-2B009A9E7FD6"></a>
+<h2 id="JSSEC-GUID-D08B5350-6653-4FC6-B350-2B009A9E7FD6" class="sect2">The JdkSASL Provider</h2>
+<div>
+<p>The following algorithms are available in the <code class="codeph">JdkSASL</code> provider:</p>
+<div class="section">
+<div class="tblformal" id="GUID-D08B5350-6653-4FC6-B350-2B009A9E7FD6__GUID-A6BA0CF3-8021-49B4-A8DC-A15A2A242B10">
+<p class="titleintable">Table 4-29 The JdkSASL Provider Algorithm Names for Engine Classes</p>
+<table class="cellalignment456" title="The JdkSASL Provider Algorithm Names for Engine Classes" summary="List of JDKSASL Provider Algorithm Names">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" rowspan="1" colspan="1" id="d46439e4491">Engine</th>
+<th class="cellalignment457" rowspan="1" colspan="1" id="d46439e4493">Algorithm Names</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e4497" headers="d46439e4491"><code class="codeph">SaslClient</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e4497 d46439e4493">
+<p>GSSAPI</p>
+</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d46439e4504" headers="d46439e4491"><code class="codeph">SaslServer</code></td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d46439e4504 d46439e4493">
+<p>GSSAPI</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" --></div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment446">
+<tr>
+<td class="cellalignment453">
+<table class="cellalignment451">
+<tr>
+<td class="cellalignment450"><a href="howtoimplaprovider.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment450"><a href="pkcs11-reference-guide1.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment455">
+<table class="cellalignment449">
+<tr>
+<td class="cellalignment450"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment450"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment450"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

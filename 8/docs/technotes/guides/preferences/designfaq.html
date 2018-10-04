@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Preferences API Design FAQ</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../webdesign/pubs8/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs8/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://docs.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Preferences API Design FAQ</h1></div>
+<h2><a name="prefs-design-faq" id="prefs-design-faq"></a>Design
+FAQ</h2>
+<p>Following is a collection of frequently asked questions
+concerning the design of the Preferences API.</p>
+<ol>
+<li><b>How does this Preferences API relate to Properties API?</b>
+<p>It is intended to replace most common uses of Properties,
+rectifying many of its deficiencies, while retaining its light
+weight. When using Properties, the programmer must explicitly
+specify a pathname for each properties file, but there is no
+standard location or naming convention. Properties files are
+"brittle", as they are hand-editable but easily corrupted by
+careless editing. Support for non-string data types in properties
+is non-existent. Properties cannot easily be used with a
+persistence mechanism other than the file system. In sum, the
+Properties facility does not scale.</p>
+</li>
+<li><b>How does Preferences API relate to JNDI?</b>
+<p>Like JNDI, it provides back-end neutral access to persistent
+key-value data. JNDI, however, is far more powerful, and
+correspondingly heavyweight. JNDI is appropriate for enterprise
+applications that need its power. Preferences API is intended as a
+simple, ubiquitous, back-end neutral preferences-management
+facility, enabling <b>any</b> Java application to easily tailor its
+behavior to user preferences and maintain small amounts of state
+from run to run.</p>
+</li>
+<li><b>Why do all of the <code>get</code> methods require the
+caller to pass in a default?</b>
+<p>This forces the application authors to provide reasonable
+default values, so that applications have a reasonable chance of
+running even if the repository is unavailable.</p>
+</li>
+<li><b>How was it decided which methods should throw
+<code>BackingStoreException</code>?</b>
+<p>Only methods whose semantics absolutely require the ability to
+communicate with the backing store throw this exception. Typical
+applications will have no need to call these methods. As long as
+these methods are avoided, applications will be able to run even if
+the backing store is unavailable, which was an explicit design
+goal.</p>
+</li>
+<li><b>Why doesn't this API provide stronger guarantees concerning
+concurrent access by multiple VMs? Similarly, why doesn't the API
+allow multiple Preferences updates to be combined into a single
+"transaction", with all or nothing semantics?</b>
+<p>While the API does provide rudimentary persistent data storage,
+it is not intended as a substitute for a database. It is critical
+that it be possible to implement this API atop standard
+preference/configuration repositories, most of which do not provide
+database-like guarantees and functionality. Such repositories have
+proven adequate for the purposes for which this API is
+intended.</p>
+</li>
+<li><b>Why does this API have case-sensitive keys and node-names,
+while other APIs playing in a similar space (such as the Microsoft
+Windows Registry and LDAP) do not?</b>
+<p>In the Java programming universe, case-sensitive String keys are
+ubiquitous. In particular, they are provided by the Properties
+class, which this API is intended to replace. It is not uncommon
+for people to use Properties in a fashion that demands
+case-sensitivity. For example, Java package names (which are
+case-sensitive) are sometimes used as keys. It is recognized that
+this design decision complicates the life of the systems programmer
+who implements Preferences atop a backing store with
+case-insensitive keys, but this is considered an acceptable price
+to pay, as far more programmers will use the Preferences API than
+will implement it.</p>
+</li>
+<li><b>Why doesn't this API use the Java 2 Collections
+Framework?</b>
+<p>This API is designed for a very particular purpose, and is
+optimized for that purpose. In the absence of generic types (see
+<a href="http://jcp.org/en/jsr/detail?id=14">JSR-14</a>), the API
+would be less convenient for typical users. It would lack
+compile-time type safety, if forced to conform to the <tt>Map</tt>
+API. Also, it is not anticipated that interoperability with other
+Map implementations will be required (though it would be
+straightforward to implement an adapter class if this assumption
+turned out to be wrong). Preferences API is, by design, so similar
+to Map that programmers familiar with the latter should have no
+difficulties using the former.</p>
+</li>
+<li><b>Why don't the put and remove methods return the old
+values?</b>
+<p>It is desirable that both of these methods be executable even if
+the backing store is unavailable. This would not be possible if
+they were required to return the old value. Further, it would have
+negative performance impact if the API were implemented atop some
+common back-end data stores.</p>
+</li>
+<li><b>Why does the API permit, but not require, stored
+defaults?</b>
+<p>This functionality is required in enterprise settings for
+scalable, cost-effective administration of preferences across the
+enterprise, but would be overkill in a self-administered
+single-user setting.</p>
+</li>
+<li><b>Why doesn't this API contain methods to read and write
+arbitrary serializable objects?</b>
+<p>Serialized objects are somewhat fragile: if the version of the
+program that reads such a property differs from the version that
+wrote it, the object may not deserialize properly (or at all). It
+is not impossible to store serialized objects using this API, but
+we do not encourage it, and have not provided a convenience
+method.</p>
+</li>
+<li><b>Why is <code>Preferences</code> an abstract class rather
+than an interface?</b>
+<p>It was decided that the ability to add new methods in an upward
+compatible fashion outweighed the disadvantage that Preferences
+cannot be used as a "mixin" (That is to say, arbitrary classes
+cannot also be made to serve as Preferences objects.) Also, this
+obviates the need for a separate class for the static methods.
+(Interfaces cannot contain static methods.)</p>
+</li>
+</ol>
+<!-- Body text ends here -->
+<!-- ============================================================== -->
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

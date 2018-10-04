@@ -1,0 +1,147 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>More Names</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="parser.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="misc.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Essential Components</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    More Names
+</h2>
+<p>
+<blockquote>
+
+The
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><tt>Context</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>
+interface contains two name-related methods:
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#getNameInNamespace()"><tt>Context.getNameInNamespace()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#getNameInNamespace()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#composeName(javax.naming.Name, javax.naming.Name)"><tt>Context.composeName()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#composeName(javax.naming.Name, javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+They allow the API user to manipulate names with respect to
+a context.
+
+<h4>Fully Qualified Names</h4>
+
+The API user uses
+<tt>Context.getNameInNamespace()</tt>
+to get a <tt>Context</tt> instance's 
+fully qualified name within its namespace.
+The definition of this method depends on the underlying naming/directory
+service. In an actual implementation, this method might access the
+underlying naming/directory service or use bookkeeping information stored
+in the <tt>Context</tt> instance to generate an answer.
+<p>
+<a href=src/tut/HierCtx.java>The hierarchical example</a>
+maintains a back pointer to determine the fully qualified name of
+a context. Here is its <tt>getNameInNamespace()</tt> definition.
+<blockquote><pre>
+public String getNameInNamespace() throws NamingException {
+    HierCtx ancestor = parent;
+
+    // No ancestor; at root of namespace
+    if (ancestor == null) {
+        return "";
+    }
+
+    Name name = myParser.parse("");
+    name.add(myAtomicName);
+
+    // Get the parent's names
+    while (ancestor != null &amp;&amp; ancestor.myAtomicName != null) {
+        name.add(0, ancestor.myAtomicName);
+	ancestor = ancestor.parent;
+    }
+	    
+    return name.toString();
+}
+</blockquote></pre>
+
+<h4>Compose Name</h4>
+
+The API user uses
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#composeName(javax.naming.Name, javax.naming.Name)"><tt>Context.composeName()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#composeName(javax.naming.Name, javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    to compose names that span possibly multiple namespaces.
+The
+<a target="_top" href="../../beyond/names/compose.html">What's in a Name?</a> <a target="_top" href="../../beyond/names/compose.html"><img src="../../jndiimages/beyondIcon.gif" width=20 height=20 border=0 alt="(in the Beyond the Basics trail)"></a>    lesson describes this in more detail.
+<p>
+Because <a href=src/tut/HierCtx.java>the hierarchical namespace example</a>
+does not support federation, its <tt>composeName()</tt> name 
+deals only with compound names. 
+Here is its definition.
+<blockquote><pre>
+public Name composeName(Name name, Name prefix) throws NamingException {
+    Name result;
+
+    // Both are compound names; compose using compound name rules
+    if (!(name instanceof CompositeName) &amp;&amp;
+        !(prefix instanceof CompositeName)) {
+        result = (Name)(prefix.clone());
+	result.addAll(name);
+	return new CompositeName().add(result.toString());
+    }
+
+    // Simplistic implementation; do not support federation
+    throw new OperationNotSupportedException(
+	"Do not support composing composite names");
+}
+</blockquote></pre>
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="parser.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="misc.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Essential Components</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

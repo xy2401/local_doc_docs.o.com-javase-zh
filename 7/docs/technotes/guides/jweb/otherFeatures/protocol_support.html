@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Protocol Support</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+
+<div class="smallpagetitle"><h1>Protocol Support</h1></div>
+<p style="background-color: rgb(247, 248, 249); border-width: 1px; padding: 10px; font-style: italic; border-style: solid; border-color: rgb(64, 74, 91);">These documentation pages are no longer current. They remain available for archival purposes. Please visit <a href="https://docs.oracle.com/javase"><code>https://docs.oracle.com/javase</code></a> for the most up-to-date documentation.</p>
+
+<p><a href="../index.html">Java Rich Internet Applications Guide</a> &gt; <a href="../index.html#otherFeatures">Enhancements and Other Features</a> &gt; Protocol Support</p>
+
+<p>The following sections are covered:</p>
+<ul>
+<li><a href="#http">HTTP, FTP, and GOPHER</a></li>
+<li><a href="#https">HTTPS</a></li>
+<li><a href="#socks">Socks</a></li>
+<li><a href="#ntlm">NTLM Authentication</a></li>
+</ul>
+<h2><a name="http" id="http"></a>HTTP, FTP, and GOPHER</h2>
+<p>Java Plug-in supports HTTP, FTP, and GOPHER protocols, including
+built-in proxy configuration support.</p>
+<h2><a name="https" id="https"></a>HTTPS</h2>
+<h3>Introduction</h3>
+<p>HTTPS is supported in Java Plug-in through Java Secure Socket
+Extension (JSEE), which provides a Java implementation of SSL and
+HTTPS for the Java platform.</p>
+<h3>Error handling support</h3>
+<p>When accessing an HTTPS server, errors may occur. Java Plug-in
+has hooked into JSSE to provide the following types of error
+handling:</p>
+<ul>
+<li><i>Hostname mismatch:</i> If the HTTPS server host name does
+not match the name on the server certificate, a warning dialog will
+appear.&nbsp;<br /></li>
+<li><i>Untrusted server certificate:</i> If the server certificate
+can not be verified during the SSL handshaking, a warning dialog
+will appear.<br /></li>
+<li><i>Untrusted client certificate:</i> In case client
+authentication is required by the server and the client certificate
+cannot be verified, a warning dialog will be appear.<br /></li>
+<li><i>Server authentication:</i> If the client accesses a
+protected directory on the HTTPS server, the users will be prompted
+for a username and password. <b>Note:</b> Only basic authentication
+is currently supported.</li>
+</ul>
+<h3>Potential issues with HTTPS through JSSE</h3>
+<p>Although support of HTTPS through JSSE eliminates many
+browser-specific problems, there are several issues that developers
+should be aware of:</p>
+<ul>
+<li><i>Untrusted server certificate:</i> When SSL handshaking takes
+place in establishing an HTTPS connection, the server certificate
+is verified against the root CA store in Java SE. However, Java SE
+supports fewer root CA certificates than does the browser. As a
+result, you may have problems with untrusted server
+certificates.<br /></li>
+<li><i>Client authentication:</i> Java Plugin supports browser
+keystore in JRE 1.5 or later. With browser keystore client
+authentication of HTTPS server is performed differently for
+Internet Explorer and Mozilla family browsers. For Internet
+Explorer the certificate is not imported into the JRE keystore. For
+Mozilla family browsers, a JSS package should be installed to read
+the certificate from the Mozilla keystore. By default browser
+keystore support is turned on.<br /></li>
+<li><i>Level of error handling:</i> Java Plug-in currently handles
+the types of error listed in the previous section. However, if
+there are additional types of error that Java Plug-in doesn't
+recognize, the Java applet code may break.&nbsp;<br /></li>
+</ul>
+<h2><a name="socks" id="socks"></a>Socks</h2>
+<p>Java Plug-in currently supports SOCKS version 4.</p>
+<p><b>Note:</b> For HTTP/HTTPS, a SOCKS proxy server may be used
+with a web proxy server to add caching. The behavior, however, may
+differ from that observed when running a similar configuration in a
+browser without Java Plug-in.</p>
+<h2><a name="ntlm" id="ntlm"></a>NTLM Authentication</h2>
+<p>Java Plug-in supports NTLM authentication protocol for
+HTTP/HTTPS. When attempting to access a server requiring NTLM
+authentication, the following dialog is displayed:</p>
+<p align="center"><img src="images/NTLMauthentication.jpg" alt=
+"NTLM Authentication required. Provide your username, password and domain name"
+width="344" height="348" /></p>
+<p>To authenticate enter <strong>User Name</strong>,
+<strong>Password</strong> and the <strong>Domain</strong> in the
+respective fields.</p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

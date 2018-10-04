@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>6 Using FXML to Create a User Interface (Release 8)</title>
+<meta name="description" content="This tutorial shows the benefits of using JavaFX FXML, which is an XML-based language that provides the structure for building a user interface separate from the application logic of your code.">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXST.pdf">PDF</a> | <a href="../JFXST.epub">ePub</a> | <a href="../JFXST.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Getting Started with JavaFX</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="css.htm">Previous Page</a><a class="button" title="Next Page" href="animation.htm">Next Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="CIHHGHJJ" name="CIHHGHJJ" class="anchor"></a><a id="JFXST206" name="JFXST206" class="anchor"></a> <a id="CHDCCHII" name="CHDCCHII" class="anchor"></a>
+<h1 class="chapter"><span class="secnum">6</span> Using FXML to Create a User Interface</h1>
+<a id="JFXST264" name="JFXST264" class="anchor"></a>
+<p>This tutorial shows the benefits of using JavaFX FXML, which is an XML-based language that provides the structure for building a user interface separate from the application logic of your code.</p>
+<p>If you started this document from the beginning, then you have seen how to create a login application using just JavaFX. Here, you use FXML to create the same login user interface, separating the application design from the application logic, thereby making the code easier to maintain. The login user interface you build in this tutorial is shown in <a href="#CHDICHAE">Figure 6-1</a>.</p>
+<div class="figure"><a id="CHDICHAE" name="CHDICHAE" class="anchor"></a><a id="JFXST254" name="JFXST254" class="anchor"></a>
+<p class="titleinfigure">Figure 6-1 Login User Interface</p>
+<img width="316" height="313" src="img/login_fxml.png" alt="Description of Figure 6-1 follows" title="Description of Figure 6-1 follows" longdesc="img_text/login_fxml.htm" /><br />
+<a id="sthref44" name="sthref44" href="img_text/login_fxml.htm">Description of "Figure 6-1 Login User Interface"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>This tutorial uses NetBeans IDE. Ensure that the version of NetBeans IDE that you are using supports JavaFX 8. See the Certified System Configurations section of the <a target="_blank" href="http://www.oracle.com/technetwork/java/javase/downloads/">Java SE Downloads page</a> for details.</p>
+<a id="CHDGFFFF" name="CHDGFFFF" class="anchor"></a><a id="JFXST806" name="JFXST806" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Set Up the Project</h2>
+<p>Your first task is to set up a JavaFX FXML project in NetBeans IDE:</p>
+<ol>
+<li>
+<p>From the <span class="gui-object-action">File</span> menu, choose <span class="gui-object-action">New Project</span>.</p>
+</li>
+<li>
+<p>In the <span class="bold">JavaFX</span> application category, choose <span class="bold">JavaFX FXML Application</span>. Click <span class="gui-object-action">Next</span>.</p>
+</li>
+<li>
+<p>Name the project <span class="bold">FXMLExample</span> and click <span class="gui-object-action">Finish</span>.</p>
+<p>NetBeans IDE opens an FXML project that includes the code for a basic Hello World application. The application includes three files:</p>
+<ul>
+<li>
+<p><code><span class="codeinlinebold">FXMLExample.java.</span></code> This file takes care of the standard Java code required for an FXML application.</p>
+</li>
+<li>
+<p><code><span class="codeinlinebold">FXMLDocument.fxml.</span></code> This is the FXML source file in which you define the user interface.</p>
+</li>
+<li>
+<p><code><span class="codeinlinebold">FXMLDocumentController.java.</span></code> This is the controller file for handling the mouse and keyboard input.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Rename <code>FXMLDocumentController.java</code> to F<code>XMLExampleController.java</code> so that the name is more meaningful for this application.</p>
+<ol>
+<li>
+<p>In the Projects window, right-click <span class="bold">FXMLDocumentController.java</span> and choose <span class="bold">Refactor</span> then <span class="bold">Rename</span>.</p>
+</li>
+<li>
+<p>Enter <span class="bold">FXMLExampleController</span>, and click <span class="bold">Refactor</span>.</p>
+</li>
+</ol>
+</li>
+<li>
+<p>Rename <code>FXMLDocument.fxml</code> to <code>fxml_example.fxml.</code></p>
+<ol>
+<li>
+<p>Right-click <span class="bold">FXMLDocument.fxml</span> and choose <span class="bold">Rename</span>.</p>
+</li>
+<li>
+<p>Enter <span class="bold">fxml_example</span> and click <span class="bold">OK</span>.</p>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<!-- class="sect1" -->
+<a id="CHDFJABA" name="CHDFJABA" class="anchor"></a><a id="JFXST807" name="JFXST807" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Load the FXML Source File</h2>
+<p>The first file you edit is the <code>FXMLExample.java</code> file. This file includes the code for setting up the application main class and for defining the stage and scene. More specific to FXML, the file uses the <code>FXMLLoader</code> class, which is responsible for loading the FXML source file and returning the resulting object graph.</p>
+<p>Make the changes shown in bold in <a href="#CHDDBEGD">Example 6-1</a>.</p>
+<div class="example"><a id="CHDDBEGD" name="CHDDBEGD" class="anchor"></a><a id="JFXST143" name="JFXST143" class="anchor"></a>
+<p class="titleinexample">Example 6-1 FXMLExample.java</p>
+<pre xml:space="preserve" class="oac_no_warn">@Override
+    public void start(Stage stage) throws Exception {
+       Parent root = FXMLLoader.load(getClass().getResource("<span class="bold">fxml_example.fxml</span>"));
+    
+        Scene scene = new Scene(root<span class="bold">, 300, 275</span>);
+    
+        <span class="bold">stage.setTitle("FXML Welcome");</span>
+        stage.setScene(scene);
+        stage.show();
+    }
+</pre></div>
+<!-- class="example" -->
+<p>A good practice is to set the height and width of the scene when you create it, in this case 300 by 275; otherwise the scene defaults to the minimum size needed to display its contents.</p>
+</div>
+<!-- class="sect1" -->
+<a id="CHDEBIBJ" name="CHDEBIBJ" class="anchor"></a><a id="JFXST207" name="JFXST207" class="anchor"></a>
+<div class="sect1">
+<h2 class="sect1">Modify the Import Statements</h2>
+<p>Next, edit the <code>fxml_example.fxml</code> file. This file specifies the user interface that is displayed when the application starts. The first task is to modify the import statements so your code looks like <a href="#CHDFJDAE">Example 6-2</a>.</p>
+<div class="example"><a id="CHDFJDAE" name="CHDFJDAE" class="anchor"></a><a id="JFXST208" name="JFXST208" class="anchor"></a>
+<p class="titleinexample">Example 6-2 XML Declaration and Import Statements</p>
+<pre xml:space="preserve" class="oac_no_warn">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+<span class="bold">&lt;?import java.net.*?&gt;</span>
+<span class="bold">&lt;?import javafx.geometry.*?&gt;</span>
+<span class="bold">&lt;?import javafx.scene.control.*?&gt;</span>
+<span class="bold">&lt;?import javafx.scene.layout.*?&gt;</span>
+<span class="bold">&lt;?import javafx.scene.text.*?&gt;</span>
+</pre></div>
+<!-- class="example" -->
+<p>As in Java, class names can be fully qualified (including the package name), or they can be imported using the import statement, as shown in <a href="#CHDFJDAE">Example 6-2</a>. If you prefer, you can use specific import statements that refer to classes.</p>
+</div>
+<!-- class="sect1" -->
+<a id="CHDCDGEF" name="CHDCDGEF" class="anchor"></a><a id="JFXST209" name="JFXST209" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Create a GridPane Layout</h2>
+<p>The Hello World application generated by NetBeans uses an <code>AnchorPane</code> layout. For the login form, you will use a <code>GridPane</code> layout because it enables you to create a flexible grid of rows and columns in which to lay out controls.</p>
+<p>Remove the <code>AnchorPane</code> layout and its children and replace it with the <code>GridPane</code> layout in <a href="#CHDIFIAC">Example 6-3</a>.</p>
+<div class="example"><a id="CHDIFIAC" name="CHDIFIAC" class="anchor"></a><a id="JFXST210" name="JFXST210" class="anchor"></a>
+<p class="titleinexample">Example 6-3 GridPane Layout</p>
+<pre xml:space="preserve" class="oac_no_warn">&lt;GridPane fx:controller="fxmlexample.FXMLExampleController" 
+    xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10"&gt;
+&lt;padding&gt;&lt;Insets top="25" right="25" bottom="10" left="25"/&gt;&lt;/padding&gt;
+
+&lt;/GridPane&gt;
+</pre></div>
+<!-- class="example" -->
+<p>In this application, the <code>GridPane</code> layout is the root element of the FXML document and as such has two attributes. The <code>fx:controller</code> attribute is required when you specify controller-based event handlers in your markup. The <code>xmlns:fx</code> attribute is always required and specifies the <code>fx</code> namespace.</p>
+<p>The remainder of the code controls the alignment and spacing of the grid pane. The alignment property changes the default position of the grid from the top left of the scene to the center. The <code>gap</code> properties manage the spacing between the rows and columns, while the <code>padding</code> property manages the space around the edges of the grid pane.</p>
+<p>As the window is resized, the nodes within the grid pane are resized according to their layout constraints. In this example, the grid remains in the center when you grow or shrink the window. The padding properties ensure there is a padding around the grid when you make the window smaller.</p>
+</div>
+<!-- class="sect1" -->
+<a id="CHDCBAAH" name="CHDCBAAH" class="anchor"></a><a id="JFXST211" name="JFXST211" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Add Text and Password Fields</h2>
+<p>Looking back at <a href="#CHDICHAE">Figure 6-1</a>, you can see that the login form requires the title &#x201D;Welcome&#x201D; and text and password fields for gathering information from the user. The code in <a href="#CHDJAJCI">Example 6-4</a> is part of the <code>GridPane</code> layout and must be placed above the <code>&lt;/GridPane&gt;</code> statement.</p>
+<div class="example"><a id="CHDJAJCI" name="CHDJAJCI" class="anchor"></a><a id="JFXST144" name="JFXST144" class="anchor"></a>
+<p class="titleinexample">Example 6-4 Text, Label, TextField, and Password Field Controls</p>
+<pre xml:space="preserve" class="oac_no_warn">&lt;Text text="Welcome" 
+        GridPane.columnIndex="0" GridPane.rowIndex="0"
+        GridPane.columnSpan="2"/&gt;
+ 
+    &lt;Label text="User Name:"
+        GridPane.columnIndex="0" GridPane.rowIndex="1"/&gt;
+ 
+    &lt;TextField 
+        GridPane.columnIndex="1" GridPane.rowIndex="1"/&gt;
+ 
+    &lt;Label text="Password:"
+        GridPane.columnIndex="0" GridPane.rowIndex="2"/&gt;
+ 
+    &lt;PasswordField fx:id="passwordField" 
+        GridPane.columnIndex="1" GridPane.rowIndex="2"/&gt;
+</pre></div>
+<!-- class="example" -->
+<p>The first line creates a <code>Text</code> object and sets its text value to <code>Welcome</code>. The <code>GridPane.columnIndex</code> and <code>GridPane.rowIndex</code> attributes correspond to the placement of the <code>Text</code> control in the grid. The numbering for rows and columns in the grid starts at zero, and the location of the <code>Text</code> control is set to (0,0), meaning it is in the first column of the first row. The <code>GridPane.columnSpan</code> attribute is set to 2, making the Welcome title span two columns in the grid. You will need this extra width later in the tutorial when you add a style sheet to increase the font size of the text to 32 points.</p>
+<p>The next lines create a <code>Label</code> object with text <code>User Name</code> at column 0, row 1 and a <code>TextField</code> object to the right of it at column 1, row 1. Another <code>Label</code> and <code>PasswordField</code> object are created and added to the grid in a similar fashion.</p>
+<p>When working with a grid layout, you can display the grid lines, which is useful for debugging purposes. In this case, set the <code>gridLinesVisible</code> property to <code>true</code> by adding the statement <code>&lt;gridLinesVisible&gt;true&lt;/gridLinesVisible&gt;</code> right after the <code>&lt;padding&gt;&lt;/padding&gt;</code> statement. Then, when you run the application, you see the lines for the grid columns and rows as well as the gap properties, as shown in <a href="#CHDEIAAJ">Figure 6-2</a>.</p>
+<div class="figure"><a id="CHDEIAAJ" name="CHDEIAAJ" class="anchor"></a><a id="JFXST255" name="JFXST255" class="anchor"></a>
+<p class="titleinfigure">Figure 6-2 Login Form with Grid Lines</p>
+<img width="485" height="313" src="img/login_fxml_gridlines.png" alt="Description of Figure 6-2 follows" title="Description of Figure 6-2 follows" longdesc="img_text/login_fxml_gridlines.htm" /><br />
+<a id="sthref45" name="sthref45" href="img_text/login_fxml_gridlines.htm">Description of "Figure 6-2 Login Form with Grid Lines"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="CHDIAHDH" name="CHDIAHDH" class="anchor"></a><a id="JFXST212" name="JFXST212" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Add a Button and Text</h2>
+<p>The final two controls required for the application are a <code>Button</code> control for submitting the data and a <code>Text</code> control for displaying a message when the user presses the button. The code is in <a href="#CHDCCBEC">Example 6-5</a>. Add this code before <code>&lt;/GridPane&gt;</code>.</p>
+<div class="example"><a id="CHDCCBEC" name="CHDCCBEC" class="anchor"></a><a id="JFXST146" name="JFXST146" class="anchor"></a>
+<p class="titleinexample">Example 6-5 HBox, Button, and Text</p>
+<pre xml:space="preserve" class="oac_no_warn">&lt;HBox spacing="10" alignment="bottom_right" 
+        GridPane.columnIndex="1" GridPane.rowIndex="4"&gt;
+        &lt;Button text="Sign In"     
+        onAction="#handleSubmitButtonAction"/&gt;
+&lt;/HBox&gt;
+
+&lt;Text fx:id="actiontarget"
+       GridPane.columnIndex="0" GridPane.columnSpan="2"
+ GridPane.halignment="RIGHT" GridPane.rowIndex="6"/&gt;
+</pre></div>
+<!-- class="example" -->
+<p>An <code>HBox</code> pane is needed to set an alignment for the button that is different from the default alignment applied to the other controls in the <code>GridPane</code> layout. The <code>alignment</code> property is set to <code>bottom_right</code>, which positions a node at the bottom of the space vertically and at the right edge of the space horizontally. The <code>HBox</code> pane is added to the grid in column 1, row 4.</p>
+<p>The <code>HBox</code> pane has one child, a <code>Button</code> with <code>text</code> property set to <code>Sign in</code> and an <code>onAction</code> property set to <code>handleSubmitButtonAction()</code>. While FXML is a convenient way to define the structure of an application's user interface, it does not provide a way to implement an application's behavior. You implement the behavior for the <code>handleSubmitButtonAction()</code> method in Java code in the next section of this tutorial, <a href="#CHDJDGCE">Add Code to Handle an Event</a>.</p>
+<p>Assigning an <code>fx:id</code> value to an element, as shown in the code for the <code>Text</code> control, creates a variable in the document's namespace, which you can refer to from elsewhere in the code. While not required, defining a controller field helps clarify how the controller and markup are associated.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXST147" name="JFXST147" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="CHDJDGCE" name="CHDJDGCE" class="anchor"></a>
+<h2 class="sect1">Add Code to Handle an Event</h2>
+<p>Now make the <code>Text</code> control display a message when the user presses the button. You do this in the <code>FXMLExampleController.java</code> file. Delete the code that NetBeans IDE generated and replace it with the code in <a href="#CHDJIDHE">Example 6-6</a>.</p>
+<div class="example"><a id="CHDJIDHE" name="CHDJIDHE" class="anchor"></a><a id="JFXST148" name="JFXST148" class="anchor"></a>
+<p class="titleinexample">Example 6-6 FXMLExampleController.java</p>
+<pre xml:space="preserve" class="oac_no_warn">package fxmlexample;
+ 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.text.Text;
+ 
+public class FXMLExampleController {
+    @FXML private Text actiontarget;
+    
+    @FXML protected void handleSubmitButtonAction(ActionEvent event) {
+        actiontarget.setText("Sign in button pressed");
+    }
+
+}
+</pre></div>
+<!-- class="example" -->
+<p>The <code>@FXML</code> annotation is used to tag nonpublic controller member fields and handler methods for use by FXML markup. The <code>handleSubmtButtonAction</code> method sets the <code>actiontarget</code> variable to <code>Sign in button pressed</code> when the user presses the button.</p>
+<p>You can run the application now to see the complete user interface. <a href="#CHDHHJDI">Figure 6-3</a> shows the results when you type text in the two fields and click the Sign in button. If you have any problems, then you can compare your code against the FXMLLogin example.</p>
+<div class="figure"><a id="CHDHHJDI" name="CHDHHJDI" class="anchor"></a><a id="JFXST256" name="JFXST256" class="anchor"></a>
+<p class="titleinfigure">Figure 6-3 FXML Login Window</p>
+<img width="316" height="313" src="img/login_fxml_before_css.png" alt="Description of Figure 6-3 follows" title="Description of Figure 6-3 follows" longdesc="img_text/login_fxml_before_css.htm" /><br />
+<a id="sthref46" name="sthref46" href="img_text/login_fxml_before_css.htm">Description of "Figure 6-3 FXML Login Window"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="CHDIBFJD" name="CHDIBFJD" class="anchor"></a><a id="JFXST213" name="JFXST213" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Use a Scripting Language to Handle Events</h2>
+<p>As an alternative to using Java code to create an event handler, you can create the handler with any language that provides a JSR 223-compatible scripting engine. Such languages include JavaScript, Groovy, Jython, and Clojure.</p>
+<p>Optionally, you can try using JavaScript now.</p>
+<ol>
+<li>
+<p>In the file <code>fxml_example.fxml</code>, add the JavaScript declaration after the XML doctype declaration.</p>
+<p><code>&lt;?language javascript?&gt;</code></p>
+</li>
+<li>
+<p>In the <code>Button</code> markup, change the name of the function so the call looks as follows:</p>
+<p><code>onAction="handleSubmitButtonAction(event);"</code></p>
+</li>
+<li>
+<p>Remove the <code>fx:controller</code> attribute from the <code>GridPane</code> markup and add the JavaScript function in a <code>&lt;script&gt;</code> tag directly under it, as shown in <a href="#CHDBEIHJ">Example 6-7</a>.</p>
+<div class="example"><a id="CHDBEIHJ" name="CHDBEIHJ" class="anchor"></a><a id="JFXST214" name="JFXST214" class="anchor"></a>
+<p class="titleinexample">Example 6-7 JavaScript in FXML</p>
+<pre xml:space="preserve" class="oac_no_warn">&lt;GridPane xmlns:fx="http://javafx.com/fxml" 
+              alignment="center" hgap="10" vgap="10"&gt;
+         &lt;fx:script&gt;
+             function handleSubmitButtonAction() {
+                 actiontarget.setText("Calling the JavaScript");
+             }
+         &lt;/fx:script&gt;
+</pre></div>
+<!-- class="example" -->
+<p>Alternatively, you can put the JavaScript functions in an external file (such as <code>fxml_example.js</code>) and include the script like this:</p>
+<p><code>&lt;fx:script source="fxml_example.js"/&gt;</code></p>
+</li>
+</ol>
+<p>The result is in <a href="#CHDCGEEE">Figure 6-4</a>.</p>
+<div class="figure"><a id="CHDCGEEE" name="CHDCGEEE" class="anchor"></a><a id="JFXST257" name="JFXST257" class="anchor"></a>
+<p class="titleinfigure">Figure 6-4 Login Application Using JavaScript</p>
+<img width="316" height="313" src="img/login_javascript.png" alt="Description of Figure 6-4 follows" title="Description of Figure 6-4 follows" longdesc="img_text/login_javascript.htm" /><br />
+<a id="sthref47" name="sthref47" href="img_text/login_javascript.htm">Description of "Figure 6-4 Login Application Using JavaScript"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>If you are considering using a scripting language with FXML, then note that an IDE might not support stepping through script code during debugging.</p>
+</div>
+<!-- class="sect1" -->
+<a id="CIHCIEED" name="CIHCIEED" class="anchor"></a><a id="JFXST129" name="JFXST129" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" -->
+<h2 class="sect1">Style the Application with CSS</h2>
+<p>The final task is to make the login application look attractive by adding a Cascading Style Sheet (CSS).</p>
+<ol>
+<li>
+<p>Create a style sheet.</p>
+<ol>
+<li>
+<p>In the Project window, right-click the fxmlexample folder under Source Packages and choose <span class="bold">New</span>, then <span class="bold">Other</span>.</p>
+</li>
+<li>
+<p>In the New File dialog box, choose <span class="bold">Other</span>, then <span class="bold">Cascading Style Sheet</span> and click <span class="bold">Next</span>.</p>
+</li>
+<li>
+<p>Enter <span class="bold">Login</span> and click <span class="bold">Finish</span>.</p>
+</li>
+<li>
+<p>Copy the contents of the <code>Login.css</code> file into your CSS file. The <code>Login.css</code> file is included in the downloadable <a href="../sample-apps/LoginCSS.zip">LoginCSS.zip</a> file. For a description of the classes in the CSS file, see <a href="css.htm#BEIBBBCI">Fancy Forms with JavaFX CSS</a>.</p>
+</li>
+</ol>
+</li>
+<li>
+<p>Download the gray, linen-like image for the background by right-clicking the <a href="backgroundjpg.htm#CEGBAIFI">background.jpg</a> file and saving it to the <code>fxmlexample</code> folder.</p>
+</li>
+<li>
+<p>Open the <code>fxml_example.fxml</code> file and add a stylesheets element before the end of the markup for the <code>GridPane</code> layout as shown in <a href="#CHDIHIAC">Example 6-8</a>.</p>
+<div class="example"><a id="CHDIHIAC" name="CHDIHIAC" class="anchor"></a><a id="JFXST151" name="JFXST151" class="anchor"></a>
+<p class="titleinexample">Example 6-8 Style Sheet</p>
+<pre xml:space="preserve" class="oac_no_warn">&lt;stylesheets&gt;
+    &lt;URL value="@Login.css" /&gt;
+  &lt;/stylesheets&gt;
+
+&lt;/GridPane&gt;
+</pre></div>
+<!-- class="example" -->
+<p>The @ symbol before the name of the style sheet in the URL indicates that the style sheet is in the same directory as the FXML file.</p>
+</li>
+<li>
+<p>To use the root style for the grid pane, add a style class to the markup for the <code>GridPane</code> layout as shown in <a href="#BJEEHFJJ">Example 6-9</a>.</p>
+<div class="example"><a id="BJEEHFJJ" name="BJEEHFJJ" class="anchor"></a><a id="JFXST265" name="JFXST265" class="anchor"></a>
+<p class="titleinexample">Example 6-9 Style the GridPane</p>
+<pre xml:space="preserve" class="oac_no_warn">&lt;GridPane fx:controller="fxmlexample.FXMLExampleController" 
+    xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10" 
+    <span class="bold">styleClass="root"</span>&gt;
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>Create a <code>welcome-text</code> ID for the Welcome <code>Text</code> object so it uses the style <code>#welcome-text</code> defined in the CSS file, as shown in <a href="#CHDEEAAA">Example 6-10</a>.</p>
+<div class="example"><a id="CHDEEAAA" name="CHDEEAAA" class="anchor"></a><a id="JFXST152" name="JFXST152" class="anchor"></a>
+<p class="titleinexample">Example 6-10 Text ID</p>
+<pre xml:space="preserve" class="oac_no_warn">&lt;Text <span class="bold">id="welcome-text"</span> text="Welcome" 
+        GridPane.columnIndex="0" GridPane.rowIndex="0" 
+        GridPane.columnSpan="2"/&gt;
+</pre></div>
+<!-- class="example" --></li>
+<li>
+<p>Run the application. <a href="#CHDFBIIB">Figure 6-5</a> shows the stylized application. If you run into problems, then take a look at the code that is included in the downloadable <a href="../sample-apps/FXMLExample.zip">FXMLExample.zip</a> file</p>
+<div class="figure"><a id="CHDFBIIB" name="CHDFBIIB" class="anchor"></a><a id="JFXST258" name="JFXST258" class="anchor"></a>
+<p class="titleinfigure">Figure 6-5 Stylized Login Application</p>
+<img width="316" height="313" src="img/login_fxml_css.png" alt="Description of Figure 6-5 follows" title="Description of Figure 6-5 follows" longdesc="img_text/login_fxml_css.htm" /><br />
+<a id="sthref48" name="sthref48" href="img_text/login_fxml_css.htm">Description of "Figure 6-5 Stylized Login Application"</a><br />
+<br /></div>
+<!-- class="figure" --></li>
+</ol>
+</div>
+<!-- class="sect1" -->
+<a id="JFXST133" name="JFXST133" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref49" name="sthref49" class="anchor"></a>
+<h2 class="sect1">Where to Go from Here</h2>
+<p>Now that you are familiar with FXML, look at <a href="../api/javafx/fxml/doc-files/introduction_to_fxml.html">Introduction to FXML</a>, which provides more information on the elements that make up the FXML language. The document is included in the <code>javafx.fxml</code> package in the <a class="olink JFXAP" href="http://www.oracle.com/pls/topic/lookup?ctx=javase80&id=JFXAP">API documentation</a>.</p>
+<p>You can also try out the JavaFX Scene Builder tool by opening the <code>fxml_example.fxml</code> file in Scene Builder and making modifications. This tool provides a visual layout environment for designing the UI for JavaFX applications and automatically generates the FXML code for the layout. Note that the FXML file might be reformatted when saved. See the Getting Started with JavaFX Scene Builder for more information on this tool. The Skinning with CSS and the CSS Analyzer section of the JavaFX Scene Builder User Guide also gives you information on how you can skin your FXML layout.</p>
+</div>
+<!-- class="sect1" -->
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Getting Started with JavaFX</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">About This Tutorial</a></li>
+        <li><a href="preface.htm#JFXST823">Audience</a></li>
+        <li><a href="preface.htm#JFXST824">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref5">Related Documents</a></li>
+        <li><a href="preface.htm#JFXST827">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a href="whatsnew.htm#sthref6">What's New</a></li>
+    <li><a href="javafx_get_started.htm#JFXST783">Part I What Is JavaFX?</a>
+    <ul>
+    <li><a href="jfx-overview.htm#JFXST784">1 JavaFX Overview</a>
+      <ul>
+        <li><a href="jfx-overview.htm#JFXST786">JavaFX Applications</a></li>
+        <li><a href="jfx-overview.htm#JFXST103">Availability</a></li>
+        <li><a href="jfx-overview.htm#JFXST787">Key Features</a></li>
+        <li><a href="jfx-overview.htm#JFXST828">What Can I Build with JavaFX?</a></li>
+        <li><a href="jfx-overview.htm#JFXST830">How Do I Run a Sample Application?</a></li>
+        <li><a href="jfx-overview.htm#JFXST832">How Do I Run a Sample in an IDE?</a></li>
+        <li><a href="jfx-overview.htm#JFXST834">How Do I Create a JavaFX Application?</a></li>
+        <li><a href="jfx-overview.htm#JFXST836">Resources</a></li>
+      </ul>
+    </li>
+    <li><a href="jfx-architecture.htm#JFXST788">2 Understanding the JavaFX Architecture</a>
+      <ul>
+        <li><a href="jfx-architecture.htm#JFXST790">Scene Graph</a></li>
+        <li><a href="jfx-architecture.htm#JFXST104">Java Public APIs for JavaFX Features</a></li>
+        <li><a href="jfx-architecture.htm#JFXST105">Graphics System</a></li>
+        <li><a href="jfx-architecture.htm#JFXST106">Glass Windowing Toolkit</a>
+          <ul>
+          <li><a href="jfx-architecture.htm#sthref12">Threads</a></li>
+          <li><a href="jfx-architecture.htm#sthref13">Pulse</a></li>
+          </ul>
+        </li>
+        <li><a href="jfx-architecture.htm#JFXST109">Media and Images</a></li>
+        <li><a href="jfx-architecture.htm#JFXST110">Web Component</a></li>
+        <li><a href="jfx-architecture.htm#JFXST111">CSS</a></li>
+        <li><a href="jfx-architecture.htm#JFXST113">UI Controls</a></li>
+        <li><a href="jfx-architecture.htm#JFXST115">Layout</a></li>
+        <li><a href="jfx-architecture.htm#JFXST116">2-D and 3-D Transformations</a></li>
+        <li><a href="jfx-architecture.htm#JFXST117">Visual Effects</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="get_start_apps.htm#JFXST804">Part II Getting Started with JavaFX Sample Applications</a>
+    <ul>
+    <li><a href="hello_world.htm#CHDBCAII">3 Hello World, JavaFX Style</a>
+      <ul>
+        <li><a href="hello_world.htm#sthref16">Construct the Application</a></li>
+        <li><a href="hello_world.htm#sthref18">Run the Application</a></li>
+        <li><a href="hello_world.htm#sthref20">Where to Go Next</a></li>
+      </ul>
+    </li>
+    <li><a href="form.htm#BABDDGEE">4 Creating a Form in JavaFX</a>
+      <ul>
+        <li><a href="form.htm#sthref22">Create the Project</a></li>
+        <li><a href="form.htm#sthref23">Create a GridPane Layout</a></li>
+        <li><a href="form.htm#sthref24">Add Text, Labels, and Text Fields</a></li>
+        <li><a href="form.htm#sthref26">Add a Button and Text</a></li>
+        <li><a href="form.htm#BABHABBF">Add Code to Handle an Event</a></li>
+        <li><a href="form.htm#sthref28">Run the Application</a></li>
+        <li><a href="form.htm#sthref30">Where to Go from Here</a></li>
+      </ul>
+    </li>
+    <li><a href="css.htm#BEIBBBCI">5 Fancy Forms with JavaFX CSS</a>
+      <ul>
+        <li><a href="css.htm#sthref32">Create the Project</a></li>
+        <li><a href="css.htm#sthref33">Create the CSS File</a></li>
+        <li><a href="css.htm#sthref34">Add a Background Image</a></li>
+        <li><a href="css.htm#sthref36">Style the Labels</a></li>
+        <li><a href="css.htm#sthref38">Style Text</a></li>
+        <li><a href="css.htm#sthref40">Style the Button</a></li>
+        <li><a href="css.htm#sthref43">Where to Go from Here</a></li>
+      </ul>
+    </li>
+    <li><a class="selected" href="fxml_tutorial.htm#CHDCCHII">6 Using FXML to Create a User Interface</a>
+      <ul>
+        <li><a href="fxml_tutorial.htm#JFXST806">Set Up the Project</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST807">Load the FXML Source File</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST207">Modify the Import Statements</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST209">Create a GridPane Layout</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST211">Add Text and Password Fields</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST212">Add a Button and Text</a></li>
+        <li><a href="fxml_tutorial.htm#CHDJDGCE">Add Code to Handle an Event</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST213">Use a Scripting Language to Handle Events</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST129">Style the Application with CSS</a></li>
+        <li><a href="fxml_tutorial.htm#sthref49">Where to Go from Here</a></li>
+      </ul>
+    </li>
+    <li><a href="animation.htm#BABCJFJC">7 Animation and Visual Effects in JavaFX</a>
+      <ul>
+        <li><a href="animation.htm#sthref52">Set Up the Application</a></li>
+        <li><a href="animation.htm#sthref53">Set Up the Project</a></li>
+        <li><a href="animation.htm#sthref54">Add Graphics</a></li>
+        <li><a href="animation.htm#sthref56">Add a Visual Effect</a></li>
+        <li><a href="animation.htm#sthref58">Create a Background Gradient</a></li>
+        <li><a href="animation.htm#sthref61">Apply a Blend Mode</a></li>
+        <li><a href="animation.htm#sthref63">Add Animation</a></li>
+        <li><a href="animation.htm#sthref65">Where to Go from Here</a></li>
+      </ul>
+    </li>
+    <li><a href="backgroundjpg.htm#JFXST840">A background.jpg</a>
+      <ul>
+        <li><a href="backgroundjpg.htm#JFXST843">background.jpg</a></li>
+      </ul>
+    </li>
+</ul>
+
+</li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="css.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a><a class="button" title="Next Page" href="animation.htm">Next Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2008, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

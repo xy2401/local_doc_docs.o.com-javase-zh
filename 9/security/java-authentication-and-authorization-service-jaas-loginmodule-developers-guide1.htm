@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>Java Authentication and Authorization Service (JAAS): LoginModule Developer's Guide</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="description" content="The Java Authentication and Authorization Service (JAAS) was introduced as an optional package to the Java 2 SDK, Standard Edition (J2SDK), v 1.3. JAAS was integrated into the Java Standard Edition Development Kit starting with J2SDK 1.4." />
+<meta name="dcterms.created" content="2017-10-12T19:32:24Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Security Developer&rsquo;s Guide" />
+<meta name="dcterms.identifier" content="E68624-04" />
+<meta name="dcterms.isVersionOf" content="JSSEC" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="jaas-tutorials.htm" title="Previous" type="text/html" />
+<link rel="Next" href="java-generic-security-services-java-gss-api1.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSSEC.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSSEC.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSSEC.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-CB46C30D-FFF1-466F-B2F5-6DE0BD5DA43A"></a> <span id="PAGE" style="display:none;">17/28</span> <!-- End Header -->
+<h1 id="JSSEC-GUID-CB46C30D-FFF1-466F-B2F5-6DE0BD5DA43A" class="sect1">Java Authentication and Authorization Service (JAAS): LoginModule Developer's Guide</h1>
+<div>
+<p>The Java Authentication and Authorization Service (JAAS) was introduced as an optional package to the Java 2 SDK, Standard Edition (J2SDK), v 1.3. JAAS was integrated into the Java Standard Edition Development Kit starting with J2SDK 1.4.</p>
+<p>JAAS provides subject-based authorization on authenticated identities. This document focuses on the authentication aspect of JAAS, specifically the <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/spi/LoginModule.html" target="_blank"><code class="codeph">Interface LoginModule</code></a> .</p>
+<div class="section">
+<p class="subhead1">Who Should Read This Document</p>
+<p>This document is intended for experienced programmers who require the ability to write a <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/spi/LoginModule.html" target="_blank"><code class="codeph">Interface LoginModule</code></a> implementing an authentication technology.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead1">Related Documentation</p>
+<p>This document assumes you have already read the following:</p>
+<ul style="list-style-type: disc;">
+<li><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jaas/JAASRefGuide.html" target="_blank">Java Authentication and Authorization Service (JAAS) Reference Guide</a></li>
+</ul>
+<p>It also discusses various classes and interfaces in the JAAS API. See the Javadoc API documentation for the JAAS API specification for more detailed information:</p>
+<ul style="list-style-type: disc;">
+<li><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/package-summary.html" target="_blank"><span class="apiname">javax.security.auth</span></a></li>
+<li><a href="https://docs.oracle.com/javase/9/docs/api/com/sun/security/auth/callback/package-summary.html" target="_blank"><span class="apiname">com.sun.security.auth.callback</span></a></li>
+<li><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/kerberos/package-summary.html" target="_blank"><span class="apiname">javax.security.auth.kerberos</span></a></li>
+<li><a href="https://docs.oracle.com/javase/9/docs/api/com/sun/security/auth/login/package-summary.html" target="_blank"><span class="apiname">com.sun.security.auth.login</span></a></li>
+<li><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/spi/package-summary.html" target="_blank"><span class="apiname">javax.security.auth.spi</span></a></li>
+<li><a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/x500/package-summary.html" target="_blank"><span class="apiname">javax.security.auth.x500</span></a></li>
+<li><a href="https://docs.oracle.com/javase/9/docs/api/com/sun/security/auth/package-summary.html" target="_blank"><span class="apiname">com.sun.security.auth</span></a></li>
+<li><a href="https://docs.oracle.com/javase/9/docs/api/com/sun/security/auth/callback/package-summary.html" target="_blank"><span class="apiname">com.sun.security.auth.callback</span></a></li>
+<li><a href="https://docs.oracle.com/javase/9/docs/api/com/sun/security/auth/login/package-summary.html" target="_blank"><span class="apiname">com.sun.security.auth.login</span></a></li>
+<li><a href="https://docs.oracle.com/javase/9/docs/api/com/sun/security/auth/module/package-summary.html" target="_blank"><span class="apiname">com.sun.security.auth.module</span></a></li>
+</ul>
+<p>The following <span class="bold">tutorials</span> for JAAS authentication and authorization can be run by everyone:</p>
+<ul style="list-style-type: disc;">
+<li><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jaas/tutorials/GeneralAcnOnly.html" target="_blank">JAAS Authentication Tutorial</a></li>
+<li><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jaas/tutorials/GeneralAcnAndAzn.html" target="_blank">JAAS Authorization Tutorial</a></li>
+</ul>
+<p>Similar tutorials for JAAS authentication and authorization, but which demonstrate the use of a Kerberos LoginModule and thus which require a Kerberos installation, can be found at</p>
+<ul style="list-style-type: disc;">
+<li><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/AcnOnly.html" target="_blank">JAAS Authentication</a></li>
+<li><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/AcnAndAzn.html" target="_blank">JAAS Authorization</a></li>
+</ul>
+<p>These two tutorials are a part of the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/BasicClientServer.html" target="_blank">JAAS and Java GSS-API Tutorial</a> that utilize Kerberos as the underlying technology for authentication and secure communication.</p>
+</div>
+<!-- class="section" --></div>
+<div class="sect2"><a id="GUID-3F7CF22D-A207-49EE-B1CC-575FBF3789DE"></a>
+<h2 id="JSSEC-GUID-3F7CF22D-A207-49EE-B1CC-575FBF3789DE" class="sect2">Introduction to LoginModule</h2>
+<div>
+<p><code class="codeph">LoginModule</code>s are plugged in under applications to provide a particular type of authentication.</p>
+<p>The <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/spi/LoginModule.html" target="_blank"><code class="codeph">Interface LoginModule</code></a> documentation describes the interface that must be implemented by authentication technology providers.</p>
+<p>While applications write to the <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/login/LoginContext.html" target="_blank"><code class="codeph">LoginContext</code></a> Application Programming Interface (API), authentication technology providers implement the <code class="codeph">LoginModule</code> interface. A <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/login/Configuration.html" target="_blank"><code class="codeph">Configuration</code></a> specifies the <code class="codeph">LoginModule</code>(s) to be used with a particular login application. Different <code class="codeph">LoginModule</code>s can be plugged in under the application without requiring any modifications to the application itself.</p>
+<p>The <code class="codeph">LoginContext</code> is responsible for reading the <code class="codeph">Configuration</code> and instantiating the specified <code class="codeph">LoginModule</code>s. Each <code class="codeph">LoginModule</code> is initialized with a <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/Subject.html" target="_blank"><code class="codeph">Subject</code></a>, a <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/callback/CallbackHandler.html" target="_blank"><code class="codeph">Interface CallbackHandler</code></a>, shared <code class="codeph">LoginModule</code> state, and <code class="codeph">LoginModule</code>-specific options.</p>
+<p>The <span class="bold"><code class="codeph">Subject</code></span> represents the user or service currently being authenticated and is updated by a <code class="codeph">LoginModule</code> with relevant <a href="https://docs.oracle.com/javase/9/docs/api/java/security/Principal.html" target="_blank"><code class="codeph">Interface Principal</code></a> and credentials if authentication succeeds. <code class="codeph">LoginModule</code>s use the <span class="bold"><code class="codeph">CallbackHandler</code></span> to communicate with users (to prompt for user names and passwords, for example), as described in the login method description. Note that the <code class="codeph">CallbackHandler</code> may be null. A <code class="codeph">LoginModule</code> that requires a <code class="codeph">CallbackHandler</code> to authenticate the <code class="codeph">Subject</code> may throw a <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/login/LoginException.html" target="_blank"><code class="codeph">LoginException</code></a> if it was initialized with a <code class="codeph">null</code> <code class="codeph">CallbackHandler</code>. <code class="codeph">LoginModule</code>s optionally use the <span class="bold">shared state</span> to share information or data among themselves.</p>
+<p>The <span class="bold"><code class="codeph">LoginModule</code>-specific options</span> represent the options configured for this <code class="codeph">LoginModule</code> in the login <code class="codeph">Configuration</code>. The options are defined by the <code class="codeph">LoginModule</code> itself and control the behavior within it. For example, a <code class="codeph">LoginModule</code> may define options to support debugging/testing capabilities. Options are defined using a key-value syntax, such as <span class="variable">debug=true</span>. The <code class="codeph">LoginModule</code> stores the options as a <code class="codeph">Map</code> so that the values may be retrieved using the key. Note that there is no limit to the number of options a <code class="codeph">LoginModule</code> chooses to define.</p>
+<p>The calling application sees the authentication process as a single operation invoked via a call to the <code class="codeph">LoginContext</code>'s <code class="codeph">login</code> method. However, the authentication process within each <code class="codeph">LoginModule</code> proceeds in two distinct phases. In the first phase of authentication, the <code class="codeph">LoginContext</code>'s <code class="codeph">login</code> method invokes the <code class="codeph">login</code> method of each <code class="codeph">LoginModule</code> specified in the <code class="codeph">Configuration</code>. The <code class="codeph">login</code> method for a <code class="codeph">LoginModule</code> performs the actual authentication (prompting for and verifying a password for example) and saves its authentication status as private state information. Once finished, the <code class="codeph">LoginModule</code>'s <code class="codeph">login</code> method returns <code class="codeph">true</code> (if it succeeded) or <code class="codeph">false</code> (if it should be ignored), or it throws a <code class="codeph">LoginException</code> to specify a failure. In the failure case, the <code class="codeph">LoginModule</code> must not retry the authentication or introduce delays. The responsibility of such tasks belongs to the application. If the application attempts to retry the authentication, each <code class="codeph">LoginModule</code>'s <code class="codeph">login</code> method will be called again.</p>
+<p>In the second phase, if the <code class="codeph">LoginContext</code>'s overall authentication succeeded (calls to the relevant <span class="variable">required</span>, <span class="variable">requisite</span>, <span class="variable">sufficient</span> and <span class="variable">optional</span> <code class="codeph">LoginModule</code>s' <code class="codeph">login</code> methods succeeded), then the <code class="codeph">commit</code> method for each <code class="codeph">LoginModule</code> gets invoked. (For an explanation of the <code class="codeph">LoginModule</code> flags <span class="variable">required</span>, <span class="variable">requisite</span>, <span class="variable">sufficient</span> and <span class="variable">optional</span>, please consult the <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/login/Configuration.html" target="_blank"><code class="codeph">Configuration</code></a> documentation and <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jaas/JAASRefGuide.html#AppendixB" target="_blank">Appendix B: Example Login Configurations</a> in the JAAS Reference Guide.) The <code class="codeph">commit</code> method for a <code class="codeph">LoginModule</code> checks its privately saved state to see if its own authentication succeeded. If the overall <code class="codeph">LoginContext</code> authentication succeeded and the <code class="codeph">LoginModule</code>'s own authentication succeeded, then the <code class="codeph">commit</code> method associates the relevant <code class="codeph">Principal</code>s (authenticated identities) and credentials (authentication data such as cryptographic keys) with the <code class="codeph">Subject</code>.</p>
+<p>If the <code class="codeph">LoginContext</code>'s overall authentication failed (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL <code class="codeph">LoginModule</code>s' <code class="codeph">login</code> methods did not succeed), then the <code class="codeph">abort</code> method for each <code class="codeph">LoginModule</code> gets invoked. In this case, the <code class="codeph">LoginModule</code> removes/destroys any authentication state originally saved.</p>
+<p>Logging out a <code class="codeph">Subject</code> involves only one phase. The <code class="codeph">LoginContext</code> invokes the <code class="codeph">LoginModule</code>'s <code class="codeph">logout</code> method. The <code class="codeph">logout</code> method for the <code class="codeph">LoginModule</code> then performs the logout procedures, such as removing <code class="codeph">Principal</code>s or credentials from the <code class="codeph">Subject</code>, or logging session information.</p>
+</div>
+</div>
+<div class="sect2"><a id="GUID-EE1C4BBE-289F-4419-A233-43F2D897765B"></a>
+<h2 id="JSSEC-GUID-EE1C4BBE-289F-4419-A233-43F2D897765B" class="sect2">Steps to Implement a LoginModule</h2>
+<div>
+<p>The steps required in order to implement and test a <code class="codeph">LoginModule</code>:</p>
+</div>
+<div class="sect3"><a id="GUID-A4140569-4124-4AE7-81CC-145537BE0F42"></a>
+<h3 id="JSSEC-GUID-A4140569-4124-4AE7-81CC-145537BE0F42" class="sect3">Step 1: Understand the Authentication Technology</h3>
+<div>
+<p>The first thing you need to do is understand the authentication technology to be implemented by your new <code class="codeph">LoginModule</code> provider, and determine its requirements.</p>
+<ol>
+<li class="stepexpand"><span>Determine whether or not your <code class="codeph">LoginModule</code> will require some form of user interaction (retrieving a user name and password, for example). If so, you will need to become familiar with the <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/callback/CallbackHandler.html" target="_blank"><code class="codeph">Interface CallbackHandler</code></a> and the <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/callback/package-summary.html" target="_blank"><code class="codeph">javax.security.auth.callback</code></a>.</span>
+<div>
+<p>In that package you will find several possible <code class="codeph">Callback</code> implementations to use. (Alternatively, you can create your own <code class="codeph">Callback</code> implementations.) The <code class="codeph">LoginModule</code> will invoke the <code class="codeph">CallbackHandler</code> specified by the application itself and passed to the <code class="codeph">LoginModule</code>'s <code class="codeph">initialize</code> method. The <code class="codeph">LoginModule</code> passes the <code class="codeph">CallbackHandler</code> an array of appropriate <code class="codeph">Callback</code>s. See the login method in Step 3.</p>
+<div class="p">
+<div class="infobox-note" id="GUID-A4140569-4124-4AE7-81CC-145537BE0F42__GUID-E00E32FE-7328-4E56-B91F-04095BA3A9D6">
+<p class="notep1">Note:</p>
+It is possible for <code class="codeph">LoginModule</code> implementations not to have any end-user interactions. Such <code class="codeph">LoginModule</code>s would not need to access the <code class="codeph">callback</code> package.</div>
+</div>
+</div>
+</li>
+<li class="stepexpand"><span>Determine what configuration options you want to make available to the user, who specifies configuration information in whatever form the current Configuration implementation expects (for example, in files). For each option, decide the option name and possible values.</span>
+<div>For example, if a <code class="codeph">LoginModule</code> may be configured to consult a particular authentication server host, decide on the option's key name ("auth_server", for example), as well as the possible server hostnames valid for that option ("server_one.example.com" and "server_two.example.com", for example).</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3"><a id="GUID-A6BAE987-54F4-4634-9D03-7EB986C7F484"></a>
+<h3 id="JSSEC-GUID-A6BAE987-54F4-4634-9D03-7EB986C7F484" class="sect3">Step 2: Name the LoginModule Implementation</h3>
+<div>
+<p>Decide on the proper package and class name for your <code class="codeph">LoginModule</code>.</p>
+<div class="example" id="GUID-A6BAE987-54F4-4634-9D03-7EB986C7F484__GUID-61466AE4-79E1-4B1F-9BFA-6DD64DEB781C">
+<p>For example, a <code class="codeph">LoginModule</code> developed by IBM might be called <code class="codeph">com.ibm.auth.Module</code> where <code class="codeph">com.ibm.auth</code> is the package name and <code class="codeph">Module</code> is the name of the <code class="codeph">LoginModule</code> class implementation.</p>
+</div>
+<!-- class="example" --></div>
+</div>
+<div class="sect3"><a id="GUID-E9C5810B-ADB6-4454-869D-B269ECA8145F"></a>
+<h3 id="JSSEC-GUID-E9C5810B-ADB6-4454-869D-B269ECA8145F" class="sect3">Step 3: Implement the Abstract LoginModule Methods</h3>
+<div>
+<p>The <code class="codeph">LoginModule</code> interface specifies five abstract methods that require implementations.</p>
+<div class="section">
+<p class="subhead3">LoginModule.initialize Method</p>
+<pre dir="ltr">
+public void initialize (
+  Subject subject,
+  CallbackHandler handler,
+  Map&lt;java.lang.String, ?&gt; sharedState,
+  Map&lt;java.lang.String, ?&gt; options) { ... }
+</pre>
+<p>The <code class="codeph">initialize</code> method is called to initialize the <code class="codeph">LoginModule</code> with the relevant authentication and state information.</p>
+<p>This method is called by a <code class="codeph">LoginContext</code> immediately after this <code class="codeph">LoginModule</code> has been instantiated, and prior to any calls to its other public methods. The method implementation should store away the provided arguments for future use.</p>
+<p>The <code class="codeph">initialize</code> method may additionally peruse the provided <span class="variable">sharedState</span> to determine what additional authentication state it was provided by other <code class="codeph">LoginModule</code>s, and may also traverse through the provided <span class="variable">options</span> to determine what configuration options were specified to affect the <code class="codeph">LoginModule</code>'s behavior. It may save option values in variables for future use.</p>
+<p>Note: JAAS LoginModules may use the options defined in PAM (<code class="codeph">use_first_pass</code>, <code class="codeph">try_first_pass</code>, <code class="codeph">use_mapped_pass</code>, and <code class="codeph">try_mapped_pass</code>) to achieve single-sign on. See <a href="http://www.oracle.com/us/sun/index.htm" target="_blank">Making Login Services Independent from Authentication Technologies</a> for further information.</p>
+<p>Below is a list of options commonly supported by LoginModules. Note that the following is simply a guideline. Modules are free to support a subset (or none) of the following options.</p>
+<ul style="list-style-type: disc;">
+<li><code class="codeph">try_first_pass</code> - If <code class="codeph">true</code>, the first LoginModule in the stack saves the password entered, and subsequent LoginModules also try to use it. If authentication fails, the LoginModules prompt for a new password and retry the authentication.</li>
+<li><code class="codeph">use_first_pass</code> - If <code class="codeph">true</code>, the first LoginModule in the stack saves the password entered, and subsequent LoginModules also try to use it. LoginModules do not prompt for a new password if authentication fails (authentication simply fails).</li>
+<li><code class="codeph">try_mapped_pass</code> - If <code class="codeph">true</code>, the first LoginModule in the stack saves the password entered, and subsequent LoginModules attempt to map it into their service-specific password. If authentication fails, the LoginModules prompt for a new password and retry the authentication.</li>
+<li><code class="codeph">use_mapped_pass</code> - If <code class="codeph">true</code>, the first LoginModule in the stack saves the password entered, and subsequent LoginModules attempt to map it into their service-specific password. LoginModules do not prompt for a new password if authentication fails (authentication simply fails).</li>
+<li><code class="codeph">moduleBanner</code> - If <code class="codeph">true</code>, then when invoking the CallbackHandler, the LoginModule provides a TextOutputCallback as the first Callback, which describes the LoginModule performing the authentication.</li>
+<li><code class="codeph">debug</code> - If <code class="codeph">true</code>, instructs a LoginModule to output debugging information.</li>
+</ul>
+<p>The <code class="codeph">initialize</code> method may freely ignore state or options it does not understand, although it would be wise to log such an event if it does occur.</p>
+<p>Note that the <code class="codeph">LoginContext</code> invoking this <code class="codeph">LoginModule</code> (and the other configured <code class="codeph">LoginModule</code>s, as well), all share the same references to the provided <code class="codeph">Subject</code> and <code class="codeph">sharedState</code>. Modifications to the <code class="codeph">Subject</code> and <code class="codeph">sharedState</code> will, therefore, be seen by all.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead3">LoginModule.login Method</p>
+<pre dir="ltr">
+boolean login() throws LoginException;
+</pre>
+<p>The <code class="codeph">login</code> method is called to authenticate a <code class="codeph">Subject</code>. This is phase 1 of authentication.</p>
+<p>This method implementation should perform the actual authentication. For example, it may cause prompting for a user name and password, and then attempt to verify the password against a password database. Another example implementation may inform the user to insert their finger into a fingerprint reader, and then match the input fingerprint against a fingerprint database.</p>
+<p>If your <code class="codeph">LoginModule</code> requires some form of user interaction (retrieving a user name and password, for example), it should not do so directly. That is because there are various ways of communicating with a user, and it is desirable for <code class="codeph">LoginModule</code>s to remain independent of the different types of user interaction. Rather, the <code class="codeph">LoginModule</code>'s <code class="codeph">login</code> method should invoke the <code class="codeph">handle</code> method of the <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/callback/CallbackHandler.html" target="_blank"><code class="codeph">Interface CallbackHandler</code></a> passed to the <code class="codeph">initialize</code> method to perform the user interaction and set appropriate results, such as the user name and password. The <code class="codeph">LoginModule</code> passes the <code class="codeph">CallbackHandler</code> an array of appropriate <code class="codeph">Callback</code>s, for example a <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/callback/NameCallback.html" target="_blank"><code class="codeph">NameCallback</code></a>for the user name and a <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/callback/PasswordCallback.html" target="_blank"><code class="codeph">PasswordCallback</code></a>for the password, and the <code class="codeph">CallbackHandler</code> performs the requested user interaction and sets appropriate values in the <code class="codeph">Callback</code>s. For example, to process a <code class="codeph">NameCallback</code>, the <code class="codeph">CallbackHandler</code> may prompt for a name, retrieve the value from the user, and call the <code class="codeph">NameCallback</code>'s <code class="codeph">setName</code> method to store the name.</p>
+<p>The authentication process may also involve communication over a network. For example, if this method implementation performs the equivalent of a <span class="variable">kinit</span> in Kerberos, then it would need to contact the KDC. If a password database entry itself resides in a remote naming service, then that naming service needs to be contacted, perhaps via the Java Naming and Directory Interface (JNDI). Implementations might also interact with an underlying operating system. For example, if a user has already logged into an operating system like Solaris, Linux, macOS, or Windows NT, this method might simply import the underlying operating system's identity information.</p>
+<p>The <code class="codeph">login</code> method should</p>
+<ol>
+<li>Determine whether or not this <code class="codeph">LoginModule</code> should be ignored. One example of when it should be ignored is when a user attempts to authenticate under an identity irrelevant to this <code class="codeph">LoginModule</code> (if a user attempts to authenticate as <span class="variable">root</span> using NIS, for example). If this <code class="codeph">LoginModule</code> should be ignored, <code class="codeph">login</code> should return <code class="codeph">false</code>. Otherwise, it should do the following:</li>
+<li>Call the <code class="codeph">CallbackHandler</code> <code class="codeph">handle</code> method if user interaction is required.</li>
+<li>Perform the authentication.</li>
+<li>Store the authentication result (success or failure).</li>
+<li>If authentication succeeded, save any relevant state information that may be needed by the <code class="codeph">commit</code> method.</li>
+<li>Return <code class="codeph">true</code> if authentication succeeds, or throw a <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/login/LoginException.html" target="_blank"><code class="codeph">LoginException</code></a> such as <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/login/FailedLoginException.html" target="_blank"><code class="codeph">FailedLoginException</code></a> if authentication fails.</li>
+</ol>
+<p>Note that the <code class="codeph">login</code> method implementation should not associate any new <code class="codeph">Principal</code> or credential information with the saved <code class="codeph">Subject</code> object. This method merely performs the authentication, and then stores away the authentication result and corresponding authentication state. This result and state will later be accessed by the <code class="codeph">commit</code> or <code class="codeph">abort</code> method. Note that the result and state should typically not be saved in the <span class="variable">sharedState</span> <code class="codeph">Map</code>, as they are not intended to be shared with other <code class="codeph">LoginModule</code>s.</p>
+<p>An example of where this method might find it useful to store state information in the <span class="variable">sharedState</span> <code class="codeph">Map</code> is when <code class="codeph">LoginModule</code>s are configured to share passwords. In this case, the entered password would be saved as shared state. By sharing passwords, the user only enters the password once, and can still be authenticated to multiple <code class="codeph">LoginModule</code>s. The standard conventions for saving and retrieving names and passwords from the <span class="variable">sharedState</span> <code class="codeph">Map</code> are the following:</p>
+<ul style="list-style-type: disc;">
+<li><code class="codeph">javax.security.auth.login.name</code> - Use this as the shared state map key for saving/retrieving a name.</li>
+<li><code class="codeph">javax.security.auth.login.password</code> - Use this as the shared state map key for saving/retrieving a password.</li>
+</ul>
+<p>If authentication fails, the <code class="codeph">login</code> method should not retry the authentication. This is the responsibility of the application. Multiple <code class="codeph">LoginContext</code> <code class="codeph">login</code> method calls by an application are preferred over multiple login attempts from within <code class="codeph">LoginModule.login()</code>.</p>
+</div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead3">LoginModule.commit Method</p>
+<pre dir="ltr">
+boolean commit() throws LoginException;
+</pre>
+<p>The <code class="codeph">commit</code> method is called to commit the authentication process. This is phase 2 of authentication when phase 1 succeeds. It is called if the <code class="codeph">LoginContext</code>'s overall authentication succeeded (that is, if the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL <code class="codeph">LoginModule</code>s succeeded.)</p>
+<p>This method should access the authentication result and corresponding authentication state saved by the <code class="codeph">login</code> method.</p>
+<p>If the authentication result denotes that the <code class="codeph">login</code> method failed, then this <code class="codeph">commit</code> method should remove/destroy any corresponding state that was originally saved.</p>
+<p>If the saved result instead denotes that this <code class="codeph">LoginModule</code>'s <code class="codeph">login</code> method succeeded, then the corresponding state information should be accessed to build any relevant <code class="codeph">Principal</code> and credential information. Such <code class="codeph">Principal</code>s and credentials should then be added to the <code class="codeph">Subject</code> stored away by the <code class="codeph">initialize</code> method.</p>
+<p>After adding <code class="codeph">Principal</code>s and credentials, dispensable state fields should be destroyed expeditiously. Likely fields to destroy would be user names and passwords stored during the authentication process.</p>
+<p>The <code class="codeph">commit</code> method should save private state indicating whether the commit succeeded or failed.</p>
+<p>The following chart depicts what a <code class="codeph">LoginModule</code>'s <code class="codeph">commit</code> method should return. The different boxes represent the different situations that may occur. For example, the top-left corner box depicts what the <code class="codeph">commit</code> method should return if both the previous call to <code class="codeph">login</code> succeeded and the <code class="codeph">commit</code> method itself succeeded.</p>
+<div class="tblformalwide" id="GUID-E9C5810B-ADB6-4454-869D-B269ECA8145F__GUID-80D5A33A-9B15-45EA-87FD-1C17A26F795C">
+<p class="titleintable">Table 6-1 LoginModule.commit method return values</p>
+<table class="cellalignment473" title="LoginModule.commit method return values" summary="The LoginModule.commit method return value">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d74146e1025">&nbsp;Login Status</th>
+<th class="cellalignment457" id="d74146e1027">COMMIT: SUCCESS</th>
+<th class="cellalignment457" id="d74146e1029">COMMIT: FAILURE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d74146e1033" headers="d74146e1025">LOGIN: SUCCESS</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d74146e1033 d74146e1027">return TRUE</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d74146e1033 d74146e1029">throw EXCEPTION</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d74146e1040" headers="d74146e1025">LOGIN: FAILURE</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d74146e1040 d74146e1027">return FALSE</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d74146e1040 d74146e1029">return FALSE</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead3">LoginModule.abort Method</p>
+<pre dir="ltr">
+boolean abort() throws LoginException;
+</pre>
+<p>The <code class="codeph">abort</code> method is called to abort the authentication process. This is phase 2 of authentication when phase 1 fails. It is called if the <code class="codeph">LoginContext</code>'s overall authentication failed.</p>
+<p>This method first accesses this <code class="codeph">LoginModule</code>'s authentication result and corresponding authentication state saved by the <code class="codeph">login</code> (and possibly <code class="codeph">commit</code>) methods, and then clears out and destroys the information. Sample state to destroy would be user names and passwords.</p>
+<p>If this <code class="codeph">LoginModule</code>'s authentication attempt failed, then there shouldn't be any private state to clean up.</p>
+<p>The following charts depict what a <code class="codeph">LoginModule</code>'s <code class="codeph">abort</code> method should return. This first chart assumes that the previous call to <code class="codeph">login</code> succeeded. For instance, the top-left corner box depicts what the <code class="codeph">abort</code> method should return if both the previous call to <code class="codeph">login</code> and <code class="codeph">commit</code> succeeded, and the <code class="codeph">abort</code> method itself also succeeded.</p>
+<div class="tblformalwide" id="GUID-E9C5810B-ADB6-4454-869D-B269ECA8145F__GUID-BBDD2DC0-2F02-45A3-86D5-05E37240DC3A">
+<p class="titleintable">Table 6-2 LoginModule.abort method return values; login succeeded</p>
+<table class="cellalignment473" title="LoginModule.abort method return values; login succeeded" summary="The LoginModule.abort method return value">
+<thead>
+<tr class="cellalignment447">
+<th class="cellalignment457" id="d74146e1110">&nbsp;Login Status</th>
+<th class="cellalignment457" id="d74146e1112">ABORT: SUCCESS</th>
+<th class="cellalignment457" id="d74146e1114">ABORT: FAILURE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d74146e1118" headers="d74146e1110">COMMIT: SUCCESS</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d74146e1118 d74146e1112">return TRUE</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d74146e1118 d74146e1114">throw EXCEPTION</td>
+</tr>
+<tr class="cellalignment447">
+<td class="cellalignment447" rowspan="1" colspan="1" id="d74146e1125" headers="d74146e1110">COMMIT: FAILURE</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d74146e1125 d74146e1112">return TRUE</td>
+<td class="cellalignment447" rowspan="1" colspan="1" headers="d74146e1125 d74146e1114">throw EXCEPTION</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<!-- class="section" -->
+<div class="section">
+<p class="subhead3">LoginModule.logout Method</p>
+<pre dir="ltr">
+boolean logout() throws LoginException;
+</pre>
+<p>The <code class="codeph">logout</code> method is called to log out a <code class="codeph">Subject</code>.</p>
+<p>This method removes <code class="codeph">Principal</code>s, and removes/destroys credentials associated with the <code class="codeph">Subject</code> during the <code class="codeph">commit</code> operation. This method should not touch those <code class="codeph">Principal</code>s or credentials previously existing in the <code class="codeph">Subject</code>, or those added by other <code class="codeph">LoginModule</code>s.</p>
+<p>If the <code class="codeph">Subject</code> has been marked <span class="variable">read-only</span> (the <code class="codeph">Subject</code>'s <code class="codeph">isReadOnly</code> method returns <span class="variable">true</span>), then this method should only destroy credentials associated with the <code class="codeph">Subject</code> during the <code class="codeph">commit</code> operation (removing the credentials is not possible). If the <code class="codeph">Subject</code> has been marked as <span class="variable">read-only</span> and the credentials associated with the <code class="codeph">Subject</code> during the <code class="codeph">commit</code> operation are not destroyable (they do not implement the <code class="codeph">Destroyable</code> interface), then this method may throw a <code class="codeph">LoginException</code>.</p>
+<p>The <code class="codeph">logout</code> method should return <code class="codeph">true</code> if logout succeeds, or otherwise throw a <code class="codeph">LoginException</code>.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect3"><a id="GUID-4A0BD9DC-B45F-4606-A6BD-8BAC22952C52"></a>
+<h3 id="JSSEC-GUID-4A0BD9DC-B45F-4606-A6BD-8BAC22952C52" class="sect3">Step 4: Choose or Write a Sample Application</h3>
+<div>
+<p>Either choose an existing sample application for your testing, or write a new one.</p>
+<p>See <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jaas/JAASRefGuide.html" target="_blank">Java Authentication and Authorization Service (JAAS) Reference Guide</a> for information about application requirements and a sample application you can use for your testing.</p>
+</div>
+</div>
+<div class="sect3"><a id="GUID-6DEAB2A4-2ADE-4CC8-B188-F0A58A38F61C"></a>
+<h3 id="JSSEC-GUID-6DEAB2A4-2ADE-4CC8-B188-F0A58A38F61C" class="sect3">Step 5: Compile the LoginModule and Application</h3>
+<div>
+<p>Compile your new <code class="codeph">LoginModule</code> and the application you will use for testing.</p>
+</div>
+</div>
+<div class="sect3"><a id="GUID-800F2CC8-C4BC-4AE7-B29A-1BFBE01D9979"></a>
+<h3 id="JSSEC-GUID-800F2CC8-C4BC-4AE7-B29A-1BFBE01D9979" class="sect3">Step 6: Prepare for Testing</h3>
+<div>
+<p>Prepare for testing the <code class="codeph">LoginModule</code>.</p>
+<div class="section" id="GUID-800F2CC8-C4BC-4AE7-B29A-1BFBE01D9979__STEP6APLACEYOURLOGINMODULEANDAPPLIC-83D213BF">
+<p class="subhead3">Step 6a: Place Your <code class="codeph">LoginModule</code> and Application Code in JAR Files</p>
+<p>Place your <code class="codeph">LoginModule</code> and application code in separate JAR files, in preparation for referencing the JAR files in the policy in <a href="java-authentication-and-authorization-service-jaas-loginmodule-developers-guide1.htm#GUID-800F2CC8-C4BC-4AE7-B29A-1BFBE01D9979__STEP6CSETLOGINMODULEANDAPPLICATIONJ-83D21A8B">Step 6c: Set LoginModule and Application JAR File Permissions</a>. Here is a sample command for creating a JAR file:</p>
+<pre dir="ltr">
+jar cvf &lt;JAR file name&gt; &lt;list of classes, separated by spaces&gt;
+</pre>
+<p>This command creates a JAR file with the specified name containing the specified classes.</p>
+<p>For more information on the <span class="bold">jar</span> tool, see <a class="olink JSWOR614" target="_blank" href="../tools/jar.htm#JSWOR614">jar</a>.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-800F2CC8-C4BC-4AE7-B29A-1BFBE01D9979__STEP6BDECIDEWHERETOSTORETHEJARFILES-83D216BB">
+<p class="subhead3">Step 6b: Decide Where to Store the JAR Files</p>
+<p>The application can be stored essentially anywhere you like.</p>
+<p>Your <code class="codeph">LoginModule</code> can also be placed anywhere you (and other clients) like. If the <code class="codeph">LoginModule</code> is fully trusted, it can be placed in the JRE's <code class="codeph">lib/ext</code> (standard extension) directory.</p>
+<p>You will need to test the <code class="codeph">LoginModule</code> being located both in the <code class="codeph">lib/ext</code> directory and elsewhere because in one situation your <code class="codeph">LoginModule</code> will need to explicitly be granted <a href="permissions-java-development-kit.htm#GUID-1E8E213A-D7F2-49F1-A2F0-EFB3397A8C95" title="Information about the built-in JDK permission types and associated risks of granting each permission. Information about methods that require permissions to be in effect in order to be successful, and for each method lists the required permission.">Permissions in the Java Development Kit (JDK)</a> required for any security-sensitive operations it does, while in the other case such permissions are not needed.</p>
+<p>If your <code class="codeph">LoginModule</code> is placed in the JRE's <code class="codeph">lib/ext</code> directory, it will be treated as an installed extension and no permissions need to be granted, since the default system <a href="permissions-java-development-kit.htm#GUID-7942E6F8-8AAB-4404-9FE9-E08DD6FFCFFA" title="The policy configuration file(s) for a JDK installation specifies what permissions (which types of system resource accesses) are granted to code from a specified code source, and executed as a specified principal.">Policy File Syntax</a> grants all permissions to installed extensions.</p>
+<p>If your <code class="codeph">LoginModule</code> is placed anywhere else, the permissions need to be granted, for example by <code class="codeph">grant</code> statements in a policy file.</p>
+<p>Decide where you will store the <code class="codeph">LoginModule</code> JAR file for testing the case where it is not an installed extension. In the next step, you grant permissions to the JAR file, in the specified location.</p>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-800F2CC8-C4BC-4AE7-B29A-1BFBE01D9979__STEP6CSETLOGINMODULEANDAPPLICATIONJ-83D21A8B">
+<p class="subhead3">Step 6c: Set <code class="codeph">LoginModule</code> and Application JAR File Permissions</p>
+<p>If your <code class="codeph">LoginModule</code> and/or application performs security-sensitive tasks that will trigger security checks (making network connections, reading or writing files on a local disk, etc), it will need to be granted the required <a href="permissions-java-development-kit.htm#GUID-1E8E213A-D7F2-49F1-A2F0-EFB3397A8C95" title="Information about the built-in JDK permission types and associated risks of granting each permission. Information about methods that require permissions to be in effect in order to be successful, and for each method lists the required permission.">Permissions in the Java Development Kit (JDK)</a> if it is not an installed extension (see <a href="java-authentication-and-authorization-service-jaas-loginmodule-developers-guide1.htm#GUID-800F2CC8-C4BC-4AE7-B29A-1BFBE01D9979__STEP6BDECIDEWHERETOSTORETHEJARFILES-83D216BB">Step 6b: Decide Where to Store the JAR Files</a>) and it is run while a security manager is installed.</p>
+<p>Since <code class="codeph">LoginModule</code>s usually associate <code class="codeph">Principal</code>s and credentials with an authenticated Subject, some types of permissions a <code class="codeph">LoginModule</code> will typically require are <a href="https://docs.oracle.com/javase/9/docs/api/javax/security/auth/AuthPermission.html" target="_blank"><code class="codeph">AuthPermission</code></a>s with target names "modifyPrincipals", "modifyPublicCredentials", and "modifyPrivateCredentials".</p>
+<p>A sample statement granting permissions to a <code class="codeph">LoginModule</code> whose code is in <code class="codeph">MyLM.jar</code> appears below. Such a statement could appear in a policy file. In this example, the <code class="codeph">MyLM.jar</code> file is assumed to be in the <code class="codeph">/localWork</code> directory.</p>
+<pre dir="ltr">
+grant codeBase "file:/localWork/MyLM.jar" {
+  permission javax.security.auth.AuthPermission "modifyPrincipals";
+  permission javax.security.auth.AuthPermission "modifyPublicCredentials";
+  permission javax.security.auth.AuthPermission "modifyPrivateCredentials";
+};
+</pre>
+<div class="infobox-note" id="GUID-800F2CC8-C4BC-4AE7-B29A-1BFBE01D9979__GUID-AF562355-EB12-48C5-A4A3-686DB9A8DA32">
+<p class="notep1">Note:</p>
+Since a <code class="codeph">LoginModule</code> is always invoked within an <code class="codeph">AccessController.doPrivileged</code> call, it should not have to call <code class="codeph">doPrivileged</code> itself. If it does, it may inadvertently open up a security hole. For example, a <code class="codeph">LoginModule</code> that invokes the application-provided <code class="codeph">CallbackHandler</code> inside a <code class="codeph">doPrivileged</code> call opens up a security hole by permitting the application's <code class="codeph">CallbackHandler</code> to gain access to resources it would otherwise not have been able to access.</div>
+</div>
+<!-- class="section" -->
+<div class="section" id="GUID-800F2CC8-C4BC-4AE7-B29A-1BFBE01D9979__STEP6DCREATEACONFIGURATIONREFERENCI-83D21DD1">
+<p class="subhead3">Step 6d: Create a Configuration Referencing the LoginModule</p>
+<p>Because JAAS supports a pluggable authentication architecture, your new <code class="codeph">LoginModule</code> can be used without requiring modifications to existing applications. Only the login <code class="codeph">Configuration</code> needs to be updated in order to indicate use of a new <code class="codeph">LoginModule</code>.</p>
+<p>The default <code class="codeph">Configuration</code> implementation from Oracle reads configuration information from configuration files, as described in <a href="https://docs.oracle.com/javase/9/docs/api/com/sun/security/auth/login/ConfigFile.html" target="_blank"><code class="codeph">ConfigFile</code></a>.</p>
+<p>Create a configuration file to be used for testing. For example, to configure the previously-mentioned hypothetical IBM <code class="codeph">LoginModule</code> for an application, the configuration file might look like this:</p>
+<pre dir="ltr">
+    AppName {
+        com.ibm.auth.Module REQUIRED debug=true;
+    };
+</pre>
+<p>where <code class="codeph">AppName</code> should be whatever name the application uses to refer to this entry in the login configuration file. The application specifies this name as the first argument to the <code class="codeph">LoginContext</code> constructor.</p>
+</div>
+<!-- class="section" --></div>
+</div>
+<div class="sect3"><a id="GUID-D8079E42-9E73-4378-9D34-E528BE727857"></a>
+<h3 id="JSSEC-GUID-D8079E42-9E73-4378-9D34-E528BE727857" class="sect3">Step 7: Test Use of the LoginModule</h3>
+<div>
+<p>Test your application and its use of the <code class="codeph">LoginModule</code>. When you run the application, specify the login configuration file to be used. For example, suppose your application is named <code class="codeph">MyApp</code>, it is located in <code class="codeph">MyApp.jar</code>, and your configuration file is <code class="codeph">test.conf</code>.</p>
+<div class="section">
+<p>You could run the application and specify the configuration file via the following:</p>
+<pre dir="ltr">
+java -classpath MyApp.jar
+ -Djava.security.auth.login.config=test.conf MyApp
+</pre>
+<p>Type all that on one line. Multiple lines are used here for legibility.</p>
+<p>To specify a policy file named <code class="codeph">my.policy</code> and run the application with a security manager installed, do the following:</p>
+<pre dir="ltr">
+java -classpath MyApp.jar -Djava.security.manager
+ -Djava.security.policy=my.policy
+ -Djava.security.auth.login.config=test.conf MyApp
+</pre>
+<p>Again, type all that on one line.</p>
+<p>You may want to configure the <code class="codeph">LoginModule</code> with a <span class="variable">debug</span> option to help ensure that it is working correctly.</p>
+<p>Debug your code and continue testing as needed. If you have problems, review the steps above and ensure they are all completed.</p>
+<p>Be sure to vary user input and the <code class="codeph">LoginModule</code> options specified in the configuration file.</p>
+<p>Be sure to also include testing using different installation options (e.g., making the <code class="codeph">LoginModule</code> an installed extension or placing it on the class path) and execution environments (with or without a security manager running). Installation options are discussed in <a href="java-authentication-and-authorization-service-jaas-loginmodule-developers-guide1.htm#GUID-800F2CC8-C4BC-4AE7-B29A-1BFBE01D9979__STEP6BDECIDEWHERETOSTORETHEJARFILES-83D216BB">Step 6b: Decide Where to Store the JAR Files</a>. In particular, in order to ensure your <code class="codeph">LoginModule</code> works when a security manager is installed and the <code class="codeph">LoginModule</code> and applications are not installed extensions, you need to test such an installation and execution environment, after granting required permissions, as described in <a href="java-authentication-and-authorization-service-jaas-loginmodule-developers-guide1.htm#GUID-800F2CC8-C4BC-4AE7-B29A-1BFBE01D9979__STEP6CSETLOGINMODULEANDAPPLICATIONJ-83D21A8B">Step 6c: Set LoginModule and Application JAR File Permissions</a>.</p>
+</div>
+<!-- class="section" -->
+<ol>
+<li><span>If you find during testing that your <code class="codeph">LoginModule</code> or application needs modifications, make the modifications, recompile (<a href="java-authentication-and-authorization-service-jaas-loginmodule-developers-guide1.htm#GUID-6DEAB2A4-2ADE-4CC8-B188-F0A58A38F61C" title="Compile your new LoginModule and the application you will use for testing.">Step 5: Compile the LoginModule and Application</a>).</span></li>
+<li><span>Place the updated code in a JAR file (<a href="java-authentication-and-authorization-service-jaas-loginmodule-developers-guide1.htm#GUID-800F2CC8-C4BC-4AE7-B29A-1BFBE01D9979__STEP6APLACEYOURLOGINMODULEANDAPPLIC-83D213BF">Step 6a: Place Your LoginModule and Application Code in JAR Files</a>).</span></li>
+<li><span>Re-install the JAR file (<a href="java-authentication-and-authorization-service-jaas-loginmodule-developers-guide1.htm#GUID-800F2CC8-C4BC-4AE7-B29A-1BFBE01D9979__STEP6BDECIDEWHERETOSTORETHEJARFILES-83D216BB">Step 6b: Decide Where to Store the JAR Files</a>).</span></li>
+<li><span>If needed fix or add to the permissions (<a href="java-authentication-and-authorization-service-jaas-loginmodule-developers-guide1.htm#GUID-800F2CC8-C4BC-4AE7-B29A-1BFBE01D9979__STEP6CSETLOGINMODULEANDAPPLICATIONJ-83D21A8B">Step 6c: Set LoginModule and Application JAR File Permissions</a>).</span></li>
+<li><span>If needed modify the login configuration file (<a href="java-authentication-and-authorization-service-jaas-loginmodule-developers-guide1.htm#GUID-800F2CC8-C4BC-4AE7-B29A-1BFBE01D9979__STEP6DCREATEACONFIGURATIONREFERENCI-83D21DD1">Step 6d: Create a Configuration Referencing the LoginModule</a>).</span></li>
+<li><span>Re-run the application and repeat these steps as needed.</span></li>
+</ol>
+</div>
+</div>
+<div class="sect3"><a id="GUID-F799DF94-AD31-47CC-8760-863492F506EF"></a>
+<h3 id="JSSEC-GUID-F799DF94-AD31-47CC-8760-863492F506EF" class="sect3">Step 8: Document Your LoginModule Implementation</h3>
+<div>
+<p>Write documentation for clients of your <code class="codeph">LoginModule</code>.</p>
+<div class="section">Example documentation you may want to include is:</div>
+<!-- class="section" -->
+<ul>
+<li><span>A README or User Guide describing</span>
+<ol>
+<li><span>The authentication process employed by your <code class="codeph">LoginModule</code> implementation.</span></li>
+<li><span>Information on how to install the <code class="codeph">LoginModule</code>.</span></li>
+<li><span>Configuration options accepted by the <code class="codeph">LoginModule</code>. For each option, specify the option name and possible values (or types of values), as well as the behavior the option controls.</span></li>
+<li><span>The permissions required by your <code class="codeph">LoginModule</code> when it is run with a security manager (and it is not an installed extension).</span></li>
+</ol>
+</li>
+<li><span>An example <code class="codeph">Configuration</code> file that references your new <code class="codeph">LoginModule</code>.</span></li>
+<li><span>An example policy file granting your <code class="codeph">LoginModule</code> the required permissions.</span></li>
+<li><span>API documentation. Putting <code>javadoc</code> comments into your source code as you write it will make the API javadocs easy to generate.</span></li>
+</ul>
+</div>
+</div>
+<div class="sect3"><a id="GUID-0A07484F-050E-4162-AE90-3A975AB26055"></a>
+<h3 id="JSSEC-GUID-0A07484F-050E-4162-AE90-3A975AB26055" class="sect3">Step 9: Make LoginModule JAR File and Documents Available</h3>
+<div>
+<p>Make your <code class="codeph">LoginModule</code> JAR file and documentation available to clients.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment446">
+<tr>
+<td class="cellalignment453">
+<table class="cellalignment451">
+<tr>
+<td class="cellalignment450"><a href="jaas-tutorials.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment450"><a href="java-generic-security-services-java-gss-api1.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;1993, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment455">
+<table class="cellalignment449">
+<tr>
+<td class="cellalignment450"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment450"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment450"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

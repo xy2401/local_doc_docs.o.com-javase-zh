@@ -1,0 +1,187 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Adding Support for Controls and Extensions</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="event.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="../end.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Adding Support for Controls and Extensions
+</h2>
+<p>
+<blockquote>
+
+<blockquote>
+<hr>
+<strong>Prerequisite:</strong> 
+You should be familiar with 
+<a href=http://www.ietf.org/rfc/rfc2251.txt>LDAP v3</a> controls
+and extensions before reading this section. 
+These topics are covered in the
+
+<a target="_top" href="../../ldap/ext/index.html">Controls and Extensions</a> <a href="../../ldap/ext/index.html"><img src="../../jndiimages/ldapIcon.gif" width=20 height=20 border=0 alt="(in the Tips for LDAP Users trail)"></a>    lesson.
+<hr>
+</blockquote>
+
+A service provider typically supports LDAP v3 controls and extensions only
+when the underlying naming/directory service supports such features.
+Only the <a href=http://www.ietf.org/rfc/rfc2251.txt>LDAP</a>
+and LDAP-like services support these features.
+<p>
+<p>
+To support controls and extensions, the context implementation must implement the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html"><tt>LdapContext</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   interface.
+In addition, how
+controls and extensions are supported is closely tied to how
+your implementation processes LDAP requests and responses.
+This section gives some general hints on how to implement
+these features.
+
+<h4>Controls</h4>
+
+In the LDAP v3, you can send a
+<a href=../../getStarted/concepts/glossary.html#REQCTL>request control</a>
+along with any LDAP request and receive a
+<a href=../../getStarted/concepts/glossary.html#RESPCTL>response control</a>
+along with any LDAP response.
+Although request and response controls are commonly paired, 
+a one-to-one correspondence between the two is not required.
+For example, you can receive
+a response control with an LDAP response without having sent any request
+control with the corresponding request.
+<p>
+The context implementation must be able to <em>encode</em> arbitrary request
+controls (supplied by the API user) with any LDAP request 
+and be able to <em>decode</em> arbitrary response
+controls that accompany LDAP responses.
+The encoding of request controls is actually done by the 
+individual implementations of the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/Control.html"><tt>Control</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/Control.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interface via
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/Control.html#getEncodedValue()"><tt>Control.getEncodedValue()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/Control.html#getEncodedValue()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+The decoding of response controls is done by the response control
+implementations, which the context implementation selects via
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/ControlFactory.html#getControlInstance(javax.naming.ldap.Control, javax.naming.Context, java.util.Hashtable)"><tt>ControlFactory.getControlInstance()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/ControlFactory.html#getControlInstance(javax.naming.ldap.Control, javax.naming.Context, java.util.Hashtable)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+<p>
+Two types of request controls are available.
+<ul>
+<li><b>Connection request control.</b>
+Affects how a connection is created
+<li><b>Context request control.</b>
+Affects context methods
+</ul>
+
+Connection request controls are initialized by the API user's
+argument to the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/InitialLdapContext.html#InitialLdapContext(java.util.Hashtable, javax.naming.ldap.Control[])"><tt>InitialLdapContext</tt> constructor</a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/InitialLdapContext.html#InitialLdapContext(java.util.Hashtable, javax.naming.ldap.Control[])"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   or
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapReferralException.html#getReferralContext(java.util.Hashtable, javax.naming.ldap.Control[])"><tt>LdapReferralException.getReferralContext()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapReferralException.html#getReferralContext(java.util.Hashtable, javax.naming.ldap.Control[])"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and modified via 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#reconnect(javax.naming.ldap.Control[])"><tt>LdapContext.reconnect()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#reconnect(javax.naming.ldap.Control[])"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. 
+
+The context implementation must maintain a context's 
+connection request controls in the environment
+property <tt>"java.naming.ldap.control.connect"</tt> and pass this
+property on to <tt>Context</tt> instances that it creates.
+In this way, the derived <tt>Context</tt> instances will inherit the connection controls.
+
+<p>
+The context implementation should maintain 
+context request controls on a per <tt>Context</tt> instance basis
+and not pass them on to derived contexts.
+Context request controls are initialized by the API user's argument to
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#newInstance(javax.naming.ldap.Control[])"><tt>LdapContext.newInstance()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#newInstance(javax.naming.ldap.Control[])"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and modified via 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#setRequestControls(javax.naming.ldap.Control[])"><tt>LdapContext.setRequestControls()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#setRequestControls(javax.naming.ldap.Control[])"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. 
+
+<h4>"Extended" Operations</h4>
+
+An API user invokes an "extended" operation by creating an
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/ExtendedRequest.html"><tt>ExtendedRequest</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/ExtendedRequest.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    and then invoking
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#extendedOperation(javax.naming.ldap.ExtendedRequest)"><tt>extendedOperation()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/LdapContext.html#extendedOperation(javax.naming.ldap.ExtendedRequest)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+The context implementation is then responsible for encoding the extended
+request and submitting it as an LDAP "extended" operation to the LDAP server.
+The encoding is actually done by the individual implementations of
+the <tt>ExtendedRequest</tt> interface via
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/ExtendedRequest.html#getEncodedValue()"><tt>ExtendedRequest.getEncodedValue()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/ExtendedRequest.html#getEncodedValue()"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>. When the server returns the corresponding extended response, 
+the context implementation passes the response to
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/ExtendedRequest.html#createExtendedResponse(java.lang.String, byte[], int, int)"><tt>ExtendedRequest.createExtendedResponse()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/ldap/ExtendedRequest.html#createExtendedResponse(java.lang.String, byte[], int, int)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>   to generate a response for the initial caller of <tt>extendedOperation()</tt>.
+<p>
+
+From this description, the onus of handling "extended"
+operations appears to be on the developers of the <tt>ExtendedRequest</tt>s.
+However, this is true only for "extended" operations that have
+no effect on the context implementation.
+It is common for "extended" operations to affect the state of the context 
+implementation. For example, the
+<a href=http://www.ietf.org/rfc/rfc2830.txt>Start TLS</a> operation
+enables Transport Layer Security (TLS) on an existing LDAP
+connection. Adding support for such an operation requires changes
+to any existing context implementation and likely depends on
+internal interfaces of the context implementation.  So ususally,
+defining a general framework for handling arbitrary
+"extended" operations is difficult.  
+Typically, the context implementation would maintain a list
+of "extended" operations that it would support natively. It would then inspect
+the object identifier of the extended responses
+for those operations and modify its behavior accordingly.
+There really is no good way to handle "extended" operations that it does
+not know about because it can't tell whether it should ignore or flag
+the operation.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="event.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="../end.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Miscellaneous</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

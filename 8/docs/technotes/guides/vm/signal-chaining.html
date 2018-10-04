@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Signal Chaining</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/pubs8/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../webdesign/pubs8/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../webdesign/pubs8/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://docs.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Signal Chaining</h1></div>
+<p>The Java 2 SDK, Standard Edition, (JDK) v1.4 contains a new
+signal-chaining facility. Signal-chaining enables the Java Platform
+to better interoperate with native code that installs its own
+signal handlers. The facility works on both Solaris and Linux
+platforms.</p>
+<p>The signal-chaining facility was introduced to remedy a problem
+with signal handling in previous versions of the Java HotSpot VM.
+Prior to version 1.4, the Java HotSpot VM would not allow
+application-installed signal handlers for certain signals
+including, for example, <tt>SIGBUS</tt>, <tt>SIGSEGV</tt>,
+<tt>SIGILL</tt>, etc, since those signal handlers could conflict
+with the signal handlers used internally by the Java HotSpot
+VM.</p>
+<p>The signal-chaining facility offers the following:</p>
+<ul>
+<li>Support for pre-installed signal handlers when the HotSpot VM
+is created.</li>
+<li>Support for signal handler installation after the HotSpot VM is
+created, inside JNI code or from another native thread.</li>
+</ul>
+<p>Pre-installed signal handlers (A) are supported by means of
+saving existing signal handlers, for signals that are used by the
+VM, when the VM is first created. Later, when any of these signals
+are raised and found not to be targeted at the Java HotSpot VM, the
+pre-installed handlers are invoked. In other words, pre-installed
+handlers are "chained" behind the VM handlers for these
+signals.</p>
+<p>The signal-chaining facility also allows an application to link
+and load a shared library <tt>libjsig.so</tt> before
+<tt>libc/libthread/libpthread</tt>. This library ensures that calls
+such as <tt>signal()</tt>, <tt>sigset()</tt>, and
+<tt>sigaction()</tt> are intercepted so that they do not actually
+replace the Java HotSpot VM's signal handlers if the handlers
+conflict with those already installed by the Java HotSpot VM (B).
+Instead, these calls save the new signal handlers, or "chain" them
+behind the VM-installed handlers. Later, when any of these signals
+are raised and found not to be targeted at the Java HotSpot VM, the
+pre-installed handlers are invoked. <tt>libjsig.so</tt> is not
+needed if (B) is not required.</p>
+<p>To use <tt>libjsig.so</tt>, either link it with the application
+that creates/embeds a HotSpot VM, for example:</p>
+<pre>
+cc -L &lt;libjvm.so dir&gt; -ljsig -ljvm java_application.c
+</pre>
+or use <tt>LD_PRELOAD</tt> environment variable, for example:
+<pre>
+export LD_PRELOAD=&lt;libjvm.so dir&gt;/libjsig.so; java_application (ksh)
+
+setenv LD_PRELOAD &lt;libjvm.so dir&gt;/libjsig.so; java_application (csh)
+</pre>
+The interposed <tt>signal()/sigset()/sigaction()</tt> return the
+saved signal handlers, not the signal handlers installed by the
+Java HotSpot VM which are seen by the OS.
+<p>The signal-chaining facility was introduced to address Request
+for Enhancement number <a href=
+"http://bugs.java.com/view_bug.do?bug_id=4381843">4381843</a>. 
+<!-- Body text ends here --></p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

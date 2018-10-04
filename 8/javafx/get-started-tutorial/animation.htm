@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>7 Animation and Visual Effects in JavaFX (Release 8)</title>
+<meta name="description" content="You can use JavaFX to quickly develop applications with rich user experiences. In this Getting Started tutorial, you will learn to create animated objects and attain complex effects with very little coding.">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXST.pdf">PDF</a> | <a href="../JFXST.epub">ePub</a> | <a href="../JFXST.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Getting Started with JavaFX</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="fxml_tutorial.htm">Previous Page</a><a class="button" title="Next Page" href="backgroundjpg.htm">Next Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="BABEJAFF" name="BABEJAFF" class="anchor"></a><a id="JFXST808" name="JFXST808" class="anchor"></a> <a id="BABCJFJC" name="BABCJFJC" class="anchor"></a>
+<h1 class="chapter"><span class="secnum">7</span> Animation and Visual Effects in JavaFX</h1>
+<a id="JFXST266" name="JFXST266" class="anchor"></a>
+<p>You can use JavaFX to quickly develop applications with rich user experiences. In this Getting Started tutorial, you will learn to create animated objects and attain complex effects with very little coding.</p>
+<p><a href="#BABFCHDH">Figure 7-1</a> shows the application to be created.</p>
+<div class="figure"><a id="BABFCHDH" name="BABFCHDH" class="anchor"></a><a id="JFXST809" name="JFXST809" class="anchor"></a>
+<p class="titleinfigure">Figure 7-1 Colorful Circles Application</p>
+<img width="360" height="281" src="img/colorfulcircles.png" alt="Description of Figure 7-1 follows" title="Description of Figure 7-1 follows" longdesc="img_text/colorfulcircles.htm" /><br />
+<a id="sthref50" name="sthref50" href="img_text/colorfulcircles.htm">Description of "Figure 7-1 Colorful Circles Application"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p><a href="#BABBHDBC">Figure 7-2</a> shows the scene graph for the <code>ColorfulCircles</code> application. Nodes that branch are instantiations of the <code>Group</code> class, and the nonbranching nodes, also known as leaf nodes, are instantiations of the <code>Rectangle</code> and <code>Circle</code> classes.</p>
+<div class="figure"><a id="BABBHDBC" name="BABBHDBC" class="anchor"></a><a id="JFXST243" name="JFXST243" class="anchor"></a>
+<p class="titleinfigure">Figure 7-2 Colorful Circles Scene Graph</p>
+<img width="540" height="422" src="img/scenegraph_finish.png" alt="Description of Figure 7-2 follows" title="Description of Figure 7-2 follows" longdesc="img_text/scenegraph_finish.htm" /><br />
+<a id="sthref51" name="sthref51" href="img_text/scenegraph_finish.htm">Description of "Figure 7-2 Colorful Circles Scene Graph"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>The tool used in this Getting Started tutorial is NetBeans IDE. Before you begin, ensure that the version of NetBeans IDE that you are using supports JavaFX 8. See the Certified System Configurations section of the <a target="_blank" href="http://www.oracle.com/technetwork/java/javase/downloads/">Java SE Downloads page</a> for details.</p>
+<a id="JFXST810" name="JFXST810" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref52" name="sthref52" class="anchor"></a>
+<h2 class="sect1">Set Up the Application</h2>
+<p>Set up your JavaFX project in NetBeans IDE as follows:</p>
+<ol>
+<li>
+<p>From the <span class="gui-object-action">File</span> menu, choose <span class="gui-object-action">New Project</span>.</p>
+</li>
+<li>
+<p>In the <span class="bold">JavaFX</span> application category, choose <span class="bold">JavaFX Application</span>. Click <span class="gui-object-action">Next</span>.</p>
+</li>
+<li>
+<p>Name the project <span class="bold">ColorfulCircles</span> and click <span class="gui-object-action">Finish</span>.</p>
+</li>
+<li>
+<p>Delete the import statements that NetBeans IDE generated.</p>
+<p>You can generate the import statements as you work your way through the tutorial by using either the code completion feature or the Fix Imports command from the Source menu in NetBeans IDE. When there is a choice of import statements, choose the one that starts with <code>javafx</code>.</p>
+</li>
+</ol>
+</div>
+<!-- class="sect1" -->
+<a id="JFXST811" name="JFXST811" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref53" name="sthref53" class="anchor"></a>
+<h2 class="sect1">Set Up the Project</h2>
+<p>Delete the <code>ColorfulCircles</code> class from the source file that NetBeans IDE generated and replace it with the code in <a href="#CHDCICAD">Example 7-1</a>.</p>
+<div class="example"><a id="CHDCICAD" name="CHDCICAD" class="anchor"></a><a id="JFXST812" name="JFXST812" class="anchor"></a>
+<p class="titleinexample">Example 7-1 Basic Application</p>
+<pre xml:space="preserve" class="oac_no_warn">public class ColorfulCircles extends Application {
+ 
+    @Override
+    public void start(Stage primaryStage) {
+        Group root = new Group();
+        Scene scene = new Scene(root, 800, 600, Color.BLACK);
+        primaryStage.setScene(scene);
+
+        primaryStage.show();
+    }
+ 
+ public static void main(String[] args) {
+        launch(args);
+    }
+}
+</pre></div>
+<!-- class="example" -->
+<p>For the ColorfulCircles application, it is appropriate to use a group node as the root node for the scene. The size of the group is dictated by the size of the nodes within it. For most applications, however, you want the nodes to track the size of the scene and change when the stage is resized. In that case, you use a resizable layout node as the root, as described in <a href="form.htm#BABCIIBJ">Creating a Form in JavaFX</a>.</p>
+<p>You can compile and run the ColorfulCircles application now, and at each step of the tutorial, to see the intermediate results. If you run into problems, then take a look at the code in the <code>ColorfulCircles.java</code> file, which is included in the downloadable <a href="../sample-apps/ColorfulCircles.zip">ColorfulCircles.zip</a> file. At this point, the application is a simple black window.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXST813" name="JFXST813" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref54" name="sthref54" class="anchor"></a>
+<h2 class="sect1">Add Graphics</h2>
+<p>Next, create 30 circles by adding the code in <a href="#BABEHJGA">Example 7-2</a> before the <code>primaryStage.show()</code> line.</p>
+<div class="example"><a id="BABEHJGA" name="BABEHJGA" class="anchor"></a><a id="JFXST814" name="JFXST814" class="anchor"></a>
+<p class="titleinexample">Example 7-2 30 Circles</p>
+<pre xml:space="preserve" class="oac_no_warn">Group circles = new Group();
+for (int i = 0; i &lt; 30; i++) {
+   Circle circle = new Circle(150, Color.web("white", 0.05));
+   circle.setStrokeType(StrokeType.OUTSIDE);
+   circle.setStroke(Color.web("white", 0.16));
+   circle.setStrokeWidth(4);
+   circles.getChildren().add(circle);
+}
+root.getChildren().add(circles);
+</pre></div>
+<!-- class="example" -->
+<p>This code creates a group named <code>circles</code>, then uses a <code>for</code> loop to add 30 circles to the group. Each circle has a radius of <code>150</code>, fill color of <code>white</code>, and opacity level of <code>5</code> percent, meaning it is mostly transparent.</p>
+<p>To create a border around the circles, the code includes the <code>StrokeType</code> class. A stroke type of <code>OUTSIDE</code> means the boundary of the circle is extended outside the interior by the <code>StrokeWidth</code> value, which is <code>4</code>. The color of the stroke is <code>white</code>, and the opacity level is <code>16</code> percent, making it brighter than the color of the circles.</p>
+<p>The final line adds the <code>circles</code> group to the root node. This is a temporary structure. Later, you will modify this scene graph to match the one shown in <a href="#BABBHDBC">Figure 7-2</a>.</p>
+<p><a href="#BABICCEJ">Figure 7-3</a> shows the application. Because the code does not yet specify a unique location for each circle, the circles are drawn on top of one another, with the upper left-hand corner of the window as the center point for the circles. The opacity of the overlaid circles interacts with the black background, producing the gray color of the circles.</p>
+<div class="figure"><a id="BABICCEJ" name="BABICCEJ" class="anchor"></a><a id="JFXST815" name="JFXST815" class="anchor"></a>
+<p class="titleinfigure">Figure 7-3 Circles</p>
+<img width="360" height="281" src="img/circles.png" alt="Description of Figure 7-3 follows" title="Description of Figure 7-3 follows" longdesc="img_text/circles.htm" /><br />
+<a id="sthref55" name="sthref55" href="img_text/circles.htm">Description of "Figure 7-3 Circles"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXST816" name="JFXST816" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref56" name="sthref56" class="anchor"></a>
+<h2 class="sect1">Add a Visual Effect</h2>
+<p>Continue by applying a box blur effect to the circles so that they appear slightly out of focus. The code is in <a href="#BABEEFEA">Example 7-3</a>. Add this code before the <code>primaryStage.show()</code> line.</p>
+<div class="example"><a id="BABEEFEA" name="BABEEFEA" class="anchor"></a><a id="JFXST817" name="JFXST817" class="anchor"></a>
+<p class="titleinexample">Example 7-3 Box Blur Effect</p>
+<pre xml:space="preserve" class="oac_no_warn">circles.setEffect(new BoxBlur(10, 10, 3));
+</pre></div>
+<!-- class="example" -->
+<p>This code sets the blur radius to <code>10</code> pixels wide by <code>10</code> pixels high, and the blur iteration to <code>3,</code> making it approximate a Gaussian blur. This blurring technique produces a smoothing effect on the edge of the circles, as shown in <a href="#BABCJGFI">Figure 7-4</a>.</p>
+<div class="figure"><a id="BABCJGFI" name="BABCJGFI" class="anchor"></a><a id="JFXST818" name="JFXST818" class="anchor"></a>
+<p class="titleinfigure">Figure 7-4 Box Blur on Circles</p>
+<img width="360" height="281" src="img/blur.png" alt="Description of Figure 7-4 follows" title="Description of Figure 7-4 follows" longdesc="img_text/blur.htm" /><br />
+<a id="sthref57" name="sthref57" href="img_text/blur.htm">Description of "Figure 7-4 Box Blur on Circles"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXST819" name="JFXST819" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref58" name="sthref58" class="anchor"></a>
+<h2 class="sect1">Create a Background Gradient</h2>
+<p>Now, create a rectangle and fill it with a linear gradient, as shown in <a href="#BABIICJF">Example 7-4</a>.</p>
+<p>Add the code before the <code>root.getChildren().add(circles)</code> line so that the gradient rectangle appears behind the circles.</p>
+<div class="example"><a id="BABIICJF" name="BABIICJF" class="anchor"></a><a id="JFXST820" name="JFXST820" class="anchor"></a>
+<p class="titleinexample">Example 7-4 Linear Gradient</p>
+<pre xml:space="preserve" class="oac_no_warn">Rectangle colors = new Rectangle(scene.getWidth(), scene.getHeight(),
+     new LinearGradient(0f, 1f, 1f, 0f, true, CycleMethod.NO_CYCLE, new 
+         Stop[]{
+            new Stop(0, Color.web("#f8bd55")),
+            new Stop(0.14, Color.web("#c0fe56")),
+            new Stop(0.28, Color.web("#5dfbc1")),
+            new Stop(0.43, Color.web("#64c2f8")),
+            new Stop(0.57, Color.web("#be4af7")),
+            new Stop(0.71, Color.web("#ed5fc2")),
+            new Stop(0.85, Color.web("#ef504c")),
+            new Stop(1, Color.web("#f2660f")),}));
+colors.widthProperty().bind(scene.widthProperty());
+colors.heightProperty().bind(scene.heightProperty());
+root.getChildren().add(colors);
+</pre></div>
+<!-- class="example" -->
+<p>This code creates a rectangle named <code>colors</code>. The rectangle is the same width and height as the scene and is filled with a linear gradient that starts in the lower left-hand corner (0, 1) and ends in the upper right-hand corner (1, 0). The value of <code>true</code> means the gradient is proportional to the rectangle, and <code>NO_CYCLE</code> indicates that the color cycle will not repeat. The <code>Stop[]</code> sequence indicates what the gradient color should be at a particular spot.</p>
+<p>The next two lines of code make the linear gradient adjust as the size of the scene changes by binding the width and height of the rectangle to the width and height of the scene. See <a class="olink JFXBD" href="http://www.oracle.com/pls/topic/lookup?ctx=javase80&id=JFXBD">Using JavaFX Properties and Bindings</a> for more information on binding.</p>
+<p>The final line of code adds the <code>colors</code> rectangle to the root node.</p>
+<p>The gray circles with the blurry edges now appear on top of a rainbow of colors, as shown in <a href="#BABIECDC">Figure 7-5</a>.</p>
+<div class="figure"><a id="BABIECDC" name="BABIECDC" class="anchor"></a><a id="JFXST118" name="JFXST118" class="anchor"></a>
+<p class="titleinfigure">Figure 7-5 Linear Gradient</p>
+<img width="360" height="281" src="img/gradient.png" alt="Description of Figure 7-5 follows" title="Description of Figure 7-5 follows" longdesc="img_text/gradient.htm" /><br />
+<a id="sthref59" name="sthref59" href="img_text/gradient.htm">Description of "Figure 7-5 Linear Gradient"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p><a href="#BABECHGH">Figure 7-6</a> shows the intermediate scene graph. At this point, the <code>circles</code> group and <code>colors</code> rectangle are children of the root node.</p>
+<div class="figure"><a id="BABECHGH" name="BABECHGH" class="anchor"></a><a id="JFXST244" name="JFXST244" class="anchor"></a>
+<p class="titleinfigure">Figure 7-6 Intermediate Scene Graph</p>
+<img width="470" height="221" src="img/scenegraph_intermed.png" alt="Description of Figure 7-6 follows" title="Description of Figure 7-6 follows" longdesc="img_text/scenegraph_intermed.htm" /><br />
+<a id="sthref60" name="sthref60" href="img_text/scenegraph_intermed.htm">Description of "Figure 7-6 Intermediate Scene Graph"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXST120" name="JFXST120" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref61" name="sthref61" class="anchor"></a>
+<h2 class="sect1">Apply a Blend Mode</h2>
+<p>Next, add color to the circles and darken the scene by adding an overlay blend effect. You will remove the <code>circles</code> group and the linear gradient rectangle from the scene graph and add them to the new overlay blend group.</p>
+<ol>
+<li><a id="CACECAEG" name="CACECAEG" class="anchor"></a>
+<p>Locate the following two lines of code:</p>
+<pre xml:space="preserve" class="oac_no_warn">root.getChildren().add(colors);
+root.getChildren().add(circles);
+</pre></li>
+<li>
+<p>Replace the two lines of code from Step <a href="#CACECAEG">1</a> with the code in <a href="#BABEDGDF">Example 7-5</a>.</p>
+<div class="example"><a id="BABEDGDF" name="BABEDGDF" class="anchor"></a><a id="JFXST121" name="JFXST121" class="anchor"></a>
+<p class="titleinexample">Example 7-5 Blend Mode</p>
+<pre xml:space="preserve" class="oac_no_warn">Group blendModeGroup = 
+    new Group(new Group(new Rectangle(scene.getWidth(), scene.getHeight(),
+        Color.BLACK), circles), colors);
+colors.setBlendMode(BlendMode.OVERLAY);
+root.getChildren().add(blendModeGroup);
+</pre></div>
+<!-- class="example" --></li>
+</ol>
+<p>The group <code>blendModeGroup</code> sets up the structure for the overlay blend. The group contains two children. The first child is a new (unnamed) <code>Group</code> containing a new (unnamed) black rectangle and the previously created <code>circles</code> group. The second child is the previously created <code>colors</code> rectangle.</p>
+<p>The <code>setBlendMode()</code> method applies the overlay blend to the <code>colors</code> rectangle. The final line of code adds the <code>blendModeGroup</code> to the scene graph as a child of the root node, as depicted in <a href="#BABBHDBC">Figure 7-2</a>.</p>
+<p>An overlay blend is a common effect in graphic design applications. Such a blend can darken an image or add highlights or both, depending on the colors in the blend. In this case, the linear gradient rectangle is used as the overlay. The black rectangle serves to keep the background dark, while the nearly transparent circles pick up colors from the gradient, but are also darkened.</p>
+<p><a href="#BABDJFAH">Figure 7-7</a> shows the results. You will see the full effect of the overlay blend when you animate the circles in the next step.</p>
+<div class="figure"><a id="BABDJFAH" name="BABDJFAH" class="anchor"></a><a id="JFXST122" name="JFXST122" class="anchor"></a>
+<p class="titleinfigure">Figure 7-7 Overlay Blend</p>
+<img width="360" height="281" src="img/blend.png" alt="Description of Figure 7-7 follows" title="Description of Figure 7-7 follows" longdesc="img_text/blend.htm" /><br />
+<a id="sthref62" name="sthref62" href="img_text/blend.htm">Description of "Figure 7-7 Overlay Blend"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXST123" name="JFXST123" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref63" name="sthref63" class="anchor"></a>
+<h2 class="sect1">Add Animation</h2>
+<p>The final step is to use JavaFX animations to move the circles:</p>
+<ol>
+<li>
+<p>If you have not done so already, add <code>import static java.lang.Math.random;</code> to the list of import statements.</p>
+</li>
+<li>
+<p>Add the animation code in <a href="#BABGIACI">Example 7-6</a> before the <code>primaryStage.show()</code> line.</p>
+<div class="example"><a id="BABGIACI" name="BABGIACI" class="anchor"></a><a id="JFXST124" name="JFXST124" class="anchor"></a>
+<p class="titleinexample">Example 7-6 Animation</p>
+<pre xml:space="preserve" class="oac_no_warn">Timeline timeline = new Timeline();
+for (Node circle: circles.getChildren()) {
+    timeline.getKeyFrames().addAll(
+        new KeyFrame(Duration.ZERO, // set start position at 0
+            new KeyValue(circle.translateXProperty(), random() * 800),
+            new KeyValue(circle.translateYProperty(), random() * 600)
+        ),
+        new KeyFrame(new Duration(40000), // set end position at 40s
+            new KeyValue(circle.translateXProperty(), random() * 800),
+            new KeyValue(circle.translateYProperty(), random() * 600)
+        )
+    );
+}
+// play 40s of animation
+timeline.play();
+</pre></div>
+<!-- class="example" --></li>
+</ol>
+<p>Animation is driven by a timeline, so this code creates a timeline, then uses a <code>for</code> loop to add two key frames to each of the 30 circles. The first key frame at 0 seconds uses the properties <code>translateXProperty</code> and <code>translateYProperty</code> to set a random position of the circles within the window. The second key frame at 40 seconds does the same. Thus, when the timeline is played, it animates all circles from one random position to another over a period of 40 seconds.</p>
+<p><a href="#BABDAFAF">Figure 7-8</a> shows the 30 colorful circles in motion, which completes the application. For the complete source code, see the <code>ColorfulCircles.java</code> file, which is included in the downloadable <a href="../sample-apps/ColorfulCircles.zip">ColorfulCircles.zip</a> file..</p>
+<div class="figure"><a id="BABDAFAF" name="BABDAFAF" class="anchor"></a><a id="JFXST125" name="JFXST125" class="anchor"></a>
+<p class="titleinfigure">Figure 7-8 Animated Circles</p>
+<img width="360" height="281" src="img/colorfulcircles.png" alt="Description of Figure 7-8 follows" title="Description of Figure 7-8 follows" longdesc="img_text/colorfulcircles.htm" /><br />
+<a id="sthref64" name="sthref64" href="img_text/colorfulcircles.htm">Description of "Figure 7-8 Animated Circles"</a><br />
+<br /></div>
+<!-- class="figure" --></div>
+<!-- class="sect1" -->
+<a id="JFXST127" name="JFXST127" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref65" name="sthref65" class="anchor"></a>
+<h2 class="sect1">Where to Go from Here</h2>
+<p>Here are several suggestions about what to do next:</p>
+<ul>
+<li>
+<p>Try the JavaFX samples, which you can download from the JDK Demos and Samples section of the Java SE Downloads page at <code><a target="_blank" href="http://www.oracle.com/technetwork/java/javase/downloads/">http://www.oracle.com/technetwork/java/javase/downloads/</a></code>. Especially take a look at the Ensemble application, which provides sample code for animations and effects.</p>
+</li>
+<li>
+<p>Read <a class="olink JFXTE149" href="../../javafx/visual-effects-tutorial/animations.htm#JFXTE149">Creating Transitions and Timeline Animation in JavaFX</a>. You will find more details on timeline animation as well as information on fade, path, parallel, and sequential transitions.</p>
+</li>
+<li>
+<p>See <a class="olink JFXTE191" href="../../javafx/visual-effects-tutorial/visual_effects.htm#JFXTE191">Creating Visual Effects in JavaFX</a> for additional ways to enhance the look and design of your application, including reflection, lighting, and shadow effects.</p>
+</li>
+<li>
+<p>Try the JavaFX Scene Builder tool to create visually interesting applications. This tool provides a visual layout environment for designing the UI for JavaFX applications and generates FXML code. You can use the Properties panel or the Modify option of the menu bar to add effects to the UI elements. See the Properties Panel and the Menu Bar sections of the JavaFX Scene Builder User Guide for information.</p>
+</li>
+</ul>
+</div>
+<!-- class="sect1" -->
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Getting Started with JavaFX</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">About This Tutorial</a></li>
+        <li><a href="preface.htm#JFXST823">Audience</a></li>
+        <li><a href="preface.htm#JFXST824">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref5">Related Documents</a></li>
+        <li><a href="preface.htm#JFXST827">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a href="whatsnew.htm#sthref6">What's New</a></li>
+    <li><a href="javafx_get_started.htm#JFXST783">Part I What Is JavaFX?</a>
+    <ul>
+    <li><a href="jfx-overview.htm#JFXST784">1 JavaFX Overview</a>
+      <ul>
+        <li><a href="jfx-overview.htm#JFXST786">JavaFX Applications</a></li>
+        <li><a href="jfx-overview.htm#JFXST103">Availability</a></li>
+        <li><a href="jfx-overview.htm#JFXST787">Key Features</a></li>
+        <li><a href="jfx-overview.htm#JFXST828">What Can I Build with JavaFX?</a></li>
+        <li><a href="jfx-overview.htm#JFXST830">How Do I Run a Sample Application?</a></li>
+        <li><a href="jfx-overview.htm#JFXST832">How Do I Run a Sample in an IDE?</a></li>
+        <li><a href="jfx-overview.htm#JFXST834">How Do I Create a JavaFX Application?</a></li>
+        <li><a href="jfx-overview.htm#JFXST836">Resources</a></li>
+      </ul>
+    </li>
+    <li><a href="jfx-architecture.htm#JFXST788">2 Understanding the JavaFX Architecture</a>
+      <ul>
+        <li><a href="jfx-architecture.htm#JFXST790">Scene Graph</a></li>
+        <li><a href="jfx-architecture.htm#JFXST104">Java Public APIs for JavaFX Features</a></li>
+        <li><a href="jfx-architecture.htm#JFXST105">Graphics System</a></li>
+        <li><a href="jfx-architecture.htm#JFXST106">Glass Windowing Toolkit</a>
+          <ul>
+          <li><a href="jfx-architecture.htm#sthref12">Threads</a></li>
+          <li><a href="jfx-architecture.htm#sthref13">Pulse</a></li>
+          </ul>
+        </li>
+        <li><a href="jfx-architecture.htm#JFXST109">Media and Images</a></li>
+        <li><a href="jfx-architecture.htm#JFXST110">Web Component</a></li>
+        <li><a href="jfx-architecture.htm#JFXST111">CSS</a></li>
+        <li><a href="jfx-architecture.htm#JFXST113">UI Controls</a></li>
+        <li><a href="jfx-architecture.htm#JFXST115">Layout</a></li>
+        <li><a href="jfx-architecture.htm#JFXST116">2-D and 3-D Transformations</a></li>
+        <li><a href="jfx-architecture.htm#JFXST117">Visual Effects</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="get_start_apps.htm#JFXST804">Part II Getting Started with JavaFX Sample Applications</a>
+    <ul>
+    <li><a href="hello_world.htm#CHDBCAII">3 Hello World, JavaFX Style</a>
+      <ul>
+        <li><a href="hello_world.htm#sthref16">Construct the Application</a></li>
+        <li><a href="hello_world.htm#sthref18">Run the Application</a></li>
+        <li><a href="hello_world.htm#sthref20">Where to Go Next</a></li>
+      </ul>
+    </li>
+    <li><a href="form.htm#BABDDGEE">4 Creating a Form in JavaFX</a>
+      <ul>
+        <li><a href="form.htm#sthref22">Create the Project</a></li>
+        <li><a href="form.htm#sthref23">Create a GridPane Layout</a></li>
+        <li><a href="form.htm#sthref24">Add Text, Labels, and Text Fields</a></li>
+        <li><a href="form.htm#sthref26">Add a Button and Text</a></li>
+        <li><a href="form.htm#BABHABBF">Add Code to Handle an Event</a></li>
+        <li><a href="form.htm#sthref28">Run the Application</a></li>
+        <li><a href="form.htm#sthref30">Where to Go from Here</a></li>
+      </ul>
+    </li>
+    <li><a href="css.htm#BEIBBBCI">5 Fancy Forms with JavaFX CSS</a>
+      <ul>
+        <li><a href="css.htm#sthref32">Create the Project</a></li>
+        <li><a href="css.htm#sthref33">Create the CSS File</a></li>
+        <li><a href="css.htm#sthref34">Add a Background Image</a></li>
+        <li><a href="css.htm#sthref36">Style the Labels</a></li>
+        <li><a href="css.htm#sthref38">Style Text</a></li>
+        <li><a href="css.htm#sthref40">Style the Button</a></li>
+        <li><a href="css.htm#sthref43">Where to Go from Here</a></li>
+      </ul>
+    </li>
+    <li><a href="fxml_tutorial.htm#CHDCCHII">6 Using FXML to Create a User Interface</a>
+      <ul>
+        <li><a href="fxml_tutorial.htm#JFXST806">Set Up the Project</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST807">Load the FXML Source File</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST207">Modify the Import Statements</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST209">Create a GridPane Layout</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST211">Add Text and Password Fields</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST212">Add a Button and Text</a></li>
+        <li><a href="fxml_tutorial.htm#CHDJDGCE">Add Code to Handle an Event</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST213">Use a Scripting Language to Handle Events</a></li>
+        <li><a href="fxml_tutorial.htm#JFXST129">Style the Application with CSS</a></li>
+        <li><a href="fxml_tutorial.htm#sthref49">Where to Go from Here</a></li>
+      </ul>
+    </li>
+    <li><a class="selected" href="animation.htm#BABCJFJC">7 Animation and Visual Effects in JavaFX</a>
+      <ul>
+        <li><a href="animation.htm#sthref52">Set Up the Application</a></li>
+        <li><a href="animation.htm#sthref53">Set Up the Project</a></li>
+        <li><a href="animation.htm#sthref54">Add Graphics</a></li>
+        <li><a href="animation.htm#sthref56">Add a Visual Effect</a></li>
+        <li><a href="animation.htm#sthref58">Create a Background Gradient</a></li>
+        <li><a href="animation.htm#sthref61">Apply a Blend Mode</a></li>
+        <li><a href="animation.htm#sthref63">Add Animation</a></li>
+        <li><a href="animation.htm#sthref65">Where to Go from Here</a></li>
+      </ul>
+    </li>
+    <li><a href="backgroundjpg.htm#JFXST840">A background.jpg</a>
+      <ul>
+        <li><a href="backgroundjpg.htm#JFXST843">background.jpg</a></li>
+      </ul>
+    </li>
+</ul>
+
+</li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="fxml_tutorial.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a><a class="button" title="Next Page" href="backgroundjpg.htm">Next Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2008, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

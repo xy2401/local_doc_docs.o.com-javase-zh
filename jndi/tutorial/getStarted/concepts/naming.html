@@ -1,0 +1,239 @@
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Naming Concepts</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="directory.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/getStartedHeader.gif" width=26 height=26 align=bottom border=0 alt="Getting Started | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Naming and Directory Concepts</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Naming Concepts
+</h2>
+<p>
+<blockquote>
+
+A fundamental facility in any computing system is the <em>naming
+service</em>--the means by which names are associated with objects
+and objects are found based on their names.  When using almost any
+computer program or system, you are always naming one object or
+another.  For example, when you use an electronic mail system, you
+must provide the name of the recipient to whom you want to send mail.
+To access a file in the computer, you must supply its name. A naming
+service allows you to look up an object given its name.  
+
+<p>
+A naming service's primary function is to map
+people-friendly names to objects, such as addresses, identifiers, or objects
+typically used by computer programs.
+For example, 
+the 
+<a href="http://www.ietf.org/rfc/rfc1034.txt">
+Internet Domain Name System (DNS)</a>
+maps machine names (such as <tt>www.sun.com</tt>)
+to IP addresses (such as <tt>192.9.48.5</tt>).
+A file system maps a filename (for example, <tt>c:\bin\autoexec.bat</tt>)
+to a file handle that a program can use to access the
+contents of the file.
+These two examples also illustrate the wide range of scale
+at which naming services exist--from naming an object on the Internet
+to naming a file on the local file system.
+
+<h4>Names</h4>
+<p>
+To look up an object in a naming system, you supply it the
+<em>name</em> of the object.
+The naming system determines the syntax that the name must follow.
+This syntax is sometimes called the naming system's <em>naming convention</em>.
+
+
+<p>
+For example, the UNIX<SUP><FONT SIZE=-2>TM</FONT></SUP> file system's
+naming convention is that a file is named from its path
+relative to the root of the file system, with each component in
+the path separated from left to right using the forward slash character ("/").
+The UNIX pathname, <tt>/usr/hello</tt>, for example, names a file
+<tt>hello</tt> in the file directory <tt>usr</tt>, which is located 
+in the root of the file system.
+
+
+<p>
+The DNS naming convention calls for components in the DNS name
+to be ordered from right to left and delimited by the dot character (".").
+Thus the DNS name <tt>sales.Wiz.COM</tt> names a DNS entry with the name
+<tt>sales</tt>, relative to the DNS entry <tt>Wiz.COM</tt>. The DNS entry
+<tt>Wiz.COM</tt>, in turn, names an entry with the name <tt>Wiz</tt> in
+the <tt>COM</tt> entry.
+
+<p>
+The 
+<a href="http://www.ietf.org/rfc/rfc2251.txt">Lightweight Directory Access Protocol (LDAP)</a>
+naming convention orders components from right to left,
+delimited by the comma character (",").
+Thus the LDAP name <tt>cn=Rosanna Lee, o=Sun, c=US</tt>
+names an LDAP entry <tt>cn=Rosanna Lee</tt>, relative to the
+entry <tt>o=Sun</tt>, which in turn, is relative to <tt>c=us</tt>.
+The LDAP has the further rule that each component of the name must be
+a name/value pair with the name and value separated by an equals character ("=").
+
+<h4>Bindings</h4>
+
+The association of a name with an object is called a
+<em>binding</em>.
+For example, a file name is <em>bound</em> to a file.
+<p>
+The DNS contains bindings that map machine names to IP addresses.
+An LDAP name is bound to an LDAP entry.
+
+<h4>References and Addresses</h4>
+<a name=REF></a>
+<p> 
+
+Depending on the
+naming service, some objects cannot be stored directly;
+that is, a copy of the object cannot be placed inside
+the naming service. Instead, they must be stored by
+reference; that is, a <em>pointer</em> or <em>reference</em>
+to the object is placed inside the naming service.
+A reference is information about how to access an object.
+Typically, it is a much more compact representation that can
+be used to communicate with the object, while the object 
+itself might contain more state information. Using the
+reference, you can contact the object and obtain more
+information about the object.
+<p>
+
+For example, an
+airplane object might contain a list of the airplane's passengers and crew, its
+flight plan, and fuel and instrument status, and its flight number and departure time.  By contrast, an airplane
+object reference might contain only its flight number and departure
+time.  The reference is a much more compact
+representation of information about the airplane object and can be used to obtain additional information.
+A file object, for example, is accessed using a <em>file reference</em>, also called a
+<em>file handle</em>.  A printer object, for example,
+might contain the state of the printer, such as its current queue and the
+amount of paper in the paper tray. A printer object reference, on the other hand, might
+contain only information on how to reach the printer, such as its
+print server name and printing protocol.  
+<p>
+Although in general a reference can contain any arbitrary
+information, it is useful to refer to its contents as
+<em>addresses</em> (or communication end points): specific
+information about how to access the object.  
+<p>
+For simplicity, this tutorial uses "object" to refer
+to both objects and object references when a distinction
+between the two is not required.
+
+<h4>Context</h4>
+<p>
+A <em>context</em> is a set of name-to-object bindings.
+Every context has an associated naming convention.
+A context provides a lookup (<em>resolution</em>) operation that
+returns the object and may provide operations such as those
+for binding names, unbinding names, and listing bound names.
+A name in one context object can be bound to another
+context object (called a <em>subcontext</em>) that has the same naming convention.
+<p>
+For example, a file directory, such as <tt>/usr</tt>,
+in the UNIX file system is a context. 
+A file directory named relative to another file directory
+is a subcontext (some UNIX users refer to this as a <em>subdirectory</em>).
+That is, in a file directory <tt>/usr/bin</tt>,
+the directory <tt>bin</tt> is a subcontext of <tt>usr</tt>.
+In another example, 
+a DNS domain, such as <tt>COM</tt>, is a context.
+A DNS domain named relative to another DNS domain is a subcontext.
+For example, in the DNS domain <tt>Sun.COM</tt>,
+the DNS domain <tt>Sun</tt> is a subcontext of <tt>COM</tt>.
+<p>
+Finally, an LDAP entry, such as <tt>c=us</tt>, is a context.
+An LDAP entry named relative to another LDAP entry
+is a subcontext.
+For example, in the an LDAP entry <tt>o=sun,c=us</tt>,
+the entry <tt>o=sun</tt> is a subcontext of <tt>c=us</tt>.
+
+<h4>Naming Systems and Namespaces</h4>
+<p>
+A <em>naming system</em> is a connected set of contexts of the
+same type (they have the same naming convention) and provides
+a common set of operations.
+<p>
+For example, a system that implements the DNS is a naming system. 
+A system that communicates using the LDAP is a naming system.
+<p>
+A naming system provides a <em>naming service</em> to its
+customers for performing naming-related operations.
+A naming service is accessed through its own interface.  
+For example, the DNS offers a
+naming service that maps machine names to IP addresses.
+The LDAP offers a naming service that maps LDAP names to LDAP entries.
+A file system offers a naming service that maps filenames
+to files and directories.
+<p>
+
+A <em>namespace</em> is the set of names in a naming system.
+For example, the UNIX file system has a namespace consisting
+of all of the names of files and directories in that file system.
+The DNS namespace contains names of DNS domains and entries.
+The LDAP namespace contains names of LDAP entries.
+<p>
+
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="directory.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/getStartedHeader.gif" width=26 height=26 align=top border=0 alt="Getting Started | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Naming and Directory Concepts</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

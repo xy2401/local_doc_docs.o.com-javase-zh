@@ -1,0 +1,244 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>LDAP v2</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="x500.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="v3.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=bottom border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Comparison of the LDAP and JNDI Models</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    LDAP v2
+</h2>
+<p>
+<blockquote>
+
+The Internet community, recognizing the need for an X.500-like service but faced with
+different underlying network infrastructure (TCP/IP instead of OSI),
+designed a new protocol based on the X.500 DAP protocol,
+called <em>Lightweight</em> DAP, or LDAP.
+<A HREF="http://www.ietf.org/rfc/rfc1777.txt">RFC 1777</A> 
+defines what is now called <em>version 2</em> of the
+LDAP (or LDAP v2).
+
+<p>
+
+The goal of the LDAP v2 was a protocol that could be easily
+implemented, with special focus on being able to build small and
+simple clients. One way that it attempted to achieve
+simplification was to use a lot of strings and to minimize wherever possible
+the use of structures. DNs, for example, are
+represented in the protocol as strings, as are attribute type names
+and many attribute values.
+
+<p>
+The protocol consists of the client's
+sending requests to the server, to which the server responds, though
+not necessarily in the same order in which the requests were
+sent.  Each request is tagged with an ID so that requests and
+responses can be matched. The protocol works over either
+TCP or UDP, although the TCP version is most commonly used.
+
+<p>
+Because of the focus on clients, the LDAP community also defined standards
+for the string representation of DNs
+(<A HREF="http://www.ietf.org/rfc/rfc1779.txt">RFC 1779</A>),
+search filters
+(<A HREF="http://www.ietf.org/rfc/rfc1960.txt">RFC 1960</A>),
+and attribute syntaxes
+(<A HREF="http://www.ietf.org/rfc/rfc1778.txt">RFC 1778</A>),
+for a C language-based API
+(<A HREF="http://www.ietf.org/rfc/rfc1823.txt">RFC 1823</A>),
+and for the format of URLs for accessing LDAP services
+(<A HREF="http://www.ietf.org/rfc/rfc1959.txt">RFC 1959</A>).
+
+<h4>Operations</h4>
+
+The following table lists the operations defined in the LDAP v2.
+<p>
+
+<TABLE BORDER CELLPADDING=3 WIDTH="80%" >
+<TR>
+<TH>Operation</TH>
+
+<TH>Description</TH>
+</TR>
+
+<tr>
+<td>bind</td>
+<td>
+Used to start a connection with the LDAP server.
+The LDAP is a connection-oriented protocol.
+The client specifies the protocol version and the
+client authentication information.
+</tr>
+
+<tr>
+<td>unbind</td>
+<td>
+Used to terminate the connection with the LDAP server.
+</td>
+</tr>
+
+<tr> <td>search</td> <td> 
+
+Used to search the directory.  The client specifies
+the starting point (<em>base object</em>) of the search, the search
+scope (either the object only, its children, or the subtree rooted at the
+object), and a
+<a href=../../getStarted/concepts/glossary.html#FILTER><em>search filter</em></a> 
+(<A HREF="http://www.ietf.org/rfc/rfc1960.txt">RFC 1960</A>).
+It can also supply other information to control the search,
+such as the names of the attributes to return and the size and time limits.
+The search results consist of LDAP entries (and the attributes requested)
+that satisfy the filter.
+
+<tr>
+<td>
+modify
+</td>
+<td>
+Used to modify an existing entry.
+The client specifies the name of the entry to be modified and a list
+of modifications. Each modification consists of an attribute and information
+regarding whether its values are to be added, deleted, or replaced.
+</td>
+</tr>
+
+<tr>
+<td>
+add
+</td>
+<td>
+Used to add a new entry.
+The client specifies the name of the new entry and a set of attributes
+for the new entry.
+</td>
+</tr>
+
+<tr>
+<td>
+delete
+</td>
+<td>
+Used to remove an existing entry.
+The client specifies the name of the entry to remove.
+</td>
+</tr>
+
+<tr>
+<td>
+modify RDN
+</td>
+<td>
+
+Used to change the RDN of the last component of an
+existing entry (that is, to assign the entry a new name in the same context).
+The client specifies the DN for the entry
+and the new RDN.
+</td>
+</tr>
+
+<tr>
+<td>
+compare
+</td>
+<td>
+Used to test whether an entry has an attribute/value pair.
+The client specifies the name of the entry and the name and value to check.
+</td>
+</tr>
+
+<tr>
+<td>
+abandon
+</td>
+<td>
+Used to terminate an outstanding request.
+</td>
+</tr>
+
+</table>
+
+
+<h4>LDAP v2 Compared to the X.500 Standard</h4>
+
+<p>
+At a very high level, the LDAP v2 looks a lot like the X.500.  Both define a DIT consisting of entries having DNs.
+Each entry consists of a set of
+attributes.  Both directories can be searched by using search filters
+that contain (at the structural level) more or less the same
+elements.  
+The operations defined by both protocols (such as "search") are
+very similar.
+
+<p>
+Of course, many implementation differences exist between the X.500 and
+the LDAP. Most notably, their underlying protocol stacks
+are different. The X.500 protocols sit on top of the session/presentation layer of
+the OSI stack, whereas the LDAP runs on top of TCP.  
+Furthermore, the
+X.500 standard is comprehensive, with details specified to
+maximize interoperability in client/server and server/server
+interactions.
+By contrast, the LDAP v2 standard, because of its goals,
+is much more minimal.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="x500.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="v3.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/ldapHeader.gif" width=26 height=26 align=top border=0 alt="Tips for LDAP Users | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Comparison of the LDAP and JNDI Models</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>

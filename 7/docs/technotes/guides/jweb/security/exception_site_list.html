@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Exception Site List</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+
+<div class="smallpagetitle"><h1>Exception Site List </h1></div>
+<p style="background-color: rgb(247, 248, 249); border-width: 1px; padding: 10px; font-style: italic; border-style: solid; border-color: rgb(64, 74, 91);">These documentation pages are no longer current. They remain available for archival purposes. Please visit <a href="https://docs.oracle.com/javase"><code>https://docs.oracle.com/javase</code></a> for the most up-to-date documentation.</p>
+<p><a href="../index.html">Java Rich Internet Applications Guide</a> &gt; <a href="security.html">Security</a> &gt; Exception Site List </p>
+<p>This page includes the following topics:</p>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#create">Manage the Exception Site List </a>
+  <ul>
+    <li><a href="#addurl">Add a URL </a></li>
+    <li><a href="#editurl">Edit a URL </a> </li>
+    <li><a href="#removeurl">Remove a URL</a></li>
+    </ul>
+</li>
+<li><a href="#manage">Manage Access to the Exception Site List</a></li>
+</ul>
+
+<h2><a name="overview" id="overview"></a>Overview</h2>
+<p>The Exception Site List feature provides a way for users to run Rich Internet Applications (RIAs) that otherwise would be blocked by security checks. The criteria used to determine if RIAs are allowed to run are becoming stricter. In some cases it might be difficult to update legacy RIAs to meet the security requirements and prevent them from being blocked. This feature enables users to continue to run these RIAs.</p>
+<p>The exception site list contains URLs for sites that host RIAs that users want to run. RIAs that are launched from sites in the exception site list are allowed to run with the appropriate security prompts, even in the following circumstances, which would normally cause the RIA to be blocked: </p>
+<ul>
+  <li>RIA is not signed with a certificate from a trusted certificate authority </li>
+  <li>RIA is hosted locally </li>
+  <li>JAR file does not have the Permission manifest attribute   </li>
+  <li>RIA is signed with an expired certificate</li>
+  <li>Certificate used to sign the RIA cannot be checked for revocation</li>
+</ul>
+<p>The exception site list also allows JavaScript code to call Java code (LiveConnect) without prompting the user for permission when the JavaScript code and the Java code are located on a site in the list. </p>
+<hr />
+<p><strong>Note:</strong> If an active deployment rule set is installed on the system, the deployment rules take precedence over the exception site list. The exception site list is considered only when the default rule applies. See <a href="deployment_rules.html">Deployment Rule Set</a> for information about deployment rules. </p>
+<hr />
+<h2><a name="create" id="create"></a>Manage the Exception Site List </h2>
+<p>The exceptions granted by the Exception Site List feature apply to RIAs whose entry point is included in the list:</p>
+<ul>
+  <li> For applets, the URL for the document base of the applet must be in the list. </li>
+  <li>For Java Web Start applications, the URL for the main JNLP file must be in the list. If the URL for the main JNLP file cannot be determined, then the exceptions do not apply to the RIA. </li>
+</ul>
+<p>If the RIA requires resources from another domain, that domain must also be included in the exception site list. Otherwise, the RIA is blocked when the additional resource is accessed. </p>
+<p>The exception site list is managed in the <a href="../jcp/jcp.html#security">Security</a> tab of the <a href="../jcp/jcp.html">Java Control Panel</a>. The list is shown in the tab. To add, edit, or remove items from the list, click <strong>Edit Site List</strong> and follow the directions in <a href="#addurl">Add a URL</a>, <a href="#editurl">Edit a URL</a>, and <a href="#removeurl">Remove a URL</a>. </p>
+<h3><a name="addurl" id="addurl"></a>Add a URL </h3>
+<p>To add a URL to the exception site list, follow these steps:</p>
+<ol>
+  <li>Click <strong>Add</strong> in the Exception Site List window.</li>
+  <li>Type the URL into the empty field that is provided under <strong>Location</strong>. </li>
+  <li>Continue to click <strong>Add</strong> and enter URLs until your list is complete.</li>
+  <li>Click <strong>OK</strong> to save the URLs that you entered. If you click <strong>Cancel</strong>, the URLs are not saved. </li>
+</ol>
+<p>The following rules apply to the format of the URL:</p>
+<ul>
+  <li>
+    <p>A protocol is required.</p>
+	<p>Supported protocols are <code>FILE</code>, <code>HTTP</code>, and <code>HTTPS</code>. <code>HTTPS</code> is recommended. If the protocol is not <code>HTTPS</code>, a warning is shown. Click <strong>Continue</strong> to add the URL, or click <strong>Cancel</strong> to discard the URL. </p>
+  </li>
+  <li>
+    <p>A domain is required. </p>
+	<p>Wildcards are not supported. If only a domain is provided, any RIA from that domain is allowed to run. A domain can have multiple entries, for example, <code>https://www.example.com</code> and <code>http://www.example.com</code>. </p>
+  </li>
+  <li>
+    <p>A port number is required only if the default port is not used. </p>
+  </li>
+  <li>
+    <p>A path is optional. </p>
+	<p>Wildcards are not supported. If the path ends with a slash (/), for example, <code>https://www.example.com/apps/</code>, RIAs in that directory and any subdirectory are allowed to run. If the path does not end with a slash, for example, <code>http://www.example.com/test/applet.html</code>, only that specific RIA is allowed to run. </p>
+  </li>
+</ul>
+    <p>Only add a site to the exception site list if you trust the entire site. Even if a path is specified, adding a site that might contain other untrusted paths could present a security risk and is not recommended. </p>
+    <p>If an invalid URL is entered, an error icon is shown next to the item. If the URL is not corrected before <strong>OK</strong> is clicked, the invalid URL is not saved. </p>
+<h3><a name="editurl" id="editurl"></a>Edit a URL</h3>
+<p>To edit a URL in the exception site list, follow these steps:</p>
+<ol>
+  <li>Double-click the URL that you want to edit in the Exception Site List window. </li>
+  <li>Make changes to the URL. See <a href="#addurl">Add a URL</a> for information on the format of the URL. </li>
+  <li>Click <strong>OK</strong> to save the changes. If you click <strong>Cancel</strong>, the changes are not saved. </li>
+</ol>
+<h3><a name="removeurl" id="removeurl"></a>Remove a URL </h3>
+<p>To remove a URL from the exception site list, follow these steps:</p>
+<ol>
+  <li>Click the URL  that you want to remove in the Exception Site List window. </li>
+  <li>To remove more than one URL, Ctrl-click the additional URLs. </li>
+  <li>Click <strong>Remove</strong>. </li>
+  <li>Click <strong>OK</strong> to save your change. If you click <strong>Cancel</strong>, the URLs are not removed from the list. </li>
+</ol>
+<h2><a name="manage" id="manage"></a>Manage Access to the Exception Site List  </h2>
+<p>The location of the exception site list is set in the <code>deployment.user.security.exception.sites</code> property. The default location is <code><var>&lt;deployment.user.home&gt;</var>/security/exception.sites</code>. See <a href="../jcp/properties.html">Deployment Configuration Properties</a> for information on properties and property files.</p>
+<p>Users can manage a list on their system, or use a list managed by a system administrator in a central location. If a system administrator does not want users to edit the exception site list, the <code>deployment.user.security.exception.sites</code> property can be set to a file for which users do not have write permission. If a user cannot write to the exception site list, the list is shown in the Java Control Panel, but the controls for editing are not available in the Exception Site List window.  </p>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

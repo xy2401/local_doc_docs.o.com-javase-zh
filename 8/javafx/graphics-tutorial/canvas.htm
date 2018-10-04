@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>9 Working with the Canvas API (Release 8)</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXGR.pdf">PDF</a> | <a href="../JFXGR.epub">ePub</a> | <a href="../JFXGR.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Working with JavaFX Graphics</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="javafx-canvas.htm">Previous Page</a><a class="button" title="Next Page" href="javafx-image-ops.htm">Next Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="BCFGGJIA" name="BCFGGJIA" class="anchor"></a><a id="JFXGR214" name="JFXGR214" class="anchor"></a>
+<h1 class="chapter"><span class="secnum">9</span> Working with the Canvas API</h1>
+<p>This chapter explores the JavaFX Canvas API, featuring code examples that you can compile and run. Use the links on the <a href="samples-appendix.htm#BABDIAEE">Source Code for the Graphics Tutorials</a> page to download the examples as NetBeans IDE projects.</p>
+<a id="JFXGR215" name="JFXGR215" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref30" name="sthref30" class="anchor"></a>
+<h2 class="sect1">Overview</h2>
+<p>The JavaFX Canvas API provides a custom texture that you can write to. It is defined by classes <code>Canvas</code> and <code>GraphicsContext</code> in the <code>javafx.scene.canvas</code> package. Using this API involves creating a <code>Canvas</code> object, obtaining its <code>GraphicsContext</code>, and invoking drawing operations to render your custom shapes on screen. Because the <code>Canvas</code> is a <code>Node</code> subclass, it can be used in the JavaFX scene graph.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXGR216" name="JFXGR216" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref31" name="sthref31" class="anchor"></a>
+<h2 class="sect1">Drawing Basic Shapes</h2>
+<p>The <code>BasicOpsTest</code> project (shown in <a href="#BCFEDJGB">Figure 9-1</a>) creates a <code>Canvas</code>, obtains its <code>GraphicsContext</code>, and draws some basic shapes to it. Lines, ovals, round rectangles, arcs, and polygons are all possible using methods of the <code>GraphicsContext</code> class. Download the <a href="../sample-apps/BasicOpsTest.zip">BasicOpsTest.zip</a> file for the complete <code>BasicOpsTest</code> NetBeans project.</p>
+<div class="figure"><a id="BCFEDJGB" name="BCFEDJGB" class="anchor"></a><a id="JFXGR217" name="JFXGR217" class="anchor"></a>
+<p class="titleinfigure">Figure 9-1 Drawing Shapes on a Canvas</p>
+<img width="316" height="288" src="img/optest.png" alt="Description of Figure 9-1 follows" title="Description of Figure 9-1 follows" longdesc="img_text/optest.htm" /><br />
+<a id="sthref32" name="sthref32" href="img_text/optest.htm">Description of "Figure 9-1 Drawing Shapes on a Canvas"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<div class="example"><a id="BCFEBBJE" name="BCFEBBJE" class="anchor"></a><a id="JFXGR218" name="JFXGR218" class="anchor"></a>
+<p class="titleinexample">Example 9-1 Drawing Some Basic Shapes on a Canvas</p>
+<pre xml:space="preserve" class="oac_no_warn">package canvastest;
+ 
+import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.ArcType;
+import javafx.stage.Stage;
+ 
+public class BasicOpsTest extends Application {
+ 
+    public static void main(String[] args) {
+        launch(args);
+    }
+ 
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Drawing Operations Test");
+        Group root = new Group();
+        Canvas canvas = new Canvas(300, 250);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        drawShapes(gc);
+        root.getChildren().add(canvas);
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+    }
+
+    private void drawShapes(GraphicsContext gc) {
+        gc.setFill(Color.GREEN);
+        gc.setStroke(Color.BLUE);
+        gc.setLineWidth(5);
+        gc.strokeLine(40, 10, 10, 40);
+        gc.fillOval(10, 60, 30, 30);
+        gc.strokeOval(60, 60, 30, 30);
+        gc.fillRoundRect(110, 60, 30, 30, 10, 10);
+        gc.strokeRoundRect(160, 60, 30, 30, 10, 10);
+        gc.fillArc(10, 110, 30, 30, 45, 240, ArcType.OPEN);
+        gc.fillArc(60, 110, 30, 30, 45, 240, ArcType.CHORD);
+        gc.fillArc(110, 110, 30, 30, 45, 240, ArcType.ROUND);
+        gc.strokeArc(10, 160, 30, 30, 45, 240, ArcType.OPEN);
+        gc.strokeArc(60, 160, 30, 30, 45, 240, ArcType.CHORD);
+        gc.strokeArc(110, 160, 30, 30, 45, 240, ArcType.ROUND);
+        gc.fillPolygon(new double[]{10, 40, 10, 40},
+                       new double[]{210, 210, 240, 240}, 4);
+        gc.strokePolygon(new double[]{60, 90, 60, 90},
+                         new double[]{210, 210, 240, 240}, 4);
+        gc.strokePolyline(new double[]{110, 140, 110, 140},
+                          new double[]{210, 210, 240, 240}, 4);
+    }
+}
+</pre></div>
+<!-- class="example" -->
+<p>As shown in <a href="#BCFEBBJE">Example 9-1</a>, the <code>Canvas</code> is instantiated with a width of 300 and a height of 250. Its <code>GraphicsContext</code> is then obtained with a call to <code>canvas.getGraphicsContext2D()</code>. After that, a number of basic drawing operations are carried out by invoking methods such as <code>strokeLine</code>, <code>fillOval</code>, <code>strokeArc</code>, and <code>fillPolygon.</code></p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXGR219" name="JFXGR219" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref33" name="sthref33" class="anchor"></a>
+<h2 class="sect1">Applying Gradients and Shadows</h2>
+<p>The next example (<code>CanvasTest</code> project) tests more of the <code>GraphicsContext</code> methods by drawing a custom shape, along with some gradients and shadows. The final result appears as shown in <a href="#BCFCCEFE">Figure 9-2</a>. Download the <a href="../sample-apps/CanvasTest.zip">CanvasTest.zip</a> file for the complete <code>CanvasTest</code> NetBeans project</p>
+<div class="figure"><a id="BCFCCEFE" name="BCFCCEFE" class="anchor"></a><a id="JFXGR220" name="JFXGR220" class="anchor"></a>
+<p class="titleinfigure">Figure 9-2 Drawing Shapes, Gradients, and Shadows</p>
+<img width="416" height="438" src="img/canvastest.png" alt="Description of Figure 9-2 follows" title="Description of Figure 9-2 follows" longdesc="img_text/canvastest.htm" /><br />
+<a id="sthref34" name="sthref34" href="img_text/canvastest.htm">Description of "Figure 9-2 Drawing Shapes, Gradients, and Shadows"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>The code for this example is organized so that each drawing operation is carried out in its own private method. This allows you to test out different features by simply invoking (or commenting out) the methods of interest. Just keep in mind that in terms of learning the <code>Canvas</code> API, the code to focus on is the underlying calls to the <code>Canvas</code> or <code>GraphicsContext</code> objects.</p>
+<p>There are five main parts to this pattern.</p>
+<p>First, the position of the <code>Canvas</code> is set at coordinates<code>(0,0)</code>. This is done by invoking the code in <a href="#BCFBEEIG">Example 9-2</a>, which applies a <span class="italic">translation</span> transformation to the underlying <code>Canvas</code> object.</p>
+<div class="example"><a id="BCFBEEIG" name="BCFBEEIG" class="anchor"></a><a id="JFXGR221" name="JFXGR221" class="anchor"></a>
+<p class="titleinexample">Example 9-2 Moving the Canvas</p>
+<pre xml:space="preserve" class="oac_no_warn">private void moveCanvas(int x, int y) {
+    canvas.setTranslateX(x);
+    canvas.setTranslateY(y);
+}
+</pre></div>
+<!-- class="example" -->
+<p>You can pass in other values as parameters to move the <code>Canvas</code> to a new location. The values that you pass in will be forwarded to the <code>setTranslateX</code> and <code>setTranslateY</code> methods, and the <code>Canvas</code> will move accordingly.</p>
+<p>Next, the primary shape (which looks like the capital letter "D") is drawn on screen. This is done with a bezier curve, invoked through the <code>bezierCurveTo</code> method of the <code>GraphicsContecxt</code> object.</p>
+<div class="example"><a id="JFXGR222" name="JFXGR222" class="anchor"></a><a id="sthref35" name="sthref35" class="anchor"></a>
+<p class="titleinexample">Example 9-3 Drawing a Bezier Curve (Capital "D") On Screen</p>
+<pre xml:space="preserve" class="oac_no_warn">private void drawDShape() {
+    gc.beginPath();
+    gc.moveTo(50, 50);
+    gc.bezierCurveTo(150, 20, 150, 150, 75, 150);
+    gc.closePath();
+}
+</pre></div>
+<!-- class="example" -->
+<p>You can experiment with this shape by changing the parameter values. The <code>bezierCurveTo</code> will stretch and pull the shape as you do.</p>
+<p>After that, a red and yellow <code>RadialGradient</code> provides the circular pattern that appears in the background.</p>
+<div class="example"><a id="JFXGR223" name="JFXGR223" class="anchor"></a><a id="sthref36" name="sthref36" class="anchor"></a>
+<p class="titleinexample">Example 9-4 Drawing a RadialGradient</p>
+<pre xml:space="preserve" class="oac_no_warn">private void drawRadialGradient(Color firstColor, Color lastColor) {
+    gc.setFill(new RadialGradient(0, 0, 0.5, 0.5, 0.1, true,
+               CycleMethod.REFLECT,
+               new Stop(0.0, firstColor),
+               new Stop(1.0, lastColor)));
+    gc.fill();
+}
+</pre></div>
+<!-- class="example" -->
+<p>Here, the <code>setFill</code> method of the <code>GraphicsContext</code> accepts a <code>RadialGradient</code> object as its parameter. Again, you can experiment with different values, or pass in different colors as you prefer.</p>
+<p>A <code>LinearGradient</code> colors the custom "D" shape, from blue to green:</p>
+<div class="example"><a id="JFXGR224" name="JFXGR224" class="anchor"></a><a id="sthref37" name="sthref37" class="anchor"></a>
+<p class="titleinexample">Example 9-5 Drawing a LinearGradient</p>
+<pre xml:space="preserve" class="oac_no_warn">private void drawLinearGradient(Color firstColor, Color secondColor) {
+    LinearGradient lg = new LinearGradient(0, 0, 1, 1, true,
+                        CycleMethod.REFLECT,
+                        new Stop(0.0, firstColor),
+                        new Stop(1.0, secondColor));
+    gc.setStroke(lg);
+    gc.setLineWidth(20);
+    gc.stroke();
+}
+</pre></div>
+<!-- class="example" -->
+<p>This code sets the stroke of the <code>GraphicsContext</code> to use the <code>LinearGradient</code>, then renders the pattern with <code>gc.stroke()</code>.</p>
+<p>And finally, the multi-colored drop shadow is provided invoking <code>applyEffect</code> on the <code>GraphicContext</code> object.</p>
+<div class="example"><a id="BCFFEFED" name="BCFFEFED" class="anchor"></a><a id="JFXGR225" name="JFXGR225" class="anchor"></a>
+<p class="titleinexample">Example 9-6 Adding a DropShadow</p>
+<pre xml:space="preserve" class="oac_no_warn">private void drawDropShadow(Color firstColor, Color secondColor,
+                            Color thirdColor, Color fourthColor) {
+    gc.applyEffect(new DropShadow(20, 20, 0, firstColor));
+    gc.applyEffect(new DropShadow(20, 0, 20, secondColor));
+    gc.applyEffect(new DropShadow(20, -20, 0, thirdColor));
+    gc.applyEffect(new DropShadow(20, 0, -20, fourthColor));
+}
+</pre></div>
+<!-- class="example" -->
+<p>As shown in <a href="#BCFFEFED">Example 9-6</a>, this effect is applied by creating a <code>DropShadow</code> object with a specified color, which gets passed to the <code>applyEffect</code> method of the <code>GraphicsContext</code> object.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXGR226" name="JFXGR226" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref38" name="sthref38" class="anchor"></a>
+<h2 class="sect1">Interacting with the User</h2>
+<p>In the following demo (project <code>CanvasDoodleTest</code>) a blue square appears on screen, which will slowly be erased as the user drags the mouse across its surface. Download the <a href="../sample-apps/CanvasDoodleTest.zip">CanvasDoodleTest.zip</a> file for the complete <code>CanvasDoodleTest</code> NetBeans project</p>
+<div class="figure"><a id="JFXGR227" name="JFXGR227" class="anchor"></a><a id="sthref39" name="sthref39" class="anchor"></a>
+<p class="titleinfigure">Figure 9-3 Interacting with the User</p>
+<img width="416" height="438" src="img/doodletest.png" alt="Description of Figure 9-3 follows" title="Description of Figure 9-3 follows" longdesc="img_text/doodletest.htm" /><br />
+<a id="sthref40" name="sthref40" href="img_text/doodletest.htm">Description of "Figure 9-3 Interacting with the User"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>You have already seen how to create basic shapes and gradients, so the code in <a href="#BCFDFDFH">Example 9-7</a> focuses only on the portions responsible for interacting with the user.</p>
+<div class="example"><a id="BCFDFDFH" name="BCFDFDFH" class="anchor"></a><a id="JFXGR228" name="JFXGR228" class="anchor"></a>
+<p class="titleinexample">Example 9-7 Interacting with the User</p>
+<pre xml:space="preserve" class="oac_no_warn">...
+
+private void reset(Canvas canvas, Color color) {
+    GraphicsContext gc = canvas.getGraphicsContext2D();
+    gc.setFill(color);
+    gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+}
+ 
+@Override 
+public void start(Stage primaryStage) {
+    ...
+    final GraphicsContext gc = canvas.getGraphicsContext2D();
+    ...
+
+    // Clear away portions as the user drags the mouse
+       canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, 
+       new EventHandler&lt;MouseEvent&gt;() {
+           @Override
+           public void handle(MouseEvent e) {
+               gc.clearRect(e.getX() - 2, e.getY() - 2, 5, 5);
+           }
+       });
+ 
+    // Fill the Canvas with a Blue rectnagle when the user double-clicks
+       canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, 
+        new EventHandler&lt;MouseEvent&gt;() {
+            @Override
+            public void handle(MouseEvent t) {            
+                if (t.getClickCount() &gt;1) {
+                    reset(canvas, Color.BLUE);
+                }  
+            }
+        });
+...
+</pre></div>
+<!-- class="example" -->
+<p><a href="#BCFDFDFH">Example 9-7</a> defines a <code>reset</code> method that fills the entire rectangle with its default blue color. But the most interesting code appears in the <code>start</code> method, which is overridden to interact with the user. The first commented section adds an event handler to process <code>MouseEvent</code> objects as the user drags the mouse. With each drag, the <code>clearRect</code> method of the <code>GraphicsContext</code> object is invoked, passing in the current mouse coordinates, plus the size of the area to clear away. As this takes place, the background gradient will show through, as seen in <a href="#BCFEGFCA">Figure 9-4</a>.</p>
+<div class="figure"><a id="BCFEGFCA" name="BCFEGFCA" class="anchor"></a><a id="JFXGR229" name="JFXGR229" class="anchor"></a>
+<p class="titleinfigure">Figure 9-4 Clearing Away the Rectangle</p>
+<img width="416" height="438" src="img/doodletest2.png" alt="Description of Figure 9-4 follows" title="Description of Figure 9-4 follows" longdesc="img_text/doodletest2.htm" /><br />
+<a id="sthref41" name="sthref41" href="img_text/doodletest2.htm">Description of "Figure 9-4 Clearing Away the Rectangle"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>The remaining code simply counts the number of clicks, and resets the blue square to its original state if the user double-clicks the mouse.</p>
+</div>
+<!-- class="sect1" -->
+<a id="JFXGR230" name="JFXGR230" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref42" name="sthref42" class="anchor"></a>
+<h2 class="sect1">Creating a Simple Layer System</h2>
+<p>You can also instantiate multiple <code>Canvas</code> objects, and use them to define a simple layer system. Switching layers therefore becomes a matter of selecting the desired <code>Canvas</code> and writing to it. (A <code>Canvas</code> object is completely transparent, and shows through until you draw on parts of it.)</p>
+<p>This final demo (<code>LayerTest</code> project) defines such a system by adding creating two <code>Canvas</code> objects, placed directly on top of each other. As you click on the screen, a colored circle will appear on the layer that is currently selected. You can change layers by using the <code>ChoiceBox</code> at the top of the screen. Circles added to layer 1 will be green. Circles added to layer 2 will be blue. Download the <a href="../sample-apps/LayerTest.zip">LayerTest.zip</a> file for the complete <code>LayerTest</code> NetBeans project</p>
+<div class="figure"><a id="JFXGR231" name="JFXGR231" class="anchor"></a><a id="sthref43" name="sthref43" class="anchor"></a>
+<p class="titleinfigure">Figure 9-5 Creating a Simple Layer System</p>
+<img width="316" height="309" src="img/layertest.png" alt="Description of Figure 9-5 follows" title="Description of Figure 9-5 follows" longdesc="img_text/layertest.htm" /><br />
+<a id="sthref44" name="sthref44" href="img_text/layertest.htm">Description of "Figure 9-5 Creating a Simple Layer System"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>The GUI for this demo uses a <code>BorderPane</code> to manage its components. A <code>ChoiceBox</code> is added to the top, and the two <code>Canvas</code> objects are added to a <code>Panel</code> which is then added to the center of the screen.</p>
+<div class="example"><a id="JFXGR232" name="JFXGR232" class="anchor"></a><a id="sthref45" name="sthref45" class="anchor"></a>
+<p class="titleinexample">Example 9-8 Creating and Adding the Layers</p>
+<pre xml:space="preserve" class="oac_no_warn">...
+
+private void createLayers(){
+    // Layers 1&amp;2 are the same size
+    layer1 = new Canvas(300,250);
+    layer2 = new Canvas(300,250);
+        
+    // Obtain Graphics Contexts
+    gc1 = layer1.getGraphicsContext2D();
+    gc1.setFill(Color.GREEN);
+    gc1.fillOval(50,50,20,20);
+    gc2 = layer2.getGraphicsContext2D();
+    gc2.setFill(Color.BLUE);
+    gc2.fillOval(100,100,20,20);
+}
+    ...
+
+private void addLayers(){
+    // Add Layers
+    borderPane.setTop(cb);        
+    Pane pane = new Pane();
+    pane.getChildren().add(layer1);
+    pane.getChildren().add(layer2);
+    layer1.toFront();
+    borderPane.setCenter(pane);    
+    root.getChildren().add(borderPane);
+}
+    ...
+</pre></div>
+<!-- class="example" -->
+<p>User interaction is accomplished by adding an event handler directly to each layer. Clicking on the <code>Canvas</code> will generate a <code>MouseEvent</code>, which when received, will draw a circle at the current mouse location.</p>
+<div class="example"><a id="JFXGR233" name="JFXGR233" class="anchor"></a><a id="sthref46" name="sthref46" class="anchor"></a>
+<p class="titleinexample">Example 9-9 Adding Event Handlers</p>
+<pre xml:space="preserve" class="oac_no_warn">private void handleLayers(){
+    // Handler for Layer 1
+    layer1.addEventHandler(MouseEvent.MOUSE_PRESSED, 
+    new EventHandler&lt;MouseEvent&gt;() {
+        @Override
+        public void handle(MouseEvent e) {          
+            gc1.fillOval(e.getX(),e.getY(),20,20);
+        }
+    });
+
+    // Handler for Layer 2
+    layer2.addEventHandler(MouseEvent.MOUSE_PRESSED, 
+        new EventHandler&lt;MouseEvent&gt;() {
+            @Override
+            public void handle(MouseEvent e) {
+                gc2.fillOval(e.getX(),e.getY(),20,20);
+            }
+        });
+    }
+</pre></div>
+<!-- class="example" -->
+<p>Because both layers are placed directly on top of each other, only the topmost <code>Canvas</code> will process the mouse clicks. To move a specific layer to the front of the stack, simply select it from the <code>ChoiceBox</code> component at the top of the screen.</p>
+<div class="example"><a id="BCFHCGBH" name="BCFHCGBH" class="anchor"></a><a id="JFXGR234" name="JFXGR234" class="anchor"></a>
+<p class="titleinexample">Example 9-10 Selecting a Layer</p>
+<pre xml:space="preserve" class="oac_no_warn">private void createChoiceBox(){
+    cb = new ChoiceBox();
+    cb.setItems(FXCollections.observableArrayList(
+              "Layer 1 is GREEN", "Layer 2 is BLUE"));
+    cb.getSelectionModel().selectedItemProperty().
+    addListener(new ChangeListener(){
+    @Override
+    public void changed(ObservableValue o, Object o1, Object o2){
+        if(o2.toString().equals("Layer 1 is GREEN")){
+            layer1.toFront();
+          }else if(o2.toString().equals("Layer 2 is BLUE")){
+              layer2.toFront();
+                }
+            }
+        });  
+        cb.setValue("Layer 1 is GREEN");
+    }
+</pre></div>
+<!-- class="example" -->
+<p>As shown in <a href="#BCFHCGBH">Example 9-10</a>, a <code>ChangleListener</code> is registered on the <code>ChoiceBox</code>, and brings the selected layer to the foreground by invoking <code>toFront()</code> on the appropriate <code>Canvas</code>. Layer selection will become even more apparent as you switch layers after adding lots of blue and green circles. You will be able to tell (from looking at the circle edges) which layer has been moved to the front. <a href="#BCFJBCAG">Figure 9-6</a> and <a href="#BCFCGBAF">Figure 9-7</a> show what this looks like.</p>
+<div class="figure"><a id="BCFJBCAG" name="BCFJBCAG" class="anchor"></a><a id="JFXGR235" name="JFXGR235" class="anchor"></a>
+<p class="titleinfigure">Figure 9-6 Selecting Layer 1</p>
+<img width="316" height="309" src="img/layer1.png" alt="Description of Figure 9-6 follows" title="Description of Figure 9-6 follows" longdesc="img_text/layer1.htm" /><br />
+<a id="sthref47" name="sthref47" href="img_text/layer1.htm">Description of "Figure 9-6 Selecting Layer 1"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<div class="figure"><a id="BCFCGBAF" name="BCFCGBAF" class="anchor"></a><a id="JFXGR236" name="JFXGR236" class="anchor"></a>
+<p class="titleinfigure">Figure 9-7 Selecting Layer 2</p>
+<img width="316" height="309" src="img/layer2.png" alt="Description of Figure 9-7 follows" title="Description of Figure 9-7 follows" longdesc="img_text/layer2.htm" /><br />
+<a id="sthref48" name="sthref48" href="img_text/layer2.htm">Description of "Figure 9-7 Selecting Layer 2"</a><br />
+<br /></div>
+<!-- class="figure" -->
+<p>The ability to select layers is common in software applications, such as image manipulation programs. And because each <code>Canvas</code> object is a <code>Node</code>, you are free to apply all the standard transformations and visual effects that you would on other components.</p>
+</div>
+<!-- class="sect1" -->
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Working with JavaFX Graphics</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">About This Tutorial</a></li>
+        <li><a href="preface.htm#sthref4">Audience</a></li>
+        <li><a href="preface.htm#sthref5">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref7">Related Documents</a></li>
+        <li><a href="preface.htm#sthref8">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a href="javafx-3d-graphics.htm#CHDGHHEJ">Part I Getting Started with JavaFX 3D Graphics</a>
+    <ul>
+    <li><a href="overview-3d.htm#JFXGR102">1 Overview</a>
+      <ul>
+        <li><a href="overview-3d.htm#sthref9">Sample of 3D Graphics Use Cases</a></li>
+        <li><a href="overview-3d.htm#sthref11">3D Feature in JavaFX 2.x Releases</a></li>
+      </ul>
+    </li>
+    <li><a href="shape3d.htm#JFXGR103">2 Shape3D</a>
+      <ul>
+        <li><a href="shape3d.htm#JFXGR160">Pre-defined Shapes</a></li>
+        <li><a href="shape3d.htm#JFXGR163">User-Defined Shapes</a></li>
+      </ul>
+    </li>
+    <li><a href="camera.htm#JFXGR104">3 Camera</a>
+      <ul>
+        <li><a href="camera.htm#sthref13">Perspective Camera</a>
+          <ul>
+          <li><a href="camera.htm#sthref14">Field of View</a></li>
+          <li><a href="camera.htm#sthref15">Clipping Planes</a></li>
+          <li><a href="camera.htm#sthref16">Y-down versus Y-up</a></li>
+          <li><a href="camera.htm#sthref17">Sample Code Using PerspectiveCamera</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="subscene.htm#JFXGR105">4 SubScene</a>
+      <ul>
+        <li><a href="subscene.htm#sthref18">Creating a SubScene</a></li>
+        <li><a href="subscene.htm#sthref19">Sample Use of SubScene</a></li>
+      </ul>
+    </li>
+    <li><a href="light.htm#JFXGR106">5 Light</a>
+      <ul>
+        <li><a href="light.htm#sthref20">Creating and Using Light</a></li>
+      </ul>
+    </li>
+    <li><a href="material.htm#JFXGR107">6 Material</a></li>
+    <li><a href="picking.htm#JFXGR108">7 Picking</a>
+      <ul>
+        <li><a href="picking.htm#sthref21">Creating a PickResult Object</a></li>
+        <li><a href="picking.htm#sthref22">Methods for the PickResult Object</a></li>
+        <li><a href="picking.htm#sthref24">Sample Use of PickResult</a></li>
+      </ul>
+    </li>
+    <li><a href="sampleapp3d.htm#JFXGR109">8 Building a 3D Sample Application</a>
+      <ul>
+        <li><a href="sampleapp3d.htm#JFXGR270">Prepare for this Tutorial</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR188">Create the Project</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR189">Create the Scene</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR192">Set Up the Camera</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR198">Build the Axes</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR204">Build the Molecule</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR209">Add Camera Viewing Controls</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="javafx-canvas.htm#sthref29">Part II JavaFX Canvas</a>
+    <ul>
+    <li><a class="selected" href="canvas.htm#JFXGR214">9 Working with the Canvas API</a>
+      <ul>
+        <li><a href="canvas.htm#sthref30">Overview</a></li>
+        <li><a href="canvas.htm#sthref31">Drawing Basic Shapes</a></li>
+        <li><a href="canvas.htm#sthref33">Applying Gradients and Shadows</a></li>
+        <li><a href="canvas.htm#sthref38">Interacting with the User</a></li>
+        <li><a href="canvas.htm#sthref42">Creating a Simple Layer System</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="javafx-image-ops.htm#sthref49">Part III JavaFX Image Ops</a>
+    <ul>
+    <li><a href="image_ops.htm#JFXGR238">10 Using the Image Ops API</a>
+      <ul>
+        <li><a href="image_ops.htm#sthref50">Overview of the Image Ops API</a></li>
+        <li><a href="image_ops.htm#sthref51">Reading Pixels From Images</a></li>
+        <li><a href="image_ops.htm#sthref55">Writing Pixels to Images</a></li>
+        <li><a href="image_ops.htm#sthref58">Writing Images with Byte Arrays and PixelFormats</a></li>
+        <li><a href="image_ops.htm#sthref63">Creating a Snapshot</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="samples-appendix.htm#JFXGR274">Part IV Source Code for the Graphics Tutorials</a>
+    <ul>
+    <li><a href="msaaapp-code.htm#JFXGR277">A MSAAApp Code</a>
+      <ul>
+        <li><a href="msaaapp-code.htm#JFXGR279">MSAAApp.java</a></li>
+      </ul>
+    </li>
+    <li><a href="sampleapp3d-code.htm#JFXGR280">B 3D MoleculeSampleApp Code</a>
+      <ul>
+        <li><a href="sampleapp3d-code.htm#JFXGR282">Xform.java</a></li>
+        <li><a href="sampleapp3d-code.htm#JFXGR283">buildMolecule()</a></li>
+        <li><a href="sampleapp3d-code.htm#JFXGR284">handleMouse()</a></li>
+        <li><a href="sampleapp3d-code.htm#JFXGR285">handleKeyboard()</a></li>
+      </ul>
+    </li>
+</ul>
+
+</li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="javafx-canvas.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a><a class="button" title="Next Page" href="javafx-image-ops.htm">Next Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2008, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

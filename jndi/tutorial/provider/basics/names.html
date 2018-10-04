@@ -1,0 +1,153 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Names</title>
+<meta name="collection" content="learning">
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="context.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="lookup.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=bottom border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Essential Components</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Names
+</h2>
+<p>
+<blockquote>
+
+Almost all methods in the
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><tt>Context</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>    interface must process names.
+
+
+For consistency, you should use the same pattern in each
+method to process names.  One way to achieve this
+conveniently is to define and use a utility method to process the input name.
+Two examples are given here, one for a context implementation
+of a <a href=src/FlatCtx.java>flat namespace</a> 
+and one for a context implementation of a
+<a href=src/tut/HierCtx.java>hierarchical namespace</a>.
+Whether a context implementation supports a flat namespace or
+a hierarchical namespace is typically determined by the underlying
+naming/directory service or the requirements of the service provider.
+
+<p>
+As recommended in
+<a target="_top" href="../ground/names.html">The Ground Rules</a> <a target="_top" href="../ground/names.html"><img src="../../jndiimages/providerIcon.gif" width=20 height=20 border=0 alt="(in the Building a Service Provider trail)"></a>   lesson, for both examples,
+each method in the <tt>Context</tt> interface that accepts a
+<tt>java.lang.String</tt> name is defined
+simply to call its counterpart
+that accepts a
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Name.html"><tt>Name</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Name.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+The rest of this discussion focuses on dealing with
+structured names.
+
+<h4>A Flat Namespace Example</h4>
+
+The <a href=src/FlatCtx.java>first example</a> implements 
+a flat namespace and does not support federation. 
+The methods that accept a <tt>Name</tt> use the following utility method
+to determine the components of the name that should be processed.
+<blockquote><pre>
+protected String getMyComponents(Name name) throws NamingException {
+    if (name instanceof CompositeName) {
+        if (name.size() &gt; 1) {
+	    throw new InvalidNameException(name.toString() +
+		" has more components than namespace can handle");
+	}
+	return name.get(0);
+    } else {
+	// A compound name
+	return name.toString();
+    }
+}
+</pre></blockquote>
+Because the context does not support federation, it accepts only
+single-component composite names or compound names.
+If it receives a multicomponent composite name, then it throws an
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InvalidNameException.html"><tt>InvalidNameException</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/InvalidNameException.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+
+<h4>A Hierarchical Namespace Example</h4>
+
+The <a href=src/tut/HierCtx.java>second example</a> implements
+a hierarchical namespace and does not support federation.
+The methods that accept a <tt>Name</tt> use the following utility method
+to determine the components of the name that should be processed.
+<blockquote><pre>
+protected Name getMyComponents(Name name) throws NamingException {
+    if (name instanceof CompositeName) {
+	if (name.size() &gt; 1) {
+	    throw new InvalidNameException(name.toString() +
+		" has more components than namespace can handle");
+	}
+
+	// Turn component that belongs to you into a compound name
+	return myParser.parse(name.get(0));
+    } else {
+	// Already parsed
+	return name;
+    }
+}
+</pre></blockquote>
+Unlike in the <a href=src/FlatCtx.java>flat namespace</a> example, this method
+returns a <tt>Name</tt> that represents a structured compound name
+instead of a <tt>java.lang.String</tt>.
+When the method gets a 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html"><tt>CompositeName</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/CompositeName.html"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, it parses the first component into a compound name and returns it.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="context.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="lookup.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/providerHeader.gif" width=26 height=26 align=top border=0 alt="Building a Service Provider | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>The Essential Components</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>
+

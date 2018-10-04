@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en-US" >
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="UTF-8" />
+<title>SNMP Monitoring and Management</title>
+<meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)" />
+<meta name="dcterms.created" content="2017-09-14T07:10:36Z" />
+<meta name="robots" content="all" />
+<meta name="dcterms.title" content="Java Platform, Standard Edition Monitoring and Management Guide" />
+<meta name="dcterms.identifier" content="E75744-02" />
+<meta name="dcterms.isVersionOf" content="JSMGM" />
+<meta name="dcterms.rights" content="Copyright&nbsp;&copy;&nbsp;2006, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved." />
+<link rel="Start" href="../index.html" title="Home" type="text/html" />
+<link rel="Copyright" href="../dcommon/html/cpyr.htm" title="Copyright" type="text/html" />
+
+<script type="application/javascript"  src="../dcommon/js/headfoot.js"></script>
+<script type="application/javascript"  src="../nav/js/doccd.js" charset="UTF-8"></script>
+<link rel="Contents" href="toc.htm" title="Contents" type="text/html" />
+<link rel="Prev" href="using-platform-mbean-server-and-platform-mxbeans.htm" title="Previous" type="text/html" />
+<link rel="Next" href="java-discovery-protocol.htm" title="Next" type="text/html" />
+<link rel="alternate" href="JSMGM.pdf" title="PDF version" type="application/pdf" />
+<link rel="alternate" href="JSMGM.epub" title="ePub version" type="application/epub+zip" />
+<link rel="alternate" href="JSMGM.mobi" title="Mobipocket version" type="application/x-mobipocket-ebook" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<link rel="stylesheet" href="../dcommon/css/fusiondoc.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/header.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/footer.css">
+<link rel="stylesheet" type="text/css"  href="../dcommon/css/fonts.css">
+<link rel="stylesheet" href="../dcommon/css/foundation.css">
+<link rel="stylesheet" href="../dcommon/css/codemirror.css">
+<link rel="stylesheet" type="text/css" title="Default" href="../nav/css/html5.css">
+<link rel="stylesheet" href="../dcommon/css/respond-480-tablet.css">
+<link rel="stylesheet" href="../dcommon/css/respond-768-laptop.css">
+<link rel="stylesheet" href="../dcommon/css/respond-1140-deskop.css">
+<script type="application/javascript" src="../dcommon/js/modernizr.js"></script>
+<script type="application/javascript" src="../dcommon/js/codemirror.js"></script>
+<script type="application/javascript" src="../dcommon/js/jquery.js"></script>
+<script type="application/javascript" src="../dcommon/js/foundation.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552992c80ef99c8d" async="async"></script>
+<script type="application/javascript" src="../dcommon/js/jqfns.js"></script>
+<script type="application/javascript" src="../dcommon/js/ohc-inline-videos.js"></script>
+<!-- Add fancyBox -->
+<link rel="stylesheet" href="../dcommon/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+<!-- Optionally add helpers - button, thumbnail and/or media -->
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"  href="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7"  type="text/css" media="screen" />
+<script type="text/javascript" src="../dcommon/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<a href="#BEGIN" class="accessibility-top skipto" tabindex="0">Go to main content</a><header><!--
+<div class="zz-skip-header"><a id="top" href="#BEGIN">Go to main content</a>--></header>
+<div class="row" id="CONTENT">
+<div class="IND large-9 medium-8 columns" dir="ltr">
+<a id="BEGIN" name="BEGIN"></a>
+<a id="GUID-D6FA8012-625C-4412-986F-867896F89696"></a> <span id="PAGE" style="display:none;">8/9</span> <!-- End Header -->
+<h1 id="JSMGM-GUID-D6FA8012-625C-4412-986F-867896F89696" class="sect1"><span class="enumeration_chapter">5</span> SNMP Monitoring and Management</h1>
+<div>
+<p>The Simple Network Management Protocol (SNMP) is an industry standard for network management. Objects managed by SNMP are arranged in management information bases (MIBs). The SNMP agent publishes the standard MIB for the Java virtual machine (Java VM) instrumentation. The file <span class="apiname">JVM-MANAGEMENT-MIB.mib</span> is the standard MIB for monitoring and management of the Java VM.</p>
+</div>
+<div class="sect2"><a id="GUID-7EBDD1B5-4763-4F65-A5F1-483CB6E50CA7"></a>
+<h2 id="JSMGM-GUID-7EBDD1B5-4763-4F65-A5F1-483CB6E50CA7" class="sect2">Enabling the SNMP Agent</h2>
+<div>
+<p>To monitor a Java VM with SNMP, you must first enable an SNMP agent when you start the Java VM. You can enable the SNMP agent for either a single-user environment or a multiple-user environment. Then, you can monitor the Java VM with an SNMP-compliant tool.</p>
+<p>For general information on setting system properties when you start the Java VM, see <a href="monitoring-and-management-using-jmx-technology.htm#GUID-586BDF8F-A98E-4C16-AAA3-387E96309686">Setting System Properties</a>. How to enable the SNMP agent in single-user and multiple-user environments is described in the following sections. The process is the same for both environments, but the actions performed are slightly different.</p>
+</div>
+<div class="sect3"><a id="GUID-56324CDF-58A5-4B44-A613-4DD1B0DE306B"></a>
+<h3 id="JSMGM-GUID-56324CDF-58A5-4B44-A613-4DD1B0DE306B" class="sect3">Access Control List File</h3>
+<div>
+<p>An access control list (ACL) template file is provided with the Java Platform, Standard Edition (Java SE platform) in <code class="codeph"><span class="variable">JRE_HOME</span>/lib/management/snmp.acl.template</code>, where <code class="codeph"><span class="variable">JRE_HOME</span></code> is the directory in which the Java Runtime Environment (JRE) implementation is installed. Copy this file to either <code class="codeph"><span class="variable">JRE_HOME</span>/lib/management/snmp.acl</code> or to your home directory, depending on whether you are operating in a single-user or multiple-user environment. Ensure that only you have read permissions, because the file contains nonencrypted SNMP community strings. For security reasons, the system checks that only the owner has read permissions on the file and exits with an error if this is not the case. Thus, in a multiple-user environment, you should put this file in private location, such as your home directory.</p>
+<p><a href="snmp-monitoring-and-management.htm#GUID-56324CDF-58A5-4B44-A613-4DD1B0DE306B__EXAMPLE5-1SAMPLEACLENTRIES-8F42A1CC">Example&nbsp;5-1</a> shows some possible entries in an ACL file.</p>
+<p id="GUID-56324CDF-58A5-4B44-A613-4DD1B0DE306B__EXAMPLE5-1SAMPLEACLENTRIES-8F42A1CC">Example&nbsp;5-1 Sample ACL Entries</p>
+<pre dir="ltr">
+#The communities public and private are allowed access from the local host.
+acl = {
+        {
+          communities = public, private
+          access = read-only
+          managers = localhost
+        }
+      }
+# Traps are sent to localhost only
+trap = {
+          {
+            trap-community = public
+            hosts = localhost
+          }
+        }
+</pre></div>
+</div>
+<div class="sect3"><a id="GUID-A530752E-6086-4A85-A62C-1061A5D69803"></a>
+<h3 id="JSMGM-GUID-A530752E-6086-4A85-A62C-1061A5D69803" class="sect3">To Enable the SNMP Agent in a Single-User Environment</h3>
+<div>
+<ol>
+<li>Set the following system property when you start the Java VM:
+<pre dir="ltr">
+com.sun.management.snmp.port=<span class="variable">portNum</span>
+</pre>
+<p>The <code class="codeph"><span class="variable">portNum</span></code> is the port number to use for monitoring. Setting this property starts an SNMP agent that listens on the specified port number for incoming SNMP requests.</p>
+</li>
+<li>Create an ACL file:
+<p>Copy the ACL template file from <code class="codeph"><span class="variable">JRE_HOME</span>/lib/management/snmp.acl.template</code> to <code class="codeph"><span class="variable">JRE_HOME</span>/lib/management/snmp.acl</code>.</p>
+</li>
+<li>Set the permissions on the ACL file:
+<p>Ensure that the ACL file is readable by only the owner and add community strings as needed.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3"><a id="GUID-7F8C0D61-21DC-4ABD-AB9D-36CDD486A355"></a>
+<h3 id="JSMGM-GUID-7F8C0D61-21DC-4ABD-AB9D-36CDD486A355" class="sect3">To Enable the SNMP Agent in a Multiple-User Environment</h3>
+<div>
+<ol>
+<li>Set the following system properties when you start the Java VM:
+<pre dir="ltr">
+com.sun.management.snmp.port=portNum
+com.sun.management.snmp.acl.file=ACLFilePath
+</pre>
+<p>The <code class="codeph"><span class="variable">ACLFilePath</span></code> is the path to the ACL file.</p>
+</li>
+<li>Create an ACL file:
+<p>Copy the ACL template file from <code class="codeph"><span class="variable">JRE_HOME</span>/lib/management/snmp.acl.template</code> to a file named <code class="codeph">snmp.acl</code> in your home directory.</p>
+</li>
+<li>Set the permissions on the ACL file:
+<p>Ensure that the ACL file is readable by only the owner, and add community strings as needed.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2"><a id="GUID-6EDF1D6F-D370-4CA3-9826-7B67A3CE6DA0"></a>
+<h2 id="JSMGM-GUID-6EDF1D6F-D370-4CA3-9826-7B67A3CE6DA0" class="sect2">SNMP Monitoring and Management Properties</h2>
+<div>
+<p>You can set SNMP monitoring and management properties in a configuration file or on the command line. Properties specified on the command line override properties in a configuration file. The default location for the configuration file is <code class="codeph"><span class="variable">JRE_HOME</span>/lib/management/management.properties</code>. The Java VM reads this file if the command-line property <code class="codeph">com.sun.management.snmp.port</code> is set.</p>
+<p>You can specify a different location for the configuration file with the following command-line option:</p>
+<pre dir="ltr">
+com.sun.management.config.file=<span class="variable">ConfigFilePath</span>
+</pre>
+<p>In the preceding property, <code class="codeph"><span class="variable">ConfigFilePath</span></code> is the path to the configuration file.</p>
+<p>You must specify all system properties when you start the Java VM. After the Java VM has started, any changes to system properties (for example, using the <code class="codeph">setProperty</code> method), to the password file, to the ACL file, or to the configuration file will have no effect.</p>
+<p><a href="snmp-monitoring-and-management.htm#GUID-6EDF1D6F-D370-4CA3-9826-7B67A3CE6DA0__TABLE5-1SNMPMONITORINGANDMANAGEMENT-8F43C9B5">Table&nbsp;5-1</a> describes all the SNMP management properties.</p>
+<p id="GUID-6EDF1D6F-D370-4CA3-9826-7B67A3CE6DA0__TABLE5-1SNMPMONITORINGANDMANAGEMENT-8F43C9B5"><span class="bold">Table&nbsp;5-1 SNMP Monitoring and Management Properties</span></p>
+<div class="tblformal" id="GUID-6EDF1D6F-D370-4CA3-9826-7B67A3CE6DA0__GUID-A0027B79-D0EF-4186-ADF7-1AF520FFEA3D">
+<table class="cellalignment127" summary="SNMP monitoring and management properties">
+<thead>
+<tr class="cellalignment121">
+<th class="cellalignment136" rowspan="1" colspan="1" id="d8607e231">Property Name</th>
+<th class="cellalignment136" rowspan="1" colspan="1" id="d8607e234">Description</th>
+<th class="cellalignment136" rowspan="1" colspan="1" id="d8607e237">Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="cellalignment121">
+<td class="cellalignment121" rowspan="1" colspan="1" id="d8607e242" headers="d8607e231">
+<p><code class="codeph">com.sun.management.snmp.trap</code></p>
+</td>
+<td class="cellalignment121" rowspan="1" colspan="1" headers="d8607e242 d8607e234">
+<p>Remote port to which the SNMP agent sends traps.</p>
+</td>
+<td class="cellalignment121" rowspan="1" colspan="1" headers="d8607e242 d8607e237">
+<p>162</p>
+</td>
+</tr>
+<tr class="cellalignment121">
+<td class="cellalignment121" rowspan="1" colspan="1" id="d8607e253" headers="d8607e231">
+<p><code class="codeph">com.sun.management.snmp. interface</code></p>
+</td>
+<td class="cellalignment121" rowspan="1" colspan="1" headers="d8607e253 d8607e234">
+<p>Optional. The local host <code class="codeph">InetAddress,</code> to force the SNMP agent to bind to the given <code class="codeph">InetAddress</code>. This is for multihome hosts if one wants to listen to a specific subnet only.</p>
+</td>
+<td class="cellalignment121" rowspan="1" colspan="1" headers="d8607e253 d8607e237">
+<p>Not applicable</p>
+</td>
+</tr>
+<tr class="cellalignment121">
+<td class="cellalignment121" rowspan="1" colspan="1" id="d8607e270" headers="d8607e231">
+<p><code class="codeph">com.sun.management.snmp.acl</code></p>
+</td>
+<td class="cellalignment121" rowspan="1" colspan="1" headers="d8607e270 d8607e234">
+<p>The enabling or disabling of SNMP ACL checks.</p>
+</td>
+<td class="cellalignment121" rowspan="1" colspan="1" headers="d8607e270 d8607e237">
+<p><code class="codeph">true</code></p>
+</td>
+</tr>
+<tr class="cellalignment121">
+<td class="cellalignment121" rowspan="1" colspan="1" id="d8607e282" headers="d8607e231">
+<p><code class="codeph">com.sun.management.snmp. acl.file</code></p>
+</td>
+<td class="cellalignment121" rowspan="1" colspan="1" headers="d8607e282 d8607e234">
+<p>Path to a valid ACL file. After the Java VM has started, modifying the ACL file has no effect.</p>
+</td>
+<td class="cellalignment121" rowspan="1" colspan="1" headers="d8607e282 d8607e237">
+<p><code class="codeph"><span class="variable">JRE_HOME</span>/lib/management/snmp.acl</code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- class="inftblhruleinformal" --></div>
+<div class="sect3"><a id="GUID-BBBA993A-C801-41BE-800C-73F5C1653BFC"></a>
+<h3 id="JSMGM-GUID-BBBA993A-C801-41BE-800C-73F5C1653BFC" class="sect3">Configuration Errors</h3>
+<div>
+<p>If any errors occur during the startup of the SNMP agent, then the Java VM will throw an exception and exit. Configuration errors include the following:</p>
+<ul style="list-style-type: disc;">
+<li>
+<p>Failure to bind to the port number.</p>
+</li>
+<li>
+<p>The password file is readable by anyone other than the owner.</p>
+</li>
+<li>
+<p>Invalid SNMP ACL file.</p>
+</li>
+</ul>
+<p>If your application runs a security manager, then additional permissions are required in the security permissions file.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- class="ind" --><!-- Start Footer -->
+</div>
+<!-- add extra wrapper close div-->
+<footer><!--
+<hr />
+<table class="cellalignment120">
+<tr>
+<td class="cellalignment130">
+<table class="cellalignment133">
+<tr>
+<td class="cellalignment124"><a href="using-platform-mbean-server-and-platform-mxbeans.htm"><img width="24" height="24" src="../dcommon/gifs/leftnav.gif" alt="Go to previous page" /><br />
+<span class="icon">Previous</span></a></td>
+<td class="cellalignment124"><a href="java-discovery-protocol.htm"><img width="24" height="24" src="../dcommon/gifs/rightnav.gif" alt="Go to next page" /><br />
+<span class="icon">Next</span></a></td>
+</tr>
+</table>
+</td>
+<td class="cellalignment-copyrightlogo"><img width="144" height="18" src="../dcommon/gifs/oracle.gif" alt="Oracle" /><br />
+Copyright&nbsp;&copy;&nbsp;2006, 2017, Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.<br />
+<a href="../dcommon/html/cpyr.htm">Legal Notices</a></td>
+<td class="cellalignment132">
+<table class="cellalignment123">
+<tr>
+<td class="cellalignment124"><a href="../index.html"><img width="24" height="24" src="../dcommon/gifs/doclib.gif" alt="Go to Documentation Home" /><br />
+<span class="icon">Home</span></a></td>
+<td class="cellalignment124"><a href="toc.htm"><img width="24" height="24" src="../dcommon/gifs/toc.gif" alt="Go to Table of Contents" /><br />
+<span class="icon">Contents</span></a></td>
+<td class="cellalignment124"><a href="../dcommon/html/feedback.htm"><img width="24" height="24" src="../dcommon/gifs/feedbck2.gif" alt="Go to Feedback page" /><br />
+<span class="icon">Contact Us</span></a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+--></footer>
+<noscript>
+<p>Scripting on this page enhances content navigation, but does not change the content in any way.</p>
+</noscript>
+</body>
+</html>

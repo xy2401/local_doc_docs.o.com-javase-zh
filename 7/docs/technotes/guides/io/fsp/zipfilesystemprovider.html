@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang=
+"en-US">
+<head>
+<title>Zip File System Provider</title>
+
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/popUp.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/sniff.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucontent.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/menucode.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/pubs/js/developer.js"></script>
+<script language="javascript1.2" type="text/javascript" src="../../../../../../webdesign/other/js/search.js"></script>
+<link rel="stylesheet" href="../../../../../../webdesign/pubs/css/default_developer.css" />
+<meta name="collection" content="reference"/> 
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body>
+<noscript>JavaScript is not supported by your browser. JavaScript
+support is required for full functionality of this page.</noscript>
+<div class="a0 a0v1" id="a0v1"><!-- BEGIN A1 COMPONENT V.0 -->
+<div class="a1 a1r2">
+<div class="a1v0"><a href="#skip2content" class="skiplink">Skip to
+Content</a></div>
+</div>
+<!-- END A1 COMPONENT V.0 -->
+<!-- BEGIN A2 COMPONENT V.1 -->
+<div class="a2w0">
+<div class="a2" id="a2v1">
+<div class="a2w1">
+<div class="a2w2">
+<div class="a2w3">
+<div class="a2w4">
+<div class="a2topiclinks"><a href="http://www.oracle.com" title=
+"Oracle Home Page" id="sunlogo" name="sunlogo"><img src=
+"../../../../../../webdesign/pubs/im/a.gif" alt="Home Page" width="98" height="58"
+border="0" /></a>
+<ul id="mtopics">
+<li id="mtopic1"><a id="glink1" class="tpclink a2menu" title=
+"See Oracle Technology Network" href="http://oracle.com/technology"
+name="glink1">Oracle Technology Network</a></li>
+<li id="mtopic2"><a id="glink2" class="tpclink a2menu" title=
+"Software Downloads" href=
+"http://www.oracle.com/technology/software/index.html" name=
+"glink2">Software Downloads</a></li>
+<li id="mtopic3"><a id="glink3" class="tpclink a2menu" title=
+"See Java SE Documentation" href=
+"http://download.oracle.com/javase/index.html" name=
+"glink3">Documentation</a></li>
+</ul>
+<div class="a2search"><a href="../../../../../../search.html" target=
+"_blank">Search</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END A2 COMPONENT V.1 -->
+<!-- BEGIN SEPARATOR -->
+<div class="hr">
+<hr /></div>
+<!-- END SEPARATOR -->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content" id="skip2content"></a>
+
+
+<div class="smallpagetitle"><h1>Zip File System Provider</h1></div>
+<h2><a id="intro" name="intro"></a>Introduction</h2>
+<p>The zip file system provider introduced in the Java SE 7 release
+is an implementation of a custom file system provider. The zip file
+system provider treats a zip or JAR file as a file system and
+provides the ability to manipulate the contents of the file. The
+zip file system provider creates multiple file systems &mdash; one
+file system for each zip or JAR file.</p>
+<p>The <code>demo/nio/zipfs/src.zip</code> file in your Java SE 7
+installation contains the source code for the zip file system
+provider. It also contains the <code>Demo.java</code> class that
+shows how to use the zip file system provider.</p>
+<h2><a id="usingzipfsp" name="usingzipfsp"></a>Using the Zip File
+System Provider</h2>
+<p>You can use the factory methods of the <a href=
+"../../../../api/java/nio/file/FileSystems.html"><code>java.nio.file.FileSystems</code></a>
+class to create a new zip file system or to obtain a reference to
+an existing zip file system. Create a zip file system by specifying
+the path of the zip or JAR file in one of the following ways:</p>
+<ul>
+<li>By using the JAR URL syntax defined in the <a href=
+"../../../../api/java/net/JarURLConnection.html"><code>java.net.JarURLConnection</code></a>
+class
+<pre class="codeblock">
+URI uri = URI.create("jar:file:/codeSamples/zipfs/zipfstest.zip");
+FileSystem fs = FileSystems.newFileSystem(uri, env);
+</pre></li>
+<li>By specifying a path and using automatic file type detection
+<pre class="codeblock">
+Path zipfile = Paths.get("/codeSamples/zipfs/zipfstest.zip");
+FileSystem fs = FileSystems.newFileSystem(zipfile, env, null);
+</pre></li>
+</ul>
+<p>Specify the configuration options for the zip file system in the
+<code>java.util.Map</code> object passed to the
+<code>FileSystems.newFileSystem</code> method. See the <a href=
+"zipfilesystemproviderprops.html">Zip File System Properties</a>
+topic for information about the provider-specific configuration
+properties for the zip file system.</p>
+<p>Once you have an instance of a zip file system, you can invoke
+the methods of the <a href=
+"../../../../api/java/nio/file/FileSystem.html"><code>java.nio.file.FileSystem</code></a>
+and <a href=
+"../../../../api/java/nio/file/Path.html"><code>java.nio.file.Path</code></a>
+classes to perform operations such as copying, moving, and renaming
+files, as well as modifying file attributes.</p>
+<p>The following code sample shows how to create a zip file system
+and copy a file to the new zip file system.</p>
+<pre class="codeblock">
+import java.util.*;
+import java.net.URI;
+import java.nio.file.Path;
+import java.nio.file.*;
+
+public class ZipFSPUser {
+    public static void main(String [] args) throws Throwable {
+        Map&lt;String, String&gt; env = new HashMap&lt;&gt;(); 
+        env.put("create", "true");
+        // locate file system by using the syntax 
+        // defined in java.net.JarURLConnection
+        URI uri = URI.create("jar:file:/codeSamples/zipfs/zipfstest.zip");
+        
+       try (FileSystem zipfs = FileSystems.newFileSystem(uri, env)) {
+            Path externalTxtFile = Paths.get("/codeSamples/zipfs/SomeTextFile.txt");
+            Path pathInZipfile = zipfs.getPath("/SomeTextFile.txt");          
+            // copy a file into the zip file
+            Files.copy( externalTxtFile,pathInZipfile, 
+                    StandardCopyOption.REPLACE_EXISTING ); 
+        } 
+    }
+}
+</pre>
+<h2>Resources</h2>
+<ul>
+<li><a href="filesystemprovider.html">Developing a Custom File
+System Provider</a></li>
+<li><a href="zipfilesystemproviderprops.html">Zip File System
+Properties</a></li>
+</ul>
+
+<div id="javasefooter">
+<div class="hr">
+<hr /></div>
+<div id="javasecopyright">
+<a href="../../../../legal/cpyr.html">Copyright &#169;</a> 1993, 2018, Oracle
+and/or its affiliates. All rights reserved.
+</div>
+
+<div id="javasecontactus">
+<a href="http://docs.oracle.com/javase/feedback.html">Contact Us</a>
+</div>
+</div>
+</div>
+
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript" type="text/javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+
+</body>
+</html>

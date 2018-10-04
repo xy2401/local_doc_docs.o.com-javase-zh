@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>3 Camera (Release 8)</title>
+<meta name="description" content="This chapter describes the Camera API that is included with the JavaFX 3D Graphics features.">
+
+<meta name="viewport" content="width=device-width">
+
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/main-media-480-tablet.css">
+<link rel="stylesheet" href="../../assets/css/main-media-768-laptop.css">
+<link rel="stylesheet" href="../../assets/css/main-media-1140-deskp.css">
+
+<link rel="stylesheet" href="../../assets/css/simpletree.css">
+<link rel="stylesheet" href="../../assets/css/forms.css">
+<link rel="stylesheet" href="../../assets/css/panel.css">
+<link rel="stylesheet" href="../../assets/css/altanav.css">
+<link rel="stylesheet" href="../../assets/css/docstyles.css">
+
+<link rel="stylesheet" href="../../assets/css/print.css">
+<link rel="stylesheet" href="../../assets/css/home.css">
+<link rel="stylesheet" href="../../assets/css/normalize.min.css">    
+
+        
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="../../assets/css/ltIE9.css">
+<![endif]-->         
+        
+<script src="../../assets/js/jquery-1.6.2.js"></script>
+<script src="../../assets/js/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+<!--toggle search-->
+<script src="../../assets/js/toggle.search.js"  type="text/javascript"></script>
+<!--navigation main-->
+<script src="../../assets/js/altanav.js"  type="text/javascript"></script> 
+<!--custom tag element-->
+<script src="../../assets/js/customhtmltags.js"  type="text/javascript"></script> 
+
+<!--project specific head data-->
+  
+<!-- Function for printing -->  
+<script>
+function PrintPage()
+  {window.print();}
+</script>
+
+<script>
+  $(window).unload(function() {
+  });
+</script>
+
+
+<!-- keep select menu's sticking when hit back button-->
+<script>
+$(window).load(function () {
+    $("select").each(function () {
+        $(this).val($(this).find('option[selected]').val());
+    });
+});
+</script>
+
+<script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+
+<body>
+<!--[if lt IE 7]>
+<div style="border-bottom: 1px solid #A3A481; background-color: #FFFFDC; padding: 10px; font: normal 13px/16px Arial, sans-serif;">
+<strong>You are running an older version of Internet Explorer or running Internet Explorer in compatibility mode.</strong>  For a richer experience, please upgrade to the latest <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie" target="_blank">Internet Explorer</a> version, or use <a target="_blank" href="http://www.google.com/chrome/" target="_blank">Chrome</a>, <a target="_blank" href="http://www.mozilla.com/en-US/firefox/" target="_blank">Firefox</a>, or <a target="_blank" href="http://www.apple.com/safari/" target="_blank">Safari</a>.
+</div>
+<![endif]--> 
+
+<div id="altlogo">Oracle | Hardware and Software, Engineered to Work Together</div>
+
+<span id="top"></span>
+
+
+<div class="header-container">
+<header class="bookwrapper  clearfix">
+
+<div id="brandProdName" >
+<div id="logocover"></div>
+<div id="productName" >Documentation</div>
+</div> 
+
+<div id="signInArea"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#signInArea").load("../../version.html");
+});
+</script>
+
+<div id="searchheader">
+<a href="/javase/search.html" class="button">Search Java SE Documentation</a></div>
+
+<!-- Main Navigation -->
+ <br class="clearfloat" />
+ <div id="navBar" class="io" >
+
+<!--
+<ul>
+<li><a class="menu1" title="Home" href="pg-home.php"><span>Home</span></a></li>
+<li><a class="menu2" title="What's New"><span>What's New</span><span class="dropdown-arrow"></span></a></li>
+<li><a class="menu3" title="All Books" href="pg-allbooks-infotype.php"><span>All Books</span></a></li>
+</ul>
+-->
+</div>
+            <br class="clearfloat" />
+<!--         
+<div id="navcontainer" >
+<div class="submenu2 shadow" ><h3>See What's New in <strong>SE</strong> Documentation</h3>
+</div>
+
+</div> -->
+            <br class="clearfloat" />
+<!-- End Main Navigation -->
+
+
+  </header>
+</div><!-- header -->
+
+<div class="main-container" >
+<div class="main bookwrapper bookindent clearfix" >
+
+<div id="breadcrumb">
+  <a href="../../index.html">Java Platform, Standard Edition (Java SE) 8</a>
+</div>
+<div class="bookoptions"><a href="mailto:javasedocs_us@oracle.com" title="Send Feedback">Send Feedback</a> | <a href="#" onclick="PrintPage();">Print</a>
+ | <a href="../JFXGR.pdf">PDF</a> | <a href="../JFXGR.epub">ePub</a> | <a href="../JFXGR.mobi">Mobi</a>
+</div>
+
+<div class="booktitle">JavaFX: Working with JavaFX Graphics</div>
+
+<div class="contentarea clearboth">
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+//////////////////////
+$(".trig1").click(function(){
+        $("#panel1").toggle("fast"); <!--/*makes panel visible*/-->
+        $(this).toggleClass("active"); <!--makes trigger expand out-->
+        return false;
+    });
+
+///////////////////////
+
+$("#X").click(function(){
+      // trigger click is needed for css .active to work
+	  $( ".trig1" ).trigger( "click" );
+   return false;
+    });
+
+/*/////////////////////
+
+$("#panel1").mouseleave(function(){
+  $( ".trig1" ).trigger( "click" );
+   return false;
+});
+
+/////////////////////*/
+});
+
+</script>
+
+
+<!-- page navigation -->
+
+<!--div id="tocbutton" ><span class="button"><a href="#mypanel"><img src="../../assets/img-common/3linemenu.png" alt="menu icon" />Menu</a></span></div-->
+
+<div id="pagenav"><a class="button" title="Previous Page" href="shape3d.htm">Previous Page</a><a class="button" title="Next Page" href="subscene.htm">Next Page</a></div>
+
+<article>
+
+<!-- End Header --><a id="CJAHFAHB" name="CJAHFAHB" class="anchor"></a><a id="JFXGR104" name="JFXGR104" class="anchor"></a>
+<h1 class="chapter"><span class="secnum">3</span> Camera</h1>
+<a id="JFXGR165" name="JFXGR165" class="anchor"></a>
+<p>This chapter describes the Camera API that is included with the JavaFX 3D Graphics features.</p>
+<p>The camera is now a node that can be added to the JavaFX scene graph and thus allows you to move the camera around in a 3D UI layout. This is different from the 2D layout where the camera remained in one position.</p>
+<p>In the JavaFX scene coordinate space, the default camera's projection plane is at Z=0 and camera coordinate system is as follows:</p>
+<p>&#x2022; X-axis points to the right</p>
+<p>&#x2022; Y-axis points down</p>
+<p>&#x2022; Z-axis points away from the viewer or into the screen.</p>
+<a id="JFXGR166" name="JFXGR166" class="anchor"></a>
+<div class="sect1"><!-- infolevel="all" infotype="General" --><a id="sthref13" name="sthref13" class="anchor"></a>
+<h2 class="sect1">Perspective Camera</h2>
+<p>JavaFX provides a perspective camera for rendering a 3D scene. This camera defines a viewing volume for a perspective projection. The viewing volume can be changed by changing the value of the <code>fieldOfView</code> property.</p>
+<p><a href="#BGBBEJHF">Example 3-1</a> shows the two constructors for creating a Perspective Camera:</p>
+<div class="example"><a id="BGBBEJHF" name="BGBBEJHF" class="anchor"></a><a id="JFXGR167" name="JFXGR167" class="anchor"></a>
+<p class="titleinexample">Example 3-1 Constructors for PerspectiveCamera</p>
+<pre xml:space="preserve" class="oac_no_warn">PerspectiveCamera()
+
+PerspectiveCamera(boolean fixedEyeAtCameraZero)
+</pre></div>
+<!-- class="example" -->
+<p>The latter constructor is a new constructor in JavaFX 8 and allows you to control the camera position with the specified <code>fixedEyeAtCameraZero</code> flag so that it renders what the camera would see in a 3D environment.</p>
+<p>The following constructor should be used for 3D graphics programming:</p>
+<pre xml:space="preserve" class="oac_no_warn">PerspectiveCamera(true);
+</pre>
+<p>When the option <code>fixedEyeAtCameraZero</code> is set to <code>true</code>, a PerspectiveCamera is constructed with its eye position fixed at (0, 0, 0) in its coordinate space, regardless of the change in the dimension of the projection area or window resize.</p>
+<p>When the <code>fixedEyeAtCameraZero</code> is set to the default value of <code>false</code>, the coordinate system defined by the camera has its origin in the upper left corner of the panel. This mode is used for 2D UI controls rendered with a perspective camera, but is not useful for most 3D graphics applications. The camera is moved when the window is resized, for example, to maintain the origin in the upper left corner of the panel. That is exactly what you want for a 2D UI layout, but not in a 3D layout. So, it is important to remember to set the <code>fixedEyeAtCameraZero</code> property to <code>true</code> when you are doing 3D graphics to transform or move the camera around.</p>
+<p>To create a camera and add it to the scene, use the following lines of code:</p>
+<pre xml:space="preserve" class="oac_no_warn">Camera camera = new PerspectiveCamera(true);
+     scene.setCamera(camera);
+</pre>
+<p>Use the following code to add a camera to the scene graph.</p>
+<pre xml:space="preserve" class="oac_no_warn">Group cameraGroup = new Group();
+     cameraGroup.getChildren().add(camera);
+     root.getChildren().add(cameraGroup);
+</pre>
+<p>To rotate the camera and move the cameraGroup, use the following lines of code:</p>
+<pre xml:space="preserve" class="oac_no_warn">camera.rotate(45);
+     cameraGroup.setTranslateZ(-75);
+</pre>
+<a id="JFXGR168" name="JFXGR168" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="sthref14" name="sthref14" class="anchor"></a>
+<h3 class="sect2">Field of View</h3>
+<p>The camera's field of view can be set as follows:</p>
+<pre xml:space="preserve" class="oac_no_warn">camera.setFieldOfView(double value);
+</pre>
+<p>The larger the field of view, the more perspective distortion and size differences increase.</p>
+<ul>
+<li>
+<p><code><span class="codeinlineitalic">Fisheye</span></code> lenses have a field of view of up to 180 degrees and beyond.</p>
+</li>
+<li>
+<p><code><span class="codeinlineitalic">Normal</span></code> lenses have a field of view between 40 and 62 degrees.</p>
+</li>
+<li>
+<p><code><span class="codeinlineitalic">Telephoto</span></code> lenses have a field of view of 1 (or less) degrees to 30 degrees.</p>
+</li>
+</ul>
+</div>
+<!-- class="sect2" -->
+<a id="JFXGR169" name="JFXGR169" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="sthref15" name="sthref15" class="anchor"></a>
+<h3 class="sect2">Clipping Planes</h3>
+<p>You can set the near clipping plane of the Camera in the local coordinate system as follows:</p>
+<pre xml:space="preserve" class="oac_no_warn">camera.setNearClip(double value);
+</pre>
+<p>To set the far clipping plane of the Camera in the local coordinate system, use the following:</p>
+<pre xml:space="preserve" class="oac_no_warn">camera.setFarClip(double value);
+</pre>
+<p>Setting the near or far clipping planes determines the viewing volume. If the near clipping plane is too great, it will basically start clipping the front of the scene. If it is too small, then it will start clipping the back of the scene.</p>
+<div class="infoboxnotealso">
+<p class="notep1">Tip:</p>
+<p>Don't set the near clipping value to a smaller value than is needed or the far clipping value to a larger value than is needed because strange visual artifacts may start appearing.</p>
+</div>
+<p>The clipping planes need to be set so that enough of the scene can be seen. But the viewing range should not be set so large that a numerical error is encountered. If the near clipping plane is too large a value, the scene starts getting clipped. But if the near clipping plane too small, a different kind of visual artifact will appear due to a value being too close to zero. If the far clipping plane is too large a value, a numerical error is also encountered, especially if the near clipping plane is too small a value.</p>
+</div>
+<!-- class="sect2" -->
+<a id="JFXGR170" name="JFXGR170" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="sthref16" name="sthref16" class="anchor"></a>
+<h3 class="sect2">Y-down versus Y-up</h3>
+<p>Most 2D graphics coordinate systems (including UI) have Y increasing as you go down the screen. This is true of PhotoShop, JavaFX, and Illustrator. Basically most 2D packages work this way. Many 3D graphics coordinate systems typically have Y increasing as you move up the screen. Some 3D graphics coordinate systems have Z increasing as you move up, but most have Y increasing as you move up the screen.</p>
+<p>Y down versus Y up are both correct in their own context. In JavaFX, the camera's coordinate system is Y-down, which means X axis points to the right, Y axis is pointing down, Z axis is pointing away from the viewer or into the screen.</p>
+<p>If you want to think of a 3D scene as Y-up, you could create an <code>Xform</code> node, called <code>root3D</code>, under root, as shown in <a href="#BABGJJDA">Example 3-2</a>. You set its <code>rx.setAngle</code> property to 180 degrees, basically turning it upside down. Then, add your 3D elements to your <code>root3D</code> node and put your camera under r<code>oot3D</code>.</p>
+<div class="example"><a id="BABGJJDA" name="BABGJJDA" class="anchor"></a><a id="JFXGR171" name="JFXGR171" class="anchor"></a>
+<p class="titleinexample">Example 3-2 Create Xform node, root3D</p>
+<pre xml:space="preserve" class="oac_no_warn">root3D = new Xform();
+root3D.rx.setAngle(180.0);
+root.getChildren().add(root3D);
+root3D.getChildren().add(...); // add all your 3D nodes here
+</pre></div>
+<!-- class="example" -->
+<p>You can also create an Xform node called <code>cameraXform</code> and put it under the root, as shown in <a href="#BABGDGIC">Example 3-3</a>. You turn it upside down, and put your camera under the <code>cameraXform</code>.</p>
+<div class="example"><a id="BABGDGIC" name="BABGDGIC" class="anchor"></a><a id="JFXGR172" name="JFXGR172" class="anchor"></a>
+<p class="titleinexample">Example 3-3 Create a cameraXform Node</p>
+<pre xml:space="preserve" class="oac_no_warn">Camera camera = new PerspectiveCamera(true);
+Xform cameraXform = new Xform();
+root.getChildren().add(cameraXform);
+cameraXform.getChildren().add(camera);
+cameraXform.rz.setAngle(180.0);
+</pre></div>
+<!-- class="example" -->
+<p>An even better way, with subtle difference on the camera node, is to add a 180 degree rotation to the camera. The rotation used is not the one provided for you because you want to avoid the auto pivoting. In <a href="#BABGBBBF">Example 3-4</a>, the camera is turned 180 degrees and it is then added to the camera as a child of cameraXform. The subtle difference is that the cameraXform retains very pristine values and in its default position, everything is zeroed out, including the translations and rotations.</p>
+<div class="example"><a id="BABGBBBF" name="BABGBBBF" class="anchor"></a><a id="JFXGR173" name="JFXGR173" class="anchor"></a>
+<p class="titleinexample">Example 3-4 Create cameraXform and Rotate</p>
+<pre xml:space="preserve" class="oac_no_warn">Camera camera = new PerspectiveCamera(true);
+Xform cameraXform = new Xform();
+root.getChildren().add(cameraXform);
+cameraXform.getChildren().add(camera);
+Rotate rz = new Rotate(180.0, Rotate.Z_AXIS);
+camera.getTransforms().add(rz);
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect2" -->
+<a id="JFXGR264" name="JFXGR264" class="anchor"></a>
+<div class="sect2"><!-- infolevel="all" infotype="General" --><a id="sthref17" name="sthref17" class="anchor"></a>
+<h3 class="sect2">Sample Code Using PerspectiveCamera</h3>
+<p>The <code>Simple3DBoxApp</code> sample, shown in <a href="#BABHHDGG">Example 3-5</a>, creates a 3D box and uses a perspective camera for rendering the scene. This sample application is part of the Ensemble 8 Samples that you can download from the JavaFX Demos and Samples section at <code><a target="_blank" href="http://www.oracle.com/technetwork/java/javase/downloads/">http://www.oracle.com/technetwork/java/javase/downloads/</a></code>.</p>
+<p>The <a href="msaaapp-code.htm#CJAGGIGF">MSAAApp.java</a> application also gives an example of how to use the <code>Camera</code> API.</p>
+<div class="example"><a id="BABHHDGG" name="BABHHDGG" class="anchor"></a><a id="JFXGR265" name="JFXGR265" class="anchor"></a>
+<p class="titleinexample">Example 3-5 3D Box Sample Application</p>
+<pre xml:space="preserve" class="oac_no_warn">package simple3dbox;
+ 
+import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.PerspectiveCamera;
+import javafx.scene.Scene;
+import javafx.scene.SubScene;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.Box;
+import javafx.scene.shape.DrawMode;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
+import javafx.stage.Stage;
+ 
+public class Simple3DBoxApp extends Application {
+ 
+    public Parent createContent() throws Exception {
+ 
+        // Box
+        Box testBox = new Box(5, 5, 5);
+        testBox.setMaterial(new PhongMaterial(Color.RED));
+        testBox.setDrawMode(DrawMode.LINE);
+ 
+        // Create and position camera
+        PerspectiveCamera camera = new PerspectiveCamera(true);
+        camera.getTransforms().addAll (
+                new Rotate(-20, Rotate.Y_AXIS),
+                new Rotate(-20, Rotate.X_AXIS),
+                new Translate(0, 0, -15));
+ 
+        // Build the Scene Graph
+        Group root = new Group();       
+        root.getChildren().add(camera);
+        root.getChildren().add(testBox);
+ 
+        // Use a SubScene       
+        SubScene subScene = new SubScene(root, 300,300);
+        subScene.setFill(Color.ALICEBLUE);
+        subScene.setCamera(camera);
+        Group group = new Group();
+        group.getChildren().add(subScene);
+        return group;
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        primaryStage.setResizable(false);
+        Scene scene = new Scene(createContent());
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    /**
+     * Java main for when running without JavaFX launcher
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
+</pre></div>
+<!-- class="example" --></div>
+<!-- class="sect2" --></div>
+<!-- class="sect1" -->
+
+</article>
+
+<div id=rightslider>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+PANEL 1 /* table of contents */
+///////////////////////////////////////////////////////////////////////*/-->
+
+<div id="panel1" class="panel shadow">
+<div class="panellists">
+<div style="float:right;"><a href="#" id="X"><img src="../../assets/img-common/X.png"   alt="Close Window" title="Close Table of Contents Window" /></a></div>
+	<h3>Table of Contents</h3>
+		<script type="text/javascript" src="../../assets/js/tree.menu.js" >
+
+/***********************************************
+* Simple Tree Menu - (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/*http://www.dynamicdrive.com/dynamicindex1/navigate1.htm*/
+</script>
+
+<h2>JavaFX: Working with JavaFX Graphics</h2>
+
+<a href="javascript:ddtreemenu.flatten('treemenu1', 'expand')">Expand</a> | <a href="javascript:ddtreemenu.flatten('treemenu1', 'contact')">Collapse</a>
+
+<ul id="treemenu1" class="treeview">
+    <li><a href="title.htm#top">Title and Copyright Information</a></li>
+    <li><a href="preface.htm#sthref2">Preface</a>
+      <ul>
+        <li><a href="preface.htm#sthref3">About This Tutorial</a></li>
+        <li><a href="preface.htm#sthref4">Audience</a></li>
+        <li><a href="preface.htm#sthref5">Documentation Accessibility</a></li>
+        <li><a href="preface.htm#sthref7">Related Documents</a></li>
+        <li><a href="preface.htm#sthref8">Conventions</a></li>
+      </ul>
+    </li>
+    <li><a href="javafx-3d-graphics.htm#CHDGHHEJ">Part I Getting Started with JavaFX 3D Graphics</a>
+    <ul>
+    <li><a href="overview-3d.htm#JFXGR102">1 Overview</a>
+      <ul>
+        <li><a href="overview-3d.htm#sthref9">Sample of 3D Graphics Use Cases</a></li>
+        <li><a href="overview-3d.htm#sthref11">3D Feature in JavaFX 2.x Releases</a></li>
+      </ul>
+    </li>
+    <li><a href="shape3d.htm#JFXGR103">2 Shape3D</a>
+      <ul>
+        <li><a href="shape3d.htm#JFXGR160">Pre-defined Shapes</a></li>
+        <li><a href="shape3d.htm#JFXGR163">User-Defined Shapes</a></li>
+      </ul>
+    </li>
+    <li><a class="selected" href="camera.htm#JFXGR104">3 Camera</a>
+      <ul>
+        <li><a href="camera.htm#sthref13">Perspective Camera</a>
+          <ul>
+          <li><a href="camera.htm#sthref14">Field of View</a></li>
+          <li><a href="camera.htm#sthref15">Clipping Planes</a></li>
+          <li><a href="camera.htm#sthref16">Y-down versus Y-up</a></li>
+          <li><a href="camera.htm#sthref17">Sample Code Using PerspectiveCamera</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="subscene.htm#JFXGR105">4 SubScene</a>
+      <ul>
+        <li><a href="subscene.htm#sthref18">Creating a SubScene</a></li>
+        <li><a href="subscene.htm#sthref19">Sample Use of SubScene</a></li>
+      </ul>
+    </li>
+    <li><a href="light.htm#JFXGR106">5 Light</a>
+      <ul>
+        <li><a href="light.htm#sthref20">Creating and Using Light</a></li>
+      </ul>
+    </li>
+    <li><a href="material.htm#JFXGR107">6 Material</a></li>
+    <li><a href="picking.htm#JFXGR108">7 Picking</a>
+      <ul>
+        <li><a href="picking.htm#sthref21">Creating a PickResult Object</a></li>
+        <li><a href="picking.htm#sthref22">Methods for the PickResult Object</a></li>
+        <li><a href="picking.htm#sthref24">Sample Use of PickResult</a></li>
+      </ul>
+    </li>
+    <li><a href="sampleapp3d.htm#JFXGR109">8 Building a 3D Sample Application</a>
+      <ul>
+        <li><a href="sampleapp3d.htm#JFXGR270">Prepare for this Tutorial</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR188">Create the Project</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR189">Create the Scene</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR192">Set Up the Camera</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR198">Build the Axes</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR204">Build the Molecule</a></li>
+        <li><a href="sampleapp3d.htm#JFXGR209">Add Camera Viewing Controls</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="javafx-canvas.htm#sthref29">Part II JavaFX Canvas</a>
+    <ul>
+    <li><a href="canvas.htm#JFXGR214">9 Working with the Canvas API</a>
+      <ul>
+        <li><a href="canvas.htm#sthref30">Overview</a></li>
+        <li><a href="canvas.htm#sthref31">Drawing Basic Shapes</a></li>
+        <li><a href="canvas.htm#sthref33">Applying Gradients and Shadows</a></li>
+        <li><a href="canvas.htm#sthref38">Interacting with the User</a></li>
+        <li><a href="canvas.htm#sthref42">Creating a Simple Layer System</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="javafx-image-ops.htm#sthref49">Part III JavaFX Image Ops</a>
+    <ul>
+    <li><a href="image_ops.htm#JFXGR238">10 Using the Image Ops API</a>
+      <ul>
+        <li><a href="image_ops.htm#sthref50">Overview of the Image Ops API</a></li>
+        <li><a href="image_ops.htm#sthref51">Reading Pixels From Images</a></li>
+        <li><a href="image_ops.htm#sthref55">Writing Pixels to Images</a></li>
+        <li><a href="image_ops.htm#sthref58">Writing Images with Byte Arrays and PixelFormats</a></li>
+        <li><a href="image_ops.htm#sthref63">Creating a Snapshot</a></li>
+      </ul>
+    </li>
+</ul>
+</li>
+    <li><a href="samples-appendix.htm#JFXGR274">Part IV Source Code for the Graphics Tutorials</a>
+    <ul>
+    <li><a href="msaaapp-code.htm#JFXGR277">A MSAAApp Code</a>
+      <ul>
+        <li><a href="msaaapp-code.htm#JFXGR279">MSAAApp.java</a></li>
+      </ul>
+    </li>
+    <li><a href="sampleapp3d-code.htm#JFXGR280">B 3D MoleculeSampleApp Code</a>
+      <ul>
+        <li><a href="sampleapp3d-code.htm#JFXGR282">Xform.java</a></li>
+        <li><a href="sampleapp3d-code.htm#JFXGR283">buildMolecule()</a></li>
+        <li><a href="sampleapp3d-code.htm#JFXGR284">handleMouse()</a></li>
+        <li><a href="sampleapp3d-code.htm#JFXGR285">handleKeyboard()</a></li>
+      </ul>
+    </li>
+</ul>
+
+</li>
+</ul>
+
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+//ddtreemenu.createTree("treemenu2", false)
+
+</script>
+</div>
+<div style="clear:both;"></div>
+</div>
+
+
+<!--/*///////////////////////////////////////////////////////////////////////
+TABS 
+///////////////////////////////////////////////////////////////////////*/-->
+
+<a class="trig1 trigger shadow" alt="Table of Contents" title="Contents" href="#"></a>
+
+</div>
+
+<div id="pagenav2"><a class="button" title="Previous Page" href="shape3d.htm">Previous Page</a><a href="#top"  class="button" title="Top of Page" target="_self">Top of Page</a><a class="button" title="Next Page" href="subscene.htm">Next Page</a></div>
+
+<br class="clearfloat" />
+<span class="clearfloat"></span>
+</div> <!-- .contentarea -->
+</div> <!-- .main -->
+</div> <!-- #main-container --><!-- content -->
+
+<div class="main wrapper">
+
+<div class="socialicons">
+
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a>
+
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a>
+
+
+<a href="" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+
+
+<!--
+<a target="_blank" href="https://www.facebook.com/ilovejava" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Facebook" class="socialIcon facebook" /></a> 
+
+<a target="_blank" href="https://www.twitter.com/java" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="Twitter" class="socialIcon twitter" /></a> 
+
+<a target="_blank" href="http://blogs.oracle.com/thejavatutorials/feed/entries/rss" target="_blank"><img src="../../assets/img-common/f_spacer.gif" alt="RSS Feeds" class="socialIcon rss" /></a>
+-->
+</div>
+<div class="SocialBar">
+
+
+<div id="tw-like">
+<!-- from:twitter:https://twitter.com/about/resources/buttons#tweet -->
+<a target="_blank" href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+
+
+<div id="go-like">
+<!-- https://developers.google.com/+/web/+1button/ -->
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-annotation="none"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</div>
+
+
+
+
+<!--<div id="fb-like">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="https://www.facebook.com/OracleCloudComputing" data-width="450" data-layout="button_count" data-show-faces="false" data-send="true"></div>
+</div>-->
+
+
+</div>
+</div>
+
+
+<div class="footer-containerbook ">
+ <footer>
+	<span style="display:block;">Copyright &copy; 2008, 2014, Oracle and/or its affiliates. All rights reserved. <a href="../../assets/cpyr.htm">Legal Notices</a></span>
+ </footer>
+</div>
+        
+        <br />
+        
+        <!--<script src="../../assets/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/jquery-1.8.0.min.js"><\/script>')</script>-->
+
+<!-- Start SiteCatalyst code -->
+<script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
+<!-- End SiteCatalyst code -->
+
+
+</body>
+</html>

@@ -1,0 +1,216 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--NewPage-->
+<html>
+<head>
+<title>Serializable Objects</title>
+<meta name="collection" content="learning">
+
+                    <script>var w=window;if(w.performance||w.mozPerformance||w.msPerformance||w.webkitPerformance){var d=document;AKSB=w.AKSB||{},AKSB.q=AKSB.q||[],AKSB.mark=AKSB.mark||function(e,_){AKSB.q.push(["mark",e,_||(new Date).getTime()])},AKSB.measure=AKSB.measure||function(e,_,t){AKSB.q.push(["measure",e,_,t||(new Date).getTime()])},AKSB.done=AKSB.done||function(e){AKSB.q.push(["done",e])},AKSB.mark("firstbyte",(new Date).getTime()),AKSB.prof={custid:"322179",ustr:"",originlat:"0",clientrtt:"1",ghostip:"23.212.3.15",ipv6:false,pct:"10",clientip:"45.78.37.67",requestid:"2a85b5ce",region:"32996",protocol:"",blver:14,akM:"dsca",akN:"ae",akTT:"O",akTX:"1",akTI:"2a85b5ce",ai:"206465",ra:"false",pmgn:"",pmgi:"",pmp:"",qc:""},function(e){var _=d.createElement("script");_.async="async",_.src=e;var t=d.getElementsByTagName("script"),t=t[t.length-1];t.parentNode.insertBefore(_,t)}(("https:"===d.location.protocol?"https:":"http:")+"//ds-aksb-a.akamaihd.net/aksb.min.js")}</script>
+                    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+<body BGCOLOR="#ffffff">
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=bottom border=0 alt="Previous | "></a><a
+href="reference.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=bottom border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=bottom border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/objectsHeader.gif" width=26 height=26 align=bottom border=0 alt="Java Objects and the Directory | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Storing Objects in the Directory</em></strong></a>
+</td>
+</tr>
+</table>
+<P ALIGN="CENTER">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+<IMG SRC="../../jndiimages/shoeline2.GIF" ALIGN="BOTTOM" BORDER="0" WIDTH="202"
+    HEIGHT="25" NATURALSIZEFLAG="3">
+</P>
+
+<h2>
+    Serializable Objects
+</h2>
+<p>
+<blockquote>
+
+To <em>serialize</em> an object means to convert its state to a byte
+stream so way that the byte stream can be reverted back into a
+copy of the object.  A Java object is <em>serializable</em> if its
+class or any of its superclasses implements either the <tt>java.io.Serializable</tt>
+interface or its subinterface, <tt>java.io.Externalizable</tt>.
+<em>Deserialization</em> is the process of converting the serialized
+form of an object back into a copy of the object.
+<p>
+For example, the <tt>java.awt.Button</tt> class implements the <tt>Serializable</tt>
+interface, so you can serialize a <tt>java.awt.Button</tt> object
+and store that serialized state in a file.
+Later, you can read back the serialized state and deserialize
+into a <tt>java.awt.Button</tt> object.
+<p>
+The Java platform specifies a default way by which serializable objects
+are serialized.
+A (Java) class can override this default
+serialization and define its own way of serializing objects of that
+class.  
+<a href=http://java.sun.com/products/jdk/1.2/docs/guide/serialization/>
+The Object Serialization Specification</a> describes object
+serialization in detail.
+<p>
+When an object is serialized, information that identifies its class is
+recorded in the serialized stream. However, the class's definition
+("class file") itself is not recorded. It is the responsibility of the
+system that is deserializing the object to determine how to locate and
+load the necessary class files.  For example, a Java application
+might include in its classpath a JAR file that contains the class files
+of the serialized object(s) or load the class definitions by using
+information stored in the directory, as explained later
+in this lesson.
+
+
+<a name=EXAMPLE><h4>Binding a Serializable Object</h4></a>
+
+You can store a serializable object in the directory
+if the underlying service provider supports that action, as does
+Sun's LDAP service provider.
+<p>
+The following example invokes
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><tt>Context.bind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#bind(javax.naming.Name, java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     to bind an AWT button to the name <tt>"cn=Button"</tt>.
+To associate attributes with the new binding, you use
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#bind(javax.naming.Name, java.lang.Object, javax.naming.directory.Attributes)"><tt>DirContext.bind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#bind(javax.naming.Name, java.lang.Object, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+To overwrite an existing binding, use
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#rebind(javax.naming.Name, java.lang.Object)"><tt>Context.rebind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#rebind(javax.naming.Name, java.lang.Object)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>     and
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#rebind(javax.naming.Name, java.lang.Object, javax.naming.directory.Attributes)"><tt>DirContext.rebind()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#rebind(javax.naming.Name, java.lang.Object, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+
+<blockquote>
+<pre>
+// Create the object to be bound
+Button b = new Button("Push me");
+
+// Perform the bind
+ctx.bind("cn=Button", b);
+</pre>
+</blockquote>
+You can then read the object back using
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><tt>Context.lookup()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html#lookup(javax.naming.Name)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>, as follows.
+<blockquote>
+<pre>
+// Check that it is bound
+Button b2 = (Button)ctx.lookup("cn=Button");
+System.out.println(b2);
+</pre>
+</blockquote>
+Running <a href=src/SerObj.java>this example</a> produces the following output.
+<blockquote>
+<pre>
+# java SerObj
+java.awt.Button[button0,0,0,0x0,invalid,label=Push me]
+</pre>
+</blockquote>
+
+<a name=CODEBASE><h4>Specifying a Codebase</h4></a>
+
+<blockquote>
+<hr>
+<strong>Note:</strong>
+The procedures described here are for binding a serializable 
+object in
+a directory service that follows the
+<a href=../../getStarted/concepts/glossary.html#SCHEMA>schema</a>
+defined in <A HREF="http://www.ietf.org/rfc/rfc2713.txt">RFC 2713</A>.
+These procedures might not be generally applicable to other naming and
+directory services that support binding a serializable object with a 
+specified codebase.
+<hr>
+</blockquote>
+
+When a serialized object is bound in the directory as shown in the previous example,
+applications that read the serialized object from the directory must
+have access to the class definitions necessary to deserialize the object.
+Alternatively, you can record a <em>codebase</em> with the serialized
+object in the directory, either when you bind the object or subsequently
+by adding an attribute by using 
+<a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#modifyAttributes(javax.naming.Name, int, javax.naming.directory.Attributes)"><tt>DirContext.modifyAttributes()</tt></a><a target="_top" href="http://java.sun.com/j2se/1.3/docs/api/javax/naming/directory/DirContext.html#modifyAttributes(javax.naming.Name, int, javax.naming.directory.Attributes)"><img src="../../images/apiIcon.gif" width=20 height=20 border=0 alt="(in the API reference documentation)"></a>.
+You can use any attribute to record this codebase and have your application
+read that attribute from the directory and use it appropriately. 
+Or you can use the <tt>"javaCodebase"</tt>  attribute specified in <A HREF="http://www.ietf.org/rfc/rfc2713.txt">RFC 2713</A>.
+In the latter case, Sun's LDAP service provider will automatically
+use the attribute to load the class definitions as needed.
+<tt>"javaCodebase"</tt> should contain the URL of a codebase directory 
+or a JAR file. (Note that JAR files work only with the Java 2 platform).
+If the codebase contains more than one URL, 
+then each URL must be separated
+by a space character.
+<p>
+The following example resembles the one for binding a
+<tt>java.awt.Button</tt>. It differs in that
+it uses a user-defined <tt>Serializable</tt> class,
+<a href=src/Flower.java><tt>Flower</tt></a>, and
+supplies a <tt>"javaCodebase"</tt> attribute 
+that contains the location
+of <tt>Flower</tt>'s class definition.
+Here's the code that does the binding.
+<blockquote><pre>
+String codebase = ...;
+
+// Create the object to be bound
+Flower f = new Flower("rose", "pink");
+
+// Perform the bind and specify the codebase
+ctx.bind("cn=Flower", f, new BasicAttributes("javaCodebase", codebase));
+</pre></blockquote>
+When you run
+<a href=src/SerObjWithCodebase.java>this example</a>, you must supply
+the URL of the location at which the class file <tt>Flower.class</tt> was installed.
+For example, if <tt>Flower.class</tt> was installed at the Web server
+<tt>web1</tt>, in the directory <tt>example/classes</tt>, 
+then you would run this example as follows.
+<blockquote><pre>
+# java SerObjWithCodebase http://web1/example/classes/
+pink rose
+</pre></blockquote>
+Afterward, you may remove <tt>Flower.class</tt> from your classpath
+and run any program that looks up or lists this object without directly 
+referencing the <tt>Flower</tt> class.
+If your program references <tt>Flower</tt> directly, then
+you must make its class file available for compilation and execution.
+
+</blockquote>
+<p>
+<hr size=4>
+<p> 
+<table width="100%">
+<tr>
+<td align=left>
+<a href="index.html"><img src="../../images/PreviousArrow.gif" width=26 height=26 align=top border=0 alt="Previous | "></a><a
+href="reference.html"><img src="../../images/NextArrow.gif" width=26 height=26 align=top border=0 alt="Next | "></a><a
+href="../../trailmap.html"><img src="../../images/WayUpArrow.gif" width=26 height=26 align=top border=0 alt="Trail Map | "></a><a
+href="../index.html"><img src="../../jndiimages/objectsHeader.gif" width=26 height=26 align=top border=0 alt="Java Objects and the Directory | "></a>
+</td>
+<td align=right>
+<a href="index.html"><strong><em>Storing Objects in the Directory</em></strong></a>
+</td>
+</tr>
+</table>
+<!-- Start SiteCatalyst code   -->
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code_download.js"></script>
+<script language="JavaScript" src="http://www.oracle.com/ocom/groups/systemobject/@mktg_admin/documents/systemobject/s_code.js"></script>
+ 
+<!-- ********** DO NOT ALTER ANYTHING BELOW THIS LINE ! *********** -->
+<!--  Below code will send the info to Omniture server -->
+<script language="javascript">var s_code=s.t();if(s_code)document.write(s_code)</script>
+ 
+<!-- End SiteCatalyst code -->
+</body>
+</html>
