@@ -1,368 +1,311 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    
-
-<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+﻿<html lang="en-US" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Using JoinRowSet Objects (The Java&trade; Tutorials &gt;        
-            JDBC(TM) Database Access &gt; JDBC Basics)
-</title>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-     <meta name="description" content="This JDBC Java tutorial describes how to use JDBC API to create, insert into, update, and query tables. You will also learn how to use simple and prepared statements, stored procedures and perform transactions" />
-     <meta name="keywords" content="java programming, learn java, java sample code, jdbc, prepared statement, result set" />
+        <title>使用JoinRowSet对象（Java™教程&gt; JDBC（TM）数据库访问&gt; JDBC基础知识）</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+     <meta name="description" content="This JDBC Java tutorial describes how to use JDBC API to create, insert into, update, and query tables. You will also learn how to use simple and prepared statements, stored procedures and perform transactions"></meta>
+     <meta name="keywords" content="java programming, learn java, java sample code, jdbc, prepared statement, result set"></meta>
         
-<style type="text/css">
-    body {
-        margin-left:10px;
-        margin-right:10px;
-        line-height: 1.5;
-        FONT-FAMILY: Arial, Helvetica, sans-serif; 
-        font-size: 0.8em;
-    }
-    
-    a:link{text-decoration:none; color:#09569d;}
-    a:visited{text-decoration:none; color: #3a87cf;}
-    a:hover{text-decoration:underline; }
-        
-    code{
-        font-family:Monaco,Courier,"Courier New";
-    }
-    
-    .header-container {
-        background-color: #fff;
-        border-bottom: 1px solid #C1CFDA;
-        -webkit-box-shadow: 0 2px 2px rgba(117, 163, 231, 0.1);
-        box-shadow: 0 2px 2px rgba(117, 163, 231, 0.1);
-    }
-    
-    .bookwrapper {
-        width: auto;
-        margin: auto;
-    }
-    
-    .clearfix {
-    }
-    
-    .clearfloat {
-        clear: both;
-        overflow: auto;
-        height: 0px;
-        font-size: 1px;
-        line-height: 0px;
-    }
-    
-    #brandProdName {
-        width: auto;
-        height: auto;
-    }
-    
-    #logocover {
-        display: block;
-        background: transparent url(../../images/oracle-java-logo.png) 0px 0px no-repeat;
-        height: 50px;
-        width: 229px;
-        float: left;
-    }
-    
-    #productName {
-        font-size: 16px;
-        position: relative;
-        top: 19px;
-        padding-left: 3px;
-        color: #457798;
-        white-space: nowrap;
-        width: 340px;
-    }
-
-
-    .FigureCaption   { 
-        font-family: sans-serif; 
-        text-align: center;
-    }
-    
-    #TopBar_bl {        
-        width: 100%;
-        height: 60px;
-    }
-    #TopBar_br {
-        width: 100%;
-        height: 60px;
-    }
-    #TopBar_tl {
-        margin-left: -110px;
-        margin-right: -100px;       
-		align: left;
-        height: 60px;
-    }
-    #TopBar_tr {
-        width: 100%;
-        height: 60px;
-    }
-    
-    #TopBar {
-        min-width:700px;
-        padding:25px 100px 10px;
-        margin-bottom:25px;
-        clear:both;
-        
-        border-bottom:1px solid #d2dde5;
-        border-radius: 3px;
-    
-        background:#efefef; /* Old browsers */
-        /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlMmVmZjkiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-        background: -moz-linear-gradient(top,  #ffffff 0%, #e2eff9 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e2eff9)); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top,  #ffffff 0%,#e2eff9 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(top,  #ffffff 0%,#e2eff9 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(top,  #ffffff 0%,#e2eff9 100%); /* IE10+ */
-        background: linear-gradient(to bottom,  #ffffff 0%,#e2eff9 100%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e2eff9',GradientType=0 ); /* IE6-8 */
-        
-    }
-    
-    #TopBar_left {
-        line-height: 14px;
-        position: absolute;
-        padding-top: 30px;
-        padding-right: 30px;
-        padding-left: 30px;
-        text-align: left;
-        font: 13px/20px Arial, Helvetica, sans-serif;
-        font-weight: bold;
-        font-size: 20px;
-        color: #333;
-    }
-    
-    #TopBar_right {
-        line-height: 12px;
-        float: right;
-        padding-top: 10px;
-        padding-right: 30px;
-        text-align: left;
-    }
-    
-
-    @media print {
-        #BreadCrumbs, #Download {
-            display: none;
-        }
-    }
-    
-     
-    @media print {
-        #TopBar_right {
-            display: none;
-        }
-    }
-    #TopBar_right a {
-        font-size: 10px;
-        margin: 3px;
-        padding: 0;
-    }
- 
-    #BreadCrumbs {
-        padding: 15px 5px 0.5em 0;
-        font-family: sans-serif; 
-        float: right;
-    }
-    
-    #BreadCrumbs a {
-        color:#09569d;
-    }
-    
-    #BreadCrumbs a:visited, #BreadCrumbs a:link {
-        text-decoration: none;
-    }
-    
-    #BreadCrumbs a:hover, #BreadCrumbs a:active {
-        text-decoration: underline;
-    }
-    
-    #PageTitle {
-        margin: 0 5px 0.5em 0;
-        color: #F90000;
-    }
-    
-    #PageContent{
-        margin: 0 5px 0 20px;
-    }
-    
-    .LeftBar_shown {
-        width: 13em;
-        float: left;
-    }
-    
-    @media print {
-        .LeftBar_shown {
-            display: none;
-        }
-    }
-    
-    .LeftBar_hidden {
-        display: none;
-    }
-    
-    #Footer {
-        padding-top: 10px;
-        padding-left: 10px;
-        margin-right: 10px;       
-    }
-    
-    .footertext {
-        font-size: 10px;
-        font-family: sans-serif; 
-        margin-top: 1px;
-    }
-
-    .NavBit  {
-        padding: 15px 5px 0.5em 0;
-        font-family: sans-serif; 
-    }
-    
-    @media print {
-        .NavBit {
-            display: none;
-        }
-    }
-    
-    #TagNotes {
-        text-align: right;        
-    }
-    
-    @media print {
-        #TagNotes a:visited, #TagNotes a:link {
-            color: #35556B;
-            text-decoration: none;
-        }
-    }
-    
-    #Contents a, .NavBit a, #TagNotes a {
-        color:#09569d;
-    }
-    
-    #TagNotes a:visited, #TagNotes a:link,
-    #Contents a:visited, #Contents a:link,
-    .NavBit a:visited, .NavBit a:link {
-        text-decoration: none;
-    }
-    
-    #TagNotes a:hover, #TagNotes a:active,   
-    #Contents a:hover, #Contents a:active,   
-    .NavBit a:hover, .NavBit a:active {  
-        text-decoration: underline;
-    }
-    
-    #Contents {
-        float: left;
-        font-family: sans-serif; 
-    }
-    @media print {
-        #Contents {
-            display: none;
-        }
-    }
-    @media screen {
-        div.PrintHeaders {
-            display: none;
-        }
-    }
-    .linkLESSON, .nolinkLESSON {
-        margin-left: 0.5em;
-        text-indent: -0.5em;
-    }
-    .linkAHEAD, .nolinkAHEAD, .linkQUESTIONS, .nolinkQUESTIONS   {
-        margin-left: 1.5em; 
-        text-indent: -0.5em
-    }
-    .linkBHEAD, .nolinkBHEAD   {
-        margin-left: 2.5em;
-        text-indent: -0.5em
-    }
-    .linkCHEAD, .nolinkCHEAD   {
-        margin-left: 3.5em;
-        text-indent: -0.5em
-    }
-    .nolinkLESSON, .nolinkAHEAD, .nolinkBHEAD, .nolinkCHEAD,
-    .nolinkQUESTIONS {
-        font-weight: bold;
-        color: #333;
-		
-		
-    }
-    .MainFlow_indented {
-        margin-right: 10px;
-        margin-left: 15em;
-        margin-bottom: 2em;
-
-    }
-    .MainFlow_wide {
-	
-        margin-right: 10px;
-        margin-left: 10px;
-        margin-bottom: 2em;
-
-    }
-    @media print {
-        .MainFlow_indented, .MainFlow_wide {
-            padding-top: 0;
-            margin-top: 10px;
-            margin-right: 10px;
-            margin-left: 0;
-        }
-    }
-    h1, h2, h3, h4, h5 {
-        color: #333;
-        
-    }
-
-    h1 {
-        font-weight: bold;
-        font-size: 20px;
-    }
-
-    h2 {
-        font-weight: bold;
-        font-size: 17px;
-    }
-
-    h3 {
-        font-weight: bold;
-        font-size: 14px;
-    }
-
-    h4 {
-        font-size: 15px;
-    }
-
-    h5 {
-        font-size: 12px;
-    }
-
-
-    #ToggleLeft {
-        display: none;
-    }
-    
-    .note {
-        margin: 0 30px 0px 30px;
-    }
-    
-    .codeblock {
-        margin: 0 30px 0px 30px;
-		font-size:12px;
-		font-family:Monaco,Courier,"Courier New";
-    }
-    
-    .tocli {
-        list-style-type:none;
-    }
-
-    .betadraft {
-        color: red;
-    }
-
+<style type="text/css">body {
+  margin-left: 10px;
+  margin-right: 10px;
+  line-height: 1.5;
+  FONT-FAMILY: Arial,Helvetica,sans-serif;
+  font-size: 0.8em;
+}
+a:link {
+  text-decoration: none;
+  color: #09569d;
+}
+a:visited {
+  text-decoration: none;
+  color: #3a87cf;
+}
+a:hover {
+  text-decoration: underline;
+}
+code {
+  font-family: Monaco,Courier,"Courier New";
+}
+.header-container {
+  background-color: #fff;
+  border-bottom: 1px solid #c1cfda;
+  -webkit-box-shadow: 0 2px 2px rgba(117,163,231,0.1);
+  box-shadow: 0 2px 2px rgba(117,163,231,0.1);
+}
+.bookwrapper {
+  width: auto;
+  margin: auto;
+}
+.clearfix {
+}
+.clearfloat {
+  clear: both;
+  overflow: auto;
+  height: 0px;
+  font-size: 1px;
+  line-height: 0px;
+}
+#brandProdName {
+  width: auto;
+  height: auto;
+}
+#logocover {
+  display: block;
+  background: transparent url('../../images/oracle-java-logo.png') 0px 0px no-repeat;
+  height: 50px;
+  width: 229px;
+  float: left;
+}
+#productName {
+  font-size: 16px;
+  position: relative;
+  top: 19px;
+  padding-left: 3px;
+  color: #457798;
+  white-space: nowrap;
+  width: 340px;
+}
+.FigureCaption {
+  font-family: sans-serif;
+  text-align: center;
+}
+#TopBar_bl {
+  width: 100%;
+  height: 60px;
+}
+#TopBar_br {
+  width: 100%;
+  height: 60px;
+}
+#TopBar_tl {
+  margin-left: -110px;
+  margin-right: -100px;
+  align: left;
+  height: 60px;
+}
+#TopBar_tr {
+  width: 100%;
+  height: 60px;
+}
+#TopBar {
+  min-width: 700px;
+  padding: 25px 100px 10px;
+  margin-bottom: 25px;
+  clear: both;
+  border-bottom: 1px solid #d2dde5;
+  border-radius: 3px;
+  background: #efefef;
+  /* Old browsers */
+  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+  
+  background: -moz-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#e2eff9));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom,#ffffff 0%,#e2eff9 100%);
+  /* W3C */
+  /* IE6-8 */
+}
+#TopBar_left {
+  line-height: 14px;
+  position: absolute;
+  padding-top: 30px;
+  padding-right: 30px;
+  padding-left: 30px;
+  text-align: left;
+  font: 13px/20px Arial,Helvetica,sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  color: #333;
+}
+#TopBar_right {
+  line-height: 12px;
+  float: right;
+  padding-top: 10px;
+  padding-right: 30px;
+  text-align: left;
+}
+@media print {
+  #BreadCrumbs, #Download {
+    display: none;
+  }
+}
+@media print {
+  #TopBar_right {
+    display: none;
+  }
+}
+#TopBar_right a {
+  font-size: 10px;
+  margin: 3px;
+  padding: 0;
+}
+#BreadCrumbs {
+  padding: 15px 5px 0.5em 0;
+  font-family: sans-serif;
+  float: right;
+}
+#BreadCrumbs a {
+  color: #09569d;
+}
+#BreadCrumbs a:visited, #BreadCrumbs a:link {
+  text-decoration: none;
+}
+#BreadCrumbs a:hover, #BreadCrumbs a:active {
+  text-decoration: underline;
+}
+#PageTitle {
+  margin: 0 5px 0.5em 0;
+  color: #f90000;
+}
+#PageContent {
+  margin: 0 5px 0 20px;
+}
+.LeftBar_shown {
+  width: 13em;
+  float: left;
+}
+@media print {
+  .LeftBar_shown {
+    display: none;
+  }
+}
+.LeftBar_hidden {
+  display: none;
+}
+#Footer {
+  padding-top: 10px;
+  padding-left: 10px;
+  margin-right: 10px;
+}
+.footertext {
+  font-size: 10px;
+  font-family: sans-serif;
+  margin-top: 1px;
+}
+.NavBit {
+  padding: 15px 5px 0.5em 0;
+  font-family: sans-serif;
+}
+@media print {
+  .NavBit {
+    display: none;
+  }
+}
+#TagNotes {
+  text-align: right;
+}
+@media print {
+  #TagNotes a:visited, #TagNotes a:link {
+    color: #35556b;
+    text-decoration: none;
+  }
+}
+#Contents a, .NavBit a, #TagNotes a {
+  color: #09569d;
+}
+#TagNotes a:visited, #TagNotes a:link, #Contents a:visited, #Contents a:link, .NavBit a:visited, .NavBit a:link {
+  text-decoration: none;
+}
+#TagNotes a:hover, #TagNotes a:active, #Contents a:hover, #Contents a:active, .NavBit a:hover, .NavBit a:active {
+  text-decoration: underline;
+}
+#Contents {
+  float: left;
+  font-family: sans-serif;
+}
+@media print {
+  #Contents {
+    display: none;
+  }
+}
+@media screen {
+  div.PrintHeaders {
+    display: none;
+  }
+}
+.linkLESSON, .nolinkLESSON {
+  margin-left: 0.5em;
+  text-indent: -0.5em;
+}
+.linkAHEAD, .nolinkAHEAD, .linkQUESTIONS, .nolinkQUESTIONS {
+  margin-left: 1.5em;
+  text-indent: -0.5em;
+}
+.linkBHEAD, .nolinkBHEAD {
+  margin-left: 2.5em;
+  text-indent: -0.5em;
+}
+.linkCHEAD, .nolinkCHEAD {
+  margin-left: 3.5em;
+  text-indent: -0.5em;
+}
+.nolinkLESSON, .nolinkAHEAD, .nolinkBHEAD, .nolinkCHEAD, .nolinkQUESTIONS {
+  font-weight: bold;
+  color: #333;
+}
+.MainFlow_indented {
+  margin-right: 10px;
+  margin-left: 15em;
+  margin-bottom: 2em;
+}
+.MainFlow_wide {
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 2em;
+}
+@media print {
+  .MainFlow_indented, .MainFlow_wide {
+    padding-top: 0;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-left: 0;
+  }
+}
+h1, h2, h3, h4, h5 {
+  color: #333;
+}
+h1 {
+  font-weight: bold;
+  font-size: 20px;
+}
+h2 {
+  font-weight: bold;
+  font-size: 17px;
+}
+h3 {
+  font-weight: bold;
+  font-size: 14px;
+}
+h4 {
+  font-size: 15px;
+}
+h5 {
+  font-size: 12px;
+}
+#ToggleLeft {
+  display: none;
+}
+.note {
+  margin: 0 30px 0px 30px;
+}
+.codeblock {
+  margin: 0 30px 0px 30px;
+  font-size: 12px;
+  font-family: Monaco,Courier,"Courier New";
+}
+.tocli {
+  list-style-type: none;
+}
+.betadraft {
+  color: red;
+}
 </style>
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -414,7 +357,7 @@
     function showCode(displayCodePage, codePath) {
         var codePathEls = codePath.split("/");
         var currDocPathEls = location.href.split("/");
-        //alert ("codePathEls = " + codePathEls + "\n" + "currDocPathEls = " + currDocPathEls);
+        //alert ("codePathEls = " + codePathEls + "n" + "currDocPathEls = " + currDocPathEls);
         currDocPathEls.pop(); // remove file name at the end
         while (codePathEls.length > 0) {
             if (codePathEls[0] == "..") {
@@ -437,18 +380,17 @@
 
 
     <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
-<body onload="load()">
-    <noscript>
-        A browser with JavaScript enabled is required for this page to operate properly.
+<body dir="ltr" onload="load()">
+    <noscript>启用了JavaScript的浏览器需要此页面正常运行。
     </noscript>
         <!-- header -->
     <div class="header-container">
         <div class="bookwrapper  clearfix">       
             <div id="brandProdName">
                 <div id="logocover"></div>
-                <div id="productName" >Documentation</div>
+                <div id="productName">文档</div>
             </div> 
-            <br class="clearfloat" />
+            <br class="clearfloat">
         </div>
     </div>
     
@@ -456,12 +398,11 @@
         <div id="TopBar_tr">
             <div id="TopBar_tl">
                 <div id="TopBar_br"> <div id="TopBar_bl"> 
-                    <div id="TopBar_left">The Java&trade; Tutorials</div>
+                    <div id="TopBar_left">Java™教程</div>
                         <div id="TopBar_right"> 
                             <!--
                             <a href="URL" target="_blank">External Link</a><br/>
-                            --> 
-                            <a href="javascript:toggleLeft()" id="ToggleLeft">Hide TOC</a>
+                            --> <a href="javascript:void(0);" id="ToggleLeft">隐藏TOC</a>
                         </div>
                     </div>
                 </div>
@@ -472,164 +413,105 @@
 
     <div id="LeftBar" class="LeftBar_shown">
         <div id="Contents">
-            <div class="linkLESSON"><a href="index.html">JDBC Basics</a></div>
-<div class="linkAHEAD"><a href="gettingstarted.html">Getting Started</a></div>
-<div class="linkAHEAD"><a href="processingsqlstatements.html">Processing SQL Statements with JDBC</a></div>
-<div class="linkAHEAD"><a href="connecting.html">Establishing a Connection</a></div>
-<div class="linkAHEAD"><a href="sqldatasources.html">Connecting with DataSource Objects</a></div>
-<div class="linkAHEAD"><a href="sqlexception.html">Handling SQLExceptions</a></div>
-<div class="linkAHEAD"><a href="tables.html">Setting Up Tables</a></div>
-<div class="linkAHEAD"><a href="retrieving.html">Retrieving and Modifying Values from Result Sets</a></div>
-<div class="linkAHEAD"><a href="prepared.html">Using Prepared Statements</a></div>
-<div class="linkAHEAD"><a href="transactions.html">Using Transactions</a></div>
-<div class="linkAHEAD"><a href="rowset.html">Using RowSet Objects</a></div>
-<div class="linkAHEAD"><a href="jdbcrowset.html">Using JdbcRowSet Objects</a></div>
-<div class="linkAHEAD"><a href="cachedrowset.html">Using CachedRowSetObjects</a></div>
-<div class="nolinkAHEAD">Using JoinRowSet Objects</div>
-<div class="linkAHEAD"><a href="filteredrowset.html">Using FilteredRowSet Objects</a></div>
-<div class="linkAHEAD"><a href="webrowset.html">Using WebRowSet Objects</a></div>
-<div class="linkAHEAD"><a href="sqltypes.html">Using Advanced Data Types</a></div>
-<div class="linkAHEAD"><a href="blob.html">Using Large Objects</a></div>
-<div class="linkAHEAD"><a href="sqlxml.html">Using SQLXML Objects</a></div>
-<div class="linkAHEAD"><a href="array.html">Using Array Objects</a></div>
-<div class="linkAHEAD"><a href="distinct.html">Using DISTINCT Data Type</a></div>
-<div class="linkAHEAD"><a href="sqlstructured.html">Using Structured Objects</a></div>
-<div class="linkAHEAD"><a href="sqlcustommapping.html">Using Customized Type Mappings</a></div>
-<div class="linkAHEAD"><a href="sqldatalink.html">Using Datalink Objects</a></div>
-<div class="linkAHEAD"><a href="sqlrowid.html">Using RowId Objects</a></div>
-<div class="linkAHEAD"><a href="storedprocedures.html">Using Stored Procedures</a></div>
-<div class="linkAHEAD"><a href="jdbcswing.html">Using JDBC with GUI API</a></div>
+            <div class="linkLESSON"><a href="index.html">JDBC基础知识</a></div>
+<div class="linkAHEAD"><a href="gettingstarted.html">入门</a></div>
+<div class="linkAHEAD"><a href="processingsqlstatements.html">使用JDBC处理SQL语句</a></div>
+<div class="linkAHEAD"><a href="connecting.html">建立连接</a></div>
+<div class="linkAHEAD"><a href="sqldatasources.html">连接数据源对象</a></div>
+<div class="linkAHEAD"><a href="sqlexception.html">处理SQLExceptions</a></div>
+<div class="linkAHEAD"><a href="tables.html">设置表</a></div>
+<div class="linkAHEAD"><a href="retrieving.html">从结果集中检索和修改值</a></div>
+<div class="linkAHEAD"><a href="prepared.html">使用准备好的陈述</a></div>
+<div class="linkAHEAD"><a href="transactions.html">使用交易</a></div>
+<div class="linkAHEAD"><a href="rowset.html">使用RowSet对象</a></div>
+<div class="linkAHEAD"><a href="jdbcrowset.html">使用JdbcRowSet对象</a></div>
+<div class="linkAHEAD"><a href="cachedrowset.html">使用CachedRowSetObjects</a></div>
+<div class="nolinkAHEAD">使用JoinRowSet对象</div>
+<div class="linkAHEAD"><a href="filteredrowset.html">使用FilteredRowSet对象</a></div>
+<div class="linkAHEAD"><a href="webrowset.html">使用WebRowSet对象</a></div>
+<div class="linkAHEAD"><a href="sqltypes.html">使用高级数据类型</a></div>
+<div class="linkAHEAD"><a href="blob.html">使用大对象</a></div>
+<div class="linkAHEAD"><a href="sqlxml.html">使用SQLXML对象</a></div>
+<div class="linkAHEAD"><a href="array.html">使用数组对象</a></div>
+<div class="linkAHEAD"><a href="distinct.html">使用DISTINCT数据类型</a></div>
+<div class="linkAHEAD"><a href="sqlstructured.html">使用结构化对象</a></div>
+<div class="linkAHEAD"><a href="sqlcustommapping.html">使用自定义类型映射</a></div>
+<div class="linkAHEAD"><a href="sqldatalink.html">使用数据链接对象</a></div>
+<div class="linkAHEAD"><a href="sqlrowid.html">使用RowId对象</a></div>
+<div class="linkAHEAD"><a href="storedprocedures.html">使用存储过程</a></div>
+<div class="linkAHEAD"><a href="jdbcswing.html">将JDBC与GUI API结合使用</a></div>
 </div>
     </div>
     <div id="MainFlow" class="MainFlow_indented">
     <div class="PrintHeaders">
-        <b>Trail:</b> JDBC(TM) Database Access
-        <br /><b>Lesson:</b> JDBC Basics
-    </div>
+        <b>Trail：</b> JDBC（TM）数据库访问<br><b>课程：</b> JDBC基础知识</div>
             <div id="BreadCrumbs">
-                <a href="../../index.html" target="_top">Home Page</a>
-                &gt;
-                <a href="../index.html" target="_top">JDBC(TM) Database Access</a>
-                &gt;
-                <a href="index.html" target="_top">JDBC Basics</a>
+                <a href="../../index.html" target="_top">主页</a> &gt; <a href="../index.html" target="_top">JDBC（TM）数据库访问</a> &gt; <a href="index.html" target="_top">JDBC基础知识</a>
             </div>
             <div class="NavBit">
-                <a target="_top" href="cachedrowset.html">&laquo;&nbsp;Previous</a>&nbsp;&bull;&nbsp;<a target="_top" href="../TOC.html">Trail</a>&nbsp;&bull;&nbsp;<a target="_top" href="filteredrowset.html">Next&nbsp;&raquo;</a>
+                <a href="cachedrowset.html" target="_top">«上一页</a> • <a href="../TOC.html" target="_top">小道</a> • <a href="filteredrowset.html" target="_top">下一页»</a>
             </div>
-            <div class="Banner"><p style="background-color: rgb(247, 248, 249); border-width: 1px; padding: 10px; font-style: italic; border-style: solid; border-color: rgb(64, 74, 91);">The Java Tutorials have been written for JDK 8. Examples and practices described in this page don't take advantage of improvements introduced in later releases.</p></div>
-            <div id="PageTitle"><h1>Using JoinRowSet Objects</h1></div>
+            <div class="Banner"><p style="background-color:rgb(247,248,249);border-width:1px;padding:10px;font-style:italic;border-style:solid;border-color:rgb(64,74,91)">Java教程是为JDK 8编写的。本页中描述的示例和实践未利用后续版本中引入的改进。</p></div>
+            <div id="PageTitle"><h1>使用JoinRowSet对象</h1></div>
             <div id="PageContent">
 
-<p>A <code>JoinRowSet</code> implementation lets you create a SQL <code>JOIN</code> between <code>RowSet</code> objects when they are not connected to a data source. This is important because it saves the overhead of having to create one or more connections.</p>
-<p>The following topics are covered:</p>
+<p><code>JoinRowSet</code>实现允许您在<code>RowSet</code>对象未连接到数据源时在它们之间创建SQL <code>JOIN</code> 。这很重要，因为它节省了必须创建一个或多个连接的开销。</p>
+<p>涵盖以下主题：</p>
 <ul>
-<li><a href="#creating-joinrowset-object">Creating JoinRowSet Objects</a></li>
-<li><a href="#adding-rowset-objects">Adding RowSet Objects</a></li>
-<li><a href="#managing-match-columns">Managing Match Columns</a></li>
+<li><a href="#creating-joinrowset-object">创建JoinRowSet对象</a></li>
+<li><a href="#adding-rowset-objects">添加RowSet对象</a></li>
+<li><a href="#managing-match-columns">管理匹配列</a></li>
 </ul>
-<p>The <code>JoinRowSet</code> interface is a subinterface of the <code>CachedRowSet</code> interface and thereby inherits the capabilities of a <code>CachedRowSet</code> object. This means that a <code>JoinRowSet</code> object is a disconnected <code>RowSet</code> object and can operate without always being connected to a data source.</p>
+<p><code>JoinRowSet</code>接口是<code>CachedRowSet</code>接口的子接口，因此继承了<code>CachedRowSet</code>对象的功能。这意味着<code>JoinRowSet</code>对象是一个断开连接的<code>RowSet</code>对象，可以在不始终连接到数据源的情况下运行。</p>
 <!-- ******************************************************************* -->
-<h2><a name="creating-joinrowset-object" id="creating-joinrowset-object">Creating JoinRowSet Objects</a></h2>
-<p>A <code>JoinRowSet</code> object serves as the holder of a SQL <code>JOIN</code>. The following line of code shows to create a <code>JoinRowSet</code> object:</p>
-<div class="codeblock"><pre>
-JoinRowSet jrs = new JoinRowSetImpl();
-</pre></div>
-<p>The variable <code>jrs</code> holds nothing until <code>RowSet</code> objects are added to it.</p>
-<p><strong>Note</strong>: Alternatively, you can use the constructor from the <code>JoinRowSet</code> implementation of your JDBC driver. However, implementations of the <code>RowSet</code> interface will differ from the reference implementation. These implementations will have different names and constructors. For example, the Oracle JDBC driver&#39;s implementation of the <code>JoinRowSet</code> interface is named <code>oracle.jdbc.rowset.OracleJoinRowSet</code>.</p>
+<h2><a name="creating-joinrowset-object" id="creating-joinrowset-object">创建JoinRowSet对象</a></h2>
+<p><code>JoinRowSet</code>对象充当SQL <code>JOIN</code>的持有者。以下代码行显示创建<code>JoinRowSet</code>对象：</p>
+<div class="codeblock"><pre>JoinRowSet jrs = new JoinRowSetImpl（）;</pre></div>
+<p>在将<code>RowSet</code>对象添加到变量之前，变量<code>jrs</code>保留任何内容。</p>
+<p><strong>注意</strong> ：或者，您可以使用JDBC驱动程序的<code>JoinRowSet</code>实现中的构造函数。但是， <code>RowSet</code>接口的实现将与参考实现不同。这些实现将具有不同的名称和构造函数。例如，Oracle JDBC驱动程序的<code>JoinRowSet</code>接口实现名为<code>oracle.jdbc.rowset.OracleJoinRowSet</code> 。</p>
 <!-- ******************************************************************* -->
-<h2><a name="adding-rowset-objects" id="adding-rowset-objects">Adding RowSet Objects</a></h2>
-<p>Any <code>RowSet</code> object can be added to a <code>JoinRowSet</code> object as long as it can be part of a SQL <code>JOIN</code>. A <code>JdbcRowSet</code> object, which is always connected to its data source, can be added, but typically it forms part of a <code>JOIN</code> by operating with the data source directly instead of becoming part of a <code>JOIN</code> by being added to a <code>JoinRowSet</code> object. The point of providing a <code>JoinRowSet</code> implementation is to make it possible for disconnected <code>RowSet</code> objects to become part of a <code>JOIN</code> relationship.</p>
-<p>The owner of The Coffee Break chain of coffee houses wants to get a list of the coffees he buys from Acme, Inc. In order to do this, the owner will have to get information from two tables, <code>COFFEES</code> and <code>SUPPLIERS</code>. In the database world before <code>RowSet</code> technology, programmers would send the following query to the database:</p>
-<div class="codeblock"><pre>
-String query =
-    "SELECT COFFEES.COF_NAME " +
-    "FROM COFFEES, SUPPLIERS " +
-    "WHERE SUPPLIERS.SUP_NAME = Acme.Inc. " +
-    "and " +
-    "SUPPLIERS.SUP_ID = COFFEES.SUP_ID";
-</pre></div>
-<p>In the world of <code>RowSet</code> technology, you can accomplish the same result without having to send a query to the data source. You can add <code>RowSet</code> objects containing the data in the two tables to a <code>JoinRowSet</code> object. Then, because all the pertinent data is in the <code>JoinRowSet</code> object, you can perform a query on it to get the desired data.</p>
-<p>The following code fragment from <a href="gettingstarted.html"><code>JoinSample.testJoinRowSet</code></a> creates two <code>CachedRowSet</code> objects, <code>coffees</code> populated with the data from the table <code>COFFEES</code>, and <code>suppliers</code> populated with the data from the table <code>SUPPLIERS</code>. The <code>coffees</code> and <code>suppliers</code> objects have to make a connection to the database to execute their commands and get populated with data, but after that is done, they do not have to reconnect again in order to form a <code>JOIN</code>.</p>
-<div class="codeblock"><pre>
-coffees = new CachedRowSetImpl();
-coffees.setCommand("SELECT * FROM COFFEES");
-coffees.setUsername(settings.userName);
-coffees.setPassword(settings.password);
-coffees.setUrl(settings.urlString);
-coffees.execute();
-
-suppliers = new CachedRowSetImpl();
-suppliers.setCommand("SELECT * FROM SUPPLIERS");
-suppliers.setUsername(settings.userName);
-suppliers.setPassword(settings.password);
-suppliers.setUrl(settings.urlString);
-suppliers.execute(); 
-</pre></div>
-<h2><a name="managing-match-columns" id="managing-match-columns">Managing Match Columns</a></h2>
-<p>Looking at the <code>SUPPLIERS</code> table, you can see that Acme, Inc. has an identification number of 101. The coffees in the table <code>COFFEES</code> with the supplier identification number of 101 are Colombian and Colombian_Decaf. The joining of information from both tables is possible because the two tables have the column <code>SUP_ID in common</code>. In JDBC <code>RowSet</code> technology, <code>SUP_ID</code>, the column on which the <code>JOIN</code> is based, is called the <i>match column</i>.</p>
-<p>Each <code>RowSet</code> object added to a <code>JoinRowSet</code> object must have a match column, the column on which the <code>JOIN</code> is based. There are two ways to set the match column for a <code>RowSet</code> object. The first way is to pass the match column to the <code>JoinRowSet</code> method <code>addRowSet</code>, as shown in the following line of code:</p>
-<div class="codeblock"><pre>
-jrs.addRowSet(coffees, 2);
-</pre></div>
-<p>This line of code adds the <code>coffees</code> <code>CachedRowSet</code> to the <code>jrs</code> object and sets the second column of <code>coffees</code> (<code>SUP_ID</code>) as the match column. The line of code could also have used the column name rather that the column number.</p>
-<div class="codeblock"><pre>
-jrs.addRowSet(coffees, "SUP_ID");
-</pre></div>
-<p>At this point, <code>jrs</code> has only <code>coffees</code> in it. The next <code>RowSet</code> object added to <code>jrs</code> will have to be able to form a <code>JOIN</code> with <code>coffees</code>, which is true of <code>suppliers</code> because both tables have the column SUP_ID. The following line of code adds <code>suppliers</code> to <code>jrs</code> and sets the column SUP_ID as the match column.</p>
-<div class="codeblock"><pre>
-jrs.addRowSet(suppliers, 1);
-</pre></div>
-<p>Now <code>jrs</code> contains a <code>JOIN</code> between <code>coffees</code> and <code>suppliers</code> from which the owner can get the names of the coffees supplied by Acme, Inc. Because the code did not set the type of <code>JOIN</code>, <code>jrs</code> holds an inner JOIN, which is the default. In other words, a row in <code>jrs</code> combines a row in <code>coffees</code> and a row in <code>suppliers</code>. It holds the columns in <code>coffees</code> plus the columns in <code>suppliers</code> for rows in which the value in the <code>COFFEES.SUP_ID</code> column matches the value in <code>SUPPLIERS.SUP_ID</code>. The following code prints out the names of coffees supplied by Acme, Inc., where the <code>String</code> <code>supplierName</code> is equal to <code>Acme, Inc.</code> Note that this is possible because the column <code>SUP_NAME</code>, which is from <code>suppliers</code>, and <code>COF_NAME</code>, which is from <code>coffees</code>, are now both included in the <code>JoinRowSet</code> object <code>jrs</code>.</p>
-<div class="codeblock"><pre>
-System.out.println("Coffees bought from " + supplierName + ": ");
-
-while (jrs.next()) {
-    if (jrs.getString("SUP_NAME").equals(supplierName)) {
-        String coffeeName = jrs.getString(1);
-        System.out.println("     " + coffeeName);
-    }
-}
-</pre></div>
-<p>This will produce output similar to the following:</p>
-<div class="codeblock"><pre>
-Coffees bought from Acme, Inc.:
-     Colombian
-     Colombian_Decaf
-</pre></div>
-<p>The <code>JoinRowSet</code> interface provides constants for setting the type of <code>JOIN</code> that will be formed, but currently the only type that is implemented is <code>JoinRowSet.INNER_JOIN</code>.</p>
+<h2><a name="adding-rowset-objects" id="adding-rowset-objects">添加RowSet对象</a></h2>
+<p>任何<code>RowSet</code>对象都可以添加到<code>JoinRowSet</code>对象，只要它可以是SQL <code>JOIN</code>一部分即可。甲<code>JdbcRowSet</code>对象，它总是连接到它的数据源，也可加入，但通常它形成的一部分<code>JOIN</code>通过与数据源操作，而不是直接成为的一部分<code>JOIN</code>通过添加到一个<code>JoinRowSet</code>的对象。提供<code>JoinRowSet</code>实现的目的是使断开连接的<code>RowSet</code>对象成为<code>JOIN</code>关系的一部分。</p>
+<p>The Coffee Break连锁咖啡馆的老板想要获得他从Acme，Inc。购买的咖啡清单。为了做到这一点，店主必须从两张桌子， <code>COFFEES</code>和<code>SUPPLIERS</code>获取信息。在<code>RowSet</code>技术之前的数据库世界中，程序员会将以下查询发送到数据库：</p>
+<div class="codeblock"><pre>String query =“SELECT COFFEES.COF_NAME”+“FROM COFFEES，SUPPLIERS”+“WHERE SUPPLIERS.SUP_NAME = Acme。Inc.“+”和“+”SUPPLIERS.SUP_ID = COFFEES.SUP_ID“;</pre></div>
+<p>在<code>RowSet</code>技术的世界中，您无需向数据源发送查询即可完成相同的结果。您可以将包含两个表中的数据的<code>RowSet</code>对象添加到<code>JoinRowSet</code>对象。然后，因为所有相关数据都在<code>JoinRowSet</code>对象中，所以您可以对其执行查询以获取所需数据。</p>
+<p>从下面的代码片断<a href="gettingstarted.html"><code>JoinSample.testJoinRowSet</code></a>创建两个<code>CachedRowSet</code>目的， <code>coffees</code>填充了来自表中的数据<code>COFFEES</code> ，和<code>suppliers</code>填充有从表中的数据<code>SUPPLIERS</code> 。 <code>coffees</code>和<code>suppliers</code>对象必须与数据库建立连接以执行其命令并填充数据，但在此之后，他们不必再次重新连接以形成<code>JOIN</code> 。</p>
+<div class="codeblock"><pre>coffees = new CachedRowSetImpl（）; coffees.setCommand（“SELECT * FROM COFFEES”）; coffees.setUsername（settings.userName）; coffees.setPassword（settings.password）; coffees.setUrl（settings.urlString）; coffees.execute（）; suppliers = new CachedRowSetImpl（）; suppliers.setCommand（“SELECT * FROM SUPPLIERS”）; suppliers.setUsername（settings.userName）; suppliers.setPassword（settings.password）; suppliers.setUrl（settings.urlString）; suppliers.execute（）;</pre></div>
+<h2><a name="managing-match-columns" id="managing-match-columns">管理匹配列</a></h2>
+<p>查看<code>SUPPLIERS</code>表，您会看到Acme，Inc。的识别号码是101。表<code>COFFEES</code>的咖啡与供应商标识号101是哥伦比亚和Colombian_Decaf。可以从两个表中连接信息，因为这两个表具有<code>SUP_ID in common</code>列。在JDBC <code>RowSet</code>技术中， <code>JOIN</code>所基于的列<code>SUP_ID</code>称为<i>匹配列</i> 。</p>
+<p>添加到<code>JoinRowSet</code>对象的每个<code>RowSet</code>对象必须具有匹配列，即<code>JOIN</code>所基于的列。有两种方法可以为<code>RowSet</code>对象设置匹配列。第一种方法是将匹配列传<code>addRowSet</code> <code>JoinRowSet</code>方法<code>addRowSet</code> ，如以下代码行所示：</p>
+<div class="codeblock"><pre>jrs.addRowSet（咖啡，2）;</pre></div>
+<p>这行代码将<code>coffees</code> <code>CachedRowSet</code>添加到<code>jrs</code>对象，并将第二列<code>coffees</code> （ <code>SUP_ID</code> ）设置为匹配列。代码行也可以使用列名而不是列号。</p>
+<div class="codeblock"><pre>jrs.addRowSet（咖啡，“SUP_ID”）;</pre></div>
+<p>在这一点上， <code>jrs</code>只有<code>coffees</code> 。添加到<code>jrs</code>的下一个<code>RowSet</code>对象必须能够与<code>coffees</code>形成<code>JOIN</code> ，这对<code>suppliers</code>来说是正确的，因为两个表都有SUP_ID列。以下代码<code>jrs</code> <code>suppliers</code>添加到<code>jrs</code> ，并将列SUP_ID设置为匹配列。</p>
+<div class="codeblock"><pre>jrs.addRowSet（供应商，1）;</pre></div>
+<p>现在， <code>jrs</code>包含<code>coffees</code>和<code>suppliers</code>之间的<code>JOIN</code> ，所有者可以从中获取Acme，Inc。提供的咖啡的名称。因为代码没有设置<code>JOIN</code>的类型， <code>jrs</code>保持内部JOIN，这是默认值。换句话说， <code>jrs</code>的一行将<code>coffees</code>的一行与<code>suppliers</code>的一行相结合。它拥有在列<code>coffees</code>中加列<code>suppliers</code>在其中的价值排<code>COFFEES.SUP_ID</code>列中的值相匹配<code>SUPPLIERS.SUP_ID</code> 。以下代码打印出Acme，Inc。提供的咖啡名称，其中<code>String</code> <code>supplierName</code>等于<code>Acme, Inc.</code>请注意，这可能是因为<code>SUP_NAME</code>列来自<code>suppliers</code> ，而<code>COF_NAME</code>来自<code>coffees</code> ，现在都包含在<code>JoinRowSet</code>对象<code>jrs</code> 。</p>
+<div class="codeblock"><pre>System.out.println（“Coffees购自”+ supplierName +“：”）; while（jrs.next（））{if（jrs.getString（“SUP_NAME”）。equals（supplierName））{String coffeeName = jrs.getString（1）; System.out.println（“”+ coffeeName）; }}</pre></div>
+<p>这将产生类似于以下的输出：</p>
+<div class="codeblock"><pre>咖啡从Acme，Inc。购买：Colombian Colombian_Decaf</pre></div>
+<p><code>JoinRowSet</code>接口提供了用于设置将要形成的<code>JOIN</code>类型的常量，但是当前唯一实现的类型是<code>JoinRowSet.INNER_JOIN</code> 。</p>
 
 
         </div>
         <div class="NavBit">
-            <a target="_top" href="cachedrowset.html">&laquo; Previous</a>
-            &bull;
-            <a target="_top" href="../TOC.html">Trail</a>
-            &bull;
-            <a target="_top" href="filteredrowset.html">Next &raquo;</a>
+            <a href="cachedrowset.html" target="_top">«上一页</a> • <a href="../TOC.html" target="_top">小道</a> • <a href="filteredrowset.html" target="_top">下一页»</a>
         </div>
     </div>
     
-<hr class="clearfloat"/>
+<hr class="clearfloat">
 
 <div id="Footer">
 
 <p class="footertext">
-<a href="http://www.oracle.com/corporate/index.html">About Oracle</a> | 
-<a href="http://www.oracle.com/us/corporate/contact/index.html">Contact Us</a> |
-<a href="http://www.oracle.com/us/legal/index.html">Legal Notices</a> | 
-<a href="http://www.oracle.com/us/legal/terms/index.html">Terms of Use</a> |
-<a href="http://www.oracle.com/us/legal/privacy/index.html">Your Privacy Rights</a></p>
+<a href="http://www.oracle.com/corporate/index.html">关于Oracle</a> | <a href="http://www.oracle.com/us/corporate/contact/index.html">联系我们</a> | <a href="http://www.oracle.com/us/legal/index.html">法律声明</a> | <a href="http://www.oracle.com/us/legal/terms/index.html">使用条款</a> | <a href="http://www.oracle.com/us/legal/privacy/index.html">您的隐私权</a></p>
 
-<p class="footertext"><a href="http://www.oracle.com/pls/topic/lookup?ctx=cpyr&id=en-US">
-Copyright &copy; 1995, 2017 Oracle and/or its affiliates. All rights reserved.</a></p>
+<p class="footertext"><a href="http://www.oracle.com/pls/topic/lookup?ctx=cpyr&amp;id=en-US">版权所有©1995,2017 Oracle和/或其附属公司。版权所有。</a></p>
        
 </div>    
     <div class="PrintHeaders">
-        <b>Previous page:</b> Using CachedRowSetObjects
-        <br /><b>Next page:</b> Using FilteredRowSet Objects
-    </div>
+        <b>上一页：</b>使用CachedRowSetObjects<br><b>下一页：</b>使用FilteredRowSet对象</div>
 <!-- Start SiteCatalyst code -->
 <script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
 <!-- End SiteCatalyst code --> 
 </body>
-</html> 
+</html>

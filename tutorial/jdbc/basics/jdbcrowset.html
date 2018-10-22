@@ -1,368 +1,311 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    
-
-<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+﻿<html lang="en-US" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Using JdbcRowSet Objects (The Java&trade; Tutorials &gt;        
-            JDBC(TM) Database Access &gt; JDBC Basics)
-</title>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-     <meta name="description" content="This JDBC Java tutorial describes how to use JDBC API to create, insert into, update, and query tables. You will also learn how to use simple and prepared statements, stored procedures and perform transactions" />
-     <meta name="keywords" content="java programming, learn java, java sample code, jdbc, prepared statement, result set" />
+        <title>使用JdbcRowSet对象（Java™教程&gt; JDBC（TM）数据库访问&gt; JDBC基础知识）</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+     <meta name="description" content="This JDBC Java tutorial describes how to use JDBC API to create, insert into, update, and query tables. You will also learn how to use simple and prepared statements, stored procedures and perform transactions"></meta>
+     <meta name="keywords" content="java programming, learn java, java sample code, jdbc, prepared statement, result set"></meta>
         
-<style type="text/css">
-    body {
-        margin-left:10px;
-        margin-right:10px;
-        line-height: 1.5;
-        FONT-FAMILY: Arial, Helvetica, sans-serif; 
-        font-size: 0.8em;
-    }
-    
-    a:link{text-decoration:none; color:#09569d;}
-    a:visited{text-decoration:none; color: #3a87cf;}
-    a:hover{text-decoration:underline; }
-        
-    code{
-        font-family:Monaco,Courier,"Courier New";
-    }
-    
-    .header-container {
-        background-color: #fff;
-        border-bottom: 1px solid #C1CFDA;
-        -webkit-box-shadow: 0 2px 2px rgba(117, 163, 231, 0.1);
-        box-shadow: 0 2px 2px rgba(117, 163, 231, 0.1);
-    }
-    
-    .bookwrapper {
-        width: auto;
-        margin: auto;
-    }
-    
-    .clearfix {
-    }
-    
-    .clearfloat {
-        clear: both;
-        overflow: auto;
-        height: 0px;
-        font-size: 1px;
-        line-height: 0px;
-    }
-    
-    #brandProdName {
-        width: auto;
-        height: auto;
-    }
-    
-    #logocover {
-        display: block;
-        background: transparent url(../../images/oracle-java-logo.png) 0px 0px no-repeat;
-        height: 50px;
-        width: 229px;
-        float: left;
-    }
-    
-    #productName {
-        font-size: 16px;
-        position: relative;
-        top: 19px;
-        padding-left: 3px;
-        color: #457798;
-        white-space: nowrap;
-        width: 340px;
-    }
-
-
-    .FigureCaption   { 
-        font-family: sans-serif; 
-        text-align: center;
-    }
-    
-    #TopBar_bl {        
-        width: 100%;
-        height: 60px;
-    }
-    #TopBar_br {
-        width: 100%;
-        height: 60px;
-    }
-    #TopBar_tl {
-        margin-left: -110px;
-        margin-right: -100px;       
-		align: left;
-        height: 60px;
-    }
-    #TopBar_tr {
-        width: 100%;
-        height: 60px;
-    }
-    
-    #TopBar {
-        min-width:700px;
-        padding:25px 100px 10px;
-        margin-bottom:25px;
-        clear:both;
-        
-        border-bottom:1px solid #d2dde5;
-        border-radius: 3px;
-    
-        background:#efefef; /* Old browsers */
-        /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlMmVmZjkiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-        background: -moz-linear-gradient(top,  #ffffff 0%, #e2eff9 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e2eff9)); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top,  #ffffff 0%,#e2eff9 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(top,  #ffffff 0%,#e2eff9 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(top,  #ffffff 0%,#e2eff9 100%); /* IE10+ */
-        background: linear-gradient(to bottom,  #ffffff 0%,#e2eff9 100%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e2eff9',GradientType=0 ); /* IE6-8 */
-        
-    }
-    
-    #TopBar_left {
-        line-height: 14px;
-        position: absolute;
-        padding-top: 30px;
-        padding-right: 30px;
-        padding-left: 30px;
-        text-align: left;
-        font: 13px/20px Arial, Helvetica, sans-serif;
-        font-weight: bold;
-        font-size: 20px;
-        color: #333;
-    }
-    
-    #TopBar_right {
-        line-height: 12px;
-        float: right;
-        padding-top: 10px;
-        padding-right: 30px;
-        text-align: left;
-    }
-    
-
-    @media print {
-        #BreadCrumbs, #Download {
-            display: none;
-        }
-    }
-    
-     
-    @media print {
-        #TopBar_right {
-            display: none;
-        }
-    }
-    #TopBar_right a {
-        font-size: 10px;
-        margin: 3px;
-        padding: 0;
-    }
- 
-    #BreadCrumbs {
-        padding: 15px 5px 0.5em 0;
-        font-family: sans-serif; 
-        float: right;
-    }
-    
-    #BreadCrumbs a {
-        color:#09569d;
-    }
-    
-    #BreadCrumbs a:visited, #BreadCrumbs a:link {
-        text-decoration: none;
-    }
-    
-    #BreadCrumbs a:hover, #BreadCrumbs a:active {
-        text-decoration: underline;
-    }
-    
-    #PageTitle {
-        margin: 0 5px 0.5em 0;
-        color: #F90000;
-    }
-    
-    #PageContent{
-        margin: 0 5px 0 20px;
-    }
-    
-    .LeftBar_shown {
-        width: 13em;
-        float: left;
-    }
-    
-    @media print {
-        .LeftBar_shown {
-            display: none;
-        }
-    }
-    
-    .LeftBar_hidden {
-        display: none;
-    }
-    
-    #Footer {
-        padding-top: 10px;
-        padding-left: 10px;
-        margin-right: 10px;       
-    }
-    
-    .footertext {
-        font-size: 10px;
-        font-family: sans-serif; 
-        margin-top: 1px;
-    }
-
-    .NavBit  {
-        padding: 15px 5px 0.5em 0;
-        font-family: sans-serif; 
-    }
-    
-    @media print {
-        .NavBit {
-            display: none;
-        }
-    }
-    
-    #TagNotes {
-        text-align: right;        
-    }
-    
-    @media print {
-        #TagNotes a:visited, #TagNotes a:link {
-            color: #35556B;
-            text-decoration: none;
-        }
-    }
-    
-    #Contents a, .NavBit a, #TagNotes a {
-        color:#09569d;
-    }
-    
-    #TagNotes a:visited, #TagNotes a:link,
-    #Contents a:visited, #Contents a:link,
-    .NavBit a:visited, .NavBit a:link {
-        text-decoration: none;
-    }
-    
-    #TagNotes a:hover, #TagNotes a:active,   
-    #Contents a:hover, #Contents a:active,   
-    .NavBit a:hover, .NavBit a:active {  
-        text-decoration: underline;
-    }
-    
-    #Contents {
-        float: left;
-        font-family: sans-serif; 
-    }
-    @media print {
-        #Contents {
-            display: none;
-        }
-    }
-    @media screen {
-        div.PrintHeaders {
-            display: none;
-        }
-    }
-    .linkLESSON, .nolinkLESSON {
-        margin-left: 0.5em;
-        text-indent: -0.5em;
-    }
-    .linkAHEAD, .nolinkAHEAD, .linkQUESTIONS, .nolinkQUESTIONS   {
-        margin-left: 1.5em; 
-        text-indent: -0.5em
-    }
-    .linkBHEAD, .nolinkBHEAD   {
-        margin-left: 2.5em;
-        text-indent: -0.5em
-    }
-    .linkCHEAD, .nolinkCHEAD   {
-        margin-left: 3.5em;
-        text-indent: -0.5em
-    }
-    .nolinkLESSON, .nolinkAHEAD, .nolinkBHEAD, .nolinkCHEAD,
-    .nolinkQUESTIONS {
-        font-weight: bold;
-        color: #333;
-		
-		
-    }
-    .MainFlow_indented {
-        margin-right: 10px;
-        margin-left: 15em;
-        margin-bottom: 2em;
-
-    }
-    .MainFlow_wide {
-	
-        margin-right: 10px;
-        margin-left: 10px;
-        margin-bottom: 2em;
-
-    }
-    @media print {
-        .MainFlow_indented, .MainFlow_wide {
-            padding-top: 0;
-            margin-top: 10px;
-            margin-right: 10px;
-            margin-left: 0;
-        }
-    }
-    h1, h2, h3, h4, h5 {
-        color: #333;
-        
-    }
-
-    h1 {
-        font-weight: bold;
-        font-size: 20px;
-    }
-
-    h2 {
-        font-weight: bold;
-        font-size: 17px;
-    }
-
-    h3 {
-        font-weight: bold;
-        font-size: 14px;
-    }
-
-    h4 {
-        font-size: 15px;
-    }
-
-    h5 {
-        font-size: 12px;
-    }
-
-
-    #ToggleLeft {
-        display: none;
-    }
-    
-    .note {
-        margin: 0 30px 0px 30px;
-    }
-    
-    .codeblock {
-        margin: 0 30px 0px 30px;
-		font-size:12px;
-		font-family:Monaco,Courier,"Courier New";
-    }
-    
-    .tocli {
-        list-style-type:none;
-    }
-
-    .betadraft {
-        color: red;
-    }
-
+<style type="text/css">body {
+  margin-left: 10px;
+  margin-right: 10px;
+  line-height: 1.5;
+  FONT-FAMILY: Arial,Helvetica,sans-serif;
+  font-size: 0.8em;
+}
+a:link {
+  text-decoration: none;
+  color: #09569d;
+}
+a:visited {
+  text-decoration: none;
+  color: #3a87cf;
+}
+a:hover {
+  text-decoration: underline;
+}
+code {
+  font-family: Monaco,Courier,"Courier New";
+}
+.header-container {
+  background-color: #fff;
+  border-bottom: 1px solid #c1cfda;
+  -webkit-box-shadow: 0 2px 2px rgba(117,163,231,0.1);
+  box-shadow: 0 2px 2px rgba(117,163,231,0.1);
+}
+.bookwrapper {
+  width: auto;
+  margin: auto;
+}
+.clearfix {
+}
+.clearfloat {
+  clear: both;
+  overflow: auto;
+  height: 0px;
+  font-size: 1px;
+  line-height: 0px;
+}
+#brandProdName {
+  width: auto;
+  height: auto;
+}
+#logocover {
+  display: block;
+  background: transparent url('../../images/oracle-java-logo.png') 0px 0px no-repeat;
+  height: 50px;
+  width: 229px;
+  float: left;
+}
+#productName {
+  font-size: 16px;
+  position: relative;
+  top: 19px;
+  padding-left: 3px;
+  color: #457798;
+  white-space: nowrap;
+  width: 340px;
+}
+.FigureCaption {
+  font-family: sans-serif;
+  text-align: center;
+}
+#TopBar_bl {
+  width: 100%;
+  height: 60px;
+}
+#TopBar_br {
+  width: 100%;
+  height: 60px;
+}
+#TopBar_tl {
+  margin-left: -110px;
+  margin-right: -100px;
+  align: left;
+  height: 60px;
+}
+#TopBar_tr {
+  width: 100%;
+  height: 60px;
+}
+#TopBar {
+  min-width: 700px;
+  padding: 25px 100px 10px;
+  margin-bottom: 25px;
+  clear: both;
+  border-bottom: 1px solid #d2dde5;
+  border-radius: 3px;
+  background: #efefef;
+  /* Old browsers */
+  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+  
+  background: -moz-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#e2eff9));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom,#ffffff 0%,#e2eff9 100%);
+  /* W3C */
+  /* IE6-8 */
+}
+#TopBar_left {
+  line-height: 14px;
+  position: absolute;
+  padding-top: 30px;
+  padding-right: 30px;
+  padding-left: 30px;
+  text-align: left;
+  font: 13px/20px Arial,Helvetica,sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  color: #333;
+}
+#TopBar_right {
+  line-height: 12px;
+  float: right;
+  padding-top: 10px;
+  padding-right: 30px;
+  text-align: left;
+}
+@media print {
+  #BreadCrumbs, #Download {
+    display: none;
+  }
+}
+@media print {
+  #TopBar_right {
+    display: none;
+  }
+}
+#TopBar_right a {
+  font-size: 10px;
+  margin: 3px;
+  padding: 0;
+}
+#BreadCrumbs {
+  padding: 15px 5px 0.5em 0;
+  font-family: sans-serif;
+  float: right;
+}
+#BreadCrumbs a {
+  color: #09569d;
+}
+#BreadCrumbs a:visited, #BreadCrumbs a:link {
+  text-decoration: none;
+}
+#BreadCrumbs a:hover, #BreadCrumbs a:active {
+  text-decoration: underline;
+}
+#PageTitle {
+  margin: 0 5px 0.5em 0;
+  color: #f90000;
+}
+#PageContent {
+  margin: 0 5px 0 20px;
+}
+.LeftBar_shown {
+  width: 13em;
+  float: left;
+}
+@media print {
+  .LeftBar_shown {
+    display: none;
+  }
+}
+.LeftBar_hidden {
+  display: none;
+}
+#Footer {
+  padding-top: 10px;
+  padding-left: 10px;
+  margin-right: 10px;
+}
+.footertext {
+  font-size: 10px;
+  font-family: sans-serif;
+  margin-top: 1px;
+}
+.NavBit {
+  padding: 15px 5px 0.5em 0;
+  font-family: sans-serif;
+}
+@media print {
+  .NavBit {
+    display: none;
+  }
+}
+#TagNotes {
+  text-align: right;
+}
+@media print {
+  #TagNotes a:visited, #TagNotes a:link {
+    color: #35556b;
+    text-decoration: none;
+  }
+}
+#Contents a, .NavBit a, #TagNotes a {
+  color: #09569d;
+}
+#TagNotes a:visited, #TagNotes a:link, #Contents a:visited, #Contents a:link, .NavBit a:visited, .NavBit a:link {
+  text-decoration: none;
+}
+#TagNotes a:hover, #TagNotes a:active, #Contents a:hover, #Contents a:active, .NavBit a:hover, .NavBit a:active {
+  text-decoration: underline;
+}
+#Contents {
+  float: left;
+  font-family: sans-serif;
+}
+@media print {
+  #Contents {
+    display: none;
+  }
+}
+@media screen {
+  div.PrintHeaders {
+    display: none;
+  }
+}
+.linkLESSON, .nolinkLESSON {
+  margin-left: 0.5em;
+  text-indent: -0.5em;
+}
+.linkAHEAD, .nolinkAHEAD, .linkQUESTIONS, .nolinkQUESTIONS {
+  margin-left: 1.5em;
+  text-indent: -0.5em;
+}
+.linkBHEAD, .nolinkBHEAD {
+  margin-left: 2.5em;
+  text-indent: -0.5em;
+}
+.linkCHEAD, .nolinkCHEAD {
+  margin-left: 3.5em;
+  text-indent: -0.5em;
+}
+.nolinkLESSON, .nolinkAHEAD, .nolinkBHEAD, .nolinkCHEAD, .nolinkQUESTIONS {
+  font-weight: bold;
+  color: #333;
+}
+.MainFlow_indented {
+  margin-right: 10px;
+  margin-left: 15em;
+  margin-bottom: 2em;
+}
+.MainFlow_wide {
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 2em;
+}
+@media print {
+  .MainFlow_indented, .MainFlow_wide {
+    padding-top: 0;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-left: 0;
+  }
+}
+h1, h2, h3, h4, h5 {
+  color: #333;
+}
+h1 {
+  font-weight: bold;
+  font-size: 20px;
+}
+h2 {
+  font-weight: bold;
+  font-size: 17px;
+}
+h3 {
+  font-weight: bold;
+  font-size: 14px;
+}
+h4 {
+  font-size: 15px;
+}
+h5 {
+  font-size: 12px;
+}
+#ToggleLeft {
+  display: none;
+}
+.note {
+  margin: 0 30px 0px 30px;
+}
+.codeblock {
+  margin: 0 30px 0px 30px;
+  font-size: 12px;
+  font-family: Monaco,Courier,"Courier New";
+}
+.tocli {
+  list-style-type: none;
+}
+.betadraft {
+  color: red;
+}
 </style>
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -414,7 +357,7 @@
     function showCode(displayCodePage, codePath) {
         var codePathEls = codePath.split("/");
         var currDocPathEls = location.href.split("/");
-        //alert ("codePathEls = " + codePathEls + "\n" + "currDocPathEls = " + currDocPathEls);
+        //alert ("codePathEls = " + codePathEls + "n" + "currDocPathEls = " + currDocPathEls);
         currDocPathEls.pop(); // remove file name at the end
         while (codePathEls.length > 0) {
             if (codePathEls[0] == "..") {
@@ -437,18 +380,17 @@
 
 
     <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
-<body onload="load()">
-    <noscript>
-        A browser with JavaScript enabled is required for this page to operate properly.
+<body dir="ltr" onload="load()">
+    <noscript>启用了JavaScript的浏览器需要此页面正常运行。
     </noscript>
         <!-- header -->
     <div class="header-container">
         <div class="bookwrapper  clearfix">       
             <div id="brandProdName">
                 <div id="logocover"></div>
-                <div id="productName" >Documentation</div>
+                <div id="productName">文档</div>
             </div> 
-            <br class="clearfloat" />
+            <br class="clearfloat">
         </div>
     </div>
     
@@ -456,12 +398,11 @@
         <div id="TopBar_tr">
             <div id="TopBar_tl">
                 <div id="TopBar_br"> <div id="TopBar_bl"> 
-                    <div id="TopBar_left">The Java&trade; Tutorials</div>
+                    <div id="TopBar_left">Java™教程</div>
                         <div id="TopBar_right"> 
                             <!--
                             <a href="URL" target="_blank">External Link</a><br/>
-                            --> 
-                            <a href="javascript:toggleLeft()" id="ToggleLeft">Hide TOC</a>
+                            --> <a href="javascript:void(0);" id="ToggleLeft">隐藏TOC</a>
                         </div>
                     </div>
                 </div>
@@ -472,155 +413,98 @@
 
     <div id="LeftBar" class="LeftBar_shown">
         <div id="Contents">
-            <div class="linkLESSON"><a href="index.html">JDBC Basics</a></div>
-<div class="linkAHEAD"><a href="gettingstarted.html">Getting Started</a></div>
-<div class="linkAHEAD"><a href="processingsqlstatements.html">Processing SQL Statements with JDBC</a></div>
-<div class="linkAHEAD"><a href="connecting.html">Establishing a Connection</a></div>
-<div class="linkAHEAD"><a href="sqldatasources.html">Connecting with DataSource Objects</a></div>
-<div class="linkAHEAD"><a href="sqlexception.html">Handling SQLExceptions</a></div>
-<div class="linkAHEAD"><a href="tables.html">Setting Up Tables</a></div>
-<div class="linkAHEAD"><a href="retrieving.html">Retrieving and Modifying Values from Result Sets</a></div>
-<div class="linkAHEAD"><a href="prepared.html">Using Prepared Statements</a></div>
-<div class="linkAHEAD"><a href="transactions.html">Using Transactions</a></div>
-<div class="linkAHEAD"><a href="rowset.html">Using RowSet Objects</a></div>
-<div class="nolinkAHEAD">Using JdbcRowSet Objects</div>
-<div class="linkAHEAD"><a href="cachedrowset.html">Using CachedRowSetObjects</a></div>
-<div class="linkAHEAD"><a href="joinrowset.html">Using JoinRowSet Objects</a></div>
-<div class="linkAHEAD"><a href="filteredrowset.html">Using FilteredRowSet Objects</a></div>
-<div class="linkAHEAD"><a href="webrowset.html">Using WebRowSet Objects</a></div>
-<div class="linkAHEAD"><a href="sqltypes.html">Using Advanced Data Types</a></div>
-<div class="linkAHEAD"><a href="blob.html">Using Large Objects</a></div>
-<div class="linkAHEAD"><a href="sqlxml.html">Using SQLXML Objects</a></div>
-<div class="linkAHEAD"><a href="array.html">Using Array Objects</a></div>
-<div class="linkAHEAD"><a href="distinct.html">Using DISTINCT Data Type</a></div>
-<div class="linkAHEAD"><a href="sqlstructured.html">Using Structured Objects</a></div>
-<div class="linkAHEAD"><a href="sqlcustommapping.html">Using Customized Type Mappings</a></div>
-<div class="linkAHEAD"><a href="sqldatalink.html">Using Datalink Objects</a></div>
-<div class="linkAHEAD"><a href="sqlrowid.html">Using RowId Objects</a></div>
-<div class="linkAHEAD"><a href="storedprocedures.html">Using Stored Procedures</a></div>
-<div class="linkAHEAD"><a href="jdbcswing.html">Using JDBC with GUI API</a></div>
+            <div class="linkLESSON"><a href="index.html">JDBC基础知识</a></div>
+<div class="linkAHEAD"><a href="gettingstarted.html">入门</a></div>
+<div class="linkAHEAD"><a href="processingsqlstatements.html">使用JDBC处理SQL语句</a></div>
+<div class="linkAHEAD"><a href="connecting.html">建立连接</a></div>
+<div class="linkAHEAD"><a href="sqldatasources.html">连接数据源对象</a></div>
+<div class="linkAHEAD"><a href="sqlexception.html">处理SQLExceptions</a></div>
+<div class="linkAHEAD"><a href="tables.html">设置表</a></div>
+<div class="linkAHEAD"><a href="retrieving.html">从结果集中检索和修改值</a></div>
+<div class="linkAHEAD"><a href="prepared.html">使用准备好的陈述</a></div>
+<div class="linkAHEAD"><a href="transactions.html">使用交易</a></div>
+<div class="linkAHEAD"><a href="rowset.html">使用RowSet对象</a></div>
+<div class="nolinkAHEAD">使用JdbcRowSet对象</div>
+<div class="linkAHEAD"><a href="cachedrowset.html">使用CachedRowSetObjects</a></div>
+<div class="linkAHEAD"><a href="joinrowset.html">使用JoinRowSet对象</a></div>
+<div class="linkAHEAD"><a href="filteredrowset.html">使用FilteredRowSet对象</a></div>
+<div class="linkAHEAD"><a href="webrowset.html">使用WebRowSet对象</a></div>
+<div class="linkAHEAD"><a href="sqltypes.html">使用高级数据类型</a></div>
+<div class="linkAHEAD"><a href="blob.html">使用大对象</a></div>
+<div class="linkAHEAD"><a href="sqlxml.html">使用SQLXML对象</a></div>
+<div class="linkAHEAD"><a href="array.html">使用数组对象</a></div>
+<div class="linkAHEAD"><a href="distinct.html">使用DISTINCT数据类型</a></div>
+<div class="linkAHEAD"><a href="sqlstructured.html">使用结构化对象</a></div>
+<div class="linkAHEAD"><a href="sqlcustommapping.html">使用自定义类型映射</a></div>
+<div class="linkAHEAD"><a href="sqldatalink.html">使用数据链接对象</a></div>
+<div class="linkAHEAD"><a href="sqlrowid.html">使用RowId对象</a></div>
+<div class="linkAHEAD"><a href="storedprocedures.html">使用存储过程</a></div>
+<div class="linkAHEAD"><a href="jdbcswing.html">将JDBC与GUI API结合使用</a></div>
 </div>
     </div>
     <div id="MainFlow" class="MainFlow_indented">
     <div class="PrintHeaders">
-        <b>Trail:</b> JDBC(TM) Database Access
-        <br /><b>Lesson:</b> JDBC Basics
-    </div>
+        <b>Trail：</b> JDBC（TM）数据库访问<br><b>课程：</b> JDBC基础知识</div>
             <div id="BreadCrumbs">
-                <a href="../../index.html" target="_top">Home Page</a>
-                &gt;
-                <a href="../index.html" target="_top">JDBC(TM) Database Access</a>
-                &gt;
-                <a href="index.html" target="_top">JDBC Basics</a>
+                <a href="../../index.html" target="_top">主页</a> &gt; <a href="../index.html" target="_top">JDBC（TM）数据库访问</a> &gt; <a href="index.html" target="_top">JDBC基础知识</a>
             </div>
             <div class="NavBit">
-                <a target="_top" href="rowset.html">&laquo;&nbsp;Previous</a>&nbsp;&bull;&nbsp;<a target="_top" href="../TOC.html">Trail</a>&nbsp;&bull;&nbsp;<a target="_top" href="cachedrowset.html">Next&nbsp;&raquo;</a>
+                <a href="rowset.html" target="_top">«上一页</a> • <a href="../TOC.html" target="_top">小道</a> • <a href="cachedrowset.html" target="_top">下一页»</a>
             </div>
-            <div class="Banner"><p style="background-color: rgb(247, 248, 249); border-width: 1px; padding: 10px; font-style: italic; border-style: solid; border-color: rgb(64, 74, 91);">The Java Tutorials have been written for JDK 8. Examples and practices described in this page don't take advantage of improvements introduced in later releases.</p></div>
-            <div id="PageTitle"><h1>Using JdbcRowSet Objects</h1></div>
+            <div class="Banner"><p style="background-color:rgb(247,248,249);border-width:1px;padding:10px;font-style:italic;border-style:solid;border-color:rgb(64,74,91)">Java教程是为JDK 8编写的。本页中描述的示例和实践未利用后续版本中引入的改进。</p></div>
+            <div id="PageTitle"><h1>使用JdbcRowSet对象</h1></div>
             <div id="PageContent">
 
-<p>A <code>JdbcRowSet</code> object is an enhanced <code>ResultSet</code> object. It maintains a connection to its data source, just as a <code>ResultSet</code> object does. The big difference is that it has a set of properties and a listener notification mechanism that make it a JavaBeans component.</p>
-<p>One of the main uses of a <code>JdbcRowSet</code> object is to make a <code>ResultSet</code> object scrollable and updatable when it does not otherwise have those capabilities.</p>
-<p>This section covers the following topics:</p>
+<p><code>JdbcRowSet</code>对象是增强的<code>ResultSet</code>对象。它保持与其数据源的连接，就像<code>ResultSet</code>对象一样。最大的区别在于它具有一组属性和一个侦听器通知机制，使其成为JavaBeans组件。</p>
+<p><code>JdbcRowSet</code>对象的一个​​主要用途是使<code>ResultSet</code>对象在没有这些功能的情况下可滚动和可更新。</p>
+<p>本节包括以下主题：</p>
 <ul>
-<li><a href="#creating-jdbcrowset-object">Creating JdbcRowSet Objects</a></li>
-<li><a href="#default-jdbcrowset-objects">Default JdbcRowSet Objects</a></li>
-<li><a href="#setting-properties">Setting Properties</a></li>
-<li><a href="#using-jdbcrowset-object">Using JdbcRowSet Objects</a></li>
-<li><a href="#code-sample">Code Sample</a></li>
+<li><a href="#creating-jdbcrowset-object">创建JdbcRowSet对象</a></li>
+<li><a href="#default-jdbcrowset-objects">默认JdbcRowSet对象</a></li>
+<li><a href="#setting-properties">设置属性</a></li>
+<li><a href="#using-jdbcrowset-object">使用JdbcRowSet对象</a></li>
+<li><a href="#code-sample">代码示例</a></li>
 </ul>
 <!-- ********************************************************** -->
-<h2><a name="creating-jdbcrowset-object" id="creating-jdbcrowset-object">Creating JdbcRowSet Objects</a></h2>
-<p>You can create a <code>JdbcRowSet</code> object in various ways:</p>
+<h2><a name="creating-jdbcrowset-object" id="creating-jdbcrowset-object">创建JdbcRowSet对象</a></h2>
+<p>您可以通过各种方式创建<code>JdbcRowSet</code>对象：</p>
 <ul>
-<li>By using the reference implementation constructor that takes a <code>ResultSet</code> object</li>
-<li>By using the reference implementation constructor that takes a <code>Connection</code> object</li>
-<li>By using the reference implementation default constructor</li>
-<li>By using an instance of <code>RowSetFactory</code>, which is created from the class <code>RowSetProvider</code></li>
+<li>通过使用带有<code>ResultSet</code>对象的引用实现构造函数</li>
+<li>通过使用带有<code>Connection</code>对象的引用实现构造函数</li>
+<li>通过使用引用实现默认构造函数</li>
+<li>通过使用<code>RowSetFactory</code>的实例，该实例是从<code>RowSetProvider</code>类<code>RowSetProvider</code></li>
 </ul>
-<p><strong>Note</strong>: Alternatively, you can use the constructor from the <code>JdbcRowSet</code> implementation of your JDBC driver. However, implementations of the <code>RowSet</code> interface will differ from the reference implementation. These implementations will have different names and constructors. For example, the Oracle JDBC driver&#39;s implementation of the <code>JdbcRowSet</code> interface is named <code>oracle.jdbc.rowset.OracleJDBCRowSet</code>.</p>
+<p><strong>注意</strong> ：或者，您可以使用JDBC驱动程序的<code>JdbcRowSet</code>实现中的构造函数。但是， <code>RowSet</code>接口的实现将与参考实现不同。这些实现将具有不同的名称和构造函数。例如，Oracle JDBC驱动程序的<code>JdbcRowSet</code>接口实现名为<code>oracle.jdbc.rowset.OracleJDBCRowSet</code> 。</p>
 <!-- ********************************************************** -->
-<h3><a name="passing-resultset-object" id="passing-resultset-object">Passing ResultSet Objects</a></h3>
-<p>The simplest way to create a <code>JdbcRowSet</code> object is to produce a <code>ResultSet</code> object and pass it to the <code>JdbcRowSetImpl</code> constructor. Doing this not only creates a <code>JdbcRowSet</code> object but also populates it with the data in the <code>ResultSet</code> object.</p>
-<p><strong>Note</strong>: The <code>ResultSet</code> object that is passed to the <code>JdbcRowSetImpl</code> constructor must be scrollable.</p>
-<p>As an example, the following code fragment uses the <code>Connection</code> object <code>con</code> to create a <code>Statement</code> object, <code>stmt</code>, which then executes a query. The query produces the <code>ResultSet</code> object <code>rs</code>, which is passed to the constructor to create a new <code>JdbcRowSet</code> object initialized with the data in <code>rs</code>:</p>
-<div class="codeblock"><pre>
-stmt = con.createStatement(
-           ResultSet.TYPE_SCROLL_SENSITIVE,
-           ResultSet.CONCUR_UPDATABLE);
-rs = stmt.executeQuery("select * from COFFEES");
-jdbcRs = new JdbcRowSetImpl(rs);
-</pre></div>
-<p>A <code>JdbcRowSet</code> object created with a <code>ResultSet</code> object serves as a wrapper for the <code>ResultSet</code> object. Because the <code>RowSet</code> object <code>rs</code> is scrollable and updatable, <code>jdbcRs</code> is also scrollable and updatable. If you have run the method <code>createStatement</code> without any arguments, <code>rs</code> would not be scrollable or updatable, and neither would <code>jdbcRs</code>.</p>
+<h3><a name="passing-resultset-object" id="passing-resultset-object">传递ResultSet对象</a></h3>
+<p>创建<code>JdbcRowSet</code>对象的最简单方法是生成<code>ResultSet</code>对象并将其传递给<code>JdbcRowSetImpl</code>构造函数。这样做不仅会创建一个<code>JdbcRowSet</code>对象，还会使用<code>ResultSet</code>对象中的数据填充它。</p>
+<p><strong>注意</strong> ：传递给<code>JdbcRowSetImpl</code>构造函数的<code>ResultSet</code>对象必须是可滚动的。</p>
+<p>作为示例，以下代码片段使用<code>Connection</code>对象<code>con</code>来创建<code>Statement</code>对象<code>stmt</code> ，然后<code>stmt</code>执行查询。该查询生成<code>ResultSet</code>对象<code>rs</code> ，该对象传递给构造函数以创建使用<code>rs</code>的数据初始化的新<code>JdbcRowSet</code>对象：</p>
+<div class="codeblock"><pre>stmt = con.createStatement（ResultSet。TYPE_SCROLL_SENSITIVE，ResultSet。CONCUR_UPDATABLE）; rs = stmt.executeQuery（“select * from COFFEES”）; jdbcRs = new JdbcRowSetImpl（rs）;</pre></div>
+<p>甲<code>JdbcRowSet</code>与创建的对象<code>ResultSet</code>对象充当用于一个包装<code>ResultSet</code>对象。因为<code>RowSet</code>对象<code>rs</code>是可滚动和可更新的， <code>jdbcRs</code>也是可滚动和可更新的。如果你运行没有任何参数的方法<code>createStatement</code> ， <code>rs</code>将不可滚动或可更新， <code>jdbcRs</code>也不会。</p>
 <!-- ********************************************************** -->
-<h3><a name="passing-connection-object" id="passing-connection-object">Passing Connection Objects</a></h3>
-<p>The first statement in the following code excerpt from <a href="gettingstarted.html"><code>JdbcRowSetSample</code></a> creates a <code>JdbcRowSet</code> object that connects to the database with the <code>Connection</code> object <code>con</code>:</p>
+<h3><a name="passing-connection-object" id="passing-connection-object">传递连接对象</a></h3>
+<p>以下代码摘录自<a href="gettingstarted.html"><code>JdbcRowSetSample</code></a>的第一个语句创建了一个<code>JdbcRowSet</code>对象，该对象使用<code>Connection</code>对象<code>con</code>连接到数据库：</p>
 <div class="codeblock"><pre>
-<strong>jdbcRs = new JdbcRowSetImpl(con);</strong>
-jdbcRs.setCommand("select * from COFFEES");
-jdbcRs.execute();
-</pre></div>
-<p>The object <code>jdbcRs</code> contains no data until you specify a SQL statement with the method <code>setCommand</code>, then run the method <code>execute</code>.</p>
-<p>The object <code>jdbcRs</code> is scrollable and updatable; by default, <code>JdbcRowSet</code> and all other <code>RowSet</code> objects are scrollable and updatable unless otherwise specified. See <a href="#default-jdbcrowset-objects">Default JdbcRowSet Objects</a> for more information about <code>JdbcRowSet</code> properties you can specify.</p>
+<strong>jdbcRs = new JdbcRowSetImpl（con）;</strong> jdbcRs.setCommand（“select * from COFFEES”）; jdbcRs.execute（）;</pre></div>
+<p>在使用方法<code>setCommand</code>指定SQL语句之前，对象<code>jdbcRs</code>包含任何数据，然后运行方法<code>execute</code> 。</p>
+<p>对象<code>jdbcRs</code>是可滚动和可更新的;默认情况下，除非另有说明，否则<code>JdbcRowSet</code>和所有其他<code>RowSet</code>对象都是可滚动和可更新的。有关可以指定的<code>JdbcRowSet</code>属性的更多信息，请参见<a href="#default-jdbcrowset-objects">默认JdbcRowSet对象</a> 。</p>
 <!-- ********************************************************** -->
-<h3>Using the Default Constructor</h3>
-<p>The first statement in the following code excerpt creates an empty <code>JdbcRowSet</code> object.</p>
-<div class="codeblock"><pre>
-public void createJdbcRowSet(String username, String password) {
-
-    jdbcRs = new JdbcRowSetImpl();
-    jdbcRs.setCommand("select * from COFFEES");
-    jdbcRs.setUrl("jdbc:myDriver:myAttribute");
-    jdbcRs.setUsername(username);
-    jdbcRs.setPassword(password);
-    jdbcRs.execute();
-    // ...
-}
-</pre></div>
-<p>The object <code>jdbcRs</code> contains no data until you specify a SQL statement with the method <code>setCommand</code>, specify how the <code>JdbcResultSet</code> object connects the database, and then run the method <code>execute</code>.</p>
-<p>All of the reference implementation constructors assign the default values for the properties listed in the section <a href="#default-jdbcrowset-objects">Default JdbcRowSet Objects</a>.</p>
+<h3>使用默认构造函数</h3>
+<p>以下代码摘录中的第一个语句创建一个空的<code>JdbcRowSet</code>对象。</p>
+<div class="codeblock"><pre>public void createJdbcRowSet（String username，String password）{jdbcRs = new JdbcRowSetImpl（）; jdbcRs.setCommand（“select * from COFFEES”）; jdbcRs.setUrl（ “JDBC：myDriver：myAttribute”）; jdbcRs.setUsername（用户名）; jdbcRs.setPassword（密码）; jdbcRs.execute（）; // ...}</pre></div>
+<p>在您使用方法<code>setCommand</code>指定SQL语句之前，对象<code>jdbcRs</code>包含任何数据，指定<code>JdbcResultSet</code>对象如何连接数据库，然后运行方法<code>execute</code> 。</p>
+<p>所有参考实现构造函数都为<a href="#default-jdbcrowset-objects">Default JdbcRowSet Objects</a>部分中列出的属性分配默认值。</p>
 <!-- ********************************************************** -->
-<h3><a name="rowsetfactory" id="rowsetfactory">Using the RowSetFactory Interface</a></h3>
-<p>With RowSet 1.1, which is part of Java SE 7 and later, you can use an instance of <code>RowSetFactory</code> to create a <code>JdbcRowSet</code> object. For example, the following code excerpt uses an instance of the <code>RowSetFactory</code> interface to create the <code>JdbcRowSet</code> object, <code>jdbcRs</code>:</p>
-<div class="codeblock"><pre>
-public void createJdbcRowSetWithRowSetFactory(
-    String username, String password)
-    throws SQLException {
-
-    RowSetFactory myRowSetFactory = null;
-    JdbcRowSet jdbcRs = null;
-    ResultSet rs = null;
-    Statement stmt = null;
-
-    try {
-        myRowSetFactory = RowSetProvider.newFactory();
-        jdbcRs = myRowSetFactory.createJdbcRowSet();
-
-        jdbcRs.setUrl("jdbc:myDriver:myAttribute");
-        jdbcRs.setUsername(username);
-        jdbcRs.setPassword(password);
-
-        jdbcRs.setCommand("select * from COFFEES");
-        jdbcRs.execute();
-
-        // ...
-    }
-}
-</pre></div>
-<p>The following statement creates the <code>RowSetProvider</code> object <code>myRowSetFactory</code> with the default <code>RowSetFactory</code> implementation, <code>com.sun.rowset.RowSetFactoryImpl</code>:</p>
-<div class="codeblock"><pre>
-myRowSetFactory = RowSetProvider.newFactory();
-</pre></div>
-<p>Alternatively, if your JDBC driver has its own <code>RowSetFactory</code> implementation, you may specify it as an argument of the <code>newFactory</code> method.</p>
-<p>The following statements create the <code>JdbcRowSet</code> object <code>jdbcRs</code> and configure its database connection properties:</p>
-<div class="codeblock"><pre>
-jdbcRs = myRowSetFactory.createJdbcRowSet();
-jdbcRs.setUrl("jdbc:myDriver:myAttribute");
-jdbcRs.setUsername(username);
-jdbcRs.setPassword(password);
-</pre></div>
-<p>The <code>RowSetFactory</code> interface contains methods to create the different types of <code>RowSet</code> implementations available in RowSet 1.1 and later:</p>
+<h3><a name="rowsetfactory" id="rowsetfactory">使用RowSetFactory接口</a></h3>
+<p>使用RowSet 1.1（它是Java SE 7及更高版本的一部分），您可以使用<code>RowSetFactory</code>实例来创建<code>JdbcRowSet</code>对象。例如，以下代码摘录使用<code>RowSetFactory</code>接口的实例来创建<code>JdbcRowSet</code>对象<code>jdbcRs</code> ：</p>
+<div class="codeblock"><pre>public void createJdbcRowSetWithRowSetFactory（String username，String password）throws SQLException {RowSetFactory myRowSetFactory = null; JdbcRowSet jdbcRs = null; ResultSet rs = null;语句stmt = null; try {myRowSetFactory = RowSetProvider.newFactory（）; jdbcRs = myRowSetFactory.createJdbcRowSet（）; jdbcRs.setUrl（ “JDBC：myDriver：myAttribute”）; jdbcRs.setUsername（用户名）; jdbcRs.setPassword（密码）; jdbcRs.setCommand（“select * from COFFEES”）; jdbcRs.execute（）; // ...}}</pre></div>
+<p>以下语句使用默认的<code>RowSetFactory</code>实现<code>com.sun.rowset.创建<code>RowSetProvider</code>对象<code>myRowSetFactory</code> <code>com.sun.rowset.RowSetFactoryImpl</code> ：</p>
+<div class="codeblock"><pre>myRowSetFactory = RowSetProvider.newFactory（）;</pre></div>
+<p>或者，如果JDBC驱动程序具有自己的<code>RowSetFactory</code>实现，则可以将其指定为<code>newFactory</code>方法的参数。</p>
+<p>以下语句创建<code>JdbcRowSet</code>对象<code>jdbcRs</code>并配置其数据库连接属性：</p>
+<div class="codeblock"><pre>jdbcRs = myRowSetFactory.createJdbcRowSet（）; jdbcRs.setUrl（ “JDBC：myDriver：myAttribute”）; jdbcRs.setUsername（用户名）; jdbcRs.setPassword（密码）;</pre></div>
+<p><code>RowSetFactory</code>接口包含用于创建RowSet 1.1及更高版本中可用的不同类型的<code>RowSet</code>实现的方法：</p>
 <ul>
 <li><code>createCachedRowSet</code></li>
 <li><code>createFilteredRowSet</code></li>
@@ -629,147 +513,106 @@ jdbcRs.setPassword(password);
 <li><code>createWebRowSet</code></li>
 </ul>
 <!-- ********************************************************** -->
-<h2><a name="default-jdbcrowset-objects" id="default-jdbcrowset-objects">Default JdbcRowSet Objects</a></h2>
-<p>When you create a <code>JdbcRowSet</code> object with the default constructor, the new <code>JdbcRowSet</code> object will have the following properties:</p>
+<h2><a name="default-jdbcrowset-objects" id="default-jdbcrowset-objects">默认JdbcRowSet对象</a></h2>
+<p>使用默认构造函数创建<code>JdbcRowSet</code>对象时，新的<code>JdbcRowSet</code>对象将具有以下属性：</p>
 <ul>
-<li><code>type</code>: <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code> (has a scrollable cursor)</li>
-<li><code>concurrency</code>: <code>ResultSet.CONCUR_UPDATABLE</code> (can be updated)</li>
-<li><code>escapeProcessing</code>: <code>true</code> (the driver will do escape processing; when escape processing is enabled, the driver will scan for any escape syntax and translate it into code that the particular database understands)</li>
-<li><code>maxRows</code>: <code>0</code> (no limit on the number of rows)</li>
-<li><code>maxFieldSize</code>: <code>0</code> (no limit on the number of bytes for a column value; applies only to columns that store <code>BINARY</code>, <code>VARBINARY</code>, <code>LONGVARBINARY</code>, <code>CHAR</code>, <code>VARCHAR</code>, and <code>LONGVARCHAR</code> values)</li>
-<li><code>queryTimeout</code>: <code>0</code> (has no time limit for how long it takes to execute a query)</li>
-<li><code>showDeleted</code>: <code>false</code> (deleted rows are not visible)</li>
-<li><code>transactionIsolation</code>: <code>Connection.TRANSACTION_READ_COMMITTED</code> (reads only data that has been committed)</li>
-<li><code>typeMap</code>: <code>null</code> (the type map associated with a <code>Connection</code> object used by this <code>RowSet</code> object is <code>null</code>)</li>
+<li><code>type</code> ： <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code> （有一个可滚动的游标）</li>
+<li><code>concurrency</code> ： <code>ResultSet.CONCUR_UPDATABLE</code> （可以更新）</li>
+<li><code>escapeProcessing</code> ： <code>true</code> （驱动程序将执行转义处理;启用转义处理时，驱动程序将扫描任何转义语法并将其转换为特定数据库可以理解的代码）</li>
+<li><code>maxRows</code> ： <code>0</code> （行数没有限制）</li>
+<li><code>maxFieldSize</code> ： <code>0</code> （对列值的字节数没有限制;仅适用于存储<code>BINARY</code> ， <code>VARBINARY</code> ， <code>LONGVARBINARY</code> ， <code>CHAR</code> ， <code>VARCHAR</code>和<code>LONGVARCHAR</code>值的列）</li>
+<li><code>queryTimeout</code> ： <code>0</code> （没有时间限制执行查询所需的时间）</li>
+<li><code>showDeleted</code> ： <code>false</code> （删除的行不可见）</li>
+<li><code>transactionIsolation</code> ： <code>Connection.TRANSACTION_READ_COMMITTED</code> （仅读取已提交的数据）</li>
+<li><code>typeMap</code> ： <code>null</code> （与此<code>RowSet</code>对象使用的<code>Connection</code>对象关联的类型映射为<code>null</code> ）</li>
 </ul>
-<p>The main thing you must remember from this list is that a <code>JdbcRowSet</code> and all other <code>RowSet</code> objects are scrollable and updatable unless you set different values for those properties.</p>
+<p>从这个列表中你必须记住的主要事情是<code>JdbcRowSet</code>和所有其他<code>RowSet</code>对象是可滚动和可更新的，除非你为这些属性设置不同的值。</p>
 <!-- ********************************************************** -->
-<h2><a name="setting-properties" id="setting-properties">Setting Properties</a></h2>
-<p>The section <a href="#default-jdbcrowset-objects">Default JdbcRowSet Objects</a> lists the properties that are set by default when a new <code>JdbcRowSet</code> object is created. If you use the default constructor, you must set some additional properties before you can populate your new <code>JdbcRowSet</code> object with data.</p>
-<p>In order to get its data, a <code>JdbcRowSet</code> object first needs to connect to a database. The following four properties hold information used in obtaining a connection to a database.</p>
+<h2><a name="setting-properties" id="setting-properties">设置属性</a></h2>
+<p><a href="#default-jdbcrowset-objects">Default JdbcRowSet Objects</a>部分列出了创建新<code>JdbcRowSet</code>对象时默认设置的属性。如果使用默认构造函数，则必须先设置一些其他属性，然后才能使用数据填充新的<code>JdbcRowSet</code>对象。</p>
+<p>为了获取其数据， <code>JdbcRowSet</code>对象首先需要连接到数据库。以下四个属性包含用于获取与数据库的连接的信息。</p>
 <ul>
-<li><code>username</code>: the name a user supplies to a database as part of gaining access</li>
-<li><code>password</code>: the user&#39;s database password</li>
-<li><code>url</code>: the JDBC URL for the database to which the user wants to connect</li>
-<li><code>datasourceName</code>: the name used to retrieve a <code>DataSource</code> object that has been registered with a JNDI naming service</li>
+<li><code>username</code> ：用户提供给数据库的名称，作为获取访问权限的一部分</li>
+<li><code>password</code> ：用户的数据库密码</li>
+<li><code>url</code> ：用户想要连接的数据库的JDBC URL</li>
+<li><code>datasourceName</code> ：用于检索已向JNDI命名服务注册的<code>DataSource</code>对象的名称</li>
 </ul>
-<p>Which of these properties you set depends on how you are going to make a connection. The preferred way is to use a <code>DataSource</code> object, but it may not be practical for you to register a <code>DataSource</code> object with a JNDI naming service, which is generally done by a system administrator. Therefore, the code examples all use the <code>DriverManager</code> mechanism to obtain a connection, for which you use the <code>url</code> property and not the <code>datasourceName</code> property.</p>
-<p>Another property that you must set is the <code>command</code> property. This property is the query that determines what data the <code>JdbcRowSet</code> object will hold. For example, the following line of code sets the <code>command</code> property with a query that produces a <code>ResultSet</code> object containing all the data in the table <code>COFFEES</code>:</p>
-<div class="codeblock"><pre>
-jdbcRs.setCommand("select * from COFFEES");
-</pre></div>
-<p>After you have set the <code>command</code> property and the properties necessary for making a connection, you are ready to populate the <code>jdbcRs</code> object with data by calling the <code>execute</code> method.</p>
-<div class="codeblock"><pre>
-jdbcRs.execute();
-</pre></div>
-<p>The <code>execute</code> method does many things for you in the background:</p>
+<p>您设置的这些属性中的哪一个取决于您要如何建立连接。首选方法是使用<code>DataSource</code>对象，但是使用JNDI命名服务注册<code>DataSource</code>对象可能不实际，这通常由系统管理员完成。因此，代码示例都使用<code>DriverManager</code>机制来获取连接，您使用<code>url</code>属性而不是<code>datasourceName</code>属性。</p>
+<p>您必须设置的另一个属性是<code>command</code>属性。此属性是确定<code>JdbcRowSet</code>对象将包含哪些数据的查询。例如，下面的代码行设置<code>command</code>用产生一个查询属性<code>ResultSet</code>包含在表中的所有数据对象<code>COFFEES</code> ：</p>
+<div class="codeblock"><pre>jdbcRs.setCommand（“select * from COFFEES”）;</pre></div>
+<p>设置<code>command</code>属性和建立连接所需的属性后，您可以通过调用<code>execute</code>方法使用数据填充<code>jdbcRs</code>对象。</p>
+<div class="codeblock"><pre>jdbcRs.execute（）;</pre></div>
+<p><code>execute</code>方法在后台为你做了很多事情：</p>
 <ul>
-<li>It makes a connection to the database using the values you assigned to the <code>url</code>, <code>username</code>, and <code>password</code> properties.</li>
-<li>It executes the query you set in the <code>command</code> property.</li>
-<li>It reads the data from the resulting <code>ResultSet</code> object into the <code>jdbcRs</code> object.</li>
+<li>它使用您分配给<code>url</code> ， <code>username</code>和<code>password</code>属性的值建立与数据库的连接。</li>
+<li>它执行您在<code>command</code>属性中设置的查询。</li>
+<li>它将生成的<code>ResultSet</code>对象中的数据读入<code>jdbcRs</code>对象。</li>
 </ul>
 <!-- ********************************************************** -->
-<h2><a name="using-jdbcrowset-object" id="using-jdbcrowset-object">Using JdbcRowSet Objects</a></h2>
-<p>You update, insert, and delete a row in a <code>JdbcRowSet</code> object the same way you update, insert, and delete a row in an updatable <code>ResultSet</code> object. Similarly, you navigate a <code>JdbcRowSet</code> object the same way you navigate a scrollable <code>ResultSet</code> object.</p>
-<p>The Coffee Break chain of coffee houses acquired another chain of coffee houses and now has a legacy database that does not support scrolling or updating of a result set. In other words, any <code>ResultSet</code> object produced by this legacy database does not have a scrollable cursor, and the data in it cannot be modified. However, by creating a <code>JdbcRowSet</code> object populated with the data from a <code>ResultSet</code> object, you can, in effect, make the <code>ResultSet</code> object scrollable and updatable.</p>
-<p>As mentioned previously, a <code>JdbcRowSet</code> object is by default scrollable and updatable. Because its contents are identical to those in a <code>ResultSet</code> object, operating on the <code>JdbcRowSet</code> object is equivalent to operating on the <code>ResultSet</code> object itself. And because a <code>JdbcRowSet</code> object has an ongoing connection to the database, changes it makes to its own data are also made to the data in the database.</p>
-<p>This section covers the following topics:</p>
+<h2><a name="using-jdbcrowset-object" id="using-jdbcrowset-object">使用JdbcRowSet对象</a></h2>
+<p>您更新，插入和删除<code>JdbcRowSet</code>对象中的行的方式与更新，插入和删除可更新<code>ResultSet</code>对象中的行的方式相同。同样，您导航<code>JdbcRowSet</code>对象的方式与导航可滚动<code>ResultSet</code>对象的方式相同。</p>
+<p>咖啡馆的Coffee Break连锁店获得了另一家咖啡馆连锁店，现在拥有一个不支持滚动或更新结果集的遗留数据库。换句话说，此旧数据库生成的任何<code>ResultSet</code>对象都没有可滚动的游标，并且无法修改其中的数据。但是，通过创建使用<code>ResultSet</code>对象中的数据填充的<code>JdbcRowSet</code>对象，实际上可以使<code>ResultSet</code>对象可滚动和可更新。</p>
+<p>如前所述， <code>JdbcRowSet</code>对象默认是可滚动和可更新的。由于其内容与<code>ResultSet</code>对象中的内容相同，因此对<code>JdbcRowSet</code>对象进行操作等效于对<code>ResultSet</code>对象本身进行操作。并且由于<code>JdbcRowSet</code>对象与数据库之间存在持续连接，因此对数据库中的数据也会对其自身数据进行更改。</p>
+<p>本节包括以下主题：</p>
 <ul>
-<li><a href="#navigating-jdbcrowset-object">Navigating JdbcRowSet Objects</a></li>
-<li><a href="#updating-column-value">Updating Column Values</a></li>
-<li><a href="#inserting-row">Inserting Rows</a></li>
-<li><a href="#deleting-row">Deleting Rows</a></li>
+<li><a href="#navigating-jdbcrowset-object">导航JdbcRowSet对象</a></li>
+<li><a href="#updating-column-value">更新列值</a></li>
+<li><a href="#inserting-row">插入行</a></li>
+<li><a href="#deleting-row">删除行</a></li>
 </ul>
 <!-- ********************************************************** -->
-<h3><a name="navigating-jdbcrowset-object" id="navigating-jdbcrowset-object">Navigating JdbcRowSet Objects</a></h3>
-<p>A <code>ResultSet</code> object that is not scrollable can use only the <code>next</code> method to move its cursor forward, and it can move the cursor only forward from the first row to the last row. A default <code>JdbcRowSet</code> object, however, can use all of the cursor movement methods defined in the <code>ResultSet</code> interface.</p>
-<p>A <code>JdbcRowSet</code> object can call the method <code>next</code>, and it can also call any of the other <code>ResultSet</code> cursor movement methods. For example, the following lines of code move the cursor to the fourth row in the <code>jdbcRs</code> object and then back to the third row:</p>
-<div class="codeblock"><pre>
-jdbcRs.absolute(4);
-jdbcRs.previous();
-</pre></div>
-<p>The method <code>previous</code> is analogous to the method <code>next</code> in that it can be used in a <code>while</code> loop to traverse all of the rows in order. The difference is that you must move the cursor to a position after the last row, and <code>previous</code> moves the cursor toward the beginning.</p>
+<h3><a name="navigating-jdbcrowset-object" id="navigating-jdbcrowset-object">导航JdbcRowSet对象</a></h3>
+<p>不可滚动的<code>ResultSet</code>对象只能使用<code>next</code>方法向前移动其光标，并且它只能将光标从第一行向前移动到最后一行。但是，默认的<code>JdbcRowSet</code>对象可以使用<code>ResultSet</code>接口中定义的所有游标移动方法。</p>
+<p><code>JdbcRowSet</code>对象可以<code>next</code>调用该方法，它还可以调用任何其他<code>ResultSet</code>游标移动方法。例如，以下代码行将光标移动到<code>jdbcRs</code>对象中的第四行，然后返回到第三行：</p>
+<div class="codeblock"><pre>jdbcRs.absolute（4）; jdbcRs.previous（）;</pre></div>
+<p>该方法<code>previous</code>是类似于方法<code>next</code> ，它可以被用在<code>while</code>循环遍历所有行的秩序。所不同的是，你必须将光标移动到最后一行之后的位置，和<code>previous</code>的光标向移动开始。</p>
 <!-- ********************************************************** -->
-<h3><a name="updating-column-value" id="updating-column-value">Updating Column Values</a></h3>
-<p>You update data in a <code>JdbcRowSet</code> object the same way you update data in a <code>ResultSet</code> object.</p>
-<p>Assume that the Coffee Break owner wants to raise the price for a pound of Espresso coffee. If the owner knows that Espresso is in the third row of the <code>jdbcRs</code> object, the code for doing this might look like the following:</p>
-<div class="codeblock"><pre>
-jdbcRs.absolute(3);
-jdbcRs.updateFloat("PRICE", 10.99f);
-jdbcRs.updateRow();
-</pre></div>
-<p>The code moves the cursor to the third row and changes the value for the column <code>PRICE</code> to 10.99, and then updates the database with the new price.</p>
-<p>Calling the method <code>updateRow</code> updates the database because <code>jdbcRs</code> has maintained its connection to the database. For disconnected <code>RowSet</code> objects, the situation is different.</p>
+<h3><a name="updating-column-value" id="updating-column-value">更新列值</a></h3>
+<p>您更新<code>JdbcRowSet</code>对象中的数据的方式与更新<code>ResultSet</code>对象中的数据的方式相同。</p>
+<p>假设Coffee Break老板想要提高一磅Espresso咖啡的价格。如果所有者知道Espresso位于<code>jdbcRs</code>对象的第三行，则执行此操作的代码可能如下所示：</p>
+<div class="codeblock"><pre>jdbcRs.absolute（3）; jdbcRs.updateFloat（“PRICE”，10.99f）; jdbcRs.updateRow（）;</pre></div>
+<p>代码将光标移动到第三行，并将列<code>PRICE</code>的值更改为10.99，然后使用新价格更新数据库。</p>
+<p>调用方法<code>updateRow</code>更新数据库，因为<code>jdbcRs</code>已保持与数据库的连接。对于断开连接的<code>RowSet</code>对象，情况有所不同。</p>
 <!-- ********************************************************** -->
-<h3><a name="inserting-row" id="inserting-row">Inserting Rows</a></h3>
-<p>If the owner of the Coffee Break chain wants to add one or more coffees to what he offers, the owner will need to add one row to the <code>COFFEES</code> table for each new coffee, as is done in the following code fragment from <code><a href="gettingstarted.html">JdbcRowSetSample</a></code>. Notice that because the <code>jdbcRs</code> object is always connected to the database, inserting a row into a <code>JdbcRowSet</code> object is the same as inserting a row into a <code>ResultSet</code> object: You move to the cursor to the insert row, use the appropriate updater method to set a value for each column, and call the method <code>insertRow</code>:</p>
-<div class="codeblock"><pre>
-jdbcRs.moveToInsertRow();
-jdbcRs.updateString("COF_NAME", "HouseBlend");
-jdbcRs.updateInt("SUP_ID", 49);
-jdbcRs.updateFloat("PRICE", 7.99f);
-jdbcRs.updateInt("SALES", 0);
-jdbcRs.updateInt("TOTAL", 0);
-jdbcRs.insertRow();
-
-jdbcRs.moveToInsertRow();
-jdbcRs.updateString("COF_NAME", "HouseDecaf");
-jdbcRs.updateInt("SUP_ID", 49);
-jdbcRs.updateFloat("PRICE", 8.99f);
-jdbcRs.updateInt("SALES", 0);
-jdbcRs.updateInt("TOTAL", 0);
-jdbcRs.insertRow();
-</pre></div>
-<p>When you call the method <code>insertRow</code>, the new row is inserted into the <code>jdbcRs</code> object and is also inserted into the database. The preceding code fragment goes through this process twice, so two new rows are inserted into the <code>jdbcRs</code> object and the database.</p>
+<h3><a name="inserting-row" id="inserting-row">插入行</a></h3>
+<p>如果Coffee Break连锁店的所有者想要将一种或多种咖啡添加到他提供的产品中，那么所有者将需要在每个新咖啡的<code>COFFEES</code>表中添加一行，如下面的<code><a href="gettingstarted.html">JdbcRowSetSample</a></code>代码片段所示。请注意，因为<code>jdbcRs</code>对象始终连接到数据库，所以将行插入<code>JdbcRowSet</code>对象与将行插入<code>ResultSet</code>对象相同：您将光标移动到插入行，使用适当的updater方法设置每列的值，并调用方法<code>insertRow</code> ：</p>
+<div class="codeblock"><pre>jdbcRs.moveToInsertRow（）; jdbcRs.updateString（“COF_NAME”，“HouseBlend”）; jdbcRs.updateInt（“SUP_ID”，49）; jdbcRs.updateFloat（“PRICE”，7.99f）; jdbcRs.updateInt（“SALES”，0）; jdbcRs.updateInt（“TOTAL”，0）; jdbcRs.insertRow（）; jdbcRs.moveToInsertRow（）; jdbcRs.updateString（“COF_NAME”，“HouseDecaf”）; jdbcRs.updateInt（“SUP_ID”，49）; jdbcRs.updateFloat（“PRICE”，8.99f）; jdbcRs.updateInt（“SALES”，0）; jdbcRs.updateInt（“TOTAL”，0）; jdbcRs.insertRow（）;</pre></div>
+<p>当您调用方法<code>insertRow</code> ，新行将插入到<code>jdbcRs</code>对象中，并且也会插入到数据库中。前面的代码片段经过两次这个过程，因此将两个新行插入到<code>jdbcRs</code>对象和数据库中。</p>
 <!-- ********************************************************** -->
-<h3><a name="deleting-row" id="deleting-row">Deleting Rows</a></h3>
-<p>As is true with updating data and inserting a new row, deleting a row is just the same for a <code>JdbcRowSet</code> object as for a <code>ResultSet</code> object. The owner wants to discontinue selling French Roast decaffeinated coffee, which is the last row in the <code>jdbcRs</code> object. In the following lines of code, the first line moves the cursor to the last row, and the second line deletes the last row from the <code>jdbcRs</code> object and from the database:</p>
-<div class="codeblock"><pre>
-jdbcRs.last();
-jdbcRs.deleteRow();
-</pre></div>
+<h3><a name="deleting-row" id="deleting-row">删除行</a></h3>
+<p>与更新数据和插入新行一样，对于<code>JdbcRowSet</code>对象，删除行与<code>ResultSet</code>对象的行相同。店主想停止销售法国烤无咖啡因咖啡，这是<code>jdbcRs</code>对象的最后一行。在以下代码行中，第一行将光标移动到最后一行，第二行删除<code>jdbcRs</code>对象和数据库中的最后一行：</p>
+<div class="codeblock"><pre>jdbcRs.last（）; jdbcRs.deleteRow（）;</pre></div>
 <!-- ********************************************************** -->
-<h2><a name="code-sample" id="code-sample">Code Sample</a></h2>
-<p>The sample <code><a href="gettingstarted.html">JdbcRowSetSample</a></code> does the following:</p>
+<h2><a name="code-sample" id="code-sample">代码示例</a></h2>
+<p>示例<code><a href="gettingstarted.html">JdbcRowSetSample</a></code>执行以下操作：</p>
 <ul>
-<li>Creates a new <code>JdbcRowSet</code> object initialized with the <code>ResultSet</code> object that was produced by the execution of a query that retrieves all the rows in the <code>COFFEES</code> table</li>
-<li>Moves the cursor to the third row of the <code>COFFEES</code> table and updates the <code>PRICE</code> column in that row</li>
-<li>Inserts two new rows, one for <code>HouseBlend</code> and one for <code>HouseDecaf</code></li>
-<li>Moves the cursor to the last row and deletes it</li>
+<li>创建一个使用<code>ResultSet</code>对象初始化的新<code>JdbcRowSet</code>对象，该对象是由执行检索<code>COFFEES</code>表中所有行的查询生成的</li>
+<li>将光标移动到<code>COFFEES</code>表的第三行，并更新该行中的<code>PRICE</code>列</li>
+<li>插入两个新行，一个用于<code>HouseBlend</code> ，另一个用于<code>HouseDecaf</code></li>
+<li>将光标移动到最后一行并删除它</li>
 </ul>
 
 
         </div>
         <div class="NavBit">
-            <a target="_top" href="rowset.html">&laquo; Previous</a>
-            &bull;
-            <a target="_top" href="../TOC.html">Trail</a>
-            &bull;
-            <a target="_top" href="cachedrowset.html">Next &raquo;</a>
+            <a href="rowset.html" target="_top">«上一页</a> • <a href="../TOC.html" target="_top">小道</a> • <a href="cachedrowset.html" target="_top">下一页»</a>
         </div>
     </div>
     
-<hr class="clearfloat"/>
+<hr class="clearfloat">
 
 <div id="Footer">
 
 <p class="footertext">
-<a href="http://www.oracle.com/corporate/index.html">About Oracle</a> | 
-<a href="http://www.oracle.com/us/corporate/contact/index.html">Contact Us</a> |
-<a href="http://www.oracle.com/us/legal/index.html">Legal Notices</a> | 
-<a href="http://www.oracle.com/us/legal/terms/index.html">Terms of Use</a> |
-<a href="http://www.oracle.com/us/legal/privacy/index.html">Your Privacy Rights</a></p>
+<a href="http://www.oracle.com/corporate/index.html">关于Oracle</a> | <a href="http://www.oracle.com/us/corporate/contact/index.html">联系我们</a> | <a href="http://www.oracle.com/us/legal/index.html">法律声明</a> | <a href="http://www.oracle.com/us/legal/terms/index.html">使用条款</a> | <a href="http://www.oracle.com/us/legal/privacy/index.html">您的隐私权</a></p>
 
-<p class="footertext"><a href="http://www.oracle.com/pls/topic/lookup?ctx=cpyr&id=en-US">
-Copyright &copy; 1995, 2017 Oracle and/or its affiliates. All rights reserved.</a></p>
+<p class="footertext"><a href="http://www.oracle.com/pls/topic/lookup?ctx=cpyr&amp;id=en-US">版权所有©1995,2017 Oracle和/或其附属公司。版权所有。</a></p>
        
 </div>    
     <div class="PrintHeaders">
-        <b>Previous page:</b> Using RowSet Objects
-        <br /><b>Next page:</b> Using CachedRowSetObjects
-    </div>
+        <b>上一页：</b>使用RowSet对象<br><b>下一页：</b>使用CachedRowSetObjects</div>
 <!-- Start SiteCatalyst code -->
 <script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
 <!-- End SiteCatalyst code --> 
 </body>
-</html> 
+</html>

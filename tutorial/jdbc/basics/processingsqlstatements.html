@@ -1,368 +1,311 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    
-
-<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+﻿<html lang="en-US" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Processing SQL Statements with JDBC (The Java&trade; Tutorials &gt;        
-            JDBC(TM) Database Access &gt; JDBC Basics)
-</title>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-     <meta name="description" content="This JDBC Java tutorial describes how to use JDBC API to create, insert into, update, and query tables. You will also learn how to use simple and prepared statements, stored procedures and perform transactions" />
-     <meta name="keywords" content="java programming, learn java, java sample code, jdbc, prepared statement, result set" />
+        <title>使用JDBC处理SQL语句（Java™教程&gt; JDBC（TM）数据库访问&gt; JDBC基础知识）</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+     <meta name="description" content="This JDBC Java tutorial describes how to use JDBC API to create, insert into, update, and query tables. You will also learn how to use simple and prepared statements, stored procedures and perform transactions"></meta>
+     <meta name="keywords" content="java programming, learn java, java sample code, jdbc, prepared statement, result set"></meta>
         
-<style type="text/css">
-    body {
-        margin-left:10px;
-        margin-right:10px;
-        line-height: 1.5;
-        FONT-FAMILY: Arial, Helvetica, sans-serif; 
-        font-size: 0.8em;
-    }
-    
-    a:link{text-decoration:none; color:#09569d;}
-    a:visited{text-decoration:none; color: #3a87cf;}
-    a:hover{text-decoration:underline; }
-        
-    code{
-        font-family:Monaco,Courier,"Courier New";
-    }
-    
-    .header-container {
-        background-color: #fff;
-        border-bottom: 1px solid #C1CFDA;
-        -webkit-box-shadow: 0 2px 2px rgba(117, 163, 231, 0.1);
-        box-shadow: 0 2px 2px rgba(117, 163, 231, 0.1);
-    }
-    
-    .bookwrapper {
-        width: auto;
-        margin: auto;
-    }
-    
-    .clearfix {
-    }
-    
-    .clearfloat {
-        clear: both;
-        overflow: auto;
-        height: 0px;
-        font-size: 1px;
-        line-height: 0px;
-    }
-    
-    #brandProdName {
-        width: auto;
-        height: auto;
-    }
-    
-    #logocover {
-        display: block;
-        background: transparent url(../../images/oracle-java-logo.png) 0px 0px no-repeat;
-        height: 50px;
-        width: 229px;
-        float: left;
-    }
-    
-    #productName {
-        font-size: 16px;
-        position: relative;
-        top: 19px;
-        padding-left: 3px;
-        color: #457798;
-        white-space: nowrap;
-        width: 340px;
-    }
-
-
-    .FigureCaption   { 
-        font-family: sans-serif; 
-        text-align: center;
-    }
-    
-    #TopBar_bl {        
-        width: 100%;
-        height: 60px;
-    }
-    #TopBar_br {
-        width: 100%;
-        height: 60px;
-    }
-    #TopBar_tl {
-        margin-left: -110px;
-        margin-right: -100px;       
-		align: left;
-        height: 60px;
-    }
-    #TopBar_tr {
-        width: 100%;
-        height: 60px;
-    }
-    
-    #TopBar {
-        min-width:700px;
-        padding:25px 100px 10px;
-        margin-bottom:25px;
-        clear:both;
-        
-        border-bottom:1px solid #d2dde5;
-        border-radius: 3px;
-    
-        background:#efefef; /* Old browsers */
-        /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlMmVmZjkiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-        background: -moz-linear-gradient(top,  #ffffff 0%, #e2eff9 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e2eff9)); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top,  #ffffff 0%,#e2eff9 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(top,  #ffffff 0%,#e2eff9 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(top,  #ffffff 0%,#e2eff9 100%); /* IE10+ */
-        background: linear-gradient(to bottom,  #ffffff 0%,#e2eff9 100%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e2eff9',GradientType=0 ); /* IE6-8 */
-        
-    }
-    
-    #TopBar_left {
-        line-height: 14px;
-        position: absolute;
-        padding-top: 30px;
-        padding-right: 30px;
-        padding-left: 30px;
-        text-align: left;
-        font: 13px/20px Arial, Helvetica, sans-serif;
-        font-weight: bold;
-        font-size: 20px;
-        color: #333;
-    }
-    
-    #TopBar_right {
-        line-height: 12px;
-        float: right;
-        padding-top: 10px;
-        padding-right: 30px;
-        text-align: left;
-    }
-    
-
-    @media print {
-        #BreadCrumbs, #Download {
-            display: none;
-        }
-    }
-    
-     
-    @media print {
-        #TopBar_right {
-            display: none;
-        }
-    }
-    #TopBar_right a {
-        font-size: 10px;
-        margin: 3px;
-        padding: 0;
-    }
- 
-    #BreadCrumbs {
-        padding: 15px 5px 0.5em 0;
-        font-family: sans-serif; 
-        float: right;
-    }
-    
-    #BreadCrumbs a {
-        color:#09569d;
-    }
-    
-    #BreadCrumbs a:visited, #BreadCrumbs a:link {
-        text-decoration: none;
-    }
-    
-    #BreadCrumbs a:hover, #BreadCrumbs a:active {
-        text-decoration: underline;
-    }
-    
-    #PageTitle {
-        margin: 0 5px 0.5em 0;
-        color: #F90000;
-    }
-    
-    #PageContent{
-        margin: 0 5px 0 20px;
-    }
-    
-    .LeftBar_shown {
-        width: 13em;
-        float: left;
-    }
-    
-    @media print {
-        .LeftBar_shown {
-            display: none;
-        }
-    }
-    
-    .LeftBar_hidden {
-        display: none;
-    }
-    
-    #Footer {
-        padding-top: 10px;
-        padding-left: 10px;
-        margin-right: 10px;       
-    }
-    
-    .footertext {
-        font-size: 10px;
-        font-family: sans-serif; 
-        margin-top: 1px;
-    }
-
-    .NavBit  {
-        padding: 15px 5px 0.5em 0;
-        font-family: sans-serif; 
-    }
-    
-    @media print {
-        .NavBit {
-            display: none;
-        }
-    }
-    
-    #TagNotes {
-        text-align: right;        
-    }
-    
-    @media print {
-        #TagNotes a:visited, #TagNotes a:link {
-            color: #35556B;
-            text-decoration: none;
-        }
-    }
-    
-    #Contents a, .NavBit a, #TagNotes a {
-        color:#09569d;
-    }
-    
-    #TagNotes a:visited, #TagNotes a:link,
-    #Contents a:visited, #Contents a:link,
-    .NavBit a:visited, .NavBit a:link {
-        text-decoration: none;
-    }
-    
-    #TagNotes a:hover, #TagNotes a:active,   
-    #Contents a:hover, #Contents a:active,   
-    .NavBit a:hover, .NavBit a:active {  
-        text-decoration: underline;
-    }
-    
-    #Contents {
-        float: left;
-        font-family: sans-serif; 
-    }
-    @media print {
-        #Contents {
-            display: none;
-        }
-    }
-    @media screen {
-        div.PrintHeaders {
-            display: none;
-        }
-    }
-    .linkLESSON, .nolinkLESSON {
-        margin-left: 0.5em;
-        text-indent: -0.5em;
-    }
-    .linkAHEAD, .nolinkAHEAD, .linkQUESTIONS, .nolinkQUESTIONS   {
-        margin-left: 1.5em; 
-        text-indent: -0.5em
-    }
-    .linkBHEAD, .nolinkBHEAD   {
-        margin-left: 2.5em;
-        text-indent: -0.5em
-    }
-    .linkCHEAD, .nolinkCHEAD   {
-        margin-left: 3.5em;
-        text-indent: -0.5em
-    }
-    .nolinkLESSON, .nolinkAHEAD, .nolinkBHEAD, .nolinkCHEAD,
-    .nolinkQUESTIONS {
-        font-weight: bold;
-        color: #333;
-		
-		
-    }
-    .MainFlow_indented {
-        margin-right: 10px;
-        margin-left: 15em;
-        margin-bottom: 2em;
-
-    }
-    .MainFlow_wide {
-	
-        margin-right: 10px;
-        margin-left: 10px;
-        margin-bottom: 2em;
-
-    }
-    @media print {
-        .MainFlow_indented, .MainFlow_wide {
-            padding-top: 0;
-            margin-top: 10px;
-            margin-right: 10px;
-            margin-left: 0;
-        }
-    }
-    h1, h2, h3, h4, h5 {
-        color: #333;
-        
-    }
-
-    h1 {
-        font-weight: bold;
-        font-size: 20px;
-    }
-
-    h2 {
-        font-weight: bold;
-        font-size: 17px;
-    }
-
-    h3 {
-        font-weight: bold;
-        font-size: 14px;
-    }
-
-    h4 {
-        font-size: 15px;
-    }
-
-    h5 {
-        font-size: 12px;
-    }
-
-
-    #ToggleLeft {
-        display: none;
-    }
-    
-    .note {
-        margin: 0 30px 0px 30px;
-    }
-    
-    .codeblock {
-        margin: 0 30px 0px 30px;
-		font-size:12px;
-		font-family:Monaco,Courier,"Courier New";
-    }
-    
-    .tocli {
-        list-style-type:none;
-    }
-
-    .betadraft {
-        color: red;
-    }
-
+<style type="text/css">body {
+  margin-left: 10px;
+  margin-right: 10px;
+  line-height: 1.5;
+  FONT-FAMILY: Arial,Helvetica,sans-serif;
+  font-size: 0.8em;
+}
+a:link {
+  text-decoration: none;
+  color: #09569d;
+}
+a:visited {
+  text-decoration: none;
+  color: #3a87cf;
+}
+a:hover {
+  text-decoration: underline;
+}
+code {
+  font-family: Monaco,Courier,"Courier New";
+}
+.header-container {
+  background-color: #fff;
+  border-bottom: 1px solid #c1cfda;
+  -webkit-box-shadow: 0 2px 2px rgba(117,163,231,0.1);
+  box-shadow: 0 2px 2px rgba(117,163,231,0.1);
+}
+.bookwrapper {
+  width: auto;
+  margin: auto;
+}
+.clearfix {
+}
+.clearfloat {
+  clear: both;
+  overflow: auto;
+  height: 0px;
+  font-size: 1px;
+  line-height: 0px;
+}
+#brandProdName {
+  width: auto;
+  height: auto;
+}
+#logocover {
+  display: block;
+  background: transparent url('../../images/oracle-java-logo.png') 0px 0px no-repeat;
+  height: 50px;
+  width: 229px;
+  float: left;
+}
+#productName {
+  font-size: 16px;
+  position: relative;
+  top: 19px;
+  padding-left: 3px;
+  color: #457798;
+  white-space: nowrap;
+  width: 340px;
+}
+.FigureCaption {
+  font-family: sans-serif;
+  text-align: center;
+}
+#TopBar_bl {
+  width: 100%;
+  height: 60px;
+}
+#TopBar_br {
+  width: 100%;
+  height: 60px;
+}
+#TopBar_tl {
+  margin-left: -110px;
+  margin-right: -100px;
+  align: left;
+  height: 60px;
+}
+#TopBar_tr {
+  width: 100%;
+  height: 60px;
+}
+#TopBar {
+  min-width: 700px;
+  padding: 25px 100px 10px;
+  margin-bottom: 25px;
+  clear: both;
+  border-bottom: 1px solid #d2dde5;
+  border-radius: 3px;
+  background: #efefef;
+  /* Old browsers */
+  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+  
+  background: -moz-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#e2eff9));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom,#ffffff 0%,#e2eff9 100%);
+  /* W3C */
+  /* IE6-8 */
+}
+#TopBar_left {
+  line-height: 14px;
+  position: absolute;
+  padding-top: 30px;
+  padding-right: 30px;
+  padding-left: 30px;
+  text-align: left;
+  font: 13px/20px Arial,Helvetica,sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  color: #333;
+}
+#TopBar_right {
+  line-height: 12px;
+  float: right;
+  padding-top: 10px;
+  padding-right: 30px;
+  text-align: left;
+}
+@media print {
+  #BreadCrumbs, #Download {
+    display: none;
+  }
+}
+@media print {
+  #TopBar_right {
+    display: none;
+  }
+}
+#TopBar_right a {
+  font-size: 10px;
+  margin: 3px;
+  padding: 0;
+}
+#BreadCrumbs {
+  padding: 15px 5px 0.5em 0;
+  font-family: sans-serif;
+  float: right;
+}
+#BreadCrumbs a {
+  color: #09569d;
+}
+#BreadCrumbs a:visited, #BreadCrumbs a:link {
+  text-decoration: none;
+}
+#BreadCrumbs a:hover, #BreadCrumbs a:active {
+  text-decoration: underline;
+}
+#PageTitle {
+  margin: 0 5px 0.5em 0;
+  color: #f90000;
+}
+#PageContent {
+  margin: 0 5px 0 20px;
+}
+.LeftBar_shown {
+  width: 13em;
+  float: left;
+}
+@media print {
+  .LeftBar_shown {
+    display: none;
+  }
+}
+.LeftBar_hidden {
+  display: none;
+}
+#Footer {
+  padding-top: 10px;
+  padding-left: 10px;
+  margin-right: 10px;
+}
+.footertext {
+  font-size: 10px;
+  font-family: sans-serif;
+  margin-top: 1px;
+}
+.NavBit {
+  padding: 15px 5px 0.5em 0;
+  font-family: sans-serif;
+}
+@media print {
+  .NavBit {
+    display: none;
+  }
+}
+#TagNotes {
+  text-align: right;
+}
+@media print {
+  #TagNotes a:visited, #TagNotes a:link {
+    color: #35556b;
+    text-decoration: none;
+  }
+}
+#Contents a, .NavBit a, #TagNotes a {
+  color: #09569d;
+}
+#TagNotes a:visited, #TagNotes a:link, #Contents a:visited, #Contents a:link, .NavBit a:visited, .NavBit a:link {
+  text-decoration: none;
+}
+#TagNotes a:hover, #TagNotes a:active, #Contents a:hover, #Contents a:active, .NavBit a:hover, .NavBit a:active {
+  text-decoration: underline;
+}
+#Contents {
+  float: left;
+  font-family: sans-serif;
+}
+@media print {
+  #Contents {
+    display: none;
+  }
+}
+@media screen {
+  div.PrintHeaders {
+    display: none;
+  }
+}
+.linkLESSON, .nolinkLESSON {
+  margin-left: 0.5em;
+  text-indent: -0.5em;
+}
+.linkAHEAD, .nolinkAHEAD, .linkQUESTIONS, .nolinkQUESTIONS {
+  margin-left: 1.5em;
+  text-indent: -0.5em;
+}
+.linkBHEAD, .nolinkBHEAD {
+  margin-left: 2.5em;
+  text-indent: -0.5em;
+}
+.linkCHEAD, .nolinkCHEAD {
+  margin-left: 3.5em;
+  text-indent: -0.5em;
+}
+.nolinkLESSON, .nolinkAHEAD, .nolinkBHEAD, .nolinkCHEAD, .nolinkQUESTIONS {
+  font-weight: bold;
+  color: #333;
+}
+.MainFlow_indented {
+  margin-right: 10px;
+  margin-left: 15em;
+  margin-bottom: 2em;
+}
+.MainFlow_wide {
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 2em;
+}
+@media print {
+  .MainFlow_indented, .MainFlow_wide {
+    padding-top: 0;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-left: 0;
+  }
+}
+h1, h2, h3, h4, h5 {
+  color: #333;
+}
+h1 {
+  font-weight: bold;
+  font-size: 20px;
+}
+h2 {
+  font-weight: bold;
+  font-size: 17px;
+}
+h3 {
+  font-weight: bold;
+  font-size: 14px;
+}
+h4 {
+  font-size: 15px;
+}
+h5 {
+  font-size: 12px;
+}
+#ToggleLeft {
+  display: none;
+}
+.note {
+  margin: 0 30px 0px 30px;
+}
+.codeblock {
+  margin: 0 30px 0px 30px;
+  font-size: 12px;
+  font-family: Monaco,Courier,"Courier New";
+}
+.tocli {
+  list-style-type: none;
+}
+.betadraft {
+  color: red;
+}
 </style>
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -414,7 +357,7 @@
     function showCode(displayCodePage, codePath) {
         var codePathEls = codePath.split("/");
         var currDocPathEls = location.href.split("/");
-        //alert ("codePathEls = " + codePathEls + "\n" + "currDocPathEls = " + currDocPathEls);
+        //alert ("codePathEls = " + codePathEls + "n" + "currDocPathEls = " + currDocPathEls);
         currDocPathEls.pop(); // remove file name at the end
         while (codePathEls.length > 0) {
             if (codePathEls[0] == "..") {
@@ -437,18 +380,17 @@
 
 
     <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
-<body onload="load()">
-    <noscript>
-        A browser with JavaScript enabled is required for this page to operate properly.
+<body dir="ltr" onload="load()">
+    <noscript>启用了JavaScript的浏览器需要此页面正常运行。
     </noscript>
         <!-- header -->
     <div class="header-container">
         <div class="bookwrapper  clearfix">       
             <div id="brandProdName">
                 <div id="logocover"></div>
-                <div id="productName" >Documentation</div>
+                <div id="productName">文档</div>
             </div> 
-            <br class="clearfloat" />
+            <br class="clearfloat">
         </div>
     </div>
     
@@ -456,12 +398,11 @@
         <div id="TopBar_tr">
             <div id="TopBar_tl">
                 <div id="TopBar_br"> <div id="TopBar_bl"> 
-                    <div id="TopBar_left">The Java&trade; Tutorials</div>
+                    <div id="TopBar_left">Java™教程</div>
                         <div id="TopBar_right"> 
                             <!--
                             <a href="URL" target="_blank">External Link</a><br/>
-                            --> 
-                            <a href="javascript:toggleLeft()" id="ToggleLeft">Hide TOC</a>
+                            --> <a href="javascript:void(0);" id="ToggleLeft">隐藏TOC</a>
                         </div>
                     </div>
                 </div>
@@ -472,228 +413,125 @@
 
     <div id="LeftBar" class="LeftBar_shown">
         <div id="Contents">
-            <div class="linkLESSON"><a href="index.html">JDBC Basics</a></div>
-<div class="linkAHEAD"><a href="gettingstarted.html">Getting Started</a></div>
-<div class="nolinkAHEAD">Processing SQL Statements with JDBC</div>
-<div class="linkAHEAD"><a href="connecting.html">Establishing a Connection</a></div>
-<div class="linkAHEAD"><a href="sqldatasources.html">Connecting with DataSource Objects</a></div>
-<div class="linkAHEAD"><a href="sqlexception.html">Handling SQLExceptions</a></div>
-<div class="linkAHEAD"><a href="tables.html">Setting Up Tables</a></div>
-<div class="linkAHEAD"><a href="retrieving.html">Retrieving and Modifying Values from Result Sets</a></div>
-<div class="linkAHEAD"><a href="prepared.html">Using Prepared Statements</a></div>
-<div class="linkAHEAD"><a href="transactions.html">Using Transactions</a></div>
-<div class="linkAHEAD"><a href="rowset.html">Using RowSet Objects</a></div>
-<div class="linkAHEAD"><a href="jdbcrowset.html">Using JdbcRowSet Objects</a></div>
-<div class="linkAHEAD"><a href="cachedrowset.html">Using CachedRowSetObjects</a></div>
-<div class="linkAHEAD"><a href="joinrowset.html">Using JoinRowSet Objects</a></div>
-<div class="linkAHEAD"><a href="filteredrowset.html">Using FilteredRowSet Objects</a></div>
-<div class="linkAHEAD"><a href="webrowset.html">Using WebRowSet Objects</a></div>
-<div class="linkAHEAD"><a href="sqltypes.html">Using Advanced Data Types</a></div>
-<div class="linkAHEAD"><a href="blob.html">Using Large Objects</a></div>
-<div class="linkAHEAD"><a href="sqlxml.html">Using SQLXML Objects</a></div>
-<div class="linkAHEAD"><a href="array.html">Using Array Objects</a></div>
-<div class="linkAHEAD"><a href="distinct.html">Using DISTINCT Data Type</a></div>
-<div class="linkAHEAD"><a href="sqlstructured.html">Using Structured Objects</a></div>
-<div class="linkAHEAD"><a href="sqlcustommapping.html">Using Customized Type Mappings</a></div>
-<div class="linkAHEAD"><a href="sqldatalink.html">Using Datalink Objects</a></div>
-<div class="linkAHEAD"><a href="sqlrowid.html">Using RowId Objects</a></div>
-<div class="linkAHEAD"><a href="storedprocedures.html">Using Stored Procedures</a></div>
-<div class="linkAHEAD"><a href="jdbcswing.html">Using JDBC with GUI API</a></div>
+            <div class="linkLESSON"><a href="index.html">JDBC基础知识</a></div>
+<div class="linkAHEAD"><a href="gettingstarted.html">入门</a></div>
+<div class="nolinkAHEAD">使用JDBC处理SQL语句</div>
+<div class="linkAHEAD"><a href="connecting.html">建立连接</a></div>
+<div class="linkAHEAD"><a href="sqldatasources.html">连接数据源对象</a></div>
+<div class="linkAHEAD"><a href="sqlexception.html">处理SQLExceptions</a></div>
+<div class="linkAHEAD"><a href="tables.html">设置表</a></div>
+<div class="linkAHEAD"><a href="retrieving.html">从结果集中检索和修改值</a></div>
+<div class="linkAHEAD"><a href="prepared.html">使用准备好的陈述</a></div>
+<div class="linkAHEAD"><a href="transactions.html">使用交易</a></div>
+<div class="linkAHEAD"><a href="rowset.html">使用RowSet对象</a></div>
+<div class="linkAHEAD"><a href="jdbcrowset.html">使用JdbcRowSet对象</a></div>
+<div class="linkAHEAD"><a href="cachedrowset.html">使用CachedRowSetObjects</a></div>
+<div class="linkAHEAD"><a href="joinrowset.html">使用JoinRowSet对象</a></div>
+<div class="linkAHEAD"><a href="filteredrowset.html">使用FilteredRowSet对象</a></div>
+<div class="linkAHEAD"><a href="webrowset.html">使用WebRowSet对象</a></div>
+<div class="linkAHEAD"><a href="sqltypes.html">使用高级数据类型</a></div>
+<div class="linkAHEAD"><a href="blob.html">使用大对象</a></div>
+<div class="linkAHEAD"><a href="sqlxml.html">使用SQLXML对象</a></div>
+<div class="linkAHEAD"><a href="array.html">使用数组对象</a></div>
+<div class="linkAHEAD"><a href="distinct.html">使用DISTINCT数据类型</a></div>
+<div class="linkAHEAD"><a href="sqlstructured.html">使用结构化对象</a></div>
+<div class="linkAHEAD"><a href="sqlcustommapping.html">使用自定义类型映射</a></div>
+<div class="linkAHEAD"><a href="sqldatalink.html">使用数据链接对象</a></div>
+<div class="linkAHEAD"><a href="sqlrowid.html">使用RowId对象</a></div>
+<div class="linkAHEAD"><a href="storedprocedures.html">使用存储过程</a></div>
+<div class="linkAHEAD"><a href="jdbcswing.html">将JDBC与GUI API结合使用</a></div>
 </div>
     </div>
     <div id="MainFlow" class="MainFlow_indented">
     <div class="PrintHeaders">
-        <b>Trail:</b> JDBC(TM) Database Access
-        <br /><b>Lesson:</b> JDBC Basics
-    </div>
+        <b>Trail：</b> JDBC（TM）数据库访问<br><b>课程：</b> JDBC基础知识</div>
             <div id="BreadCrumbs">
-                <a href="../../index.html" target="_top">Home Page</a>
-                &gt;
-                <a href="../index.html" target="_top">JDBC(TM) Database Access</a>
-                &gt;
-                <a href="index.html" target="_top">JDBC Basics</a>
+                <a href="../../index.html" target="_top">主页</a> &gt; <a href="../index.html" target="_top">JDBC（TM）数据库访问</a> &gt; <a href="index.html" target="_top">JDBC基础知识</a>
             </div>
             <div class="NavBit">
-                <a target="_top" href="gettingstarted.html">&laquo;&nbsp;Previous</a>&nbsp;&bull;&nbsp;<a target="_top" href="../TOC.html">Trail</a>&nbsp;&bull;&nbsp;<a target="_top" href="connecting.html">Next&nbsp;&raquo;</a>
+                <a href="gettingstarted.html" target="_top">«上一页</a> • <a href="../TOC.html" target="_top">小道</a> • <a href="connecting.html" target="_top">下一页»</a>
             </div>
-            <div class="Banner"><p style="background-color: rgb(247, 248, 249); border-width: 1px; padding: 10px; font-style: italic; border-style: solid; border-color: rgb(64, 74, 91);">The Java Tutorials have been written for JDK 8. Examples and practices described in this page don't take advantage of improvements introduced in later releases.</p></div>
-            <div id="PageTitle"><h1>Processing SQL Statements with JDBC</h1></div>
+            <div class="Banner"><p style="background-color:rgb(247,248,249);border-width:1px;padding:10px;font-style:italic;border-style:solid;border-color:rgb(64,74,91)">Java教程是为JDK 8编写的。本页中描述的示例和实践未利用后续版本中引入的改进。</p></div>
+            <div id="PageTitle"><h1>使用JDBC处理SQL语句</h1></div>
             <div id="PageContent">
 
-<p>In general, to process any SQL statement with JDBC, you follow these steps:</p>
+<p>通常，要使用JDBC处理任何SQL语句，请按照下列步骤操作：</p>
 <ol>
-<li><a href="#establishing_connections">Establishing a connection.</a></li>
-<li><a href="#creating_statements">Create a statement.</a></li>
-<li><a href="#executing_queries">Execute the query.</a></li>
-<li><a href="#processing_resultset_objects">Process the <code>ResultSet</code> object.</a></li>
-<li><a href="#closing_connections">Close the connection.</a></li>
+<li><a href="#establishing_connections">建立连接。</a></li>
+<li><a href="#creating_statements">创建一个声明。</a></li>
+<li><a href="#executing_queries">执行查询。</a></li>
+<li><a href="#processing_resultset_objects">处理<code>ResultSet</code>对象。</a></li>
+<li><a href="#closing_connections">关闭连接。</a></li>
 </ol>
-<p>This page uses the following method, <code><a href="gettingstarted.html">CoffeesTables.viewTable</a></code>, from the tutorial sample to demonstrate these steps. This method outputs the contents of the table <code>COFFEES</code>. This method will be discussed in more detail later in this tutorial:</p>
-<div class="codeblock"><pre>
-public static void viewTable(Connection con, String dbName)
-    throws SQLException {
-
-    Statement stmt = null;
-    String query = "select COF_NAME, SUP_ID, PRICE, " +
-                   "SALES, TOTAL " +
-                   "from " + dbName + ".COFFEES";
-    try {
-        stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        while (rs.next()) {
-            String coffeeName = rs.getString("COF_NAME");
-            int supplierID = rs.getInt("SUP_ID");
-            float price = rs.getFloat("PRICE");
-            int sales = rs.getInt("SALES");
-            int total = rs.getInt("TOTAL");
-            System.out.println(coffeeName + "\t" + supplierID +
-                               "\t" + price + "\t" + sales +
-                               "\t" + total);
-        }
-    } catch (SQLException e ) {
-        JDBCTutorialUtilities.printSQLException(e);
-    } finally {
-        if (stmt != null) { stmt.close(); }
-    }
-}
-</pre></div>
+<p>此页面使用以下方法<code><a href="gettingstarted.html">CoffeesTables.viewTable</a></code> ，从教程示例中演示这些步骤。该方法输出表<code>COFFEES</code>的内容。本教程后面将详细讨论此方法：</p>
+<div class="codeblock"><pre>public static void viewTable（Connection con，String dbName）throws SQLException {Statement stmt = null;字符串查询=“从”+ dbName +“选择COF_NAME，SUP_ID，PRICE，”+“SALES，TOTAL”+“。COFFEES“; try {stmt = con.createStatement（）; ResultSet rs = stmt.executeQuery（query）; while（rs.next（））{String coffeeName = rs.getString（”COF_NAME“）; int supplierID = rs.getInt （“SUP_ID”）;浮动价格= rs.getFloat（“PRICE”）; int sales = rs.getInt（“SALES”）; int total = rs.getInt（“TOTAL”）; System.out.println（coffeeName + “\ t”+ supplierID +“\ t”+价格+“\ t”+销售额+“\ t”+总数）;}} catch（SQLException e）{JDBCTutorialUtilities.printSQLException（e）;} finally {if（stmt） ！= null）{stmt.close（）; }}}</pre></div>
 <!-- *************************************** -->
-<h2><a name="establishing_connections" id="establishing_connections">Establishing Connections</a></h2>
-<p>First, establish a connection with the data source you want to use. A data source can be a DBMS, a legacy file system, or some other source of data with a corresponding JDBC driver. This connection is represented by a <code>Connection</code> object. See 
-<a class="TutorialLink" target="_top" href="connecting.html">Establishing a Connection</a> for more information.</p>
+<h2><a name="establishing_connections" id="establishing_connections">建立连接</a></h2>
+<p>首先，与要使用的数据源建立连接。数据源可以是DBMS，遗留文件系统或具有相应JDBC驱动程序的一些其他数据源。此连接由<code>Connection</code>对象表示。有关更多信息，请参阅<a class="TutorialLink" href="connecting.html" target="_top">建立连接</a> 。</p>
 <!-- *************************************** -->
-<h2><a name="creating_statements" id="creating_statements">Creating Statements</a></h2>
-<p>A <code>Statement</code> is an interface that represents a SQL statement. You execute <code>Statement</code> objects, and they generate <code>ResultSet</code> objects, which is a table of data representing a database result set. You need a <code>Connection</code> object to create a <code>Statement</code> object.</p>
-<p>For example, <code>CoffeesTables.viewTable</code> creates a <code>Statement</code> object with the following code:</p>
-<div class="codeblock"><pre>
-stmt = con.createStatement();
-</pre></div>
-<p>There are three different kinds of statements:</p>
+<h2><a name="creating_statements" id="creating_statements">创建语句</a></h2>
+<p><code>Statement</code>是表示SQL语句的接口。您执行<code>Statement</code>对象，它们生成<code>ResultSet</code>对象，这是一个表示数据库结果集的数据表。您需要一个<code>Connection</code>对象来创建<code>Statement</code>对象。</p>
+<p>例如， <code>CoffeesTables.viewTable</code>使用以下代码创建<code>Statement</code>对象：</p>
+<div class="codeblock"><pre>stmt = con.createStatement（）;</pre></div>
+<p>有三种不同的陈述：</p>
 <ul>
-<li><code>Statement</code>: Used to implement simple SQL statements with no parameters.</li>
-<li><code>PreparedStatement</code>: (Extends <code>Statement</code>.) Used for precompiling SQL statements that might contain input parameters. See 
-<a class="TutorialLink" target="_top" href="prepared.html">Using Prepared Statements</a> for more information.</li>
-<li><code>CallableStatement:</code> (Extends <code>PreparedStatement</code>.) Used to execute stored procedures that may contain both input and output parameters. See 
-<a class="TutorialLink" target="_top" href="storedprocedures.html">Stored Procedures</a> for more information.</li>
+<li><code>Statement</code> ：用于实现没有参数的简单SQL语句。</li>
+<li><code>PreparedStatement</code> :(扩展<code>Statement</code> 。）用于预编译可能包含输入参数的SQL语句。有关更多信息，请参阅<a class="TutorialLink" href="prepared.html" target="_top">使用准备语句</a> 。</li>
+<li><code>CallableStatement:</code>扩展<code>PreparedStatement</code> 。）用于执行可能包含输入和输出参数的存储过程。有关更多信息，请参阅<a class="TutorialLink" href="storedprocedures.html" target="_top">存储过程</a> 。</li>
 </ul>
 <!-- *************************************** -->
-<h2><a name="executing_queries" id="executing_queries">Executing Queries</a></h2>
-<p>To execute a query, call an <code>execute</code> method from <code>Statement</code> such as the following:</p>
+<h2><a name="executing_queries" id="executing_queries">执行查询</a></h2>
+<p>要执行查询，请从<code>Statement</code>调用<code>execute</code>方法，如下所示：</p>
 <ul>
-<li><code>execute</code>: Returns <code>true</code> if the first object that the query returns is a <code>ResultSet</code> object. Use this method if the query could return one or more <code>ResultSet</code> objects. Retrieve the <code>ResultSet</code> objects returned from the query by repeatedly calling <code>Statement.getResultSet</code>.</li>
-<li><code>executeQuery</code>: Returns one <code>ResultSet</code> object.</li>
-<li><code>executeUpdate</code>: Returns an integer representing the number of rows affected by the SQL statement. Use this method if you are using <code>INSERT</code>, <code>DELETE</code>, or <code>UPDATE</code> SQL statements.</li>
+<li><code>execute</code> ：如果查询返回的第一个对象是<code>ResultSet</code>对象，则返回<code>true</code> 。如果查询可以返回一个或多个<code>ResultSet</code>对象，请使用此方法。通过重复调用<code>Statement.getResultSet</code>检索从查询返回的<code>ResultSet</code>对象。</li>
+<li><code>executeQuery</code> ：返回一个<code>ResultSet</code>对象。</li>
+<li><code>executeUpdate</code> ：返回一个整数，表示受SQL语句影响的行数。如果使用<code>INSERT</code> ， <code>DELETE</code>或<code>UPDATE</code> SQL语句，请使用此方法。</li>
 </ul>
-<p>For example, <code>CoffeesTables.viewTable</code> executed a <code>Statement</code> object with the following code:</p>
-<div class="codeblock"><pre>
-ResultSet rs = stmt.executeQuery(query);
-</pre></div>
-<p>See 
-<a class="TutorialLink" target="_top" href="retrieving.html">Retrieving and Modifying Values from Result Sets</a> for more information.</p>
+<p>例如， <code>CoffeesTables.viewTable</code>使用以下代码执行<code>Statement</code>对象：</p>
+<div class="codeblock"><pre>ResultSet rs = stmt.executeQuery（query）;</pre></div>
+<p>有关详细信息，请参阅<a class="TutorialLink" href="retrieving.html" target="_top">从结果集中检索和修改值</a> 。</p>
 <!-- *************************************** -->
-<h2><a name="processing_resultset_objects" id="processing_resultset_objects">Processing ResultSet Objects</a></h2>
-<p>You access the data in a <code>ResultSet</code> object through a cursor. Note that this cursor is not a database cursor. This cursor is a pointer that points to one row of data in the <code>ResultSet</code> object. Initially, the cursor is positioned before the first row. You call various methods defined in the <code>ResultSet</code> object to move the cursor.</p>
-<p>For example, <code>CoffeesTables.viewTable</code> repeatedly calls the method <code>ResultSet.next</code> to move the cursor forward by one row. Every time it calls <code>next</code>, the method outputs the data in the row where the cursor is currently positioned:</p>
-<div class="codeblock"><pre>
-try {
-    stmt = con.createStatement();
-    ResultSet rs = stmt.executeQuery(query);
-    while (rs.next()) {
-        String coffeeName = rs.getString("COF_NAME");
-        int supplierID = rs.getInt("SUP_ID");
-        float price = rs.getFloat("PRICE");
-        int sales = rs.getInt("SALES");
-        int total = rs.getInt("TOTAL");
-        System.out.println(coffeeName + "\t" + supplierID +
-                           "\t" + price + "\t" + sales +
-                           "\t" + total);
-    }
-}
-// ...
+<h2><a name="processing_resultset_objects" id="processing_resultset_objects">处理ResultSet对象</a></h2>
+<p>您可以通过游标访问<code>ResultSet</code>对象中的数据。请注意，此游标不是数据库游标。此游标是指向<code>ResultSet</code>对象中一行数据的指针。最初，光标位于第一行之前。您可以调用<code>ResultSet</code>对象中定义的各种方法来移动光标。</p>
+<p>例如， <code>CoffeesTables.viewTable</code>重复调用方法<code>ResultSet.next</code>将光标向前移动一行。每次调用<code>next</code> ，该方法都会在光标当前所在的行中输出数据：</p>
+<div class="codeblock"><pre>try {stmt = con.createStatement（）; ResultSet rs = stmt.executeQuery（query）; while（rs.next（））{String coffeeName = rs.getString（“COF_NAME”）; int supplierID = rs.getInt（“SUP_ID”）; float price = rs.getFloat（“PRICE”）; int sales = rs.getInt（“SALES”）; int total = rs.getInt（“TOTAL”）; System.out.println（coffeeName +“\ t”+ supplierID +“\ t”+ price +“\ t”+ sales +“\ t”+ total）; }} // ...
 </pre></div>
-<p>See 
-<a class="TutorialLink" target="_top" href="retrieving.html">Retrieving and Modifying Values from Result Sets</a> for more information. <!-- *************************************** --></p>
-<h2><a name="closing_connections" id="closing_connections">Closing Connections</a></h2>
-<p>When you are finished using a <code>Statement</code>, call the method <code>Statement.close</code> to immediately release the resources it is using. When you call this method, its <code>ResultSet</code> objects are closed.</p>
-<p>For example, the method <code>CoffeesTables.viewTable</code> ensures that the <code>Statement</code> object is closed at the end of the method, regardless of any <code>SQLException</code> objects thrown, by wrapping it in a <code>finally</code> block:</p>
+<p>有关详细信息，请参阅<a class="TutorialLink" href="retrieving.html" target="_top">从结果集中检索和修改值</a> 。<!-- *************************************** --></p>
+<h2><a name="closing_connections" id="closing_connections">关闭连接</a></h2>
+<p>使用完<code>Statement</code> ，调用<code>Statement.close</code>方法立即释放它正在使用的资源。调用此方法时，将关闭其<code>ResultSet</code>对象。</p>
+<p>例如，方法<code>CoffeesTables.viewTable</code>通过将其包装在<code>finally</code>块中，确保在方法结束时关闭<code>Statement</code>对象，而不管抛出任何<code>SQLException</code>对象：</p>
+<div class="codeblock"><pre>终于{if（stmt！）= null）{stmt.close（）; }}</pre></div>
+<p>JDBC在与数据源交互期间遇到错误时抛出<code>SQLException</code> 。有关更多信息，请参阅<a class="TutorialLink" href="sqlexception.html" target="_top">处理SQL异常</a> 。</p>
+<p>在Java SE 7及更高版本中可用的JDBC 4.1中，无论是否<code>SQLException</code> ，都可以使用try-with-resources语句自动关闭<code>Connection</code> ， <code>Statement</code>和<code>ResultSet</code>对象。自动资源语句由<code>try</code>语句和一个或多个声明的资源组成。例如，您可以修改<code>CoffeesTables.viewTable</code> ，以使其<code>Statement</code>对象自动关闭，如下所示：</p>
+<div class="codeblock"><pre>public static void viewTable（Connection con）抛出SQLException {String query =“选择COF_NAME，SUP_ID，PRICE，”+“SALES，TOTAL”+“来自COFFEES”; <strong>try（Statement stmt = con.createStatement（））</strong> {ResultSet rs = stmt.executeQuery（query）; while（rs.next（））{String coffeeName = rs.getString（“COF_NAME”）; int supplierID = rs.getInt（“SUP_ID”）; float price = rs.getFloat（“PRICE”）; int sales = rs.getInt（“SALES”）; int total = rs.getInt（“TOTAL”）; System.out.println（coffeeName +“，”+ supplierID +“，”+ price +“，”+ sales +“，”+ total）; catch（SQLException e）{JDBCTutorialUtilities.printSQLException（e）; }}</pre></div>
+<p>以下语句是<code>try</code> -with-resources语句，它声明一个资源<code>stmt</code> ，它将在<code>try</code>块终止时自动关闭：</p>
 <div class="codeblock"><pre>
-} finally {
-    if (stmt != null) { stmt.close(); }
-}
-</pre></div>
-<p>JDBC throws an <code>SQLException</code> when it encounters an error during an interaction with a data source. See 
-<a class="TutorialLink" target="_top" href="sqlexception.html">Handling SQL Exceptions</a> for more information.</p>
-<p>In JDBC 4.1, which is available in Java SE release 7 and later, you can use a try-with-resources statement to automatically close <code>Connection</code>, <code>Statement</code>, and <code>ResultSet</code> objects, regardless of whether an <code>SQLException</code> has been thrown. An automatic resource statement consists of a <code>try</code> statement and one or more declared resources. For example, you can modify <code>CoffeesTables.viewTable</code> so that its <code>Statement</code> object closes automatically, as follows:</p>
-<div class="codeblock"><pre>
-public static void viewTable(Connection con) throws SQLException {
+<strong>try（Statement stmt = con.createStatement（））</strong> {// ...}</pre></div>
 
-    String query = "select COF_NAME, SUP_ID, PRICE, " +
-                   "SALES, TOTAL " +
-                   "from COFFEES";
-
-    <strong>try (Statement stmt = con.createStatement())</strong> {
-
-        ResultSet rs = stmt.executeQuery(query);
-
-        while (rs.next()) {
-            String coffeeName = rs.getString("COF_NAME");
-            int supplierID = rs.getInt("SUP_ID");
-            float price = rs.getFloat("PRICE");
-            int sales = rs.getInt("SALES");
-            int total = rs.getInt("TOTAL");
-            System.out.println(coffeeName + ", " + supplierID +
-                               ", " + price + ", " + sales +
-                               ", " + total);
-        }
-    } catch (SQLException e) {
-        JDBCTutorialUtilities.printSQLException(e);
-    }
-}
-</pre></div>
-<p>The following statement is an <code>try</code>-with-resources statement, which declares one resource, <code>stmt</code>, that will be automatically closed when the <code>try</code> block terminates:</p>
-<div class="codeblock"><pre>
-<strong>try (Statement stmt = con.createStatement())</strong> {
-    // ...
-}
-</pre></div>
-
-<p>See 
-<a class="TutorialLink" target="_top" href="../../essential/exceptions/tryResourceClose.html">The <code>try</code>-with-resources Statement</a> in the
-<a class="TutorialLink" target="_top" href="../../essential/index.html">Essential Classes</a> trail for more information.</p>
+<p>有关详细信息，请参阅<a class="TutorialLink" href="../../essential/index.html" target="_top">Essential Classes</a>跟踪中<a class="TutorialLink" href="../../essential/exceptions/tryResourceClose.html" target="_top">的<code>try</code> -with-resources语句</a> 。</p>
 
 
 
         </div>
         <div class="NavBit">
-            <a target="_top" href="gettingstarted.html">&laquo; Previous</a>
-            &bull;
-            <a target="_top" href="../TOC.html">Trail</a>
-            &bull;
-            <a target="_top" href="connecting.html">Next &raquo;</a>
+            <a href="gettingstarted.html" target="_top">«上一页</a> • <a href="../TOC.html" target="_top">小道</a> • <a href="connecting.html" target="_top">下一页»</a>
         </div>
     </div>
     
-<hr class="clearfloat"/>
+<hr class="clearfloat">
 
 <div id="Footer">
 
 <p class="footertext">
-<a href="http://www.oracle.com/corporate/index.html">About Oracle</a> | 
-<a href="http://www.oracle.com/us/corporate/contact/index.html">Contact Us</a> |
-<a href="http://www.oracle.com/us/legal/index.html">Legal Notices</a> | 
-<a href="http://www.oracle.com/us/legal/terms/index.html">Terms of Use</a> |
-<a href="http://www.oracle.com/us/legal/privacy/index.html">Your Privacy Rights</a></p>
+<a href="http://www.oracle.com/corporate/index.html">关于Oracle</a> | <a href="http://www.oracle.com/us/corporate/contact/index.html">联系我们</a> | <a href="http://www.oracle.com/us/legal/index.html">法律声明</a> | <a href="http://www.oracle.com/us/legal/terms/index.html">使用条款</a> | <a href="http://www.oracle.com/us/legal/privacy/index.html">您的隐私权</a></p>
 
-<p class="footertext"><a href="http://www.oracle.com/pls/topic/lookup?ctx=cpyr&id=en-US">
-Copyright &copy; 1995, 2017 Oracle and/or its affiliates. All rights reserved.</a></p>
+<p class="footertext"><a href="http://www.oracle.com/pls/topic/lookup?ctx=cpyr&amp;id=en-US">版权所有©1995,2017 Oracle和/或其附属公司。版权所有。</a></p>
        
 </div>    
     <div class="PrintHeaders">
-        <b>Previous page:</b> Getting Started
-        <br /><b>Next page:</b> Establishing a Connection
-    </div>
+        <b>上一页：</b>入门<br><b>下一页：</b>建立连接</div>
 <!-- Start SiteCatalyst code -->
 <script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
 <!-- End SiteCatalyst code --> 
 </body>
-</html> 
+</html>

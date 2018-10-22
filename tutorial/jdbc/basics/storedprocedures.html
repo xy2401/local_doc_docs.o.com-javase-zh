@@ -1,368 +1,311 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    
-
-<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+﻿<html lang="en-US" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Using Stored Procedures (The Java&trade; Tutorials &gt;        
-            JDBC(TM) Database Access &gt; JDBC Basics)
-</title>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-     <meta name="description" content="This JDBC Java tutorial describes how to use JDBC API to create, insert into, update, and query tables. You will also learn how to use simple and prepared statements, stored procedures and perform transactions" />
-     <meta name="keywords" content="java programming, learn java, java sample code, jdbc, prepared statement, result set" />
+        <title>使用存储过程（Java™教程&gt; JDBC（TM）数据库访问&gt; JDBC基础知识）</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+     <meta name="description" content="This JDBC Java tutorial describes how to use JDBC API to create, insert into, update, and query tables. You will also learn how to use simple and prepared statements, stored procedures and perform transactions"></meta>
+     <meta name="keywords" content="java programming, learn java, java sample code, jdbc, prepared statement, result set"></meta>
         
-<style type="text/css">
-    body {
-        margin-left:10px;
-        margin-right:10px;
-        line-height: 1.5;
-        FONT-FAMILY: Arial, Helvetica, sans-serif; 
-        font-size: 0.8em;
-    }
-    
-    a:link{text-decoration:none; color:#09569d;}
-    a:visited{text-decoration:none; color: #3a87cf;}
-    a:hover{text-decoration:underline; }
-        
-    code{
-        font-family:Monaco,Courier,"Courier New";
-    }
-    
-    .header-container {
-        background-color: #fff;
-        border-bottom: 1px solid #C1CFDA;
-        -webkit-box-shadow: 0 2px 2px rgba(117, 163, 231, 0.1);
-        box-shadow: 0 2px 2px rgba(117, 163, 231, 0.1);
-    }
-    
-    .bookwrapper {
-        width: auto;
-        margin: auto;
-    }
-    
-    .clearfix {
-    }
-    
-    .clearfloat {
-        clear: both;
-        overflow: auto;
-        height: 0px;
-        font-size: 1px;
-        line-height: 0px;
-    }
-    
-    #brandProdName {
-        width: auto;
-        height: auto;
-    }
-    
-    #logocover {
-        display: block;
-        background: transparent url(../../images/oracle-java-logo.png) 0px 0px no-repeat;
-        height: 50px;
-        width: 229px;
-        float: left;
-    }
-    
-    #productName {
-        font-size: 16px;
-        position: relative;
-        top: 19px;
-        padding-left: 3px;
-        color: #457798;
-        white-space: nowrap;
-        width: 340px;
-    }
-
-
-    .FigureCaption   { 
-        font-family: sans-serif; 
-        text-align: center;
-    }
-    
-    #TopBar_bl {        
-        width: 100%;
-        height: 60px;
-    }
-    #TopBar_br {
-        width: 100%;
-        height: 60px;
-    }
-    #TopBar_tl {
-        margin-left: -110px;
-        margin-right: -100px;       
-		align: left;
-        height: 60px;
-    }
-    #TopBar_tr {
-        width: 100%;
-        height: 60px;
-    }
-    
-    #TopBar {
-        min-width:700px;
-        padding:25px 100px 10px;
-        margin-bottom:25px;
-        clear:both;
-        
-        border-bottom:1px solid #d2dde5;
-        border-radius: 3px;
-    
-        background:#efefef; /* Old browsers */
-        /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlMmVmZjkiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-        background: -moz-linear-gradient(top,  #ffffff 0%, #e2eff9 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e2eff9)); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top,  #ffffff 0%,#e2eff9 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(top,  #ffffff 0%,#e2eff9 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(top,  #ffffff 0%,#e2eff9 100%); /* IE10+ */
-        background: linear-gradient(to bottom,  #ffffff 0%,#e2eff9 100%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e2eff9',GradientType=0 ); /* IE6-8 */
-        
-    }
-    
-    #TopBar_left {
-        line-height: 14px;
-        position: absolute;
-        padding-top: 30px;
-        padding-right: 30px;
-        padding-left: 30px;
-        text-align: left;
-        font: 13px/20px Arial, Helvetica, sans-serif;
-        font-weight: bold;
-        font-size: 20px;
-        color: #333;
-    }
-    
-    #TopBar_right {
-        line-height: 12px;
-        float: right;
-        padding-top: 10px;
-        padding-right: 30px;
-        text-align: left;
-    }
-    
-
-    @media print {
-        #BreadCrumbs, #Download {
-            display: none;
-        }
-    }
-    
-     
-    @media print {
-        #TopBar_right {
-            display: none;
-        }
-    }
-    #TopBar_right a {
-        font-size: 10px;
-        margin: 3px;
-        padding: 0;
-    }
- 
-    #BreadCrumbs {
-        padding: 15px 5px 0.5em 0;
-        font-family: sans-serif; 
-        float: right;
-    }
-    
-    #BreadCrumbs a {
-        color:#09569d;
-    }
-    
-    #BreadCrumbs a:visited, #BreadCrumbs a:link {
-        text-decoration: none;
-    }
-    
-    #BreadCrumbs a:hover, #BreadCrumbs a:active {
-        text-decoration: underline;
-    }
-    
-    #PageTitle {
-        margin: 0 5px 0.5em 0;
-        color: #F90000;
-    }
-    
-    #PageContent{
-        margin: 0 5px 0 20px;
-    }
-    
-    .LeftBar_shown {
-        width: 13em;
-        float: left;
-    }
-    
-    @media print {
-        .LeftBar_shown {
-            display: none;
-        }
-    }
-    
-    .LeftBar_hidden {
-        display: none;
-    }
-    
-    #Footer {
-        padding-top: 10px;
-        padding-left: 10px;
-        margin-right: 10px;       
-    }
-    
-    .footertext {
-        font-size: 10px;
-        font-family: sans-serif; 
-        margin-top: 1px;
-    }
-
-    .NavBit  {
-        padding: 15px 5px 0.5em 0;
-        font-family: sans-serif; 
-    }
-    
-    @media print {
-        .NavBit {
-            display: none;
-        }
-    }
-    
-    #TagNotes {
-        text-align: right;        
-    }
-    
-    @media print {
-        #TagNotes a:visited, #TagNotes a:link {
-            color: #35556B;
-            text-decoration: none;
-        }
-    }
-    
-    #Contents a, .NavBit a, #TagNotes a {
-        color:#09569d;
-    }
-    
-    #TagNotes a:visited, #TagNotes a:link,
-    #Contents a:visited, #Contents a:link,
-    .NavBit a:visited, .NavBit a:link {
-        text-decoration: none;
-    }
-    
-    #TagNotes a:hover, #TagNotes a:active,   
-    #Contents a:hover, #Contents a:active,   
-    .NavBit a:hover, .NavBit a:active {  
-        text-decoration: underline;
-    }
-    
-    #Contents {
-        float: left;
-        font-family: sans-serif; 
-    }
-    @media print {
-        #Contents {
-            display: none;
-        }
-    }
-    @media screen {
-        div.PrintHeaders {
-            display: none;
-        }
-    }
-    .linkLESSON, .nolinkLESSON {
-        margin-left: 0.5em;
-        text-indent: -0.5em;
-    }
-    .linkAHEAD, .nolinkAHEAD, .linkQUESTIONS, .nolinkQUESTIONS   {
-        margin-left: 1.5em; 
-        text-indent: -0.5em
-    }
-    .linkBHEAD, .nolinkBHEAD   {
-        margin-left: 2.5em;
-        text-indent: -0.5em
-    }
-    .linkCHEAD, .nolinkCHEAD   {
-        margin-left: 3.5em;
-        text-indent: -0.5em
-    }
-    .nolinkLESSON, .nolinkAHEAD, .nolinkBHEAD, .nolinkCHEAD,
-    .nolinkQUESTIONS {
-        font-weight: bold;
-        color: #333;
-		
-		
-    }
-    .MainFlow_indented {
-        margin-right: 10px;
-        margin-left: 15em;
-        margin-bottom: 2em;
-
-    }
-    .MainFlow_wide {
-	
-        margin-right: 10px;
-        margin-left: 10px;
-        margin-bottom: 2em;
-
-    }
-    @media print {
-        .MainFlow_indented, .MainFlow_wide {
-            padding-top: 0;
-            margin-top: 10px;
-            margin-right: 10px;
-            margin-left: 0;
-        }
-    }
-    h1, h2, h3, h4, h5 {
-        color: #333;
-        
-    }
-
-    h1 {
-        font-weight: bold;
-        font-size: 20px;
-    }
-
-    h2 {
-        font-weight: bold;
-        font-size: 17px;
-    }
-
-    h3 {
-        font-weight: bold;
-        font-size: 14px;
-    }
-
-    h4 {
-        font-size: 15px;
-    }
-
-    h5 {
-        font-size: 12px;
-    }
-
-
-    #ToggleLeft {
-        display: none;
-    }
-    
-    .note {
-        margin: 0 30px 0px 30px;
-    }
-    
-    .codeblock {
-        margin: 0 30px 0px 30px;
-		font-size:12px;
-		font-family:Monaco,Courier,"Courier New";
-    }
-    
-    .tocli {
-        list-style-type:none;
-    }
-
-    .betadraft {
-        color: red;
-    }
-
+<style type="text/css">body {
+  margin-left: 10px;
+  margin-right: 10px;
+  line-height: 1.5;
+  FONT-FAMILY: Arial,Helvetica,sans-serif;
+  font-size: 0.8em;
+}
+a:link {
+  text-decoration: none;
+  color: #09569d;
+}
+a:visited {
+  text-decoration: none;
+  color: #3a87cf;
+}
+a:hover {
+  text-decoration: underline;
+}
+code {
+  font-family: Monaco,Courier,"Courier New";
+}
+.header-container {
+  background-color: #fff;
+  border-bottom: 1px solid #c1cfda;
+  -webkit-box-shadow: 0 2px 2px rgba(117,163,231,0.1);
+  box-shadow: 0 2px 2px rgba(117,163,231,0.1);
+}
+.bookwrapper {
+  width: auto;
+  margin: auto;
+}
+.clearfix {
+}
+.clearfloat {
+  clear: both;
+  overflow: auto;
+  height: 0px;
+  font-size: 1px;
+  line-height: 0px;
+}
+#brandProdName {
+  width: auto;
+  height: auto;
+}
+#logocover {
+  display: block;
+  background: transparent url('../../images/oracle-java-logo.png') 0px 0px no-repeat;
+  height: 50px;
+  width: 229px;
+  float: left;
+}
+#productName {
+  font-size: 16px;
+  position: relative;
+  top: 19px;
+  padding-left: 3px;
+  color: #457798;
+  white-space: nowrap;
+  width: 340px;
+}
+.FigureCaption {
+  font-family: sans-serif;
+  text-align: center;
+}
+#TopBar_bl {
+  width: 100%;
+  height: 60px;
+}
+#TopBar_br {
+  width: 100%;
+  height: 60px;
+}
+#TopBar_tl {
+  margin-left: -110px;
+  margin-right: -100px;
+  align: left;
+  height: 60px;
+}
+#TopBar_tr {
+  width: 100%;
+  height: 60px;
+}
+#TopBar {
+  min-width: 700px;
+  padding: 25px 100px 10px;
+  margin-bottom: 25px;
+  clear: both;
+  border-bottom: 1px solid #d2dde5;
+  border-radius: 3px;
+  background: #efefef;
+  /* Old browsers */
+  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+  
+  background: -moz-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#e2eff9));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom,#ffffff 0%,#e2eff9 100%);
+  /* W3C */
+  /* IE6-8 */
+}
+#TopBar_left {
+  line-height: 14px;
+  position: absolute;
+  padding-top: 30px;
+  padding-right: 30px;
+  padding-left: 30px;
+  text-align: left;
+  font: 13px/20px Arial,Helvetica,sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  color: #333;
+}
+#TopBar_right {
+  line-height: 12px;
+  float: right;
+  padding-top: 10px;
+  padding-right: 30px;
+  text-align: left;
+}
+@media print {
+  #BreadCrumbs, #Download {
+    display: none;
+  }
+}
+@media print {
+  #TopBar_right {
+    display: none;
+  }
+}
+#TopBar_right a {
+  font-size: 10px;
+  margin: 3px;
+  padding: 0;
+}
+#BreadCrumbs {
+  padding: 15px 5px 0.5em 0;
+  font-family: sans-serif;
+  float: right;
+}
+#BreadCrumbs a {
+  color: #09569d;
+}
+#BreadCrumbs a:visited, #BreadCrumbs a:link {
+  text-decoration: none;
+}
+#BreadCrumbs a:hover, #BreadCrumbs a:active {
+  text-decoration: underline;
+}
+#PageTitle {
+  margin: 0 5px 0.5em 0;
+  color: #f90000;
+}
+#PageContent {
+  margin: 0 5px 0 20px;
+}
+.LeftBar_shown {
+  width: 13em;
+  float: left;
+}
+@media print {
+  .LeftBar_shown {
+    display: none;
+  }
+}
+.LeftBar_hidden {
+  display: none;
+}
+#Footer {
+  padding-top: 10px;
+  padding-left: 10px;
+  margin-right: 10px;
+}
+.footertext {
+  font-size: 10px;
+  font-family: sans-serif;
+  margin-top: 1px;
+}
+.NavBit {
+  padding: 15px 5px 0.5em 0;
+  font-family: sans-serif;
+}
+@media print {
+  .NavBit {
+    display: none;
+  }
+}
+#TagNotes {
+  text-align: right;
+}
+@media print {
+  #TagNotes a:visited, #TagNotes a:link {
+    color: #35556b;
+    text-decoration: none;
+  }
+}
+#Contents a, .NavBit a, #TagNotes a {
+  color: #09569d;
+}
+#TagNotes a:visited, #TagNotes a:link, #Contents a:visited, #Contents a:link, .NavBit a:visited, .NavBit a:link {
+  text-decoration: none;
+}
+#TagNotes a:hover, #TagNotes a:active, #Contents a:hover, #Contents a:active, .NavBit a:hover, .NavBit a:active {
+  text-decoration: underline;
+}
+#Contents {
+  float: left;
+  font-family: sans-serif;
+}
+@media print {
+  #Contents {
+    display: none;
+  }
+}
+@media screen {
+  div.PrintHeaders {
+    display: none;
+  }
+}
+.linkLESSON, .nolinkLESSON {
+  margin-left: 0.5em;
+  text-indent: -0.5em;
+}
+.linkAHEAD, .nolinkAHEAD, .linkQUESTIONS, .nolinkQUESTIONS {
+  margin-left: 1.5em;
+  text-indent: -0.5em;
+}
+.linkBHEAD, .nolinkBHEAD {
+  margin-left: 2.5em;
+  text-indent: -0.5em;
+}
+.linkCHEAD, .nolinkCHEAD {
+  margin-left: 3.5em;
+  text-indent: -0.5em;
+}
+.nolinkLESSON, .nolinkAHEAD, .nolinkBHEAD, .nolinkCHEAD, .nolinkQUESTIONS {
+  font-weight: bold;
+  color: #333;
+}
+.MainFlow_indented {
+  margin-right: 10px;
+  margin-left: 15em;
+  margin-bottom: 2em;
+}
+.MainFlow_wide {
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 2em;
+}
+@media print {
+  .MainFlow_indented, .MainFlow_wide {
+    padding-top: 0;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-left: 0;
+  }
+}
+h1, h2, h3, h4, h5 {
+  color: #333;
+}
+h1 {
+  font-weight: bold;
+  font-size: 20px;
+}
+h2 {
+  font-weight: bold;
+  font-size: 17px;
+}
+h3 {
+  font-weight: bold;
+  font-size: 14px;
+}
+h4 {
+  font-size: 15px;
+}
+h5 {
+  font-size: 12px;
+}
+#ToggleLeft {
+  display: none;
+}
+.note {
+  margin: 0 30px 0px 30px;
+}
+.codeblock {
+  margin: 0 30px 0px 30px;
+  font-size: 12px;
+  font-family: Monaco,Courier,"Courier New";
+}
+.tocli {
+  list-style-type: none;
+}
+.betadraft {
+  color: red;
+}
 </style>
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -414,7 +357,7 @@
     function showCode(displayCodePage, codePath) {
         var codePathEls = codePath.split("/");
         var currDocPathEls = location.href.split("/");
-        //alert ("codePathEls = " + codePathEls + "\n" + "currDocPathEls = " + currDocPathEls);
+        //alert ("codePathEls = " + codePathEls + "n" + "currDocPathEls = " + currDocPathEls);
         currDocPathEls.pop(); // remove file name at the end
         while (codePathEls.length > 0) {
             if (codePathEls[0] == "..") {
@@ -437,18 +380,17 @@
 
 
     <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
-<body onload="load()">
-    <noscript>
-        A browser with JavaScript enabled is required for this page to operate properly.
+<body dir="ltr" onload="load()">
+    <noscript>启用了JavaScript的浏览器需要此页面正常运行。
     </noscript>
         <!-- header -->
     <div class="header-container">
         <div class="bookwrapper  clearfix">       
             <div id="brandProdName">
                 <div id="logocover"></div>
-                <div id="productName" >Documentation</div>
+                <div id="productName">文档</div>
             </div> 
-            <br class="clearfloat" />
+            <br class="clearfloat">
         </div>
     </div>
     
@@ -456,12 +398,11 @@
         <div id="TopBar_tr">
             <div id="TopBar_tl">
                 <div id="TopBar_br"> <div id="TopBar_bl"> 
-                    <div id="TopBar_left">The Java&trade; Tutorials</div>
+                    <div id="TopBar_left">Java™教程</div>
                         <div id="TopBar_right"> 
                             <!--
                             <a href="URL" target="_blank">External Link</a><br/>
-                            --> 
-                            <a href="javascript:toggleLeft()" id="ToggleLeft">Hide TOC</a>
+                            --> <a href="javascript:void(0);" id="ToggleLeft">隐藏TOC</a>
                         </div>
                     </div>
                 </div>
@@ -472,653 +413,322 @@
 
     <div id="LeftBar" class="LeftBar_shown">
         <div id="Contents">
-            <div class="linkLESSON"><a href="index.html">JDBC Basics</a></div>
-<div class="linkAHEAD"><a href="gettingstarted.html">Getting Started</a></div>
-<div class="linkAHEAD"><a href="processingsqlstatements.html">Processing SQL Statements with JDBC</a></div>
-<div class="linkAHEAD"><a href="connecting.html">Establishing a Connection</a></div>
-<div class="linkAHEAD"><a href="sqldatasources.html">Connecting with DataSource Objects</a></div>
-<div class="linkAHEAD"><a href="sqlexception.html">Handling SQLExceptions</a></div>
-<div class="linkAHEAD"><a href="tables.html">Setting Up Tables</a></div>
-<div class="linkAHEAD"><a href="retrieving.html">Retrieving and Modifying Values from Result Sets</a></div>
-<div class="linkAHEAD"><a href="prepared.html">Using Prepared Statements</a></div>
-<div class="linkAHEAD"><a href="transactions.html">Using Transactions</a></div>
-<div class="linkAHEAD"><a href="rowset.html">Using RowSet Objects</a></div>
-<div class="linkAHEAD"><a href="jdbcrowset.html">Using JdbcRowSet Objects</a></div>
-<div class="linkAHEAD"><a href="cachedrowset.html">Using CachedRowSetObjects</a></div>
-<div class="linkAHEAD"><a href="joinrowset.html">Using JoinRowSet Objects</a></div>
-<div class="linkAHEAD"><a href="filteredrowset.html">Using FilteredRowSet Objects</a></div>
-<div class="linkAHEAD"><a href="webrowset.html">Using WebRowSet Objects</a></div>
-<div class="linkAHEAD"><a href="sqltypes.html">Using Advanced Data Types</a></div>
-<div class="linkAHEAD"><a href="blob.html">Using Large Objects</a></div>
-<div class="linkAHEAD"><a href="sqlxml.html">Using SQLXML Objects</a></div>
-<div class="linkAHEAD"><a href="array.html">Using Array Objects</a></div>
-<div class="linkAHEAD"><a href="distinct.html">Using DISTINCT Data Type</a></div>
-<div class="linkAHEAD"><a href="sqlstructured.html">Using Structured Objects</a></div>
-<div class="linkAHEAD"><a href="sqlcustommapping.html">Using Customized Type Mappings</a></div>
-<div class="linkAHEAD"><a href="sqldatalink.html">Using Datalink Objects</a></div>
-<div class="linkAHEAD"><a href="sqlrowid.html">Using RowId Objects</a></div>
-<div class="nolinkAHEAD">Using Stored Procedures</div>
-<div class="linkAHEAD"><a href="jdbcswing.html">Using JDBC with GUI API</a></div>
+            <div class="linkLESSON"><a href="index.html">JDBC基础知识</a></div>
+<div class="linkAHEAD"><a href="gettingstarted.html">入门</a></div>
+<div class="linkAHEAD"><a href="processingsqlstatements.html">使用JDBC处理SQL语句</a></div>
+<div class="linkAHEAD"><a href="connecting.html">建立连接</a></div>
+<div class="linkAHEAD"><a href="sqldatasources.html">连接数据源对象</a></div>
+<div class="linkAHEAD"><a href="sqlexception.html">处理SQLExceptions</a></div>
+<div class="linkAHEAD"><a href="tables.html">设置表</a></div>
+<div class="linkAHEAD"><a href="retrieving.html">从结果集中检索和修改值</a></div>
+<div class="linkAHEAD"><a href="prepared.html">使用准备好的陈述</a></div>
+<div class="linkAHEAD"><a href="transactions.html">使用交易</a></div>
+<div class="linkAHEAD"><a href="rowset.html">使用RowSet对象</a></div>
+<div class="linkAHEAD"><a href="jdbcrowset.html">使用JdbcRowSet对象</a></div>
+<div class="linkAHEAD"><a href="cachedrowset.html">使用CachedRowSetObjects</a></div>
+<div class="linkAHEAD"><a href="joinrowset.html">使用JoinRowSet对象</a></div>
+<div class="linkAHEAD"><a href="filteredrowset.html">使用FilteredRowSet对象</a></div>
+<div class="linkAHEAD"><a href="webrowset.html">使用WebRowSet对象</a></div>
+<div class="linkAHEAD"><a href="sqltypes.html">使用高级数据类型</a></div>
+<div class="linkAHEAD"><a href="blob.html">使用大对象</a></div>
+<div class="linkAHEAD"><a href="sqlxml.html">使用SQLXML对象</a></div>
+<div class="linkAHEAD"><a href="array.html">使用数组对象</a></div>
+<div class="linkAHEAD"><a href="distinct.html">使用DISTINCT数据类型</a></div>
+<div class="linkAHEAD"><a href="sqlstructured.html">使用结构化对象</a></div>
+<div class="linkAHEAD"><a href="sqlcustommapping.html">使用自定义类型映射</a></div>
+<div class="linkAHEAD"><a href="sqldatalink.html">使用数据链接对象</a></div>
+<div class="linkAHEAD"><a href="sqlrowid.html">使用RowId对象</a></div>
+<div class="nolinkAHEAD">使用存储过程</div>
+<div class="linkAHEAD"><a href="jdbcswing.html">将JDBC与GUI API结合使用</a></div>
 </div>
     </div>
     <div id="MainFlow" class="MainFlow_indented">
     <div class="PrintHeaders">
-        <b>Trail:</b> JDBC(TM) Database Access
-        <br /><b>Lesson:</b> JDBC Basics
-    </div>
+        <b>Trail：</b> JDBC（TM）数据库访问<br><b>课程：</b> JDBC基础知识</div>
             <div id="BreadCrumbs">
-                <a href="../../index.html" target="_top">Home Page</a>
-                &gt;
-                <a href="../index.html" target="_top">JDBC(TM) Database Access</a>
-                &gt;
-                <a href="index.html" target="_top">JDBC Basics</a>
+                <a href="../../index.html" target="_top">主页</a> &gt; <a href="../index.html" target="_top">JDBC（TM）数据库访问</a> &gt; <a href="index.html" target="_top">JDBC基础知识</a>
             </div>
             <div class="NavBit">
-                <a target="_top" href="sqlrowid.html">&laquo;&nbsp;Previous</a>&nbsp;&bull;&nbsp;<a target="_top" href="../TOC.html">Trail</a>&nbsp;&bull;&nbsp;<a target="_top" href="jdbcswing.html">Next&nbsp;&raquo;</a>
+                <a href="sqlrowid.html" target="_top">«上一页</a> • <a href="../TOC.html" target="_top">小道</a> • <a href="jdbcswing.html" target="_top">下一页»</a>
             </div>
-            <div class="Banner"><p style="background-color: rgb(247, 248, 249); border-width: 1px; padding: 10px; font-style: italic; border-style: solid; border-color: rgb(64, 74, 91);">The Java Tutorials have been written for JDK 8. Examples and practices described in this page don't take advantage of improvements introduced in later releases.</p></div>
-            <div id="PageTitle"><h1>Using Stored Procedures</h1></div>
+            <div class="Banner"><p style="background-color:rgb(247,248,249);border-width:1px;padding:10px;font-style:italic;border-style:solid;border-color:rgb(64,74,91)">Java教程是为JDK 8编写的。本页中描述的示例和实践未利用后续版本中引入的改进。</p></div>
+            <div id="PageTitle"><h1>使用存储过程</h1></div>
             <div id="PageContent">
 
-<p>A stored procedure is a group of SQL statements that form a logical unit and perform a particular task, and they are used to encapsulate a set of operations or queries to execute on a database server. For example, operations on an employee database (hire, fire, promote, lookup) could be coded as stored procedures executed by application code. Stored procedures can be compiled and executed with different parameters and results, and they can have any combination of input, output, and input/output parameters.</p>
-<p>Note that stored procedures are supported by most DBMSs, but there is a fair amount of variation in their syntax and capabilities. Consequently, the tutorial contains two classes, <code><a href="gettingstarted.html">StoredProcedureJavaDBSample</a></code> and <code><a href="gettingstarted.html">StoredProcedureMySQLSample</a></code> to demonstrate how to create stored procedures in Java DB and MySQL, respectively.</p>
-<p>This page covers the following topics:</p>
+<p>存储过程是一组构成逻辑单元并执行特定任务的SQL语句，它们用于封装一组要在数据库服务器上执行的操作或查询。例如，员工数据库上的操作（雇用，激活，升级，查找）可以编码为由应用程序代码执行的存储过程。存储过程可以使用不同的参数和结果进行编译和执行，并且它们可以具有输入，输出和输入/输出参数的任意组合。</p>
+<p>请注意，大多数DBMS都支持存储过程，但语法和功能存在相当大的变化。因此，本教程包含两个类， <code><a href="gettingstarted.html">StoredProcedureJavaDBSample</a></code>和<code><a href="gettingstarted.html">StoredProcedureMySQLSample</a></code> ，分别演示如何在Java DB和MySQL中创建存储过程。</p>
+<p>此页面包含以下主题：</p>
 <ul>
-<li><a href="#overview_stored_procedures_examples">Overview of Stored Procedures Examples</a></li>
-<li><a href="#parameter_modes">Parameter Modes</a></li>
-<li><a href="#creating_stored_procedures_java_db">Creating Stored Procedures in Java DB</a>
+<li><a href="#overview_stored_procedures_examples">存储过程概述示例</a></li>
+<li><a href="#parameter_modes">参数模式</a></li>
+<li><a href="#creating_stored_procedures_java_db">在Java DB中创建存储过程</a>
 <ul>
-<li><a href="#creating_javadb_sql_jdbc">Creating Stored Procedures in Java DB with SQL Scripts or JDBC API</a></li>
-<li><a href="#creating_stored_procedures_java_db">Creating Stored Procedures in Java DB</a></li>
-<li><a href="#package_java_class_in_jar_file">Package Java Class in JAR File</a></li>
+<li><a href="#creating_javadb_sql_jdbc">使用SQL脚本或JDBC API在Java DB中创建存储过程</a></li>
+<li><a href="#creating_stored_procedures_java_db">在Java DB中创建存储过程</a></li>
+<li><a href="#package_java_class_in_jar_file">在JAR文件中打包Java类</a></li>
 </ul>
 </li>
-<li><a href="#creating_stored_procedure_mysql">Creating Stored Procedure in MySQL</a>
+<li><a href="#creating_stored_procedure_mysql">在MySQL中创建存储过程</a>
 <ul>
-<li><a href="#create_jdbc_mysql">Creating Stored Procedure in MySQL with SQL Scripts or JDBC API</a></li>
+<li><a href="#create_jdbc_mysql">使用SQL脚本或JDBC API在MySQL中创建存储过程</a></li>
 </ul>
 </li>
-<li><a href="#calling_javadb_mysql">Calling Stored Procedures in Java DB and MySQL</a></li>
+<li><a href="#calling_javadb_mysql">在Java DB和MySQL中调用存储过程</a></li>
 </ul>
 <!-- *********************************** -->
-<h2><a name="overview_stored_procedures_examples" id="overview_stored_procedures_examples">Overview of Stored Procedures Examples</a></h2>
-<p>The examples <code><a href="gettingstarted.html">StoredProcedureJavaDBSample.java</a></code> and <code><a href="gettingstarted.html">StoredProcedureMySQLSample.java</a></code> create and call the following stored procedures:</p>
+<h2><a name="overview_stored_procedures_examples" id="overview_stored_procedures_examples">存储过程概述示例</a></h2>
+<p>示例<code><a href="gettingstarted.html">StoredProcedureJavaDBSample.java</a></code>和<code><a href="gettingstarted.html">StoredProcedureMySQLSample.java</a></code>创建并调用以下存储过程：</p>
 <ul>
 <li>
-<p><code>SHOW_SUPPLIERS</code>: Prints a result set that contains the names of coffee suppliers and the coffees they supply to The Coffee Break. This stored procedure does not require any parameters. When the example calls this stored procedure, the example produces output similar to the following:</p>
-<div class="codeblock"><pre>
-Acme, Inc.: Colombian_Decaf
-Acme, Inc.: Colombian
-Superior Coffee: French_Roast_Decaf
-Superior Coffee: French_Roast
-The High Ground: Espresso
-</pre></div>
+<p><code>SHOW_SUPPLIERS</code> ：打印一个结果集，其中包含咖啡供应商的名称和他们提供给咖啡休息时间的咖啡。此存储过程不需要任何参数。当示例调用此存储过程时，该示例生成类似于以下内容的输出：</p>
+<div class="codeblock"><pre>Acme，Inc。：Colombian_Decaf Acme，Inc。：哥伦比亚高级咖啡：French_Roast_Decaf高级咖啡：French_Roast高地：浓咖啡</pre></div>
 </li>
 <li>
-<p><code>GET_SUPPLIER_OF_COFFEE</code>: Prints the name of the supplier <code>supplierName</code> for the coffee <code>coffeeName</code>. It requires the following parameters:</p>
+<p><code>GET_SUPPLIER_OF_COFFEE</code> ：打印coffee <code>coffeeName</code>的供应<code>supplierName</code>的名称。它需要以下参数：</p>
 <ul>
-<li><code>IN coffeeName varchar(32)</code>: The name of the coffee</li>
-<li><code>OUT supplierName varchar(40)</code>: The name of the coffee supplier</li>
+<li><code>IN coffeeName varchar(32)</code> ：咖啡的名称</li>
+<li><code>OUT supplierName varchar(40)</code> ：咖啡供应商的名称</li>
 </ul>
-<p>When the example calls this stored procedure with <code>Colombian</code> as the value for <code>coffeeName</code>, the example produces output similar to the following:</p>
-<div class="codeblock"><pre>
-Supplier of the coffee Colombian: Acme, Inc.
-</pre></div>
+<p>当示例使用<code>Colombian</code>调用此存储过程作为<code>coffeeName</code>的值时，该示例将生成类似于以下内容的输出：</p>
+<div class="codeblock"><pre>咖啡供应商哥伦比亚：Acme，Inc。</pre></div>
 </li>
 <li>
-<p><code>RAISE_PRICE</code>: Raises the price of the coffee <code>coffeeName</code> to the price <code>newPrice</code>. If the price increase is greater than the percentage <code>maximumPercentage</code>, then the price is raised by that percentage. This procedure will not change the price if the price <code>newPrice</code> is lower than the original price of the coffee. It requires the following parameters:</p>
+<p><code>RAISE_PRICE</code> ：将coffee <code>coffeeName</code>的价格<code>newPrice</code>到<code>coffeeName</code>的价格。如果价格上涨大于<code>maximumPercentage</code>百分比，那么价格<code>maximumPercentage</code>该百分比上调。如果<code>newPrice</code>的价格低于咖啡的原价，此程序不会改变价格。它需要以下参数：</p>
 <ul>
-<li><code>IN coffeeName varchar(32)</code>: The name of the coffee</li>
-<li><code>IN maximumPercentage float</code>: The maximum percentage to raise the coffee&#39;s price</li>
-<li><code>INOUT newPrice numeric(10,2)</code>: The new price of the coffee. After the <code>RAISE_PRICE</code> stored procedure has been called, this parameter will contain the current price of the coffee <code>coffeeName</code>.</li>
+<li><code>IN coffeeName varchar(32)</code> ：咖啡的名称</li>
+<li><code>IN maximumPercentage float</code> ：提高咖啡价格的最大百分比</li>
+<li><code>INOUT newPrice numeric(10,2)</code> ：咖啡的新价格。调用<code>RAISE_PRICE</code>存储过程后，此参数将包含coffee <code>coffeeName</code>的当前价格。</li>
 </ul>
-<p>When the example calls this stored procedure with <code>Colombian</code> as the value for <code>coffeeName</code>, <code>0.10</code> as the value for <code>maximumPercentage</code>, and <code>19.99</code> as the value for <code>newPrice</code>, the example produces output similar to the following:</p>
-<div class="codeblock"><pre>
-Contents of COFFEES table before calling RAISE_PRICE:
-Colombian, 101, <strong>7.99</strong>, 0, 0
-Colombian_Decaf, 101, 8.99, 0, 0
-Espresso, 150, 9.99, 0, 0
-French_Roast, 49, 8.99, 0, 0
-French_Roast_Decaf, 49, 9.99, 0, 0
-
-Calling the procedure RAISE_PRICE
-
-Value of newPrice after calling RAISE_PRICE: <strong>8.79</strong>
-
-Contents of COFFEES table after calling RAISE_PRICE:
-Colombian, 101, <strong>8.79</strong>, 0, 0
-Colombian_Decaf, 101, 8.99, 0, 0
-Espresso, 150, 9.99, 0, 0
-French_Roast, 49, 8.99, 0, 0
-French_Roast_Decaf, 49, 9.99, 0, 0
-</pre></div>
+<p>当该示例调用与该存储过程<code>Colombian</code>作为值<code>coffeeName</code> ， <code>0.10</code>作为值<code>maximumPercentage</code> ，和<code>19.99</code>作为值<code>newPrice</code> ，示例产生类似于下面的输出：</p>
+<div class="codeblock"><pre>调用RAISE_PRICE之前COFFEES表的内容：哥伦比亚<strong>，101，7.99，0，0</strong> Colombian_Decaf，101，8.99，0，0咖啡，150，9.99，0，0 French_Roast，49，8.99，0，0 French_Roast_Decaf，49，9.99， 0,0调用newPrice的过程RAISE_PRICE值调用RAISE_PRICE后：COFFEES表中的<strong>8.79</strong>内容调用RAISE_PRICE后：哥伦比亚<strong>，101，8.79，0，0</strong> Colombian_Decaf，101，8.99，0，0咖啡，150，9.99，0，0 French_Roast，49,8.99,0,0 French_Roast_Decaf，49,9.99,0,0</pre></div>
 </li>
 </ul>
 <!-- *********************************** -->
-<h2><a name="parameter_modes" id="parameter_modes">Parameter Modes</a></h2>
-<p>The parameter attributes <code>IN</code> (the default), <code>OUT</code>, and <code>INOUT</code> are parameter modes. They define the action of formal parameters. The following table summarizes the information about parameter modes.</p>
-<table summary="This table summarizes parameter modes." border="1">
+<h2><a name="parameter_modes" id="parameter_modes">参数模式</a></h2>
+<p>参数属性<code>IN</code> （默认值）， <code>OUT</code>和<code>INOUT</code>是参数模式。它们定义了形式参数的作用。下表总结了有关参数模式的信息。</p>
+<table border="1" summary="This table summarizes parameter modes.">
 <thead>
 <tr>
-<th>Characteristic of Parameter Mode</th>
-<th>IN</th>
+<th>参数模式的特点</th>
+<th>在</th>
 <th>OUT</th>
-<th>INOUT</th>
+<th>进出</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>
-<p>Must it be specified in the stored procedure definition?</p>
+<p>必须在存储过程定义中指定吗？</p>
 </td>
 <td>
-<p>No; if omitted, then the parameter mode of the formal parameter is <code>IN</code>.</p>
+<p>没有;如果省略，则形参的参数模式为<code>IN</code> 。</p>
 </td>
 <td>
-<p>Must be specified.</p>
+<p>必须指定。</p>
 </td>
 <td>
-<p>Must be specified.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p>Does the parameter pass a value to the stored procedure or return a value?</p>
-</td>
-<td>
-<p>Passes values to a stored procedure.</p>
-</td>
-<td>
-<p>Returns values to the caller.</p>
-</td>
-<td>
-<p>Both; passes initial values to a stored procedure; returns updated values to the caller.</p>
+<p>必须指定。</p>
 </td>
 </tr>
 <tr>
 <td>
-<p>Does the formal parameter act as a constant or a variable in the stored procedure?</p>
+<p>参数是否将值传递给存储过程或返回值？</p>
 </td>
 <td>
-<p>Formal parameter acts like a constant.</p>
+<p>将值传递给存储过程。</p>
 </td>
 <td>
-<p>Formal parameter acts like an uninitialized variable.</p>
+<p>返回调用者的值。</p>
 </td>
 <td>
-<p>Formal parameter acts like an initialized variable.</p>
-</td>
-</tr>
-<tr>
-<td>
-<p>Can the formal parameter be assigned a value in the stored procedure?</p>
-</td>
-<td>
-<p>Formal parameter cannot be assigned a value.</p>
-</td>
-<td>
-<p>Formal parameter cannot be used in an expression; must be assigned a value.</p>
-</td>
-<td>
-<p>Formal parameter must be assigned a value.</p>
+<p>都;将初始值传递给存储过程;将更新的值返回给调用者。</p>
 </td>
 </tr>
 <tr>
 <td>
-<p>What kinds of actual parameters (arguments) can be passed to the stored procedure?</p>
+<p>形式参数在存储过程中充当常量还是变量？</p>
 </td>
 <td>
-<p>Actual parameter can be a constant, initialized variable, literal, or expression.</p>
+<p>形式参数就像一个常量。</p>
 </td>
 <td>
-<p>Actual parameter must be a variable.</p>
+<p>形式参数就像一个未初始化的变量。</p>
 </td>
 <td>
-<p>Actual parameter must be a variable.</p>
+<p>形式参数就像一个初始化变量。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>可以在存储过程中为形式参数赋值吗？</p>
+</td>
+<td>
+<p>正式参数不能赋值。</p>
+</td>
+<td>
+<p>正式参数不能用于表达式;必须分配一个值。</p>
+</td>
+<td>
+<p>必须为正式参数分配值。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>可以将哪些实际参数（参数）传递给存储过程？</p>
+</td>
+<td>
+<p>实际参数可以是常量，初始化变量，文字或表达式。</p>
+</td>
+<td>
+<p>实际参数必须是变量。</p>
+</td>
+<td>
+<p>实际参数必须是变量。</p>
 </td>
 </tr>
 </tbody>
 </table>
 <!-- *********************************** -->
-<h2><a name="creating_stored_procedures_java_db" id="creating_stored_procedures_java_db">Creating Stored Procedures in Java DB</a></h2>
-<p><strong>Note</strong>: See the section &quot;CREATE PROCEDURE statement&quot; in <a href="http://docs.oracle.com/javadb/index_jdk8.html"><em>Java DB Reference Manual</em></a> for more information about creating stored procedures in Java DB.</p>
-<p>Creating and using a stored procedure in Java DB involves the following steps:</p>
+<h2><a name="creating_stored_procedures_java_db" id="creating_stored_procedures_java_db">在Java DB中创建存储过程</a></h2>
+<p><strong>注意</strong> ：有关在<a href="http://docs.oracle.com/javadb/index_jdk8.html"><em>Java DB中</em></a>创建存储过程的更多信息，请参阅“ <a href="http://docs.oracle.com/javadb/index_jdk8.html"><em>Java DB参考手册</em></a> ”中的“CREATE PROCEDURE语句”一节。</p>
+<p>在Java DB中创建和使用存储过程涉及以下步骤：</p>
 <ol>
-<li><a href="#creating_public_static_java_method">Create a public static Java method in a Java class</a>: This method performs the required task of the stored procedure.</li>
-<li><a href="#creating_javadb_sql_jdbc">Create the stored procedure</a>: This stored procedure calls the Java method you created.</li>
-<li><a href="#package_java_class_in_jar_file">Package the Java class (that contains the public static Java method you created earlier) in a JAR file.</a></li>
-<li>Call the stored procedure with the <code>CALL</code> SQL statement. See the section <a href="#calling_javadb_mysql">Calling Stored Procedures in Java DB and MySQL</a>.</li>
+<li><a href="#creating_public_static_java_method">在Java类中创建公共静态Java方法</a> ：此方法执行存储过程的所需任务。</li>
+<li><a href="#creating_javadb_sql_jdbc">创建存储过程</a> ：此存储过程调用您创建的Java方法。</li>
+<li><a href="#package_java_class_in_jar_file">将Java类（包含您之前创建的公共静态Java方法）打包到JAR文件中。</a></li>
+<li>使用<code>CALL</code> SQL语句调用存储过程。请参阅<a href="#calling_javadb_mysql">Java DB和MySQL中的调用存储过程</a>一节。</li>
 </ol>
 <!-- ====================================== -->
-<h3><a name="creating_public_static_java_method" id="creating_public_static_java_method">Creating Public Static Java Method</a></h3>
-<p>The following method, <code><a href="gettingstarted.html">StoredProcedureJavaDBSample.showSuppliers</a></code>, contains the SQL statements that the stored procedure <code>SHOW_SUPPLIERS</code> calls:</p>
-<div class="codeblock"><pre>
-public static void showSuppliers(ResultSet[] rs)
-    throws SQLException {
-
-    Connection con = DriverManager.getConnection("jdbc:default:connection");
-    Statement stmt = null;
-
-    String query =
-        "select SUPPLIERS.SUP_NAME, " +
-        "COFFEES.COF_NAME " +
-        "from SUPPLIERS, COFFEES " +
-        "where SUPPLIERS.SUP_ID = " +
-        "COFFEES.SUP_ID " +
-        "order by SUP_NAME";
-
-    stmt = con.createStatement();
-    rs[0] = stmt.executeQuery(query);
-}
-</pre></div>
-<p>The <code>SHOW_SUPPLIERS</code> stored procedure takes no arguments. You can specify arguments in a stored procedure by defining them in the method signature of your public static Java method. Note that the method <code>showSuppliers</code> contains a parameter of type <code>ResultSet[]</code>. If your stored procedure returns any number of <code>ResultSet</code> objects, specify one parameter of type <code>ResultSet[]</code> in your Java method. In addition, ensure that this Java method is public and static.</p>
-<p>Retrieve the <code>Connection</code> object from the URL <code>jdbc:default:connection</code>. This is a convention in Java DB to indicate that the stored procedure will use the currently existing <code>Connection</code> object.</p>
-<p>Note that the <code>Statement</code> object is not closed in this method. Do not close any <code>Statement</code> objects in the Java method of your stored procedure; if you do so, the <code>ResultSet</code> object will not exist when you issue the <code>CALL</code> statement when you call your stored procedure.</p>
-<p>In order for the stored procedure to return a generated result set, you must assign the result set to an array component of the <code>ResultSet[]</code> parameter. In this example, the generated result set is assigned to the array component <code>rs[0]</code>.</p>
-<p>The following method is <code><a href="gettingstarted.html">StoredProcedureJavaDBSample.showSuppliers</a></code>:</p>
-<div class="codeblock"><pre>
-public static void getSupplierOfCoffee(String coffeeName, String[] supplierName)
-    throws SQLException {
-
-    Connection con = DriverManager.getConnection("jdbc:default:connection");
-    PreparedStatement pstmt = null;
-    ResultSet rs = null;
-
-    String query =
-        "select SUPPLIERS.SUP_NAME " +
-        "from SUPPLIERS, COFFEES " +
-        "where " +
-        "SUPPLIERS.SUP_ID = COFFEES.SUP_ID " +
-        "and ? = COFFEES.COF_NAME";
-
-    pstmt = con.prepareStatement(query);
-    pstmt.setString(1, coffeeName);
-    rs = pstmt.executeQuery();
-
-    if (rs.next()) {
-        supplierName[0] = rs.getString(1);
-    } else {
-        supplierName[0] = null;
-    }
-}
-</pre></div>
-<p>The formal parameter <code>coffeeName</code> has the parameter mode <code>IN</code>. This formal parameter is used like any other parameter in a Java method. Because the formal parameter <code>supplierName</code> has the parameter mode <code>OUT</code>, it must use a one dimensional array data type. Because this method does not produce a result set, the method definition does not contain a parameter of type <code>ResultSet[]</code>. In order to retrieve a value from an <code>OUT</code> formal parameter, you must assign the value to be retrieved to an array component of the <code>OUT</code> formal parameter. In this example, the retrieved name of the coffee supplier is assigned to the array component <code>supplierName[0]</code>.</p>
-<p>The following is the method signature of the <code><a href="gettingstarted.html">StoredProcedureJavaDBSample.raisePrice</a> method:</code></p>
-<div class="codeblock"><pre>
-public static void raisePrice(
-   String coffeeName, double maximumPercentage,
-   BigDecimal[] newPrice) throws SQLException
-</pre></div>
-<p>Because the formal parameter <code>newPrice</code> has the parameter mode <code>INOUT</code>, it must use a one dimensional array data type. Java DB maps the <code>FLOAT</code> and <code>NUMERIC</code> SQL data types to the <code>double</code> and <code>java.math.BigDecimal</code> Java data types, respectively.</p>
+<h3><a name="creating_public_static_java_method" id="creating_public_static_java_method">创建公共静态Java方法</a></h3>
+<p>以下方法<code><a href="gettingstarted.html">StoredProcedureJavaDBSample.showSuppliers</a></code>包含存储过程<code>SHOW_SUPPLIERS</code>调用的SQL语句：</p>
+<div class="codeblock"><pre>public static void showSuppliers（ResultSet [] rs）抛出SQLException {Connection con = DriverManager.getConnection（“jdbc：default：connection”）;语句stmt = null;字符串查询=“选择SUPPLIERS.SUP_NAME”，+“COFFEES.COF_NAME”+“来自供应商，咖啡馆”+“其中SUPPLIERS.SUP_ID =”+“COFFEES.SUP_ID”+“由SUP_NAME订购”; stmt = con.createStatement（）; rs [0] = stmt.executeQuery（查询）; }</pre></div>
+<p><code>SHOW_SUPPLIERS</code>存储过程不带参数。您可以通过在公共静态Java方法的方法签名中定义参数来指定存储过程中的参数。请注意，方法<code>showSuppliers</code>包含<code>ResultSet[]</code>类型的参数。如果存储过程返回任意数量的<code>ResultSet</code>对象，请在Java方法中指定一个<code>ResultSet[]</code>类型的参数。此外，请确保此Java方法是公共的和静态的。</p>
+<p>从URL <code>jdbc:default:connection</code>检索<code>Connection</code>对象。这是Java DB中的一种约定，用于指示存储过程将使用当前存在的<code>Connection</code>对象。</p>
+<p>请注意，此方法中未关闭<code>Statement</code>对象。不要关闭存储过程的Java方法中的任何<code>Statement</code>对象;如果这样做，当您调用存储过程时发出<code>CALL</code>语句时， <code>ResultSet</code>对象将不存在。</p>
+<p>为了使存储过程返回生成的结果集，必须将结果集分配给<code>ResultSet[]</code>参数的数组组件。在此示例中，生成的结果集被分配给数组组件<code>rs[0]</code> 。</p>
+<p>以下方法是<code><a href="gettingstarted.html">StoredProcedureJavaDBSample.showSuppliers</a></code> ：</p>
+<div class="codeblock"><pre>public static void getSupplierOfCoffee（String coffeeName，String [] supplierName）抛出SQLException {Connection con = DriverManager.getConnection（“jdbc：default：connection”）; PreparedStatement pstmt = null; ResultSet rs = null; String query =“select SUPPLIERS.SUP_NAME”+“from SUPPLIERS，COFFEES”+“where”+“SUPPLIERS.SUP_ID = COFFEES.SUP_ID”+“和？= COFFEES.COF_NAME“; pstmt = con.prepareStatement（query）; pstmt.setString（1，coffeeName）; rs = pstmt.executeQuery（）; if（rs.next（））{supplierName [0] = rs.getString（ 1）;} else {supplierName [0] = null;}}</pre></div>
+<p>形式参数<code>coffeeName</code>具有参数模式<code>IN</code> 。此形式参数与Java方法中的任何其他参数一样使用。因为形式参数<code>supplierName</code>具有参数模式<code>OUT</code> ，所以它必须使用一维数组数据类型。由于此方法不生成结果集，因此方法定义不包含<code>ResultSet[]</code>类型的参数。为了检索从一个值<code>OUT</code>形式参数，必须分配的值被检索到的阵列部件<code>OUT</code>形式参数。在此示例中，将检索到的咖啡供应商名称分配给数组组件<code>supplierName[0]</code> 。</p>
+<p>以下是<code><a href="gettingstarted.html">StoredProcedureJavaDBSample.raisePrice</a> method:</code>的方法签名<code><a href="gettingstarted.html">StoredProcedureJavaDBSample.raisePrice</a> method:</code></p>
+<div class="codeblock"><pre>public static void raisePrice（String coffeeName，double maximumPercentage，BigDecimal [] newPrice）抛出SQLException</pre></div>
+<p>因为形式参数<code>newPrice</code>具有参数模式<code>INOUT</code> ，所以它必须使用一维数组数据类型。Java DB将<code>FLOAT</code>和<code>NUMERIC</code> SQL数据类型映射到<code>double</code>和<code>java.math.BigDecimal</code> Java数据类型。</p>
 <!-- ====================================== -->
-<h3><a name="creating_javadb_sql_jdbc" id="creating_javadb_sql_jdbc">Creating Stored Procedures in Java DB with SQL Scripts or JDBC API</a></h3>
-<p>Java DB uses the Java programming language for its stored procedures. Consequently, when you define a stored procedure, you specify which Java class to call and where Java DB can find it.</p>
-<p>The following excerpt from <code><a href="gettingstarted.html">StoredProcedureJavaDBSample.createProcedures</a></code> creates a stored procedure named <code>SHOW_SUPPLIERS</code>:</p>
-<div class="codeblock"><pre>
-public void createProcedures(Connection con)
-    throws SQLException {
-
-    Statement stmtCreateShowSuppliers = null;
-
-    // ...
-
-    String queryShowSuppliers =
-        "CREATE PROCEDURE SHOW_SUPPLIERS() " +
-        "PARAMETER STYLE JAVA " +
-        "LANGUAGE JAVA " +
-        "DYNAMIC RESULT SETS 1 " +
-        "EXTERNAL NAME " +
-        "'com.oracle.tutorial.jdbc." +
-        "StoredProcedureJavaDBSample." +
-        "showSuppliers'";
-
-    // ...
-
-    try {
-        System.out.println("Calling CREATE PROCEDURE");
-        stmtCreateShowSuppliers = con.createStatement();
-
-        // ...
-
-    } catch (SQLException e) {
-        JDBCTutorialUtilities.printSQLException(e);
-    } finally {
-        if (stmtCreateShowSuppliers != null) {
-            stmtCreateShowSuppliers.close();
-        }
-        // ...
-    }
-}
-</pre></div>
-<p>The following list describes the procedure elements you can specify in the <code>CREATE PROCEDURE</code> statement:</p>
+<h3><a name="creating_javadb_sql_jdbc" id="creating_javadb_sql_jdbc">使用SQL脚本或JDBC API在Java DB中创建存储过程</a></h3>
+<p>Java DB将Java编程语言用于其存储过程。因此，在定义存储过程时，可以指定要调用的Java类以及Java DB可以在其中找到的Java类。</p>
+<p>以下来自<code><a href="gettingstarted.html">StoredProcedureJavaDBSample.createProcedures</a></code>摘录创建了一个名为<code>SHOW_SUPPLIERS</code>的存储过程：</p>
+<div class="codeblock"><pre>public void createProcedures（Connection con）throws SQLException {Statement stmtCreateShowSuppliers = null; // ...String queryShowSuppliers =“CREATE PROCEDURE SHOW_SUPPLIERS（）”+“PARAMETER STYLE JAVA”+“LANGUAGE JAVA”+“DYNAMIC RESULT SETS 1”+“EXTERNAL NAME”+“'com.oracle.tutorial.jdbc。” +“StoredProcedureJavaDBSample。” +“showSuppliers'”; // ...尝试{System.out.println（“调用CREATE PROCEDURE”）; stmtCreateShowSuppliers = con.createStatement（）; // ...} catch（SQLException e）{JDBCTutorialUtilities.printSQLException（e）; } finally {if（stmtCreateShowSuppliers！= null）{stmtCreateShowSuppliers.close（）; } // ...}}</pre></div>
+<p>以下列表描述了您可以在<code>CREATE PROCEDURE</code>语句中指定的过程元素：</p>
 <ul>
-<li><code>PARAMETER STYLE</code>: Identifies the convention used to pass parameters to the stored procedure. The following options are valid:
-<ul>
-<li><code>JAVA</code>: Specifies that the stored procedure uses a parameter-passing convention that conforms to the Java language and the SQL routines specification.</li>
-<li><code>DERBY</code>: Specifies that the stored procedure supports a vararg as the final argument in the parameter list.</li>
+<li><code>PARAMETER STYLE</code> ：标识用于将参数传递给存储过程的约定。以下选项有效：<ul>
+<li><code>JAVA</code> ：指定存储过程使用符合Java语言和SQL例程规范的参数传递约定。</li>
+<li><code>DERBY</code> ：指定存储过程支持vararg作为参数列表中的最后一个参数。</li>
 </ul>
 </li>
-<li><code>LANGUAGE JAVA</code>: Specifies the programming language of the stored procedure (currently, <code>JAVA</code> is the only option).</li>
-<li><code>DYNAMIC RESULT SETS 1</code>: Specifies the maximum number of result sets retrieved; in this case, it is <code>1</code>.</li>
-<li><code>EXTERNAL NAME &#39;com.oracle.tutorial.jdbc.StoredProcedureJavaDBSample.showSuppliers&#39;</code> specifies the fully qualified Java method that this stored procedure calls. <strong>Note</strong>: Java DB must be able to find the method specified here in your class path or in a JAR file directly added to the database. See the following step, <a href="#package_java_class_in_jar_file">Package Java Class in JAR File</a>.</li>
+<li><code>LANGUAGE JAVA</code> ：指定存储过程的编程语言（目前， <code>JAVA</code>是唯一的选项）。</li>
+<li><code>DYNAMIC RESULT SETS 1</code> ：指定检索的结果集的最大数量;在这种情况下，它是<code>1</code> 。</li>
+<li><code>外部名称'com.oracle.tutorial.jdbc。StoredProcedureJavaDBSample.showSuppliers'</code>指定此存储过程调用的完全限定Java方法。<strong>注意</strong> ：Java DB必须能够在类路径或直接添加到数据库的JAR文件中找到此处指定的方法。请参阅以下步骤， <a href="#package_java_class_in_jar_file">在JAR文件中打包Java类</a> 。</li>
 </ul>
-<p>The following statement (which is found in <code><a href="gettingstarted.html">StoredProcedureJavaDBSample.createProcedures</a></code>)
-creates a stored procedure named <code>GET_SUPPLIERS_OF_COFFEE</code> (line breaks have been added for clarity):</p>
-<div class="codeblock"><pre>
-CREATE PROCEDURE GET_SUPPLIER_OF_COFFEE(
-    IN coffeeName varchar(32),
-    OUT supplierName
-    varchar(40))
-    PARAMETER STYLE JAVA
-    LANGUAGE JAVA
-    DYNAMIC RESULT SETS 0
-    EXTERNAL NAME 'com.oracle.tutorial.jdbc.
-        StoredProcedureJavaDBSample.
-        getSupplierOfCoffee'
-</pre></div>
-<p>This stored procedure has two formal parameters, <code>coffeeName</code> and <code>supplierName</code>. The parameter specifiers <code>IN</code> and <code>OUT</code> are called parameter modes. They define the action of formal parameters. See <a href="#parameter_modes">Parameter Modes</a> for more information. This stored procedure does not retrieve a result set, so the procedure element <code>DYNAMIC RESULT SETS</code> is <code>0</code>.</p>
-<p>The following statement creates a stored procedure named <code>RAISE_PRICE</code> (line breaks have been added for clarity):</p>
-<div class="codeblock"><pre>
-CREATE PROCEDURE RAISE_PRICE(
-    IN coffeeName varchar(32),
-    IN maximumPercentage float,
-    INOUT newPrice float)
-    PARAMETER STYLE JAVA
-    LANGUAGE JAVA
-    DYNAMIC RESULT SETS 0
-    EXTERNAL NAME 'com.oracle.tutorial.jdbc.
-        StoredProcedureJavaDBSample.raisePrice'
-</pre></div>
-<p>You can use SQL scripts to create stored procedures in Java DB. See the script <code><a href="gettingstarted.html">javadb/create-procedures.sql</a></code> and the Ant target <code>javadb-create-procedure</code> in the <code><a href="gettingstarted.html">build.xml</a></code> Ant build script.</p>
+<p>以下语句（在<code><a href="gettingstarted.html">StoredProcedureJavaDBSample.createProcedures</a></code>找到）创建名为<code>GET_SUPPLIERS_OF_COFFEE</code>的存储过程（为清楚起见，已添加换行符）：</p>
+<div class="codeblock"><pre>创建程序GET_SUPPLIER_OF_COFFEE（在coffeeName varchar（32），OUT supplierName varchar（40））PARAMETER STYLE JAVA LANGUAGE JAVA DYNAMIC RESULT SETS 0 EXTERNAL NAME'com.oracle.tutorial.jdbc。StoredProcedureJavaDBSample。getSupplierOfCoffee”</pre></div>
+<p>此存储过程有两个形式参数， <code>coffeeName</code>和<code>supplierName</code> 。参数说明符<code>IN</code>和<code>OUT</code>称为参数模式。它们定义了形式参数的作用。有关更多信息，请参阅<a href="#parameter_modes">参数模式</a> 。此存储过程不检索结果集，因此过程元素<code>DYNAMIC RESULT SETS</code>为<code>0</code> 。</p>
+<p>以下语句创建名为<code>RAISE_PRICE</code>的存储过程（为清晰起见，已添加换行符）：</p>
+<div class="codeblock"><pre>CREATE PROCEDURE RAISE_PRICE（在coffeeName varchar（32），IN maximumPercentage float，INOUT newPrice float）PARAMETER STYLE JAVA LANGUAGE JAVA DYNAMIC RESULT SETS 0 EXTERNAL NAME'com.oracle.tutorial.jdbc。StoredProcedureJavaDBSample.raisePrice”</pre></div>
+<p>您可以使用SQL脚本在Java DB中创建存储过程。请参阅<code><a href="gettingstarted.html">build.xml</a></code> Ant构建脚本中的脚本<code><a href="gettingstarted.html">javadb/create-procedures.sql</a></code>和Ant目标<code>javadb-create-procedure</code> 。</p>
 <!-- ====================================== -->
-<h3><a name="package_java_class_in_jar_file" id="package_java_class_in_jar_file">Package Java Class in JAR File</a></h3>
+<h3><a name="package_java_class_in_jar_file" id="package_java_class_in_jar_file">在JAR文件中打包Java类</a></h3>
 
-<p>The Ant build script <code><a href="gettingstarted.html">build.xml</a></code> contains targets to compile and package the tutorial in a JAR file. At a command prompt, change the current directory to <code><em>&lt;JDBC tutorial directory&gt;</em></code>. From this directory, run the following command to compile and package the tutorial in a JAR file:</p>
+<p>Ant构建脚本<code><a href="gettingstarted.html">build.xml</a></code>包含用于在JAR文件中编译和打包教程的目标。在命令提示符处，将当前目录更改为<code><em>&lt;JDBC tutorial directory&gt;</em></code> 。在此目录中，运行以下命令以在JAR文件中编译和打包教程：</p>
 
-<p><code>ant jar</code></p>
+<p><code>蚂蚁罐子</code></p>
 
-<p>The name of the JAR file is <code><em>&lt;JDBC tutorial directory&gt;</em>/lib/JDBCTutorial.jar</code>.</p>
+<p>JAR文件的名称是<code><em>&lt;JDBC tutorial directory&gt;</em> /lib/JDBCTutorial.jar</code> 。</p>
 
-<p>The Ant build script adds the file <code>JDBCTutorial.jar</code> to the class path. You can also specify the location of the JAR file in your <code>CLASSPATH</code> environment variable. This enables Java DB to find the Java method that the stored procedure calls.</p>
+<p>Ant构建脚本将文件<code>JDBCTutorial.jar</code>添加到类路径中。您还可以在<code>CLASSPATH</code>环境变量中指定JAR文件的位置。这使Java DB能够找到存储过程调用的Java方法。</p>
 
-<h4>Adding JAR File Directly to Database</h4>
+<h4>直接将JAR文件添加到数据库</h4>
 
-<p>Java DB looks first in your class path for any required classes, and then in the database. This section shows you how to add JAR files directly to the database.</p>
+<p>Java DB首先在类路径中查找任何所需的类，然后在数据库中查找。本节介绍如何将JAR文件直接添加到数据库。</p>
 
-<p>Use the following system procedures to add the <code>JDBCTutorial.jar</code> JAR file to the database (line breaks have been added for clarity):</p>
+<p>使用以下系统过程将<code>JDBCTutorial.jar</code> JAR文件添加到数据库（为清晰起见，已添加换行符）：</p>
 
-<div class="codeblock"><pre>
-CALL sqlj.install_jar(
-  '<em>&lt;JDBC tutorial directory&gt;</em>/
-  lib/JDBCTutorial.jar',
-  'APP.JDBCTutorial', 0)
-CALL sqlj.replace_jar(
-  '<em>&lt;JDBC tutorial directory&gt;</em>/
-  lib/JDBCTutorial.jar',
-  'APP.JDBCTutorial')";
-CALL syscs_util.syscs_set_database_property(
-  'derby.database.classpath',
-  'APP.JDBCTutorial')";
-</pre></div>
+<div class="codeblock"><pre>CALL sqlj.install_jar（' <em>&lt;JDBC tutorial directory&gt;</em> / lib / JDBCTutorial.jar'，'APP.JDBCTutorial'，0）CALL sqlj.replace_jar（' <em>&lt;JDBC tutorial directory&gt;</em> / lib / JDBCTutorial.jar'，'APP.JDBCTutorial '）“; CALL syscs_util.syscs_set_database_property（'derby.database.classpath'，'APP.JDBCTutorial'）”;</pre></div>
 
-<p><strong>Note</strong>: The method <a href="gettingstarted.html"><code>StoredProcedureJavaDBSample.registerJarFile</code></a> demonstrates how to call these system procedures. If you call this method, ensure that you have modified <code><a href="gettingstarted.html">javadb-sample-properties.xml</a></code> so that the value of the property <code>jar_file</code> is set to the full path name of <code>JDBCTutorial.jar</code>.</p>
+<p><strong>注意</strong> ：方法<a href="gettingstarted.html"><code>StoredProcedureJavaDBSample.registerJarFile</code></a>演示了如何调用这些系统过程。如果调用此方法，确保您已修改<code><a href="gettingstarted.html">javadb-sample-properties.xml</a></code> ，这样的属性值<code>jar_file</code>设置为全路径名<code>JDBCTutorial.jar</code> 。</p>
 
-<p>The <code>install_jar</code> procedure in the <code>SQL</code> schema adds a JAR file to the database. The first argument of this procedure is the full path name of the JAR file on the computer from which this procedure is run. The second argument is an identifier that Java DB uses to refer to the JAR file. (The identifier <code>APP</code> is the Java DB default schema.) The <code>replace_jar</code> procedure replaces a JAR file already in the database.</p>
+<p><code>SQL</code>模式中的<code>install_jar</code>过程将JAR文件添加到数据库。此过程的第一个参数是运行此过程的计算机上的JAR文件的完整路径名。第二个参数是Java DB用于引用JAR文件的标识符。（标识符<code>APP</code>是Java DB默认架构。）<code>replace_jar</code>过程替换数据库中已有的JAR文件。</p>
 
-<p>The system procedure <code>SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY</code> sets or deletes the value of a property of the database on the current connection. This method sets the property <code>derby.database.classpath</code> to the identifier specified in the <code>install_jar</code> file. Java DB first looks in your Java class path for a class, then it looks in <code>derby.database.classpath</code>.</p>
+<p>系统过程<code>SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY</code>设置或删除当前连接上数据库的属性值。此方法将属性<code>derby.database.classpath</code>设置为<code>install_jar</code>文件中指定的标识符。Java DB首先查找类的Java类路径，然后查看<code>derby.database.classpath</code> 。</p>
 
 <!-- *********************************** -->
 
-<h2><a name="creating_stored_procedure_mysql" id="creating_stored_procedure_mysql">Creating Stored Procedure in MySQL</a></h2>
-<p>Creating and using a stored procedure in Java DB involves the following steps:</p>
+<h2><a name="creating_stored_procedure_mysql" id="creating_stored_procedure_mysql">在MySQL中创建存储过程</a></h2>
+<p>在Java DB中创建和使用存储过程涉及以下步骤：</p>
 <ol>
-<li><a href="#create_jdbc_mysql">Create the stored procedure with an SQL script or JDBC API</a></li>
-<li>Call the stored procedure with the <code>CALL</code> SQL statement. See the section <a href="#calling_javadb_mysql">Calling Stored Procedures in Java DB and MySQL</a></li>
+<li><a href="#create_jdbc_mysql">使用SQL脚本或JDBC API创建存储过程</a></li>
+<li>使用<code>CALL</code> SQL语句调用存储过程。请参阅<a href="#calling_javadb_mysql">Java DB和MySQL中的调用存储过程</a>一节</li>
 </ol>
 <!-- *********************************** -->
-<h3><a name="create_jdbc_mysql" id="create_jdbc_mysql">Creating Stored Procedure in MySQL with SQL Scripts or JDBC API</a></h3>
-<p>MySQL uses a SQL-based syntax for its stored procedures. The following excerpt from the SQL script <code><a href="gettingstarted.html">mysql/create-procedures.sql</a></code> creates a stored procedure named <code>SHOW_SUPPLIERS</code>:</p>
-<div class="codeblock"><pre>
-SELECT 'Dropping procedure SHOW_SUPPLIERS' AS ' '|
-drop procedure if exists SHOW_SUPPLIERS|
+<h3><a name="create_jdbc_mysql" id="create_jdbc_mysql">使用SQL脚本或JDBC API在MySQL中创建存储过程</a></h3>
+<p>MySQL对其存储过程使用基于SQL的语法。以下摘自SQL脚本<code><a href="gettingstarted.html">mysql/create-procedures.sql</a></code>创建了一个名为<code>SHOW_SUPPLIERS</code>的存储过程：</p>
+<div class="codeblock"><pre>SELECT'删除程序SHOW_SUPPLIERS'AS''| drop procedure如果存在SHOW_SUPPLIERS | ＃...SELECT'创建程序SHOW_SUPPLIERS'AS''|创建程序SHOW_SUPPLIERS（）从SUPPLIERS，COFFEES开始选择SUPPLIERS.SUP_NAME，COFFEES.COF_NAME，其中SUPPLIERS.SUP_ID = COFFEES.SUP_ID由SUP_NAME订购;结束|</pre></div>
+<p><code>DROP PROCEDURE</code>语句删除该过程<code>SHOW_SUPPLIERS</code>如果存在）。在MySQL中，存储过程中的语句由分号分隔。但是，需要使用不同的分隔符来结束<code>create procedure</code>语句。此示例使用管道（ <code>|</code> ）字符;你可以使用另一个角色（或多个角色）。分隔语句的这个字符在调用此脚本的Ant目标的<code>delimiter</code>属性中定义。此摘录来自Ant构建文件<code><a href="gettingstarted.html">build.xml</a></code> （为了清楚起见，已插入换行符）：</p>
 
-# ...
+<div class="codeblock"><pre>&lt;target name =“mysql-create-procedure”&gt; &lt;sql driver =“$ {DB.DRIVER}”url =“$ {DB.URL}”userid =“$ {DB.USER}”password =“$ {DB .PASSWORD}“classpathref =”CLASSPATH“print =”true“ <strong>delimiter =”|“</strong> autocommit =“false”onerror =“abort”&gt; &lt;transaction src =“./ sql / $ {DB.VENDOR} / create-procedures.sql”&gt; &lt;/ transaction&gt; &lt;/ sql&gt; &lt;/ target&gt;</pre></div>
 
-SELECT 'Creating procedure SHOW_SUPPLIERS' AS ' '|
-create procedure SHOW_SUPPLIERS()
-    begin
-        select SUPPLIERS.SUP_NAME,
-        COFFEES.COF_NAME
-        from SUPPLIERS, COFFEES
-        where SUPPLIERS.SUP_ID = COFFEES.SUP_ID
-        order by SUP_NAME;
-    end|
-</pre></div>
-<p>The <code>DROP PROCEDURE</code> statement deletes that procedure <code>SHOW_SUPPLIERS</code> if it exists. In MySQL, statements in a stored procedure are separated by semicolons. However, a different delimiter is required to end the <code>create procedure</code> statement. This example uses the pipe (<code>|</code>) character; you can use another character (or more than one character). This character that separates statements is defined in the <code>delimiter</code> attribute in the Ant target that calls this script. This excerpt is from the Ant build file <code><a href="gettingstarted.html">build.xml</a></code> (line breaks have been inserted for clarity):</p>
+<p>或者，您可以使用<code>DELIMITER</code> SQL语句指定不同的分隔符。</p>
+<p><code>CREATE PROCEDURE</code>语句由过程的名称，括号中的逗号分隔的参数列表以及<code>BEGIN</code>和<code>END</code>关键字中的SQL语句组成。</p>
+<p>您可以使用JDBC API创建存储过程。以下方法<code><a href="gettingstarted.html">StoredProcedureMySQLSample.createProcedureShowSuppliers</a></code>执行与上一个脚本相同的任务：</p>
 
-<div class="codeblock"><pre>
-&lt;target name="mysql-create-procedure"&gt;
+<div class="codeblock"><pre>public void createProcedureShowSuppliers（）throws SQLException {String createProcedure = null; String queryDrop =“DROP PROCEDURE IF EXISTS SHOW_SUPPLIERS”; createProcedure =“创建程序SHOW_SUPPLIERS（）”+“开始”+“选择SUPPLIERS.SUP_NAME”+“COFFEES.COF_NAME”+“来自供应商，咖啡馆”+“其中SUPPLIERS.SUP_ID =”+“COFFEES.SUP_ID”+“由SUP_NAME订购;“+”结束“;语句stmt = null;语句stmtDrop = null;尝试{System.out.println（“Calling DROP PROCEDURE”）; stmtDrop = con.createStatement（）; stmtDrop.execute（queryDrop）; } catch（SQLException e）{JDBCTutorialUtilities.printSQLException（e）; } finally {if（stmtDrop！= null）{stmtDrop.close（）; try {stmt = con.createStatement（）; stmt.executeUpdate（createProcedure）; } catch（SQLException e）{JDBCTutorialUtilities.printSQLException（e）;终于{if（stmt！）= null）{stmt.close（）; }}}</pre></div>
+<p>请注意，此方法中未更改分隔符。</p>
+<p>存储过程<code>SHOW_SUPPLIERS</code>生成结果集，即使<code>createProcedureShowSuppliers</code>方法的返回类型为<code>void</code>且该方法不包含任何参数。使用<code>CallableStatement.executeQuery</code>方法<code>CallableStatement.executeQuery</code>存储过程<code>SHOW_SUPPLIERS</code>时，将返回结果集：</p>
+<div class="codeblock"><pre>CallableStatement cs = null; cs = this.con.prepareCall（“{call SHOW_SUPPLIERS}”）; ResultSet rs = cs.executeQuery（）;</pre></div>
+<p>以下摘录自方法<code><a href="gettingstarted.html">StoredProcedureMySQLSample.createProcedureGetSupplierOfCoffee</a></code>包含创建名为<code>GET_SUPPLIER_OF_COFFEE</code>的存储过程的SQL查询：</p>
+<div class="codeblock"><pre>public void createProcedureGetSupplierOfCoffee（）throws SQLException {String createProcedure = null; // ...createProcedure =“创建程序GET_SUPPLIER_OF_COFFEE（”+“IN coffeeName varchar（32），”+“OUT supplierName varchar（40））”+“begin”+“选择SUPPLIERS.SUP_NAME到”+“supplierName”+“来自供应商，咖啡馆“+”其中SUPPLIERS.SUP_ID =“+”COFFEES.SUP_ID“+”和coffeeName = COFFEES.COF_NAME;“+”选择supplierName;“+”end“; // ...}</pre></div>
+<p>此存储过程有两个形式参数， <code>coffeeName</code>和<code>supplierName</code> 。参数说明符<code>IN</code>和<code>OUT</code>称为参数模式。它们定义了形式参数的作用。有关更多信息，请参阅<a href="#parameter_modes">参数模式</a> 。形式参数在SQL查询中定义，而不是在<code>createProcedureGetSupplierOfCoffee</code>方法中定义。要为<code>OUT</code>参数<code>supplierName</code>分配值，此存储过程使用<code>SELECT</code>语句。</p>
+<p>以下摘自方法<code><a href="gettingstarted.html">StoredProcedureMySQLSample.createProcedureRaisePrice</a></code>包含创建名为<code>RAISE_PRICE</code>的存储过程的SQL查询：</p>
+<div class="codeblock"><pre>public void createProcedureRaisePrice（）throws SQLException {String createProcedure = null; // ...createProcedure =“创建过程RAISE_PRICE（”+“IN coffeeName varchar（32），”+“IN maximumPercentage float，”+“INOUT newPrice numeric（10,2））”+“begin”+“main：BEGIN”+“declare maximumNewPrice“+”numeric（10,2）;“+”声明oldPrice numeric（10,2）;“+”从COFFEES“+”中选择COFFEES.PRICE到oldPrice“+”，其中COFFEES.COF_NAME“+”= coffeeName; “+”设置maximumNewPrice =“+”oldPrice *（1 +“+”maximumPercentage）;“+”if（newPrice&gt; maximumNewPrice）“+”然后设置newPrice =“+”maximumNewPrice;“+”end if;“+” if（newPrice &lt;= oldPrice）“+”然后设置newPrice = oldPrice;“+”离开main;“+”结束if;“+”更新COFFEES“+”设置COFFEES.PRICE = newPrice“+”where COFFEES.COF_NAME“ +“= coffeeName;”+“select newPrice;”+“END main;”+“end”; // ...}</pre></div>
 
-  &lt;sql driver="${DB.DRIVER}"
-       url="${DB.URL}" userid="${DB.USER}"
-       password="${DB.PASSWORD}"
-       classpathref="CLASSPATH"
-       print="true"
-       <strong>delimiter="|"</strong>
-       autocommit="false"
-       onerror="abort"&gt;
-       &lt;transaction
-         src="./sql/${DB.VENDOR}/
-           create-procedures.sql"&gt;
-       &lt;/transaction&gt;
-  &lt;/sql&gt;
-
-&lt;/target&gt;
-</pre></div>
-
-<p>Alternatively, you can use the <code>DELIMITER</code> SQL statement to specify a different delimiter character.</p>
-<p>The <code>CREATE PROCEDURE</code> statement consists of the name of the procedure, a comma-separated list of parameters in parentheses, and SQL statements within the <code>BEGIN</code> and <code>END</code> keywords.</p>
-<p>You can use the JDBC API to create a stored procedure. The following method, <code><a href="gettingstarted.html">StoredProcedureMySQLSample.createProcedureShowSuppliers</a></code>, performs the same tasks as the previous script:</p>
-
-<div class="codeblock"><pre>
-public void
-    createProcedureShowSuppliers()
-    throws SQLException {
-    String createProcedure = null;
-
-    String queryDrop =
-        "DROP PROCEDURE IF EXISTS SHOW_SUPPLIERS";
-
-    createProcedure =
-        "create procedure SHOW_SUPPLIERS() " +
-        "begin " +
-            "select SUPPLIERS.SUP_NAME, " +
-            "COFFEES.COF_NAME " +
-            "from SUPPLIERS, COFFEES " +
-            "where SUPPLIERS.SUP_ID = " +
-            "COFFEES.SUP_ID " +
-            "order by SUP_NAME; " +
-        "end";
-    Statement stmt = null;
-    Statement stmtDrop = null;
-
-    try {
-        System.out.println("Calling DROP PROCEDURE");
-        stmtDrop = con.createStatement();
-        stmtDrop.execute(queryDrop);
-    } catch (SQLException e) {
-        JDBCTutorialUtilities.printSQLException(e);
-    } finally {
-        if (stmtDrop != null)
-        {
-            stmtDrop.close();
-        }
-    }
-
-    try {
-        stmt = con.createStatement();
-        stmt.executeUpdate(createProcedure);
-    } catch (SQLException e) {
-        JDBCTutorialUtilities.printSQLException(e);
-    } finally {
-        if (stmt != null) { stmt.close(); }
-    }
-}
-</pre></div>
-<p>Note that the delimiter has not been changed in this method.</p>
-<p>The stored procedure <code>SHOW_SUPPLIERS</code> generates a result set, even though the return type of the method <code>createProcedureShowSuppliers</code> is <code>void</code> and the method does not contain any parameters. A result set is returned when the stored procedure <code>SHOW_SUPPLIERS</code> is called with the method <code>CallableStatement.executeQuery</code>:</p>
-<div class="codeblock"><pre>
-CallableStatement cs = null;
-cs = this.con.prepareCall("{call SHOW_SUPPLIERS}");
-ResultSet rs = cs.executeQuery();
-</pre></div>
-<p>The following excerpt from the method <code><a href="gettingstarted.html">StoredProcedureMySQLSample.createProcedureGetSupplierOfCoffee</a></code> contains the SQL query that creates a stored procedure named <code>GET_SUPPLIER_OF_COFFEE</code>:</p>
-<div class="codeblock"><pre>
-public void createProcedureGetSupplierOfCoffee()
-    throws SQLException {
-
-    String createProcedure = null;
-
-    // ...
-
-    createProcedure =
-        "create procedure GET_SUPPLIER_OF_COFFEE(" +
-        "IN coffeeName varchar(32), " +
-        "OUT supplierName varchar(40)) " +
-        "begin " +
-            "select SUPPLIERS.SUP_NAME into " +
-            "supplierName " +
-            "from SUPPLIERS, COFFEES " +
-            "where SUPPLIERS.SUP_ID = " +
-            "COFFEES.SUP_ID " +
-            "and coffeeName = COFFEES.COF_NAME; " +
-            "select supplierName; " +
-        "end";
-    // ...
-}
-</pre></div>
-<p>This stored procedure has two formal parameters, <code>coffeeName</code> and <code>supplierName</code>. The parameter specifiers <code>IN</code> and <code>OUT</code> are called parameter modes. They define the action of formal parameters. See <a href="#parameter_modes">Parameter Modes</a> for more information. The formal parameters are defined in the SQL query, not in the method <code>createProcedureGetSupplierOfCoffee</code>. To assign a value to the <code>OUT</code> parameter <code>supplierName</code>, this stored procedure uses a <code>SELECT</code> statement.</p>
-<p>The following excerpt from the method <code><a href="gettingstarted.html">StoredProcedureMySQLSample.createProcedureRaisePrice</a></code> contains the SQL query that creates a stored procedure named <code>RAISE_PRICE</code>:</p>
-<div class="codeblock"><pre>
-public void createProcedureRaisePrice()
-    throws SQLException {
-
-    String createProcedure = null;
-
-    // ...
-
-    createProcedure =
-        "create procedure RAISE_PRICE(" +
-        "IN coffeeName varchar(32), " +
-        "IN maximumPercentage float, " +
-        "INOUT newPrice numeric(10,2)) " +
-        "begin " +
-        "main: BEGIN " +
-            "declare maximumNewPrice " +
-                "numeric(10,2); " +
-            "declare oldPrice numeric(10,2); " +
-            "select COFFEES.PRICE into oldPrice " +
-                "from COFFEES " +
-                "where COFFEES.COF_NAME " +
-                "= coffeeName; " +
-            "set maximumNewPrice = " +
-                "oldPrice * (1 + " +
-                "maximumPercentage); " +
-            "if (newPrice &gt; maximumNewPrice) " +
-                "then set newPrice = " +
-                "maximumNewPrice; " +
-            "end if; " +
-            "if (newPrice &lt;= oldPrice) " +
-                "then set newPrice = oldPrice; " +
-                "leave main; " +
-            "end if; " +
-            "update COFFEES " +
-                "set COFFEES.PRICE = newPrice " +
-                "where COFFEES.COF_NAME " +
-                "= coffeeName; " +
-            "select newPrice; " +
-        "END main; " +
-        "end";
-
-    // ...
-}
-</pre></div>
-
-<p>The stored procedure assigns a value to the <code>INOUT</code> parameter <code>newPrice</code> with the <code>SET</code> and <code>SELECT</code> statements. To exit the stored procedure, the stored procedure first encloses the statements in a <code>BEGIN ... END</code> block labeled <code>main</code>. To exit the procedure, the method uses the statement <code>leave main</code>.</p>
+<p>存储过程使用<code>SET</code>和<code>SELECT</code>语句为<code>INOUT</code>参数<code>newPrice</code> 。要退出存储过程，存储过程首先将语句包含在<code>BEGIN ...END</code>块标记为<code>main</code> 。要退出该过程，该方法使用语句<code>leave main</code> 。</p>
 <!-- ====================================== -->
-<h2><a name="calling_javadb_mysql" id="calling_javadb_mysql">Calling Stored Procedures in Java DB and MySQL</a></h2>
-<p>The following excerpt from method <code><a href="gettingstarted.html">runStoredProcedures</a></code>, calls the stored procedure <code>SHOW_SUPPLIERS</code> and prints the generated result set:</p>
+<h2><a name="calling_javadb_mysql" id="calling_javadb_mysql">在Java DB和MySQL中调用存储过程</a></h2>
+<p>以下摘自方法<code><a href="gettingstarted.html">runStoredProcedures</a></code> ，调用存储过程<code>SHOW_SUPPLIERS</code>并打印生成的结果集：</p>
 
-<div class="codeblock"><pre>
-cs = this.con.prepareCall("{call SHOW_SUPPLIERS()}");
-ResultSet rs = cs.executeQuery();
+<div class="codeblock"><pre>cs = this.con.prepareCall（“{call SHOW_SUPPLIERS（）}”）; ResultSet rs = cs.executeQuery（）; while（rs.next（））{String supplier = rs.getString（“SUP_NAME”）; String coffee = rs.getString（“COF_NAME”）; System.out.println（供应商+“：”+咖啡）; }</pre></div>
 
-while (rs.next()) {
-    String supplier = rs.getString("SUP_NAME");
-    String coffee = rs.getString("COF_NAME");
-    System.out.println(supplier + ": " + coffee);
-}
-</pre></div>
+<p><strong>注意</strong> ：与<code>Statement</code>对象一样，要调用存储过程，可以调用<code>execute</code> ， <code>executeQuery</code>或<code>executeUpdate</code>具体取决于过程返回的<code>ResultSet</code>对象的数量。但是，如果您不确定该过程返回了多少<code>ResultSet</code>对象，请调用<code>execute</code> 。</p>
+<p>调用存储过程<code>SHOW_SUPPLIERS</code> <a href="#create_jdbc_mysql">在MySQL中使用JDBC API创建存储过程</a>一节中进行了演示。</p>
+<p>以下摘自方法<code><a href="gettingstarted.html">runStoredProcedures</a></code> ，调用存储过程<code>GET_SUPPLIER_OF_COFFEE</code> ：</p>
 
-<p><strong>Note</strong>: As with <code>Statement</code> objects, to call the stored procedure, you can call <code>execute</code>, <code>executeQuery</code>, or <code>executeUpdate</code> depending on how many <code>ResultSet</code> objects the procedure returns. However, if you are not sure how many <code>ResultSet</code> objects the procedure returns, call <code>execute</code>.</p>
-<p>Calling the stored procedure <code>SHOW_SUPPLIERS</code> is demonstrated in the section <a href="#create_jdbc_mysql">Creating Stored Procedure with JDBC API in MySQL</a>.</p>
-<p>The following excerpt from method <code><a href="gettingstarted.html">runStoredProcedures</a></code>, calls the stored procedure <code>GET_SUPPLIER_OF_COFFEE</code>:</p>
+<div class="codeblock"><pre>cs = this.con.prepareCall（“{call GET_SUPPLIER_OF_COFFEE（？，？）}“）; cs.setString（1，coffeeNameArg）; cs.registerOutParameter（2，Types。VARCHAR）; cs.executeQuery（）; String supplierName = cs.getString（2）;</pre></div>
 
-<div class="codeblock"><pre>
-cs = this.con.prepareCall("{call GET_SUPPLIER_OF_COFFEE(?, ?)}");
-cs.setString(1, coffeeNameArg);
-cs.registerOutParameter(2, Types.VARCHAR);
-cs.executeQuery();
+<p><code>CallableStatement</code>接口扩展了<code>PreparedStatement</code> 。它用于调用存储过程。通过调用相应的setter方法，就像使用<code>PreparedStatement</code>对象一样，指定<code>IN</code>参数的值（例如本例中的<code>coffeeName</code> ）。但是，如果存储过程包含<code>OUT</code>参数，则必须使用<code>registerOutParameter</code>方法注册它。</p>
+<p>以下摘自方法<code><a href="gettingstarted.html">runStoredProcedures</a></code> ，调用存储过程<code>RAISE_PRICE</code> ：</p>
 
-String supplierName = cs.getString(2);
-</pre></div>
+<div class="codeblock"><pre>cs = this.con.prepareCall（“{call RAISE_PRICE（？，？，？）}“）; cs.setString（1，coffeeNameArg）; cs.setFloat（2，maximumPercentageArg）; cs.registerOutParameter（3，Types。数字）; cs.setFloat（3，newPriceArg）; cs.execute（）;</pre></div>
 
-<p>The interface <code>CallableStatement</code> extends <code>PreparedStatement</code>. It is used to call stored procedures. Specify values for <code>IN</code> parameters (such as <code>coffeeName</code> in this example) just like you would with a <code>PreparedStatement</code> object by calling the appropriate setter method. However, if a stored procedure contains an <code>OUT</code> parameter, you must register it with the <code>registerOutParameter</code> method.</p>
-<p>The following excerpt from the method <code><a href="gettingstarted.html">runStoredProcedures</a></code>, calls the stored procedure <code>RAISE_PRICE</code>:</p>
-
-<div class="codeblock"><pre>
-cs = this.con.prepareCall("{call RAISE_PRICE(?,?,?)}");
-cs.setString(1, coffeeNameArg);
-cs.setFloat(2, maximumPercentageArg);
-cs.registerOutParameter(3, Types.NUMERIC);
-cs.setFloat(3, newPriceArg);
-
-cs.execute();
-</pre></div>
-
-<p>Because the parameter <code>newPrice</code> (the third parameter in the procedure <code>RAISE_PRICE</code>) has the parameter mode <code>INOUT</code>, you must both specify its value by calling the appropriate setter method and register it with the <code>registerOutParameter</code> method.</p>
+<p>因为参数<code>newPrice</code> （过程<code>RAISE_PRICE</code>的第三个参数）具有参数模式<code>INOUT</code> ，所以必须通过调用适当的setter方法指定其值并使用<code>registerOutParameter</code>方法注册它。</p>
 
         </div>
         <div class="NavBit">
-            <a target="_top" href="sqlrowid.html">&laquo; Previous</a>
-            &bull;
-            <a target="_top" href="../TOC.html">Trail</a>
-            &bull;
-            <a target="_top" href="jdbcswing.html">Next &raquo;</a>
+            <a href="sqlrowid.html" target="_top">«上一页</a> • <a href="../TOC.html" target="_top">小道</a> • <a href="jdbcswing.html" target="_top">下一页»</a>
         </div>
     </div>
     
-<hr class="clearfloat"/>
+<hr class="clearfloat">
 
 <div id="Footer">
 
 <p class="footertext">
-<a href="http://www.oracle.com/corporate/index.html">About Oracle</a> | 
-<a href="http://www.oracle.com/us/corporate/contact/index.html">Contact Us</a> |
-<a href="http://www.oracle.com/us/legal/index.html">Legal Notices</a> | 
-<a href="http://www.oracle.com/us/legal/terms/index.html">Terms of Use</a> |
-<a href="http://www.oracle.com/us/legal/privacy/index.html">Your Privacy Rights</a></p>
+<a href="http://www.oracle.com/corporate/index.html">关于Oracle</a> | <a href="http://www.oracle.com/us/corporate/contact/index.html">联系我们</a> | <a href="http://www.oracle.com/us/legal/index.html">法律声明</a> | <a href="http://www.oracle.com/us/legal/terms/index.html">使用条款</a> | <a href="http://www.oracle.com/us/legal/privacy/index.html">您的隐私权</a></p>
 
-<p class="footertext"><a href="http://www.oracle.com/pls/topic/lookup?ctx=cpyr&id=en-US">
-Copyright &copy; 1995, 2017 Oracle and/or its affiliates. All rights reserved.</a></p>
+<p class="footertext"><a href="http://www.oracle.com/pls/topic/lookup?ctx=cpyr&amp;id=en-US">版权所有©1995,2017 Oracle和/或其附属公司。版权所有。</a></p>
        
 </div>    
     <div class="PrintHeaders">
-        <b>Previous page:</b> Using RowId Objects
-        <br /><b>Next page:</b> Using JDBC with GUI API
-    </div>
+        <b>上一页：</b>使用RowId对象<br><b>下一页：</b>将JDBC与GUI API结合使用</div>
 <!-- Start SiteCatalyst code -->
 <script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
 <!-- End SiteCatalyst code --> 
 </body>
-</html> 
+</html>
