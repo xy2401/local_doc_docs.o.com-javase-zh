@@ -1,368 +1,311 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    
-
-<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+﻿<html lang="en-US" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Working with Bidirectional Text with the JTextComponent Class (The Java&trade; Tutorials &gt;        
-            Internationalization &gt; Working with Text)
-</title>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-     <meta name="description" content="This internationalization Java tutorial describes setting locale, isolating locale-specific data, formatting data, internationalized domain name and resource identifier" />
-     <meta name="keywords" content="java programming, learn java, java sample code, i18n, internationalization, locale, text formatting" />
+        <title>使用带有JTextComponent类的双向文本（Java™教程&gt;国际化&gt;使用文本）</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+     <meta name="description" content="This internationalization Java tutorial describes setting locale, isolating locale-specific data, formatting data, internationalized domain name and resource identifier"></meta>
+     <meta name="keywords" content="java programming, learn java, java sample code, i18n, internationalization, locale, text formatting"></meta>
         
-<style type="text/css">
-    body {
-        margin-left:10px;
-        margin-right:10px;
-        line-height: 1.5;
-        FONT-FAMILY: Arial, Helvetica, sans-serif; 
-        font-size: 0.8em;
-    }
-    
-    a:link{text-decoration:none; color:#09569d;}
-    a:visited{text-decoration:none; color: #3a87cf;}
-    a:hover{text-decoration:underline; }
-        
-    code{
-        font-family:Monaco,Courier,"Courier New";
-    }
-    
-    .header-container {
-        background-color: #fff;
-        border-bottom: 1px solid #C1CFDA;
-        -webkit-box-shadow: 0 2px 2px rgba(117, 163, 231, 0.1);
-        box-shadow: 0 2px 2px rgba(117, 163, 231, 0.1);
-    }
-    
-    .bookwrapper {
-        width: auto;
-        margin: auto;
-    }
-    
-    .clearfix {
-    }
-    
-    .clearfloat {
-        clear: both;
-        overflow: auto;
-        height: 0px;
-        font-size: 1px;
-        line-height: 0px;
-    }
-    
-    #brandProdName {
-        width: auto;
-        height: auto;
-    }
-    
-    #logocover {
-        display: block;
-        background: transparent url(../../images/oracle-java-logo.png) 0px 0px no-repeat;
-        height: 50px;
-        width: 229px;
-        float: left;
-    }
-    
-    #productName {
-        font-size: 16px;
-        position: relative;
-        top: 19px;
-        padding-left: 3px;
-        color: #457798;
-        white-space: nowrap;
-        width: 340px;
-    }
-
-
-    .FigureCaption   { 
-        font-family: sans-serif; 
-        text-align: center;
-    }
-    
-    #TopBar_bl {        
-        width: 100%;
-        height: 60px;
-    }
-    #TopBar_br {
-        width: 100%;
-        height: 60px;
-    }
-    #TopBar_tl {
-        margin-left: -110px;
-        margin-right: -100px;       
-		align: left;
-        height: 60px;
-    }
-    #TopBar_tr {
-        width: 100%;
-        height: 60px;
-    }
-    
-    #TopBar {
-        min-width:700px;
-        padding:25px 100px 10px;
-        margin-bottom:25px;
-        clear:both;
-        
-        border-bottom:1px solid #d2dde5;
-        border-radius: 3px;
-    
-        background:#efefef; /* Old browsers */
-        /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlMmVmZjkiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-        background: -moz-linear-gradient(top,  #ffffff 0%, #e2eff9 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e2eff9)); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top,  #ffffff 0%,#e2eff9 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(top,  #ffffff 0%,#e2eff9 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(top,  #ffffff 0%,#e2eff9 100%); /* IE10+ */
-        background: linear-gradient(to bottom,  #ffffff 0%,#e2eff9 100%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e2eff9',GradientType=0 ); /* IE6-8 */
-        
-    }
-    
-    #TopBar_left {
-        line-height: 14px;
-        position: absolute;
-        padding-top: 30px;
-        padding-right: 30px;
-        padding-left: 30px;
-        text-align: left;
-        font: 13px/20px Arial, Helvetica, sans-serif;
-        font-weight: bold;
-        font-size: 20px;
-        color: #333;
-    }
-    
-    #TopBar_right {
-        line-height: 12px;
-        float: right;
-        padding-top: 10px;
-        padding-right: 30px;
-        text-align: left;
-    }
-    
-
-    @media print {
-        #BreadCrumbs, #Download {
-            display: none;
-        }
-    }
-    
-     
-    @media print {
-        #TopBar_right {
-            display: none;
-        }
-    }
-    #TopBar_right a {
-        font-size: 10px;
-        margin: 3px;
-        padding: 0;
-    }
- 
-    #BreadCrumbs {
-        padding: 15px 5px 0.5em 0;
-        font-family: sans-serif; 
-        float: right;
-    }
-    
-    #BreadCrumbs a {
-        color:#09569d;
-    }
-    
-    #BreadCrumbs a:visited, #BreadCrumbs a:link {
-        text-decoration: none;
-    }
-    
-    #BreadCrumbs a:hover, #BreadCrumbs a:active {
-        text-decoration: underline;
-    }
-    
-    #PageTitle {
-        margin: 0 5px 0.5em 0;
-        color: #F90000;
-    }
-    
-    #PageContent{
-        margin: 0 5px 0 20px;
-    }
-    
-    .LeftBar_shown {
-        width: 13em;
-        float: left;
-    }
-    
-    @media print {
-        .LeftBar_shown {
-            display: none;
-        }
-    }
-    
-    .LeftBar_hidden {
-        display: none;
-    }
-    
-    #Footer {
-        padding-top: 10px;
-        padding-left: 10px;
-        margin-right: 10px;       
-    }
-    
-    .footertext {
-        font-size: 10px;
-        font-family: sans-serif; 
-        margin-top: 1px;
-    }
-
-    .NavBit  {
-        padding: 15px 5px 0.5em 0;
-        font-family: sans-serif; 
-    }
-    
-    @media print {
-        .NavBit {
-            display: none;
-        }
-    }
-    
-    #TagNotes {
-        text-align: right;        
-    }
-    
-    @media print {
-        #TagNotes a:visited, #TagNotes a:link {
-            color: #35556B;
-            text-decoration: none;
-        }
-    }
-    
-    #Contents a, .NavBit a, #TagNotes a {
-        color:#09569d;
-    }
-    
-    #TagNotes a:visited, #TagNotes a:link,
-    #Contents a:visited, #Contents a:link,
-    .NavBit a:visited, .NavBit a:link {
-        text-decoration: none;
-    }
-    
-    #TagNotes a:hover, #TagNotes a:active,   
-    #Contents a:hover, #Contents a:active,   
-    .NavBit a:hover, .NavBit a:active {  
-        text-decoration: underline;
-    }
-    
-    #Contents {
-        float: left;
-        font-family: sans-serif; 
-    }
-    @media print {
-        #Contents {
-            display: none;
-        }
-    }
-    @media screen {
-        div.PrintHeaders {
-            display: none;
-        }
-    }
-    .linkLESSON, .nolinkLESSON {
-        margin-left: 0.5em;
-        text-indent: -0.5em;
-    }
-    .linkAHEAD, .nolinkAHEAD, .linkQUESTIONS, .nolinkQUESTIONS   {
-        margin-left: 1.5em; 
-        text-indent: -0.5em
-    }
-    .linkBHEAD, .nolinkBHEAD   {
-        margin-left: 2.5em;
-        text-indent: -0.5em
-    }
-    .linkCHEAD, .nolinkCHEAD   {
-        margin-left: 3.5em;
-        text-indent: -0.5em
-    }
-    .nolinkLESSON, .nolinkAHEAD, .nolinkBHEAD, .nolinkCHEAD,
-    .nolinkQUESTIONS {
-        font-weight: bold;
-        color: #333;
-		
-		
-    }
-    .MainFlow_indented {
-        margin-right: 10px;
-        margin-left: 15em;
-        margin-bottom: 2em;
-
-    }
-    .MainFlow_wide {
-	
-        margin-right: 10px;
-        margin-left: 10px;
-        margin-bottom: 2em;
-
-    }
-    @media print {
-        .MainFlow_indented, .MainFlow_wide {
-            padding-top: 0;
-            margin-top: 10px;
-            margin-right: 10px;
-            margin-left: 0;
-        }
-    }
-    h1, h2, h3, h4, h5 {
-        color: #333;
-        
-    }
-
-    h1 {
-        font-weight: bold;
-        font-size: 20px;
-    }
-
-    h2 {
-        font-weight: bold;
-        font-size: 17px;
-    }
-
-    h3 {
-        font-weight: bold;
-        font-size: 14px;
-    }
-
-    h4 {
-        font-size: 15px;
-    }
-
-    h5 {
-        font-size: 12px;
-    }
-
-
-    #ToggleLeft {
-        display: none;
-    }
-    
-    .note {
-        margin: 0 30px 0px 30px;
-    }
-    
-    .codeblock {
-        margin: 0 30px 0px 30px;
-		font-size:12px;
-		font-family:Monaco,Courier,"Courier New";
-    }
-    
-    .tocli {
-        list-style-type:none;
-    }
-
-    .betadraft {
-        color: red;
-    }
-
+<style type="text/css">body {
+  margin-left: 10px;
+  margin-right: 10px;
+  line-height: 1.5;
+  FONT-FAMILY: Arial,Helvetica,sans-serif;
+  font-size: 0.8em;
+}
+a:link {
+  text-decoration: none;
+  color: #09569d;
+}
+a:visited {
+  text-decoration: none;
+  color: #3a87cf;
+}
+a:hover {
+  text-decoration: underline;
+}
+code {
+  font-family: Monaco,Courier,"Courier New";
+}
+.header-container {
+  background-color: #fff;
+  border-bottom: 1px solid #c1cfda;
+  -webkit-box-shadow: 0 2px 2px rgba(117,163,231,0.1);
+  box-shadow: 0 2px 2px rgba(117,163,231,0.1);
+}
+.bookwrapper {
+  width: auto;
+  margin: auto;
+}
+.clearfix {
+}
+.clearfloat {
+  clear: both;
+  overflow: auto;
+  height: 0px;
+  font-size: 1px;
+  line-height: 0px;
+}
+#brandProdName {
+  width: auto;
+  height: auto;
+}
+#logocover {
+  display: block;
+  background: transparent url('../../images/oracle-java-logo.png') 0px 0px no-repeat;
+  height: 50px;
+  width: 229px;
+  float: left;
+}
+#productName {
+  font-size: 16px;
+  position: relative;
+  top: 19px;
+  padding-left: 3px;
+  color: #457798;
+  white-space: nowrap;
+  width: 340px;
+}
+.FigureCaption {
+  font-family: sans-serif;
+  text-align: center;
+}
+#TopBar_bl {
+  width: 100%;
+  height: 60px;
+}
+#TopBar_br {
+  width: 100%;
+  height: 60px;
+}
+#TopBar_tl {
+  margin-left: -110px;
+  margin-right: -100px;
+  align: left;
+  height: 60px;
+}
+#TopBar_tr {
+  width: 100%;
+  height: 60px;
+}
+#TopBar {
+  min-width: 700px;
+  padding: 25px 100px 10px;
+  margin-bottom: 25px;
+  clear: both;
+  border-bottom: 1px solid #d2dde5;
+  border-radius: 3px;
+  background: #efefef;
+  /* Old browsers */
+  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+  
+  background: -moz-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#e2eff9));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom,#ffffff 0%,#e2eff9 100%);
+  /* W3C */
+  /* IE6-8 */
+}
+#TopBar_left {
+  line-height: 14px;
+  position: absolute;
+  padding-top: 30px;
+  padding-right: 30px;
+  padding-left: 30px;
+  text-align: left;
+  font: 13px/20px Arial,Helvetica,sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  color: #333;
+}
+#TopBar_right {
+  line-height: 12px;
+  float: right;
+  padding-top: 10px;
+  padding-right: 30px;
+  text-align: left;
+}
+@media print {
+  #BreadCrumbs, #Download {
+    display: none;
+  }
+}
+@media print {
+  #TopBar_right {
+    display: none;
+  }
+}
+#TopBar_right a {
+  font-size: 10px;
+  margin: 3px;
+  padding: 0;
+}
+#BreadCrumbs {
+  padding: 15px 5px 0.5em 0;
+  font-family: sans-serif;
+  float: right;
+}
+#BreadCrumbs a {
+  color: #09569d;
+}
+#BreadCrumbs a:visited, #BreadCrumbs a:link {
+  text-decoration: none;
+}
+#BreadCrumbs a:hover, #BreadCrumbs a:active {
+  text-decoration: underline;
+}
+#PageTitle {
+  margin: 0 5px 0.5em 0;
+  color: #f90000;
+}
+#PageContent {
+  margin: 0 5px 0 20px;
+}
+.LeftBar_shown {
+  width: 13em;
+  float: left;
+}
+@media print {
+  .LeftBar_shown {
+    display: none;
+  }
+}
+.LeftBar_hidden {
+  display: none;
+}
+#Footer {
+  padding-top: 10px;
+  padding-left: 10px;
+  margin-right: 10px;
+}
+.footertext {
+  font-size: 10px;
+  font-family: sans-serif;
+  margin-top: 1px;
+}
+.NavBit {
+  padding: 15px 5px 0.5em 0;
+  font-family: sans-serif;
+}
+@media print {
+  .NavBit {
+    display: none;
+  }
+}
+#TagNotes {
+  text-align: right;
+}
+@media print {
+  #TagNotes a:visited, #TagNotes a:link {
+    color: #35556b;
+    text-decoration: none;
+  }
+}
+#Contents a, .NavBit a, #TagNotes a {
+  color: #09569d;
+}
+#TagNotes a:visited, #TagNotes a:link, #Contents a:visited, #Contents a:link, .NavBit a:visited, .NavBit a:link {
+  text-decoration: none;
+}
+#TagNotes a:hover, #TagNotes a:active, #Contents a:hover, #Contents a:active, .NavBit a:hover, .NavBit a:active {
+  text-decoration: underline;
+}
+#Contents {
+  float: left;
+  font-family: sans-serif;
+}
+@media print {
+  #Contents {
+    display: none;
+  }
+}
+@media screen {
+  div.PrintHeaders {
+    display: none;
+  }
+}
+.linkLESSON, .nolinkLESSON {
+  margin-left: 0.5em;
+  text-indent: -0.5em;
+}
+.linkAHEAD, .nolinkAHEAD, .linkQUESTIONS, .nolinkQUESTIONS {
+  margin-left: 1.5em;
+  text-indent: -0.5em;
+}
+.linkBHEAD, .nolinkBHEAD {
+  margin-left: 2.5em;
+  text-indent: -0.5em;
+}
+.linkCHEAD, .nolinkCHEAD {
+  margin-left: 3.5em;
+  text-indent: -0.5em;
+}
+.nolinkLESSON, .nolinkAHEAD, .nolinkBHEAD, .nolinkCHEAD, .nolinkQUESTIONS {
+  font-weight: bold;
+  color: #333;
+}
+.MainFlow_indented {
+  margin-right: 10px;
+  margin-left: 15em;
+  margin-bottom: 2em;
+}
+.MainFlow_wide {
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 2em;
+}
+@media print {
+  .MainFlow_indented, .MainFlow_wide {
+    padding-top: 0;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-left: 0;
+  }
+}
+h1, h2, h3, h4, h5 {
+  color: #333;
+}
+h1 {
+  font-weight: bold;
+  font-size: 20px;
+}
+h2 {
+  font-weight: bold;
+  font-size: 17px;
+}
+h3 {
+  font-weight: bold;
+  font-size: 14px;
+}
+h4 {
+  font-size: 15px;
+}
+h5 {
+  font-size: 12px;
+}
+#ToggleLeft {
+  display: none;
+}
+.note {
+  margin: 0 30px 0px 30px;
+}
+.codeblock {
+  margin: 0 30px 0px 30px;
+  font-size: 12px;
+  font-family: Monaco,Courier,"Courier New";
+}
+.tocli {
+  list-style-type: none;
+}
+.betadraft {
+  color: red;
+}
 </style>
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -414,7 +357,7 @@
     function showCode(displayCodePage, codePath) {
         var codePathEls = codePath.split("/");
         var currDocPathEls = location.href.split("/");
-        //alert ("codePathEls = " + codePathEls + "\n" + "currDocPathEls = " + currDocPathEls);
+        //alert ("codePathEls = " + codePathEls + "n" + "currDocPathEls = " + currDocPathEls);
         currDocPathEls.pop(); // remove file name at the end
         while (codePathEls.length > 0) {
             if (codePathEls[0] == "..") {
@@ -437,18 +380,17 @@
 
 
     <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
-<body onload="load()">
-    <noscript>
-        A browser with JavaScript enabled is required for this page to operate properly.
+<body dir="ltr" onload="load()">
+    <noscript>启用了JavaScript的浏览器需要此页面正常运行。
     </noscript>
         <!-- header -->
     <div class="header-container">
         <div class="bookwrapper  clearfix">       
             <div id="brandProdName">
                 <div id="logocover"></div>
-                <div id="productName" >Documentation</div>
+                <div id="productName">文档</div>
             </div> 
-            <br class="clearfloat" />
+            <br class="clearfloat">
         </div>
     </div>
     
@@ -456,12 +398,11 @@
         <div id="TopBar_tr">
             <div id="TopBar_tl">
                 <div id="TopBar_br"> <div id="TopBar_bl"> 
-                    <div id="TopBar_left">The Java&trade; Tutorials</div>
+                    <div id="TopBar_left">Java™教程</div>
                         <div id="TopBar_right"> 
                             <!--
                             <a href="URL" target="_blank">External Link</a><br/>
-                            --> 
-                            <a href="javascript:toggleLeft()" id="ToggleLeft">Hide TOC</a>
+                            --> <a href="javascript:void(0);" id="ToggleLeft">隐藏TOC</a>
                         </div>
                     </div>
                 </div>
@@ -472,227 +413,162 @@
 
     <div id="LeftBar" class="LeftBar_shown">
         <div id="Contents">
-            <div class="linkLESSON"><a href="index.html">Working with Text</a></div>
-<div class="linkAHEAD"><a href="charintro.html">Checking Character Properties</a></div>
-<div class="linkAHEAD"><a href="collationintro.html">Comparing Strings</a></div>
-<div class="linkBHEAD"><a href="locale.html">Performing Locale-Independent Comparisons</a></div>
-<div class="linkBHEAD"><a href="rule.html">Customizing Collation Rules</a></div>
-<div class="linkBHEAD"><a href="perform.html">Improving Collation Performance</a></div>
-<div class="linkAHEAD"><a href="unicode.html">Unicode</a></div>
-<div class="linkBHEAD"><a href="terminology.html">Terminology</a></div>
-<div class="linkBHEAD"><a href="supplementaryChars.html">Supplementary Characters as Surrogates</a></div>
-<div class="linkBHEAD"><a href="characterClass.html">Character and String APIs</a></div>
-<div class="linkBHEAD"><a href="usage.html">Sample Usage</a></div>
-<div class="linkBHEAD"><a href="design.html">Design Considerations</a></div>
-<div class="linkBHEAD"><a href="info.html">More Information</a></div>
-<div class="linkAHEAD"><a href="boundaryintro.html">Detecting Text Boundaries</a></div>
-<div class="linkBHEAD"><a href="about.html">About the BreakIterator Class</a></div>
-<div class="linkBHEAD"><a href="char.html">Character Boundaries</a></div>
-<div class="linkBHEAD"><a href="word.html">Word Boundaries</a></div>
-<div class="linkBHEAD"><a href="sentence.html">Sentence Boundaries</a></div>
-<div class="linkBHEAD"><a href="line.html">Line Boundaries</a></div>
-<div class="linkAHEAD"><a href="shapedDigits.html">Converting Latin Digits to Other Unicode Digits</a></div>
-<div class="linkAHEAD"><a href="convertintro.html">Converting Non-Unicode Text</a></div>
-<div class="linkBHEAD"><a href="string.html">Byte Encodings and Strings</a></div>
-<div class="linkBHEAD"><a href="stream.html">Character and Byte Streams</a></div>
-<div class="linkAHEAD"><a href="normalizerapi.html">Normalizing Text</a></div>
-<div class="nolinkAHEAD">Working with Bidirectional Text with the JTextComponent Class</div>
+            <div class="linkLESSON"><a href="index.html">使用文本</a></div>
+<div class="linkAHEAD"><a href="charintro.html">检查字符属性</a></div>
+<div class="linkAHEAD"><a href="collationintro.html">比较字符串</a></div>
+<div class="linkBHEAD"><a href="locale.html">执行与区域无关的比较</a></div>
+<div class="linkBHEAD"><a href="rule.html">自定义归类规则</a></div>
+<div class="linkBHEAD"><a href="perform.html">提高整理绩效</a></div>
+<div class="linkAHEAD"><a href="unicode.html">统一</a></div>
+<div class="linkBHEAD"><a href="terminology.html">术语</a></div>
+<div class="linkBHEAD"><a href="supplementaryChars.html">补充字符作为代理人</a></div>
+<div class="linkBHEAD"><a href="characterClass.html">字符和字符串API</a></div>
+<div class="linkBHEAD"><a href="usage.html">样品使用</a></div>
+<div class="linkBHEAD"><a href="design.html">设计注意事项</a></div>
+<div class="linkBHEAD"><a href="info.html">更多信息</a></div>
+<div class="linkAHEAD"><a href="boundaryintro.html">检测文本边界</a></div>
+<div class="linkBHEAD"><a href="about.html">关于BreakIterator类</a></div>
+<div class="linkBHEAD"><a href="char.html">字符边界</a></div>
+<div class="linkBHEAD"><a href="word.html">词边界</a></div>
+<div class="linkBHEAD"><a href="sentence.html">句子边界</a></div>
+<div class="linkBHEAD"><a href="line.html">线边界</a></div>
+<div class="linkAHEAD"><a href="shapedDigits.html">将拉丁数字转换为其他Unicode数字</a></div>
+<div class="linkAHEAD"><a href="convertintro.html">转换非Unicode文本</a></div>
+<div class="linkBHEAD"><a href="string.html">字节编码和字符串</a></div>
+<div class="linkBHEAD"><a href="stream.html">字符和字节流</a></div>
+<div class="linkAHEAD"><a href="normalizerapi.html">规范化文本</a></div>
+<div class="nolinkAHEAD">使用JTextComponent类的双向文本</div>
 </div>
     </div>
     <div id="MainFlow" class="MainFlow_indented">
     <div class="PrintHeaders">
-        <b>Trail:</b> Internationalization
-        <br /><b>Lesson:</b> Working with Text
-    </div>
+        <b>小径：</b>国际化<br><b>课程：</b>使用文本</div>
             <div id="BreadCrumbs">
-                <a href="../../index.html" target="_top">Home Page</a>
-                &gt;
-                <a href="../index.html" target="_top">Internationalization</a>
-                &gt;
-                <a href="index.html" target="_top">Working with Text</a>
+                <a href="../../index.html" target="_top">首页</a> &gt; <a href="../index.html" target="_top">国际化</a> &gt; <a href="index.html" target="_top">使用文本</a>
             </div>
             <div class="NavBit">
-                <a target="_top" href="normalizerapi.html">&laquo;&nbsp;Previous</a>&nbsp;&bull;&nbsp;<a target="_top" href="../TOC.html">Trail</a>&nbsp;&bull;&nbsp;<a target="_top" href="../network/index.html">Next&nbsp;&raquo;</a>
+                <a href="normalizerapi.html" target="_top">«上一页</a> • <a href="../TOC.html" target="_top">小道</a> • <a href="../network/index.html" target="_top">下一页»</a>
             </div>
-            <div class="Banner"><p style="background-color: rgb(247, 248, 249); border-width: 1px; padding: 10px; font-style: italic; border-style: solid; border-color: rgb(64, 74, 91);">The Java Tutorials have been written for JDK 8. Examples and practices described in this page don't take advantage of improvements introduced in later releases.</p></div>
-            <div id="PageTitle"><h1>Working with Bidirectional Text with the JTextComponent Class</h1></div>
+            <div class="Banner"><p style="background-color:rgb(247,248,249);border-width:1px;padding:10px;font-style:italic;border-style:solid;border-color:rgb(64,74,91)">Java教程是为JDK 8编写的。本页中描述的示例和实践未利用后续版本中引入的改进。</p></div>
+            <div id="PageTitle"><h1>使用JTextComponent类的双向文本</h1></div>
             <div id="PageContent">
 
 <!-- ********************************************** -->
 
-<p>This section discusses how to work with bidirectional text with the
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/JTextComponent.html"><code>JTextComponent</code></a> class. Bidirectional text is text that contains text that runs in two directions, left-to-right and right-to-left. An example of bidirectional text is Arabic text (which runs right-to-left) that contain numbers (which run left-to-right). It is more difficult to display and manage bidirectional text; however the
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/JTextComponent.html"><code>JTextComponent</code></a> handles these issues for you.</p>
+<p>本节讨论如何使用<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/JTextComponent.html" target="_blank"><code>JTextComponent</code></a>类处理双向文本。双向文本是包含从左到右和从右到左两个方向运行的文本的文本。双向文本的一个示例是包含数字（从左到右运行）的阿拉伯文本（从右向左运行）。显示和管理双向文本更加困难;但是<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/JTextComponent.html" target="_blank"><code>JTextComponent</code></a>为您处理这些问题。</p>
 
-<p>The following topics are covered:</p>
+<p>涵盖以下主题：</p>
 
 <ul>
-  <li><a href="#directionality">Determining Directionality of Bidirectional Text</a></li>
-  <li><a href="#displaying-and-moving-carets">Displaying and Moving Carets</a></li>
-  <li><a href="#hit-testing">Hit Testing</a></li>
-  <li><a href="#highlighting-selections">Highlighting Selections</a></li>
-  <li><a href="#setting-component-orientation">Setting Component Orientation</a></li>
+  <li><a href="#directionality">确定双向文本的方向性</a></li>
+  <li><a href="#displaying-and-moving-carets">显示和移动插入物</a></li>
+  <li><a href="#hit-testing">命中测试</a></li>
+  <li><a href="#highlighting-selections">突出显示选择</a></li>
+  <li><a href="#setting-component-orientation">设置组件方向</a></li>
 </ul>
 
-<p>For more information about these issues, or if you want more control in handling these issues, see
-<a class="TutorialLink" target="_top" href="../../2d/text/textlayoutbidirectionaltext.html">Working with Bidirectional Text</a> in the
-<a class="TutorialLink" target="_top" href="../../2d/index.html">2D Graphics</a> trail.</p>
+<p>有关这些问题的更多信息，或者如果您希望在处理这些问题时有更多控制权，请参阅在<a class="TutorialLink" href="../../2d/index.html" target="_top">2D图形</a>跟踪中<a class="TutorialLink" href="../../2d/text/textlayoutbidirectionaltext.html" target="_top">使用双向文本</a> 。</p>
 
 <!-- *********************************************************************** -->
 
-<h2><a name="directionality">Determining Directionality of Bidirectional Text</a></h2>
+<h2><a name="directionality">确定双向文本的方向性</a></h2>
 
-<p>The sample
-<a class="SourceLink" target="_blank" href="examples/BidiTextComponentDemo.java" onclick="showCode('../../displayCode.html', 'examples/BidiTextComponentDemo.java'); return false;"><code>BidiTextComponentDemo.java</code></a>, which is based on  
-<a class="TutorialLink" target="_top" href="../../uiswing/examples/components/index.html#TextComponentDemo"><code>TextComponentDemo.java</code></a>, displays bidirectional text in a
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/JTextPane.html"><code>JTextPane</code></a> object. In most cases, the Java platform can determine the directionality of bidirectional Unicode text:</p>
+<p><a class="SourceLink" href="examples/BidiTextComponentDemo.java" target="_blank" onclick="showCode(&#39;../../displayCode.html&#39;, &#39;examples/BidiTextComponentDemo.java&#39;); return false;"><code>BidiTextComponentDemo.java</code></a>示例（基于<a class="TutorialLink" href="../../uiswing/examples/components/index.html#TextComponentDemo" target="_top"><code>TextComponentDemo.java</code></a>在<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/JTextPane.html" target="_blank"><code>JTextPane</code></a>对象中显示双向文本。在大多数情况下，Java平台可以确定双向Unicode文本的方向性：</p>
 
-<center><img src="../../figures/i18n/text/biditextcomponentdemo.jpg" width="353" height="271" align="bottom" alt="BidiTextComponentDemo.java" /></center>
-<h3>Explicitly Specifying Text Run Direction in JTextComponent Objects</h3>
+<center><img src="../../figures/i18n/text/biditextcomponentdemo.jpg" width="353" height="271" align="bottom" alt="BidiTextComponentDemo.java"></center>
+<h3>在JTextComponent对象中显式指定文本运行方向</h3>
 
-<p>You can specify the run direction of the
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/Document.html"><code>Document</code></a> object of a
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/JTextComponent.html"><code>JTextComponent</code></a> object. For example, the following statement specifies that the text in the
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/JTextPane.html"><code>JTextPane</code></a> object <code>textPane</code> runs right-to-left:</p>
+<p>您可以指定<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/JTextComponent.html" target="_blank"><code>JTextComponent</code></a>对象的<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/Document.html" target="_blank"><code>Document</code></a>对象的运行方向。例如，以下语句指定<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/JTextPane.html" target="_blank"><code>JTextPane</code></a>对象<code>textPane</code>中的文本<code>textPane</code>运行：</p>
 
-<div class="codeblock"><pre>
-textPane.getDocument().putProperty(
-    TextAttribute.RUN_DIRECTION,
-    TextAttribute.RUN_DIRECTION_RTL);
-</pre></div>
+<div class="codeblock"><pre>textPane.getDocument（）。putProperty（TextAttribute。RUN_DIRECTION，TextAttribute。RUN_DIRECTION_RTL）;</pre></div>
 
-<p>Alternatively, you can specify the component orientation of a particular Swing component based on locale. For example, the following statements specify that the component orientation of the object <code>textPane</code> is based on the ar-SA locale:</p>
+<p>或者，您可以根据区域设置指定特定Swing组件的组件方向。例如，以下语句指定对象<code>textPane</code>的组件方向基于ar-SA语言环境：</p>
 
-<div class="codeblock"><pre>
-Locale arabicSaudiArabia = 
-    new Locale.Builder().setLanguage("ar").setRegion("SA").build();
+<div class="codeblock"><pre>Locale arabicSaudiArabia =新的语言环境。。生成器（）setLanguage（ “AR”）setRegion（ “SA”）构建（）; textPane.setComponentOrientation（ComponentOrientation.getOrientation（arabicSaudiArabia））;</pre></div>
 
-textPane.setComponentOrientation(
-    ComponentOrientation.getOrientation(arabicSaudiArabia));
-</pre></div>
+<p>由于阿拉伯语的运行方向是从右到左，因此<code>textPane</code>对象中包含的文本的运行方向也是从右到左。</p>
 
-<p>Because the run direction of the Arabic language is right-to-left, the run direction of the text contained in the <code>textPane</code> object is right-to-left also.</p>
-
-<p>See the section <a href="#setting-component-orientation">Setting Component Orientation</a> for more information.</p>
+<p>有关更多信息，请参阅<a href="#setting-component-orientation">设置组件方向</a>一节。</p>
 
 <!-- *********************************************************************** -->
 
-<h2><a name="displaying-and-moving-carets">Displaying and Moving Carets</a></h2>
+<h2><a name="displaying-and-moving-carets">显示和移动插入物</a></h2>
 
-<p>In editable text, a <em>caret</em> is used to graphically represent the current insertion point, the position in the text where new characters will be inserted. In the
-<a class="SourceLink" target="_blank" href="examples/BidiTextComponentDemo.java" onclick="showCode('../../displayCode.html', 'examples/BidiTextComponentDemo.java'); return false;"><code>BidiTextComponentDemo.java</code></a> sample, the caret contains a small triangle that points toward the direction where an inserted character will be displayed.</p>
+<p>在可编辑文本中， <em>插入符号</em>用于以图形方式表示当前插入点，即文本中将插入新字符的位置。在<a class="SourceLink" href="examples/BidiTextComponentDemo.java" target="_blank" onclick="showCode(&#39;../../displayCode.html&#39;, &#39;examples/BidiTextComponentDemo.java&#39;); return false;"><code>BidiTextComponentDemo.java</code></a>示例中，插入符号包含一个小三角形，指向插入字符的显示方向。</p>
 
-<p>By default, a
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/JTextComponent.html"><code>JTextComponent</code></a> object creates a keymap (of type
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/Keymap.html"><code>Keymap</code></a>) that is shared by all
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/JTextComponent.html"><code>JTextComponent</code></a> instances as the default keymap. A keymap lets an application bind key strokes to action. A default keymap (for
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/JTextComponent.html"><code>JTextComponent</code></a> objects that support caret movement) includes the binding between caret movement forward and backward with the left and right arrow keys, which supports caret movement through bidirectional text.</p>
+<p>默认情况下， <a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/JTextComponent.html" target="_blank"><code>JTextComponent</code></a>对象创建一个键映射（类型为<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/Keymap.html" target="_blank"><code>Keymap</code></a> ），该<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/JTextComponent.html" target="_blank"><code>JTextComponent</code></a>映射由所有<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/JTextComponent.html" target="_blank"><code>JTextComponent</code></a>实例共享为默认键映射。键映射允许应用程序将键击绑定到操作。默认键映射（对于支持插入符移动的<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/JTextComponent.html" target="_blank"><code>JTextComponent</code></a>对象）包括使用左右箭头键向前和向后移动插入符号之间的绑定，这通过双向文本支持插入符号移动。</p>
 
 
 <!-- *********************************************************************** -->
 
-<h2><a name="hit-testing">Hit Testing</a></h2>
+<h2><a name="hit-testing">命中测试</a></h2>
 
-<p>Often, a location in device space must be converted to a text offset. For example, when a user clicks the mouse on selectable text, the location of the mouse is converted to a text offset and used as one end of the selection range. Logically, this is the inverse of positioning a caret.</p>
+<p>通常，设备空间中的位置必须转换为文本偏移量。例如，当用户在可选文本上单击鼠标时，鼠标的位置将转换为文本偏移并用作选择范围的一端。从逻辑上讲，这与定位插入符相反。</p>
 
-<p>You can attach a caret listener to an instance of an
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/JTextComponent.html"><code>JTextComponent</code></a>. A caret listener enables you to handle caret events, which occur when the caret moves or when the selection in a text component changes. You attach a caret listener with the
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/JTextComponent.html#addCaretListener-javax.swing.event.CaretListener-"><code>addCaretListener</code></a> method. See
-<a class="TutorialLink" target="_top" href="../../uiswing/events/caretlistener.html">How to Write a Caret Listener</a> for more information.</p>
+<p>您可以将插入符侦听器附加到<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/JTextComponent.html" target="_blank"><code>JTextComponent</code></a>的实例。插入符号侦听器使您能够处理插入符号事件，这些事件在插入符号移动或文本组件中的选择发生更改时发生。使用<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/JTextComponent.html#addCaretListener-javax.swing.event.CaretListener-" target="_blank"><code>addCaretListener</code></a>方法附加插入符侦听器。有关更多信息，请参见<a class="TutorialLink" href="../../uiswing/events/caretlistener.html" target="_top">如何编写插入侦听器</a> 。</p>
 
 <!-- *********************************************************************** -->
 
-<h2><a name="highlighting-selections">Highlighting Selections</a></h2>
+<h2><a name="highlighting-selections">突出显示选择</a></h2>
 
-<p>A selected range of characters is represented graphically by a highlight region, an area in which glyphs are displayed with inverse video or against a different background color.</p>
+<p>所选字符范围由高亮区域以图形方式表示，高亮区域是以逆视频或不同背景颜色显示字形的区域。</p>
 
 <p>
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/JTextComponent.html"><code>JTextComponent</code></a> objects implement logical highlighting. This means that the selected characters are always contiguous in the text model, and the highlight region is allowed to be discontiguous. The following is an example of logical highlighting:</p>
+<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/javax/swing/text/JTextComponent.html" target="_blank"><code>JTextComponent</code></a>对象实现逻辑突出显示。这意味着所选字符在文本模型中始终是连续的，并且允许突出显示区域是不连续的。以下是逻辑突出显示的示例：</p>
 
-<center><img src="../../figures/i18n/text/biditextcomponentdemo-selected.jpg" width="353" height="271" align="bottom" alt="BidiTextComponentDemo: logical highlighting" /></center>
+<center><img src="../../figures/i18n/text/biditextcomponentdemo-selected.jpg" width="353" height="271" align="bottom" alt="BidiTextComponentDemo：逻辑突出显示"></center>
 
 <!-- *********************************************************************** -->
 
-<h2><a name="setting-component-orientation">Setting Component Orientation</a></h2>
+<h2><a name="setting-component-orientation">设置组件方向</a></h2>
 
-<p>Swing's layout managers understand how locale affects a UI; it is not necessary to create a new layout for each locale. For example, in a locale where text flows right to left, the layout manager will arrange components in the same orientation.</p>
+<p>Swing的布局管理器了解区域设置如何影响UI;没有必要为每个区域设置创建新布局。例如，在文本从右向左流动的区域设置中，布局管理器将以相同的方向排列组件。</p>
 
-<p>The sample
-<a class="SourceLink" target="_blank" href="../format/examples/InternationalizedMortgageCalculator.java" onclick="showCode('../../displayCode.html', '../format/examples/InternationalizedMortgageCalculator.java'); return false;"><code>InternationalizedMortgageCalculator.java</code></a> has been localized for English, United States; English, United Kingdom; French, France; French, Canada; and Arabic, Saudi Arabia.</p>
+<p>示例<a class="SourceLink" href="../format/examples/InternationalizedMortgageCalculator.java" target="_blank" onclick="showCode(&#39;../../displayCode.html&#39;, &#39;../format/examples/InternationalizedMortgageCalculator.java&#39;); return false;"><code>InternationalizedMortgageCalculator.java</code></a>已本地化为英国，美国;英国，英国;法国，法国;法国，加拿大;和阿拉伯语，沙特阿拉伯。</p>
 
-<p>The following uses the en-US locale:</p>
+<p>以下使用en-US语言环境：</p>
 
-<center><img src="../../figures/i18n/format/mortgage-calculator-en-us.jpg" width="372" height="202" align="bottom" alt="Mortgage Calculator, en-US locale" /></center>
-<p>The following uses the ar-SA locale:</p>
+<center><img src="../../figures/i18n/format/mortgage-calculator-en-us.jpg" width="372" height="202" align="bottom" alt="按揭计算器，en-US区域设置"></center>
+<p>以下使用ar-SA语言环境：</p>
 
-<center><img src="../../figures/i18n/format/mortgage-calculator-ar-sa.jpg" width="362" height="202" align="bottom" alt="Mortgage Calculator, ar-SA locale" /></center>
+<center><img src="../../figures/i18n/format/mortgage-calculator-ar-sa.jpg" width="362" height="202" align="bottom" alt="抵押贷款计算器，ar-SA区域"></center>
 
-<p>Note that the components have been laid out in the same direction as the corresponding locale: left-to-right for en-US and right-to-left for ar-SA. The
-<a class="SourceLink" target="_blank" href="../format/examples/InternationalizedMortgageCalculator.java" onclick="showCode('../../displayCode.html', '../format/examples/InternationalizedMortgageCalculator.java'); return false;"><code>InternationalizedMortgageCalculator.java</code></a> sample calls the methods
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/awt/Component.html#applyComponentOrientation-java.awt.ComponentOrientation-"><code>applyComponentOrientation</code></a> and
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/awt/ComponentOrientation.html#getOrientation-java.util.Locale-"><code>getOrientation</code></a> to specify the direction of its components by locale:</p>
+<p>请注意，组件的布局方向与相应的区域设置相同：en-US从左到右，ar-SA从右到左。 <a class="SourceLink" href="../format/examples/InternationalizedMortgageCalculator.java" target="_blank" onclick="showCode(&#39;../../displayCode.html&#39;, &#39;../format/examples/InternationalizedMortgageCalculator.java&#39;); return false;"><code>InternationalizedMortgageCalculator.java</code></a>示例调用方法<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/java/awt/Component.html#applyComponentOrientation-java.awt.ComponentOrientation-" target="_blank"><code>applyComponentOrientation</code></a>和<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/java/awt/ComponentOrientation.html#getOrientation-java.util.Locale-" target="_blank"><code>getOrientation</code></a>以按区域设置指定其组件的方向：</p>
 
-<div class="codeblock"><pre>
-private static JFrame frame;
+<div class="codeblock"><pre>私有静态JFrame框架; // ...private static void createAndShowGUI（Locale currentLocale）{//创建并设置窗口。// ...//将内容添加到窗口。// ...frame.applyComponentOrientation（ComponentOrientation.getOrientation（currentLocale））; // ...}</pre></div>
 
-// ...
-
-private static void createAndShowGUI(Locale currentLocale) {
-
-    // Create and set up the window.
-    // ...
-    // Add contents to the window.
-    // ...
-    frame.applyComponentOrientation(
-        ComponentOrientation.getOrientation(currentLocale));
-    // ...
-  }
-</pre></div>
-
-<p>The sample
-<a class="SourceLink" target="_blank" href="../format/examples/InternationalizedMortgageCalculator.java" onclick="showCode('../../displayCode.html', '../format/examples/InternationalizedMortgageCalculator.java'); return false;"><code>InternationalizedMortgageCalculator.java</code></a> requires the following resource files:</p>
+<p>示例<a class="SourceLink" href="../format/examples/InternationalizedMortgageCalculator.java" target="_blank" onclick="showCode(&#39;../../displayCode.html&#39;, &#39;../format/examples/InternationalizedMortgageCalculator.java&#39;); return false;"><code>InternationalizedMortgageCalculator.java</code></a>需要以下资源文件：</p>
 
 <ul>
 <li>
-<a class="SourceLink" target="_blank" href="../format/examples/resources/Resources.properties" onclick="showCode('../../displayCode.html', '../format/examples/resources/Resources.properties'); return false;"><code>resources/Resources.properties</code></a></li>
+<a class="SourceLink" href="../format/examples/resources/Resources.properties" target="_blank" onclick="showCode(&#39;../../displayCode.html&#39;, &#39;../format/examples/resources/Resources.properties&#39;); return false;"><code>资源/ Resources.properties</code></a></li>
 <li>
-<a class="SourceLink" target="_blank" href="../format/examples/resources/Resources_ar.properties" onclick="showCode('../../displayCode.html', '../format/examples/resources/Resources_ar.properties'); return false;"><code>resources/Resources_ar.properties</code></a></li>
+<a class="SourceLink" href="../format/examples/resources/Resources_ar.properties" target="_blank" onclick="showCode(&#39;../../displayCode.html&#39;, &#39;../format/examples/resources/Resources_ar.properties&#39;); return false;"><code>资源/ Resources_ar.properties</code></a></li>
 <li>
-<a class="SourceLink" target="_blank" href="../format/examples/resources/Resources_fr.properties" onclick="showCode('../../displayCode.html', '../format/examples/resources/Resources_fr.properties'); return false;"><code>resources/Resources_fr.properties</code></a></li>
+<a class="SourceLink" href="../format/examples/resources/Resources_fr.properties" target="_blank" onclick="showCode(&#39;../../displayCode.html&#39;, &#39;../format/examples/resources/Resources_fr.properties&#39;); return false;"><code>资源/ Resources_fr.properties</code></a></li>
 </ul>
 
 
         </div>
         <div class="NavBit">
-            <a target="_top" href="normalizerapi.html">&laquo; Previous</a>
-            &bull;
-            <a target="_top" href="../TOC.html">Trail</a>
-            &bull;
-            <a target="_top" href="../network/index.html">Next &raquo;</a>
+            <a href="normalizerapi.html" target="_top">«上一页</a> • <a href="../TOC.html" target="_top">小道</a> • <a href="../network/index.html" target="_top">下一页»</a>
         </div>
     </div>
     
-<hr class="clearfloat"/>
+<hr class="clearfloat">
 
 <div id="Footer">
 
 <p class="footertext">
-<a href="http://www.oracle.com/corporate/index.html">About Oracle</a> | 
-<a href="http://www.oracle.com/us/corporate/contact/index.html">Contact Us</a> |
-<a href="http://www.oracle.com/us/legal/index.html">Legal Notices</a> | 
-<a href="http://www.oracle.com/us/legal/terms/index.html">Terms of Use</a> |
-<a href="http://www.oracle.com/us/legal/privacy/index.html">Your Privacy Rights</a></p>
+<a href="http://www.oracle.com/corporate/index.html">关于Oracle</a> | <a href="http://www.oracle.com/us/corporate/contact/index.html">联系我们</a> | <a href="http://www.oracle.com/us/legal/index.html">法律声明</a> | <a href="http://www.oracle.com/us/legal/terms/index.html">使用条款</a> | <a href="http://www.oracle.com/us/legal/privacy/index.html">您的隐私权</a></p>
 
-<p class="footertext"><a href="http://www.oracle.com/pls/topic/lookup?ctx=cpyr&id=en-US">
-Copyright &copy; 1995, 2017 Oracle and/or its affiliates. All rights reserved.</a></p>
+<p class="footertext"><a href="http://www.oracle.com/pls/topic/lookup?ctx=cpyr&amp;id=en-US">版权所有©1995,2017 Oracle和/或其附属公司。版权所有。</a></p>
        
 </div>    
     <div class="PrintHeaders">
-        <b>Previous page:</b> Normalizing Text
-        <br /><b>Next page:</b> Internationalization of Network Resources
-    </div>
+        <b>上一页：</b>规范化文本<br><b>下一页：</b>网络资源国际化</div>
 <!-- Start SiteCatalyst code -->
 <script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
 <!-- End SiteCatalyst code --> 
 </body>
-</html> 
+</html>

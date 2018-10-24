@@ -1,368 +1,311 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    
-
-<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+﻿<html lang="en-US" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Language Tag Filtering and Lookup (The Java&trade; Tutorials &gt;        
-            Internationalization &gt; Setting the Locale)
-</title>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-     <meta name="description" content="This internationalization Java tutorial describes setting locale, isolating locale-specific data, formatting data, internationalized domain name and resource identifier" />
-     <meta name="keywords" content="java programming, learn java, java sample code, i18n, internationalization, locale, text formatting" />
+        <title>语言标记过滤和查找（Java™教程&gt;国际化&gt;设置区域设置）</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+     <meta name="description" content="This internationalization Java tutorial describes setting locale, isolating locale-specific data, formatting data, internationalized domain name and resource identifier"></meta>
+     <meta name="keywords" content="java programming, learn java, java sample code, i18n, internationalization, locale, text formatting"></meta>
         
-<style type="text/css">
-    body {
-        margin-left:10px;
-        margin-right:10px;
-        line-height: 1.5;
-        FONT-FAMILY: Arial, Helvetica, sans-serif; 
-        font-size: 0.8em;
-    }
-    
-    a:link{text-decoration:none; color:#09569d;}
-    a:visited{text-decoration:none; color: #3a87cf;}
-    a:hover{text-decoration:underline; }
-        
-    code{
-        font-family:Monaco,Courier,"Courier New";
-    }
-    
-    .header-container {
-        background-color: #fff;
-        border-bottom: 1px solid #C1CFDA;
-        -webkit-box-shadow: 0 2px 2px rgba(117, 163, 231, 0.1);
-        box-shadow: 0 2px 2px rgba(117, 163, 231, 0.1);
-    }
-    
-    .bookwrapper {
-        width: auto;
-        margin: auto;
-    }
-    
-    .clearfix {
-    }
-    
-    .clearfloat {
-        clear: both;
-        overflow: auto;
-        height: 0px;
-        font-size: 1px;
-        line-height: 0px;
-    }
-    
-    #brandProdName {
-        width: auto;
-        height: auto;
-    }
-    
-    #logocover {
-        display: block;
-        background: transparent url(../../images/oracle-java-logo.png) 0px 0px no-repeat;
-        height: 50px;
-        width: 229px;
-        float: left;
-    }
-    
-    #productName {
-        font-size: 16px;
-        position: relative;
-        top: 19px;
-        padding-left: 3px;
-        color: #457798;
-        white-space: nowrap;
-        width: 340px;
-    }
-
-
-    .FigureCaption   { 
-        font-family: sans-serif; 
-        text-align: center;
-    }
-    
-    #TopBar_bl {        
-        width: 100%;
-        height: 60px;
-    }
-    #TopBar_br {
-        width: 100%;
-        height: 60px;
-    }
-    #TopBar_tl {
-        margin-left: -110px;
-        margin-right: -100px;       
-		align: left;
-        height: 60px;
-    }
-    #TopBar_tr {
-        width: 100%;
-        height: 60px;
-    }
-    
-    #TopBar {
-        min-width:700px;
-        padding:25px 100px 10px;
-        margin-bottom:25px;
-        clear:both;
-        
-        border-bottom:1px solid #d2dde5;
-        border-radius: 3px;
-    
-        background:#efefef; /* Old browsers */
-        /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlMmVmZjkiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-        background: -moz-linear-gradient(top,  #ffffff 0%, #e2eff9 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e2eff9)); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top,  #ffffff 0%,#e2eff9 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(top,  #ffffff 0%,#e2eff9 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(top,  #ffffff 0%,#e2eff9 100%); /* IE10+ */
-        background: linear-gradient(to bottom,  #ffffff 0%,#e2eff9 100%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e2eff9',GradientType=0 ); /* IE6-8 */
-        
-    }
-    
-    #TopBar_left {
-        line-height: 14px;
-        position: absolute;
-        padding-top: 30px;
-        padding-right: 30px;
-        padding-left: 30px;
-        text-align: left;
-        font: 13px/20px Arial, Helvetica, sans-serif;
-        font-weight: bold;
-        font-size: 20px;
-        color: #333;
-    }
-    
-    #TopBar_right {
-        line-height: 12px;
-        float: right;
-        padding-top: 10px;
-        padding-right: 30px;
-        text-align: left;
-    }
-    
-
-    @media print {
-        #BreadCrumbs, #Download {
-            display: none;
-        }
-    }
-    
-     
-    @media print {
-        #TopBar_right {
-            display: none;
-        }
-    }
-    #TopBar_right a {
-        font-size: 10px;
-        margin: 3px;
-        padding: 0;
-    }
- 
-    #BreadCrumbs {
-        padding: 15px 5px 0.5em 0;
-        font-family: sans-serif; 
-        float: right;
-    }
-    
-    #BreadCrumbs a {
-        color:#09569d;
-    }
-    
-    #BreadCrumbs a:visited, #BreadCrumbs a:link {
-        text-decoration: none;
-    }
-    
-    #BreadCrumbs a:hover, #BreadCrumbs a:active {
-        text-decoration: underline;
-    }
-    
-    #PageTitle {
-        margin: 0 5px 0.5em 0;
-        color: #F90000;
-    }
-    
-    #PageContent{
-        margin: 0 5px 0 20px;
-    }
-    
-    .LeftBar_shown {
-        width: 13em;
-        float: left;
-    }
-    
-    @media print {
-        .LeftBar_shown {
-            display: none;
-        }
-    }
-    
-    .LeftBar_hidden {
-        display: none;
-    }
-    
-    #Footer {
-        padding-top: 10px;
-        padding-left: 10px;
-        margin-right: 10px;       
-    }
-    
-    .footertext {
-        font-size: 10px;
-        font-family: sans-serif; 
-        margin-top: 1px;
-    }
-
-    .NavBit  {
-        padding: 15px 5px 0.5em 0;
-        font-family: sans-serif; 
-    }
-    
-    @media print {
-        .NavBit {
-            display: none;
-        }
-    }
-    
-    #TagNotes {
-        text-align: right;        
-    }
-    
-    @media print {
-        #TagNotes a:visited, #TagNotes a:link {
-            color: #35556B;
-            text-decoration: none;
-        }
-    }
-    
-    #Contents a, .NavBit a, #TagNotes a {
-        color:#09569d;
-    }
-    
-    #TagNotes a:visited, #TagNotes a:link,
-    #Contents a:visited, #Contents a:link,
-    .NavBit a:visited, .NavBit a:link {
-        text-decoration: none;
-    }
-    
-    #TagNotes a:hover, #TagNotes a:active,   
-    #Contents a:hover, #Contents a:active,   
-    .NavBit a:hover, .NavBit a:active {  
-        text-decoration: underline;
-    }
-    
-    #Contents {
-        float: left;
-        font-family: sans-serif; 
-    }
-    @media print {
-        #Contents {
-            display: none;
-        }
-    }
-    @media screen {
-        div.PrintHeaders {
-            display: none;
-        }
-    }
-    .linkLESSON, .nolinkLESSON {
-        margin-left: 0.5em;
-        text-indent: -0.5em;
-    }
-    .linkAHEAD, .nolinkAHEAD, .linkQUESTIONS, .nolinkQUESTIONS   {
-        margin-left: 1.5em; 
-        text-indent: -0.5em
-    }
-    .linkBHEAD, .nolinkBHEAD   {
-        margin-left: 2.5em;
-        text-indent: -0.5em
-    }
-    .linkCHEAD, .nolinkCHEAD   {
-        margin-left: 3.5em;
-        text-indent: -0.5em
-    }
-    .nolinkLESSON, .nolinkAHEAD, .nolinkBHEAD, .nolinkCHEAD,
-    .nolinkQUESTIONS {
-        font-weight: bold;
-        color: #333;
-		
-		
-    }
-    .MainFlow_indented {
-        margin-right: 10px;
-        margin-left: 15em;
-        margin-bottom: 2em;
-
-    }
-    .MainFlow_wide {
-	
-        margin-right: 10px;
-        margin-left: 10px;
-        margin-bottom: 2em;
-
-    }
-    @media print {
-        .MainFlow_indented, .MainFlow_wide {
-            padding-top: 0;
-            margin-top: 10px;
-            margin-right: 10px;
-            margin-left: 0;
-        }
-    }
-    h1, h2, h3, h4, h5 {
-        color: #333;
-        
-    }
-
-    h1 {
-        font-weight: bold;
-        font-size: 20px;
-    }
-
-    h2 {
-        font-weight: bold;
-        font-size: 17px;
-    }
-
-    h3 {
-        font-weight: bold;
-        font-size: 14px;
-    }
-
-    h4 {
-        font-size: 15px;
-    }
-
-    h5 {
-        font-size: 12px;
-    }
-
-
-    #ToggleLeft {
-        display: none;
-    }
-    
-    .note {
-        margin: 0 30px 0px 30px;
-    }
-    
-    .codeblock {
-        margin: 0 30px 0px 30px;
-		font-size:12px;
-		font-family:Monaco,Courier,"Courier New";
-    }
-    
-    .tocli {
-        list-style-type:none;
-    }
-
-    .betadraft {
-        color: red;
-    }
-
+<style type="text/css">body {
+  margin-left: 10px;
+  margin-right: 10px;
+  line-height: 1.5;
+  FONT-FAMILY: Arial,Helvetica,sans-serif;
+  font-size: 0.8em;
+}
+a:link {
+  text-decoration: none;
+  color: #09569d;
+}
+a:visited {
+  text-decoration: none;
+  color: #3a87cf;
+}
+a:hover {
+  text-decoration: underline;
+}
+code {
+  font-family: Monaco,Courier,"Courier New";
+}
+.header-container {
+  background-color: #fff;
+  border-bottom: 1px solid #c1cfda;
+  -webkit-box-shadow: 0 2px 2px rgba(117,163,231,0.1);
+  box-shadow: 0 2px 2px rgba(117,163,231,0.1);
+}
+.bookwrapper {
+  width: auto;
+  margin: auto;
+}
+.clearfix {
+}
+.clearfloat {
+  clear: both;
+  overflow: auto;
+  height: 0px;
+  font-size: 1px;
+  line-height: 0px;
+}
+#brandProdName {
+  width: auto;
+  height: auto;
+}
+#logocover {
+  display: block;
+  background: transparent url('../../images/oracle-java-logo.png') 0px 0px no-repeat;
+  height: 50px;
+  width: 229px;
+  float: left;
+}
+#productName {
+  font-size: 16px;
+  position: relative;
+  top: 19px;
+  padding-left: 3px;
+  color: #457798;
+  white-space: nowrap;
+  width: 340px;
+}
+.FigureCaption {
+  font-family: sans-serif;
+  text-align: center;
+}
+#TopBar_bl {
+  width: 100%;
+  height: 60px;
+}
+#TopBar_br {
+  width: 100%;
+  height: 60px;
+}
+#TopBar_tl {
+  margin-left: -110px;
+  margin-right: -100px;
+  align: left;
+  height: 60px;
+}
+#TopBar_tr {
+  width: 100%;
+  height: 60px;
+}
+#TopBar {
+  min-width: 700px;
+  padding: 25px 100px 10px;
+  margin-bottom: 25px;
+  clear: both;
+  border-bottom: 1px solid #d2dde5;
+  border-radius: 3px;
+  background: #efefef;
+  /* Old browsers */
+  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+  
+  background: -moz-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#e2eff9));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,#ffffff 0%,#e2eff9 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom,#ffffff 0%,#e2eff9 100%);
+  /* W3C */
+  /* IE6-8 */
+}
+#TopBar_left {
+  line-height: 14px;
+  position: absolute;
+  padding-top: 30px;
+  padding-right: 30px;
+  padding-left: 30px;
+  text-align: left;
+  font: 13px/20px Arial,Helvetica,sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  color: #333;
+}
+#TopBar_right {
+  line-height: 12px;
+  float: right;
+  padding-top: 10px;
+  padding-right: 30px;
+  text-align: left;
+}
+@media print {
+  #BreadCrumbs, #Download {
+    display: none;
+  }
+}
+@media print {
+  #TopBar_right {
+    display: none;
+  }
+}
+#TopBar_right a {
+  font-size: 10px;
+  margin: 3px;
+  padding: 0;
+}
+#BreadCrumbs {
+  padding: 15px 5px 0.5em 0;
+  font-family: sans-serif;
+  float: right;
+}
+#BreadCrumbs a {
+  color: #09569d;
+}
+#BreadCrumbs a:visited, #BreadCrumbs a:link {
+  text-decoration: none;
+}
+#BreadCrumbs a:hover, #BreadCrumbs a:active {
+  text-decoration: underline;
+}
+#PageTitle {
+  margin: 0 5px 0.5em 0;
+  color: #f90000;
+}
+#PageContent {
+  margin: 0 5px 0 20px;
+}
+.LeftBar_shown {
+  width: 13em;
+  float: left;
+}
+@media print {
+  .LeftBar_shown {
+    display: none;
+  }
+}
+.LeftBar_hidden {
+  display: none;
+}
+#Footer {
+  padding-top: 10px;
+  padding-left: 10px;
+  margin-right: 10px;
+}
+.footertext {
+  font-size: 10px;
+  font-family: sans-serif;
+  margin-top: 1px;
+}
+.NavBit {
+  padding: 15px 5px 0.5em 0;
+  font-family: sans-serif;
+}
+@media print {
+  .NavBit {
+    display: none;
+  }
+}
+#TagNotes {
+  text-align: right;
+}
+@media print {
+  #TagNotes a:visited, #TagNotes a:link {
+    color: #35556b;
+    text-decoration: none;
+  }
+}
+#Contents a, .NavBit a, #TagNotes a {
+  color: #09569d;
+}
+#TagNotes a:visited, #TagNotes a:link, #Contents a:visited, #Contents a:link, .NavBit a:visited, .NavBit a:link {
+  text-decoration: none;
+}
+#TagNotes a:hover, #TagNotes a:active, #Contents a:hover, #Contents a:active, .NavBit a:hover, .NavBit a:active {
+  text-decoration: underline;
+}
+#Contents {
+  float: left;
+  font-family: sans-serif;
+}
+@media print {
+  #Contents {
+    display: none;
+  }
+}
+@media screen {
+  div.PrintHeaders {
+    display: none;
+  }
+}
+.linkLESSON, .nolinkLESSON {
+  margin-left: 0.5em;
+  text-indent: -0.5em;
+}
+.linkAHEAD, .nolinkAHEAD, .linkQUESTIONS, .nolinkQUESTIONS {
+  margin-left: 1.5em;
+  text-indent: -0.5em;
+}
+.linkBHEAD, .nolinkBHEAD {
+  margin-left: 2.5em;
+  text-indent: -0.5em;
+}
+.linkCHEAD, .nolinkCHEAD {
+  margin-left: 3.5em;
+  text-indent: -0.5em;
+}
+.nolinkLESSON, .nolinkAHEAD, .nolinkBHEAD, .nolinkCHEAD, .nolinkQUESTIONS {
+  font-weight: bold;
+  color: #333;
+}
+.MainFlow_indented {
+  margin-right: 10px;
+  margin-left: 15em;
+  margin-bottom: 2em;
+}
+.MainFlow_wide {
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 2em;
+}
+@media print {
+  .MainFlow_indented, .MainFlow_wide {
+    padding-top: 0;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-left: 0;
+  }
+}
+h1, h2, h3, h4, h5 {
+  color: #333;
+}
+h1 {
+  font-weight: bold;
+  font-size: 20px;
+}
+h2 {
+  font-weight: bold;
+  font-size: 17px;
+}
+h3 {
+  font-weight: bold;
+  font-size: 14px;
+}
+h4 {
+  font-size: 15px;
+}
+h5 {
+  font-size: 12px;
+}
+#ToggleLeft {
+  display: none;
+}
+.note {
+  margin: 0 30px 0px 30px;
+}
+.codeblock {
+  margin: 0 30px 0px 30px;
+  font-size: 12px;
+  font-family: Monaco,Courier,"Courier New";
+}
+.tocli {
+  list-style-type: none;
+}
+.betadraft {
+  color: red;
+}
 </style>
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -414,7 +357,7 @@
     function showCode(displayCodePage, codePath) {
         var codePathEls = codePath.split("/");
         var currDocPathEls = location.href.split("/");
-        //alert ("codePathEls = " + codePathEls + "\n" + "currDocPathEls = " + currDocPathEls);
+        //alert ("codePathEls = " + codePathEls + "n" + "currDocPathEls = " + currDocPathEls);
         currDocPathEls.pop(); // remove file name at the end
         while (codePathEls.length > 0) {
             if (codePathEls[0] == "..") {
@@ -437,18 +380,17 @@
 
 
     <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
-<body onload="load()">
-    <noscript>
-        A browser with JavaScript enabled is required for this page to operate properly.
+<body dir="ltr" onload="load()">
+    <noscript>启用了JavaScript的浏览器需要此页面正常运行。
     </noscript>
         <!-- header -->
     <div class="header-container">
         <div class="bookwrapper  clearfix">       
             <div id="brandProdName">
                 <div id="logocover"></div>
-                <div id="productName" >Documentation</div>
+                <div id="productName">文档</div>
             </div> 
-            <br class="clearfloat" />
+            <br class="clearfloat">
         </div>
     </div>
     
@@ -456,12 +398,11 @@
         <div id="TopBar_tr">
             <div id="TopBar_tl">
                 <div id="TopBar_br"> <div id="TopBar_bl"> 
-                    <div id="TopBar_left">The Java&trade; Tutorials</div>
+                    <div id="TopBar_left">Java™教程</div>
                         <div id="TopBar_right"> 
                             <!--
                             <a href="URL" target="_blank">External Link</a><br/>
-                            --> 
-                            <a href="javascript:toggleLeft()" id="ToggleLeft">Hide TOC</a>
+                            --> <a href="javascript:void(0);" id="ToggleLeft">隐藏TOC</a>
                         </div>
                     </div>
                 </div>
@@ -472,422 +413,158 @@
 
     <div id="LeftBar" class="LeftBar_shown">
         <div id="Contents">
-            <div class="linkLESSON"><a href="index.html">Setting the Locale</a></div>
-<div class="linkAHEAD"><a href="create.html">Creating a Locale</a></div>
-<div class="linkAHEAD"><a href="extensions.html">BCP 47 Extensions</a></div>
-<div class="linkAHEAD"><a href="identify.html">Identifying Available Locales</a></div>
-<div class="nolinkAHEAD">Language Tag Filtering and Lookup</div>
-<div class="linkAHEAD"><a href="scope.html">The Scope of a Locale</a></div>
-<div class="linkAHEAD"><a href="services.html">Locale-Sensitive Services SPI</a></div>
+            <div class="linkLESSON"><a href="index.html">设置区域设置</a></div>
+<div class="linkAHEAD"><a href="create.html">创建区域设置</a></div>
+<div class="linkAHEAD"><a href="extensions.html">BCP 47扩展</a></div>
+<div class="linkAHEAD"><a href="identify.html">识别可用的语言环境</a></div>
+<div class="nolinkAHEAD">语言标记过滤和查找</div>
+<div class="linkAHEAD"><a href="scope.html">区域设置的范围</a></div>
+<div class="linkAHEAD"><a href="services.html">区域敏感服务SPI</a></div>
 </div>
     </div>
     <div id="MainFlow" class="MainFlow_indented">
     <div class="PrintHeaders">
-        <b>Trail:</b> Internationalization
-        <br /><b>Lesson:</b> Setting the Locale
-    </div>
+        <b>小径：</b>国际化<br><b>课程：</b>设置区域设置</div>
             <div id="BreadCrumbs">
-                <a href="../../index.html" target="_top">Home Page</a>
-                &gt;
-                <a href="../index.html" target="_top">Internationalization</a>
-                &gt;
-                <a href="index.html" target="_top">Setting the Locale</a>
+                <a href="../../index.html" target="_top">主页</a> &gt; <a href="../index.html" target="_top">国际化</a> &gt; <a href="index.html" target="_top">设置区域设置</a>
             </div>
             <div class="NavBit">
-                <a target="_top" href="identify.html">&laquo;&nbsp;Previous</a>&nbsp;&bull;&nbsp;<a target="_top" href="../TOC.html">Trail</a>&nbsp;&bull;&nbsp;<a target="_top" href="scope.html">Next&nbsp;&raquo;</a>
+                <a href="identify.html" target="_top">«上一页</a> • <a href="../TOC.html" target="_top">小道</a> • <a href="scope.html" target="_top">下一页»</a>
             </div>
-            <div class="Banner"><p style="background-color: rgb(247, 248, 249); border-width: 1px; padding: 10px; font-style: italic; border-style: solid; border-color: rgb(64, 74, 91);">The Java Tutorials have been written for JDK 8. Examples and practices described in this page don't take advantage of improvements introduced in later releases.</p></div>
-            <div id="PageTitle"><h1>Language Tag Filtering and Lookup</h1></div>
+            <div class="Banner"><p style="background-color:rgb(247,248,249);border-width:1px;padding:10px;font-style:italic;border-style:solid;border-color:rgb(64,74,91)">Java教程是为JDK 8编写的。本页中描述的示例和实践未利用后续版本中引入的改进。</p></div>
+            <div id="PageTitle"><h1>语言标记过滤和查找</h1></div>
             <div id="PageContent">
 
 
 <!-- Language tag filtering and lookup -->
 
-<p>
-The Java Programming language contains internationalization support for language tags, language tag filtering, and language tag lookup. These features are specified by 
+<p>Java编程语言包含对语言标记，语言标记过滤和语言标记查找的国际化支持。这些功能由<a class="OutsideLink" href="http://tools.ietf.org/html/bcp47" target="_blank">IETF BCP 47</a>指定，其中包含<a class="OutsideLink" href="http://tools.ietf.org/html/rfc5646" target="_blank">RFC 5646“用于识别语言的标签”</a>和<a class="OutsideLink" href="http://tools.ietf.org/html/rfc4647" target="_blank">RFC 4647“语言标签的匹配”。</a>本课程描述了如何在JDK中提供此支持。</p>
 
 
-<a class="OutsideLink" target="_blank" href="http://tools.ietf.org/html/bcp47">IETF BCP 47</a>
-, which contains  
+<h2><a name="what-tags" id="what-tags">什么是语言标签？</a></h2>
 
+<p>语言标签是特殊格式的字符串，提供有关特定语言的信息。语言标签可能是简单的东西（例如英语中的“en”），复杂的东西（例如中文中使用的“zh-cmn-Hans-CN”，普通话，简体中文），或介于两者之间的东西（例如“sr-Latn”，塞尔维亚语用拉丁文写成）。语言标签由连字符分隔的“子标签”组成;在整个API文档中使用此术语。
+</p>
+<p><a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.html" target="_blank"><code>java.util.Locale</code></a>类提供对语言标记的支持。<code>Locale</code>包含几个不同的字段：语言（例如英语的“en”或日语的“ja”），脚本（例如拉丁语的“Latn”或西里尔语的“Cyrl”），国家（例如“US”表示美国或法国的“FR”），变体（表示某种语言环境的变体）和扩展（它提供单个字符键到<code>String</code>值的映射，表示除语言标识之外的扩展）。要从语言标记<code>String</code>创建<code>Locale</code>对象，请调用<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.html#forLanguageTag-java.lang.String-" target="_blank"><code>Locale.forLanguageTag(String)</code></a> ，将语言标记作为唯一参数传入。这样做会创建并返回一个新的<code>Locale</code>对象，以便在您的应用程序中使用。
+</p>
+<p>例1：</p>
+<div class="codeblock"><pre>package languagetagdemo; import java.util。区域设置; public class LanguageTagDemo {public static void main（String [] args）{Locale l = Locale.forLanguageTag（“en-US”）; }}</pre></div>
 
-<a class="OutsideLink" target="_blank" href="http://tools.ietf.org/html/rfc5646">RFC 5646 &quot;Tags for Identifying Languages&quot;</a>
-and 
-
-<a class="OutsideLink" target="_blank" href="http://tools.ietf.org/html/rfc4647">RFC 4647 &quot;Matching of Language Tags.&quot;</a>
-This lesson describes how this support is provided in the JDK. 
+<p>请注意，Locale API仅要求您的语言标记在语法上格式良好。它不执行任何额外验证（例如检查标签是否在IANA语言子标签注册表中注册）。
 </p>
 
+<h2><a name="what-ranges" id="what-ranges">什么是语言范围？</a></h2>
 
-<h2><a name="what-tags" id="what-tags">What Are Language Tags?</a></h2>
-
-<p>
-Language tags are specially formatted strings that provide information about a particular language. A language tag might be something simple (such as "en" for English), something complex (such as "zh-cmn-Hans-CN" for Chinese, Mandarin, Simplified script, as used in China), or something in between (such as "sr-Latn", for Serbian written using Latin script). Language tags consist of &quot;subtags&quot; separated by hyphens; this terminology is used throughout the API documentation.
+<p>语言范围（由类<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.LanguageRange.html" target="_blank"><code>java.util.表示<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.LanguageRange.html" target="_blank"><code>java.util.语言环境。LanguageRange</code></a> ）标识共享特定属性的语言标记集。语言范围分为基本或扩展，与语言标签类似，因为它们由连字符分隔的子标签组成。基本语言范围的示例包括“en”（英语），“ja-JP”（日语，日语）和“*”（与任何语言标签匹配的特殊语言范围）。扩展语言范围的示例包括“* -CH”（任何语言，瑞士），“es- *”（西班牙语，任何地区）和“zh-Hant- *”（繁体中文，任何地区）。
 </p>
-<p>
-The 
-
-
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.html"><code>java.util.Locale</code></a> class provides support for language tags. A <code>Locale</code> contains several different fields: language (such as "en" for English, or "ja" for Japanese), script (such as "Latn" for Latin or "Cyrl" for Cyrillic), country (such as "US" for United States or "FR" for France), variant (which indicates some variant of a locale), and extensions (which provides a map of single character keys to <code>String</code> values, indicating extensions apart from language identification).
-To create a <code>Locale</code> object from a language tag <code>String</code>, invoke 
-
-
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.html#forLanguageTag-java.lang.String-"><code>Locale.forLanguageTag(String)</code></a>, passing in the language tag as its only argument. Doing so creates and returns a new <code>Locale</code>
- object for use in your application.
-</p>
-<p>
-Example 1:
-</p>
-<div class="codeblock"><pre>
-package languagetagdemo;
-
-import java.util.Locale;
-
-public class LanguageTagDemo {
-     public static void main(String[] args) {
-         Locale l = Locale.forLanguageTag("en-US");
-     }
-}
-</pre></div>
-
-<p>
-Note that the Locale API only requires that your language tag be syntactically well-formed. It does not perform any extra validation (such as checking to see if the tag is registered in the IANA Language Subtag Registry).
+<p>此外，语言范围可以存储在语言优先级列表中，这使得用户能够在加权列表中优先考虑他们的语言偏好。语言优先级列表通过将<code>LanguageRange</code>对象放入<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html" target="_blank"><code>java.util.来表示<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html" target="_blank"><code>java.util.List</code></a> ，然后可以传递给接受<code>LanguageRange</code>对象<code>List</code>的<code>Locale</code>方法。
 </p>
 
-<h2><a name="what-ranges" id="what-ranges">What Are Language Ranges?</a></h2>
+<h2><a name="creating-range" id="creating-range">创建语言范围</a></h2>
 
-<p>
-Language ranges (represented by class 
-
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.LanguageRange.html"><code>java.util.Locale.LanguageRange</code></a>) identify sets of language tags that share specific attributes. Language ranges are classified as either basic or extended, and are similar to language tags in that they consist of subtags separated by hyphens. Examples of basic language ranges include "en" (English), "ja-JP" (Japanese, Japan), and "*" (a special language range which matches any language tag). Examples of extended language ranges include "*-CH" (any language, Switzerland), "es-*" (Spanish, any regions), and "zh-Hant-*" (Traditional Chinese, any region).
-</p>
-<p>
-Furthermore, language ranges may be stored in Language Priority Lists, which enable users to prioritize their language preferences in a weighted list. Language Priority Lists are expressed by placing <code>LanguageRange</code> objects into a 
-
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html"><code>java.util.List</code></a>, which can then be passed to the <code>Locale</code> methods that accept a <code>List</code> of <code>LanguageRange</code> objects.
-</p>
-
-<h2><a name="creating-range" id="creating-range">Creating a Language Range</a></h2>
-
-<p>
-The 
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.LanguageRange.html"><code>Locale.LanguageRange</code></a> class provides two different constructors for creating language ranges:
-</p>
+<p><a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.LanguageRange.html" target="_blank"><code>Locale.LanguageRange</code></a>类提供了两种不同的构造函数来创建语言范围：</p>
 <ul>
-   <li><code>public Locale.LanguageRange(String range)</code></li>
+   <li><code>公共区域设置。LanguageRange（字符串范围）</code></li>
 
-   <li><code>public Locale.LanguageRange(String range, double weight)</code></li>
+   <li><code>公共区域设置。LanguageRange（字符串范围，双倍权重）</code></li>
 </ul>
-<p>
-The only difference between them is that the second version allows a weight to be specified; this weight will be considered if the range is placed into a Language Priority List.
+<p>它们之间的唯一区别是第二个版本允许指定权重;如果将范围放入语言优先级列表，则将考虑此权重。
 </p>
 <p>
-<code>Locale.LanguageRange</code> also specifies some constants to be used with these constructors:
-</p>
+<code>语言环境。LanguageRange</code>还指定了一些与这些构造函数一起使用的常量：</p>
 <ul>
     <li><code>public static final double MAX_WEIGHT</code></li>
 
     <li><code>public static final double MIN_WEIGHT</code></li>
 </ul>
-<p>
-The <code>MAX_WEIGHT</code> constant holds a value of 1.0, which indicates that it is a good fit for the user. The <code>MIN_WEIGHT</code> constant holds a value of 0.0, indicating that it is not.
+<p><code>MAX_WEIGHT</code>常量值为1.0，表示它非常适合用户。<code>MIN_WEIGHT</code>常量保持值0.0，表示不是。
 </p>
 
-<p>
-Example 2:
-</p>
-<div class="codeblock"><pre>
-package languagetagdemo;
-
-import java.util.Locale;
-
-public class LanguageTagDemo {
-
-     public static void main(String[] args) {
-         // Create Locale
-         Locale l = Locale.forLanguageTag("en-US");
-
-         // Define Some LanguageRange Objects
-         Locale.LanguageRange range1 = new Locale.LanguageRange("en-US",Locale.LanguageRange.MAX_WEIGHT);
-         Locale.LanguageRange range2 = new Locale.LanguageRange("en-GB*",0.5);
-         Locale.LanguageRange range3 = new Locale.LanguageRange("fr-FR",Locale.LanguageRange.MIN_WEIGHT);
-     }
-}
-</pre></div>
+<p>例2：</p>
+<div class="codeblock"><pre>package languagetagdemo; import java.util。区域设置; public class LanguageTagDemo {public static void main（String [] args）{//创建Locale Locale l = Locale.forLanguageTag（“en-US”）; //定义一些LanguageRange对象区域设置。LanguageRange range1 =新的语言环境。LanguageRange（ “EN-US”，语言环境。LanguageRange。MAX_WEIGHT）;语言环境。LanguageRange range2 =新的语言环境。LanguageRange（ “EN-GB *”，0.5）;语言环境。LanguageRange range3 =新的语言环境。LanguageRange（ “FR-FR”，语言环境。LanguageRange。MIN_WEIGHT）; }}</pre></div>
 
 
-<p>
-Example 2 creates three language ranges: English (United States), English (Great Britain), and French (France). These ranges are weighted to express the user's preferences, in order from most preferred to least preferred.
+<p>示例2创建了三种语言范围：英语（美国），英语（英国）和法语（法国）。按照从最优选到最不优选的顺序对这些范围进行加权以表示用户的偏好。
 </p>
 
 
-<h2><a name="creating-lpl" id="creating-lpl">Creating a Language Priority List</a></h2>
+<h2><a name="creating-lpl" id="creating-lpl">创建语言优先级列表</a></h2>
 
-<p>
-You can create a Language Priority List from a list of language ranges
-by using the 
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.LanguageRange.html#parse-java.lang.String-"><code>LanguageRange.parse(String)</code></a> method. This method accepts a
-list of comma-separated language ranges, performs a syntactic check for
-each language range in the given ranges, and then returns the newly
-created Language Priority List.
+<p>您可以使用<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.LanguageRange.html#parse-java.lang.String-" target="_blank"><code>LanguageRange.parse(String)</code></a>方法从语言范围列表中创建语言优先级列表。此方法接受以逗号分隔的语言范围列表，对给定范围内的每个语言范围执行语法检查，然后返回新创建的语言优先级列表。
 </p>
 
-<p>
-For detailed information about the required format of the "ranges"
-parameter, see the API specification for this method.
+<p>有关“范围”参数所需格式的详细信息，请参阅此方法的API规范。
 </p>
 
 
-<p>
-Example 3:
-</p>
-<div class="codeblock"><pre>
-package languagetagdemo;
+<p>例3：</p>
+<div class="codeblock"><pre>package languagetagdemo; import java.util。区域设置; import java.util。清单; public class LanguageTagDemo {public static void main（String [] args）{//创建Locale Locale l = Locale.forLanguageTag（“en-US”）; //创建语言优先级列表字符串范围=“en-US; q = 1.0，en-GB; q = 0.5，fr-FR; q = 0.0”;名单&lt;语言环境。LanguageRange&gt; languageRanges = Locale。LanguageRange.parse（范围）}}</pre></div>
 
-import java.util.Locale;
-
-import java.util.List;
-
-public class LanguageTagDemo {
-
-    public static void main(String[] args) {
-
-        // Create Locale
-
-        Locale l = Locale.forLanguageTag("en-US");
-
-        // Create a Language Priority List
-
-        String ranges = "en-US;q=1.0,en-GB;q=0.5,fr-FR;q=0.0";
-
-        List&lt;Locale.LanguageRange&gt; languageRanges = Locale.LanguageRange.parse(ranges)
-
-    }
-}
-</pre></div>
-
-<p>
-Example 3 creates the same three language ranges as Example 2, but
-stores them in a <code>String</code> object, which is passed to the <code>parse(String)</code>
-method. The returned <code>List</code> of <code>LanguageRange</code> objects is the Language
-Priority List.
+<p>示例3创建与示例2相同的三种语言范围，但将它们存储在<code>String</code>对象中，该对象传递给<code>parse(String)</code>方法。返回的<code>LanguageRange</code>对象<code>List</code>是语言优先级列表。
 </p>
 
-<h2><a name="filtering" id="filtering">Filtering Language Tags</a></h2>
+<h2><a name="filtering" id="filtering">过滤语言标签</a></h2>
 
-<p>
-Language tag filtering is the process of matching a set of language tags against a user's Language Priority List. The result of filtering will be a complete list of all matching results. The <code>Locale</code> class defines two filter methods that return a list of <code>Locale</code> objects. Their signatures are as follows:
-</p>
+<p>语言标记过滤是将一组语言标记与用户的语言优先级列表进行匹配的过程。过滤结果将是所有匹配结果的完整列表。<code>Locale</code>类定义了两个返回<code>Locale</code>对象列表的过滤器方法。他们的签名如下：</p>
 <ul>
     <li>
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.html#filter-java.util.List-java.util.Collection-"><code>public static List&lt;Locale&gt; filter (List&lt;Locale.LanguageRange&gt; priorityList, Collection&lt;Locale&gt; locales)</code></a>    </li>
+<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.html#filter-java.util.List-java.util.Collection-" target="_blank"><code>public static List &lt;Locale&gt; filter（List &lt;Locale。LanguageRange&gt; priorityList，Collection &lt;Locale&gt; locales）</code></a>    </li>
     <li>
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.html#filter-java.util.List-java.util.Collection-java.util.Locale.FilteringMode-"><code>public static List&lt;Locale&gt; filter (List&lt;Locale.LanguageRange&gt; priorityList, Collection&lt;Locale&gt; locales, Locale.FilteringMode mode)</code></a></li>
+<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.html#filter-java.util.List-java.util.Collection-java.util.Locale.FilteringMode-" target="_blank"><code>public static List &lt;Locale&gt; filter（List &lt;Locale。LanguageRange&gt; priorityList，Collection &lt;Locale&gt; locales，Locale。FilteringMode模式）</code></a></li>
 </ul>
-<p>
-In both methods, the first argument specifies the user's Language Priority List as described in the previous section.
+<p>在这两种方法中，第一个参数指定用户的语言优先级列表，如上一节中所述。
 </p>
-<p>
-The second argument specifies a <code>Collection</code> of <code>Locale</code> objects to match against. 
-The match itself will take place according to the rules specified by RFC 4647.
+<p>第二个参数指定要匹配的<code>Locale</code>对象的<code>Collection</code> 。匹配本身将根据RFC 4647指定的规则进行。
 </p>
-<p>
-The third argument (if provided) specifies the "filtering mode" to use. The 
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.FilteringMode.html"><code>Locale.FilteringMode</code></a> enum provides a number of different values to choose from, such as <code>AUTOSELECT_FILTERING</code> (for basic language range filtering) or <code>EXTENDED_FILTERING</code> (for extended language range filtering).
+<p>第三个参数（如果提供）指定要使用的“过滤模式”。<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.FilteringMode.html" target="_blank"><code>Locale.FilteringMode</code></a>枚举提供了许多不同的值可供选择，例如<code>AUTOSELECT_FILTERING</code> （用于基本语言范围过滤）或<code>EXTENDED_FILTERING</code> （用于扩展语言范围过滤）。
 </p>
 
-<p>
-Example 4 provides a demonstration of language tag filtering.
+<p>示例4提供了语言标记过滤的演示。
 </p>
 
-<p>
-Example 4:
+<p>例4：</p>
+<div class="codeblock"><pre>package languagetagdemo; import java.util。区域设置; import java.util。采集; import java.util。清单; import java.util。数组列表; public class LanguageTagDemo {public static void main（String [] args）{//创建一组Locale对象来过滤Collection &lt;Locale&gt; locales = new ArrayList &lt;&gt;（）; locales.add（Locale.forLanguageTag（ “EN-GB”））; locales.add（Locale.forLanguageTag（ “JA”））; locales.add（Locale.forLanguageTag（ “ZH-CMN-汉斯-CN”））; locales.add（Locale.forLanguageTag（ “EN-US”））; //使用语言优先级列表表达用户的首选项字符串范围=“en-US; q = 1.0，en-GB; q = 0.5，fr-FR; q = 0.0”;名单&lt;语言环境。LanguageRange&gt; languageRanges = Locale。LanguageRange.parse（范围）; //现在过滤Locale对象，返回任何匹配List &lt;Locale&gt; results = Locale.filter（languageRanges，locales）; //打印出匹配（Locale l：results）{System.out.println（l.toString（））; }}}</pre></div>
+
+<p>该程序的输出是：</p>
+
+<p>EN_US<br>EN_GB</p>
+<p>此返回列表根据用户语言优先级列表中指定的权重进行排序。
 </p>
-<div class="codeblock"><pre>
-package languagetagdemo;
-
-import java.util.Locale;
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-public class LanguageTagDemo {
-
-    public static void main(String[] args) {
-
-        // Create a collection of Locale objects to filter
-        Collection&lt;Locale&gt; locales = new ArrayList&lt;&gt;();
-        locales.add(Locale.forLanguageTag("en-GB"));
-        locales.add(Locale.forLanguageTag("ja"));
-        locales.add(Locale.forLanguageTag("zh-cmn-Hans-CN"));
-        locales.add(Locale.forLanguageTag("en-US"));
-
-        // Express the user's preferences with a Language Priority List
-        String ranges = "en-US;q=1.0,en-GB;q=0.5,fr-FR;q=0.0";
-        List&lt;Locale.LanguageRange&gt; languageRanges = Locale.LanguageRange.parse(ranges);
-
-        // Now filter the Locale objects, returning any matches
-        List&lt;Locale&gt; results = Locale.filter(languageRanges,locales);
-
-        // Print out the matches
-        for(Locale l : results){
-        System.out.println(l.toString());
-        }
-    }
-}
-</pre></div>
-
-<p>
-The output of this program is:
+<p><code>Locale</code>类还定义了<code>filterTags</code>方法，用于将语言标记过滤为<code>String</code>对象。
 </p>
-
-<p>
-en_US<br/>
-en_GB
-</p>
-<p>
-This returned list is ordered according to the weights specified in the user's Language Priority List.
-</p>
-<p>
-The <code>Locale</code> class also defines <code>filterTags</code> methods for filtering language tags as <code>String</code> objects.
-</p>
-<p>
-The method signatures are as follows:
-</p>
+<p>方法签名如下：</p>
 <ul>
    <li>
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.html#filterTags-java.util.List-java.util.Collection-"><code>public static List&lt;String&gt; filterTags (List&lt;Locale.LanguageRange&gt; priorityList, Collection&lt;String&gt; tags)</code></a></li>
+<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.html#filterTags-java.util.List-java.util.Collection-" target="_blank"><code>public static List &lt;String&gt; filterTags（List &lt;Locale。LanguageRange&gt; priorityList，Collection &lt;String&gt;标签）</code></a></li>
 
    <li>
-<a class="APILink" target="_blank" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.html#filterTags-java.util.List-java.util.Collection-java.util.Locale.FilteringMode-"><code>public static List&lt;String&gt; filterTags (List&lt;Locale.LanguageRange&gt; priorityList, Collection&lt;String&gt; tags, Locale.FilteringMode mode)</code></a>
+<a class="APILink" href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.html#filterTags-java.util.List-java.util.Collection-java.util.Locale.FilteringMode-" target="_blank"><code>public static List &lt;String&gt; filterTags（List &lt;Locale。LanguageRange&gt; priorityList，Collection &lt;String&gt;标签，Locale。FilteringMode模式）</code></a>
 </li>
 </ul>
-<p>
-Example 5 provides the same search as Example 4, but uses <code>String</code> objects instead of <code>Locale</code> objects.
+<p>示例5提供与示例4相同的搜索，但使用<code>String</code>对象而不是<code>Locale</code>对象。
 </p>
 
-<p>
-Example 5:
-</p>
-<div class="codeblock"><pre>
-package languagetagdemo;
-
-import java.util.Locale;
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-public class LanguageTagDemo {
-
-    public static void main(String[] args) {
-
-        // Create a collection of String objects to match against
-        Collection&lt;String&gt; tags = new ArrayList&lt;&gt;();
-        tags.add("en-GB");
-        tags.add("ja");
-        tags.add("zh-cmn-Hans-CN");
-        tags.add("en-US");
-
-        // Express user's preferences with a Language Priority List
-        String ranges = "en-US;q=1.0,en-GB;q=0.5,fr-FR;q=0.0";
-        List&lt;Locale.LanguageRange&gt; languageRanges = Locale.LanguageRange.parse(ranges);
-
-        // Now search the locales for the best match
-        List&lt;String&gt; results = Locale.filterTags(languageRanges,tags);
-
-        // Print out the matches
-        for(String s : results){
-            System.out.println(s);
-        }
-    }
-} 
+<p>例5：</p>
+<div class="codeblock"><pre>package languagetagdemo; import java.util。区域设置; import java.util。采集; import java.util。清单; import java.util。数组列表; public class LanguageTagDemo {public static void main（String [] args）{//创建一个String对象的集合以匹配Collection &lt;String&gt; tags = new ArrayList &lt;&gt;（）; tags.add（ “EN-GB”）; tags.add（ “JA”）; tags.add（ “ZH-CMN-汉斯-CN”）; tags.add（ “EN-US”）; //使用语言优先级列表表达用户的首选项字符串范围=“en-US; q = 1.0，en-GB; q = 0.5，fr-FR; q = 0.0”;名单&lt;语言环境。LanguageRange&gt; languageRanges = Locale。LanguageRange.parse（范围）; //现在搜索locales以获得最佳匹配List &lt;String&gt; results = Locale.filterTags（languageRanges，tags）; //打印出（String s：results）{System.out.println（s）; }}}</pre></div>
 
 
-</pre></div>
-
-
-<p>
-As before, the search will match and return "en-US" and "en-GB" (in that order).
+<p>和以前一样，搜索将匹配并返回“en-US”和“en-GB”（按此顺序）。
 </p>
 
-<h2><a name="lookup" id="lookup">Performing Language Tag Lookup</a></h2>
-<p>
-In contrast to language tag filtering, language tag lookup is the process of matching language ranges to sets of language tags and returning the one language tag that best matches the range. RFC4647 states that: &quot;Lookup produces the single result that best matches the user's preferences from the list of available tags, so it is useful in cases in which a single item is required (and for which only a single item can be returned). For example, if a process were to insert a human-readable error message into a protocol header, it might select the text based on the user's language priority list. Since the process can return only one item, it is forced to choose a single item and it has to return some item, even if none of the content's language tags match the language priority list supplied by the user.&quot;
+<h2><a name="lookup" id="lookup">执行语言标记查找</a></h2>
+<p>与语言标记过滤相反，语言标记查找是将语言范围与语言标记集匹配并返回与该范围最匹配的一种语言标记的过程。RFC4647声明：“查找从可用标记列表中生成最符合用户首选项的单个结果，因此在需要单个项目（并且只能返回单个项目）的情况下，它非常有用。例如，如果进程要将人类可读的错误消息插入协议头，则可以根据用户的语言优先级列表选择文本。由于该过程只能返回一个项目，因此它被强制选择单个项目，并且必须返回一些项目，即使内容的语言标签都没有与用户提供的语言优先级列表相匹配。“</p>
+
+
+<p>例6：</p>
+<div class="codeblock"><pre>package languagetagdemo; import java.util。区域设置; import java.util。采集; import java.util。清单; import java.util。数组列表; public class LanguageTagDemo {public static void main（String [] args）{//创建一个Locale对象集合以搜索Collection &lt;Locale&gt; locales = new ArrayList &lt;&gt;（）; locales.add（Locale.forLanguageTag（ “EN-GB”））; locales.add（Locale.forLanguageTag（ “JA”））; locales.add（Locale.forLanguageTag（ “ZH-CMN-汉斯-CN”））; locales.add（Locale.forLanguageTag（ “EN-US”））; //使用语言优先级列表表达用户的首选项字符串范围=“en-US; q = 1.0，en-GB; q = 0.5，fr-FR; q = 0.0”;名单&lt;语言环境。LanguageRange&gt; languageRanges = Locale。LanguageRange.parse（范围）; //找到最佳匹配，并返回一个结果Locale result = Locale.lookup（languageRanges，locales）;的System.out.println（result.toString（））; }}</pre></div>
+
+<p>与过滤示例相反，示例6中的查找演示返回最匹配的一个对象（在本例中为<code>en-US</code> ）。对于completenes，示例7显示了如何使用<code>String</code>对象执行相同的查找。
 </p>
 
+<p>例7：</p>
+<div class="codeblock"><pre>package languagetagdemo; import java.util。区域设置; import java.util。采集; import java.util。清单; import java.util。数组列表; public class LanguageTagDemo {public static void main（String [] args）{//创建一个String对象的集合以匹配Collection &lt;String&gt; tags = new ArrayList &lt;&gt;（）; tags.add（ “EN-GB”）; tags.add（ “JA”）; tags.add（ “ZH-CMN-汉斯-CN”）; tags.add（ “EN-US”）; //使用语言优先级列表表达用户的首选项字符串范围=“en-US; q = 1.0，en-GB; q = 0.5，fr-FR; q = 0.0”;名单&lt;语言环境。LanguageRange&gt; languageRanges = Locale。LanguageRange.parse（范围）; //找到最佳匹配，并返回一个结果字符串结果= Locale.lookupTag（languageRanges，tags）;的System.out.println（结果）; }}</pre></div>
 
-<p>
-Example 6:
-</p>
-<div class="codeblock"><pre>
-package languagetagdemo;
-
-import java.util.Locale;
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-public class LanguageTagDemo {
-
-    public static void main(String[] args) {
-
-        // Create a collection of Locale objects to search
-        Collection&lt;Locale&gt; locales = new ArrayList&lt;&gt;();
-        locales.add(Locale.forLanguageTag("en-GB"));
-        locales.add(Locale.forLanguageTag("ja"));
-        locales.add(Locale.forLanguageTag("zh-cmn-Hans-CN"));
-        locales.add(Locale.forLanguageTag("en-US"));
-
-        // Express the user's preferences with a Language Priority List
-        String ranges = "en-US;q=1.0,en-GB;q=0.5,fr-FR;q=0.0";
-        List&lt;Locale.LanguageRange&gt; languageRanges = Locale.LanguageRange.parse(ranges);
-
-        // Find the BEST match, and return just one result
-        Locale result = Locale.lookup(languageRanges,locales);
-        System.out.println(result.toString());
-    }
-}
-
-</pre></div>
-
-<p>
-In contrast to the filtering examples, the lookup demo in Example 6 returns the one object that is the best match (<code>en-US</code> in this case). For completenes, Example 7 shows how to perform the same lookup using <code>String</code> objects.
-</p>
-
-<p>
-Example 7:
-</p>
-<div class="codeblock"><pre>
-package languagetagdemo;
-
-import java.util.Locale;
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-
-public class LanguageTagDemo {
-
-    public static void main(String[] args) {
-        // Create a collection of String objects to match against
-        Collection&lt;String&gt; tags = new ArrayList&lt;&gt;();
-        tags.add("en-GB");
-        tags.add("ja");
-        tags.add("zh-cmn-Hans-CN");
-        tags.add("en-US");
-
-        // Express user's preferences with a Language Priority List
-        String ranges = "en-US;q=1.0,en-GB;q=0.5,fr-FR;q=0.0";
-        List&lt;Locale.LanguageRange&gt; languageRanges = Locale.LanguageRange.parse(ranges);
-
-        // Find the BEST match, and return just one result
-        String result = Locale.lookupTag(languageRanges, tags);
-        System.out.println(result);
-    }
-} 
-</pre></div>
-
-<p>
-This example returns the single object that best matches the user's Language Priority List.
+<p>此示例返回与用户的语言优先级列表最匹配的单个对象。
 </p>
 
 
@@ -895,35 +572,24 @@ This example returns the single object that best matches the user's Language Pri
 
         </div>
         <div class="NavBit">
-            <a target="_top" href="identify.html">&laquo; Previous</a>
-            &bull;
-            <a target="_top" href="../TOC.html">Trail</a>
-            &bull;
-            <a target="_top" href="scope.html">Next &raquo;</a>
+            <a href="identify.html" target="_top">«上一页</a> • <a href="../TOC.html" target="_top">小道</a> • <a href="scope.html" target="_top">下一页»</a>
         </div>
     </div>
     
-<hr class="clearfloat"/>
+<hr class="clearfloat">
 
 <div id="Footer">
 
 <p class="footertext">
-<a href="http://www.oracle.com/corporate/index.html">About Oracle</a> | 
-<a href="http://www.oracle.com/us/corporate/contact/index.html">Contact Us</a> |
-<a href="http://www.oracle.com/us/legal/index.html">Legal Notices</a> | 
-<a href="http://www.oracle.com/us/legal/terms/index.html">Terms of Use</a> |
-<a href="http://www.oracle.com/us/legal/privacy/index.html">Your Privacy Rights</a></p>
+<a href="http://www.oracle.com/corporate/index.html">关于Oracle</a> | <a href="http://www.oracle.com/us/corporate/contact/index.html">联系我们</a> | <a href="http://www.oracle.com/us/legal/index.html">法律声明</a> | <a href="http://www.oracle.com/us/legal/terms/index.html">使用条款</a> | <a href="http://www.oracle.com/us/legal/privacy/index.html">您的隐私权</a></p>
 
-<p class="footertext"><a href="http://www.oracle.com/pls/topic/lookup?ctx=cpyr&id=en-US">
-Copyright &copy; 1995, 2017 Oracle and/or its affiliates. All rights reserved.</a></p>
+<p class="footertext"><a href="http://www.oracle.com/pls/topic/lookup?ctx=cpyr&amp;id=en-US">版权所有©1995,2017 Oracle和/或其附属公司。版权所有。</a></p>
        
 </div>    
     <div class="PrintHeaders">
-        <b>Previous page:</b> Identifying Available Locales
-        <br /><b>Next page:</b> The Scope of a Locale
-    </div>
+        <b>上一页：</b>识别可用的区域设置<br><b>下一页：</b>区域设置的范围</div>
 <!-- Start SiteCatalyst code -->
 <script type="application/javascript" src="https://www.oracleimg.com/us/assets/metrics/ora_docs.js"></script>
 <!-- End SiteCatalyst code --> 
 </body>
-</html> 
+</html>
